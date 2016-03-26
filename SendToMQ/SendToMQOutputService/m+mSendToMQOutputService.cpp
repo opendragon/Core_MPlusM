@@ -87,13 +87,13 @@ static std::string
 constructURI(const YarpString & hostName,
              const int          hostPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("hostName = ", hostName); //####
-    OD_LOG_LL1("hostPort = ", hostPort); //####
+    ODL_ENTER(); //####
+    ODL_S1s("hostName = ", hostName); //####
+    ODL_LL1("hostPort = ", hostPort); //####
     std::stringstream buff;
     
     buff << "failover://(tcp://" << hostName.c_str() << ":" << hostPort << ")";
-    OD_LOG_EXIT_s(buff.str()); //####
+    ODL_EXIT_s(buff.str()); //####
     return buff.str();
 } // constructURI
 
@@ -124,22 +124,22 @@ inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CA
     _inHandler(new SendToMQOutputInputHandler(*this)), _connection(NULL), _session(NULL),
     _destination(NULL), _producer(NULL), _useQueue(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
                userPassword, "launchPath = ", launchPath); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+    ODL_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // SendToMQOutputService::SendToMQOutputService
 
 SendToMQOutputService::~SendToMQOutputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::~SendToMQOutputService
 
 #if defined(__APPLE__)
@@ -148,8 +148,8 @@ SendToMQOutputService::~SendToMQOutputService(void)
 
 DEFINE_CONFIGURE_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -165,9 +165,9 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
                 std::stringstream buff;
                 
                 _topicOrQueueName = firstValue.asString();
-                OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
+                ODL_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
                 _useQueue = (0 != secondNumber);
-                OD_LOG_B1("_useQueue <- ", _useQueue); //####
+                ODL_B1("_useQueue <- ", _useQueue); //####
                 // Don't trace the password OR report it via the GUI!!
                 buff << "Host name is '" << _hostName.c_str() << "', host port is " << _hostPort <<
                         ", user name is '" << _userName << "', topic/queue name is '" <<
@@ -188,52 +188,52 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::configure
 
 DEFINE_DISABLEMETRICS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
     
     details.clear();
     details.addString(_topicOrQueueName);
     details.addInt(_useQueue ? 1 : 0);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::getConfiguration
 
 void
 SendToMQOutputService::deactivateConnection(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     clearActive();
     cerr << "connection is dead" << endl; //!!!!
     if (_connection)
@@ -263,12 +263,12 @@ SendToMQOutputService::deactivateConnection(void)
     {
         ex.printStackTrace();
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // SendToMQOutputService::deactivateConnection
 
 DEFINE_RESTARTSTREAMS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -277,24 +277,24 @@ DEFINE_RESTARTSTREAMS_(SendToMQOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::restartStreams
 
 void
 SendToMQOutputService::sendMessage(const std::string & aMessage,
                                    const size_t        messageLength)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("aMessage = ", aMessage); //####
-    OD_LOG_LL1("messageLength = ", messageLength); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("aMessage = ", aMessage); //####
+    ODL_LL1("messageLength = ", messageLength); //####
     try
     {
         if (isActive())
         {
-            OD_LOG("(isActive())"); //####
+            ODL_LOG("(isActive())"); //####
             Common::SendReceiveCounters     newCount(0, 0, messageLength, 1);
             std::auto_ptr<cms::TextMessage> stuff(_session->createTextMessage(aMessage));
             
@@ -308,15 +308,15 @@ SendToMQOutputService::sendMessage(const std::string & aMessage,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::sendMessage
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -326,13 +326,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
     description._portProtocol = "*";
     description._protocolDescription = "Arbitrary YARP messages";
     _inDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -344,22 +344,22 @@ DEFINE_STARTSERVICE_(SendToMQOutputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // SendToMQOutputService::startService
 
 DEFINE_STARTSTREAMS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -369,12 +369,12 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
             _connectionFactory.reset(cms::ConnectionFactory::createCMSConnectionFactory(brokerURI));
             if (_connectionFactory.get())
             {
-                OD_LOG("(_connectionFactory.get())"); //####
+                ODL_LOG("(_connectionFactory.get())"); //####
             }
             _connection = _connectionFactory->createConnection(_userName, _password);
             if (_connection)
             {
-                OD_LOG("(_connection)"); //####
+                ODL_LOG("(_connection)"); //####
                 try
                 {
                     _connection->start();
@@ -394,7 +394,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                 catch (cms::CMSException & )
                 {
                     // This likely to be a bad password or user name.
-                    OD_LOG("CMSException caught."); //####
+                    ODL_LOG("CMSException caught."); //####
                     throw;
                 }
             }
@@ -404,7 +404,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
             }
             if (_session)
             {
-                OD_LOG("(_session)"); //####
+                ODL_LOG("(_session)"); //####
                 if (_useQueue)
                 {
                     _destination = _session->createQueue(_topicOrQueueName);
@@ -427,7 +427,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
             }
             if (_destination)
             {
-                OD_LOG("(_destination)"); //####
+                ODL_LOG("(_destination)"); //####
                 _producer = _session->createProducer(_destination);
                 if (! _producer)
                 {
@@ -436,7 +436,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
             }
             if (_producer)
             {
-                OD_LOG("(_producer)"); //####
+                ODL_LOG("(_producer)"); //####
                 _producer->setDeliveryMode(cms::DeliveryMode::NON_PERSISTENT);
                 if (_inHandler)
                 {
@@ -453,15 +453,15 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::startStreams
 
 DEFINE_STOPSERVICE_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -470,16 +470,16 @@ DEFINE_STOPSERVICE_(SendToMQOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::stopService
 
 DEFINE_STOPSTREAMS_(SendToMQOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -489,10 +489,10 @@ DEFINE_STOPSTREAMS_(SendToMQOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputService::stopStreams
 
 #if defined(__APPLE__)

@@ -88,15 +88,15 @@ using namespace MplusM::Example;
 ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(ChordGeneratorService & service) :
     inherited(MpM_CHORD_GENERATOR_NAME_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // ChordGeneratorRequestHandler::ChordGeneratorRequestHandler
 
 ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler
 
 #if defined(__APPLE__)
@@ -105,17 +105,17 @@ ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 
 DEFINE_FILLINALIASES_(ChordGeneratorRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("?");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -133,10 +133,10 @@ DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -150,10 +150,10 @@ DEFINE_PROCESSREQUEST_(ChordGeneratorRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -187,16 +187,16 @@ DEFINE_PROCESSREQUEST_(ChordGeneratorRequestHandler)
         }
         else
         {
-            OD_LOG("! (count > 0)"); //####
+            ODL_LOG("! (count > 0)"); //####
         }
         sendResponse(replyMechanism);
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ChordGeneratorRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

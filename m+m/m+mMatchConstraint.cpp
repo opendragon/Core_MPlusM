@@ -95,9 +95,9 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
                                size_t &            endPos,
                                BaseNameValidator * validator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchConstraint * result = NULL;
     
     try
@@ -143,7 +143,7 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
                         }
                         else
                         {
-                            OD_LOG("! (expressionSeparator == scanChar)"); //####
+                            ODL_LOG("! (expressionSeparator == scanChar)"); //####
                             // Something unexpected has appeared.
                             okSoFar = false;
                         }
@@ -157,7 +157,7 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
                 }
                 else
                 {
-                    OD_LOG("! (element)"); //####
+                    ODL_LOG("! (element)"); //####
                     // We have a malformed constraint list.
                     okSoFar = false;
                 }
@@ -174,15 +174,15 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
         }
         else
         {
-            OD_LOG("! (workPos < inLength)"); //####
+            ODL_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchConstraint::CreateMatcher
 
@@ -193,15 +193,15 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
 MatchConstraint::MatchConstraint(void) :
     inherited(), _fieldsWithValues()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // MatchConstraint::MatchConstraint
 
 MatchConstraint::~MatchConstraint(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     empty();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchConstraint::~MatchConstraint
 
 #if defined(__APPLE__)
@@ -212,7 +212,7 @@ YarpString
 MatchConstraint::asSQLString(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result;
     
     try
@@ -230,10 +230,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(result.c_str()); //####
+    ODL_OBJEXIT_S(result.c_str()); //####
     return result;
 } // MatchConstraint::asSQLString
 
@@ -260,7 +260,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -287,14 +287,14 @@ const
         }
         else
         {
-            OD_LOG("! ((index >= 0) && " //####
+            ODL_LOG("! ((index >= 0) && " //####
                    "(index < static_cast<int>(_fieldsWithValues.size())))"); //####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -303,7 +303,7 @@ const
 void
 MatchConstraint::empty(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
@@ -316,10 +316,10 @@ MatchConstraint::empty(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchConstraint::empty
 
 #if defined(__APPLE__)

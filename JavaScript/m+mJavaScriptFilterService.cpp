@@ -99,8 +99,8 @@ convertDictionary(JSContext *              jct,
                   JS::MutableHandleValue   theData,
                   const yarp::os::Bottle & inputAsList)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "theData = ", &theData, "inputAsList = ", &inputAsList); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "theData = ", &theData, "inputAsList = ", &inputAsList); //####
     JS::RootedObject empty(jct);
     JSObject *       valueObject = JS_NewObject(jct, NULL);
     
@@ -130,7 +130,7 @@ convertDictionary(JSContext *              jct,
         }
         theData.setObject(*valueObject);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // convertDictionary
 
 /*! @brief Convert a YARP list into a %JavaScript object.
@@ -142,8 +142,8 @@ convertList(JSContext *              jct,
             JS::MutableHandleValue   theData,
             const yarp::os::Bottle & inputValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "inputValue = ", &inputValue); //####
     JSObject * valueArray = JS_NewArrayObject(jct, 0);
     
     if (valueArray)
@@ -165,7 +165,7 @@ convertList(JSContext *              jct,
         }
         theData.setObject(*valueArray);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // convertList
 
 static void
@@ -173,8 +173,8 @@ convertValue(JSContext *             jct,
              JS::MutableHandleValue  theData,
              const yarp::os::Value & inputValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "inputValue = ", &inputValue); //####
     if (inputValue.isBool())
     {
         theData.setBoolean(inputValue.asBool());
@@ -231,7 +231,7 @@ convertValue(JSContext *             jct,
         // We don't know what to do with this...
         theData.setNull();
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // convertValue
 
 /*! @brief Fill an object with the contents of a bottle.
@@ -243,11 +243,11 @@ createValueFromBottle(JSContext *              jct,
                       const yarp::os::Bottle & aBottle,
                       JS::MutableHandleValue   theData)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "aBottle = ", &aBottle); //####
 //    cerr << "'" << aBottle.toString().c_str() << "'" << endl << endl;
     convertList(jct, theData, aBottle);
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // createValueFromBottle
 
 /*! @brief Fill a bottle with the contents of an object.
@@ -261,9 +261,9 @@ fillBottleFromValue(JSContext *        jct,
                     JS::Value          theData,
                     const bool         topLevel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
-    OD_LOG_B1("topLevel = ", topLevel); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "aBottle = ", &aBottle); //####
+    ODL_B1("topLevel = ", topLevel); //####
     JS::RootedValue asRootedValue(jct);
 
     asRootedValue = theData;
@@ -417,7 +417,7 @@ fillBottleFromValue(JSContext *        jct,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // fillBottleFromValue
 
 #if defined(__APPLE__)
@@ -462,21 +462,21 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
     _scriptStartingFunc(context), _scriptStoppingFunc(context), _scriptThreadFunc(context),
     _threadInterval(loadedInterval), _mostRecentSlot(0), _isThreaded(sawThread)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
+    ODL_ENTER(); //####
+    ODL_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
               "argv = ", argv); //####
-    OD_LOG_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
+    ODL_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
               "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
               "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
               &loadedStartingFunction); //####
-    OD_LOG_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
+    ODL_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
               "loadedThreadFunction = ", &loadedThreadFunction); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B1("sawThread = ", sawThread); //####
-    OD_LOG_D1("loadedInterval = ", loadedInterval); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_B1("sawThread = ", sawThread); //####
+    ODL_D1("loadedInterval = ", loadedInterval); //####
     JS_SetContextPrivate(context, this);
     _inletHandlers.appendAll(loadedInletHandlers);
     _scriptStartingFunc = loadedStartingFunction;
@@ -484,23 +484,23 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
     _scriptThreadFunc = loadedThreadFunction;
     if (_isThreaded && (! _scriptThreadFunc.isNullOrUndefined()))
     {
-        OD_LOG("(_isThreaded && (! _scriptThreadFunc.isNullOrUndefined()))"); //####
+        ODL_LOG("(_isThreaded && (! _scriptThreadFunc.isNullOrUndefined()))"); //####
         setNeedsIdle();
     }
     else if (0 < _inletHandlers.length())
     {
-        OD_LOG("(0 < _inletHandlers.length())"); //####
+        ODL_LOG("(0 < _inletHandlers.length())"); //####
         setNeedsIdle();
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // JavaScriptFilterService::JavaScriptFilterService
 
 JavaScriptFilterService::~JavaScriptFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     releaseHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::~JavaScriptFilterService
 
 #if defined(__APPLE__)
@@ -518,8 +518,8 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -559,7 +559,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
             }
             else
             {
-                OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
+                ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
                        "funcArgs, &funcResult))"); //####
                 JS::RootedValue exc(_context);
                 
@@ -578,10 +578,10 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterService::configure
 #if (! MAC_OR_LINUX_)
@@ -590,7 +590,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
 
 DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
@@ -602,31 +602,31 @@ DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
             aHandler->disableMetrics();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::disableMetrics
 
 DEFINE_DOIDLE_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (isActive())
     {
-        OD_LOG("(isActive())"); //####
+        ODL_LOG("(isActive())"); //####
         if (_goAhead.check())
         {
-            OD_LOG("(_goAhead.check())"); //####
+            ODL_LOG("(_goAhead.check())"); //####
             if (_scriptThreadFunc.isNullOrUndefined())
             {
-                OD_LOG("(_scriptThreadFunc.isNullOrUndefined())"); //####
+                ODL_LOG("(_scriptThreadFunc.isNullOrUndefined())"); //####
                 // We have a request from an input handler.
                 if (_inHandlers.size() > _mostRecentSlot)
                 {
-                    OD_LOG("(getInletCount() > _mostRecentSlot)"); //####
+                    ODL_LOG("(getInletCount() > _mostRecentSlot)"); //####
                     JS::HandleValue                handlerFunc = _inletHandlers[_mostRecentSlot];
                     JavaScriptFilterInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
 
                     if (aHandler && (! handlerFunc.isNullOrUndefined()))
                     {
-                        OD_LOG("(aHandler && (! handlerFunc.isNullOrUndefined()))"); //####
+                        ODL_LOG("(aHandler && (! handlerFunc.isNullOrUndefined()))"); //####
                         JS::RootedValue     argValue(_context);
                         JS::Value           slotNumberValue;
                         JS::AutoValueVector funcArgs(_context);
@@ -645,7 +645,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                         }
                         else
                         {
-                            OD_LOG("! (JS_CallFunctionValue(_context, _global, handlerFunc, " //####
+                            ODL_LOG("! (JS_CallFunctionValue(_context, _global, handlerFunc, " //####
                                    "funcArgs, &funcResult))"); //####
                             JS::RootedValue exc(_context);
                             
@@ -669,7 +669,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
             }
             else
             {
-                OD_LOG("! (_scriptThreadFunc.isNullOrUndefined())"); //####
+                ODL_LOG("! (_scriptThreadFunc.isNullOrUndefined())"); //####
                 try
                 {
                     JS::AutoValueVector funcArgs(_context);
@@ -679,20 +679,20 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                     if (JS_CallFunctionValue(_context, _global, _scriptThreadFunc, funcArgs,
                                              &funcResult))
                     {
-                        OD_LOG("(JS_CallFunctionValue(_context, _global, _scriptThreadFunc, " //####
+                        ODL_LOG("(JS_CallFunctionValue(_context, _global, _scriptThreadFunc, " //####
                                "funcArgs, &funcResult))"); //####
                         // We don't care about the function result, as it's supposed to just perform
                         // an iteration of the thread.
                     }
                     else
                     {
-                        OD_LOG("! (JS_CallFunctionValue(_context, _global, " //####
+                        ODL_LOG("! (JS_CallFunctionValue(_context, _global, " //####
                                "_scriptThreadFunc, funcArgs, &funcResult))"); //####
                         JS::RootedValue exc(_context);
                         
                         if (JS_GetPendingException(_context, &exc))
                         {
-                            OD_LOG("(JS_GetPendingException(_context, &exc))"); //####
+                            ODL_LOG("(JS_GetPendingException(_context, &exc))"); //####
                             JS_ClearPendingException(_context);
                             MpM_FAIL_("Exception occurred while executing the scriptThread "
                                       "function.");
@@ -702,18 +702,18 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                 }
                 catch (...)
                 {
-                    OD_LOG("Exception caught"); //####
+                    ODL_LOG("Exception caught"); //####
                     throw;
                 }
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::doIdle
 
 DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
@@ -725,24 +725,24 @@ DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
             aHandler->enableMetrics();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterService::getConfiguration
 
 void
 JavaScriptFilterService::releaseHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (0 < _inHandlers.size())
     {
         for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
@@ -752,18 +752,18 @@ JavaScriptFilterService::releaseHandlers(void)
             
             if (aHandler)
             {
-                OD_LOG_P1("aHandler = ", aHandler); //####
+                ODL_P1("aHandler = ", aHandler); //####
                 delete aHandler;
             }
         }
         _inHandlers.clear();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::releaseHandlers
 
 DEFINE_RESTARTSTREAMS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -772,18 +772,18 @@ DEFINE_RESTARTSTREAMS_(JavaScriptFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::restartStreams
 
 bool
 JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
                                             JS::Value     theData)
 {
-    OD_LOG_OBJENTER();
-    OD_LOG_L1("channelSlot = ", channelSlot); //####
+    ODL_OBJENTER();
+    ODL_L1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
     
     if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
@@ -800,7 +800,7 @@ JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
             }
             else
             {
-                OD_LOG("! (outChannel->write(message))"); //####
+                ODL_LOG("! (outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -813,13 +813,13 @@ JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
             okSoFar = true;
         }
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // JavaScriptFilterService::sendToChannel
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -842,31 +842,31 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
         description._protocolDescription = walker->_protocolDescription;
         _outDescriptions.push_back(description);
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterService::setUpStreamDescriptions
 
 void
 JavaScriptFilterService::signalRunFunction(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _goAhead.post();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::signalRunFunction
 
 void
 JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("slotNumber = ", slotNumber); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("slotNumber = ", slotNumber); //####
     _staller.wait();
     _mostRecentSlot = slotNumber;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::stallUntilIdle
 
 DEFINE_STARTSERVICE_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -878,22 +878,22 @@ DEFINE_STARTSERVICE_(JavaScriptFilterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // JavaScriptFilterService::startService
 
 DEFINE_STARTSTREAMS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -903,7 +903,7 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
                 _generator = new JavaScriptFilterThread(*this, _threadInterval);
                 if (! _generator->start())
                 {
-                    OD_LOG("(! _generator->start())"); //####
+                    ODL_LOG("(! _generator->start())"); //####
                     cerr << "Could not start auxiliary thread." << endl;
                     delete _generator;
                     _generator = NULL;
@@ -931,15 +931,15 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::startStreams
 
 DEFINE_STOPSERVICE_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -948,16 +948,16 @@ DEFINE_STOPSERVICE_(JavaScriptFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterService::stopService
 
 DEFINE_STOPSTREAMS_(JavaScriptFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -1003,7 +1003,7 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                 }
                 else
                 {
-                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
+                    ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
                            "funcArgs, &funcResult))"); //####
                     JS::RootedValue exc(_context);
                     
@@ -1019,10 +1019,10 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::stopStreams
 
 #if defined(__APPLE__)
@@ -1035,9 +1035,9 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                                   JS::RootedObject & anObject,
                                   const int          depth)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
-    OD_LOG_L1("depth = ", depth); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "anObject = ", &anObject); //####
+    ODL_L1("depth = ", depth); //####
 #if (47 <= MOZJS_MAJOR_VERSION)
     JS::Rooted<JS::IdVector> ids(jct, JS::IdVector(jct));
 #else // 47 > MOZJS_MAJOR_VERSION
@@ -1143,7 +1143,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
             }
         }
     }
-    OD_LOG_EXIT_P(&outStream); //####
+    ODL_EXIT_P(&outStream); //####
     return outStream;
 } // JavaScript::PrintJavaScriptObject
 
@@ -1154,9 +1154,9 @@ JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
                                  JS::RootedValue & value,
                                  const int         depth)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", &value); //####
-    OD_LOG_S1("caption = ", caption); //####
+    ODL_ENTER(); //####
+    ODL_P3("outStream = ", &outStream, "jct = ", jct, "value = ", &value); //####
+    ODL_S1("caption = ", caption); //####
     if (0 < depth)
     {
         outStream.width(depth);
@@ -1195,6 +1195,6 @@ JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
     {
         outStream << "other";
     }
-    OD_LOG_EXIT_P(&outStream); //####
+    ODL_EXIT_P(&outStream); //####
     return outStream;
 } // JavaScript::PrintJavaScriptValue

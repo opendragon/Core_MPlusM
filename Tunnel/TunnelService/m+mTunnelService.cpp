@@ -101,29 +101,29 @@ TunnelService::TunnelService(const YarpString & sourceName,
     _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),
     _sourcePort(sourcePort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("sourceName = ", sourceName, "launchPath = ", launchPath, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_S4s("sourceName = ", sourceName, "launchPath = ", launchPath, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_L1("sourcePort = ", sourcePort); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_L1("sourcePort = ", sourcePort); //####
     std::stringstream buff;
 
     buff << "Source name is '" << _sourceAddress.c_str() << "', source port is " << _sourcePort;
     setExtraInformation(buff.str());
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // TunnelService::TunnelService
 
 TunnelService::~TunnelService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
     if (_connection)
     {
         delete _connection;
         _connection = NULL;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TunnelService::~TunnelService
 
 #if defined(__APPLE__)
@@ -133,7 +133,7 @@ TunnelService::~TunnelService(void)
 void
 TunnelService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _whereHandler = new WhereRequestHandler(*this);
@@ -143,21 +143,21 @@ TunnelService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_whereHandler)"); //####
+            ODL_LOG("! (_whereHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TunnelService::attachRequestHandlers
 
 void
 TunnelService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_whereHandler)
@@ -169,25 +169,25 @@ TunnelService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TunnelService::detachRequestHandlers
 
 void
 TunnelService::getAddress(YarpString & address,
                           int &        port)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     address = _listenAddress;
     port = _listenPort;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TunnelService::getAddress
 
 DEFINE_STARTSERVICE_(TunnelService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -214,7 +214,7 @@ DEFINE_STARTSERVICE_(TunnelService)
                     _connection->setSourceAddress(_sourceAddress, _sourcePort);
                     if (! _connection->start())
                     {
-                        OD_LOG("(! _connection->start())"); //####
+                        ODL_LOG("(! _connection->start())"); //####
                         delete _connection;
                         _connection = NULL;
                     }
@@ -222,23 +222,23 @@ DEFINE_STARTSERVICE_(TunnelService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TunnelService::startService
 
 DEFINE_STOPSERVICE_(TunnelService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -255,10 +255,10 @@ DEFINE_STOPSERVICE_(TunnelService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TunnelService::stopService
 

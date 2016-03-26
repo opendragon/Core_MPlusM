@@ -88,16 +88,16 @@ BoolArgumentDescriptor::BoolArgumentDescriptor(const YarpString & argName,
                                                const bool         defaultValue) :
     inherited(argName, argDescription, argMode), _defaultValue(defaultValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_B1("defaultValue = ", defaultValue); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    ODL_B1("defaultValue = ", defaultValue); //####
+    ODL_EXIT_P(this); //####
 } // BoolArgumentDescriptor::BoolArgumentDescriptor
 
 BoolArgumentDescriptor::~BoolArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BoolArgumentDescriptor::~BoolArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -106,46 +106,46 @@ BoolArgumentDescriptor::~BoolArgumentDescriptor(void)
 
 DEFINE_ADDVALUETOBOTTLE_(BoolArgumentDescriptor)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("container = ", &container); //####
+    ODL_ENTER(); //####
+    ODL_P1("container = ", &container); //####
     container.addInt(_currentValue ? 1 : 0);
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // BoolArgumentDescriptor::addValueToBottle
 
 DEFINE_CLONE_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new BoolArgumentDescriptor(argumentName(),
                                                                  argumentDescription(),
                                                                  argumentMode(), _defaultValue);
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // BoolArgumentDescriptor::clone
 
 DEFINE_GETDEFAULTVALUE_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(_defaultValue ? "1" : "0");
     
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // BoolArgumentDescriptor::getDefaultValue
 
 DEFINE_GETPROCESSEDVALUE_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(_currentValue ? "1" : "0");
 
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // BoolArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor *
 BoolArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -200,31 +200,31 @@ BoolArgumentDescriptor::parseArgString(const YarpString & inString)
             result = new BoolArgumentDescriptor(name, description, argMode, defaultValue);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // BoolArgumentDescriptor::parseArgString
 
 DEFINE_SETTODEFAULTVALUE_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
-    OD_LOG_B1("_currentValue <- ", _currentValue); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_B1("_currentValue <- ", _currentValue); //####
+    ODL_OBJEXIT(); //####
 } // BoolArgumentDescriptor::setToDefaultValue
 
 DEFINE_TOSTRING_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("B"));
 
     result += suffixFields(getDefaultValue());
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // BoolArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(BoolArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool boolValue;
     char firstChar = tolower(value[0]);
     
@@ -232,25 +232,25 @@ DEFINE_VALIDATE_(BoolArgumentDescriptor)
     {
         boolValue = false;
         _valid = true;
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     else if (('1' == firstChar) || ('t' == firstChar) || ('y' == firstChar))
     {
         boolValue = true;
         _valid = true;
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     else
     {
         _valid = false;
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     if (_valid)
     {
         _currentValue = boolValue;
-        OD_LOG_B1("_currentValue <- ", _currentValue); //####
+        ODL_B1("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // BoolArgumentDescriptor::validate
 

@@ -88,15 +88,15 @@ using namespace MplusM::Common;
 ClientsRequestHandler::ClientsRequestHandler(BaseService & service) :
     inherited(MpM_CLIENTS_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // ClientsRequestHandler::ClientsRequestHandler
 
 ClientsRequestHandler::~ClientsRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ClientsRequestHandler::~ClientsRequestHandler
 
 #if defined(__APPLE__)
@@ -105,17 +105,17 @@ ClientsRequestHandler::~ClientsRequestHandler(void)
 
 DEFINE_FILLINALIASES_(ClientsRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("c");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ClientsRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(ClientsRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -133,10 +133,10 @@ DEFINE_FILLINDESCRIPTION_(ClientsRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ClientsRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -150,10 +150,10 @@ DEFINE_PROCESSREQUEST_(ClientsRequestHandler)
 #  pragma unused(request,restOfInput,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -172,10 +172,10 @@ DEFINE_PROCESSREQUEST_(ClientsRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ClientsRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

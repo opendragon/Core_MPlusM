@@ -85,8 +85,8 @@ static void __cdecl
 dataReceived(sFrameOfMocapData * aFrame,
              void *              userData)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("aFrame = ", aFrame, "userData = ", userData); //####
+    ODL_ENTER(); //####
+    ODL_P2("aFrame = ", aFrame, "userData = ", userData); //####
     NatNetBlobInputThread * theThread = reinterpret_cast<NatNetBlobInputThread *>(userData);
 
     if (aFrame && theThread)
@@ -162,7 +162,7 @@ dataReceived(sFrameOfMocapData * aFrame,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // dataReceived
 #endif // ! defined(MpM_BuildDummyServices)
 
@@ -179,13 +179,13 @@ messageReceived(int    messageType,
 #  pragma unused(messageType,message)
 # endif // MAC_OR_LINUX_
 #endif // (! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("messageType = ", messageType); //####
-    OD_LOG_S1("message = ", message); //####
+    ODL_ENTER(); //####
+    ODL_LL1("messageType = ", messageType); //####
+    ODL_S1("message = ", message); //####
 #if defined(REPORT_NATNET_MESSAGES_)
     std::cerr << messageType << ": " << message << std::endl;
 #endif // defined(REPORT_NATNET_MESSAGES_)
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // messageReceived
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -209,10 +209,10 @@ NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel
     , _client(NULL)
 #endif // ! defined(MpM_BuildDummyServices)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_S1s("name = ", name); //####
-    OD_LOG_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_S1s("name = ", name); //####
+    ODL_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
 #if defined(MpM_BuildDummyServices)
     strncpy(_clientIPAddress, "", sizeof(_clientIPAddress) - 1);
     strncpy(_serverIPAddress, "", sizeof(_serverIPAddress) - 1);
@@ -220,12 +220,12 @@ NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel
     strcpy_s(_clientIPAddress, sizeof(_clientIPAddress) - 1, "");
     strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // NatNetBlobInputThread::NatNetBlobInputThread
 
 NatNetBlobInputThread::~NatNetBlobInputThread(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_client)
     {
@@ -233,7 +233,7 @@ NatNetBlobInputThread::~NatNetBlobInputThread(void)
         delete _client;
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::~NatNetBlobInputThread
 
 #if defined(__APPLE__)
@@ -243,14 +243,14 @@ NatNetBlobInputThread::~NatNetBlobInputThread(void)
 void
 NatNetBlobInputThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::clearOutputChannel
 
 DEFINE_RUN_(NatNetBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         for ( ; ! isStopping(); )
@@ -266,18 +266,18 @@ DEFINE_RUN_(NatNetBlobInputThread)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::run
 
 void
 NatNetBlobInputThread::sendMessage(const char * message,
                                    const size_t length)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1("message = ", message); //####
+    ODL_OBJENTER(); //####
+    ODL_S1("message = ", message); //####
 
     if (_outChannel)
     {
@@ -288,34 +288,34 @@ NatNetBlobInputThread::sendMessage(const char * message,
         _messageBottle.add(blobValue);
         if (! _outChannel->write(_messageBottle))
         {
-            OD_LOG("(! _outChannel->write(_messageBottle))"); //####
+            ODL_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::sendMessage
 
 void
 NatNetBlobInputThread::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _translationScale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::setScale
 
 DEFINE_THREADINIT_(NatNetBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
 
     try
     {
 #if (! defined(MpM_BuildDummyServices))
         _client = new NatNetClient(NATNET_CONNECTION_MODE_);
-        OD_LOG_P1("_client <- ", _client); //####
+        ODL_P1("_client <- ", _client); //####
         if (_client)
         {
             const char * theServerAddress = _address.c_str();
@@ -342,14 +342,14 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
                 _client->GetServerDescription(&theServer);
                 if (! theServer.HostPresent)
                 {
-                    OD_LOG("(! theServer.HostPresent)"); //####
+                    ODL_LOG("(! theServer.HostPresent)"); //####
                     std::cerr << "Natural Point NatNet service host not present." << std::endl;
                     result = false;
                 }
             }
             else
             {
-                OD_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
+                ODL_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
                        "_commandPort, _dataPort))"); //####
                 std::cerr << "Initialization problem with Natural Point NatNet service: ";
                 switch (retCode)
@@ -383,17 +383,17 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         result = false;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // NatNetBlobInputThread::threadInit
 
 DEFINE_THREADRELEASE_(NatNetBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::threadRelease
 
 #if defined(__APPLE__)

@@ -139,13 +139,13 @@ reportTimeInReasonableUnits(const double measurement)
 static void
 displayCommands(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - send some random numbers" << endl;
     cout << "  t - send some (entered in) text" << endl;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // displayCommands
 
 /*! @brief Return the current epoch time in seconds.
@@ -171,7 +171,7 @@ double getTimeNow(void)
 static void
 sendAndReceiveRandom(SOCKET talkSocket)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     char inBuffer[BUFFER_SIZE_];
     char outBuffer[BUFFER_SIZE_];
 #if MAC_OR_LINUX_
@@ -227,16 +227,16 @@ sendAndReceiveRandom(SOCKET talkSocket)
         }
         else
         {
-            OD_LOG("! (0 < inSize)"); //####
+            ODL_LOG("! (0 < inSize)"); //####
             StopRunning();
         }
     }
     else
     {
-        OD_LOG("! (send(talkSocket, outBuffer, sendSize, 0) == sendSize)"); //####
+        ODL_LOG("! (send(talkSocket, outBuffer, sendSize, 0) == sendSize)"); //####
         StopRunning();
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // sendAndReceiveRandom
 
 /*! @brief Send and receive a text sequence.
@@ -246,7 +246,7 @@ static void
 sendAndReceiveText(SOCKET              talkSocket,
                    const std::string & inputLine)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     char         inBuffer[BUFFER_SIZE_];
     int          inSize = static_cast<int>(inputLine.size());
     const char * inChars = inputLine.c_str();
@@ -298,16 +298,16 @@ sendAndReceiveText(SOCKET              talkSocket,
         }
         else
         {
-            OD_LOG("! (0 < inSize)"); //####
+            ODL_LOG("! (0 < inSize)"); //####
             StopRunning();
         }
     }
     else
     {
-        OD_LOG("! (send(talkSocket, inChars, sendSize, 0) == sendSize)"); //####
+        ODL_LOG("! (send(talkSocket, inChars, sendSize, 0) == sendSize)"); //####
         StopRunning();
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // sendAndReceiveText
 
 #if defined(__APPLE__)
@@ -323,13 +323,13 @@ main(int      argc,
      char * * argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     try
     {
         struct in_addr                       addrBuff;
@@ -393,7 +393,7 @@ main(int      argc,
                         addr.sin_port = htons(hostPort);
                         memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                                sizeof(addr.sin_addr.s_addr));
-                        OD_LOG("connecting to source"); //####
+                        ODL_LOG("connecting to source"); //####
                         if (connect(talkSocket, reinterpret_cast<struct sockaddr *>(&addr),
                                     sizeof(addr)))
                         {
@@ -402,14 +402,14 @@ main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("connected"); //####
+                            ODL_LOG("connected"); //####
                         }
 #else // ! MAC_OR_LINUX_
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(hostPort);
                         memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                                sizeof(addr.sin_addr.s_addr));
-                        OD_LOG("connecting to source"); //####
+                        ODL_LOG("connecting to source"); //####
                         int res = connect(talkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
                                           sizeof(addr));
 
@@ -420,7 +420,7 @@ main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("connected"); //####
+                            ODL_LOG("connected"); //####
                         }
 #endif // ! MAC_OR_LINUX_
                     }
@@ -512,8 +512,8 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

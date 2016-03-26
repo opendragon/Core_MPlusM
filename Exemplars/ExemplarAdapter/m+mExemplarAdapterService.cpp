@@ -100,20 +100,20 @@ ExemplarAdapterService::ExemplarAdapterService(const Utilities::DescriptorVector
               EXEMPLARADAPTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _inHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // ExemplarAdapterService::ExemplarAdapterService
 
 ExemplarAdapterService::~ExemplarAdapterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::~ExemplarAdapterService
 
 #if defined(__APPLE__)
@@ -131,8 +131,8 @@ DEFINE_CONFIGURE_(ExemplarAdapterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -142,10 +142,10 @@ DEFINE_CONFIGURE_(ExemplarAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarAdapterService::configure
 #if (! MAC_OR_LINUX_)
@@ -154,40 +154,40 @@ DEFINE_CONFIGURE_(ExemplarAdapterService)
 
 DEFINE_DISABLEMETRICS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarAdapterService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -196,27 +196,27 @@ DEFINE_RESTARTSTREAMS_(ExemplarAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::restartStreams
 
 void
 ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("sharedData = ", &sharedData); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("sharedData = ", &sharedData); //####
     if (! _inHandler)
     {
         _inHandler = new ExemplarInputHandler(sharedData);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::setUpInputHandlers
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -236,13 +236,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarAdapterService)
     description._portProtocol = "";
     description._protocolDescription = "";
     _clientDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarAdapterService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -254,22 +254,22 @@ DEFINE_STARTSERVICE_(ExemplarAdapterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // ExemplarAdapterService::startService
 
 DEFINE_STARTSTREAMS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -284,15 +284,15 @@ DEFINE_STARTSTREAMS_(ExemplarAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::startStreams
 
 DEFINE_STOPSERVICE_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -301,16 +301,16 @@ DEFINE_STOPSERVICE_(ExemplarAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarAdapterService::stopService
 
 DEFINE_STOPSTREAMS_(ExemplarAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -320,10 +320,10 @@ DEFINE_STOPSTREAMS_(ExemplarAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::stopStreams
 
 #if defined(__APPLE__)

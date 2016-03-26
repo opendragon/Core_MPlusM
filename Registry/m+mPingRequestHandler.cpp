@@ -92,15 +92,15 @@ using namespace MplusM::Registry;
 PingRequestHandler::PingRequestHandler(RegistryService & service) :
     inherited(MpM_PING_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // PingRequestHandler::PingRequestHandler
 
 PingRequestHandler::~PingRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PingRequestHandler::~PingRequestHandler
 
 #if defined(__APPLE__)
@@ -118,9 +118,9 @@ DEFINE_FILLINALIASES_(PingRequestHandler)
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // PingRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -128,9 +128,9 @@ DEFINE_FILLINALIASES_(PingRequestHandler)
 
 DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -149,10 +149,10 @@ DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PingRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -166,10 +166,10 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -237,7 +237,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (theService.processList" //####
+                                                    ODL_LOG("! (theService.processList" //####
                                                            "Response(argAsString, reply))"); //####
                                                     _response.addString(MpM_FAILED_RESPONSE_);
                                                     _response.addString("Invalid response to "
@@ -246,7 +246,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                             }
                                             else
                                             {
-                                                OD_LOG("! (outChannel->write(message2, " //####
+                                                ODL_LOG("! (outChannel->write(message2, " //####
                                                        "reply))"); //####
                                                 _response.addString(MpM_FAILED_RESPONSE_);
                                                 _response.addString("Could not write to channel");
@@ -257,7 +257,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (theService.processNameResponse(" //####
+                                            ODL_LOG("! (theService.processNameResponse(" //####
                                                    "argAsString, reply))"); //####
                                             _response.addString(MpM_FAILED_RESPONSE_);
                                             _response.addString("Invalid response to 'name' "
@@ -266,7 +266,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                     }
                                     else
                                     {
-                                        OD_LOG("! (outChannel->write(message1, reply))"); //####
+                                        ODL_LOG("! (outChannel->write(message1, reply))"); //####
                                         _response.addString(MpM_FAILED_RESPONSE_);
                                         _response.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
@@ -278,7 +278,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                                                               argAsString,
                                                                               STANDARD_WAIT_TIME_))
                                     {
-                                        OD_LOG("(! Utilities::NetworkDisconnectWith" //####
+                                        ODL_LOG("(! Utilities::NetworkDisconnectWith" //####
                                                "Retries(outChannel->name(), " //####
                                                "argAsString, STANDARD_WAIT_TIME_))"); //####
                                     }
@@ -286,7 +286,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(" //####
+                                    ODL_LOG("! (outChannel->addOutputWithRetries(" //####
                                            "argAsString, STANDARD_WAIT_TIME_))"); //####
                                     _response.addString(MpM_FAILED_RESPONSE_);
                                     _response.addString("Could not connect to channel");
@@ -298,7 +298,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                                ODL_LOG("! (outChannel->openWithRetries(aName, " //####
                                        "STANDARD_WAIT_TIME_))"); //####
                                 _response.addString(MpM_FAILED_RESPONSE_);
                                 _response.addString("Channel could not be opened");
@@ -307,27 +307,27 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                         }
                         else
                         {
-                            OD_LOG("! (outChannel)");
+                            ODL_LOG("! (outChannel)");
                         }
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
+                    ODL_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                     _response.addString(MpM_FAILED_RESPONSE_);
                     _response.addString("Invalid channel name");
                 }
             }
             else
             {
-                OD_LOG("! (argument.isString())"); //####
+                ODL_LOG("! (argument.isString())"); //####
                 _response.addString(MpM_FAILED_RESPONSE_);
                 _response.addString("Invalid channel name");
             }
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())"); //####
+            ODL_LOG("! (1 == restOfInput.size())"); //####
             _response.addString(MpM_FAILED_RESPONSE_);
             _response.addString("Missing channel name or extra arguments to request");
         }
@@ -335,10 +335,10 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PingRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

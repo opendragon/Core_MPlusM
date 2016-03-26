@@ -87,14 +87,14 @@ using namespace MplusM::MovementDb;
 MovementDbClient::MovementDbClient(void) :
     inherited("movementdb_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // MovementDbClient::MovementDbClient
 
 MovementDbClient::~MovementDbClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbClient::~MovementDbClient
 
 #if defined(__APPLE__)
@@ -107,8 +107,8 @@ MovementDbClient::~MovementDbClient(void)
 bool
 MovementDbClient::addFileToDb(const YarpString & filePath)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("filePath = ", filePath); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("filePath = ", filePath); //####
     bool okSoFar = false;
     
     try
@@ -131,34 +131,34 @@ MovementDbClient::addFileToDb(const YarpString & filePath)
                 }
                 else
                 {
-                    OD_LOG("! (theValue.isString())"); //####
+                    ODL_LOG("! (theValue.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDFILE_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_ADDFILE_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbClient::addFileToDb
 
 bool
 MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("dataTrack = ", dataTrack); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("dataTrack = ", dataTrack); //####
     bool okSoFar = false;
     
     try
@@ -181,34 +181,34 @@ MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
                 }
                 else
                 {
-                    OD_LOG("! (theValue.isString())"); //####
+                    ODL_LOG("! (theValue.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_SETDATATRACK_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbClient::setDataTrackForDb
 
 bool
 MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("emailAddress = ", emailAddress); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("emailAddress = ", emailAddress); //####
     bool okSoFar = false;
     
     try
@@ -231,33 +231,33 @@ MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
                 }
                 else
                 {
-                    OD_LOG("! (theValue.isString())"); //####
+                    ODL_LOG("! (theValue.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_SETEMAIL_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_SETEMAIL_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbClient::setEmailAddressForDb
 
 bool
 MovementDbClient::stopDbConnection(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -281,18 +281,18 @@ MovementDbClient::stopDbConnection(void)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isString())"); //####
+                    ODL_LOG("! (retrieved.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STOPDB_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_STOPDB_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPDB_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_STOPDB_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPDB_REQUEST_, parameters))
@@ -301,16 +301,16 @@ MovementDbClient::stopDbConnection(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPDB_REQUEST_, parameters))"); //####
+            ODL_LOG("! (send(MpM_STOPDB_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // MovementDbClient::stopDbConnection
 

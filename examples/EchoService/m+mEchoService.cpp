@@ -92,20 +92,20 @@ EchoService::EchoService(const YarpString & launchPath,
               ECHO_SERVICE_DESCRIPTION_, "echo - send back any values given with the request",
               serviceEndpointName, servicePortNumber), _echoHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // EchoService::EchoService
 
 EchoService::~EchoService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // EchoService::~EchoService
 
 #if defined(__APPLE__)
@@ -115,7 +115,7 @@ EchoService::~EchoService(void)
 void
 EchoService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _echoHandler = new EchoRequestHandler(*this);
@@ -125,21 +125,21 @@ EchoService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_echoHandler)"); //####
+            ODL_LOG("! (_echoHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // EchoService::attachRequestHandlers
 
 void
 EchoService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_echoHandler)
@@ -151,15 +151,15 @@ EchoService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // EchoService::detachRequestHandlers
 
 DEFINE_STARTSERVICE_(EchoService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -171,22 +171,22 @@ DEFINE_STARTSERVICE_(EchoService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // EchoService::startService
 
 DEFINE_STOPSERVICE_(EchoService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -195,10 +195,10 @@ DEFINE_STOPSERVICE_(EchoService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // EchoService::stopService
 

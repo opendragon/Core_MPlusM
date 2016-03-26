@@ -88,15 +88,15 @@ using namespace MplusM::MovementDb;
 MovementDbInputHandler::MovementDbInputHandler(MovementDbAdapterData & shared) :
     inherited(), _shared(shared)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("shared = ", &shared); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("shared = ", &shared); //####
+    ODL_EXIT_P(this); //####
 } // MovementDbInputHandler::MovementDbInputHandler
 
 MovementDbInputHandler::~MovementDbInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbInputHandler::~MovementDbInputHandler
 
 #if defined(__APPLE__)
@@ -114,10 +114,10 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -153,7 +153,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (theClient->addFileToDb(argString))"); //####
+                                    ODL_LOG("! (theClient->addFileToDb(argString))"); //####
                                 }
                                 _shared.unlock();
                             }
@@ -166,7 +166,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (theClient->setDataTrackForDb(argString))"); //####
+                                    ODL_LOG("! (theClient->setDataTrackForDb(argString))"); //####
                                 }
                                 _shared.unlock();
                             }
@@ -179,7 +179,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (theClient->setEmailAddressForDb(argString))"); //####
+                                    ODL_LOG("! (theClient->setEmailAddressForDb(argString))"); //####
                                 }
                                 _shared.unlock();
                             }
@@ -201,7 +201,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                             }
                             else
                             {
-                                OD_LOG("! (theClient->stopDbConnection())"); //####
+                                ODL_LOG("! (theClient->stopDbConnection())"); //####
                             }
                             _shared.unlock();
                         }
@@ -212,10 +212,10 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // MovementDbInputHandler::handleInput
 #if (! MAC_OR_LINUX_)

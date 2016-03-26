@@ -94,13 +94,13 @@ main(int      argc,
      char * * argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     try
     {
         struct in_addr                       addrBuff;
@@ -164,7 +164,7 @@ main(int      argc,
                     addr.sin_port = htons(hostPort);
                     memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                            sizeof(addr.sin_addr.s_addr));
-                    OD_LOG("connecting to source"); //####
+                    ODL_LOG("connecting to source"); //####
                     if (connect(sinkSocket, reinterpret_cast<struct sockaddr *>(&addr),
                                 sizeof(addr)))
                     {
@@ -176,7 +176,7 @@ main(int      argc,
                     addr.sin_port = htons(hostPort);
                     memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                            sizeof(addr.sin_addr.s_addr));
-                    OD_LOG("connecting to source"); //####
+                    ODL_LOG("connecting to source"); //####
                     int res = connect(sinkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
                                       sizeof(addr));
 
@@ -201,7 +201,7 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (0 < inSize)"); //####
+                        ODL_LOG("! (0 < inSize)"); //####
                         keepGoing = false;
                     }
                 }
@@ -218,8 +218,8 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

@@ -88,16 +88,16 @@ CommonLispFilterThread::CommonLispFilterThread(CommonLispFilterService & owner,
                                                const double              timeToWait) :
     inherited(), _timeToWait(timeToWait), _owner(owner)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("owner = ", &owner, "threadFunc = ", threadFunc); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P2("owner = ", &owner, "threadFunc = ", threadFunc); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_EXIT_P(this); //####
 } // CommonLispFilterThread::CommonLispFilterThread
 
 CommonLispFilterThread::~CommonLispFilterThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::~CommonLispFilterThread
 
 #if defined(__APPLE__)
@@ -107,40 +107,40 @@ CommonLispFilterThread::~CommonLispFilterThread(void)
 void
 CommonLispFilterThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::clearOutputChannel
 
 DEFINE_RUN_(CommonLispFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         if (_nextTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             _owner.signalRunFunction();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::run
 
 DEFINE_THREADINIT_(CommonLispFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterThread::threadInit
 
 DEFINE_THREADRELEASE_(CommonLispFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::threadRelease
 
 #if defined(__APPLE__)

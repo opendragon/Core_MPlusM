@@ -90,16 +90,16 @@ ChannelArgumentDescriptor::ChannelArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & defaultValue) :
     inherited(argName, argDescription, argMode, defaultValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+    ODL_ENTER(); //####
+    ODL_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // ChannelArgumentDescriptor::ChannelArgumentDescriptor
 
 ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ChannelArgumentDescriptor::~ChannelArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -108,21 +108,21 @@ ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 
 DEFINE_CLONE_(ChannelArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new ChannelArgumentDescriptor(argumentName(),
                                                                     argumentDescription(),
                                                                     argumentMode(),
                                                                     getDefaultValue());
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // ChannelArgumentDescriptor::clone
 
 BaseArgumentDescriptor *
 ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -158,31 +158,31 @@ ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
             result = new ChannelArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // ChannelArgumentDescriptor::parseArgString
 
 DEFINE_TOSTRING_(ChannelArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("C"));
 
     result += suffixFields(getDefaultValue());
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // ChannelArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(ChannelArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _valid = Endpoint::CheckEndpointName(value);    
-    OD_LOG_B1("_valid <- ", _valid); //####
+    ODL_B1("_valid <- ", _valid); //####
     if (_valid)
     {
         _currentValue = value;
-        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
+        ODL_S1s("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // ChannelArgumentDescriptor::validate
 

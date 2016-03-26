@@ -95,8 +95,8 @@ static void
 addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
                       const rapidjson::Value & inValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
     yarp::os::Bottle & holder = outMessage.addList();
     
     for (rapidjson::Value::ConstValueIterator walker(inValue.Begin()); inValue.End() != walker;
@@ -104,7 +104,7 @@ addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
     {
         addJSONValueToMessage(holder, *walker);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addJSONArrayToMessage
 
 /*! @brief Convert a JSON value to a YARP value.
@@ -114,8 +114,8 @@ static void
 convertJSONValueToValue(yarp::os::Value &        outValue,
                         const rapidjson::Value & inValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outValue = ", &outValue, "inValue = ", &inValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("outValue = ", &outValue, "inValue = ", &inValue); //####
     yarp::os::Bottle *   asList;
     yarp::os::Property * asDict;
     
@@ -195,7 +195,7 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
             break;
             
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // convertJSONValueToValue
 
 /*! @brief Convert a JSON object into a dictionary of YARP entities and add it to a message.
@@ -205,8 +205,8 @@ static void
 addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
                        const rapidjson::Value & inValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
     yarp::os::Property & holder = outMessage.addDict();
     
     for (rapidjson::Value::ConstMemberIterator walker(inValue.MemberBegin());
@@ -217,15 +217,15 @@ addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
         convertJSONValueToValue(newValue, walker->value);
         holder.put(walker->name.GetString(), newValue);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addJSONObjectToMessage
 
 static void
 addJSONValueToMessage(yarp::os::Bottle &       outMessage,
                       const rapidjson::Value & inValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outMessage = ", &outMessage, "aValue = ", &inValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("outMessage = ", &outMessage, "aValue = ", &inValue); //####
     switch (inValue.GetType())
     {
         case rapidjson::kNullType :
@@ -284,7 +284,7 @@ addJSONValueToMessage(yarp::os::Bottle &       outMessage,
             break;
             
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addJSONValueToMessage
 
 /*! @brief Convert JSON-formatted input into the expected message format.
@@ -296,11 +296,11 @@ static bool
 convertJSONtoMessage(yarp::os::Bottle &    outMessage,
                      rapidjson::Document & inData)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outMessage = ", &outMessage, "inData = ", &inData); //####
+    ODL_ENTER(); //####
+    ODL_P2("outMessage = ", &outMessage, "inData = ", &inData); //####
     bool okSoFar = true;
     
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     if (inData.IsArray())
     {
         bool   isFirstElement = true;
@@ -417,20 +417,20 @@ PlaybackFromJSONInputService::PlaybackFromJSONInputService(const YarpString &
               "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _inPath(inputPath), _initialDelay(0), _playbackRatio(1), _loopPlayback(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "inputPath = ", inputPath, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "inputPath = ", inputPath, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // PlaybackFromJSONInputService::PlaybackFromJSONInputService
 
 PlaybackFromJSONInputService::~PlaybackFromJSONInputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputService::~PlaybackFromJSONInputService
 
 #if defined(__APPLE__)
@@ -439,8 +439,8 @@ PlaybackFromJSONInputService::~PlaybackFromJSONInputService(void)
 
 DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -464,9 +464,9 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
                     _playbackRatio = firstNumber;
                     _initialDelay = secondNumber;
                     _loopPlayback = (0 != thirdNumber);
-                    OD_LOG_D2("_playbackRatio <- ", _playbackRatio, "_initialDelay <- ", //####
+                    ODL_D2("_playbackRatio <- ", _playbackRatio, "_initialDelay <- ", //####
                               _initialDelay); //####
-                    OD_LOG_B1("_loopPlayback <- ", _loopPlayback); //####
+                    ODL_B1("_loopPlayback <- ", _loopPlayback); //####
                     buff << "Input file path is '" << _inPath.c_str() << "', playback ratio is " <<
                             _playbackRatio << ", initial delay is " << _initialDelay <<
                             ", playback does " << (_loopPlayback ? "loop" : "not loop");
@@ -490,30 +490,30 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::configure
 
 DEFINE_GETCONFIGURATION_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addDouble(_playbackRatio);
     details.addDouble(_initialDelay);
     details.addInt(_loopPlayback ? 1 : 0);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -522,15 +522,15 @@ DEFINE_RESTARTSTREAMS_(PlaybackFromJSONInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -540,26 +540,26 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(PlaybackFromJSONInputService)
     description._portProtocol = "*";
     description._protocolDescription = "Arbitrary YARP messages";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::setUpStreamDescriptions
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
     if (_generator)
     {
         _generator->clearOutputChannel();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::shutDownOutputStreams
 
 DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -623,22 +623,22 @@ DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // PlaybackFromJSONInputService::startService
 
 DEFINE_STARTSTREAMS_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -661,15 +661,15 @@ DEFINE_STARTSTREAMS_(PlaybackFromJSONInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputService::startStreams
 
 DEFINE_STOPSERVICE_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -678,16 +678,16 @@ DEFINE_STOPSERVICE_(PlaybackFromJSONInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::stopService
 
 DEFINE_STOPSTREAMS_(PlaybackFromJSONInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -704,10 +704,10 @@ DEFINE_STOPSTREAMS_(PlaybackFromJSONInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputService::stopStreams
 
 #if defined(__APPLE__)

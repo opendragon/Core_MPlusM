@@ -83,14 +83,14 @@ using namespace MplusM::MovementDb;
 MovementDbContext::MovementDbContext(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // MovementDbContext::MovementDbContext
 
 MovementDbContext::~MovementDbContext(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbContext::~MovementDbContext
 
 #if defined(__APPLE__)

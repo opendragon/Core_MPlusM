@@ -110,22 +110,22 @@ ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * 
 #endif // ! defined(MpM_BuildDummyServices)
     _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_S1s("nameAndPort = ", nameAndPort); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_S1s("nameAndPort = ", nameAndPort); //####
+    ODL_EXIT_P(this); //####
 } // ViconDataStreamEventThread::ViconDataStreamEventThread
 
 ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_viconClient.IsConnected().Connected)
     {
         _viconClient.Disconnect();
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::~ViconDataStreamEventThread
 
 #if defined(__APPLE__)
@@ -135,15 +135,15 @@ ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
 void
 ViconDataStreamEventThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::clearOutputChannel
 
 bool
 ViconDataStreamEventThread::initializeConnection(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
     bool result = true;
 #else // ! defined(MpM_BuildDummyServices)
@@ -177,15 +177,15 @@ ViconDataStreamEventThread::initializeConnection(void)
         _viconClient.SetStreamMode(VICON_STREAM_MODE_);
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::initializeConnection
 
 void
 ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("subjectCount = ", subjectCount); //####
+    ODL_OBJENTER(); //####
+    ODL_L1("subjectCount = ", subjectCount); //####
     yarp::os::Bottle message;
 
 #if (! defined(MpM_BuildDummyServices))
@@ -286,19 +286,19 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
         {
             if (! _outChannel->write(message))
             {
-                OD_LOG("(! _outChannel->write(message))"); //####
+                ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::processEventData
 
 DEFINE_RUN_(ViconDataStreamEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
 #if (! defined(MpM_BuildDummyServices))
@@ -318,22 +318,22 @@ DEFINE_RUN_(ViconDataStreamEventThread)
 #endif // ! defined(MpM_BuildDummyServices)
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::run
 
 DEFINE_THREADINIT_(ViconDataStreamEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = initializeConnection();
 
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::threadInit
 
 DEFINE_THREADRELEASE_(ViconDataStreamEventThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::threadRelease
 
 #if defined(__APPLE__)

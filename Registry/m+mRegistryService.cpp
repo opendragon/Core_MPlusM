@@ -331,9 +331,9 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                                  BindFunction doBinds,
                                  const void * data)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("database = ", database, "data = ", data); //####
-    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    ODL_ENTER(); //####
+    ODL_P2("database = ", database, "data = ", data); //####
+    ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
     try
@@ -345,15 +345,15 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
-            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
@@ -361,8 +361,8 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                        OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
                             ConsumeSomeTime(10.0);
@@ -371,7 +371,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                     while (SQLITE_BUSY == sqlRes);
                     if (SQLITE_DONE != sqlRes)
                     {
-                        OD_LOG("(SQLITE_DONE != sqlRes)"); //####
+                        ODL_LOG("(SQLITE_DONE != sqlRes)"); //####
                         okSoFar = false;
                     }
                 }
@@ -379,22 +379,22 @@ performSQLstatementWithNoResults(sqlite3 *    database,
             }
             else
             {
-                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                ODL_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
                 okSoFar = false;
             }
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithNoResults
 
@@ -406,9 +406,9 @@ static bool
 performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                                        const char * sqlStatement)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("database = ", database); //####
-    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    ODL_ENTER(); //####
+    ODL_P1("database = ", database); //####
+    ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
     try
@@ -420,8 +420,8 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
-            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (okSoFar)
@@ -429,8 +429,8 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                        OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
                             ConsumeSomeTime(10.0);
@@ -439,7 +439,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                     while (SQLITE_BUSY == sqlRes);
                     if (SQLITE_DONE != sqlRes)
                     {
-                        OD_LOG("(SQLITE_DONE != sqlRes)"); //####
+                        ODL_LOG("(SQLITE_DONE != sqlRes)"); //####
                         okSoFar = false;
                     }
                 }
@@ -447,22 +447,22 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
             }
             else
             {
-                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                ODL_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
                 okSoFar = false;
             }
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithNoResultsNoArgs
 
@@ -478,9 +478,9 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                                                 BindFunction doBinds,
                                                 const void * data)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("database = ", database, "data = ", data); //####
-    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    ODL_ENTER(); //####
+    ODL_P2("database = ", database, "data = ", data); //####
+    ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
     try
@@ -492,15 +492,15 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
-            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
@@ -508,8 +508,8 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                        OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
                             ConsumeSomeTime(10.0);
@@ -518,7 +518,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                     while (SQLITE_BUSY == sqlRes);
                     if ((SQLITE_CONSTRAINT != sqlRes) && (SQLITE_DONE != sqlRes))
                     {
-                        OD_LOG("((SQLITE_CONSTRAINT != sqlRes) && (SQLITE_DONE != sqlRes))"); //####
+                        ODL_LOG("((SQLITE_CONSTRAINT != sqlRes) && (SQLITE_DONE != sqlRes))"); //####
                         okSoFar = false;
                     }
                 }
@@ -526,22 +526,22 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
             }
             else
             {
-                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                ODL_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
                 okSoFar = false;
             }
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithNoResultsAllowConstraint
 
@@ -563,11 +563,11 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                            BindFunction       doBinds,
                                            const void *       data)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
-    OD_LOG_LL2("columnOfInterest1 = ", columnOfInterest1, "columnOfInterest2 = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
+    ODL_LL2("columnOfInterest1 = ", columnOfInterest1, "columnOfInterest2 = ", //####
                columnOfInterest2); //####
-    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
     try
@@ -579,15 +579,15 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
-            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
@@ -597,8 +597,8 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                         do
                         {
                             sqlRes = sqlite3_step(prepared);
-                            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                            ODL_LL1("sqlRes <- ", sqlRes); //####
+                            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
                                 ConsumeSomeTime(10.0);
@@ -610,7 +610,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
                             
-                            OD_LOG_LL1("colCount <- ", colCount); //####
+                            ODL_LL1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest1 < colCount) &&
                                 (columnOfInterest2 < colCount))
                             {
@@ -619,7 +619,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                     reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest1));
                                 
-                                OD_LOG_S1("value <- ", value); //####
+                                ODL_S1("value <- ", value); //####
                                 if (value)
                                 {
                                     subList.addString(value);
@@ -627,7 +627,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                 value =
                                     reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest2));
-                                OD_LOG_S1("value <- ", value); //####
+                                ODL_S1("value <- ", value); //####
                                 if (value)
                                 {
                                     subList.addString(value);
@@ -637,7 +637,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                     }
                     if (SQLITE_DONE != sqlRes)
                     {
-                        OD_LOG("(SQLITE_DONE != sqlRes)"); //####
+                        ODL_LOG("(SQLITE_DONE != sqlRes)"); //####
                         okSoFar = false;
                     }
                 }
@@ -645,23 +645,23 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
             }
             else
             {
-                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                ODL_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
                 okSoFar = false;
             }
         }
         else
         {
-            OD_LOG("! (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))"); //####
+            ODL_LOG("! (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithDoubleColumnResults
 
@@ -681,10 +681,10 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                                            BindFunction       doBinds = NULL,
                                            const void *       data = NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
-    OD_LOG_LL1("columnOfInterest = ", columnOfInterest); //####
-    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    ODL_ENTER(); //####
+    ODL_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
+    ODL_LL1("columnOfInterest = ", columnOfInterest); //####
+    ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
     try
@@ -696,15 +696,15 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
-            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
@@ -714,8 +714,8 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                         do
                         {
                             sqlRes = sqlite3_step(prepared);
-                            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
-                            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                            ODL_LL1("sqlRes <- ", sqlRes); //####
+                            ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
                                 ConsumeSomeTime(10.0);
@@ -727,14 +727,14 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
                             
-                            OD_LOG_LL1("colCount <- ", colCount); //####
+                            ODL_LL1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest < colCount))
                             {
                                 const char * value =
                                     reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest));
                                 
-                                OD_LOG_S1("value <- ", value); //####
+                                ODL_S1("value <- ", value); //####
                                 if (value)
                                 {
                                     resultList.addString(value);
@@ -744,7 +744,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                     }
                     if (SQLITE_DONE != sqlRes)
                     {
-                        OD_LOG("(SQLITE_DONE != sqlRes)"); //####
+                        ODL_LOG("(SQLITE_DONE != sqlRes)"); //####
                         okSoFar = false;
                     }
                 }
@@ -752,23 +752,23 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
             }
             else
             {
-                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                ODL_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
                 okSoFar = false;
             }
         }
         else
         {
-            OD_LOG("! (database && (0 <= columnOfInterest))"); //####
+            ODL_LOG("! (database && (0 <= columnOfInterest))"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithSingleColumnResults
 
@@ -778,8 +778,8 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
 static bool
 doBeginTransaction(sqlite3 * database)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("database = ", database); //####
+    ODL_ENTER(); //####
+    ODL_P1("database = ", database); //####
     bool okSoFar = true;
     
     try
@@ -792,16 +792,16 @@ doBeginTransaction(sqlite3 * database)
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // doBeginTransaction
 
@@ -813,9 +813,9 @@ static bool
 doEndTransaction(sqlite3 *  database,
                  const bool wasOK)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("database = ", database); //####
-    OD_LOG_B1("wasOK = ", wasOK); //####
+    ODL_ENTER(); //####
+    ODL_P1("database = ", database); //####
+    ODL_B1("wasOK = ", wasOK); //####
     bool okSoFar = true;
     
     try
@@ -830,16 +830,16 @@ doEndTransaction(sqlite3 *  database,
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // doCommitTransaction
 
@@ -849,8 +849,8 @@ doEndTransaction(sqlite3 *  database,
 static bool
 constructTables(sqlite3 * database)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("database = ", database); //####
+    ODL_ENTER(); //####
+    ODL_P1("database = ", database); //####
     bool okSoFar = true;
     
     try
@@ -911,16 +911,16 @@ constructTables(sqlite3 * database)
         }
         else
         {
-            OD_LOG("! (database)"); //####
+            ODL_LOG("! (database)"); //####
             okSoFar = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // constructTables
 
@@ -932,8 +932,8 @@ static int
 setupCheckService(sqlite3_stmt * statement,
                   const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -944,26 +944,26 @@ setupCheckService(sqlite3_stmt * statement,
         {
             const char * channelNameString = static_cast<const char *>(stuff);
             
-            OD_LOG_S1("channelNameString <- ", channelNameString); //####
+            ODL_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
                                        static_cast<int>(strlen(channelNameString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupCheckService
 
@@ -975,8 +975,8 @@ static int
 setupCollectAssociates(sqlite3_stmt * statement,
                        const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -987,26 +987,26 @@ setupCollectAssociates(sqlite3_stmt * statement,
         {
             const char * channelNameString = static_cast<const char *>(stuff);
             
-            OD_LOG_S1("channelNameString <- ", channelNameString); //####
+            ODL_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
                                        static_cast<int>(strlen(channelNameString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupCollectAssociates
 
@@ -1018,8 +1018,8 @@ static int
 setupInsertIntoChannels(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1030,25 +1030,25 @@ setupInsertIntoChannels(sqlite3_stmt * statement,
         {
             const char * channelString = static_cast<const char *>(stuff);
             
-            OD_LOG_S1("channelString <- ", channelString); //####
+            ODL_S1("channelString <- ", channelString); //####
             result = sqlite3_bind_text(statement, channelIndex, channelString,
                                        static_cast<int>(strlen(channelString)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelIndex)"); //####
+            ODL_LOG("! (0 < channelIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupInsertIntoChannels
 
@@ -1060,8 +1060,8 @@ static int
 setupInsertIntoKeywords(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1072,25 +1072,25 @@ setupInsertIntoKeywords(sqlite3_stmt * statement,
         {
             const char * nameString = static_cast<const char *>(stuff);
             
-            OD_LOG_S1("nameString <- ", nameString); //####
+            ODL_S1("nameString <- ", nameString); //####
             result = sqlite3_bind_text(statement, keywordIndex, nameString,
                                        static_cast<int>(strlen(nameString)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < keywordIndex)"); //####
+            ODL_LOG("! (0 < keywordIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupInsertIntoKeywords
 
@@ -1102,8 +1102,8 @@ static int
 setupInsertIntoRequests(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1121,14 +1121,14 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
             const char *               channelName = descriptor->_channel.c_str();
             
-            OD_LOG_S1("channelName <- ", channelName); //####
+            ODL_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
                 
-                OD_LOG_S1("request <- ", request); //####
+                ODL_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
                                            static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
             }
@@ -1136,7 +1136,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             {
                 const char * input = descriptor->_inputs.c_str();
                 
-                OD_LOG_S1("input <- ", input); //####
+                ODL_S1("input <- ", input); //####
                 result = sqlite3_bind_text(statement, inputIndex, input,
                                            static_cast<int>(strlen(input)), SQLITE_TRANSIENT);
             }
@@ -1144,7 +1144,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             {
                 const char * output = descriptor->_outputs.c_str();
                 
-                OD_LOG_S1("output <- ", output); //####
+                ODL_S1("output <- ", output); //####
                 result = sqlite3_bind_text(statement, outputIndex, output,
                                            static_cast<int>(strlen(output)), SQLITE_TRANSIENT);
             }
@@ -1152,7 +1152,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             {
                 const char * version = descriptor->_version.c_str();
                 
-                OD_LOG_S1("version <- ", version); //####
+                ODL_S1("version <- ", version); //####
                 result = sqlite3_bind_text(statement, versionIndex, version,
                                            static_cast<int>(strlen(version)), SQLITE_TRANSIENT);
             }
@@ -1160,27 +1160,27 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             {
                 const char * details = descriptor->_details.c_str();
                 
-                OD_LOG_S1("details <- ", details); //####
+                ODL_S1("details <- ", details); //####
                 result = sqlite3_bind_text(statement, detailsIndex, details,
                                            static_cast<int>(strlen(details)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && " //####
+            ODL_LOG("! ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && " //####
                    "(0 < outputIndex) && (0 < requestIndex) && (0 < versionIndex))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupInsertIntoRequests
 
@@ -1192,8 +1192,8 @@ static int
 setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
                                 const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1207,14 +1207,14 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
             const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *>(stuff);
             const char *               keyword = descriptor->_key.c_str();
             
-            OD_LOG_S1("keyword <- ", keyword); //####
+            ODL_S1("keyword <- ", keyword); //####
             result = sqlite3_bind_text(statement, keywordIndex, keyword,
                                        static_cast<int>(strlen(keyword)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
                 
-                OD_LOG_S1("request <- ", request); //####
+                ODL_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
                                            static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
             }
@@ -1222,27 +1222,27 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
             {
                 const char * channelName = descriptor->_channel.c_str();
                 
-                OD_LOG_S1("channelName <- ", channelName); //####
+                ODL_S1("channelName <- ", channelName); //####
                 result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                            static_cast<int>(strlen(channelName)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))"); //####
+            ODL_LOG("! ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupInsertIntoRequestsKeywords
 
@@ -1254,8 +1254,8 @@ static int
 setupInsertIntoServices(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1276,14 +1276,14 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
             
-            OD_LOG_S1("channelName <- ", channelName); //####
+            ODL_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * name = descriptor->_name.c_str();
                 
-                OD_LOG_S1("name <- ", name); //####
+                ODL_S1("name <- ", name); //####
                 result = sqlite3_bind_text(statement, nameIndex, name,
                                            static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
             }
@@ -1291,7 +1291,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             {
                 const char * description = descriptor->_description.c_str();
                 
-                OD_LOG_S1("description <- ", description); //####
+                ODL_S1("description <- ", description); //####
                 result = sqlite3_bind_text(statement, descriptionIndex, description,
                                            static_cast<int>(strlen(description)),
                                            SQLITE_TRANSIENT);
@@ -1300,7 +1300,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             {
                 const char * executable = descriptor->_executable.c_str();
                 
-                OD_LOG_S1("executable <- ", executable); //####
+                ODL_S1("executable <- ", executable); //####
                 result = sqlite3_bind_text(statement, executableIndex, executable,
                                            static_cast<int>(strlen(executable)),
                                            SQLITE_TRANSIENT);
@@ -1309,7 +1309,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             {
                 const char * extraInfo = descriptor->_extraInfo.c_str();
 
-                OD_LOG_S1("extraInfo <- ", extraInfo); //####
+                ODL_S1("extraInfo <- ", extraInfo); //####
                 result = sqlite3_bind_text(statement, extraInfoIndex, extraInfo,
                                            static_cast<int>(strlen(extraInfo)), SQLITE_TRANSIENT);
             }
@@ -1317,7 +1317,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             {
                 const char * requestsDescription = descriptor->_requestsDescription.c_str();
                 
-                OD_LOG_S1("requestsDescription <- ", requestsDescription); //####
+                ODL_S1("requestsDescription <- ", requestsDescription); //####
                 result = sqlite3_bind_text(statement, requestsDescriptionIndex, requestsDescription,
                                            static_cast<int>(strlen(requestsDescription)),
                                            SQLITE_TRANSIENT);
@@ -1326,28 +1326,28 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             {
                 const char * tag = descriptor->_tag.c_str();
                 
-                OD_LOG_S1("tag <- ", tag); //####
+                ODL_S1("tag <- ", tag); //####
                 result = sqlite3_bind_text(statement, tagIndex, tag, static_cast<int>(strlen(tag)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && " //####
+            ODL_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && " //####
                    "(0 < executableIndex) && (0 < extraInfoIndex) && (0 < nameIndex) && " //####
                    "(0 < requestsDescriptionIndex) && (0 < tagIndex))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupInsertIntoServices
 
@@ -1359,8 +1359,8 @@ static int
 setupRemoveFromChannels(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1375,20 +1375,20 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromChannels
 
@@ -1400,8 +1400,8 @@ static int
 setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
                                   const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1416,20 +1416,20 @@ setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromChannelsAssociates
 
@@ -1441,8 +1441,8 @@ static int
 setupRemoveFromRequests(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1457,20 +1457,20 @@ setupRemoveFromRequests(sqlite3_stmt * statement,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromRequests
 
@@ -1482,8 +1482,8 @@ static int
 setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
                                 const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1498,20 +1498,20 @@ setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromRequestsKeywords
 
@@ -1523,8 +1523,8 @@ static int
 setupRemoveFromServices(sqlite3_stmt * statement,
                         const void *   stuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    ODL_ENTER(); //####
+    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
     
     try
@@ -1539,20 +1539,20 @@ setupRemoveFromServices(sqlite3_stmt * statement,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+                ODL_S1("error description: ", sqlite3_errstr(result)); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < channelNameIndex)"); //####
+            ODL_LOG("! (0 < channelNameIndex)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_LL(result);
+    ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromServices
 
@@ -1581,19 +1581,19 @@ RegistryService::RegistryService(const YarpString & launchPath,
     _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
     _checker(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_B1("useInMemoryDb = ", useInMemoryDb); //####
+    ODL_ENTER(); //####
+    ODL_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
+    ODL_B1("useInMemoryDb = ", useInMemoryDb); //####
     setExtraInformation(_inMemory ? "Using in-memory database" : "Using disk-based database");
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // RegistryService::RegistryService
 
 RegistryService::~RegistryService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
     _lastCheckedTime.clear();
     if (_db)
@@ -1609,7 +1609,7 @@ RegistryService::~RegistryService(void)
         BaseChannel::RelinquishChannel(_statusChannel);
         _statusChannel = NULL;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::~RegistryService
 
 #if defined(__APPLE__)
@@ -1620,7 +1620,7 @@ bool
 RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                   const RequestDescription & description)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -1681,7 +1681,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                     }
                     else
                     {
-                        OD_LOG("! (aKeyword.isString())"); //####
+                        ODL_LOG("! (aKeyword.isString())"); //####
                         okSoFar = false;
                     }
                 }
@@ -1691,7 +1691,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     if (! okSoFar)
@@ -1699,7 +1699,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
         reportStatusChange(description._channel, kRegistryProblemAddingRequest,
                            description._request);
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::addRequestRecord
 
@@ -1712,10 +1712,10 @@ RegistryService::addServiceRecord(const YarpString & channelName,
                                   const YarpString & executable,
                                   const YarpString & requestsDescription)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
+    ODL_OBJENTER(); //####
+    ODL_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
                "extraInfo = ", extraInfo); //####
-    OD_LOG_S2s("executable = ", executable, "requestsDescription = ", requestsDescription); //####
+    ODL_S2s("executable = ", executable, "requestsDescription = ", requestsDescription); //####
     bool okSoFar = false;
     
     try
@@ -1750,21 +1750,21 @@ RegistryService::addServiceRecord(const YarpString & channelName,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     if (! okSoFar)
     {
         reportStatusChange(channelName, kRegistryProblemAddingService, name);
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::addServiceRecord
 
 void
 RegistryService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _matchHandler = new MatchRequestHandler(*this, _validator);
@@ -1780,23 +1780,23 @@ RegistryService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_matchHandler && _pingHandler && _registerHandler && " //####
+            ODL_LOG("! (_matchHandler && _pingHandler && _registerHandler && " //####
                    "_unregisterHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::attachRequestHandlers
 
 bool
 RegistryService::checkForExistingService(const YarpString & channelName)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
     bool okSoFar = false;
     
     try
@@ -1823,17 +1823,17 @@ RegistryService::checkForExistingService(const YarpString & channelName)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::checkForExistingService
 
 void
 RegistryService::checkServiceTimes(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     double           now = yarp::os::Time::now();
     YarpStringVector expired;
     
@@ -1867,13 +1867,13 @@ RegistryService::checkServiceTimes(void)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::checkServiceTimes
 
 void
 RegistryService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_matchHandler)
@@ -1903,38 +1903,38 @@ RegistryService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::detachRequestHandlers
 
 DEFINE_DISABLEMETRICS_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_statusChannel)
     {
         _statusChannel->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_statusChannel)
     {
         _statusChannel->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::enableMetrics
 
 DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     inherited::fillInSecondaryOutputChannelsList(channels);
     if (_statusChannel)
     {
@@ -1946,13 +1946,13 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
         descriptor._protocolDescription = _statusChannel->protocolDescription();
         channels.push_back(descriptor);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
 DEFINE_GATHERMETRICS_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("metrics = ", &metrics); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("metrics = ", &metrics); //####
     inherited::gatherMetrics(metrics);
     if (_statusChannel)
     {
@@ -1961,16 +1961,16 @@ DEFINE_GATHERMETRICS_(RegistryService)
         _statusChannel->getSendReceiveCounters(counters);
         counters.addToList(metrics, _statusChannel->name());
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::gatherMetrics
 
 bool
 RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
                                         const YarpString &   channelName)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("asDict = ", &asDict); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
+    ODL_ENTER(); //####
+    ODL_P1("asDict = ", &asDict); //####
+    ODL_S1s("channelName = ", channelName); //####
     bool result = true;
 
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
@@ -1979,19 +1979,19 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         yarp::os::Bottle   keywordList;
         RequestDescription requestDescriptor;
         
-        OD_LOG_S1s("theRequest <- ", theRequest); //####
+        ODL_S1s("theRequest <- ", theRequest); //####
         if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY_))
         {
             yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY_);
             
-            OD_LOG_S1s("theDetails <- ", theDetails.toString()); //####
+            ODL_S1s("theDetails <- ", theDetails.toString()); //####
             if (theDetails.isString())
             {
                 requestDescriptor._details = theDetails.toString();
             }
             else
             {
-                OD_LOG("! (theDetails.isString())"); //####
+                ODL_LOG("! (theDetails.isString())"); //####
                 // The details field is present, but it's not a string.
                 result = false;
             }
@@ -2000,14 +2000,14 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         {
             yarp::os::Value theInputs(asDict.find(MpM_REQREP_DICT_INPUT_KEY_));
             
-            OD_LOG_S1s("theInputs <- ", theInputs.toString()); //####
+            ODL_S1s("theInputs <- ", theInputs.toString()); //####
             if (theInputs.isString())
             {
                 requestDescriptor._inputs = theInputs.toString();
             }
             else
             {
-                OD_LOG("! (theInputs.isString())"); //####
+                ODL_LOG("! (theInputs.isString())"); //####
                 // The inputs descriptor is present, but it's not a string
                 result = false;
             }
@@ -2016,14 +2016,14 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         {
             yarp::os::Value theKeywords(asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY_));
             
-            OD_LOG_S1s("theKeywords <- ", theKeywords.toString()); //####
+            ODL_S1s("theKeywords <- ", theKeywords.toString()); //####
             if (theKeywords.isList())
             {
                 keywordList = *theKeywords.asList();
             }
             else
             {
-                OD_LOG("! (theKeywords.isList())"); //####
+                ODL_LOG("! (theKeywords.isList())"); //####
                 // The keywords entry is present, but it's not a list
                 result = false;
             }
@@ -2032,14 +2032,14 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         {
             yarp::os::Value theOutputs(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_));
             
-            OD_LOG_S1s("theOutputs <- ", theOutputs.toString()); //####
+            ODL_S1s("theOutputs <- ", theOutputs.toString()); //####
             if (theOutputs.isString())
             {
                 requestDescriptor._outputs = theOutputs.toString();
             }
             else
             {
-                OD_LOG("! (theOutputs.isString())"); //####
+                ODL_LOG("! (theOutputs.isString())"); //####
                 // The outputs descriptor is present, but it's not a string
                 result = false;
             }
@@ -2048,14 +2048,14 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         {
             yarp::os::Value theVersion(asDict.find(MpM_REQREP_DICT_VERSION_KEY_));
             
-            OD_LOG_S1s("theVersion <- ", theVersion.toString()); //####
+            ODL_S1s("theVersion <- ", theVersion.toString()); //####
             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
             {
                 requestDescriptor._version = theVersion.toString();
             }
             else
             {
-                OD_LOG("! (theVersion.isString() || theVersion.isInt() || " //####
+                ODL_LOG("! (theVersion.isString() || theVersion.isInt() || " //####
                        "theVersion.isDouble())"); //####
                 // The version entry is present, but it's not a simple value
                 result = false;
@@ -2066,7 +2066,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
             requestDescriptor._channel = channelName;
             requestDescriptor._request = theRequest;
             result = addRequestRecord(keywordList, requestDescriptor);
-            OD_LOG_B1("result <- ", result); //####
+            ODL_B1("result <- ", result); //####
             if (! result)
             {
                 // We need to remove any values that we've recorded for this channel!
@@ -2076,11 +2076,11 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
     }
     else
     {
-        OD_LOG("! (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))"); //####
+        ODL_LOG("! (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))"); //####
         // There is no 'name' entry in this dictionary
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // RegistryService::processDictionaryEntry
 
@@ -2088,8 +2088,8 @@ bool
 RegistryService::processListResponse(const YarpString &      channelName,
                                      const ServiceResponse & response)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("channelName = ", channelName, "response = ", response.asString()); //####
     bool result = false;
     
     try
@@ -2136,24 +2136,24 @@ RegistryService::processListResponse(const YarpString &      channelName,
                 }
                 else
                 {
-                    OD_LOG("! (anElement.isList())"); //####
+                    ODL_LOG("! (anElement.isList())"); //####
                     result = false;
                 }
             }
         }
         else
         {
-            OD_LOG("! (0 < count)"); //####
+            ODL_LOG("! (0 < count)"); //####
             // Wrong number of values in the response.
             result = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryService::processListResponse
 
@@ -2162,9 +2162,9 @@ RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
                                      const bool                getNames,
                                      yarp::os::Bottle &        reply)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("matcher = ", matcher); //####
-    OD_LOG_B1("getNames = ", getNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("matcher = ", matcher); //####
+    ODL_B1("getNames = ", getNames); //####
     bool okSoFar = false;
     
     try
@@ -2184,7 +2184,7 @@ RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
                 const char *        sqlEnd = (getNames ? T_(")") : T_(""));
                 YarpString          requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
                 
-                OD_LOG_S1s("requestAsSQL <- ", requestAsSQL); //####
+                ODL_S1s("requestAsSQL <- ", requestAsSQL); //####
                 okSoFar = performSQLstatementWithSingleColumnResults(_db, subList,
                                                                      requestAsSQL.c_str());
                 okSoFar = doEndTransaction(_db, okSoFar);
@@ -2192,15 +2192,15 @@ RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
         }
         else
         {
-            OD_LOG("! (matcher)"); //####
+            ODL_LOG("! (matcher)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::processMatchRequest
 
@@ -2208,8 +2208,8 @@ bool
 RegistryService::processNameResponse(const YarpString &      channelName,
                                      const ServiceResponse & response)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("channelName = ", channelName, "response = ", response.asString()); //####
     bool result = false;
     
     try
@@ -2240,7 +2240,7 @@ RegistryService::processNameResponse(const YarpString &      channelName,
             }
             else
             {
-                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && " //####
+                ODL_LOG("! (theCanonicalName.isString() && theDescription.isString() && " //####
                        "theExtraInformation.isString() && theKind.isString() && " //####
                        "thePath.isString() && theRequestsDescription.isString())"); //####
                 result = false;
@@ -2248,36 +2248,36 @@ RegistryService::processNameResponse(const YarpString &      channelName,
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response.count())"); //####
-            OD_LOG_S1s("response = ", response.asString()); //####
+            ODL_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response.count())"); //####
+            ODL_S1s("response = ", response.asString()); //####
             // Wrong number of values in the response.
             result = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryService::processNameResponse
 
 void
 RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _checkedTimeLock.lock();
     _lastCheckedTime.erase(serviceChannelName);
     _checkedTimeLock.unlock();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::removeCheckedTimeForChannel
 
 bool
 RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("serviceChannelName = ", serviceChannelName); //####
     bool okSoFar = false;
     
     try
@@ -2320,10 +2320,10 @@ RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::removeServiceRecord
 
@@ -2332,8 +2332,8 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                                     const ServiceStatus newStatus,
                                     const YarpString &  details)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("channelName = ", channelName, "details = ", details); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("channelName = ", channelName, "details = ", details); //####
     if (_statusChannel)
     {
         char             buffer1[DATE_TIME_BUFFER_SIZE_];
@@ -2422,19 +2422,19 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
         }
         if (! _statusChannel->write(message))
         {
-            OD_LOG("(! _statusChannel->write(message))"); //####
+            ODL_LOG("(! _statusChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::reportStatusChange
 
 bool
 RegistryService::setUpDatabase(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = true;
     
     try
@@ -2461,7 +2461,7 @@ RegistryService::setUpDatabase(void)
                                      NULL);
             if (SQLITE_OK != sqlRes)
             {
-                OD_LOG("(SQLITE_OK != sqlRes)"); //####
+                ODL_LOG("(SQLITE_OK != sqlRes)"); //####
                 okSoFar = false;
                 sqlite3_close(_db);
                 _db = NULL;
@@ -2472,7 +2472,7 @@ RegistryService::setUpDatabase(void)
             okSoFar = constructTables(_db);
             if (! okSoFar)
             {
-                OD_LOG("(! okSoFar)"); //####
+                ODL_LOG("(! okSoFar)"); //####
                 sqlite3_close(_db);
                 _db = NULL;
             }
@@ -2480,17 +2480,17 @@ RegistryService::setUpDatabase(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::setUpDatabase
 
 bool
 RegistryService::setUpStatusChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -2522,27 +2522,27 @@ RegistryService::setUpStatusChannel(void)
             }
             else
             {
-                OD_LOG("! (_statusChannel->openWithRetries(outputName, " //####
+                ODL_LOG("! (_statusChannel->openWithRetries(outputName, " //####
                        "STANDARD_WAIT_TIME_))"); //####
             }
         }
         else
         {
-            OD_LOG("! (_statusChannel)"); //####
+            ODL_LOG("! (_statusChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::setUpStatusChannel
 
 DEFINE_STARTSERVICE_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -2583,32 +2583,32 @@ DEFINE_STARTSERVICE_(RegistryService)
                                 {
                                     yarp::os::Value theValue = response.element(0);
                                     
-                                    OD_LOG_S1s("theValue <- ", theValue.toString()); //####
+                                    ODL_S1s("theValue <- ", theValue.toString()); //####
                                     if (theValue.isString())
                                     {
                                         _isActive = (theValue.toString() == MpM_OK_RESPONSE_);
-                                        OD_LOG_B1("_isActive <- ", _isActive); //####
+                                        ODL_B1("_isActive <- ", _isActive); //####
                                     }
                                     else
                                     {
-                                        OD_LOG("! (theValue.isString())"); //####
+                                        ODL_LOG("! (theValue.isString())"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
+                                    ODL_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
                                            "response.count())"); //####
-                                    OD_LOG_S1s("response = ", response.asString()); //####
+                                    ODL_S1s("response = ", response.asString()); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (request.send(*newChannel, response))"); //####
+                                ODL_LOG("! (request.send(*newChannel, response))"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                            ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                                    "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
@@ -2617,19 +2617,19 @@ DEFINE_STARTSERVICE_(RegistryService)
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(aName, " //####
+                        ODL_LOG("! (newChannel->openWithRetries(aName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(newChannel);
                 }
                 else
                 {
-                    OD_LOG("! (newChannel)"); //####
+                    ODL_LOG("! (newChannel)"); //####
                 }
             }
             else
             {
-                OD_LOG("! (isStarted() && setUpDatabase() && setUpStatusChannel())"); //####
+                ODL_LOG("! (isStarted() && setUpDatabase() && setUpStatusChannel())"); //####
             }
         }
         result = isStarted();
@@ -2640,41 +2640,41 @@ DEFINE_STARTSERVICE_(RegistryService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryService::startService
 
 void
 RegistryService::startChecker(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (! _checker)
     {
         _checker = new RegistryCheckThread(*this);
-        OD_LOG_P1("_checker <- ", _checker); //####
+        ODL_P1("_checker <- ", _checker); //####
         if (! _checker->start())
         {
-            OD_LOG("(! _checker->start())"); //####
+            ODL_LOG("(! _checker->start())"); //####
             delete _checker;
             _checker = NULL;
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::startChecker
 
 DEFINE_STOPSERVICE_(RegistryService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
     {
         if (_checker)
         {
-            OD_LOG_P1("_checker = ", _checker); //####
+            ODL_P1("_checker = ", _checker); //####
             _checker->stop();
             for ( ; _checker->isRunning(); )
             {
@@ -2689,26 +2689,26 @@ DEFINE_STOPSERVICE_(RegistryService)
         }
         result = inherited::stopService();
         _isActive = false;
-        OD_LOG_B1("_isActive <- ", _isActive); //####
+        ODL_B1("_isActive <- ", _isActive); //####
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryService::stopService
 
 void
 RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _checkedTimeLock.lock();
     _lastCheckedTime[serviceChannelName] = yarp::os::Time::now() +
                                             (PING_COUNT_MAX_ * PING_INTERVAL_);
     _checkedTimeLock.unlock();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryService::updateCheckedTimeForChannel
 
 #if defined(__APPLE__)

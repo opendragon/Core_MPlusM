@@ -111,13 +111,13 @@ setUpAndGo(YarpString &       hostName,
            const YarpString & servicePortNumber,
            const bool         reportOnExit)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_B1("reportOnExit = ", reportOnExit); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
+    ODL_B1("reportOnExit = ", reportOnExit); //####
     AddressService * aService = new AddressService(hostName, hostPort, progName, argc, argv, tag,
                                                    serviceEndpointName, servicePortNumber);
 
@@ -127,7 +127,7 @@ setUpAndGo(YarpString &       hostName,
         {
             YarpString channelName(aService->getEndpoint().getName());
 
-            OD_LOG_S1s("channelName = ", channelName); //####
+            ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
                 StartRunning();
@@ -148,22 +148,22 @@ setUpAndGo(YarpString &       hostName,
             }
             else
             {
-                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
+                ODL_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                 MpM_FAIL_(MSG_SERVICE_NOT_REGISTERED);
             }
         }
         else
         {
-            OD_LOG("! (aService->startService())"); //####
+            ODL_LOG("! (aService->startService())"); //####
             MpM_FAIL_(MSG_SERVICE_NOT_STARTED);
         }
         delete aService;
     }
     else
     {
-        OD_LOG("! (aService)"); //####
+        ODL_LOG("! (aService)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -181,14 +181,14 @@ main(int      argc,
     YarpString progName(*argv);
 
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -239,13 +239,13 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
@@ -253,9 +253,9 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

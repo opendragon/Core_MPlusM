@@ -84,15 +84,15 @@ using namespace MplusM::Registry;
 RegistryCheckThread::RegistryCheckThread(RegistryService & service) :
     inherited(), _service(service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // RegistryCheckThread::RegistryCheckThread
 
 RegistryCheckThread::~RegistryCheckThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryCheckThread::~RegistryCheckThread
 
 #if defined(__APPLE__)
@@ -101,7 +101,7 @@ RegistryCheckThread::~RegistryCheckThread(void)
 
 DEFINE_RUN_(RegistryCheckThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         double now = yarp::os::Time::now();
@@ -113,23 +113,23 @@ DEFINE_RUN_(RegistryCheckThread)
         }
         yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 10.0);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryCheckThread::run
 
 DEFINE_THREADINIT_(RegistryCheckThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _checkTime = yarp::os::Time::now() + PING_CHECK_INTERVAL_;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryCheckThread::threadInit
 
 DEFINE_THREADRELEASE_(RegistryCheckThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RegistryCheckThread::threadRelease
 
 #if defined(__APPLE__)

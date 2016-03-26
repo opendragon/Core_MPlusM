@@ -2,7 +2,7 @@
 #
 #  File:       odl/CMakeLists.txt
 #
-#  Project:    m+m
+#  Project:    odl
 #
 #  Contains:   The CMAKE definitions for the debugging library.
 #
@@ -36,28 +36,31 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-option(MpM_UseObjectiveCDebug "Use Objective C Debug" FALSE)
-mark_as_advanced(MpM_UseObjectiveCDebug)
-
 set(THIS_TARGET odLogging)
 set(OTHER_TARGET_CSHARP odLogging_swig_csharp)
 set(OTHER_TARGET_PYTHON odLogging_swig_python)
 
 if(APPLE)
+    option(ODL_UseObjectiveCDebug "Use Objective C Debug" OFF)
     set(DO_SHARED "SHARED")
 else(APPLE)
+    set(ODL_UseObjectiveCDebug OFF)
     set(DO_SHARED "")
 endif(APPLE)
+mark_as_advanced(ODL_UseObjectiveCDebug)
 
-if(MpM_UseObjectiveCDebug)
+option(ODL_DO_SWIG OFF)
+mark_as_advanced(ODL_DO_SWIG)
+
+if(ODL_UseObjectiveCDebug)
     add_library(${THIS_TARGET}
                 ${DO_SHARED}
                 ODLogging.m)
-else(MpM_UseObjectiveCDebug)
+else(ODL_UseObjectiveCDebug)
     add_library(${THIS_TARGET}
                 ${DO_SHARED}
                 ODLogging.cpp)
-endif(MpM_UseObjectiveCDebug)
+endif(ODL_UseObjectiveCDebug)
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION lib
@@ -70,14 +73,14 @@ install(FILES
         DESTINATION include/odl
         COMPONENT headers)
 
-if(MpM_DO_SWIG)
+if(ODL_DO_SWIG)
     set(ODL_SWIG_SOURCES swig_odl_in/ODLogging.i ODLogging.h ODLogging.cpp)
 
-    include_directories("${MpM_SOURCE_DIR}/odl")
+#    include_directories("${PROJECT_SOURCE_DIR}/odl")
     set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES CPLUSPLUS ON)
     set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
 
-    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out_csharp")
+    set(CMAKE_SWIG_OUTDIR "${PROJECT_SOURCE_DIR}/odl/swig_odl_out_csharp")
 
     swig_add_module(${OTHER_TARGET_CSHARP} csharp ${ODL_SWIG_SOURCES})
 
@@ -91,7 +94,7 @@ if(MpM_DO_SWIG)
             DESTINATION csharp/odl
             COMPONENT headers)
 
-    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out_python")
+    set(CMAKE_SWIG_OUTDIR "${PROJECT_SOURCE_DIR}/odl/swig_odl_out_python")
 
     find_package(PythonLibs)
     include_directories(${PYTHON_INCLUDE_PATH})
@@ -113,4 +116,4 @@ if(MpM_DO_SWIG)
             DESTINATION python/odl
             COMPONENT headers)
 
-endif(MpM_DO_SWIG)
+endif(ODL_DO_SWIG)

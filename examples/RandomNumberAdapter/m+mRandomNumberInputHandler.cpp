@@ -90,15 +90,15 @@ using namespace MplusM::Example;
 RandomNumberInputHandler::RandomNumberInputHandler(RandomNumberAdapterData & shared) :
     inherited(), _shared(shared)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("shared = ", &shared); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("shared = ", &shared); //####
+    ODL_EXIT_P(this); //####
 } // RandomNumberInputHandler::RandomNumberInputHandler
 
 RandomNumberInputHandler::~RandomNumberInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RandomNumberInputHandler::~RandomNumberInputHandler
 
 #if defined(__APPLE__)
@@ -116,10 +116,10 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -169,7 +169,7 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
                         _shared.lock();
                         if (! theOutput->write(message))
                         {
-                            OD_LOG("(! theOutput->write(message))"); //####
+                            ODL_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -178,7 +178,7 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
                     }
                     else
                     {
-                        OD_LOG("! (theClient->getRandomNumbers(count, randResult))"); //####
+                        ODL_LOG("! (theClient->getRandomNumbers(count, randResult))"); //####
                     }
                 }
                 else if (0 < count)
@@ -193,7 +193,7 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
                         _shared.lock();
                         if (! theOutput->write(message))
                         {
-                            OD_LOG("(! theOutput->write(message))"); //####
+                            ODL_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -202,7 +202,7 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
                     }
                     else
                     {
-                        OD_LOG("! (theClient->getOneRandomNumber(randResult))"); //####
+                        ODL_LOG("! (theClient->getOneRandomNumber(randResult))"); //####
                     }
                 }
                 else
@@ -214,10 +214,10 @@ DEFINE_HANDLE_INPUT_(RandomNumberInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomNumberInputHandler::handleInput
 #if (! MAC_OR_LINUX_)

@@ -86,15 +86,15 @@ using std::endl;
 SendToMQOutputInputHandler::SendToMQOutputInputHandler(SendToMQOutputService & owner) :
     inherited(), _owner(owner)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", &owner); //####
+    ODL_EXIT_P(this); //####
 } // SendToMQOutputInputHandler::SendToMQOutputInputHandler
 
 SendToMQOutputInputHandler::~SendToMQOutputInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // SendToMQOutputInputHandler::~SendToMQOutputInputHandler
 
 #if defined(__APPLE__)
@@ -112,17 +112,17 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
     {
         if (_owner.isActive())
         {
-            OD_LOG("(_owner.isActive())"); //####
+            ODL_LOG("(_owner.isActive())"); //####
 #if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -143,7 +143,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #endif // ! defined(MpM_UseCustomStringBuffer)
             if (buffAsString.length())
             {
-                OD_LOG("(buffAsString.length())"); //####
+                ODL_LOG("(buffAsString.length())"); //####
                 SendReceiveCounters toBeAdded(0, 0, outLength, 1);
                 
                 _owner.sendMessage(buffAsString, outLength);
@@ -153,10 +153,10 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputInputHandler::handleInput
 #if (! MAC_OR_LINUX_)

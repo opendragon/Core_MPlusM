@@ -82,33 +82,33 @@ using namespace MplusM::Common;
 ServiceResponse::ServiceResponse(void) :
     _values()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ServiceResponse::ServiceResponse
 
 ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
     _values(values)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("values size = ", values.size()); //####
-    OD_LOG_S1s("values = ", values.toString()); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_LL1("values size = ", values.size()); //####
+    ODL_S1s("values = ", values.toString()); //####
+    ODL_EXIT_P(this); //####
 } // ServiceResponse::ServiceResponse
 
 ServiceResponse::~ServiceResponse(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ServiceResponse::~ServiceResponse
 
 ServiceResponse &
 ServiceResponse::operator =(const yarp::os::Bottle & values)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("values size = ", values.size()); //####
-    OD_LOG_S1s("values = ", values.toString()); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("values size = ", values.size()); //####
+    ODL_S1s("values = ", values.toString()); //####
     _values = values;
-    OD_LOG_OBJEXIT_P(this); //####
+    ODL_OBJEXIT_P(this); //####
     return *this;
 } // ServiceResponse::operator=
 
@@ -122,10 +122,10 @@ YarpString
 ServiceResponse::asString(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(_values.toString());
     
-    OD_LOG_OBJEXIT_S(result.c_str()); //####
+    ODL_OBJEXIT_S(result.c_str()); //####
     return result;
 } // ServiceResponse::asString
 
@@ -133,7 +133,7 @@ yarp::os::Value
 ServiceResponse::element(const int index)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     yarp::os::Value result;
     
     try
@@ -144,15 +144,15 @@ const
         }
         else
         {
-            OD_LOG("! ((index >= 0) && (index < _values.size()))"); //####
+            ODL_LOG("! ((index >= 0) && (index < _values.size()))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(result.toString().c_str()); //####
+    ODL_OBJEXIT_S(result.toString().c_str()); //####
     return result;
 } // ServiceResponse::element
 

@@ -89,16 +89,16 @@ CommonLispFilterInputHandler::CommonLispFilterInputHandler(CommonLispFilterServi
                                                            const size_t              slotNumber) :
     inherited(), _owner(owner), _slotNumber(slotNumber), _active(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", owner); //####
-    OD_LOG_L1("slotNumber = ", slotNumber); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", owner); //####
+    ODL_L1("slotNumber = ", slotNumber); //####
+    ODL_EXIT_P(this); //####
 } // CommonLispFilterInputHandler::CommonLispFilterInputHandler
 
 CommonLispFilterInputHandler::~CommonLispFilterInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterInputHandler::~CommonLispFilterInputHandler
 
 #if defined(__APPLE__)
@@ -116,10 +116,10 @@ DEFINE_HANDLE_INPUT_(CommonLispFilterInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -133,10 +133,10 @@ DEFINE_HANDLE_INPUT_(CommonLispFilterInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterInputHandler::handleInput
 #if (! MAC_OR_LINUX_)

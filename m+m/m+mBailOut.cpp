@@ -84,38 +84,38 @@ using namespace MplusM::Common;
 BailOut::BailOut(const double timeToWait) :
     _bailer(NULL), _stopTime(timeToWait)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    ODL_ENTER(); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
     _bailer = new BailOutThread(timeToWait);
     if (! _bailer->start())
     {
-        OD_LOG("(! _bailer->start())"); //####
+        ODL_LOG("(! _bailer->start())"); //####
         delete _bailer;
         _bailer = NULL;
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // BailOut::BailOut
 
 BailOut::BailOut(BaseChannel & channelOfInterest,
                  const double  timeToWait) :
     _bailer(NULL), _stopTime(timeToWait)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    ODL_ENTER(); //####
+    ODL_P1("channelOfInterest = ", &channelOfInterest); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
     _bailer = new BailOutThread(channelOfInterest, timeToWait);
     if (! _bailer->start())
     {
-        OD_LOG("(! _bailer->start())"); //####
+        ODL_LOG("(! _bailer->start())"); //####
         delete _bailer;
         _bailer = NULL;
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // BailOut::BailOut
 
 BailOut::~BailOut(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (_bailer)
     {
         _bailer->stop();
@@ -126,7 +126,7 @@ BailOut::~BailOut(void)
         delete _bailer;
         _bailer = NULL;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BailOut::~BailOut
 
 #if defined(__APPLE__)

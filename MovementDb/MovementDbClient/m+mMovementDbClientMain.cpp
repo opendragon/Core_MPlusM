@@ -85,14 +85,14 @@ using std::endl;
 static void
 displayCommands(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  + - request a file path adn add it to the database" << endl;
     cout << "  d - set the data track" << endl;
     cout << "  e - set the e-mail address" << endl;
     cout << "  q - quit the application" << endl;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // displayCommands
 
 /*! @brief Write out a time value in a human-friendly form.
@@ -151,9 +151,9 @@ static void
 setUpAndGo(void)
 #endif // ! defined(MpM_ReportOnConnections)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
+    ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     MovementDbClient * aClient = new MovementDbClient;
     
@@ -193,7 +193,7 @@ setUpAndGo(void)
                                     }
                                     else
                                     {
-                                        OD_LOG("! (aClient->addFileToDb(inputString))"); //####
+                                        ODL_LOG("! (aClient->addFileToDb(inputString))"); //####
                                         MpM_FAIL_("Problem adding file to database.");
                                         cout << "File not added to database." << endl;
                                     }
@@ -216,7 +216,7 @@ setUpAndGo(void)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (aClient->setDataTrackForDb(inputString))"); //####
+                                    ODL_LOG("! (aClient->setDataTrackForDb(inputString))"); //####
                                     MpM_FAIL_("Problem setting data track for database.");
                                     cout << "Data track not set for database." << endl;
                                 }
@@ -234,7 +234,7 @@ setUpAndGo(void)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (aClient->setEmailAddressForDb(inputString))"); //####
+                                    ODL_LOG("! (aClient->setEmailAddressForDb(inputString))"); //####
                                     MpM_FAIL_("Problem setting e-mail address for database.");
                                     cout << "E-mail address not set for database." <<
                                     endl;
@@ -247,7 +247,7 @@ setUpAndGo(void)
                                 cout.flush();
                                 if (! aClient->stopDbConnection())
                                 {
-                                    OD_LOG("(! aClient->stopDbConnection())"); //####
+                                    ODL_LOG("(! aClient->stopDbConnection())"); //####
                                     MpM_FAIL_("Problem stopping the database connection.");
                                 }
                                 StopRunning();
@@ -268,28 +268,28 @@ setUpAndGo(void)
                 }
                 if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! aClient->disconnectFromService())"); //####
+                    ODL_LOG("(! aClient->disconnectFromService())"); //####
                     MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
                 }
             }
             else
             {
-                OD_LOG("! (aClient->connectToService())"); //####
+                ODL_LOG("! (aClient->connectToService())"); //####
                 MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
             }
         }
         else
         {
-            OD_LOG("! (aClient->findService(\"name:MovementDb\"))"); //####
+            ODL_LOG("! (aClient->findService(\"name:MovementDb\"))"); //####
             MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
         }
         delete aClient;
     }
     else
     {
-        OD_LOG("! (aClient)"); //####
+        ODL_LOG("! (aClient)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -316,10 +316,10 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -355,13 +355,13 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                        ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                         MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                    ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                     MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
@@ -370,10 +370,10 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

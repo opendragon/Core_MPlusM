@@ -84,14 +84,14 @@ using namespace MplusM::Common;
 ClientChannel::ClientChannel(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ClientChannel::ClientChannel
 
 ClientChannel::~ClientChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ClientChannel::~ClientChannel
 
 #if defined(__APPLE__)
@@ -111,9 +111,9 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("theChannelToBeAdded = ", theChannelToBeAdded); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("theChannelToBeAdded = ", theChannelToBeAdded); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL_;
     int    retriesLeft = MAX_RETRIES_;
@@ -129,13 +129,13 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
         
         do
         {
-            OD_LOG("about to add an output"); //####
+            ODL_LOG("about to add an output"); //####
             result = inherited::addOutput(theChannelToBeAdded);
             if (! result)
             {
                 if (0 < --retriesLeft)
                 {
-                    OD_LOG("%%retry%%"); //####
+                    ODL_LOG("%%retry%%"); //####
                     yarp::os::Time::delay(retryTime);
                     retryTime *= RETRY_MULTIPLIER_;
                 }
@@ -145,13 +145,13 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
 #if RETRY_LOOPS_USE_TIMEOUTS
     ShutDownCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ClientChannel::addOutputWithRetries
 #if (! MAC_OR_LINUX_)

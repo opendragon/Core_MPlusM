@@ -88,15 +88,15 @@ using namespace MplusM::Common;
 WhereRequestHandler::WhereRequestHandler(TunnelService & service) :
     inherited(MpM_WHERE_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // WhereRequestHandler::WhereRequestHandler
 
 WhereRequestHandler::~WhereRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // WhereRequestHandler::~WhereRequestHandler
 
 #if defined(__APPLE__)
@@ -114,9 +114,9 @@ DEFINE_FILLINALIASES_(WhereRequestHandler)
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // WhereRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -124,9 +124,9 @@ DEFINE_FILLINALIASES_(WhereRequestHandler)
 
 DEFINE_FILLINDESCRIPTION_(WhereRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -142,10 +142,10 @@ DEFINE_FILLINDESCRIPTION_(WhereRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // WhereRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -159,10 +159,10 @@ DEFINE_PROCESSREQUEST_(WhereRequestHandler)
 #  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -178,10 +178,10 @@ DEFINE_PROCESSREQUEST_(WhereRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // WhereRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

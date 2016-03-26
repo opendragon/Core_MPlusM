@@ -140,9 +140,9 @@ static void
 displayCommands(const YarpString & helpText,
                 const bool         forAdapter)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("helpText = ", helpText); //####
-    OD_LOG_B1("forAdapter = ", forAdapter); //####
+    ODL_ENTER(); //####
+    ODL_S1s("helpText = ", helpText); //####
+    ODL_B1("forAdapter = ", forAdapter); //####
     if (0 < helpText.length())
     {
         cout << helpText.c_str() << endl;
@@ -154,7 +154,7 @@ displayCommands(const YarpString & helpText,
     cout << "  e - stop (end) the input and output streams" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - restart the input and output streams" << endl;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // displayCommands
 
 /*! @brief Place the standard input in 'cbreak' mode. */
@@ -327,26 +327,26 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
     _configureHandler(NULL), _restartStreamsHandler(NULL), _startStreamsHandler(NULL),
     _stopStreamsHandler(NULL), _active(false), _needsIdle(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
-    OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
+    ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // BaseInputOutputService::BaseInputOutputService
 
 BaseInputOutputService::~BaseInputOutputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     shutDownClientStreams();
     shutDownInputStreams();
     shutDownOutputStreams();
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::~BaseInputOutputService
 
 #if defined(__APPLE__)
@@ -356,8 +356,8 @@ BaseInputOutputService::~BaseInputOutputService(void)
 bool
 BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & descriptions)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("descriptions = ", &descriptions); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
     
     try
@@ -395,7 +395,7 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
+                        ODL_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening input channel.");
                         result = false;
@@ -403,7 +403,7 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
                 }
                 else
                 {
-                    OD_LOG("! (newChannel)"); //####
+                    ODL_LOG("! (newChannel)"); //####
                     result = false;
                 }
             }
@@ -411,18 +411,18 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::addClientStreamsFromDescriptions
 
 bool
 BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descriptions)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("descriptions = ", &descriptions); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
     
     try
@@ -462,7 +462,7 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
+                        ODL_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening input channel.");
                         result = false;
@@ -470,7 +470,7 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
                 }
                 else
                 {
-                    OD_LOG("! (newChannel)"); //####
+                    ODL_LOG("! (newChannel)"); //####
                     result = false;
                 }
             }
@@ -478,18 +478,18 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::addInStreamsFromDescriptions
 
 bool
 BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & descriptions)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("descriptions = ", &descriptions); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
     
     try
@@ -529,7 +529,7 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(newName, " //####
+                        ODL_LOG("! (newChannel->openWithRetries(newName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening output channel.");
                         result = false;
@@ -537,7 +537,7 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
                 }
                 else
                 {
-                    OD_LOG("! (newChannel)"); //####
+                    ODL_LOG("! (newChannel)"); //####
                     result = false;
                 }
             }
@@ -545,17 +545,17 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::addOutStreamsFromDescriptions
 
 void
 BaseInputOutputService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _argumentDescriptionsHandler = new ArgumentDescriptionsRequestHandler(*this);
@@ -576,23 +576,23 @@ BaseInputOutputService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_argumentDescriptionsHandler && _configurationHandler && " //####
+            ODL_LOG("! (_argumentDescriptionsHandler && _configurationHandler && " //####
                    "_configureHandler && _restartStreamsHandler && _startStreamsHandler && " //####
                    "_stopStreamsHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::attachRequestHandlers
 
 void
 BaseInputOutputService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_argumentDescriptionsHandler)
@@ -634,15 +634,15 @@ BaseInputOutputService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::detachRequestHandlers
 
 DEFINE_DISABLEMETRICS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (0 < _clientStreams.size())
     {
@@ -683,18 +683,18 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::disableMetrics
 
 DEFINE_DOIDLE_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::doIdle
 
 DEFINE_ENABLEMETRICS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (0 < _clientStreams.size())
     {
@@ -735,13 +735,13 @@ DEFINE_ENABLEMETRICS_(BaseInputOutputService)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::enableMetrics
 
 DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     inherited::fillInSecondaryClientChannelsList(channels);
     if (0 < _clientStreams.size())
     {
@@ -752,7 +752,7 @@ DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_S1s("aChannel = ", aChannel->name()); //####
+                ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
                 
                 descriptor._portName = aChannel->name();
@@ -763,13 +763,13 @@ DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryClientChannelsList
 
 DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     inherited::fillInSecondaryInputChannelsList(channels);
     if (0 < _inStreams.size())
     {
@@ -780,7 +780,7 @@ DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_S1s("aChannel = ", aChannel->name()); //####
+                ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
                 
                 descriptor._portName = aChannel->name();
@@ -791,13 +791,13 @@ DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryInputChannelsList
 
 DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     inherited::fillInSecondaryOutputChannelsList(channels);
     if (0 < _outStreams.size())
     {
@@ -808,7 +808,7 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_S1s("aChannel = ", aChannel->name()); //####
+                ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
                 
                 descriptor._portName = aChannel->name();
@@ -819,13 +819,13 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryOutputChannelsList
 
 DEFINE_GATHERMETRICS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("metrics = ", &metrics); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("metrics = ", &metrics); //####
     SendReceiveCounters counters;
     
     inherited::gatherMetrics(metrics);
@@ -862,17 +862,17 @@ DEFINE_GATHERMETRICS_(BaseInputOutputService)
             counters.addToList(metrics, aChannel->name());
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::gatherMetrics
 
 size_t
 BaseInputOutputService::getClientCount(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     size_t result = _clientStreams.size();
     
-    OD_LOG_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getClientCount
 
@@ -880,11 +880,11 @@ ClientChannel *
 BaseInputOutputService::getClientStream(const size_t index)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("index = ", index); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("index = ", index); //####
     ClientChannel * result = _clientStreams.at(index);
     
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getClientStream
 
@@ -892,10 +892,10 @@ size_t
 BaseInputOutputService::getInletCount(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     size_t result = _inStreams.size();
     
-    OD_LOG_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getInletCount
 
@@ -903,11 +903,11 @@ GeneralChannel *
 BaseInputOutputService::getInletStream(const size_t index)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("index = ", index); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("index = ", index); //####
     GeneralChannel * result = _inStreams.at(index);
     
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getInletStream
 
@@ -915,10 +915,10 @@ size_t
 BaseInputOutputService::getOutletCount(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     size_t result = _outStreams.size();
     
-    OD_LOG_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getOutletCount
 
@@ -926,11 +926,11 @@ GeneralChannel *
 BaseInputOutputService::getOutletStream(const size_t index)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("index = ", index); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("index = ", index); //####
     GeneralChannel * result = _outStreams.at(index);
     
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getOutletStream
 
@@ -940,15 +940,15 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
                                       const bool         stdinAvailable,
                                       const bool         reportOnExit)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("helpText = ", helpText); //####
-    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("helpText = ", helpText); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     if (startService())
     {
         YarpString channelName(getEndpoint().getName());
         
-        OD_LOG_S1s("channelName = ", channelName); //####
+        ODL_S1s("channelName = ", channelName); //####
         if (RegisterLocalService(channelName, *this))
         {
             StartRunning();
@@ -969,24 +969,24 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
         }
         else
         {
-            OD_LOG("! (RegisterLocalService(channelName, *this))"); //####
+            ODL_LOG("! (RegisterLocalService(channelName, *this))"); //####
             MpM_FAIL_(MSG_SERVICE_NOT_REGISTERED);
         }
     }
     else
     {
-        OD_LOG("! (startService())"); //####
+        ODL_LOG("! (startService())"); //####
         MpM_FAIL_(MSG_SERVICE_NOT_STARTED);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::performLaunch
 
 void
 BaseInputOutputService::requestServiceStop(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     lStopTheService = true;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // BaseInputOutputService::requestServiceStop
 
 void
@@ -996,9 +996,9 @@ BaseInputOutputService::runService(const YarpString & helpText,
                                    const bool         stdinAvailable,
                                    const bool         reportOnExit)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("helpText = ", helpText); //####
-    OD_LOG_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("helpText = ", helpText); //####
+    ODL_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
               stdinAvailable, "reportOnExit = ", reportOnExit); //####
     bool             configured = false;
     bool             firstLine = true;
@@ -1192,39 +1192,39 @@ BaseInputOutputService::runService(const YarpString & helpText,
             ConsumeSomeTime();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::runService
 
 DEFINE_SETUPCLIENTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = shutDownClientStreams(); // clear out existing streams first
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpClientStreams
 
 DEFINE_SETUPINPUTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = shutDownInputStreams(); // clear out existing streams first
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpInputStreams
 
 DEFINE_SETUPOUTPUTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = shutDownOutputStreams(); // clear out existing streams first
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpOutputStreams
 
 DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true; // by default, always true
     
     if (0 < _clientStreams.size())
@@ -1236,19 +1236,19 @@ DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_P1("aChannel = ", aChannel); //####
+                ODL_P1("aChannel = ", aChannel); //####
                 delete aChannel;
             }
         }
         _clientStreams.clear();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::shutDownClientStreams
 
 DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true; // by default, always true
     
     if (0 < _inStreams.size())
@@ -1260,19 +1260,19 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_P1("aChannel = ", aChannel); //####
+                ODL_P1("aChannel = ", aChannel); //####
                 delete aChannel;
             }
         }
         _inStreams.clear();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::shutDownInputStreams
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true; // by default, always true
     
     if (0 < _outStreams.size())
@@ -1284,19 +1284,19 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
             
             if (aChannel)
             {
-                OD_LOG_P1("aChannel = ", aChannel); //####
+                ODL_P1("aChannel = ", aChannel); //####
                 delete aChannel;
             }
         }
         _outStreams.clear();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::shutDownOutputStreams
 
 DEFINE_STARTSERVICE_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -1311,7 +1311,7 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
             }
             else
             {
-                OD_LOG("! (isStarted() && setUpStreamDescriptions() && " //####
+                ODL_LOG("! (isStarted() && setUpStreamDescriptions() && " //####
                        "setUpClientStreams() && setUpInputStreams() && " //####
                        "setUpOutputStreams())"); //####
             }
@@ -1320,16 +1320,16 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::startService
 
 DEFINE_STOPSERVICE_(BaseInputOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     try
@@ -1353,10 +1353,10 @@ DEFINE_STOPSERVICE_(BaseInputOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::stopService
 

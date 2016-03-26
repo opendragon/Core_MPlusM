@@ -85,17 +85,17 @@ RandomBurstInputThread::RandomBurstInputThread(GeneralChannel * outChannel,
                                                const int        numValues) :
     inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_LL1("numValues = ", numValues); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_LL1("numValues = ", numValues); //####
+    ODL_EXIT_P(this); //####
 } // RandomBurstInputThread::RandomBurstInputThread
 
 RandomBurstInputThread::~RandomBurstInputThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::~RandomBurstInputThread
 
 #if defined(__APPLE__)
@@ -105,19 +105,19 @@ RandomBurstInputThread::~RandomBurstInputThread(void)
 void
 RandomBurstInputThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::clearOutputChannel
 
 DEFINE_RUN_(RandomBurstInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         if (_nextTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             yarp::os::Bottle message;
             
             for (int ii = 0; ii < _numValues; ++ii)
@@ -128,7 +128,7 @@ DEFINE_RUN_(RandomBurstInputThread)
             {
                 if (! _outChannel->write(message))
                 {
-                    OD_LOG("(! _outChannel->write(message))"); //####
+                    ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                     Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -138,23 +138,23 @@ DEFINE_RUN_(RandomBurstInputThread)
         }
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::run
 
 DEFINE_THREADINIT_(RandomBurstInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputThread::threadInit
 
 DEFINE_THREADRELEASE_(RandomBurstInputThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::threadRelease
 
 #if defined(__APPLE__)

@@ -84,25 +84,25 @@ using namespace MplusM::Common;
 BailOutThread::BailOutThread(const double timeToWait) :
     inherited(), _baseChannel(NULL), _timeToWait(timeToWait)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_EXIT_P(this); //####
 } // BailOutThread::BailOutThread
 
 BailOutThread::BailOutThread(BaseChannel & channelOfInterest,
                              const double  timeToWait) :
     inherited(), _baseChannel(&channelOfInterest), _timeToWait(timeToWait)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("channelOfInterest = ", &channelOfInterest); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_EXIT_P(this); //####
 } // BailOutThread::BailOutThread
 
 BailOutThread::~BailOutThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BailOutThread::~BailOutThread
 
 #if defined(__APPLE__)
@@ -111,12 +111,12 @@ BailOutThread::~BailOutThread(void)
 
 DEFINE_RUN_(BailOutThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         if (_endTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_endTime <= yarp::os::Time::now())"); //####
+            ODL_LOG("(_endTime <= yarp::os::Time::now())"); //####
             if (_baseChannel)
             {
                 _baseChannel->interrupt();
@@ -133,23 +133,23 @@ DEFINE_RUN_(BailOutThread)
         }
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BailOutThread::run
 
 DEFINE_THREADINIT_(BailOutThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _endTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BailOutThread::threadInit
 
 DEFINE_THREADRELEASE_(BailOutThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BailOutThread::threadRelease
 
 #if defined(__APPLE__)

@@ -84,14 +84,14 @@ using namespace MplusM::Test;
 Test05HandlerCreator::Test05HandlerCreator(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // Test05HandlerCreator::Test05HandlerCreator
 
 Test05HandlerCreator::~Test05HandlerCreator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // Test05HandlerCreator::~Test05HandlerCreator
 
 #if defined(__APPLE__)
@@ -100,11 +100,11 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 
 DEFINE_CREATE_(Test05HandlerCreator)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;
     
     result->setChannel(_channel);
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // Test05HandlerCreator::createHandler
 

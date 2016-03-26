@@ -86,15 +86,15 @@ using namespace MplusM::Common;
 ServiceInputHandlerCreator::ServiceInputHandlerCreator(BaseService & service) :
     inherited(), _service(service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service);
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service);
+    ODL_EXIT_P(this); //####
 } // ServiceInputHandlerCreator::ServiceInputHandlerCreator
 
 ServiceInputHandlerCreator::~ServiceInputHandlerCreator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ServiceInputHandlerCreator::~ServiceInputHandlerCreator
 
 #if defined(__APPLE__)
@@ -103,11 +103,11 @@ ServiceInputHandlerCreator::~ServiceInputHandlerCreator(void)
 
 DEFINE_CREATE_(ServiceInputHandlerCreator)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseInputHandler * result = new ServiceInputHandler(_service);
     
     result->setChannel(_channel);
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // ServiceInputHandlerCreator::createHandler
 

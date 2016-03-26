@@ -96,86 +96,86 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
                     cl_object          hashMapFunction,
                     const bool         topLevel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("aBottle = ", &aBottle, "theData = ", theData, "hashMapFunction = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("aBottle = ", &aBottle, "theData = ", theData, "hashMapFunction = ", //####
               hashMapFunction); //####
-    OD_LOG_B1("topLevel = ", topLevel); //####
+    ODL_B1("topLevel = ", topLevel); //####
     if (ECL_NIL != cl_integerp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_integerp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_integerp(theData))"); //####
         aBottle.addInt(ecl_to_fixnum(theData));
     }
     else if (ECL_NIL != cl_realp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_realp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_realp(theData))"); //####
         aBottle.addDouble(ecl_to_double(theData));
     }
     else if (ECL_NIL != cl_stringp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_stringp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_stringp(theData))"); //####
         cl_object aValue = si_coerce_to_base_string(theData);
 
         if (ECL_NIL == aValue)
         {
-            OD_LOG("(ECL_NIL == aValue)"); //####
+            ODL_LOG("(ECL_NIL == aValue)"); //####
             aBottle.addString("<unconvertible string>");
         }
         else
         {
-            OD_LOG("! (ECL_NIL == aValue)"); //####
+            ODL_LOG("! (ECL_NIL == aValue)"); //####
             aBottle.addString(reinterpret_cast<char *>(aValue->base_string.self));
         }
     }
     else if (ECL_NIL != cl_symbolp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_symbolp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_symbolp(theData))"); //####
         cl_object aName = cl_symbol_name(theData);
 
         if (ECL_NIL == aName)
         {
-            OD_LOG("(ECL_NIL == aName)"); //####
+            ODL_LOG("(ECL_NIL == aName)"); //####
             aBottle.addString("<problematic symbol>");
         }
         else
         {
-            OD_LOG("! (ECL_NIL == aName)"); //####
+            ODL_LOG("! (ECL_NIL == aName)"); //####
             if (ECL_NIL == cl_stringp(aName))
             {
-                OD_LOG("(ECL_NIL == cl_stringp(aName))"); //####
+                ODL_LOG("(ECL_NIL == cl_stringp(aName))"); //####
                 aName = cl_string(aName);
             }
             aName = si_coerce_to_base_string(aName);
             if (ECL_NIL == aName)
             {
-                OD_LOG("(ECL_NIL == aName)"); //####
+                ODL_LOG("(ECL_NIL == aName)"); //####
                 aBottle.addString("<unconvertible symbol>");
             }
             else
             {
-                OD_LOG("! (ECL_NIL == aName)"); //####
+                ODL_LOG("! (ECL_NIL == aName)"); //####
                 aBottle.addString(reinterpret_cast<char *>(aName->base_string.self));
             }
         }
     }
     else if (ECL_NIL != cl_characterp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_characterp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_characterp(theData))"); //####
         cl_object asString = cl_string(theData);
 
         if (ECL_NIL == asString)
         {
-            OD_LOG("(ECL_NIL == asString)"); //####
+            ODL_LOG("(ECL_NIL == asString)"); //####
             aBottle.addString("<unconvertible character>");
         }
         else
         {
-            OD_LOG("! (ECL_NIL == asString)"); //####
+            ODL_LOG("! (ECL_NIL == asString)"); //####
             aBottle.addString(reinterpret_cast<char *>(asString->base_string.self));
         }
     }
     else if (ECL_NIL != cl_hash_table_p(theData))
     {
-        OD_LOG("(ECL_NIL != cl_hash_table_p(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_hash_table_p(theData))"); //####
         cl_env_ptr env = ecl_process_env();
         cl_object  aList;
         cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
@@ -194,7 +194,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
         ECL_RESTART_CASE_END;
         if (ECL_NIL != aList)
         {
-            OD_LOG("(ECL_NIL != aList)"); //####
+            ODL_LOG("(ECL_NIL != aList)"); //####
             yarp::os::Property & innerDict(aBottle.addDict());
 
             for ( ; ECL_NIL != aList; aList = cl_cdr(aList))
@@ -210,71 +210,71 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
 
                     if (ECL_NIL != aValue)
                     {
-                        OD_LOG("(ECL_NIL != aValue)"); //####
+                        ODL_LOG("(ECL_NIL != aValue)"); //####
                         keyToUse = reinterpret_cast<char *>(aValue->base_string.self);
                     }
                 }
                 else if (ECL_NIL != cl_symbolp(aKey))
                 {
-                    OD_LOG("(ECL_NIL != cl_symbolp(aKey))"); //####
+                    ODL_LOG("(ECL_NIL != cl_symbolp(aKey))"); //####
                     cl_object aName = cl_symbol_name(theData);
 
                     if (ECL_NIL != aName)
                     {
-                        OD_LOG("(ECL_NIL != aName)"); //####
+                        ODL_LOG("(ECL_NIL != aName)"); //####
                         if (ECL_NIL == cl_stringp(aName))
                         {
-                            OD_LOG("(ECL_NIL == cl_stringp(aName))"); //####
+                            ODL_LOG("(ECL_NIL == cl_stringp(aName))"); //####
                             aName = cl_string(aName);
                         }
                         aName = si_coerce_to_base_string(aName);
                         if (ECL_NIL != aName)
                         {
-                            OD_LOG("(ECL_NIL != aName)"); //####
+                            ODL_LOG("(ECL_NIL != aName)"); //####
                             keyToUse = reinterpret_cast<char *>(aName->base_string.self);
                         }
                     }
                 }
                 else if (ECL_NIL != cl_characterp(aKey))
                 {
-                    OD_LOG("(ECL_NIL != cl_characterp(aKey))"); //####
+                    ODL_LOG("(ECL_NIL != cl_characterp(aKey))"); //####
                     cl_object asString = cl_string(aKey);
                     
                     if (ECL_NIL != asString)
                     {
-                        OD_LOG("(ECL_NIL != asString)"); //####
+                        ODL_LOG("(ECL_NIL != asString)"); //####
                         keyToUse = reinterpret_cast<char *>(asString->base_string.self);
                     }
                 }
                 if (0 < keyToUse.length())
                 {
-                    OD_LOG("(0 < keyToUse.length())"); //####
+                    ODL_LOG("(0 < keyToUse.length())"); //####
                     yarp::os::Bottle convertedResult;
 
                     fillBottleFromValue(convertedResult, aValue, hashMapFunction, false);
                     if (1 == convertedResult.size())
                     {
-                        OD_LOG("(1 == convertedResult.size())"); //####
+                        ODL_LOG("(1 == convertedResult.size())"); //####
                         yarp::os::Value anElement(convertedResult.get(0));
 
                         if (anElement.isInt())
                         {
-                            OD_LOG("(anElement.isInt())"); //####
+                            ODL_LOG("(anElement.isInt())"); //####
                             innerDict.put(keyToUse, anElement.asInt());
                         }
                         else if (anElement.isDouble())
                         {
-                            OD_LOG("(anElement.isDouble())"); //####
+                            ODL_LOG("(anElement.isDouble())"); //####
                             innerDict.put(keyToUse, anElement.asDouble());
                         }
                         else if (anElement.isString())
                         {
-                            OD_LOG("(anElement.isString())"); //####
+                            ODL_LOG("(anElement.isString())"); //####
                             innerDict.put(keyToUse, anElement.asString());
                         }
                         else
                         {
-                            OD_LOG("! (anElement.isString())"); //####
+                            ODL_LOG("! (anElement.isString())"); //####
                             innerDict.put(keyToUse, anElement);
                         }
                     }
@@ -284,45 +284,45 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
     }
     else if (ECL_NIL != cl_listp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_listp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_listp(theData))"); //####
         for ( ; ECL_NIL != theData; theData = cl_cdr(theData))
         {
             cl_object anElement = cl_car(theData);
 
             if (ECL_NIL != anElement)
             {
-                OD_LOG("(ECL_NIL != anElement)"); //####
+                ODL_LOG("(ECL_NIL != anElement)"); //####
                 fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
             }
         }
     }
     else if (ECL_NIL != cl_arrayp(theData))
     {
-        OD_LOG("(ECL_NIL != cl_arrayp(theData))"); //####
+        ODL_LOG("(ECL_NIL != cl_arrayp(theData))"); //####
         if (1 == ecl_fixnum(cl_array_rank(theData)))
         {
-            OD_LOG("(1 == ecl_fixnum(cl_array_rank(theData)))"); //####
+            ODL_LOG("(1 == ecl_fixnum(cl_array_rank(theData)))"); //####
             cl_fixnum numElements = ecl_fixnum(cl_array_dimension(theData, ecl_make_fixnum(0)));
 
             // Treat as a list
-            OD_LOG_LL1("numElements <- ", numElements); //####
+            ODL_LL1("numElements <- ", numElements); //####
             if (topLevel)
             {
-                OD_LOG("(topLevel)"); //####
+                ODL_LOG("(topLevel)"); //####
                 for (cl_fixnum ii = 0; numElements > ii; ++ii)
                 {
                     cl_object anElement = cl_aref(2, theData, ecl_make_fixnum(ii));
 
                     if (ECL_NIL != anElement)
                     {
-                        OD_LOG("(ECL_NIL != anElement)"); //####
+                        ODL_LOG("(ECL_NIL != anElement)"); //####
                         fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
                     }
                 }
             }
             else
             {
-                OD_LOG("! (topLevel)"); //####
+                ODL_LOG("! (topLevel)"); //####
                 yarp::os::Bottle & innerList(aBottle.addList());
 
                 for (cl_fixnum ii = 0; numElements > ii; ++ii)
@@ -331,7 +331,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
 
                     if (ECL_NIL != anElement)
                     {
-                        OD_LOG("(ECL_NIL != anElement)"); //####
+                        ODL_LOG("(ECL_NIL != anElement)"); //####
                         fillBottleFromValue(innerList, anElement, hashMapFunction, false);
                     }
                 }
@@ -340,10 +340,10 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
     }
     else
     {
-        OD_LOG("! (ECL_NIL != cl_arrayp(theData))"); //####
+        ODL_LOG("! (ECL_NIL != cl_arrayp(theData))"); //####
         aBottle.addString("<untranslatable>");
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // fillBottleFromValue
 
 /*! @brief Convert a YARP value into a Common Lisp object.
@@ -362,10 +362,10 @@ static cl_object
 convertDictionary(cl_object                setHashFunction,
                   const yarp::os::Bottle & inputAsList)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputAsList = ", &inputAsList); //####
+    ODL_ENTER(); //####
+    ODL_P2("setHashFunction = ", setHashFunction, "inputAsList = ", &inputAsList); //####
     cl_object result = cl_make_hash_table(0);
-    OD_LOG_P1("result <- ", result); //####
+    ODL_P1("result <- ", result); //####
     
     for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
     {
@@ -373,17 +373,17 @@ convertDictionary(cl_object                setHashFunction,
         
         if (anEntry.isList())
         {
-            OD_LOG("(anEntry.isList())"); //####
+            ODL_LOG("(anEntry.isList())"); //####
             yarp::os::Bottle * entryAsList = anEntry.asList();
             
             if (entryAsList && (2 == entryAsList->size()))
             {
-                OD_LOG("(entryAsList && (2 == entryAsList->size()))"); //####
+                ODL_LOG("(entryAsList && (2 == entryAsList->size()))"); //####
                 YarpString      aKey(entryAsList->get(0).toString());
                 yarp::os::Value aValue(entryAsList->get(1));
                 cl_object       anElement = convertValue(setHashFunction, aValue);
                 
-                OD_LOG_P1("anElement <- ", anElement); //####
+                ODL_P1("anElement <- ", anElement); //####
                 cl_object       elementKey = CreateBaseString(aKey.c_str(), aKey.length());
                 cl_env_ptr      env = ecl_process_env();
                 cl_object       errorSymbol = ecl_make_symbol("ERROR", "CL");
@@ -402,7 +402,7 @@ convertDictionary(cl_object                setHashFunction,
             }
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // convertDictionary
 
@@ -414,20 +414,20 @@ static cl_object
 convertList(cl_object                setHashFunction,
             const yarp::os::Bottle & inputValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
     cl_object result = ecl_alloc_simple_vector(inputValue.size(), ecl_aet_object);
     
-    OD_LOG_P1("result <- ", result); //####
+    ODL_P1("result <- ", result); //####
     for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
     {
         yarp::os::Value aValue(inputValue.get(ii));
         cl_object       anElement = convertValue(setHashFunction, aValue);
-        OD_LOG_P1("anElement <- ", anElement); //####
+        ODL_P1("anElement <- ", anElement); //####
         
         ecl_aset1(result, ii, anElement);
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // convertList
 
@@ -435,82 +435,82 @@ static cl_object
 convertValue(cl_object               setHashFunction,
              const yarp::os::Value & inputValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
+    ODL_ENTER(); //####
+    ODL_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
     cl_object result = ECL_NIL;
     
     if (inputValue.isBool())
     {
-        OD_LOG("(inputValue.isBool())"); //####
+        ODL_LOG("(inputValue.isBool())"); //####
         result = ecl_make_fixnum(inputValue.asBool() ? 1 : 0);
-        OD_LOG_P1("result <- ", result); //####
+        ODL_P1("result <- ", result); //####
     }
     else if (inputValue.isInt())
     {
-        OD_LOG("(inputValue.isInt())"); //####
+        ODL_LOG("(inputValue.isInt())"); //####
         result = ecl_make_fixnum(inputValue.asInt());
-        OD_LOG_P1("result <- ", result); //####
+        ODL_P1("result <- ", result); //####
     }
     else if (inputValue.isString())
     {
-        OD_LOG("(inputValue.isString())"); //####
+        ODL_LOG("(inputValue.isString())"); //####
         YarpString value = inputValue.asString();
         
         result = CreateBaseString(value.c_str(), value.length());
-        OD_LOG_P1("result <- ", result); //####
+        ODL_P1("result <- ", result); //####
     }
     else if (inputValue.isDouble())
     {
-        OD_LOG("(inputValue.isDouble())"); //####
+        ODL_LOG("(inputValue.isDouble())"); //####
         result = ecl_make_double_float(inputValue.asDouble());
-        OD_LOG_P1("result <- ", result); //####
+        ODL_P1("result <- ", result); //####
     }
     else if (inputValue.isDict())
     {
-        OD_LOG("(inputValue.isDict())"); //####
+        ODL_LOG("(inputValue.isDict())"); //####
         yarp::os::Property * value = inputValue.asDict();
         
         if (value)
         {
-            OD_LOG("(value)"); //####
+            ODL_LOG("(value)"); //####
             yarp::os::Bottle asList(value->toString());
             
             result = convertDictionary(setHashFunction, asList);
-            OD_LOG_P1("result <- ", result); //####
+            ODL_P1("result <- ", result); //####
         }
     }
     else if (inputValue.isList())
     {
-        OD_LOG("(inputValue.isList())"); //####
+        ODL_LOG("(inputValue.isList())"); //####
         yarp::os::Bottle * value = inputValue.asList();
         
         if (value)
         {
-            OD_LOG("(value)"); //####
+            ODL_LOG("(value)"); //####
             yarp::os::Property asDict;
             
             if (ListIsReallyDictionary(*value, asDict))
             {
-                OD_LOG("(ListIsReallyDictionary(*value, asDict))"); //####
+                ODL_LOG("(ListIsReallyDictionary(*value, asDict))"); //####
                 result = convertDictionary(setHashFunction, *value);
-                OD_LOG_P1("result <- ", result); //####
+                ODL_P1("result <- ", result); //####
             }
             else
             {
-                OD_LOG("! (ListIsReallyDictionary(*value, asDict))"); //####
+                ODL_LOG("! (ListIsReallyDictionary(*value, asDict))"); //####
                 result = convertList(setHashFunction, *value);
-                OD_LOG_P1("result <- ", result); //####
+                ODL_P1("result <- ", result); //####
             }
         }
     }
     else
     {
-        OD_LOG("! (inputValue.isList())"); //####
+        ODL_LOG("! (inputValue.isList())"); //####
         // We don't know what to do with this...
         result = ECL_NIL;
-        OD_LOG_P1("result <- ", result); //####
+        ODL_P1("result <- ", result); //####
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // convertValue
 
@@ -522,13 +522,13 @@ static cl_object
 createObjectFromBottle(cl_object                setHashFunction,
                        const yarp::os::Bottle & aBottle)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("setHashFunction = ", setHashFunction, "aBottle = ", &aBottle); //####
+    ODL_ENTER(); //####
+    ODL_P2("setHashFunction = ", setHashFunction, "aBottle = ", &aBottle); //####
     cl_object result;
     
 //    cerr << "'" << aBottle.toString().c_str() << "'" << endl;
     result = convertList(setHashFunction, aBottle);
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // createObjectFromBottle
 
@@ -573,27 +573,27 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
     _scriptThreadFunc(loadedThreadFunction), _hash2assocFunc(ECL_NIL), _setHashFunc(ECL_NIL),
     _threadInterval(loadedInterval), _mostRecentSlot(0), _isThreaded(sawThread)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P4("argumentList = ", &argumentList, "argv = ", argv, //####
+    ODL_ENTER(); //####
+    ODL_P4("argumentList = ", &argumentList, "argv = ", argv, //####
               "loadedInletDescriptions = ", &loadedInletDescriptions, //####
               "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
-    OD_LOG_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+    ODL_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
               loadedStartingFunction, "loadedStoppingFunction = ", loadedStoppingFunction, //####
               "loadedThreadFunction = ", loadedThreadFunction); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B1("sawThread = ", sawThread); //####
-    OD_LOG_D1("loadedInterval = ", loadedInterval); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_B1("sawThread = ", sawThread); //####
+    ODL_D1("loadedInterval = ", loadedInterval); //####
     if (_isThreaded && (ECL_NIL != _scriptThreadFunc))
     {
-        OD_LOG("(_isThreaded && (ECL_NIL != _scriptThreadFunc))"); //####
+        ODL_LOG("(_isThreaded && (ECL_NIL != _scriptThreadFunc))"); //####
         setNeedsIdle();
     }
     else if (0 < loadedInletHandlers.size())
     {
-        OD_LOG("(0 < loadedInletHandlers.size())"); //####
+        ODL_LOG("(0 < loadedInletHandlers.size())"); //####
         setNeedsIdle();
     }
     try
@@ -625,15 +625,15 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
     catch (...)
     {
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // CommonLispFilterService::CommonLispFilterService
 
 CommonLispFilterService::~CommonLispFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     releaseHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::~CommonLispFilterService
 
 #if defined(__APPLE__)
@@ -651,8 +651,8 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -705,10 +705,10 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterService::configure
 #if (! MAC_OR_LINUX_)
@@ -717,7 +717,7 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
 
 DEFINE_DISABLEMETRICS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
@@ -729,37 +729,37 @@ DEFINE_DISABLEMETRICS_(CommonLispFilterService)
             aHandler->disableMetrics();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::disableMetrics
 
 DEFINE_DOIDLE_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (isActive())
     {
-        OD_LOG("(isActive())"); //####
+        ODL_LOG("(isActive())"); //####
         if (_goAhead.check())
         {
-            OD_LOG("(_goAhead.check())"); //####
+            ODL_LOG("(_goAhead.check())"); //####
             if (ECL_NIL == _scriptThreadFunc)
             {
-                OD_LOG("(ECL_NIL == _scriptThreadFunc)"); //####
+                ODL_LOG("(ECL_NIL == _scriptThreadFunc)"); //####
                 // We have a request from an input handler.
                 if (_inletHandlers.size() > _mostRecentSlot)
                 {
-                    OD_LOG("(_inletHandlers.size() > _mostRecentSlot)"); //####
+                    ODL_LOG("(_inletHandlers.size() > _mostRecentSlot)"); //####
                     cl_object                      handlerFunc = _inletHandlers[_mostRecentSlot];
                     CommonLispFilterInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
                     
                     if (aHandler && (ECL_NIL != handlerFunc))
                     {
-                        OD_LOG("(aHandler && (ECL_NIL != handlerFunc))"); //####
+                        ODL_LOG("(aHandler && (ECL_NIL != handlerFunc))"); //####
                         cl_object incoming = createObjectFromBottle(_setHashFunc,
                                                                     aHandler->getReceivedData());
                         
                         if (ECL_NIL != incoming)
                         {
-                            OD_LOG("(ECL_NIL != incoming)"); //####
+                            ODL_LOG("(ECL_NIL != incoming)"); //####
                             cl_env_ptr env = ecl_process_env();
                             cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
                             
@@ -782,7 +782,7 @@ DEFINE_DOIDLE_(CommonLispFilterService)
             }
             else
             {
-                OD_LOG("(ECL_NIL != _scriptThreadFunc)"); //####
+                ODL_LOG("(ECL_NIL != _scriptThreadFunc)"); //####
                 try
                 {
                     cl_env_ptr env = ecl_process_env();
@@ -802,18 +802,18 @@ DEFINE_DOIDLE_(CommonLispFilterService)
                 }
                 catch (...)
                 {
-                    OD_LOG("Exception caught"); //####
+                    ODL_LOG("Exception caught"); //####
                     throw;
                 }
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::doIdle
 
 DEFINE_ENABLEMETRICS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
@@ -825,24 +825,24 @@ DEFINE_ENABLEMETRICS_(CommonLispFilterService)
             aHandler->enableMetrics();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterService::getConfiguration
 
 void
 CommonLispFilterService::releaseHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (0 < _inHandlers.size())
     {
         for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
@@ -852,18 +852,18 @@ CommonLispFilterService::releaseHandlers(void)
             
             if (aHandler)
             {
-                OD_LOG_P1("aHandler = ", aHandler); //####
+                ODL_P1("aHandler = ", aHandler); //####
                 delete aHandler;
             }
         }
         _inHandlers.clear();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::releaseHandlers
 
 DEFINE_RESTARTSTREAMS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -872,18 +872,18 @@ DEFINE_RESTARTSTREAMS_(CommonLispFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::restartStreams
 
 bool
 CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
                                        cl_object       theData)
 {
-    OD_LOG_OBJENTER();
-    OD_LOG_LL1("channelSlot = ", channelSlot); //####
+    ODL_OBJENTER();
+    ODL_LL1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
 
     if ((0 <= channelSlot) && (channelSlot < static_cast<cl_fixnum>(getOutletCount())))
@@ -894,14 +894,14 @@ CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
         fillBottleFromValue(outBottle, theData, _hash2assocFunc, true);
         if ((0 < outBottle.size()) && outChannel)
         {
-            OD_LOG("((0 < outBottle.size()) && outChannel)"); //####
+            ODL_LOG("((0 < outBottle.size()) && outChannel)"); //####
             if (outChannel->write(outBottle))
             {
                 okSoFar = true;
             }
             else
             {
-                OD_LOG("! (outChannel->write(message))"); //####
+                ODL_LOG("! (outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -909,19 +909,19 @@ CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
         }
         else
         {
-            OD_LOG("! ((0 < outBottle.size()) && outChannel)"); //####
+            ODL_LOG("! ((0 < outBottle.size()) && outChannel)"); //####
             // If there's nothing to write, or the channel is gone, continue as if everything is
             // fine.
             okSoFar = true;
         }
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // CommonLispFilterService::sendToChannel
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -944,31 +944,31 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
         description._protocolDescription = walker->_protocolDescription;
         _outDescriptions.push_back(description);
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterService::setUpStreamDescriptions
 
 void
 CommonLispFilterService::signalRunFunction(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _goAhead.post();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::signalRunFunction
 
 void
 CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("slotNumber = ", slotNumber); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("slotNumber = ", slotNumber); //####
     _staller.wait();
     _mostRecentSlot = slotNumber;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::stallUntilIdle
 
 DEFINE_STARTSERVICE_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -980,22 +980,22 @@ DEFINE_STARTSERVICE_(CommonLispFilterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // CommonLispFilterService::startService
 
 DEFINE_STARTSTREAMS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -1005,7 +1005,7 @@ DEFINE_STARTSTREAMS_(CommonLispFilterService)
                 _generator = new CommonLispFilterThread(*this, _threadInterval);
                 if (! _generator->start())
                 {
-                    OD_LOG("(! _generator->start())"); //####
+                    ODL_LOG("(! _generator->start())"); //####
                     cerr << "Could not start auxiliary thread." << endl;
                     delete _generator;
                     _generator = NULL;
@@ -1034,15 +1034,15 @@ DEFINE_STARTSTREAMS_(CommonLispFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::startStreams
 
 DEFINE_STOPSERVICE_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -1051,16 +1051,16 @@ DEFINE_STOPSERVICE_(CommonLispFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterService::stopService
 
 DEFINE_STOPSTREAMS_(CommonLispFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -1113,10 +1113,10 @@ DEFINE_STOPSTREAMS_(CommonLispFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // CommonLispFilterService::stopStreams
 
 #if defined(__APPLE__)
@@ -1127,9 +1127,9 @@ cl_object
 CommonLisp::CreateBaseString(const char * inString,
                              const size_t inLength)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("inString = ", inString); //####
-    OD_LOG_LL1("inLength = ", inLength); //####
+    ODL_ENTER(); //####
+    ODL_S1("inString = ", inString); //####
+    ODL_LL1("inLength = ", inLength); //####
     cl_object result;
     
     if (inString)
@@ -1144,6 +1144,6 @@ CommonLisp::CreateBaseString(const char * inString,
     {
         result = ECL_NIL;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // CreateBaseString

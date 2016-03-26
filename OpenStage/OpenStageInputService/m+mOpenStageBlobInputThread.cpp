@@ -110,17 +110,17 @@ OpenStageBlobInputThread::OpenStageBlobInputThread(Common::GeneralChannel * outC
     , _client(NULL), _actorStream(NULL), _actorViewJoint(NULL)
 #endif // ! defined(MpM_BuildDummyServices)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_S1s("name = ", name); //####
-    OD_LOG_LL1("port = ", port); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_S1s("name = ", name); //####
+    ODL_LL1("port = ", port); //####
+    ODL_EXIT_P(this); //####
 } // OpenStageBlobInputThread::OpenStageBlobInputThread
 
 OpenStageBlobInputThread::~OpenStageBlobInputThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::~OpenStageBlobInputThread
 
 #if defined(__APPLE__)
@@ -130,17 +130,17 @@ OpenStageBlobInputThread::~OpenStageBlobInputThread(void)
 void
 OpenStageBlobInputThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::clearOutputChannel
 
 #if (! defined(MpM_BuildDummyServices))
 void
 OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("actorData = ", &actorData); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("actorData = ", &actorData); //####
     size_t numActors = actorData->GetSize();
 
     if (0 < numActors)
@@ -266,7 +266,7 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                 _messageBottle.add(blobValue);
                 if (! _outChannel->write(_messageBottle))
                 {
-                    OD_LOG("(! _outChannel->write(_messageBottle))"); //####
+                    ODL_LOG("(! _outChannel->write(_messageBottle))"); //####
 # if defined(MpM_StallOnSendProblem)
                     Stall();
 # endif // defined(MpM_StallOnSendProblem)
@@ -274,13 +274,13 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::processData
 #endif // ! defined(MpM_BuildDummyServices)
 
 DEFINE_RUN_(OpenStageBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     _actorStream->Start();
 #endif // ! defined(MpM_BuildDummyServices)
@@ -298,21 +298,21 @@ DEFINE_RUN_(OpenStageBlobInputThread)
 #endif // ! defined(MpM_BuildDummyServices)
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::run
 
 void
 OpenStageBlobInputThread::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _scale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::setScale
 
 DEFINE_THREADINIT_(OpenStageBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
 #if (! defined(MpM_BuildDummyServices))
@@ -325,17 +325,17 @@ DEFINE_THREADINIT_(OpenStageBlobInputThread)
     _actorViewJoint = sdk2::CreateActorViewJoint();
     _actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // OpenStageBlobInputThread::threadInit
 
 DEFINE_THREADRELEASE_(OpenStageBlobInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     _actorStream->Stop();
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::threadRelease
 
 #if defined(__APPLE__)

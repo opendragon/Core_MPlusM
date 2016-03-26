@@ -91,18 +91,18 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
               isSystemPort ? 0 : MINIMUM_PORT_ALLOWED_, true, MAXIMUM_PORT_ALLOWED_),
     _isSystemPort(isSystemPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_LL1("defaultValue = ", defaultValue); //####
-    OD_LOG_B1("isSystemPort = ", isSystemPort); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    ODL_LL1("defaultValue = ", defaultValue); //####
+    ODL_B1("isSystemPort = ", isSystemPort); //####
+    ODL_P1("argumentReference = ", argumentReference); //####
+    ODL_EXIT_P(this); //####
 } // PortArgumentDescriptor::PortArgumentDescriptor
 
 PortArgumentDescriptor::~PortArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PortArgumentDescriptor::~PortArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -111,21 +111,21 @@ PortArgumentDescriptor::~PortArgumentDescriptor(void)
 
 DEFINE_CLONE_(PortArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new PortArgumentDescriptor(argumentName(),
                                                                  argumentDescription(),
                                                                  argumentMode(), _defaultValue,
                                                                  _isSystemPort);
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // PortArgumentDescriptor::clone
 
 BaseArgumentDescriptor *
 PortArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -184,17 +184,17 @@ PortArgumentDescriptor::parseArgString(const YarpString & inString)
                                                 isSystemPort);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // PortArgumentDescriptor::parseArgString
 
 DEFINE_TOSTRING_(PortArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("P"));
 
     result += _parameterSeparator + (_isSystemPort ? "s" : "r") + suffixFields(getDefaultValue());
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // PortArgumentDescriptor::toString
 

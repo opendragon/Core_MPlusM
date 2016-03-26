@@ -93,9 +93,9 @@ MatchValueList::CreateMatcher(const YarpString & inString,
                               const size_t       startPos,
                               size_t &           endPos)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchValueList * result = NULL;
     
     try
@@ -141,14 +141,14 @@ MatchValueList::CreateMatcher(const YarpString & inString,
                             }
                             else
                             {
-                                OD_LOG("! (kComma == scanChar)"); //####
+                                ODL_LOG("! (kComma == scanChar)"); //####
                                 // Something unexpected has appeared.
                                 okSoFar = false;
                             }
                         }
                         else
                         {
-                            OD_LOG("! (workPos < inLength)"); //####
+                            ODL_LOG("! (workPos < inLength)"); //####
                             // We've gone past the end of the string without seeing a terminator or
                             // a separator.
                             okSoFar = false;
@@ -156,7 +156,7 @@ MatchValueList::CreateMatcher(const YarpString & inString,
                     }
                     else
                     {
-                        OD_LOG("! (element)"); //####
+                        ODL_LOG("! (element)"); //####
                         // We have a malformed value list.
                         okSoFar = false;
                     }
@@ -173,20 +173,20 @@ MatchValueList::CreateMatcher(const YarpString & inString,
             }
             else
             {
-                OD_LOG("! (kRoundOpenBracket == inString[workPos])"); //####
+                ODL_LOG("! (kRoundOpenBracket == inString[workPos])"); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < (workPos < inLength))"); //####
+            ODL_LOG("! (0 < (workPos < inLength))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchValueList::CreateMatcher
 
@@ -215,15 +215,15 @@ MatchValueList::ListTerminatorCharacter(void)
 MatchValueList::MatchValueList(void) :
 inherited(), _values()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // MatchValueList::MatchValueList
 
 MatchValueList::~MatchValueList(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     empty();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchValueList::~MatchValueList
 
 #if defined(__APPLE__)
@@ -235,8 +235,8 @@ MatchValueList::asSQLString(const char * fieldName,
                             const bool   negated)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1("fieldName = ", fieldName); //####
+    ODL_OBJENTER(); //####
+    ODL_S1("fieldName = ", fieldName); //####
     YarpString result;
     
     try
@@ -360,10 +360,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(result.c_str()); //####
+    ODL_OBJEXIT_S(result.c_str()); //####
     return result;
 } // MatchValueList::asSQLString
 
@@ -391,7 +391,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -418,13 +418,13 @@ const
         }
         else
         {
-            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))"); //####
+            ODL_LOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))"); //####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -433,7 +433,7 @@ const
 void
 MatchValueList::empty(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
@@ -446,10 +446,10 @@ MatchValueList::empty(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchValueList::empty
 
 #if defined(__APPLE__)

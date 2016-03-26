@@ -88,9 +88,9 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
                                size_t &            endPos,
                                BaseNameValidator * validator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchExpression * result = NULL;
     
     try
@@ -128,7 +128,7 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
                         }
                         else
                         {
-                            OD_LOG("! (kComma == scanChar)"); //####
+                            ODL_LOG("! (kComma == scanChar)"); //####
                             // Something unexpected has appeared.
                             okSoFar = false;
                         }
@@ -142,7 +142,7 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
                 }
                 else
                 {
-                    OD_LOG("! (element)"); //####
+                    ODL_LOG("! (element)"); //####
                     // We have a malformed constraint list.
                     okSoFar = false;
                 }
@@ -159,15 +159,15 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
         }
         else
         {
-            OD_LOG("! (workPos < inLength)"); //####
+            ODL_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchExpression::CreateMatcher
 
@@ -184,15 +184,15 @@ MatchExpression::ExpressionSeparatorCharacter(void)
 MatchExpression::MatchExpression(void) :
     inherited(), _constraints()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // MatchExpression::MatchExpression
 
 MatchExpression::~MatchExpression(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     empty();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchExpression::~MatchExpression
 
 #if defined(__APPLE__)
@@ -204,8 +204,8 @@ MatchExpression::asSQLString(const char * prefixString,
                              const char * suffixString)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2("prefixString = ", prefixString, "suffixString = ", suffixString); //####
+    ODL_OBJENTER(); //####
+    ODL_S2("prefixString = ", prefixString, "suffixString = ", suffixString); //####
     YarpString result;
     
     try
@@ -235,10 +235,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(result.c_str()); //####
+    ODL_OBJEXIT_S(result.c_str()); //####
     return result;
 } // MatchExpression::asSQLString
 
@@ -264,7 +264,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -291,13 +291,13 @@ const
         }
         else
         {
-            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))"); //####
+            ODL_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))"); //####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -306,7 +306,7 @@ const
 void
 MatchExpression::empty(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
@@ -319,10 +319,10 @@ MatchExpression::empty(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchExpression::empty
 
 #if defined(__APPLE__)

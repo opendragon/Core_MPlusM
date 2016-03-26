@@ -98,20 +98,20 @@ RequestCounterService::RequestCounterService(const YarpString & launchPath,
               servicePortNumber), _defaultHandler(NULL), _resetSumHandler(NULL),
     _statsHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
+    ODL_ENTER(); //####
+    ODL_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // RequestCounterService::RequestCounterService
 
 RequestCounterService::~RequestCounterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::~RequestCounterService
 
 #if defined(__APPLE__)
@@ -121,7 +121,7 @@ RequestCounterService::~RequestCounterService(void)
 void
 RequestCounterService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _defaultHandler = new RequestCounterDefaultRequestHandler(*this);
@@ -135,21 +135,21 @@ RequestCounterService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_defaultHandler && _resetSumHandler && _statsHandler)"); //####
+            ODL_LOG("! (_defaultHandler && _resetSumHandler && _statsHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::attachRequestHandlers
 
 void
 RequestCounterService::countRequest(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
@@ -163,16 +163,16 @@ RequestCounterService::countRequest(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::countRequest
 
 void
 RequestCounterService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_defaultHandler)
@@ -196,10 +196,10 @@ RequestCounterService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::detachRequestHandlers
 
 void
@@ -207,7 +207,7 @@ RequestCounterService::getStatistics(const YarpString & key,
                                      long &             counter,
                                      double &           elapsedTime)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
@@ -222,16 +222,16 @@ RequestCounterService::getStatistics(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::getStatistics
 
 void
 RequestCounterService::resetCounters(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
@@ -246,15 +246,15 @@ RequestCounterService::resetCounters(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterService::resetCounters
 
 DEFINE_STARTSERVICE_(RequestCounterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -268,23 +268,23 @@ DEFINE_STARTSERVICE_(RequestCounterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RequestCounterService::startService
 
 DEFINE_STOPSERVICE_(RequestCounterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -293,10 +293,10 @@ DEFINE_STOPSERVICE_(RequestCounterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RequestCounterService::stopService
 

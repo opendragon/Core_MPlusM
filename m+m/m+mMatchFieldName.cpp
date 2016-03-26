@@ -93,9 +93,9 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
                               size_t &            endPos,
                               BaseNameValidator * validator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchFieldName * result = NULL;
     
     try
@@ -171,30 +171,30 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
                     }
                     else
                     {
-                        OD_LOG("! (workPos < inLength)"); //####
+                        ODL_LOG("! (workPos < inLength)"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! ((kColon == scanChar) || (kExclamationMark == scanChar))"); //####
+                    ODL_LOG("! ((kColon == scanChar) || (kExclamationMark == scanChar))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (startSubPos < workPos)"); //####
+                ODL_LOG("! (startSubPos < workPos)"); //####
             }
         }
         else
         {
-            OD_LOG("! (workPos < inLength)"); //####
+            ODL_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchFieldName::CreateMatcher
 
@@ -206,16 +206,16 @@ MatchFieldName::MatchFieldName(const YarpString & inString,
                                const bool         negationSeen) :
     inherited(), _matchingString(inString), _isNegated(negationSeen)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_B1("negationSeen = ", negationSeen); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_B1("negationSeen = ", negationSeen); //####
+    ODL_EXIT_P(this); //####
 } // MatchFieldName::MatchFieldName
 
 MatchFieldName::~MatchFieldName(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MatchFieldName::~MatchFieldName
 
 #if defined(__APPLE__)

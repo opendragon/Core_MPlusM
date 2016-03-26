@@ -84,14 +84,14 @@ using namespace MplusM::Parser;
 
 BaseNameValidator::BaseNameValidator(void)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseNameValidator::BaseNameValidator
 
 BaseNameValidator::~BaseNameValidator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseNameValidator::~BaseNameValidator
 
 #if defined(__APPLE__)

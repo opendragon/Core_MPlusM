@@ -99,7 +99,7 @@ BaseMatcher::SkipWhitespace(const YarpString & inString,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -111,14 +111,14 @@ BaseMatcher::SkipWhitespace(const YarpString & inString,
 
 BaseMatcher::BaseMatcher(void)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseMatcher::BaseMatcher
 
 BaseMatcher::~BaseMatcher(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseMatcher::~BaseMatcher
 
 #if defined(__APPLE__)

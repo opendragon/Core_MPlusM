@@ -135,8 +135,8 @@ const YarpString MplusM::kDirectorySeparator = "\\";
 static void
 localCatcher(int signal)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("signal = ", signal); //####
+    ODL_ENTER(); //####
+    ODL_LL1("signal = ", signal); //####
     if (lLogger)
     {
         std::stringstream buff;
@@ -152,7 +152,7 @@ localCatcher(int signal)
         lLogger->error(message.c_str());
 # endif // ! USE_YARP_FATAL_NOT_FAIL_
     }
-    OD_LOG_EXIT_EXIT(1); //####
+    ODL_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // localCatcher
 #endif // MAC_OR_LINUX_
@@ -228,8 +228,8 @@ Common::DumpContactToLog(const char *              tag,
 yarp::os::impl::Logger &
 Common::GetLogger(void)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(lLogger);
+    ODL_ENTER(); //####
+    ODL_EXIT_P(lLogger);
     return *lLogger;
 } // Common::GetLogger
 #endif // MAC_OR_LINUX_
@@ -237,8 +237,8 @@ Common::GetLogger(void)
 YarpString
 Common::GetRandomChannelName(const char * channelRoot)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("channelRoot = ", channelRoot); //####
+    ODL_ENTER(); //####
+    ODL_S1("channelRoot = ", channelRoot); //####
     YarpString result;
     
     try
@@ -269,10 +269,10 @@ Common::GetRandomChannelName(const char * channelRoot)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_s(result); //####
+    ODL_EXIT_s(result); //####
     return result;
 } // Common::GetRandomChannelName
 
@@ -294,8 +294,8 @@ Common::Initialize(const YarpString & progName)
 #  pragma unused(progName)
 # endif // MAC_OR_LINUX_
 #endif // (! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING_))
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("progName = ", progName); //####
+    ODL_ENTER(); //####
+    ODL_S1s("progName = ", progName); //####
     try
     {
 #if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
@@ -325,16 +325,16 @@ Common::Initialize(const YarpString & progName)
         }
 # endif // MAC_OR_LINUX_
 #endif // defined(MpM_ChattyStart)
-        OD_LOG_D2("time = ", now, "fraction = ", fraction); //####
-        OD_LOG_LL1("seed = ", seed); //####
+        ODL_D2("time = ", now, "fraction = ", fraction); //####
+        ODL_LL1("seed = ", seed); //####
         yarp::os::Random::seed(seed);
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Common::Initialize
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -343,7 +343,7 @@ Common::Initialize(const YarpString & progName)
 void
 Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
@@ -397,13 +397,13 @@ Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 # endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
     yarp::os::signal(SIGTERM, theHandler);
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Common::SetSignalHandlers
 
 void
 Common::SetUpCatcher(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     sigset_t         unblocking;
     struct sigaction act;
@@ -419,27 +419,27 @@ Common::SetUpCatcher(void)
     sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Common::SetUpCatcher
 
 #if MAC_OR_LINUX_
 void
 Common::SetUpLogger(const YarpString & progName)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     lLogger = new yarp::os::impl::Logger(progName.c_str());
     if (lLogger)
     {
         lLogger->setVerbosity(1);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Common::SetUpLogger
 #endif // MAC_OR_LINUX_
 
 void
 Common::ShutDownCatcher(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
@@ -455,7 +455,7 @@ Common::ShutDownCatcher(void)
     sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Common::ShutDownCatcher
 
 void
@@ -470,7 +470,7 @@ Common::Stall(void)
 bool
 MplusM::CanReadFromStandardInput(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     pid_t fg = tcgetpgrp(STDIN_FILENO);
 #else // ! MAC_OR_LINUX_
@@ -497,35 +497,35 @@ MplusM::CanReadFromStandardInput(void)
 #else // ! MAC_OR_LINUX_
     result = (NULL != wind);
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // MplusM::CanReadFromStandardInput
 
 void
 MplusM::ConsumeSomeTime(const double factor)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     yarp::os::Time::delay(ONE_SECOND_DELAY_ / factor);
     yarp::os::Time::yield();
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // MplusM::ConsumeSomeTime
 
 void
 MplusM::IdleUntilNotRunning(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     for ( ; IsRunning(); )
     {
         ConsumeSomeTime();
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // MplusM::IdleUntilNotRunning
 
 bool
 MplusM::IsRunning(void)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_B(lKeepRunning); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_B(lKeepRunning); //####
     return lKeepRunning;
 } // MplusM::IsRunning
 
@@ -533,8 +533,8 @@ bool
 MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
                                yarp::os::Property &     aDictionary)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####
+    ODL_ENTER(); //####
+    ODL_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####
     int  mm = aList.size();
     bool isDictionary = (0 < mm);
     
@@ -583,7 +583,7 @@ MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
             isDictionary = false;
         }
     }
-    OD_LOG_EXIT_B(isDictionary); //####
+    ODL_EXIT_B(isDictionary); //####
     return isDictionary;
 } // MplusM::ListIsReallyDictionary
 
@@ -787,9 +787,9 @@ YarpString
 MplusM::SanitizeString(const YarpString & inString,
                        const bool         allowDoubleQuotes)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelRoot = ", inString); //####
-    OD_LOG_B1("allowDoubleQuotes = ", allowDoubleQuotes); //####
+    ODL_ENTER(); //####
+    ODL_S1s("channelRoot = ", inString); //####
+    ODL_B1("allowDoubleQuotes = ", allowDoubleQuotes); //####
     YarpString outString;
     
     try
@@ -830,27 +830,27 @@ MplusM::SanitizeString(const YarpString & inString,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_s(outString); //####
+    ODL_EXIT_s(outString); //####
     return outString;
 } // MplusM::SanitizeString
 
 void
 MplusM::StartRunning(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     lKeepRunning = true;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // MplusM::StartRunning
 
 void
 MplusM::StopRunning(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     lKeepRunning = false;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // MplusM::StopRunning
 
 #if (! MAC_OR_LINUX_)
@@ -865,10 +865,10 @@ MplusM::SignalRunningStop(const int signal)
 #  pragma unused(signal)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("signal = ", signal); //####
+    ODL_ENTER(); //####
+    ODL_LL1("signal = ", signal); //####
     StopRunning();
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // MplusM::SignalRunningStop
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)

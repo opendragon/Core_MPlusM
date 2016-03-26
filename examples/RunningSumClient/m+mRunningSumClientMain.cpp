@@ -84,14 +84,14 @@ using std::endl;
 static void
 displayCommands(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  + - read a number from the terminal and update the running sum" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - reset the running sum" << endl;
     cout << "  s - start calculating the running sum" << endl;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // displayCommands
 
 /*! @brief Set up the environment and perform the operation. */
@@ -103,9 +103,9 @@ static void
 setUpAndGo(void)
 #endif // ! defined(MpM_ReportOnConnections)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
+    ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     RunningSumClient * aClient = new RunningSumClient;
     
@@ -147,7 +147,7 @@ setUpAndGo(void)
                             }
                             else
                             {
-                                OD_LOG("! (aClient->addToSum(value, newSum))"); //####
+                                ODL_LOG("! (aClient->addToSum(value, newSum))"); //####
                                 MpM_FAIL_("Problem adding to the sum.");
                             }
                             break;
@@ -157,7 +157,7 @@ setUpAndGo(void)
                             cout << "Exiting" << endl;
                             if (! aClient->stopSum())
                             {
-                                OD_LOG("(! aClient->stopSum())"); //####
+                                ODL_LOG("(! aClient->stopSum())"); //####
                                 MpM_FAIL_("Problem stopping the sum.");
                             }
                             StopRunning();
@@ -168,7 +168,7 @@ setUpAndGo(void)
                             cout << "Resetting" << endl;
                             if (! aClient->resetSum())
                             {
-                                OD_LOG("(! aClient->resetSum())"); //####
+                                ODL_LOG("(! aClient->resetSum())"); //####
                                 MpM_FAIL_("Problem resetting the sum.");
                             }
                             break;
@@ -178,7 +178,7 @@ setUpAndGo(void)
                             cout << "Starting" << endl;
                             if (! aClient->startSum())
                             {
-                                OD_LOG("(! aClient->startSum())"); //####
+                                ODL_LOG("(! aClient->startSum())"); //####
                                 MpM_FAIL_("Problem starting the sum.");
                             }
                             break;
@@ -191,28 +191,28 @@ setUpAndGo(void)
                 }
                 if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! aClient->disconnectFromService())"); //####
+                    ODL_LOG("(! aClient->disconnectFromService())"); //####
                     MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
                 }
             }
             else
             {
-                OD_LOG("! (aClient->connectToService())"); //####
+                ODL_LOG("! (aClient->connectToService())"); //####
                 MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
             }
         }
         else
         {
-            OD_LOG("! (aClient->findService(\"Name: RunningSum\")"); //####
+            ODL_LOG("! (aClient->findService(\"Name: RunningSum\")"); //####
             MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
         }
         delete aClient;
     }
     else
     {
-        OD_LOG("! (aClient)"); //####
+        ODL_LOG("! (aClient)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -251,10 +251,10 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -290,13 +290,13 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                        ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                         MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                    ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                     MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
@@ -305,10 +305,10 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

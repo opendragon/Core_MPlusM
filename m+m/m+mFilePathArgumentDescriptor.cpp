@@ -90,9 +90,9 @@ checkFilePath(const char * thePath,
               const bool   forOutput,
               const bool   emptyIsOK)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("thePath = ", thePath); //####
-    OD_LOG_B1("forOutput = ", forOutput); //####
+    ODL_ENTER(); //####
+    ODL_S1("thePath = ", thePath); //####
+    ODL_B1("forOutput = ", forOutput); //####
     bool okSoFar;
     
     if (forOutput)
@@ -131,7 +131,7 @@ checkFilePath(const char * thePath,
     {
         okSoFar = emptyIsOK;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // checkFilePath
 
@@ -154,18 +154,18 @@ FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argNam
     _pathPrefix(pathPrefix), _pathSuffix(pathSuffix), _defaultSet(false), _forOutput(forOutput),
     _useRandomPath(useRandomPath)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
                pathPrefix, "pathSuffix = ", pathSuffix); //####
-    OD_LOG_B2("forOutput = ", forOutput, "useRandomPath = ", useRandomPath); //####
+    ODL_B2("forOutput = ", forOutput, "useRandomPath = ", useRandomPath); //####
     getDefaultValue();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // FilePathArgumentDescriptor::FilePathArgumentDescriptor
 
 FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::~FilePathArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -174,40 +174,40 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 
 DEFINE_CLONE_(FilePathArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new FilePathArgumentDescriptor(argumentName(),
                                                                      argumentDescription(),
                                                                      argumentMode(), _pathPrefix,
                                                                      _pathSuffix, _forOutput,
                                                                      _useRandomPath);
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // FilePathArgumentDescriptor::clone
 
 DEFINE_GETDEFAULTVALUE_(FilePathArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _defaultValue = _pathPrefix;
-    OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+    ODL_S1s("_defaultValue <- ", _defaultValue); //####
     if (_useRandomPath)
     {
         _defaultValue += Utilities::GetRandomHexString();
-        OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+        ODL_S1s("_defaultValue <- ", _defaultValue); //####
     }
     _defaultValue += _pathSuffix;
-    OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+    ODL_S1s("_defaultValue <- ", _defaultValue); //####
     _defaultSet = true;
-    OD_LOG_B1("_defaultSet <- ", _defaultSet); //####
-    OD_LOG_OBJEXIT_s(_defaultValue); //####
+    ODL_B1("_defaultSet <- ", _defaultSet); //####
+    ODL_OBJEXIT_s(_defaultValue); //####
     return _defaultValue;
 } // FilePathArgumentDescriptor::getDefaultValue
 
 BaseArgumentDescriptor *
 FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -278,25 +278,25 @@ FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
                                                     suffixValue, forOutput, usesRandom);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
 DEFINE_SETTODEFAULTVALUE_(FilePathArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (! _defaultSet)
     {
         getDefaultValue();
     }
     _currentValue = _defaultValue;
-    OD_LOG_S1s("_currentValue <- ", _currentValue); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_S1s("_currentValue <- ", _currentValue); //####
+    ODL_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::setToDefaultValue
 
 DEFINE_TOSTRING_(FilePathArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString oldDefault(_defaultValue);
     YarpString result(prefixFields("F"));
 
@@ -304,21 +304,21 @@ DEFINE_TOSTRING_(FilePathArgumentDescriptor)
     // prefix to the outside world.
     result += _parameterSeparator + (_forOutput ? "o" : "i") + _parameterSeparator + _pathSuffix +
                 _parameterSeparator + (_useRandomPath ? "1" : "0") + suffixFields(_pathPrefix);
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // FilePathArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(FilePathArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _valid = checkFilePath(value.c_str(), _forOutput, false);
-    OD_LOG_B1("_valid <- ", _valid); //####
+    ODL_B1("_valid <- ", _valid); //####
     if (_valid)
     {
         _currentValue = value;
-        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
+        ODL_S1s("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // FilePathArgumentDescriptor::validate
 

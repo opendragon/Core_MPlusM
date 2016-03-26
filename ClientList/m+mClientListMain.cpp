@@ -96,13 +96,13 @@ processResponse(const OutputFlavour     flavour,
                 const ServiceResponse & response,
                 const bool              sawResponse)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("serviceName = ", serviceName); //####
-    OD_LOG_P1("response = ", &response); //####
+    ODL_ENTER(); //####
+    ODL_S1s("serviceName = ", serviceName); //####
+    ODL_P1("response = ", &response); //####
     bool       result = false;
     YarpString cleanServiceName(SanitizeString(serviceName, kOutputFlavourJSON != flavour));
     
-    OD_LOG_S1s("response = ", response.asString()); //####
+    ODL_S1s("response = ", response.asString()); //####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
@@ -147,7 +147,7 @@ processResponse(const OutputFlavour     flavour,
             result = true;
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // processResponse
 
@@ -158,8 +158,8 @@ static void
 setUpAndGo(const YarpString &  channelName,
            const OutputFlavour flavour)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
+    ODL_ENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
     YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
     YarpStringVector services;
     
@@ -205,10 +205,10 @@ setUpAndGo(const YarpString &  channelName,
 
                             if (request.send(*newChannel, response))
                             {
-                                OD_LOG("(request.send(*newChannel, response))"); //####
+                                ODL_LOG("(request.send(*newChannel, response))"); //####
                                 if (0 < response.count())
                                 {
-                                    OD_LOG("(0 < response.count())"); //####
+                                    ODL_LOG("(0 < response.count())"); //####
                                     if (processResponse(flavour, aMatch, response,
                                                         sawRequestResponse))
                                     {
@@ -218,7 +218,7 @@ setUpAndGo(const YarpString &  channelName,
                             }
                             else
                             {
-                                OD_LOG("! (request.send(*newChannel, response))"); //####
+                                ODL_LOG("! (request.send(*newChannel, response))"); //####
                                 YarpString message("Problem communicating with ");
 
                                 message += aMatch + ".";
@@ -228,14 +228,14 @@ setUpAndGo(const YarpString &  channelName,
                             if (! Utilities::NetworkDisconnectWithRetries(aName, aMatch,
                                                                           STANDARD_WAIT_TIME_))
                             {
-                                OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                                ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                        "aMatch, STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
-                            OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, aMatch, " //####
+                            ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, aMatch, " //####
                                    "STANDARD_WAIT_TIME_))"); //####
                         }
                     }
@@ -266,13 +266,13 @@ setUpAndGo(const YarpString &  channelName,
                 }
                 else
                 {
-                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+                    ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
                 }
                 delete newChannel;
             }
             else
             {
-                OD_LOG("! (newChannel)"); //####
+                ODL_LOG("! (newChannel)"); //####
             }
         }
         else
@@ -293,7 +293,7 @@ setUpAndGo(const YarpString &  channelName,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -314,10 +314,10 @@ main(int      argc,
 {
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -349,23 +349,23 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }
         catch (...)
         {
-            OD_LOG("Exception caught"); //####
+            ODL_LOG("Exception caught"); //####
         }
         yarp::os::Network::fini();
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

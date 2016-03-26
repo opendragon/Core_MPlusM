@@ -104,9 +104,9 @@ MatchValue::CreateMatcher(const YarpString & inString,
                           const size_t       startPos,
                           size_t &           endPos)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchValue * result = NULL;
     
     try
@@ -187,7 +187,7 @@ MatchValue::CreateMatcher(const YarpString & inString,
                 }
                 assembled += scanChar;
             }
-            OD_LOG_S1s("assembled = ", assembled); //####
+            ODL_S1s("assembled = ", assembled); //####
             // If we have a delimiter, then we must match before the end of the input string. If we
             // don't have a delimiter, we can match the rest of the input string.
             if (workPos < (inLength + (delimiter ? 0 : 1)))
@@ -201,12 +201,12 @@ MatchValue::CreateMatcher(const YarpString & inString,
                 }
                 else
                 {
-                    OD_LOG("! (0 < (workPos - startSubPos))"); //####
+                    ODL_LOG("! (0 < (workPos - startSubPos))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (workPos < (inLength + (delimiter ? 0 : 1)))"); //####
+                ODL_LOG("! (workPos < (inLength + (delimiter ? 0 : 1)))"); //####
             }
             if (result)
             {
@@ -215,15 +215,15 @@ MatchValue::CreateMatcher(const YarpString & inString,
         }
         else
         {
-            OD_LOG("! (workPos < inLength)"); //####
+            ODL_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchValue::CreateMatcher
 
@@ -235,8 +235,8 @@ MatchValue::MatchValue(const YarpString & inString) :
     inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false),
     _needsEscaping(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     bool   escapeNextChar = false;
     size_t len = inString.length();
 
@@ -255,13 +255,13 @@ MatchValue::MatchValue(const YarpString & inString) :
             {
                 // If there are wildcard characters present, flag this.
                 _hasWildcards = true;
-                OD_LOG_B1("_hasWildcards <- ", _hasWildcards); //####
+                ODL_B1("_hasWildcards <- ", _hasWildcards); //####
             }
             else if (kSingleQuote == walker)
             {
                 // If there are single quote characters present, flag this.
                 _hasSingleQuotes = true;
-                OD_LOG_B1("_hasSingleQuotes <- ", _hasSingleQuotes); //####
+                ODL_B1("_hasSingleQuotes <- ", _hasSingleQuotes); //####
             }
         }
     }
@@ -287,19 +287,19 @@ MatchValue::MatchValue(const YarpString & inString) :
                     if ((kUnderscore == walker) || (kPercent == walker))
                     {
                         _needsEscaping = true;
-                        OD_LOG_B1("_needsEscaping <- ", _needsEscaping); //####
+                        ODL_B1("_needsEscaping <- ", _needsEscaping); //####
                     }
                 }
             }
         }
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // MatchValue::MatchValue
 
 MatchValue::~MatchValue(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MatchValue::~MatchValue
 
 #if defined(__APPLE__)
@@ -310,7 +310,7 @@ YarpString
 MatchValue::asSQLString(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString converted;
     
     try
@@ -320,7 +320,7 @@ const
         converted += kSingleQuote;
         if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
-            OD_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)"); //####
+            ODL_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)"); //####
             bool wasEscaped = false;
             
             for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
@@ -406,10 +406,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(converted.c_str()); //####
+    ODL_OBJEXIT_S(converted.c_str()); //####
     return converted;
 } // MatchValue::asSQLString
 
@@ -493,7 +493,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        ODL_LOG("Exception caught");//####
         throw;
     }
     return converted;

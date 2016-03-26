@@ -94,9 +94,9 @@ dumpSegments(std::stringstream & outBuffer,
              const double        scale)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outBuffer = ", &outBuffer, "segmentsAsBottle = ", &segmentsAsBottle); //####
-    OD_LOG_D1("scale = ", scale); //####
+    ODL_ENTER(); //####
+    ODL_P2("outBuffer = ", &outBuffer, "segmentsAsBottle = ", &segmentsAsBottle); //####
+    ODL_D1("scale = ", scale); //####
     bool okSoFar = true;
     int  numSegments = segmentsAsBottle.size();
     
@@ -196,7 +196,7 @@ dumpSegments(std::stringstream & outBuffer,
         cerr << "no segments" << endl; //!!!!
         okSoFar = false;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // dumpSegments
 
@@ -211,15 +211,15 @@ dumpSegments(std::stringstream & outBuffer,
 UnrealOutputViconInputHandler::UnrealOutputViconInputHandler(UnrealOutputService & owner) :
     inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", &owner); //####
+    ODL_EXIT_P(this); //####
 } // UnrealOutputViconInputHandler::UnrealOutputViconInputHandler
 
 UnrealOutputViconInputHandler::~UnrealOutputViconInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputViconInputHandler::~UnrealOutputViconInputHandler
 
 #if defined(__APPLE__)
@@ -237,10 +237,10 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -449,10 +449,10 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputViconInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
@@ -462,19 +462,19 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 void
 UnrealOutputViconInputHandler::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _scale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputViconInputHandler::setScale
 
 void
 UnrealOutputViconInputHandler::setSocket(const SOCKET outSocket)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("outSocket = ", outSocket); //####
+    ODL_OBJENTER(); //####
+    ODL_L1("outSocket = ", outSocket); //####
     _outSocket = outSocket;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputViconInputHandler::setSocket
 
 #if defined(__APPLE__)

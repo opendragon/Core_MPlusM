@@ -98,20 +98,20 @@ ExemplarFilterService::ExemplarFilterService(const Utilities::DescriptorVector &
               EXEMPLARFILTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _inHandler(new ExemplarFilterInputHandler)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // ExemplarFilterService::ExemplarFilterService
 
 ExemplarFilterService::~ExemplarFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::~ExemplarFilterService
 
 #if defined(__APPLE__)
@@ -129,8 +129,8 @@ DEFINE_CONFIGURE_(ExemplarFilterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -140,10 +140,10 @@ DEFINE_CONFIGURE_(ExemplarFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(); //####
     return result;
 } // ExemplarFilterService::configure
 #if (! MAC_OR_LINUX_)
@@ -152,40 +152,40 @@ DEFINE_CONFIGURE_(ExemplarFilterService)
 
 DEFINE_DISABLEMETRICS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarFilterService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -194,15 +194,15 @@ DEFINE_RESTARTSTREAMS_(ExemplarFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -217,13 +217,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
     description._portProtocol = "i+";
     description._protocolDescription = "One or more integer values";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarFilterService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -235,22 +235,22 @@ DEFINE_STARTSERVICE_(ExemplarFilterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // ExemplarFilterService::startService
 
 DEFINE_STARTSTREAMS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -266,15 +266,15 @@ DEFINE_STARTSTREAMS_(ExemplarFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::startStreams
 
 DEFINE_STOPSERVICE_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -283,16 +283,16 @@ DEFINE_STOPSERVICE_(ExemplarFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarFilterService::stopService
 
 DEFINE_STOPSTREAMS_(ExemplarFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -306,10 +306,10 @@ DEFINE_STOPSTREAMS_(ExemplarFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarFilterService::stopStreams
 
 #if defined(__APPLE__)

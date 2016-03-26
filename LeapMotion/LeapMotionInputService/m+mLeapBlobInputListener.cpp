@@ -83,15 +83,15 @@ using namespace MplusM::LeapBlob;
 LeapBlobInputListener::LeapBlobInputListener(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_EXIT_P(this); //####
 } // LeapBlobInputListener::LeapBlobInputListener
 
 LeapBlobInputListener::~LeapBlobInputListener(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::~LeapBlobInputListener
 
 #if defined(__APPLE__)
@@ -101,65 +101,65 @@ LeapBlobInputListener::~LeapBlobInputListener(void)
 void
 LeapBlobInputListener::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::clearOutputChannel
 
 void
 LeapBlobInputListener::onConnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     theController.setPolicyFlags(Leap::Controller::POLICY_DEFAULT);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onConnect
 
 void
 LeapBlobInputListener::onDeviceChange(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onDeviceChange
 
 void
 LeapBlobInputListener::onDisconnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onDisconnect
 
 void
 LeapBlobInputListener::onExit(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onExit
 
 void
 LeapBlobInputListener::onFocusGained(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onFocusGained
 
 void
 LeapBlobInputListener::onFocusLost(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onFocusLost
 
 void
 LeapBlobInputListener::onFrame(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     Leap::Frame latestFrame(theController.frame());
     
     if (latestFrame.isValid())
@@ -340,7 +340,7 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                         _messageBottle.add(blobValue);
                         if (! _outChannel->write(_messageBottle))
                         {
-                            OD_LOG("(! _outChannel->write(message))"); //####
+                            ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -350,41 +350,41 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onFrame
 
 void
 LeapBlobInputListener::onInit(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onInit
 
 void
 LeapBlobInputListener::onServiceConnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onServiceConnect
 
 void
 LeapBlobInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::onServiceDisconnect
 
 void
 LeapBlobInputListener::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _scale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapBlobInputListener::setScale
 
 #if defined(__APPLE__)

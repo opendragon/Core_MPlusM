@@ -90,9 +90,9 @@ Exception::Exception(const YarpString & reason)
 #  pragma unused(reason)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("reason = ", reason); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S1s("reason = ", reason); //####
+    ODL_EXIT_P(this); //####
 } // Exception::Exception
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -100,8 +100,8 @@ Exception::Exception(const YarpString & reason)
 
 Exception::~Exception(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // Exception::~Exception
 
 #if defined(__APPLE__)

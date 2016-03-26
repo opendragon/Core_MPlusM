@@ -153,9 +153,9 @@ main(int      argc,
                 aceVersionString = SanitizeString(ACE_VERSION, true);
                 mpmVersionString = SanitizeString(MpM_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
-                cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
-                        ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
-                aceVersionString.c_str() << endl;
+                cout << "m+m Version: " << mpmVersionString.c_str() << ", YARP Version: " <<
+                        yarpVersionString.c_str() << ", ACE Version: " << aceVersionString.c_str() <<
+                        endl;
                 break;
                 
             default :

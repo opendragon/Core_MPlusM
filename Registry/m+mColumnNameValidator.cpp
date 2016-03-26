@@ -135,14 +135,14 @@ static const size_t kColumnNamesCount = (sizeof(kColumnNames) / sizeof(*kColumnN
 ColumnNameValidator::ColumnNameValidator(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ColumnNameValidator::ColumnNameValidator
 
 ColumnNameValidator::~ColumnNameValidator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ColumnNameValidator::~ColumnNameValidator
 
 #if defined(__APPLE__)
@@ -151,8 +151,8 @@ ColumnNameValidator::~ColumnNameValidator(void)
 
 DEFINE_CHECKNAME_(ColumnNameValidator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("aString = ", aString); //####
+    ODL_ENTER(); //####
+    ODL_S1("aString = ", aString); //####
     bool result = false;
     
     try
@@ -169,18 +169,18 @@ DEFINE_CHECKNAME_(ColumnNameValidator)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // ColumnNameValidator::checkName
 
 DEFINE_GETPREFIXANDSUFFIX_(ColumnNameValidator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("aString = ", aString); //####
-    OD_LOG_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
+    ODL_ENTER(); //####
+    ODL_S1("aString = ", aString); //####
+    ODL_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
     const char * result = NULL;
     
     try
@@ -204,10 +204,10 @@ DEFINE_GETPREFIXANDSUFFIX_(ColumnNameValidator)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // ColumnNameValidator::getPrefixAndSuffix
 

@@ -84,15 +84,15 @@ using namespace MplusM::Common;
 BaseInputHandler::BaseInputHandler(void) :
     inherited(), _channel(NULL), _canProcessInput(true), _metricsEnabled(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseInputHandler::BaseInputHandler
 
 BaseInputHandler::~BaseInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopProcessing();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandler::~BaseInputHandler
 
 #if defined(__APPLE__)
@@ -102,24 +102,24 @@ BaseInputHandler::~BaseInputHandler(void)
 void
 BaseInputHandler::disableMetrics(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _metricsEnabled = false;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandler::disableMetrics
 
 void
 BaseInputHandler::enableMetrics(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _metricsEnabled = true;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandler::enableMetrics
 
 bool
 BaseInputHandler::read(yarp::os::ConnectionReader & connection)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("connection = ", &connection); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("connection = ", &connection); //####
     bool result = true;
     
     try
@@ -145,28 +145,28 @@ BaseInputHandler::read(yarp::os::ConnectionReader & connection)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputHandler::read
 
 void
 BaseInputHandler::setChannel(BaseChannel * theChannel)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theChannel = ", theChannel); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theChannel = ", theChannel); //####
     _channel = theChannel;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandler::setChannel
 
 void
 BaseInputHandler::stopProcessing(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _canProcessInput = false;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandler::stopProcessing
 
 #if defined(__APPLE__)

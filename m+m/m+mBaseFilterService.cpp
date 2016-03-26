@@ -97,21 +97,21 @@ BaseFilterService::BaseFilterService(const Utilities::DescriptorVector & argumen
               canonicalName, description, requestsDescription, serviceEndpointName,
               servicePortNumber)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
-    OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
+    ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    ODL_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService
 
 BaseFilterService::~BaseFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseFilterService::~BaseFilterService
 
 #if defined(__APPLE__)
@@ -120,45 +120,45 @@ BaseFilterService::~BaseFilterService(void)
 
 DEFINE_SETUPINPUTSTREAMS_(BaseFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
     
     if (result)
     {
         result = addInStreamsFromDescriptions(_inDescriptions);
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::setUpInputStreams
 
 DEFINE_SETUPOUTPUTSTREAMS_(BaseFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
     
     if (result)
     {
         result = addOutStreamsFromDescriptions(_outDescriptions);
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::setUpOutputStreams
 
 DEFINE_SHUTDOWNINPUTSTREAMS_(BaseFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::shutDownInputStreams
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::shutDownOutputStreams
 

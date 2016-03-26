@@ -89,8 +89,8 @@ static void
 processArguments(const YarpStringVector & arguments,
                  YarpString &             namePattern)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
+    ODL_ENTER(); //####
+    ODL_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
     YarpString tag;
     
     for (size_t ii = 0, argc = arguments.size(); argc > ii; ++ii)
@@ -103,7 +103,7 @@ processArguments(const YarpStringVector & arguments,
 
         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // processArguments
 
 /*! @brief Create a 'listen' socket.
@@ -112,8 +112,8 @@ processArguments(const YarpStringVector & arguments,
 static SOCKET
 setUpListeningPost(const int listenPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_L1("listenPort = ", listenPort); //####
+    ODL_ENTER(); //####
+    ODL_L1("listenPort = ", listenPort); //####
     SOCKET  listenSocket;
 #if ! MAC_OR_LINUX_
     WORD    wVersionRequested = MAKEWORD(2, 2);
@@ -158,7 +158,7 @@ setUpListeningPost(const int listenPort)
             
             if (SOCKET_ERROR == res)
             {
-                OD_LOG("(SOCKET_ERROR == res)"); //####
+                ODL_LOG("(SOCKET_ERROR == res)"); //####
                 closesocket(listenSocket);
                 listenSocket = INVALID_SOCKET;
             }
@@ -169,7 +169,7 @@ setUpListeningPost(const int listenPort)
         }
     }
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_L(listenSocket); //####
+    ODL_EXIT_L(listenSocket); //####
     return listenSocket;
 } // setUpListeningPost
 
@@ -181,9 +181,9 @@ static SOCKET
 connectToTunnel(const YarpString & serviceAddress,
                 const int          servicePort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
-    OD_LOG_L1("servicePort = ", servicePort); //####
+    ODL_ENTER(); //####
+    ODL_S1s("serviceAddress = ", serviceAddress); //####
+    ODL_L1("servicePort = ", servicePort); //####
     SOCKET         tunnelSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
 #if MAC_OR_LINUX_
@@ -195,7 +195,7 @@ connectToTunnel(const YarpString & serviceAddress,
     if (0 < res)
     {
         tunnelSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        OD_LOG_L1("tunnelSocket = ", tunnelSocket); //####
+        ODL_L1("tunnelSocket = ", tunnelSocket); //####
         if (INVALID_SOCKET != tunnelSocket)
         {
 #if MAC_OR_LINUX_
@@ -211,7 +211,7 @@ connectToTunnel(const YarpString & serviceAddress,
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
             if (connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
             {
-                OD_LOG("(connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
+                ODL_LOG("(connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
                        "sizeof(addr)))"); //####
                 close(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
@@ -224,14 +224,14 @@ connectToTunnel(const YarpString & serviceAddress,
             
             if (SOCKET_ERROR == res)
             {
-                OD_LOG("(SOCKET_ERROR == res)"); //####
+                ODL_LOG("(SOCKET_ERROR == res)"); //####
                 closesocket(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }
 #endif // ! MAC_OR_LINUX_
         }
     }
-    OD_LOG_EXIT_L(tunnelSocket); //####
+    ODL_EXIT_L(tunnelSocket); //####
     return tunnelSocket;
 } // connectToTunnel
 
@@ -244,21 +244,21 @@ handleConnections(SOCKET             listenSocket,
                   const YarpString & serviceAddress,
                   const int          servicePort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
-    OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
+    ODL_ENTER(); //####
+    ODL_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
+    ODL_S1s("serviceAddress = ", serviceAddress); //####
     bool   keepGoing = true;
     char   buffer[10240];
     SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
 
-    OD_LOG_L1("sinkSocket = ", sinkSocket); //####
+    ODL_L1("sinkSocket = ", sinkSocket); //####
     if (INVALID_SOCKET != sinkSocket)
     {
         SOCKET tunnelSocket = connectToTunnel(serviceAddress, servicePort);
         
         if (INVALID_SOCKET != tunnelSocket)
         {
-            OD_LOG("(INVALID_SOCKET != tunnelSocket)"); //####
+            ODL_LOG("(INVALID_SOCKET != tunnelSocket)"); //####
             for ( ; keepGoing; )
             {
                 ConsumeSomeTime();
@@ -272,13 +272,13 @@ handleConnections(SOCKET             listenSocket,
                 {
                     if (send(sinkSocket, buffer, inSize, 0) != inSize)
                     {
-                        OD_LOG("(send(sinkSocket, buffer, inSize, 0) != inSize)"); //####
+                        ODL_LOG("(send(sinkSocket, buffer, inSize, 0) != inSize)"); //####
                         keepGoing = false;
                     }
                 }
                 else
                 {
-                    OD_LOG("! (0 < inSize)"); //####
+                    ODL_LOG("! (0 < inSize)"); //####
                     keepGoing = false;
                 }
             }
@@ -298,7 +298,7 @@ handleConnections(SOCKET             listenSocket,
         closesocket(sinkSocket);
 #endif // ! MAC_OR_LINUX_
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // handleConnections
 
 /*! @brief Set up the environment and connect to the port.
@@ -315,11 +315,11 @@ setUpAndGo(const int          listenPort,
            const YarpString & tag)
 #endif // ! defined(MpM_ReportOnConnections)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("listenPort = ", listenPort); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_LL1("listenPort = ", listenPort); //####
+    ODL_S1s("tag = ", tag); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
+    ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     TunnelClient * aClient = new TunnelClient;
 
@@ -344,7 +344,7 @@ setUpAndGo(const int          listenPort,
             
             if (INVALID_SOCKET != listenSocket)
             {
-                OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
+                ODL_LOG("(INVALID_SOCKET != listenSocket)"); //####
                 if (aClient->connectToService())
                 {
                     YarpString serviceAddress;
@@ -356,13 +356,13 @@ setUpAndGo(const int          listenPort,
                     }
                     else
                     {
-                        OD_LOG("! (aClient->getAddress(serviceAddress, servicePort))"); //####
+                        ODL_LOG("! (aClient->getAddress(serviceAddress, servicePort))"); //####
                         MpM_FAIL_("Problem fetching the address information.");
                     }
                 }
                 else
                 {
-                    OD_LOG("! (aClient->connectToService())"); //####
+                    ODL_LOG("! (aClient->connectToService())"); //####
                     MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
                 }
 #if MAC_OR_LINUX_
@@ -376,16 +376,16 @@ setUpAndGo(const int          listenPort,
         }
         else
         {
-            OD_LOG("! (aClient->findService(channelNameRequest)"); //####
+            ODL_LOG("! (aClient->findService(channelNameRequest)"); //####
             MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
         }
         delete aClient;
     }
     else
     {
-        OD_LOG("! (aClient)"); //####
+        ODL_LOG("! (aClient)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -409,10 +409,10 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -458,30 +458,30 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                        ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                         MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                    ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                     MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
             }
             catch (...)
             {
-                OD_LOG("Exception caught"); //####
+                ODL_LOG("Exception caught"); //####
             }
             yarp::os::Network::fini();
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

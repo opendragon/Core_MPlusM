@@ -101,20 +101,20 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
               servicePortNumber), _addToSumHandler(NULL), _resetSumHandler(NULL),
     _startSumHandler(NULL), _stopSumHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // RunningSumService::RunningSumService
 
 RunningSumService::~RunningSumService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumService::~RunningSumService
 
 #if defined(__APPLE__)
@@ -125,9 +125,9 @@ double
 RunningSumService::addToSum(const YarpString & key,
                             const double       value)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
-    OD_LOG_D1("value = ", value); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
+    ODL_D1("value = ", value); //####
     double result = 0.0;
     
     try
@@ -144,17 +144,17 @@ RunningSumService::addToSum(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_D(result); //####
+    ODL_OBJEXIT_D(result); //####
     return result;
 } // RunningSumService::addToSum
 
 void
 RunningSumService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _addToSumHandler = new AddToSumRequestHandler(*this);
@@ -170,22 +170,22 @@ RunningSumService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_addToSumHandler && _resetSumHandler && _startSumHandler && " //####
+            ODL_LOG("! (_addToSumHandler && _resetSumHandler && _startSumHandler && " //####
                    "_stopSumHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumService::attachRequestHandlers
 
 void
 RunningSumService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_addToSumHandler)
@@ -215,17 +215,17 @@ RunningSumService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumService::detachRequestHandlers
 
 void
 RunningSumService::resetSum(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
     try
     {
         RunningSumContext * context = (RunningSumContext *) findContext(key);
@@ -239,15 +239,15 @@ RunningSumService::resetSum(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumService::resetSum
 
 DEFINE_STARTSERVICE_(RunningSumService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -261,25 +261,25 @@ DEFINE_STARTSERVICE_(RunningSumService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumService::startService
 
 void
 RunningSumService::startSum(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
     try
     {
         RunningSumContext * context = (RunningSumContext *) findContext(key);
@@ -293,15 +293,15 @@ RunningSumService::startSum(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumService::startSum
 
 DEFINE_STOPSERVICE_(RunningSumService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -310,10 +310,10 @@ DEFINE_STOPSERVICE_(RunningSumService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumService::stopService
 

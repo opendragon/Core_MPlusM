@@ -103,20 +103,20 @@ RecordAsJSONOutputService::RecordAsJSONOutputService(const Utilities::Descriptor
               serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordAsJSONOutputInputHandler)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // RecordAsJSONOutputService::RecordAsJSONOutputService
 
 RecordAsJSONOutputService::~RecordAsJSONOutputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::~RecordAsJSONOutputService
 
 #if defined(__APPLE__)
@@ -125,8 +125,8 @@ RecordAsJSONOutputService::~RecordAsJSONOutputService(void)
 
 DEFINE_CONFIGURE_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -138,7 +138,7 @@ DEFINE_CONFIGURE_(RecordAsJSONOutputService)
             if (firstValue.isString())
             {
                 _outPath = firstValue.asString();
-                OD_LOG_S1s("_outPath <- ", _outPath); //####
+                ODL_S1s("_outPath <- ", _outPath); //####
                 setExtraInformation(YarpString("Output file path is '") + _outPath +
                                     YarpString("'"));
                 result = true;
@@ -155,50 +155,50 @@ DEFINE_CONFIGURE_(RecordAsJSONOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordAsJSONOutputService::configure
 
 DEFINE_DISABLEMETRICS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addString(_outPath);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordAsJSONOutputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -207,15 +207,15 @@ DEFINE_RESTARTSTREAMS_(RecordAsJSONOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -225,13 +225,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordAsJSONOutputService)
     description._portProtocol = "*";
     description._protocolDescription = "Arbitrary YARP messages";
     _inDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordAsJSONOutputService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -243,22 +243,22 @@ DEFINE_STARTSERVICE_(RecordAsJSONOutputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // RecordAsJSONOutputService::startService
 
 DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -299,15 +299,15 @@ DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::startStreams
 
 DEFINE_STOPSERVICE_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -316,16 +316,16 @@ DEFINE_STOPSERVICE_(RecordAsJSONOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordAsJSONOutputService::stopService
 
 DEFINE_STOPSTREAMS_(RecordAsJSONOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -341,10 +341,10 @@ DEFINE_STOPSTREAMS_(RecordAsJSONOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::stopStreams
 
 #if defined(__APPLE__)

@@ -77,7 +77,7 @@ using namespace MplusM::Tunnel;
 static SOCKET
 createListener(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     SOCKET  listenSocket;
 #if (! MAC_OR_LINUX_)
     WORD    wVersionRequested = MAKEWORD(2, 2);
@@ -130,7 +130,7 @@ createListener(void)
         }
     }
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_L(listenSocket); //####
+    ODL_EXIT_L(listenSocket); //####
     return listenSocket;
 } // createListener
 
@@ -142,9 +142,9 @@ static SOCKET
 connectToSource(const YarpString & dataAddress,
                 const int          dataPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("dataAddress = ", dataAddress); //####
-    OD_LOG_L1("dataPort = ", dataPort); //####
+    ODL_ENTER(); //####
+    ODL_S1s("dataAddress = ", dataAddress); //####
+    ODL_L1("dataPort = ", dataPort); //####
     SOCKET         dataSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
 #if MAC_OR_LINUX_
@@ -188,7 +188,7 @@ connectToSource(const YarpString & dataAddress,
 #endif // ! MAC_OR_LINUX_
         }
     }
-    OD_LOG_EXIT_L(dataSocket); //####
+    ODL_EXIT_L(dataSocket); //####
     return dataSocket;
 } // connectToSource
 
@@ -204,15 +204,15 @@ ConnectionThread::ConnectionThread(TunnelService & service) :
     inherited(), _service(service), _sourceAddress(""), _sourcePort(-1),
     _listenSocket(INVALID_SOCKET), _sourceSocket(INVALID_SOCKET)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // ConnectionThread::ConnectionThread
 
 ConnectionThread::~ConnectionThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ConnectionThread::~ConnectionThread
 
 #if defined(__APPLE__)
@@ -221,7 +221,7 @@ ConnectionThread::~ConnectionThread(void)
 
 DEFINE_RUN_(ConnectionThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     SOCKET destinationSocket = accept(_listenSocket, 0, 0);
     
     if (INVALID_SOCKET == destinationSocket)
@@ -237,7 +237,7 @@ DEFINE_RUN_(ConnectionThread)
     }
     else
     {
-        OD_LOG("! (INVALID_SOCKET == destinationSocket)"); //#####
+        ODL_LOG("! (INVALID_SOCKET == destinationSocket)"); //#####
         _sourceSocket = connectToSource(_sourceAddress, _sourcePort);
         if (INVALID_SOCKET == _sourceSocket)
         {
@@ -270,13 +270,13 @@ DEFINE_RUN_(ConnectionThread)
                     }
                     else
                     {
-                        OD_LOG("! (send(destinationSocket, buffer, inSize, 0) == inSize)"); //####
+                        ODL_LOG("! (send(destinationSocket, buffer, inSize, 0) == inSize)"); //####
                         keepGoing = false;
                     }
                 }
                 else
                 {
-                    OD_LOG("! (0 < inSize)"); //####
+                    ODL_LOG("! (0 < inSize)"); //####
                     keepGoing = false;
                 }
             }
@@ -299,16 +299,16 @@ DEFINE_RUN_(ConnectionThread)
             StopRunning();
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ConnectionThread::run
 
 void
 ConnectionThread::setSourceAddress(const YarpString & sourceName,
                                    const int          sourcePort)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("sourceName = ", sourceName); //####
-    OD_LOG_L1("sourcePort = ", sourcePort); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("sourceName = ", sourceName); //####
+    ODL_L1("sourcePort = ", sourcePort); //####
     YarpString tunnelAddress;
     int        tunnelPort;
     
@@ -338,22 +338,22 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
 #endif // ! MAC_OR_LINUX_
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ConnectionThread::setSourceAddress
 
 DEFINE_THREADINIT_(ConnectionThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ConnectionThread::threadInit
 
 DEFINE_THREADRELEASE_(ConnectionThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ConnectionThread::threadRelease
 
 #if defined(__APPLE__)

@@ -97,15 +97,15 @@ enum HandMask
 LeapTwoFingersInputListener::LeapTwoFingersInputListener(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_EXIT_P(this); //####
 } // LeapTwoFingersInputListener::LeapTwoFingersInputListener
 
 LeapTwoFingersInputListener::~LeapTwoFingersInputListener(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::~LeapTwoFingersInputListener
 
 #if defined(__APPLE__)
@@ -115,65 +115,65 @@ LeapTwoFingersInputListener::~LeapTwoFingersInputListener(void)
 void
 LeapTwoFingersInputListener::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::clearOutputChannel
 
 void
 LeapTwoFingersInputListener::onConnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     theController.setPolicyFlags(Leap::Controller::POLICY_DEFAULT);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onConnect
 
 void
 LeapTwoFingersInputListener::onDeviceChange(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onDeviceChange
 
 void
 LeapTwoFingersInputListener::onDisconnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onDisconnect
 
 void
 LeapTwoFingersInputListener::onExit(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onExit
 
 void
 LeapTwoFingersInputListener::onFocusGained(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFocusGained
 
 void
 LeapTwoFingersInputListener::onFocusLost(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFocusLost
 
 void
 LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     Leap::Frame latestFrame(theController.frame());
     
     if (latestFrame.isValid())
@@ -250,7 +250,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                 {
                     if (! _outChannel->write(message))
                     {
-                        OD_LOG("(! _outChannel->write(message))"); //####
+                        ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                         Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -259,32 +259,32 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
             }
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFrame
 
 void
 LeapTwoFingersInputListener::onInit(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
     theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onInit
 
 void
 LeapTwoFingersInputListener::onServiceConnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onServiceConnect
 
 void
 LeapTwoFingersInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", &theController); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theController = ", &theController); //####
+    ODL_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onServiceDisconnect
 
 #if defined(__APPLE__)

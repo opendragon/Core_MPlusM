@@ -141,14 +141,14 @@ BaseService::BaseService(const ServiceKind  theKind,
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
-    OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
+    ODL_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
+    ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     if (0 < _tag.length())
     {
         _serviceName = canonicalName + " " + _tag;
@@ -171,7 +171,7 @@ BaseService::BaseService(const ServiceKind  theKind,
         _originalArguments.push_back(argv[ii]);
     }
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // BaseService::BaseService
 
 #if (! MAC_OR_LINUX_)
@@ -200,12 +200,12 @@ BaseService::BaseService(const ServiceKind  theKind,
 #  pragma unused(requestsDescription)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
+    ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     switch (argc)
     {
             // Argument order = endpoint name [, port]
@@ -218,7 +218,7 @@ BaseService::BaseService(const ServiceKind  theKind,
             break;
             
         default :
-            OD_LOG_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
+            ODL_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
             throw new Exception("Invalid parameters for service endpoint");
             
     }
@@ -235,7 +235,7 @@ BaseService::BaseService(const ServiceKind  theKind,
         _originalArguments.push_back(argv[ii]);
     }
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // BaseService::BaseService
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -243,14 +243,14 @@ BaseService::BaseService(const ServiceKind  theKind,
 
 BaseService::~BaseService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopService();
     detachRequestHandlers();
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
     clearContexts();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::~BaseService
 
 #if defined(__APPLE__)
@@ -261,9 +261,9 @@ void
 BaseService::addContext(const YarpString & key,
                         BaseContext *      context)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
-    OD_LOG_P1("context = ", context); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
+    ODL_P1("context = ", context); //####
     try
     {
         if (context)
@@ -275,16 +275,16 @@ BaseService::addContext(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::addContext
 
 void
 BaseService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _argumentsHandler = new ArgumentsRequestHandler(*this);
@@ -318,7 +318,7 @@ BaseService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
+            ODL_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
                    "_detachHandler && _extraInfoHandler && _infoHandler && _listHandler && " //####
                    "_metricsHandler && _metricsStateHandler && _nameHandler && " //####
                    "_setMetricsStateHandler && _stopHandler)"); //####
@@ -326,16 +326,16 @@ BaseService::attachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::attachRequestHandlers
 
 void
 BaseService::clearContexts(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     lockContexts();
     if (0 < _contexts.size())
     {
@@ -352,30 +352,30 @@ BaseService::clearContexts(void)
         _contexts.clear();
     }
     unlockContexts();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::clearContexts
 
 void
 BaseService::detachClient(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
     try
     {
         removeContext(key);
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::detachClient
 
 void
 BaseService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_argumentsHandler)
@@ -453,39 +453,39 @@ BaseService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::detachRequestHandlers
 
 DEFINE_DISABLEMETRICS_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _metricsEnabled = false;
     if (_endpoint)
     {
         _endpoint->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (_endpoint)
     {
         _endpoint->enableMetrics();
     }
     _metricsEnabled = true;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::enableMetrics
 
 void
 BaseService::fillInClientList(YarpStringVector & clients)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("clients = ", &clients); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("clients = ", &clients); //####
     lockContexts();
     if (0 < _contexts.size())
     {
@@ -496,38 +496,38 @@ BaseService::fillInClientList(YarpStringVector & clients)
         }
     }
     unlockContexts();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::fillInClientList
 
 DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     channels.clear();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::fillInSecondaryClientChannelsList
 
 DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     channels.clear();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::fillInSecondaryInputChannelsList
 
 DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("channels = ", &channels); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("channels = ", &channels); //####
     channels.clear();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::fillInSecondaryOutputChannelsList
 
 BaseContext *
 BaseService::findContext(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
     BaseContext * result = NULL;
     
     try
@@ -543,17 +543,17 @@ BaseService::findContext(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseService::findContext
 
 DEFINE_GATHERMETRICS_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("metrics = ", &metrics); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("metrics = ", &metrics); //####
     if (_endpoint)
     {
         SendReceiveCounters counters;
@@ -562,16 +562,16 @@ DEFINE_GATHERMETRICS_(BaseService)
         counters.addToList(metrics, _endpoint->getName());
     }
     _auxCounters.addToList(metrics, "auxiliary");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::gatherMetrics
 
 void
 BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("additionalCounters = ", &additionalCounters); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("additionalCounters = ", &additionalCounters); //####
     _auxCounters += additionalCounters;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::incrementAuxiliaryCounters
 
 bool
@@ -580,10 +580,10 @@ BaseService::processRequest(const YarpString &           request,
                             const YarpString &           senderChannel,
                             yarp::os::ConnectionWriter * replyMechanism)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -592,21 +592,21 @@ BaseService::processRequest(const YarpString &           request,
         
         if (handler)
         {
-            OD_LOG("(handler)"); //####
+            ODL_LOG("(handler)"); //####
             result = handler->processRequest(request, restOfInput, senderChannel, replyMechanism);
         }
         else
         {
-            OD_LOG("! (handler)"); //####
+            ODL_LOG("! (handler)"); //####
             if (replyMechanism)
             {
-                OD_LOG("(replyMechanism)"); //####
+                ODL_LOG("(replyMechanism)"); //####
                 yarp::os::Bottle errorMessage(MpM_UNRECOGNIZED_REQUEST_);
                 
-                OD_LOG_S1s("errorMessage <- ", errorMessage.toString()); //####
+                ODL_S1s("errorMessage <- ", errorMessage.toString()); //####
                 if (! errorMessage.write(*replyMechanism))
                 {
-                    OD_LOG("(! errorMessage.write(*replyMechanism))"); //####
+                    ODL_LOG("(! errorMessage.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                     Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -617,27 +617,27 @@ BaseService::processRequest(const YarpString &           request,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseService::processRequest
 
 void
 BaseService::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     _requestHandlers.registerRequestHandler(handler);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::registerRequestHandler
 
 void
 BaseService::removeContext(const YarpString & key)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("key = ", key); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("key = ", key); //####
     try
     {
         lockContexts();
@@ -657,10 +657,10 @@ BaseService::removeContext(const YarpString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::removeContext
 
 bool
@@ -668,9 +668,9 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                                 CheckFunction      checker,
                                 void *             checkStuff)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
+    ODL_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
@@ -720,19 +720,19 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())"); //####
+                                ODL_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE_ == " //####
+                            ODL_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
-                            OD_LOG_S1s("response = ", response.asString()); //####
+                            ODL_S1s("response = ", response.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
+                        ODL_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName,
@@ -740,7 +740,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                                                                   STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                        ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -748,7 +748,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                    ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
                            "checker, checkStuff))"); //####
                 }
@@ -758,7 +758,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+                ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             
@@ -768,39 +768,39 @@ BaseService::sendPingForChannel(const YarpString & channelName,
         }
         else
         {
-            OD_LOG("! (newChannel)"); //####
+            ODL_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseService::sendPingForChannel
 
 void
 BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     _requestHandlers.setDefaultRequestHandler(handler);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::setDefaultRequestHandler
 
 void
 BaseService::setExtraInformation(const YarpString & extraInfo)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("extraInfo = ", extraInfo); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("extraInfo = ", extraInfo); //####
     _extraInfo = extraInfo;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::setExtraInformation
 
 DEFINE_STARTSERVICE_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! _started)
@@ -817,7 +817,7 @@ DEFINE_STARTSERVICE_(BaseService)
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
+                        ODL_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handlerCreator;
                         _handlerCreator = NULL;
@@ -825,7 +825,7 @@ DEFINE_STARTSERVICE_(BaseService)
                 }
                 else
                 {
-                    OD_LOG("! (_handlerCreator)"); //####
+                    ODL_LOG("! (_handlerCreator)"); //####
                 }
             }
             else
@@ -840,7 +840,7 @@ DEFINE_STARTSERVICE_(BaseService)
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
+                        ODL_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handler;
                         _handler = NULL;
@@ -848,40 +848,40 @@ DEFINE_STARTSERVICE_(BaseService)
                 }
                 else
                 {
-                    OD_LOG("! (_handler)"); //####
+                    ODL_LOG("! (_handler)"); //####
                 }
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(_started); //####
+    ODL_OBJEXIT_B(_started); //####
     return _started;
 } // BaseService::startService
 
 void
 BaseService::startPinger(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if ((! _pinger) && _endpoint)
     {
         _pinger = new PingThread(_endpoint->getName(), *this);
         if (! _pinger->start())
         {
-            OD_LOG("(! _pinger->start())"); //####
+            ODL_LOG("(! _pinger->start())"); //####
             delete _pinger;
             _pinger = NULL;
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::startPinger
 
 DEFINE_STOPSERVICE_(BaseService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (_pinger)
     {
         _pinger->stop();
@@ -889,29 +889,29 @@ DEFINE_STOPSERVICE_(BaseService)
         _pinger = NULL;
     }
     _started = false;
-    OD_LOG_OBJEXIT_B(! _started); //####
+    ODL_OBJEXIT_B(! _started); //####
     return (! _started);
 } // BaseService::stopService
 
 void
 BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     _requestHandlers.unregisterRequestHandler(handler);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::unregisterRequestHandler
 
 void
 BaseService::updateResponseCounters(const size_t numBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("numBytes = ", numBytes); //####
     if (_endpoint && _metricsEnabled)
     {
         _endpoint->updateSendCounters(numBytes);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseService::updateResponseCounters
 
 #if defined(__APPLE__)
@@ -925,8 +925,8 @@ Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
                            YarpString &             serviceEndpointName,
                            const YarpString &       tagModifier)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
+    ODL_ENTER(); //####
+    ODL_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
                "tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "tagModifier = ", tagModifier); //####
     bool       nameWasSet = false;
@@ -1017,15 +1017,15 @@ Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
     {
         tag = trimmedModifier;
     }
-    OD_LOG_EXIT_B(nameWasSet); //####
+    ODL_EXIT_B(nameWasSet); //####
     return nameWasSet;
 } // Common::AdjustEndpointName
 
 bool
 Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("convertedAddress = ", &convertedAddress); //####
+    ODL_ENTER(); //####
+    ODL_P1("convertedAddress = ", &convertedAddress); //####
     bool okSoFar = false;
     
     try
@@ -1079,21 +1079,21 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+                ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             BaseChannel::RelinquishChannel(newChannel);
         }
         else
         {
-            OD_LOG("! (newChannel)"); //####
+            ODL_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // Common::GetOurEffectiveAddress
 
@@ -1115,14 +1115,14 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                                       const OptionsMask             skipOptions,
                                       YarpStringVector *            arguments)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
+    ODL_ENTER(); //####
+    ODL_L2("argc = ", argc, "year = ", year); //####
+    ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
               "reportEndpoint = ", &reportEndpoint, "reportOnExit = ", &reportOnExit); //####
-    OD_LOG_P2("modFlag = ", &modFlag, "arguments = ", arguments); //####
-    OD_LOG_S2s("serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
+    ODL_P2("modFlag = ", &modFlag, "arguments = ", arguments); //####
+    ODL_S2s("serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
-    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
+    ODL_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
@@ -1315,18 +1315,18 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     
     if (parse.error())
     {
-        OD_LOG("(parse.error())"); //####
+        ODL_LOG("(parse.error())"); //####
         keepGoing = false;
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        OD_LOG("(options[kOptionHELP] || options[kOptionUNKNOWN])"); //####
+        ODL_LOG("(options[kOptionHELP] || options[kOptionUNKNOWN])"); //####
         Option_::printUsage(cout, usage, HELP_LINE_LENGTH_);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
     {
-        OD_LOG("(options[kOptionVERSION])"); //####
+        ODL_LOG("(options[kOptionVERSION])"); //####
         YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
@@ -1335,7 +1335,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionARGS])
     {
-        OD_LOG("(options[kOptionARGS])"); //####
+        ODL_LOG("(options[kOptionARGS])"); //####
         for (size_t ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
         {
             Utilities::BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
@@ -1354,7 +1354,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionINFO])
     {
-        OD_LOG("(options[kOptionINFO])"); //####
+        ODL_LOG("(options[kOptionINFO])"); //####
         bool needTab = true;
         
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
@@ -1450,7 +1450,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (ProcessArguments(argumentDescriptions, parse, badArgs))
     {
-        OD_LOG("(ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
+        ODL_LOG("(ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
         if (options[kOptionGO])
         {
             goWasSet = true;
@@ -1507,12 +1507,12 @@ Common::ProcessStandardServiceOptions(const int                     argc,
         if (options[kOptionENDPOINT])
         {
             serviceEndpointName = options[kOptionENDPOINT].arg;
-            OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
+            ODL_S1s("serviceEndpointName <- ", serviceEndpointName); //####
         }
         if (options[kOptionPORT])
         {
             servicePortNumber = options[kOptionPORT].arg;
-            OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
+            ODL_S1s("servicePortNumber <- ", servicePortNumber); //####
             if (0 < servicePortNumber.length())
             {
                 const char * startPtr = servicePortNumber.c_str();
@@ -1529,7 +1529,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
         if (options[kOptionTAG])
         {
             tag = options[kOptionTAG].arg;
-            OD_LOG_S1s("tag <- ", tag); //####
+            ODL_S1s("tag <- ", tag); //####
         }
         if (arguments)
         {
@@ -1541,7 +1541,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else
     {
-        OD_LOG("! (ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
+        ODL_LOG("! (ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
         cout << "One or more invalid or missing arguments (" << badArgs.c_str() << ")." << endl;
         keepGoing = false;
     }
@@ -1549,7 +1549,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     delete[] buffer;
     free(const_cast<char *>(firstDescriptor.help));
     delete[] usage;
-    OD_LOG_EXIT_B(keepGoing); //####
+    ODL_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Common::ProcessStandardServiceOptions
 
@@ -1559,9 +1559,9 @@ Common::RegisterLocalService(const YarpString & channelName,
                              CheckFunction      checker,
                              void *             checkStuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P2("service = ", &service, "checkStuff = ", checkStuff); //####
+    ODL_ENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
+    ODL_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
@@ -1611,19 +1611,19 @@ Common::RegisterLocalService(const YarpString & channelName,
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())"); //####
+                                ODL_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
+                            ODL_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
-                            OD_LOG_S1s("response = ", response.asString()); //####
+                            ODL_S1s("response = ", response.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
+                        ODL_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName,
@@ -1631,7 +1631,7 @@ Common::RegisterLocalService(const YarpString & channelName,
                                                                   STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                        ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -1639,7 +1639,7 @@ Common::RegisterLocalService(const YarpString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                    ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
                            "checker, checkStuff))"); //####
                 }
@@ -1649,7 +1649,7 @@ Common::RegisterLocalService(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+                ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             
@@ -1659,15 +1659,15 @@ Common::RegisterLocalService(const YarpString & channelName,
         }
         else
         {
-            OD_LOG("! (newChannel)"); //####
+            ODL_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // Common::RegisterLocalService
 
@@ -1677,9 +1677,9 @@ Common::UnregisterLocalService(const YarpString & channelName,
                                CheckFunction      checker,
                                void *             checkStuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P2("service = ", &service, "checkStuff = ", checkStuff); //####
+    ODL_ENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
+    ODL_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
@@ -1729,19 +1729,19 @@ Common::UnregisterLocalService(const YarpString & channelName,
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())"); //####
+                                ODL_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == " //####
+                            ODL_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
-                            OD_LOG_S1s("response = ", response.asString()); //####
+                            ODL_S1s("response = ", response.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
+                        ODL_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName,
@@ -1749,7 +1749,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
                                                                   STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                        ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -1757,7 +1757,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                    ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
                            "checker, checkStuff))"); //####
                 }
@@ -1767,7 +1767,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+                ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             
@@ -1777,14 +1777,14 @@ Common::UnregisterLocalService(const YarpString & channelName,
         }
         else
         {
-            OD_LOG("! (newChannel)"); //####
+            ODL_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // Common::UnregisterLocalService

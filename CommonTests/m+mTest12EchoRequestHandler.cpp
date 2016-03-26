@@ -88,15 +88,15 @@ using namespace MplusM::Test;
 Test12EchoRequestHandler::Test12EchoRequestHandler(BaseService & service) :
     inherited(MpM_ECHO_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // Test12EchoRequestHandler::Test12EchoRequestHandler
 
 Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // Test12EchoRequestHandler::~Test12EchoRequestHandler
 
 #if defined(__APPLE__)
@@ -114,9 +114,9 @@ DEFINE_FILLINALIASES_(Test12EchoRequestHandler)
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // Test12EchoRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -124,9 +124,9 @@ DEFINE_FILLINALIASES_(Test12EchoRequestHandler)
 
 DEFINE_FILLINDESCRIPTION_(Test12EchoRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
     info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_ANYTHING_ MpM_REQREP_0_OR_MORE_);
     info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_ANYTHING_ MpM_REQREP_0_OR_MORE_);
@@ -137,7 +137,7 @@ DEFINE_FILLINDESCRIPTION_(Test12EchoRequestHandler)
     
     asList->addString(request);
     info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test12EchoRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -151,15 +151,15 @@ DEFINE_PROCESSREQUEST_(Test12EchoRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     _response = restOfInput;
     sendResponse(replyMechanism);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test12EchoRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

@@ -83,14 +83,14 @@ using namespace MplusM::RequestCounter;
 RequestCounterContext::RequestCounterContext(void) :
     inherited(), _counter(0), _lastReset(0)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RequestCounterContext::RequestCounterContext
 
 RequestCounterContext::~RequestCounterContext(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterContext::~RequestCounterContext
 
 #if defined(__APPLE__)

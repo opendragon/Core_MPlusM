@@ -89,21 +89,21 @@ AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
                                                      struct in_addr *   addrBuff) :
     inherited(argName, argDescription, argMode, defaultValue), _addrBuff(addrBuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+    ODL_ENTER(); //####
+    ODL_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_P1("addrBuff = ", addrBuff); //####
+    ODL_P1("addrBuff = ", addrBuff); //####
     if (_defaultValue == SELF_ADDRESS_NAME_)
     {
         _defaultValue = SELF_ADDRESS_IPADDR_;
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // AddressArgumentDescriptor::AddressArgumentDescriptor
 
 AddressArgumentDescriptor::~AddressArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // AddressArgumentDescriptor::~AddressArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -112,21 +112,21 @@ AddressArgumentDescriptor::~AddressArgumentDescriptor(void)
 
 DEFINE_CLONE_(AddressArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new AddressArgumentDescriptor(argumentName(),
                                                                     argumentDescription(),
                                                                     argumentMode(),
                                                                     getDefaultValue());
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // AddressArgumentDescriptor::clone
 
 BaseArgumentDescriptor *
 AddressArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -168,23 +168,23 @@ AddressArgumentDescriptor::parseArgString(const YarpString & inString)
             result = new AddressArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // AddressArgumentDescriptor::parseArgString
 
 DEFINE_TOSTRING_(AddressArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("A"));
 
     result += suffixFields(getDefaultValue());
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // AddressArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(AddressArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString testValue;
     
     if (value == SELF_ADDRESS_NAME_)
@@ -202,7 +202,7 @@ DEFINE_VALIDATE_(AddressArgumentDescriptor)
 #else // ! MAC_OR_LINUX_
         _valid = (0 < InetPton(AF_INET, testValue.c_str(), _addrBuff));
 #endif // ! MAC_OR_LINUX_
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     else
     {
@@ -213,14 +213,14 @@ DEFINE_VALIDATE_(AddressArgumentDescriptor)
 #else // ! MAC_OR_LINUX_
         _valid = (0 < InetPton(AF_INET, testValue.c_str(), &addrBuff));
 #endif // ! MAC_OR_LINUX_
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     if (_valid)
     {
         _currentValue = testValue;
-        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
+        ODL_S1s("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // AddressArgumentDescriptor::validate
 

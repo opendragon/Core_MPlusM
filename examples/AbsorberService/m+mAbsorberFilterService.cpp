@@ -136,20 +136,20 @@ AbsorberFilterService::AbsorberFilterService(const Utilities::DescriptorVector &
     _inHandler(new AbsorberFilterInputHandler(*this)), _generator(NULL), _count(0), _lastCount(-1),
     _lastBytes(0), _totalBytes(0), _sampleInterval(0)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // AbsorberFilterService::AbsorberFilterService
 
 AbsorberFilterService::~AbsorberFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::~AbsorberFilterService
 
 #if defined(__APPLE__)
@@ -158,8 +158,8 @@ AbsorberFilterService::~AbsorberFilterService(void)
 
 DEFINE_CONFIGURE_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -177,7 +177,7 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
                     std::stringstream buff;
                     
                     _sampleInterval = firstNumber;
-                    OD_LOG_LL1("_sampleInterval <- ", _sampleInterval); //####
+                    ODL_LL1("_sampleInterval <- ", _sampleInterval); //####
                     buff << "Sample interval is " << _sampleInterval;
                     setExtraInformation(buff.str());
                     result = true;
@@ -199,50 +199,50 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AbsorberFilterService::configure
 
 DEFINE_DISABLEMETRICS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
     
     details.clear();
     details.addInt(_sampleInterval);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AbsorberFilterService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -251,15 +251,15 @@ DEFINE_RESTARTSTREAMS_(AbsorberFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -274,13 +274,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
     description._portProtocol = "dd";
     description._protocolDescription = "Two floating-point values";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AbsorberFilterService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -292,22 +292,22 @@ DEFINE_STARTSERVICE_(AbsorberFilterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // AbsorberFilterService::startService
 
 DEFINE_STARTSTREAMS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -325,7 +325,7 @@ DEFINE_STARTSTREAMS_(AbsorberFilterService)
                     }
                     else
                     {
-                        OD_LOG("! (generator->start())"); //####
+                        ODL_LOG("! (generator->start())"); //####
                         cerr << "Could not start auxiliary thread." << endl;
                         delete _generator;
                         _generator = NULL;
@@ -340,15 +340,15 @@ DEFINE_STARTSTREAMS_(AbsorberFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::startStreams
 
 DEFINE_STOPSERVICE_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -357,16 +357,16 @@ DEFINE_STOPSERVICE_(AbsorberFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AbsorberFilterService::stopService
 
 DEFINE_STOPSTREAMS_(AbsorberFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -386,16 +386,16 @@ DEFINE_STOPSTREAMS_(AbsorberFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::stopStreams
 
 void
 AbsorberFilterService::reportMessageRate(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     if (0 <= _lastCount)
     {
         double           byteDelta = static_cast<double>(_totalBytes - _lastBytes);
@@ -413,7 +413,7 @@ AbsorberFilterService::reportMessageRate(void)
             outBottle.addDouble(byteRate);
             if (! outStream->write(outBottle))
             {
-                OD_LOG("(! outStream->write(message))"); //####
+                ODL_LOG("(! outStream->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -422,14 +422,14 @@ AbsorberFilterService::reportMessageRate(void)
     }
     _lastCount = _count;
     _lastBytes = _totalBytes;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::reportMessageRate
 
 void
 AbsorberFilterService::updateCount(const size_t numBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_L1("numBytes = ", numBytes); //####
     try
     {
         if (isActive())
@@ -448,10 +448,10 @@ AbsorberFilterService::updateCount(const size_t numBytes)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterService::updateCount
 
 #if defined(__APPLE__)

@@ -93,20 +93,20 @@ RandomNumberService::RandomNumberService(const YarpString & launchPath,
               "random - return the number of random values requested", serviceEndpointName,
               servicePortNumber), _randomHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // RandomNumberService::RandomNumberService
 
 RandomNumberService::~RandomNumberService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomNumberService::~RandomNumberService
 
 #if defined(__APPLE__)
@@ -116,7 +116,7 @@ RandomNumberService::~RandomNumberService(void)
 void
 RandomNumberService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _randomHandler = new RandomRequestHandler(*this);
@@ -126,21 +126,21 @@ RandomNumberService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_randomHandler)"); //####
+            ODL_LOG("! (_randomHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomNumberService::attachRequestHandlers
 
 void
 RandomNumberService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_randomHandler)
@@ -152,15 +152,15 @@ RandomNumberService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomNumberService::detachRequestHandlers
 
 DEFINE_STARTSERVICE_(RandomNumberService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -172,22 +172,22 @@ DEFINE_STARTSERVICE_(RandomNumberService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // RandomNumberService::startService
 
 DEFINE_STOPSERVICE_(RandomNumberService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -196,10 +196,10 @@ DEFINE_STOPSERVICE_(RandomNumberService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomNumberService::stopService
 

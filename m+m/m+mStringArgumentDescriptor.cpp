@@ -88,16 +88,16 @@ StringArgumentDescriptor::StringArgumentDescriptor(const YarpString & argName,
                                                    const YarpString & defaultValue) :
     inherited(argName, argDescription, argMode), _defaultValue(defaultValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+    ODL_ENTER(); //####
+    ODL_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // StringArgumentDescriptor::StringArgumentDescriptor
 
 StringArgumentDescriptor::~StringArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // StringArgumentDescriptor::~StringArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -106,44 +106,44 @@ StringArgumentDescriptor::~StringArgumentDescriptor(void)
 
 DEFINE_ADDVALUETOBOTTLE_(StringArgumentDescriptor)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("container = ", &container); //####
+    ODL_ENTER(); //####
+    ODL_P1("container = ", &container); //####
     container.addString(getProcessedValue());
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // StringArgumentDescriptor::addValueToBottle
 
 DEFINE_CLONE_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new StringArgumentDescriptor(argumentName(),
                                                                    argumentDescription(),
                                                                    argumentMode(), _defaultValue);
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // StringArgumentDescriptor::clone
 
 DEFINE_GETDEFAULTVALUE_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(_defaultValue);
 
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // StringArgumentDescriptor::getDefaultValue
 
 DEFINE_GETPROCESSEDVALUE_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT_s(_currentValue); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT_s(_currentValue); //####
     return _currentValue;
 } // StringArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor *
 StringArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -175,39 +175,39 @@ StringArgumentDescriptor::parseArgString(const YarpString & inString)
             result = new StringArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // StringArgumentDescriptor::parseArgString
 
 DEFINE_SETTODEFAULTVALUE_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
-    OD_LOG_S1s("_currentValue <- ", _currentValue); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_S1s("_currentValue <- ", _currentValue); //####
+    ODL_OBJEXIT(); //####
 } // StringArgumentDescriptor::setToDefaultValue
 
 DEFINE_TOSTRING_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("S"));
 
     result += suffixFields(_defaultValue);
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // StringArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(StringArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _valid = true;
-    OD_LOG_B1("_valid <- ", _valid); //####
+    ODL_B1("_valid <- ", _valid); //####
     if (_valid)
     {
         _currentValue = value;
-        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
+        ODL_S1s("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // StringArgumentDescriptor::validate
 

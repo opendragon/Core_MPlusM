@@ -90,17 +90,17 @@ PlaybackFromJSONInputThread::PlaybackFromJSONInputThread(Common::GeneralChannel 
     inherited(), _outChannel(outChannel), _outMessage(outMessage), _nextIndex(0),
     _initialDelay(initialDelay), _playbackRatio(playbackRatio), _loopPlayback(loopPlayback)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outChannel = ", outChannel, "outMessage = ", &outMessage); //####
-    OD_LOG_D2("playbackRatio = ", playbackRatio, "initialDelay = ", initialDelay); //####
-    OD_LOG_B1("loopPlayback = ", loopPlayback);
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P2("outChannel = ", outChannel, "outMessage = ", &outMessage); //####
+    ODL_D2("playbackRatio = ", playbackRatio, "initialDelay = ", initialDelay); //####
+    ODL_B1("loopPlayback = ", loopPlayback);
+    ODL_EXIT_P(this); //####
 } // PlaybackFromJSONInputThread::PlaybackFromJSONInputThread
 
 PlaybackFromJSONInputThread::~PlaybackFromJSONInputThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::~PlaybackFromJSONInputThread
 
 #if defined(__APPLE__)
@@ -110,21 +110,21 @@ PlaybackFromJSONInputThread::~PlaybackFromJSONInputThread(void)
 void
 PlaybackFromJSONInputThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::clearOutputChannel
 
 DEFINE_RUN_(PlaybackFromJSONInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool atEnd = false;
     
     for ( ; (! atEnd) && (! isStopping()); )
     {
         if (_nextTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             if (_nextIndex < _outMessage.size())
             {
                 yarp::os::Value & nextValue = _outMessage.get(_nextIndex++);
@@ -137,7 +137,7 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
                     {
                         if (! _outChannel->write(*toWrite))
                         {
-                            OD_LOG("(! _outChannel->write(*toWrite))"); //####
+                            ODL_LOG("(! _outChannel->write(*toWrite))"); //####
 #if defined(MpM_StallOnSendProblem)
                             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -187,23 +187,23 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
     {
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::run
 
 DEFINE_THREADINIT_(PlaybackFromJSONInputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _initialDelay;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputThread::threadInit
 
 DEFINE_THREADRELEASE_(PlaybackFromJSONInputThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::threadRelease
 
 #if defined(__APPLE__)

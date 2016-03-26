@@ -99,15 +99,15 @@ BaseArgumentDescriptor::BaseArgumentDescriptor(const YarpString & argName,
                                                const ArgumentMode argMode) :
     _valid(true), _argDescription(argDescription), _argName(argName), _argMode(argMode)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    ODL_EXIT_P(this); //####
 } // BaseArgumentDescriptor::BaseArgumentDescriptor
 
 BaseArgumentDescriptor::~BaseArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseArgumentDescriptor::~BaseArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -119,10 +119,10 @@ BaseArgumentDescriptor::partitionString(const YarpString & inString,
                                         const size_t       indexOfDefaultValue,
                                         YarpStringVector & result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL1("indexOfDefaultValue = ", indexOfDefaultValue); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL1("indexOfDefaultValue = ", indexOfDefaultValue); //####
+    ODL_P1("result = ", &result); //####
     bool       okSoFar = false;
     YarpString workingCopy(inString);
 
@@ -201,7 +201,7 @@ BaseArgumentDescriptor::partitionString(const YarpString & inString,
         }
     }
     okSoFar &= (result.size() > indexOfDefaultValue);
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // BaseArgumentDescriptor::partitionString
 
@@ -209,22 +209,22 @@ YarpString
 BaseArgumentDescriptor::prefixFields(const YarpString & tagForField)
 const
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("tagForField = ", tagForField); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("tagForField = ", tagForField); //####
     YarpString        result(_argName);
     std::stringstream buff;
     
     buff << static_cast<int>(_argMode);
     result += _parameterSeparator + tagForField + _parameterSeparator + buff.str();
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::prefixFields
 
 YarpString
 BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("defaultToUse = ", defaultToUse); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("defaultToUse = ", defaultToUse); //####
     static const char possibles[] = "~!@#$%^&*_-+=|;\"'?./ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     "abcdefghijklmnopqrtuvwxyz0123456789";
     char              charToUse = possibles[0];
@@ -245,7 +245,7 @@ BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
     }
     result += charToUse;
     result += defaultToUse + charToUse + _parameterSeparator + _argDescription;
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::suffixFields
 
@@ -256,8 +256,8 @@ BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
 YarpString
 Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
+    ODL_ENTER(); //####
+    ODL_P1("arguments = ", &arguments); //####
     YarpString result;
     size_t     numOptional = 0;
     
@@ -283,17 +283,17 @@ Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
     {
         result += YarpString(numOptional, ']');
     }
-    OD_LOG_EXIT_s(result); //####
+    ODL_EXIT_s(result); //####
     return result;
-} // ArgumentsToArgString
+} // Utilities::ArgumentsToArgString
 
 void
 Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
                                        YarpStringVector &       output,
                                        const size_t             minSpace)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "output = ", &output); //####
+    ODL_ENTER(); //####
+    ODL_P2("arguments = ", &arguments, "output = ", &output); //####
     int nameSize = -1;
     
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
@@ -332,15 +332,15 @@ Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Utilities::ArgumentsToDescriptionArray
 
 YarpString
 Utilities::CombineArguments(const DescriptorVector & arguments,
                             const YarpString &       sep)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("sep = ", sep); //####
+    ODL_ENTER(); //####
+    ODL_S1s("sep = ", sep); //####
     YarpString result;
     
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
@@ -356,14 +356,14 @@ Utilities::CombineArguments(const DescriptorVector & arguments,
             result += anArg->getProcessedValue();
         }
     }
-    OD_LOG_EXIT_s(result); //####
+    ODL_EXIT_s(result); //####
     return result;
 } // Utilities::CombineArguments
 
 BaseArgumentDescriptor *
 Utilities::ConvertStringToArgument(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     BaseArgumentDescriptor * result = NULL;
 
     result = AddressArgumentDescriptor::parseArgString(inString);
@@ -399,7 +399,7 @@ Utilities::ConvertStringToArgument(const YarpString & inString)
     {
         result = StringArgumentDescriptor::parseArgString(inString);
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // Utilities::ConvertStringToArguments
 
@@ -407,8 +407,8 @@ void
 Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
                                  yarp::os::Bottle &       container)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "container = ", &container); //####
+    ODL_ENTER(); //####
+    ODL_P2("arguments = ", &arguments, "container = ", &container); //####
     container.clear();
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
@@ -419,14 +419,14 @@ Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
             anArg->addValueToBottle(container);
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // Utilities::CopyArgumentsToBottle
 
 Utilities::ArgumentMode
 Utilities::ModeFromString(const YarpString & modeString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("modeString = ", modeString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("modeString = ", modeString); //####
     ArgumentMode      result = kArgModeUnknown;
     std::stringstream buff(modeString.c_str());
     int               modeAsInt;
@@ -444,7 +444,7 @@ Utilities::ModeFromString(const YarpString & modeString)
             result = static_cast<ArgumentMode>(modeAsInt);
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
     return result;
 } // Utilities::ModeFromString
 
@@ -453,8 +453,8 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
                             Option_::Parser &        parseResult,
                             YarpString &             badArgs)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("arguments = ", &arguments, "parseResult = ", &parseResult, "badArgs = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("arguments = ", &arguments, "parseResult = ", &parseResult, "badArgs = ", //####
               &badArgs); //####
     bool   result = true;
     bool   sawExtra = false;
@@ -467,7 +467,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
-    OD_LOG_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
+    ODL_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
                numToCheck); //####
     // Set all arguments to their default values, so that they are all defined.
     badArgs = "";
@@ -490,23 +490,23 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
         
         if (anArg)
         {
-            OD_LOG("(anArg)"); //####
+            ODL_LOG("(anArg)"); //####
             if (anArg->isExtra())
             {
-                OD_LOG("(anArg->isExtra())"); //####
+                ODL_LOG("(anArg->isExtra())"); //####
                 sawExtra = true;
             }
             else if (anArg->isOptional())
             {
-                OD_LOG("(anArg->isOptional())"); //####
+                ODL_LOG("(anArg->isOptional())"); //####
                 result = (! sawExtra);
-                OD_LOG_B1("result <- ", result); //####
+                ODL_B1("result <- ", result); //####
                 sawOptional = true;
             }
             else
             {
                 result = (! sawOptional) && (! sawExtra);
-                OD_LOG_B1("result <- ", result); //####
+                ODL_B1("result <- ", result); //####
             }
         }
     }
@@ -520,7 +520,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
             
             if (anArg && (! anArg->isExtra()))
             {
-                OD_LOG("(anArg && (! anArg->isExtra()))"); //####
+                ODL_LOG("(anArg && (! anArg->isExtra()))"); //####
                 if (! anArg->validate(parseResult.nonOption(static_cast<int>(ii))))
                 {
                     if (0 < badArgs.length())
@@ -529,7 +529,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
                     }
                     badArgs += anArg->argumentName();
                     result = false;
-                    OD_LOG_B1("result <- ", result); //####
+                    ODL_B1("result <- ", result); //####
                 }
             }
         }
@@ -543,30 +543,30 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
         
         if (anArg && (! anArg->isExtra()))
         {
-            OD_LOG("(anArg && (! anArg->isExtra()))"); //####
-            OD_LOG_LL1("arg mode = ", anArg->argumentMode()); //####
+            ODL_LOG("(anArg && (! anArg->isExtra()))"); //####
+            ODL_LL1("arg mode = ", anArg->argumentMode()); //####
             if (! anArg->isOptional())
             {
-                OD_LOG("(! anArg->isOptional())"); //####
+                ODL_LOG("(! anArg->isOptional())"); //####
                 if (0 < badArgs.length())
                 {
                     badArgs += ", ";
                 }
                 badArgs += anArg->argumentName();
                 result = false;
-                OD_LOG_B1("result <- ", result); //####
+                ODL_B1("result <- ", result); //####
             }
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // Utilities::ProcessArguments
 
 bool
 Utilities::PromptForValues(const DescriptorVector & arguments)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
+    ODL_ENTER(); //####
+    ODL_P1("arguments = ", &arguments); //####
     bool result = true;
     char inChar;
 
@@ -638,6 +638,6 @@ Utilities::PromptForValues(const DescriptorVector & arguments)
             }
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // Utilities::PromptForValues

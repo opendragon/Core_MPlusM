@@ -93,15 +93,15 @@ MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
                                          Parser::BaseNameValidator * validator) :
     inherited(MpM_MATCH_REQUEST_, service), _validator(validator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("service = ", &service, "validator = ", validator); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P2("service = ", &service, "validator = ", validator); //####
+    ODL_EXIT_P(this); //####
 } // MatchRequestHandler::MatchRequestHandler
 
 MatchRequestHandler::~MatchRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // MatchRequestHandler::~MatchRequestHandler
 
 #if defined(__APPLE__)
@@ -110,17 +110,17 @@ MatchRequestHandler::~MatchRequestHandler(void)
 
 DEFINE_FILLINALIASES_(MatchRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("find");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(MatchRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -142,10 +142,10 @@ DEFINE_FILLINDESCRIPTION_(MatchRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -159,10 +159,10 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -179,7 +179,7 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                 int        conditionAsInt = condition.asInt();
                 YarpString argAsString(argument.toString());
                 
-                OD_LOG_S1s("argAsString <- ", argAsString); //####
+                ODL_S1s("argAsString <- ", argAsString); //####
                 size_t                    endPos;
                 Parser::MatchExpression * matcher =
                                         Parser::MatchExpression::CreateMatcher(argAsString,
@@ -189,7 +189,7 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                 
                 if (matcher)
                 {
-                    OD_LOG("(matcher)"); //####
+                    ODL_LOG("(matcher)"); //####
                     // Hand off the processing to the Registry Service. First, put the 'OK' response
                     // in the output buffer, as we have successfully parsed the request.
                     _response.addString(MpM_OK_RESPONSE_);
@@ -197,7 +197,7 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                                                                                0 != conditionAsInt,
                                                                                        _response))
                     {
-                        OD_LOG("(! static_cast<RegistryService &>(_service)." //####
+                        ODL_LOG("(! static_cast<RegistryService &>(_service)." //####
                                "processMatchRequest(matcher, 0 != conditionAsInt, " //####
                                "_response))"); //####
                         _response.clear();
@@ -208,21 +208,21 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                 }
                 else
                 {
-                    OD_LOG("! (matcher)"); //####
+                    ODL_LOG("! (matcher)"); //####
                     _response.addString(MpM_FAILED_RESPONSE_);
                     _response.addString("Invalid criteria");
                 }
             }
             else
             {
-                OD_LOG("! (argument.isString())"); //####
+                ODL_LOG("! (argument.isString())"); //####
                 _response.addString(MpM_FAILED_RESPONSE_);
                 _response.addString("Invalid criteria");
             }
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())"); //####
+            ODL_LOG("! (1 == restOfInput.size())"); //####
             _response.addString(MpM_FAILED_RESPONSE_);
             _response.addString("Missing criteria or extra arguments to request");
         }
@@ -230,10 +230,10 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // MatchRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

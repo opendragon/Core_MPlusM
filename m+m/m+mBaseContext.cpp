@@ -81,14 +81,14 @@ using namespace MplusM::Common;
 
 BaseContext::BaseContext(void)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseContext::BaseContext
 
 BaseContext::~BaseContext(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseContext::~BaseContext
 
 #if defined(__APPLE__)

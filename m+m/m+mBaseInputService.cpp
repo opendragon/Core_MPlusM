@@ -97,21 +97,21 @@ BaseInputService::BaseInputService(const Utilities::DescriptorVector & argumentL
               canonicalName, description, requestsDescription, serviceEndpointName,
               servicePortNumber)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
-    OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
+    ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    ODL_EXIT_P(this); //####
 } // BaseInputService::BaseInputService
 
 BaseInputService::~BaseInputService(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputService::~BaseInputService
 
 #if defined(__APPLE__)
@@ -120,23 +120,23 @@ BaseInputService::~BaseInputService(void)
 
 DEFINE_SETUPOUTPUTSTREAMS_(BaseInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
     
     if (result)
     {
         result = addOutStreamsFromDescriptions(_outDescriptions);
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputService::setUpOutputStreams
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // BaseInputService::shutDownOutputStreams
 

@@ -87,14 +87,14 @@ using std::endl;
 RecordBlobOutputInputHandler::RecordBlobOutputInputHandler(void) :
     inherited(), _outFile(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RecordBlobOutputInputHandler::RecordBlobOutputInputHandler
 
 RecordBlobOutputInputHandler::~RecordBlobOutputInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RecordBlobOutputInputHandler::~RecordBlobOutputInputHandler
 
 #if defined(__APPLE__)
@@ -112,17 +112,17 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
     {
         if (_outFile)
         {
-            OD_LOG("(_outFile)"); //####
+            ODL_LOG("(_outFile)"); //####
             if (1 == input.size())
             {
                 yarp::os::Value & firstTopValue = input.get(0);
@@ -163,10 +163,10 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordBlobOutputInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
@@ -176,10 +176,10 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
 void
 RecordBlobOutputInputHandler::setFile(FILE * outFile)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("outFile = ", outFile); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("outFile = ", outFile); //####
     _outFile = outFile;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordBlobOutputInputHandler::setFile
 
 #if defined(__APPLE__)

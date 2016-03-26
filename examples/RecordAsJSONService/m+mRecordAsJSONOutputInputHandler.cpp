@@ -87,14 +87,14 @@ using namespace MplusM::Example;
 RecordAsJSONOutputInputHandler::RecordAsJSONOutputInputHandler(void) :
     inherited(), _outFile(NULL), _isFirst(true)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RecordAsJSONOutputInputHandler::RecordAsJSONOutputInputHandler
 
 RecordAsJSONOutputInputHandler::~RecordAsJSONOutputInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputInputHandler::~RecordAsJSONOutputInputHandler
 
 #if defined(__APPLE__)
@@ -112,17 +112,17 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
     {
         if (_outFile)
         {
-            OD_LOG("(_outFile)"); //####
+            ODL_LOG("(_outFile)"); //####
 #if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -158,10 +158,10 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RecordAsJSONOutputInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
@@ -171,8 +171,8 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 void
 RecordAsJSONOutputInputHandler::setFile(FILE * outFile)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("outFile = ", outFile); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("outFile = ", outFile); //####
     if (outFile)
     {
         fputs("[ ", outFile);
@@ -183,7 +183,7 @@ RecordAsJSONOutputInputHandler::setFile(FILE * outFile)
         fputs(" ]", _outFile);
     }
     _outFile = outFile;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputInputHandler::setFile
 
 #if defined(__APPLE__)

@@ -93,20 +93,20 @@ ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
               "returns list of MIDI note numbers defining the chord", serviceEndpointName,
               servicePortNumber), _chordReqHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // ChordGeneratorService::ChordGeneratorService
 
 ChordGeneratorService::~ChordGeneratorService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorService::~ChordGeneratorService
 
 #if defined(__APPLE__)
@@ -116,7 +116,7 @@ ChordGeneratorService::~ChordGeneratorService(void)
 void
 ChordGeneratorService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         //60 64 67
@@ -127,21 +127,21 @@ ChordGeneratorService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_chordReqHandler)"); //####
+            ODL_LOG("! (_chordReqHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorService::attachRequestHandlers
 
 void
 ChordGeneratorService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_chordReqHandler)
@@ -153,15 +153,15 @@ ChordGeneratorService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ChordGeneratorService::detachRequestHandlers
 
 DEFINE_STARTSERVICE_(ChordGeneratorService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -173,22 +173,22 @@ DEFINE_STARTSERVICE_(ChordGeneratorService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // ChordGeneratorService::startService
 
 DEFINE_STOPSERVICE_(ChordGeneratorService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -197,10 +197,10 @@ DEFINE_STOPSERVICE_(ChordGeneratorService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ChordGeneratorService::stopService
 

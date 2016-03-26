@@ -87,14 +87,14 @@ using namespace MplusM::Example;
 EchoClient::EchoClient(void) :
     inherited("examples/echo_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // EchoClient::EchoClient
 
 EchoClient::~EchoClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // EchoClient::~EchoClient
 
 #if defined(__APPLE__)
@@ -105,9 +105,9 @@ bool
 EchoClient::sendAndReceive(const YarpString & outgoing,
                            YarpString &       incoming)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("outgoing = ", outgoing); //####
-    OD_LOG_P1("incoming = ", &incoming); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("outgoing = ", outgoing); //####
+    ODL_P1("incoming = ", &incoming); //####
     bool okSoFar = false;
     
     try
@@ -123,15 +123,15 @@ EchoClient::sendAndReceive(const YarpString & outgoing,
         }
         else
         {
-            OD_LOG("! (send(MpM_ECHO_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_ECHO_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // EchoClient::sendAndReceive
 

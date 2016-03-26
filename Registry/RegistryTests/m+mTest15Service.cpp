@@ -90,19 +90,19 @@ Test15Service::Test15Service(const YarpString & launchPath,
     inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test15",
               "Simple service for unit tests", ""), _echoHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("launchPath = ", launchPath); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_ENTER(); //####
+    ODL_S1s("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // Test15Service::Test15Service
 
 Test15Service::~Test15Service(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test15Service::~Test15Service
 
 #if defined(__APPLE__)
@@ -112,7 +112,7 @@ Test15Service::~Test15Service(void)
 void
 Test15Service::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _echoHandler = new Test15EchoRequestHandler(*this);
@@ -122,21 +122,21 @@ Test15Service::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_echoHandler)"); //####
+            ODL_LOG("! (_echoHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test15Service::attachRequestHandlers
 
 void
 Test15Service::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_echoHandler)
@@ -148,15 +148,15 @@ Test15Service::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test15Service::detachRequestHandlers
 
 DEFINE_STARTSERVICE_(Test15Service)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -170,23 +170,23 @@ DEFINE_STARTSERVICE_(Test15Service)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test15Service::startService
 
 DEFINE_STOPSERVICE_(Test15Service)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -195,10 +195,10 @@ DEFINE_STOPSERVICE_(Test15Service)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test15Service::stopService
 

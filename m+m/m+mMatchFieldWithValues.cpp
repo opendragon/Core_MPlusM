@@ -88,9 +88,9 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
                                     size_t &            endPos,
                                     BaseNameValidator * validator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
+    ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchFieldWithValues * result = NULL;
     
     try
@@ -117,7 +117,7 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
                     }
                     else
                     {
-                        OD_LOG("! (asList)"); //####
+                        ODL_LOG("! (asList)"); //####
                     }
                 }
                 else
@@ -131,7 +131,7 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
                     }
                     else
                     {
-                        OD_LOG("! (asSingle)"); //####
+                        ODL_LOG("! (asSingle)"); //####
                     }
                 }
                 if (result)
@@ -145,21 +145,21 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
             }
             else
             {
-                OD_LOG("! (workPos < inLength)"); //####
+                ODL_LOG("! (workPos < inLength)"); //####
                 delete fieldName;
             }
         }
         else
         {
-            OD_LOG("! (fieldName)"); //####
+            ODL_LOG("! (fieldName)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // MatchFieldWithValues::CreateMatcher
 
@@ -173,9 +173,9 @@ MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
     inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle),
     _values(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asSingle = ", asSingle); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P3("validator = ", validator, "fieldName = ", fieldName, "asSingle = ", asSingle); //####
+    ODL_EXIT_P(this); //####
 } // MatchFieldWithValues::MatchFieldWithValues
 
 MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
@@ -184,18 +184,18 @@ MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
     inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL),
     _values(asList)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asList = ", asList); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P3("validator = ", validator, "fieldName = ", fieldName, "asList = ", asList); //####
+    ODL_EXIT_P(this); //####
 } // MatchFieldWithValues::MatchFieldWithValues
 
 MatchFieldWithValues::~MatchFieldWithValues(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     delete _fieldName;
     delete _singleValue;
     delete _values;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MatchFieldWithValues::~MatchFieldWithValues
 
 #if defined(__APPLE__)
@@ -206,7 +206,7 @@ YarpString
 MatchFieldWithValues::asSQLString(void)
 const
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString converted;
     
     try
@@ -225,7 +225,7 @@ const
         {
             trueName = field.c_str();
         }
-        OD_LOG_S1("trueName <- ", trueName); //####
+        ODL_S1("trueName <- ", trueName); //####
         if (_singleValue)
         {
             if (prefixString)
@@ -262,10 +262,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(converted.c_str()); //####
+    ODL_OBJEXIT_S(converted.c_str()); //####
     return converted;
 } // MatchFieldWithValues::asSQLString
 
@@ -290,7 +290,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;

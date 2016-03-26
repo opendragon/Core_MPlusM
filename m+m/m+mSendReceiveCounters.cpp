@@ -108,8 +108,8 @@ SendReceiveCounters::SendReceiveCounters(const int64_t initialInBytes,
     _inBytes(initialInBytes), _outBytes(initialOutBytes), _inMessages(initialInMessages),
     _outMessages(initialOutMessages)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // SendReceiveCounters::SendReceiveCounters
 
 #if defined(__APPLE__)
@@ -120,9 +120,9 @@ void
 SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
                                const YarpString & channel)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("counterList = ", &counterList); //####
-    OD_LOG_S1s("channel = ", channel); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("counterList = ", &counterList); //####
+    ODL_S1s("channel = ", channel); //####
     char                 buffer1[DATE_TIME_BUFFER_SIZE_];
     char                 buffer2[DATE_TIME_BUFFER_SIZE_];
     yarp::os::Property & props = counterList.addDict();
@@ -135,63 +135,63 @@ SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_INMESSAGES_, _inMessages);
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_OUTBYTES_, _outBytes);
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_OUTMESSAGES_, _outMessages);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendReceiveCounters::addToList
 
 void
 SendReceiveCounters::clearCounters(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _inBytes = _outBytes = 0;
     _inMessages = _outMessages = 0;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SendReceiveCounters::clearCounters
 
 SendReceiveCounters &
 SendReceiveCounters::incrementInCounters(const int64_t moreInBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("moreInBytes = ", moreInBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("moreInBytes = ", moreInBytes); //####
     _inBytes += moreInBytes;
     ++_inMessages;
-    OD_LOG_OBJEXIT_P(this); //####
+    ODL_OBJEXIT_P(this); //####
     return *this;
 } // SendReceiveCounters::incrementInCounters
 
 SendReceiveCounters &
 SendReceiveCounters::incrementOutCounters(const int64_t moreOutBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("moreOutBytes = ", moreOutBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("moreOutBytes = ", moreOutBytes); //####
     _outBytes += moreOutBytes;
     ++_outMessages;
-    OD_LOG_OBJEXIT_P(this); //####
+    ODL_OBJEXIT_P(this); //####
     return *this;
 } // SendReceiveCounters::incrementOutCounters
 
 SendReceiveCounters &
 SendReceiveCounters::operator =(const SendReceiveCounters & other)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("other = ", &other); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("other = ", &other); //####
     _inBytes = other._inBytes;
     _outBytes = other._outBytes;
     _inMessages = other._inMessages;
     _outMessages = other._outMessages;
-    OD_LOG_OBJEXIT_P(this); //####
+    ODL_OBJEXIT_P(this); //####
     return *this;
 } // SendReceiveCounters::operator =
 
 SendReceiveCounters &
 SendReceiveCounters::operator +=(const SendReceiveCounters & other)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("other = ", &other); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("other = ", &other); //####
     _inBytes += other._inBytes;
     _outBytes += other._outBytes;
     _inMessages += other._inMessages;
     _outMessages += other._outMessages;
-    OD_LOG_OBJEXIT_P(this); //####
+    ODL_OBJEXIT_P(this); //####
     return *this;
 } // SendReceiveCounters::operator +=
 

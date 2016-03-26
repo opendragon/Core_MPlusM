@@ -133,9 +133,9 @@ dumpObjectToStdoutForJs(JSContext * jct,
                         unsigned    argc,
                         JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     
@@ -181,7 +181,7 @@ dumpObjectToStdoutForJs(JSContext * jct,
         JS_ReportError(jct, "Missing arguments to dumpObjectToStdout");
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // dumpObjectToStdoutForJs
 
@@ -195,9 +195,9 @@ getTimeNowForJs(JSContext * jct,
                 unsigned    argc,
                 JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     
@@ -211,7 +211,7 @@ getTimeNowForJs(JSContext * jct,
         args.rval().setDouble(yarp::os::Time::now());
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // getTimeNowForJs
 
@@ -225,9 +225,9 @@ requestStopForJs(JSContext * jct,
                  unsigned    argc,
                  JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     
@@ -247,7 +247,7 @@ requestStopForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // requestStopForJs
 
@@ -261,9 +261,9 @@ sendToChannelForJs(JSContext * jct,
                    unsigned    argc,
                    JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     
@@ -290,7 +290,7 @@ sendToChannelForJs(JSContext * jct,
     {
         JS_ReportError(jct, "Missing argument(s) to sendToChannel");
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // sendToChannelForJs
 
@@ -304,9 +304,9 @@ writeLineToStdoutForJs(JSContext * jct,
                        unsigned    argc,
                        JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     
@@ -335,7 +335,7 @@ writeLineToStdoutForJs(JSContext * jct,
         JS_ReportError(jct, "Non-string argument to writeLineToStdout");
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // writeLineToStdoutForJs
 
@@ -359,11 +359,11 @@ static bool
 addCustomFunctions(JSContext *        jct,
                    JS::RootedObject & global)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
     
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomFunctions
 
@@ -400,7 +400,7 @@ static void
 cleanupStreamObject(JSFreeOp * freeOp,
                     JSObject * obj)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     if (&lStreamClass == JS_GetClass(obj))
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(obj));
@@ -411,7 +411,7 @@ cleanupStreamObject(JSFreeOp * freeOp,
             JS_SetPrivate(obj, NULL);
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // cleanupStreamObject
 
 /*! @brief A C-callback function for %JavaScript to create a Stream object.
@@ -455,9 +455,9 @@ streamAtEofForJs(JSContext * jct,
                  unsigned    argc,
                  JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -481,7 +481,7 @@ streamAtEofForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamAtEofForJs
 
@@ -495,9 +495,9 @@ streamClearErrorForJs(JSContext * jct,
                       unsigned    argc,
                       JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -516,7 +516,7 @@ streamClearErrorForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamClearErrorForJs
 
@@ -530,9 +530,9 @@ streamCloseForJs(JSContext * jct,
                  unsigned    argc,
                  JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -552,7 +552,7 @@ streamCloseForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamCloseForJs
 
@@ -566,9 +566,9 @@ streamHasErrorForJs(JSContext * jct,
                     unsigned    argc,
                     JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -592,7 +592,7 @@ streamHasErrorForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamHasErrorForJs
 
@@ -606,9 +606,9 @@ streamIsOpenForJs(JSContext * jct,
                   unsigned    argc,
                   JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -624,7 +624,7 @@ streamIsOpenForJs(JSContext * jct,
         args.rval().setBoolean(NULL != aFile);
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamIsOpenForJs
 
@@ -638,9 +638,9 @@ streamOpenForJs(JSContext * jct,
                 unsigned    argc,
                 JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -680,7 +680,7 @@ streamOpenForJs(JSContext * jct,
     {
         JS_ReportError(jct, "Missing argument(s) to Stream.open");
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamOpenForJs
 
@@ -695,9 +695,9 @@ streamReadCharacterForJs(JSContext * jct,
                          unsigned    argc,
                          JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -723,7 +723,7 @@ streamReadCharacterForJs(JSContext * jct,
             result = true;
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamReadCharacterForJs
 
@@ -737,9 +737,9 @@ streamReadLineForJs(JSContext * jct,
                     unsigned    argc,
                     JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -793,7 +793,7 @@ streamReadLineForJs(JSContext * jct,
             result = true;
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamReadLineForJs
 
@@ -807,9 +807,9 @@ streamReadNumberForJs(JSContext * jct,
                       unsigned    argc,
                       JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -833,7 +833,7 @@ streamReadNumberForJs(JSContext * jct,
             result = true;
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamReadNumberForJs
 
@@ -847,9 +847,9 @@ streamReadStringForJs(JSContext * jct,
                       unsigned    argc,
                       JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -953,7 +953,7 @@ streamReadStringForJs(JSContext * jct,
             result = true;
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamReadStringForJs
 
@@ -967,9 +967,9 @@ streamRewindForJs(JSContext * jct,
                   unsigned    argc,
                   JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -988,7 +988,7 @@ streamRewindForJs(JSContext * jct,
         }
         result = true;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamRewindForJs
 
@@ -1002,9 +1002,9 @@ streamWriteForJs(JSContext * jct,
                  unsigned    argc,
                  JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -1030,7 +1030,7 @@ streamWriteForJs(JSContext * jct,
     {
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamWriteForJs
 
@@ -1045,9 +1045,9 @@ streamWriteLineForJs(JSContext * jct,
                      unsigned    argc,
                      JS::Value * vp)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "vp = ", vp); //####
+    ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -1075,7 +1075,7 @@ streamWriteLineForJs(JSContext * jct,
     {
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // streamWriteLineForJs
 
@@ -1106,8 +1106,8 @@ static bool
 addCustomClasses(JSContext *        jct,
                  JS::RootedObject & global)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = false;
     
 #if (40 < MOZJS_MAJOR_VERSION)
@@ -1120,7 +1120,7 @@ addCustomClasses(JSContext *        jct,
     {
         okSoFar = true;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomClasses
 
@@ -1134,8 +1134,8 @@ addArgvObject(JSContext *              jct,
               JS::RootedObject &       global,
               const YarpStringVector & argv)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     bool       okSoFar = true;
     JSObject * argArray = JS_NewArrayObject(jct, 0);
     
@@ -1210,7 +1210,7 @@ addArgvObject(JSContext *              jct,
     {
         okSoFar = false;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addArgvObject
 
@@ -1224,9 +1224,9 @@ addScriptTagObject(JSContext *        jct,
                    JS::RootedObject & global,
                    const YarpString & tag)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_P2("jct = ", jct, "global = ", &global); //####
+    ODL_S1s("tag = ", tag); //####
     bool       okSoFar = true;
     JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
     
@@ -1244,7 +1244,7 @@ addScriptTagObject(JSContext *        jct,
     {
         okSoFar = false;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addScriptTagObject
 
@@ -1260,9 +1260,9 @@ addCustomObjects(JSContext *              jct,
                  const YarpString &       tag,
                  const YarpStringVector & argv)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
+    ODL_S1s("tag = ", tag); //####
     bool okSoFar = addCustomFunctions(jct, global);
     
     if (okSoFar)
@@ -1277,7 +1277,7 @@ addCustomObjects(JSContext *              jct,
     {
         okSoFar = addScriptTagObject(jct, global, tag);
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomObjects
 
@@ -1293,9 +1293,9 @@ loadScript(JSContext *                jct,
            const YarpString &         script,
            const YarpString &         scriptPath)
 {
-    OD_LOG_ENTER();
-    OD_LOG_P1("jct = ", jct); //####
-    OD_LOG_S1s("scriptPath = ", scriptPath); //####
+    ODL_ENTER();
+    ODL_P1("jct = ", jct); //####
+    ODL_S1s("scriptPath = ", scriptPath); //####
     bool            okSoFar;
     JS::RootedValue result(jct);
     
@@ -1304,7 +1304,7 @@ loadScript(JSContext *                jct,
     // and variables in the environment. The documentation states that NULL can be passed as the
     // last argument, but compiles fail if this is done.
     okSoFar = JS::Evaluate(jct, options, script.c_str(), script.size(), &result);
-    OD_LOG_EXIT_B(okSoFar);
+    ODL_EXIT_B(okSoFar);
     return okSoFar;
 } // loadScript
 
@@ -1325,10 +1325,10 @@ getLoadedDouble(JSContext *        jct,
                 const bool         isOptional,
                 double &           result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
     bool found = false;
     bool okSoFar;
     
@@ -1343,7 +1343,7 @@ getLoadedDouble(JSContext *        jct,
     }
     else
     {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
+        ODL_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
         MpM_FAIL_("Problem searching for a property.");
     }
@@ -1383,7 +1383,7 @@ getLoadedDouble(JSContext *        jct,
                             }
                             else
                             {
-                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
+                                ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
                                 
@@ -1405,7 +1405,7 @@ getLoadedDouble(JSContext *        jct,
             }
             if (! okSoFar)
             {
-                OD_LOG("! (okSoFar)"); //####
+                ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
                 
@@ -1416,12 +1416,12 @@ getLoadedDouble(JSContext *        jct,
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
+            ODL_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
             okSoFar = false;
             MpM_FAIL_("Problem retrieving a property.");
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedDouble
 
@@ -1442,10 +1442,10 @@ getLoadedString(JSContext *        jct,
                 const bool         isOptional,
                 YarpString &       result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
     bool found = false;
     bool okSoFar;
     
@@ -1460,7 +1460,7 @@ getLoadedString(JSContext *        jct,
     }
     else
     {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
+        ODL_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
         MpM_FAIL_("Problem searching for a property.");
     }
@@ -1508,7 +1508,7 @@ getLoadedString(JSContext *        jct,
                             }
                             else
                             {
-                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
+                                ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
                                 
@@ -1530,7 +1530,7 @@ getLoadedString(JSContext *        jct,
             }
             if (! okSoFar)
             {
-                OD_LOG("! (okSoFar)"); //####
+                ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
                 
@@ -1541,12 +1541,12 @@ getLoadedString(JSContext *        jct,
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
+            ODL_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
             okSoFar = false;
             MpM_FAIL_("Problem retrieving a property.");
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedString
 
@@ -1564,10 +1564,10 @@ getLoadedFunctionRef(JSContext *        jct,
                      const uint32_t     arity,
                      JS::RootedValue &  result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_L1("arity = ", arity); //####
+    ODL_ENTER(); //####
+    ODL_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_L1("arity = ", arity); //####
     bool found = false;
     bool okSoFar;
     
@@ -1577,7 +1577,7 @@ getLoadedFunctionRef(JSContext *        jct,
     }
     else
     {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
+        ODL_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
         MpM_FAIL_("Problem searching for a property.");
     }
@@ -1603,7 +1603,7 @@ getLoadedFunctionRef(JSContext *        jct,
             }
             if (! okSoFar)
             {
-                OD_LOG("! (okSoFar)"); //####
+                ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
                 
@@ -1614,12 +1614,12 @@ getLoadedFunctionRef(JSContext *        jct,
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &result))"); //####
+            ODL_LOG("! (JS_GetProperty(jct, anObject, propertyName, &result))"); //####
             okSoFar = false;
             MpM_FAIL_("Problem retrieving a property.");
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedFunctionRef
 
@@ -1635,14 +1635,14 @@ processStreamDescription(JSContext *           jct,
                          JS::AutoValueVector * inletHandlers,
                          ChannelDescription &  description)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
+    ODL_ENTER(); //####
+    ODL_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
               "description = ", &description); //####
     bool okSoFar = true;
     
     if (! anElement.isObject())
     {
-        OD_LOG("(! anElement.isObject())"); //####
+        ODL_LOG("(! anElement.isObject())"); //####
         okSoFar = false;
         MpM_FAIL_("Array element has the wrong type.");
     }
@@ -1652,7 +1652,7 @@ processStreamDescription(JSContext *           jct,
     {
         if (! JS_ValueToObject(jct, anElement, &asObject))
         {
-            OD_LOG("(! JS_ValueToObject(jct, anElement, &asObject))"); //####
+            ODL_LOG("(! JS_ValueToObject(jct, anElement, &asObject))"); //####
             okSoFar = false;
             MpM_FAIL_("Problem converting array element to object.");
         }
@@ -1682,7 +1682,7 @@ processStreamDescription(JSContext *           jct,
             inletHandlers->append(result);
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // processStreamDescription
 
@@ -1701,10 +1701,10 @@ getLoadedStreamDescriptions(JSContext *           jct,
                             JS::AutoValueVector * inletHandlers,
                             ChannelVector &       streamDescriptions)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
+    ODL_ENTER(); //####
+    ODL_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
               "streamDescriptions = ", &streamDescriptions); //####
-    OD_LOG_S1("arrayName = ", arrayName); //####
+    ODL_S1("arrayName = ", arrayName); //####
     bool found = false;
     bool okSoFar;
     
@@ -1715,7 +1715,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
     }
     else
     {
-        OD_LOG("! (JS_HasProperty(jct, global, arrayName, &found))"); //####
+        ODL_LOG("! (JS_HasProperty(jct, global, arrayName, &found))"); //####
         okSoFar = false;
         MpM_FAIL_("Problem searching for a global property.");
     }
@@ -1735,7 +1735,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 }
                 else
                 {
-                    OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
+                    ODL_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
                     MpM_FAIL_("Problem converting value to object.");
                 }
             }
@@ -1759,14 +1759,14 @@ getLoadedStreamDescriptions(JSContext *           jct,
                             }
                             else
                             {
-                                OD_LOG("(! JS_ValueToObject(jct, funcResult, &asObject))"); //####
+                                ODL_LOG("(! JS_ValueToObject(jct, funcResult, &asObject))"); //####
                                 MpM_FAIL_("Problem converting value to object.");
                             }
                         }
                     }
                     else
                     {
-                        OD_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
+                        ODL_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
                                "&funcResult))"); //####
                         JS::RootedValue exc(jct);
                         
@@ -1786,7 +1786,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
             }
             if (! okSoFar)
             {
-                OD_LOG("(! okSoFar)"); //####
+                ODL_LOG("(! okSoFar)"); //####
                 YarpString message("Property '");
                 
                 message += arrayName;
@@ -1796,7 +1796,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, global, arrayName, &value))"); //####
+            ODL_LOG("! (JS_GetProperty(jct, global, arrayName, &value))"); //####
             okSoFar = false;
             MpM_FAIL_("Problem retrieving a global property.");
         }
@@ -1806,7 +1806,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
         {
             if (! JS_GetArrayLength(jct, asObject, &arrayLength))
             {
-                OD_LOG("(! JS_GetArrayLength(jct, asObject, &arrayLength))"); //####
+                ODL_LOG("(! JS_GetArrayLength(jct, asObject, &arrayLength))"); //####
                 okSoFar = false;
                 MpM_FAIL_("Problem getting the array length.");
             }
@@ -1829,14 +1829,14 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 }
                 else
                 {
-                    OD_LOG("! (JS_GetElement(jct, asObject, ii, &anElement))"); //####
+                    ODL_LOG("! (JS_GetElement(jct, asObject, ii, &anElement))"); //####
                     okSoFar = false;
                     MpM_FAIL_("Problem getting an array element.");
                 }
             }
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedStreamDescriptions
 
@@ -1868,13 +1868,13 @@ validateLoadedScript(JSContext *           jct,
                      JS::RootedValue &     loadedThreadFunction,
                      double &              loadedInterval)
 {
-    OD_LOG_ENTER();
-    OD_LOG_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
+    ODL_ENTER();
+    ODL_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
               "description = ", &description); //####
-    OD_LOG_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
+    ODL_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
               &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
               &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
-    OD_LOG_P4("loadedStartingFunction = ", &loadedStartingFunction, //####
+    ODL_P4("loadedStartingFunction = ", &loadedStartingFunction, //####
               "loadedStoppingFunction = ", &loadedStoppingFunction, //####
               "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
               &loadedInterval); //####
@@ -1924,7 +1924,7 @@ validateLoadedScript(JSContext *           jct,
     {
         okSoFar = getLoadedDouble(jct, global, "scriptInterval", true, true, loadedInterval);
     }
-    OD_LOG_EXIT_B(okSoFar);
+    ODL_EXIT_B(okSoFar);
     return okSoFar;
 } // validateLoadedScript
 
@@ -1957,13 +1957,13 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const bool                          reportOnExit,
            const bool                          stdinAvailable)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
-    OD_LOG_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
+    ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString scriptSource;
 
@@ -1993,7 +1993,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         if (JS_Init())
         {
             JSContext * jct = NULL;
-            OD_LOG("creating the JavaScript runtime"); //####
+            ODL_LOG("creating the JavaScript runtime"); //####
             JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE_ * 1024L * 1024L);
 
             if (jrt)
@@ -2004,7 +2004,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
 #endif // 40 >= MOZJS_MAJOR_VERSION
                 JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
-                OD_LOG("creating the JavaScript context"); //####
+                ODL_LOG("creating the JavaScript context"); //####
                 jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE_);
                 if (jct)
                 {
@@ -2013,16 +2013,16 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 }
                 else
                 {
-                    OD_LOG("! (jct)"); //####
+                    ODL_LOG("! (jct)"); //####
                     MpM_FAIL_("JavaScript context could not be allocated.");
-                    OD_LOG("destroying the JavaScript runtime"); //####
+                    ODL_LOG("destroying the JavaScript runtime"); //####
                     JS_DestroyRuntime(jrt);
                     jrt = NULL;
                 }
             }
             else
             {
-                OD_LOG("! (jrt)"); //####
+                ODL_LOG("! (jrt)"); //####
                 MpM_FAIL_("JavaScript runtime could not be allocated.");
             }
             if (jrt && jct)
@@ -2057,7 +2057,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     }
                     else
                     {
-                        OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
+                        ODL_LOG("! (JS_InitStandardClasses(jct, global))"); //####
                         okSoFar = false;
                         MpM_FAIL_("JavaScript global object could not be initialized.");
                     }
@@ -2065,7 +2065,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     {
                         if (! addCustomObjects(jct, global, tag, arguments))
                         {
-                            OD_LOG("(! addCustomObjects(jct, global, tag, arguments))"); //####
+                            ODL_LOG("(! addCustomObjects(jct, global, tag, arguments))"); //####
                             okSoFar = false;
                             MpM_FAIL_("Custom objects could not be added to the JavaScript global "
                                       "object.");
@@ -2075,7 +2075,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     {
                         if (! loadScript(jct, options, scriptSource, scriptPath))
                         {
-                            OD_LOG("(! loadScript(jct, options, scriptSource, scriptPath))"); //####
+                            ODL_LOG("(! loadScript(jct, options, scriptSource, scriptPath))"); //####
                             okSoFar = false;
                             MpM_FAIL_("Script could not be loaded.");
                         }
@@ -2100,7 +2100,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                    loadedStoppingFunction, loadedThreadFunction,
                                                    loadedInterval))
                         {
-                            OD_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
+                            ODL_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
                                    "description, helpText, loadedInletDescriptions, " //####
                                    "loadedOutletDescriptions, loadedInletHandlers, " //####
                                    "loadedStartingFunction, loadedStoppingFunction, " //####
@@ -2136,35 +2136,35 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         }
                         else
                         {
-                            OD_LOG("! (aService)"); //####
+                            ODL_LOG("! (aService)"); //####
                         }
                     }
                 }
                 else
                 {
-                    OD_LOG("! (global)"); //####
+                    ODL_LOG("! (global)"); //####
                     MpM_FAIL_("JavaScript global object could not be created.");
                 }
-                OD_LOG("destroying the JavaScript context"); //####
+                ODL_LOG("destroying the JavaScript context"); //####
                 JS_DestroyContext(jct);
-                OD_LOG("destroying the JavaScript runtime"); //####
+                ODL_LOG("destroying the JavaScript runtime"); //####
                 JS_DestroyRuntime(jrt);
             }
-            OD_LOG("shutting down JavaScript"); //####
+            ODL_LOG("shutting down JavaScript"); //####
             JS_ShutDown();
         }
         else
         {
-            OD_LOG("! (JS_Init())"); //####
+            ODL_LOG("! (JS_Init())"); //####
             MpM_FAIL_("JavaScript engine could not be started.");
         }
     }
     else
     {
-        OD_LOG("! (0 < scriptSource.length())"); //####
+        ODL_LOG("! (0 < scriptSource.length())"); //####
         MpM_FAIL_("Empty script file.");
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -2184,14 +2184,14 @@ main(int      argc,
     YarpString progName(*argv);
 
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -2248,13 +2248,13 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
@@ -2262,9 +2262,9 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

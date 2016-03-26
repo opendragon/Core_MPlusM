@@ -82,14 +82,14 @@ using namespace MplusM::Common;
 BaseInputHandlerCreator::BaseInputHandlerCreator(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseInputHandlerCreator::BaseInputHandlerCreator
 
 BaseInputHandlerCreator::~BaseInputHandlerCreator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandlerCreator::~BaseInputHandlerCreator
 
 #if defined(__APPLE__)
@@ -99,10 +99,10 @@ BaseInputHandlerCreator::~BaseInputHandlerCreator(void)
 void
 BaseInputHandlerCreator::setChannel(BaseChannel * theChannel)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theChannel = ", theChannel); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theChannel = ", theChannel); //####
     _channel = theChannel;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputHandlerCreator::setChannel
 
 #if defined(__APPLE__)

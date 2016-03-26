@@ -94,18 +94,18 @@ DoubleArgumentDescriptor::DoubleArgumentDescriptor(const YarpString & argName,
     _maximumValue(maximumValue), _minimumValue(minimumValue), _hasMaximumValue(hasMaximumValue),
     _hasMinimumValue(hasMinimumValue)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_D3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
+    ODL_ENTER(); //####
+    ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    ODL_D3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
               "maximumValue = ", maximumValue); //####
-    OD_LOG_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
+    ODL_EXIT_P(this); //####
 } // DoubleArgumentDescriptor::DoubleArgumentDescriptor
 
 DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::~DoubleArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -114,55 +114,55 @@ DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 
 DEFINE_ADDVALUETOBOTTLE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("container = ", &container); //####
+    ODL_ENTER(); //####
+    ODL_P1("container = ", &container); //####
     
     container.addDouble(_currentValue);
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
 
 DEFINE_CLONE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new DoubleArgumentDescriptor(argumentName(),
                                                                    argumentDescription(),
                                                                    argumentMode(), _defaultValue,
                                                                    _hasMinimumValue, _minimumValue,
                                                                    _hasMaximumValue, _maximumValue);
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // DoubleArgumentDescriptor::clone
 
 DEFINE_GETDEFAULTVALUE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString        result;
     std::stringstream buff;
 
     buff << _defaultValue;
     result = buff.str();
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // DoubleArgumentDescriptor::getDefaultValue
 
 DEFINE_GETPROCESSEDVALUE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString        result;
     std::stringstream buff;
 
     buff << _currentValue;
     result = buff.str();
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // DoubleArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor *
 DoubleArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -237,21 +237,21 @@ DoubleArgumentDescriptor::parseArgString(const YarpString & inString)
                                                   hasMaximumValue, hasMaximumValue ? maxValue : 0);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // DoubleArgumentDescriptor::parseArgString
 
 DEFINE_SETTODEFAULTVALUE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
-    OD_LOG_D1("_currentValue <- ", _currentValue); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_D1("_currentValue <- ", _currentValue); //####
+    ODL_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefaultValue
 
 DEFINE_TOSTRING_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("D"));
 
     result += _parameterSeparator;
@@ -271,13 +271,13 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
         result += buff.str();
     }
     result += suffixFields(getDefaultValue());
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // DoubleArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(DoubleArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     const char * startPtr = value.c_str();
     char *       endPtr;
     double       dblValue = strtod(startPtr, &endPtr);
@@ -285,29 +285,29 @@ DEFINE_VALIDATE_(DoubleArgumentDescriptor)
     if ((startPtr != endPtr) && (! *endPtr))
     {
         _valid = true;
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
         if (_hasMinimumValue && (dblValue < _minimumValue))
         {
             _valid = false;
-            OD_LOG_B1("_valid <- ", _valid); //####
+            ODL_B1("_valid <- ", _valid); //####
         }
         if (_hasMaximumValue && (dblValue > _maximumValue))
         {
             _valid = false;
-            OD_LOG_B1("_valid <- ", _valid); //####
+            ODL_B1("_valid <- ", _valid); //####
         }
     }
     else
     {
         _valid = false;
-        OD_LOG_B1("_valid <- ", _valid); //####
+        ODL_B1("_valid <- ", _valid); //####
     }
     if (_valid)
     {
         _currentValue = dblValue;
-        OD_LOG_D1("_currentValue <- ", _currentValue); //####
+        ODL_D1("_currentValue <- ", _currentValue); //####
     }
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // DoubleArgumentDescriptor::validate
 

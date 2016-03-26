@@ -90,9 +90,9 @@ static void
 setUpAndGo(void)
 #endif // ! defined(MpM_ReportOnConnections)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
+    ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     EchoClient * aClient = new EchoClient;
     
@@ -124,7 +124,7 @@ setUpAndGo(void)
                         }
                         else
                         {
-                            OD_LOG("! (aClient->sendAndReceive(outgoing, incoming))"); //####
+                            ODL_LOG("! (aClient->sendAndReceive(outgoing, incoming))"); //####
 #if MAC_OR_LINUX_
                             MpM_FAIL_("Problem communicating with the service.");
 #endif // MAC_OR_LINUX_
@@ -138,7 +138,7 @@ setUpAndGo(void)
                 }
                 if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! aClient->disconnectFromService())"); //####
+                    ODL_LOG("(! aClient->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                     MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
 #endif // MAC_OR_LINUX_
@@ -146,22 +146,22 @@ setUpAndGo(void)
             }
             else
             {
-                OD_LOG("! (aClient->connectToService())"); //####
+                ODL_LOG("! (aClient->connectToService())"); //####
                 MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
             }
         }
         else
         {
-            OD_LOG("! (aClient->findService(\"details: Echo*\"))"); //####
+            ODL_LOG("! (aClient->findService(\"details: Echo*\"))"); //####
             MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
         }
         delete aClient;
     }
     else
     {
-        OD_LOG("! (aClient)"); //####
+        ODL_LOG("! (aClient)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -188,10 +188,10 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -227,13 +227,13 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                        ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                         MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                    ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                     MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
@@ -242,10 +242,10 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

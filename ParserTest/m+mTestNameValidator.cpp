@@ -103,14 +103,14 @@ static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldName
 TestNameValidator::TestNameValidator(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // TestNameValidator::TestNameValidator
 
 TestNameValidator::~TestNameValidator(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // TestNameValidator::~TestNameValidator
 
 #if defined(__APPLE__)
@@ -119,8 +119,8 @@ TestNameValidator::~TestNameValidator(void)
 
 DEFINE_CHECKNAME_(TestNameValidator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("aString = ", aString); //####
+    ODL_ENTER(); //####
+    ODL_S1("aString = ", aString); //####
     bool result = false;
     
     try
@@ -137,18 +137,18 @@ DEFINE_CHECKNAME_(TestNameValidator)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // TestNameValidator::checkName
 
 DEFINE_GETPREFIXANDSUFFIX_(TestNameValidator)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("aString = ", aString); //####
-    OD_LOG_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
+    ODL_ENTER(); //####
+    ODL_S1("aString = ", aString); //####
+    ODL_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
     const char * result = NULL;
     
     try
@@ -167,10 +167,10 @@ DEFINE_GETPREFIXANDSUFFIX_(TestNameValidator)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // TestNameValidator::getPrefixAndSuffix
 

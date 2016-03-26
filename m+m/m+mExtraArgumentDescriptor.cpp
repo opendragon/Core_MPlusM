@@ -86,15 +86,15 @@ ExtraArgumentDescriptor::ExtraArgumentDescriptor(const YarpString & argName,
                                                  const YarpString & argDescription) :
     inherited(argName, argDescription, kArgModeOptional)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    ODL_EXIT_P(this); //####
 } // ExtraArgumentDescriptor::ExtraArgumentDescriptor
 
 ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ExtraArgumentDescriptor::~ExtraArgumentDescriptor
 
 #if defined(__APPLE__)
@@ -103,45 +103,45 @@ ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 
 DEFINE_ADDVALUETOBOTTLE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("container = ", &container); //####
+    ODL_ENTER(); //####
+    ODL_P1("container = ", &container); //####
     container.addString(getProcessedValue());
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // ExtraArgumentDescriptor::addValueToBottle
 
 DEFINE_CLONE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new ExtraArgumentDescriptor(argumentName(),
                                                                   argumentDescription());
 
-    OD_LOG_EXIT_P(result);
+    ODL_EXIT_P(result);
     return result;
 } // ExtraArgumentDescriptor::clone
 
 DEFINE_GETDEFAULTVALUE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result;
 
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // ExtraArgumentDescriptor::getDefaultValue
 
 DEFINE_GETPROCESSEDVALUE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result;
 
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // ExtraArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor *
 ExtraArgumentDescriptor::parseArgString(const YarpString & inString)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_S1s("inString = ", inString); //####
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
@@ -173,32 +173,32 @@ ExtraArgumentDescriptor::parseArgString(const YarpString & inString)
             result = new ExtraArgumentDescriptor(name, description);
         }
     }
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     return result;
 } // ExtraArgumentDescriptor::parseArgString
 
 DEFINE_SETTODEFAULTVALUE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ExtraArgumentDescriptor::setToDefaultValue
 
 DEFINE_TOSTRING_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     YarpString result(prefixFields("E"));
 
     result += suffixFields("");
-    OD_LOG_OBJEXIT_s(result); //####
+    ODL_OBJEXIT_s(result); //####
     return result;
 } // ExtraArgumentDescriptor::toString
 
 DEFINE_VALIDATE_(ExtraArgumentDescriptor)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _valid = true;
-    OD_LOG_B1("_valid <- ", _valid); //####
-    OD_LOG_OBJEXIT_B(_valid); //####
+    ODL_B1("_valid <- ", _valid); //####
+    ODL_OBJEXIT_B(_valid); //####
     return _valid;
 } // ExtraArgumentDescriptor::validate
 

@@ -124,11 +124,11 @@ static CommonLispFilterService * lActiveService = NULL;
 static cl_object
 getTimeNowForCl(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
     cl_object  result = ecl_make_double_float(yarp::os::Time::now());
     
-    OD_LOG_EXIT_P(result); //####
+    ODL_EXIT_P(result); //####
     ecl_return1(env, result);
 } // getTimeNowForCl
 
@@ -136,14 +136,14 @@ getTimeNowForCl(void)
 static cl_object
 requestStopForCl(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
     
     if (lActiveService)
     {
         lActiveService->requestServiceStop();
     }
-    OD_LOG_EXIT_P(ECL_NIL); //####
+    ODL_EXIT_P(ECL_NIL); //####
     ecl_return0(env);
 } // requestStopForCl
 
@@ -154,15 +154,15 @@ static cl_object
 sendToChannelForCl(cl_object channelIndex,
                    cl_object message)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("channelIndex = ", channelIndex, "message = ", message); //####
+    ODL_ENTER(); //####
+    ODL_P2("channelIndex = ", channelIndex, "message = ", message); //####
     cl_env_ptr env = ecl_process_env();
 
     if (lActiveService && (ECL_NIL != cl_integerp(channelIndex)))
     {
         lActiveService->sendToChannel(ecl_to_fixnum(channelIndex), message);
     }
-    OD_LOG_EXIT_P(ECL_NIL); //####
+    ODL_EXIT_P(ECL_NIL); //####
     ecl_return0(env);
 } // sendToChannelForCl
 
@@ -171,7 +171,7 @@ sendToChannelForCl(cl_object channelIndex,
 static void
 addCustomFunctions(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     DEFUN_("getTimeNow", getTimeNowForCl, 0);
     DEFUN_("requestStop", requestStopForCl, 0);
     DEFUN_("sendToChannel", sendToChannelForCl, 2);
@@ -200,7 +200,7 @@ addCustomFunctions(void)
     {
         MpM_FAIL_("Could not create 'create-outlet-entry' function.");
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addCustomFunctions
 
 /*! @brief Add custom classes to the Common Lisp environment.
@@ -209,11 +209,11 @@ addCustomFunctions(void)
 static bool
 addCustomClasses(cl_object ourPackage)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("ourPackage = ", ourPackage); //####
+    ODL_ENTER(); //####
+    ODL_P1("ourPackage = ", ourPackage); //####
     bool okSoFar = true;
     
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomClasses
 
@@ -224,8 +224,8 @@ static void
 addArgvObject(cl_object                ourPackage,
               const YarpStringVector & argv)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("ourPackage = ", ourPackage, "argv = ", &argv); //####
+    ODL_ENTER(); //####
+    ODL_P2("ourPackage = ", ourPackage, "argv = ", &argv); //####
     cl_env_ptr env = ecl_process_env();
     cl_object  argvObject = cl_intern(2, CreateBaseString(ARGV_NAME_, sizeof(ARGV_NAME_) - 1),
                                       ourPackage);
@@ -237,7 +237,7 @@ addArgvObject(cl_object                ourPackage,
     {
         ecl_aset1(argvValue, ii, CreateBaseString(argv[ii].c_str(), argv[ii].length()));
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addArgvObject
 
 /*! @brief Add a custom string object to the Common Lisp environment.
@@ -247,9 +247,9 @@ static void
 addScriptTagObject(cl_object          ourPackage,
                    const YarpString & tag)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("ourPackage = ", ourPackage); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_P1("ourPackage = ", ourPackage); //####
+    ODL_S1s("tag = ", tag); //####
     cl_env_ptr env = ecl_process_env();
     cl_object  scriptTagObject = cl_intern(2, CreateBaseString(SCRIPTTAG_NAME_,
                                                                sizeof(SCRIPTTAG_NAME_) - 1),
@@ -257,7 +257,7 @@ addScriptTagObject(cl_object          ourPackage,
 
     cl_export(2, scriptTagObject, ourPackage);
     ecl_setq(env, scriptTagObject, CreateBaseString(tag.c_str(), tag.length()));
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addScriptTagObject
 
 /*! @brief Add custom classes, functions and variables to the Common Lisp environment.
@@ -267,9 +267,9 @@ static cl_object
 addCustomObjects(const YarpString &       tag,
                  const YarpStringVector & argv)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("argv = ", &argv); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_P1("argv = ", &argv); //####
+    ODL_S1s("tag = ", tag); //####
     cl_object ourPackage = cl_make_package(5, c_string_to_object(MpM_COMMONLISP_PACKAGE_NAME_),
                                            c_string_to_object(":nicknames"),
                                            cl_list(1,
@@ -281,7 +281,7 @@ addCustomObjects(const YarpString &       tag,
     addCustomClasses(ourPackage);
     addArgvObject(ourPackage, argv);
     addScriptTagObject(ourPackage, tag);
-    OD_LOG_EXIT_P(ourPackage); //####
+    ODL_EXIT_P(ourPackage); //####
     return ourPackage;
 } // addCustomObjects
 
@@ -293,9 +293,9 @@ static bool
 checkArity(cl_object      objectFunction,
            const uint32_t arityRequired)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("objectFunction = ", objectFunction); //####
-    OD_LOG_LL1("arityRequired = ", arityRequired); //####
+    ODL_ENTER(); //####
+    ODL_P1("objectFunction = ", objectFunction); //####
+    ODL_LL1("arityRequired = ", arityRequired); //####
     bool      okSoFar;
     cl_object lambdaExpr = cl_function_lambda_expression(objectFunction);
 
@@ -318,7 +318,7 @@ checkArity(cl_object      objectFunction,
             okSoFar = (ecl_fixnum(argList) == arityRequired);
         }
     }
-    OD_LOG_EXIT_B(okSoFar);
+    ODL_EXIT_B(okSoFar);
     return okSoFar;
 } // checkArity
 
@@ -335,10 +335,10 @@ getLoadedDouble(const char * propertyName,
                 const bool   isOptional,
                 double &     result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_ENTER(); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    ODL_P1("result = ", &result); //####
     bool okSoFar = false;
 
     try
@@ -412,10 +412,10 @@ getLoadedDouble(const char * propertyName,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedDouble
 
@@ -432,10 +432,10 @@ getLoadedString(const char * propertyName,
                 const bool   isOptional,
                 YarpString & result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_ENTER(); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    ODL_P1("result = ", &result); //####
     bool okSoFar = false;
 
     try
@@ -527,10 +527,10 @@ getLoadedString(const char * propertyName,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedString
 
@@ -546,11 +546,11 @@ getLoadedFunctionRef(const char *   propertyName,
                      const bool     isOptional,
                      cl_object &    result)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_LL1("arity = ", arity); //####
-    OD_LOG_B1("isOptional = ", isOptional); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_ENTER(); //####
+    ODL_S1("propertyName = ", propertyName); //####
+    ODL_LL1("arity = ", arity); //####
+    ODL_B1("isOptional = ", isOptional); //####
+    ODL_P1("result = ", &result); //####
     bool      okSoFar = false;
     cl_object aSymbol = cl_find_symbol(1, CreateBaseString(propertyName, strlen(propertyName)));
 
@@ -588,7 +588,7 @@ getLoadedFunctionRef(const char *   propertyName,
             }
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedFunctionRef
 
@@ -602,8 +602,8 @@ processStreamDescription(cl_object            anElement,
                          ObjectVector *       inletHandlers,
                          ChannelDescription & description)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
+    ODL_ENTER(); //####
+    ODL_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
               "description = ", &description); //####
     bool okSoFar;
 
@@ -721,7 +721,7 @@ processStreamDescription(cl_object            anElement,
             }
         }
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // processStreamDescription
 
@@ -736,10 +736,10 @@ getLoadedStreamDescriptions(const char *    arrayName,
                             ObjectVector *  inletHandlers,
                             ChannelVector & streamDescriptions)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
               &streamDescriptions); //####
-    OD_LOG_S1("arrayName = ", arrayName); //####
+    ODL_S1("arrayName = ", arrayName); //####
     bool okSoFar = false;
 
     try
@@ -833,10 +833,10 @@ getLoadedStreamDescriptions(const char *    arrayName,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getLoadedStreamDescriptions
 
@@ -866,13 +866,13 @@ validateLoadedScript(bool &          sawThread,
                      double &        loadedInterval,
                      YarpString &    missingStuff)
 {
-    OD_LOG_ENTER();
-    OD_LOG_P4("sawThread = ", &sawThread, "description = ", &description, "helpString = ", //####
+    ODL_ENTER();
+    ODL_P4("sawThread = ", &sawThread, "description = ", &description, "helpString = ", //####
               &helpString, "loadedInletDescriptions = ", &loadedInletDescriptions);
-    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+    ODL_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
               "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
               &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
-    OD_LOG_P3("loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
+    ODL_P3("loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
               &loadedInterval, "missingStuff = ", &missingStuff); //####
     bool okSoFar;
 
@@ -958,7 +958,7 @@ validateLoadedScript(bool &          sawThread,
 //            cout << "function scriptStopping defined" << endl;
         }
     }
-    OD_LOG_EXIT_B(okSoFar);
+    ODL_EXIT_B(okSoFar);
     return okSoFar;
 } // validateLoadedScript
 
@@ -991,13 +991,13 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const bool                          reportOnExit,
            const bool                          stdinAvailable)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
-    OD_LOG_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
+    ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     bool          sawThread;
     ChannelVector loadedInletDescriptions;
@@ -1073,12 +1073,12 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 }
                 else
                 {
-                    OD_LOG("! (aService)"); //####
+                    ODL_LOG("! (aService)"); //####
                 }
             }
             else
             {
-                OD_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
+                ODL_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
                        "loadedInletDescriptions, loadedOutletDescriptions, " //####
                        "loadedInletHandlers, loadedStartingFunction, " //####
                        "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
@@ -1092,10 +1092,10 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -1115,14 +1115,14 @@ main(int      argc,
     YarpString progName(*argv);
 
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -1179,13 +1179,13 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
@@ -1193,9 +1193,9 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

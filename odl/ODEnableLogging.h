@@ -49,9 +49,9 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-#if (! defined(OD_ENABLE_LOGGING_))
-# define OD_ENABLE_LOGGING_ /* Enable logging if not already enabled. */
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#if (! defined(ODL_ENABLE_LOGGING_))
+# define ODL_ENABLE_LOGGING_ /* Enable logging if not already enabled. */
+#endif // ! defined(ODL_ENABLE_LOGGING_)
 
 // Allow a reload of the logging macros.
 #undef ODLOGGING_H_

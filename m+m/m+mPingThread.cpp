@@ -85,15 +85,15 @@ PingThread::PingThread(const YarpString & channelName,
                        BaseService &      service) :
     inherited(), _channelName(channelName), _service(service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S1s("channelName = ", channelName); //####
+    ODL_EXIT_P(this); //####
 } // PingThread::PingThread
 
 PingThread::~PingThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PingThread::~PingThread
 
 #if defined(__APPLE__)
@@ -102,7 +102,7 @@ PingThread::~PingThread(void)
 
 DEFINE_RUN_(PingThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         double now = yarp::os::Time::now();
@@ -115,23 +115,23 @@ DEFINE_RUN_(PingThread)
         }
         yarp::os::Time::delay(PING_INTERVAL_ / 10.0);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // PingThread::run
 
 DEFINE_THREADINIT_(PingThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _pingTime = yarp::os::Time::now() + PING_INTERVAL_;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // PingThread::threadInit
 
 DEFINE_THREADRELEASE_(PingThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // PingThread::threadRelease
 
 #if defined(__APPLE__)

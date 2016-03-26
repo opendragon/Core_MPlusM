@@ -87,19 +87,19 @@ Test10Service::Test10Service(const YarpString & launchPath,
     inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test10",
               "Simple service for unit tests", "")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("launchPath = ", launchPath); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_ENTER(); //####
+    ODL_S1s("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // Test10Service::Test10Service
 
 Test10Service::~Test10Service(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test10Service::~Test10Service
 
 #if defined(__APPLE__)
@@ -109,7 +109,7 @@ Test10Service::~Test10Service(void)
 void
 Test10Service::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _defaultHandler = new Test10DefaultRequestHandler(*this);
@@ -119,21 +119,21 @@ Test10Service::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_defaultHandler)"); //####
+            ODL_LOG("! (_defaultHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test10Service::attachRequestHandlers
 
 void
 Test10Service::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_defaultHandler)
@@ -145,15 +145,15 @@ Test10Service::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // Test10Service::detachRequestHandlers
 
 DEFINE_STARTSERVICE_(Test10Service)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -167,23 +167,23 @@ DEFINE_STARTSERVICE_(Test10Service)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test10Service::startService
 
 DEFINE_STOPSERVICE_(Test10Service)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -192,10 +192,10 @@ DEFINE_STOPSERVICE_(Test10Service)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test10Service::stopService
 

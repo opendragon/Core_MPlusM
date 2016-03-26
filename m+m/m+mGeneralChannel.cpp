@@ -84,15 +84,15 @@ using namespace MplusM::Common;
 GeneralChannel::GeneralChannel(const bool isOutput) :
     inherited(), _protocol(), _protocolDescription(), _isOutput(isOutput)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("isOutput = ", isOutput); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_B1("isOutput = ", isOutput); //####
+    ODL_EXIT_P(this); //####
 } // GeneralChannel::GeneralChannel
 
 GeneralChannel::~GeneralChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // GeneralChannel::~GeneralChannel
 
 #if defined(__APPLE__)
@@ -103,11 +103,11 @@ void
 GeneralChannel::setProtocol(const YarpString & newProtocol,
                             const YarpString & description)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("newProtocol = ", newProtocol, "description = ", description); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("newProtocol = ", newProtocol, "description = ", description); //####
     _protocol = newProtocol;
     _protocolDescription = description;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // GeneralChannel::setProtocol
 
 #if defined(__APPLE__)

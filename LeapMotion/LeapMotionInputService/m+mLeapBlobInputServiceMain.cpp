@@ -103,12 +103,12 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const bool                          stdinAvailable,
            const bool                          reportOnExit)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     LeapBlobInputService * aService = new LeapBlobInputService(argumentList, progName, argc, argv,
                                                                tag, serviceEndpointName,
@@ -121,9 +121,9 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     }
     else
     {
-        OD_LOG("! (aService)"); //####
+        ODL_LOG("! (aService)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -141,14 +141,14 @@ main(int      argc,
     YarpString progName(*argv);
 
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -195,13 +195,13 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
@@ -209,9 +209,9 @@ main(int      argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

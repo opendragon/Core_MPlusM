@@ -101,9 +101,9 @@ main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     try
     {
         Utilities::PortArgumentDescriptor firstArg("port", T_("The outgoing port"),
@@ -167,7 +167,7 @@ main(int      argc,
                         
                         if (SOCKET_ERROR == res)
                         {
-                            OD_LOG("(SOCKET_ERROR == res)"); //####
+                            ODL_LOG("(SOCKET_ERROR == res)"); //####
                             closesocket(listenSocket);
                             listenSocket = INVALID_SOCKET;
                         }
@@ -180,13 +180,13 @@ main(int      argc,
 #endif // ! MAC_OR_LINUX_
                 if (INVALID_SOCKET != listenSocket)
                 {
-                    OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
+                    ODL_LOG("(INVALID_SOCKET != listenSocket)"); //####
                     bool   keepGoing = true;
                     char   theBuffer[BUFFER_SIZE_];
-                    OD_LOG("waiting for a connection"); //####
+                    ODL_LOG("waiting for a connection"); //####
                     SOCKET loopSocket = accept(listenSocket, NULL, NULL);
                     
-                    OD_LOG_L1("loopSocket = ", loopSocket); //####
+                    ODL_L1("loopSocket = ", loopSocket); //####
                     for ( ; keepGoing; )
                     {
 #if MAC_OR_LINUX_
@@ -202,7 +202,7 @@ main(int      argc,
 #endif // defined(CHATTY_OUTPUT_)
                             if (send(loopSocket, theBuffer, inSize, 0) != inSize)
                             {
-                                OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != inSize)"); //####
+                                ODL_LOG("(send(loopSocket, theBuffer, inSize, 0) != inSize)"); //####
 #if defined(CHATTY_OUTPUT_)
                                 cout << "sent " << inSize << " bytes." << endl;
 #endif // defined(CHATTY_OUTPUT_)
@@ -211,7 +211,7 @@ main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("! (0 < inSize)"); //####
+                            ODL_LOG("! (0 < inSize)"); //####
                             keepGoing = false;
                         }
                     }
@@ -230,16 +230,16 @@ main(int      argc,
             }
             catch (...)
             {
-                OD_LOG("Exception caught"); //####
+                ODL_LOG("Exception caught"); //####
             }
             Utilities::ShutDownGlobalStatusReporter();
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

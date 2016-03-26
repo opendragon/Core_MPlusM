@@ -100,19 +100,19 @@ KinectV2BlobInputService::KinectV2BlobInputService(const Utilities::DescriptorVe
               MpM_KINECTV2BLOBINPUT_CANONICAL_NAME_, KINECTV2BLOBINPUT_SERVICE_DESCRIPTION_, "",
               serviceEndpointName, servicePortNumber), _translationScale(1), _eventThread(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // KinectV2BlobInputService::KinectV2BlobInputService
 
 KinectV2BlobInputService::~KinectV2BlobInputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobInputService::~KinectV2BlobInputService
 
 #if defined(__APPLE__)
@@ -130,8 +130,8 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -152,7 +152,7 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
                 {
                     _translationScale = firstValue.asInt();
                 }
-                OD_LOG_D1("_translationScale <- ", _translationScale); //####
+                ODL_D1("_translationScale <- ", _translationScale); //####
                 buff << "Translation scale is " << _translationScale;
                 setExtraInformation(buff.str());
                 result = true;
@@ -169,10 +169,10 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::configure
 #if (! MAC_OR_LINUX_)
@@ -181,19 +181,19 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
 
 DEFINE_GETCONFIGURATION_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addDouble(_translationScale);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -202,15 +202,15 @@ DEFINE_RESTARTSTREAMS_(KinectV2BlobInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobInputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -221,26 +221,26 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2BlobInputService)
     description._protocolDescription = T_("A binary blob containing the segment positions and "
                                           "directions");
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::setUpStreamDescriptions
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::shutDownOutputStreams
 
 DEFINE_STARTSERVICE_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -252,22 +252,22 @@ DEFINE_STARTSERVICE_(KinectV2BlobInputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // KinectV2BlobInputService::startService
 
 DEFINE_STARTSTREAMS_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -280,7 +280,7 @@ DEFINE_STARTSTREAMS_(KinectV2BlobInputService)
             }
             else
             {
-                OD_LOG("! (_eventThread->start())"); //####
+                ODL_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
                 delete _eventThread;
                 _eventThread = NULL;
@@ -289,15 +289,15 @@ DEFINE_STARTSTREAMS_(KinectV2BlobInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobInputService::startStreams
 
 DEFINE_STOPSERVICE_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -306,16 +306,16 @@ DEFINE_STOPSERVICE_(KinectV2BlobInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::stopService
 
 DEFINE_STOPSTREAMS_(KinectV2BlobInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -335,10 +335,10 @@ DEFINE_STOPSTREAMS_(KinectV2BlobInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobInputService::stopStreams
 
 #if defined(__APPLE__)

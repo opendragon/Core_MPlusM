@@ -102,22 +102,22 @@ MovementDbService::MovementDbService(const YarpString & launchPath,
               servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),
     _setDataTrackHandler(NULL), _setEmailHandler(NULL), _stopDbHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
+    ODL_ENTER(); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
                databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     setExtraInformation(YarpString("Database address is '") + _databaseAddress + YarpString("'"));
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // MovementDbService::MovementDbService
 
 MovementDbService::~MovementDbService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbService::~MovementDbService
 
 #if defined(__APPLE__)
@@ -128,8 +128,8 @@ bool
 MovementDbService::addFileToDb(const YarpString & key,
                                const YarpString & filePath)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("key = ", key, "filePath = ", filePath); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("key = ", key, "filePath = ", filePath); //####
     bool okSoFar = false;
     
     try
@@ -147,17 +147,17 @@ MovementDbService::addFileToDb(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(); //####
     return okSoFar;
 } // MovementDbService::addFileToDb
 
 void
 MovementDbService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _addFileHandler = new AddFileRequestHandler(*this);
@@ -173,22 +173,22 @@ MovementDbService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_addFileHandler && _setDataTrackHandler && _setEmailHandler && " //####
+            ODL_LOG("! (_addFileHandler && _setDataTrackHandler && _setEmailHandler && " //####
                    " _stopDbHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbService::attachRequestHandlers
 
 void
 MovementDbService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_addFileHandler)
@@ -218,18 +218,18 @@ MovementDbService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // MovementDbService::detachRequestHandlers
 
 bool
 MovementDbService::setDataTrack(const YarpString & key,
                                 const YarpString & dataTrack)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("key = ", key, "dataTrack = ", dataTrack); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("key = ", key, "dataTrack = ", dataTrack); //####
     bool okSoFar = false;
     
     try
@@ -246,10 +246,10 @@ MovementDbService::setDataTrack(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(); //####
     return okSoFar;
 } // MovementDbService::setDataTrack
 
@@ -257,8 +257,8 @@ bool
 MovementDbService::setEmailAddress(const YarpString & key,
                                    const YarpString & emailAddress)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("key = ", key, "emailAddress = ", emailAddress); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("key = ", key, "emailAddress = ", emailAddress); //####
     bool okSoFar = false;
     
     try
@@ -275,16 +275,16 @@ MovementDbService::setEmailAddress(const YarpString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(); //####
     return okSoFar;
 } // MovementDbService::setEmailAddress
 
 DEFINE_STARTSERVICE_(MovementDbService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -298,23 +298,23 @@ DEFINE_STARTSERVICE_(MovementDbService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // MovementDbService::startService
 
 DEFINE_STOPSERVICE_(MovementDbService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -323,10 +323,10 @@ DEFINE_STOPSERVICE_(MovementDbService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // MovementDbService::stopService
 

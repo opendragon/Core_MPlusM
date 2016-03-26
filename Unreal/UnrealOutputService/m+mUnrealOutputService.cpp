@@ -102,21 +102,21 @@ UnrealOutputService::UnrealOutputService(const Utilities::DescriptorVector & arg
     _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
     _inViconHandler(new UnrealOutputViconInputHandler(*this))
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // UnrealOutputService::UnrealOutputService
 
 UnrealOutputService::~UnrealOutputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inLeapHandler;
     delete _inViconHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::~UnrealOutputService
 
 #if defined(__APPLE__)
@@ -125,8 +125,8 @@ UnrealOutputService::~UnrealOutputService(void)
 
 DEFINE_CONFIGURE_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -141,9 +141,9 @@ DEFINE_CONFIGURE_(UnrealOutputService)
                 std::stringstream buff;
                 
                 _outPort = firstValue.asInt();
-                OD_LOG_LL1("_outPort <- ", _outPort); //####
+                ODL_LL1("_outPort <- ", _outPort); //####
                 _translationScale = secondValue.asDouble();
-                OD_LOG_D1("_translationScale <- ", _translationScale); //####
+                ODL_D1("_translationScale <- ", _translationScale); //####
                 buff << "Output port is " << _outPort << ", translation scale is " <<
                         _translationScale;
                 setExtraInformation(buff.str());
@@ -161,17 +161,17 @@ DEFINE_CONFIGURE_(UnrealOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::configure
 
 void
 UnrealOutputService::deactivateConnection(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     clearActive();
     cerr << "connection is dead" << endl; //!!!!
     if (_inLeapHandler)
@@ -193,12 +193,12 @@ UnrealOutputService::deactivateConnection(void)
 #endif // ! MAC_OR_LINUX_
         _networkSocket = INVALID_SOCKET;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // UnrealOutputService::deactivateConnection
 
 DEFINE_DISABLEMETRICS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inLeapHandler)
     {
@@ -208,12 +208,12 @@ DEFINE_DISABLEMETRICS_(UnrealOutputService)
     {
         _inViconHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inLeapHandler)
     {
@@ -223,25 +223,25 @@ DEFINE_ENABLEMETRICS_(UnrealOutputService)
     {
         _inViconHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addInt(_outPort);
     details.addDouble(_translationScale);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -250,15 +250,15 @@ DEFINE_RESTARTSTREAMS_(UnrealOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -276,13 +276,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
                 "Each subject being a list of the subject name and a dictionary of segments\n"
                 "Each segment being a dictionary with name, translation and rotation";
     _inDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -294,22 +294,22 @@ DEFINE_STARTSERVICE_(UnrealOutputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // UnrealOutputService::startService
 
 DEFINE_STARTSTREAMS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -445,15 +445,15 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::startStreams
 
 DEFINE_STOPSERVICE_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -462,16 +462,16 @@ DEFINE_STOPSERVICE_(UnrealOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::stopService
 
 DEFINE_STOPSTREAMS_(UnrealOutputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -481,10 +481,10 @@ DEFINE_STOPSTREAMS_(UnrealOutputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputService::stopStreams
 
 #if defined(__APPLE__)

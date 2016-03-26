@@ -91,15 +91,15 @@ using namespace MplusM::Registry;
 UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
     inherited(MpM_UNREGISTER_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // UnregisterRequestHandler::UnregisterRequestHandler
 
 UnregisterRequestHandler::~UnregisterRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // UnregisterRequestHandler::~UnregisterRequestHandler
 
 #if defined(__APPLE__)
@@ -108,17 +108,17 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 
 DEFINE_FILLINALIASES_(UnregisterRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("forget");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnregisterRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -137,10 +137,10 @@ DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnregisterRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -154,10 +154,10 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -189,28 +189,28 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
                     }
                     else
                     {
-                        OD_LOG("! (theService.removeServiceRecord(argAsString))"); //####
+                        ODL_LOG("! (theService.removeServiceRecord(argAsString))"); //####
                         _response.addString(MpM_FAILED_RESPONSE_);
                         _response.addString("Could not remove service");
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
+                    ODL_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                     _response.addString(MpM_FAILED_RESPONSE_);
                     _response.addString("Invalid channel name");
                 }
             }
             else
             {
-                OD_LOG("! (argument.isString())"); //####
+                ODL_LOG("! (argument.isString())"); //####
                 _response.addString(MpM_FAILED_RESPONSE_);
                 _response.addString("Invalid channel name");
             }
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())"); //####
+            ODL_LOG("! (1 == restOfInput.size())"); //####
             _response.addString(MpM_FAILED_RESPONSE_);
             _response.addString("Missing channel name or extra arguments to request");
         }
@@ -218,10 +218,10 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnregisterRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

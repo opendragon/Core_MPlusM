@@ -95,9 +95,9 @@ static int
 doTestParseValue(const bool   expected,
                  const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -112,11 +112,11 @@ doTestParseValue(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
@@ -124,10 +124,10 @@ doTestParseValue(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseValue
 
@@ -143,9 +143,9 @@ static int
 doTestParseValueList(const bool   expected,
                      const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -161,11 +161,11 @@ doTestParseValueList(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString("field", false)); //####
             cout << didMatch->asSQLString("field", false).c_str() << endl;
             delete didMatch;
@@ -173,10 +173,10 @@ doTestParseValueList(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseValueList
 
@@ -192,9 +192,9 @@ static int
 doTestParseFieldName(const bool   expected,
                      const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -212,11 +212,11 @@ doTestParseFieldName(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
@@ -225,10 +225,10 @@ doTestParseFieldName(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseFieldName
 
@@ -244,9 +244,9 @@ static int
 doTestParseFieldWithValues(const bool   expected,
                            const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -266,11 +266,11 @@ doTestParseFieldWithValues(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
@@ -279,10 +279,10 @@ doTestParseFieldWithValues(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseFieldWithValues
 
@@ -298,9 +298,9 @@ static int
 doTestParseConstraintList(const bool   expected,
                           const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -318,11 +318,11 @@ doTestParseConstraintList(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
@@ -331,10 +331,10 @@ doTestParseConstraintList(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseConstraintList
 
@@ -350,9 +350,9 @@ static int
 doTestParseExpression(const bool   expected,
                       const char * inString) // create value matcher
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_B1("expected = ", expected); //####
-    OD_LOG_S1("inString = ", inString); //####
+    ODL_ENTER(); //####
+    ODL_B1("expected = ", expected); //####
+    ODL_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -370,11 +370,11 @@ doTestParseExpression(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            ODL_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+            ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
                        "didMatch->asSQLString = ", didMatch->asSQLString("SELECT ")); //####
             cout << didMatch->asSQLString("SELECT ").c_str() << endl;
             delete didMatch;
@@ -383,10 +383,10 @@ doTestParseExpression(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestParseExpression
 
@@ -395,8 +395,8 @@ doTestParseExpression(const bool   expected,
 static void
 catchSignal(int signal)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("signal = ", signal); //####
+    ODL_ENTER(); //####
+    ODL_LL1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
     
@@ -405,7 +405,7 @@ catchSignal(int signal)
     message += " = ";
     message += MplusM::NameOfSignal(signal);
     MpM_ERROR_(message.c_str());
-    OD_LOG_EXIT_EXIT(1); //####
+    ODL_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal
 
@@ -425,9 +425,9 @@ int
 main(int      argc,
      char * * argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     int result = 1;
     
     try
@@ -438,13 +438,13 @@ main(int      argc,
             char *       endPtr;
             int          selector = strtol(startPtr, &endPtr, 10);
             
-            OD_LOG_LL1("selector <- ", selector); //####
+            ODL_LL1("selector <- ", selector); //####
             if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
             {
                 bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
                 
                 SetSignalHandlers(catchSignal);
-                OD_LOG_B1("expected <- ", expected); //####
+                ODL_B1("expected <- ", expected); //####
                 switch (selector)
                 {
                     case 1 :
@@ -477,20 +477,20 @@ main(int      argc,
                 }
                 if (result)
                 {
-                    OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                    ODL_LL1("%%%%%%% unit test failure = ", result); //####
                 }
             }
         }
         else
         {
-            OD_LOG("! (2 < --argc)"); //####
+            ODL_LOG("! (2 < --argc)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // main

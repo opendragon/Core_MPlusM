@@ -110,22 +110,22 @@ ViconBlobEventThread::ViconBlobEventThread(Common::GeneralChannel * outChannel,
 #endif // ! defined(MpM_BuildDummyServices)
     _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_S1s("nameAndPort = ", nameAndPort); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_S1s("nameAndPort = ", nameAndPort); //####
+    ODL_EXIT_P(this); //####
 } // ViconBlobEventThread::ViconBlobEventThread
 
 ViconBlobEventThread::~ViconBlobEventThread(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_viconClient.IsConnected().Connected)
     {
         _viconClient.Disconnect();
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::~ViconBlobEventThread
 
 #if defined(__APPLE__)
@@ -135,15 +135,15 @@ ViconBlobEventThread::~ViconBlobEventThread(void)
 void
 ViconBlobEventThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::clearOutputChannel
 
 bool
 ViconBlobEventThread::initializeConnection(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
     bool result = true;
 #else // ! defined(MpM_BuildDummyServices)
@@ -177,15 +177,15 @@ ViconBlobEventThread::initializeConnection(void)
         _viconClient.SetStreamMode(VICON_STREAM_MODE_);
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconBlobEventThread::initializeConnection
 
 void
 ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("subjectCount = ", subjectCount); //####
+    ODL_OBJENTER(); //####
+    ODL_L1("subjectCount = ", subjectCount); //####
 #if (! defined(MpM_BuildDummyServices))
     if (0 < subjectCount)
     {
@@ -356,7 +356,7 @@ ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                 _messageBottle.add(blobValue);
                 if (! _outChannel->write(_messageBottle))
                 {
-                    OD_LOG("(! _outChannel->write(_messageBottle))"); //####
+                    ODL_LOG("(! _outChannel->write(_messageBottle))"); //####
 # if defined(MpM_StallOnSendProblem)
                     Stall();
 # endif // defined(MpM_StallOnSendProblem)
@@ -365,12 +365,12 @@ ViconBlobEventThread::processEventData(const unsigned int subjectCount)
         }
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::processEventData
 
 DEFINE_RUN_(ViconBlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
 #if (! defined(MpM_BuildDummyServices))
@@ -391,31 +391,31 @@ DEFINE_RUN_(ViconBlobEventThread)
 #endif // ! defined(MpM_BuildDummyServices)
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::run
 
 void
 ViconBlobEventThread::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _scale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::setScale
 
 DEFINE_THREADINIT_(ViconBlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = initializeConnection();
 
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconBlobEventThread::threadInit
 
 DEFINE_THREADRELEASE_(ViconBlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::threadRelease
 
 #if defined(__APPLE__)

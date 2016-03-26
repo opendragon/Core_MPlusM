@@ -96,10 +96,10 @@ addJointToBuffer(std::stringstream &      outBuffer,
                  const JointOrientation & orientationData)
 # endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("outBuffer = ", &outBuffer, "jointData = ", &jointData, "orientationData = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("outBuffer = ", &outBuffer, "jointData = ", &jointData, "orientationData = ", //####
               &orientationData); //####
-    OD_LOG_D1("scale = ", scale); //####
+    ODL_D1("scale = ", scale); //####
     // If we can't find either of these joints, exit
     if (TrackingState_NotTracked != jointData.TrackingState)
     {
@@ -125,7 +125,7 @@ addJointToBuffer(std::stringstream &      outBuffer,
 # endif // ! defined(MpM_UseCustomStringBuffer)
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addJointToBuffer
 #endif // ! defined(MpM_BuildDummyServices)
 
@@ -162,10 +162,10 @@ addBodyToMessage(std::stringstream &      outBuffer,
                  const JointOrientation * orientationData)
 # endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("outBuffer = ", &outBuffer, "jointData = ", jointData, "orientationData = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("outBuffer = ", &outBuffer, "jointData = ", jointData, "orientationData = ", //####
               orientationData); //####
-    OD_LOG_D1("scale = ", scale); //####
+    ODL_D1("scale = ", scale); //####
     // Torso
     ADD_JOINT_TO_BUFFER_("head", JointType_Head);
     ADD_JOINT_TO_BUFFER_("neck", JointType_Neck);
@@ -201,7 +201,7 @@ addBodyToMessage(std::stringstream &      outBuffer,
     ADD_JOINT_TO_BUFFER_("ankleleft", JointType_AnkleLeft);
     ADD_JOINT_TO_BUFFER_("footleft", JointType_FootLeft);
 
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addBodyToMessage
 #endif // ! defined(MpM_BuildDummyServices)
 
@@ -227,9 +227,9 @@ processBody(std::stringstream & outBuffer,
             IBody * *           ppBodies)
 # endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outBuffer = ", outBuffer, "ppBodies = ", ppBodies); //####
-    OD_LOG_L1("nBodyCount = ", nBodyCount); //####
+    ODL_ENTER(); //####
+    ODL_P2("outBuffer = ", outBuffer, "ppBodies = ", ppBodies); //####
+    ODL_L1("nBodyCount = ", nBodyCount); //####
     bool result = false;
     int  actualBodyCount = 0;
 
@@ -318,7 +318,7 @@ processBody(std::stringstream & outBuffer,
 # else // ! defined(MpM_UseCustomStringBuffer)
     outBuffer << "END" LINE_END_;
 # endif // ! defined(MpM_UseCustomStringBuffer)
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // processBody
 #endif // ! defined(MpM_BuildDummyServices)
@@ -338,15 +338,15 @@ KinectV2BlobEventThread::KinectV2BlobEventThread(Common::GeneralChannel * outCha
 #endif // ! defined(MpM_BuildDummyServices)
     _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_EXIT_P(this); //####
 } // KinectV2BlobEventThread::KinectV2BlobEventThread
 
 KinectV2BlobEventThread::~KinectV2BlobEventThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::~KinectV2BlobEventThread
 
 #if defined(__APPLE__)
@@ -356,16 +356,16 @@ KinectV2BlobEventThread::~KinectV2BlobEventThread(void)
 void
 KinectV2BlobEventThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::clearOutputChannel
 
 #if (! defined(MpM_BuildDummyServices))
 HRESULT
 KinectV2BlobEventThread::initializeDefaultSensor(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     HRESULT hr = GetDefaultKinectSensor(&_kinectSensor);
 
     if (! FAILED(hr))
@@ -394,7 +394,7 @@ KinectV2BlobEventThread::initializeDefaultSensor(void)
             hr = E_FAIL;
         }
     }
-    OD_LOG_OBJEXIT_L(hr); //####
+    ODL_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2BlobEventThread::initializeDefaultSensor
 #endif // ! defined(MpM_BuildDummyServices)
@@ -402,7 +402,7 @@ KinectV2BlobEventThread::initializeDefaultSensor(void)
 void
 KinectV2BlobEventThread::processEventData(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader)
     {
@@ -476,7 +476,7 @@ KinectV2BlobEventThread::processEventData(void)
                         {
                             if (! _outChannel->write(_messageBottle))
                             {
-                                OD_LOG("(! _outChannel->write(_messageBottle))"); //####
+                                ODL_LOG("(! _outChannel->write(_messageBottle))"); //####
 # if defined(MpM_StallOnSendProblem)
                                 Stall();
 # endif // defined(MpM_StallOnSendProblem)
@@ -488,12 +488,12 @@ KinectV2BlobEventThread::processEventData(void)
         }
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::processEventData
 
 DEFINE_RUN_(KinectV2BlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
 #if (! defined(MpM_BuildDummyServices))
@@ -527,34 +527,34 @@ DEFINE_RUN_(KinectV2BlobEventThread)
 #endif // ! defined(MpM_BuildDummyServices)
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::run
 
 void
 KinectV2BlobEventThread::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _translationScale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::setScale
 
 DEFINE_THREADINIT_(KinectV2BlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
     bool result = true;
 #else // ! defined(MpM_BuildDummyServices)
     bool result = SUCCEEDED(initializeDefaultSensor());
 #endif // ! defined(MpM_BuildDummyServices)
 
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobEventThread::threadInit
 
 DEFINE_THREADRELEASE_(KinectV2BlobEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader && _frameEventHandle)
     {
@@ -571,7 +571,7 @@ DEFINE_THREADRELEASE_(KinectV2BlobEventThread)
     }
     SafeRelease(_kinectSensor);
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::threadRelease
 
 #if defined(__APPLE__)

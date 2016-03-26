@@ -88,15 +88,15 @@ using namespace MplusM::MovementDb;
 SetDataTrackRequestHandler::SetDataTrackRequestHandler(MovementDbService & service) :
     inherited(MpM_SETDATATRACK_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // SetDataTrackRequestHandler::SetDataTrackRequestHandler
 
 SetDataTrackRequestHandler::~SetDataTrackRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // SetDataTrackRequestHandler::~SetDataTrackRequestHandler
 
 #if defined(__APPLE__)
@@ -114,9 +114,9 @@ DEFINE_FILLINALIASES_(SetDataTrackRequestHandler)
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // SetDataTrackRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -124,9 +124,9 @@ DEFINE_FILLINALIASES_(SetDataTrackRequestHandler)
 
 DEFINE_FILLINDESCRIPTION_(SetDataTrackRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -143,10 +143,10 @@ DEFINE_FILLINDESCRIPTION_(SetDataTrackRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SetDataTrackRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -160,10 +160,10 @@ DEFINE_PROCESSREQUEST_(SetDataTrackRequestHandler)
 #  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -185,21 +185,21 @@ DEFINE_PROCESSREQUEST_(SetDataTrackRequestHandler)
                 }
                 else
                 {
-                    OD_LOG("! (theService.setDataTrack(senderChannel, dataTrack))"); //####
+                    ODL_LOG("! (theService.setDataTrack(senderChannel, dataTrack))"); //####
                     _response.addString(MpM_FAILED_RESPONSE_);
                     _response.addString("Could not set the data track");
                 }
             }
             else
             {
-                OD_LOG("! (firstValue.isString())"); //####
+                ODL_LOG("! (firstValue.isString())"); //####
                 _response.addString(MpM_FAILED_RESPONSE_);
                 _response.addString("Invalid argument");
             }
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())"); //####
+            ODL_LOG("! (1 == restOfInput.size())"); //####
             _response.addString(MpM_FAILED_RESPONSE_);
             _response.addString("Missing or extra arguments to request");
         }
@@ -207,10 +207,10 @@ DEFINE_PROCESSREQUEST_(SetDataTrackRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SetDataTrackRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

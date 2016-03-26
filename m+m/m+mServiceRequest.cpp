@@ -85,29 +85,29 @@ using namespace MplusM::Common;
 ServiceRequest::ServiceRequest(const YarpString & requestName) :
     _name(requestName), _parameters()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("requestName = ", requestName); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S1s("requestName = ", requestName); //####
+    ODL_EXIT_P(this); //####
 } // ServiceRequest::ServiceRequest
 
 ServiceRequest::ServiceRequest(const YarpString &       requestName,
                                const yarp::os::Bottle & parameters) :
     _name(requestName), _parameters(parameters)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("requestName = ", requestName, "parameters = ", parameters.toString()); //####
-    OD_LOG_LL1("parameter size = ", parameters.size()); //####
+    ODL_ENTER(); //####
+    ODL_S2s("requestName = ", requestName, "parameters = ", parameters.toString()); //####
+    ODL_LL1("parameter size = ", parameters.size()); //####
     for (int ii = 0; ii < parameters.size(); ++ii)
     {
-        OD_LOG_S1s("parameter = ", parameters.get(ii).asString()); //####
+        ODL_S1s("parameter = ", parameters.get(ii).asString()); //####
     }
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // ServiceRequest::ServiceRequest
 
 ServiceRequest::~ServiceRequest(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ServiceRequest::~ServiceRequest
 
 #if defined(__APPLE__)
@@ -117,29 +117,29 @@ ServiceRequest::~ServiceRequest(void)
 bool
 ServiceRequest::send(ClientChannel & usingChannel)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("usingChannel = ", &usingChannel); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("usingChannel = ", &usingChannel); //####
     bool result = false;
     
     try
     {
         yarp::os::Bottle message;
         
-        OD_LOG_LL1("parameter size = ", _parameters.size()); //####
+        ODL_LL1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
-            OD_LOG_S1s("parameter = ", _parameters.get(ii).asString()); //####
+            ODL_S1s("parameter = ", _parameters.get(ii).asString()); //####
         }
         message.addString(_name);
         message.append(_parameters);
-        OD_LOG_S1s("message <- ", message.toString()); //####
+        ODL_S1s("message <- ", message.toString()); //####
         if (usingChannel.write(message))
         {
             result = true;
         }
         else
         {
-            OD_LOG("(! usingChannel.write(message))"); //####
+            ODL_LOG("(! usingChannel.write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -147,10 +147,10 @@ ServiceRequest::send(ClientChannel & usingChannel)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ServiceRequest::send
 
@@ -158,8 +158,8 @@ bool
 ServiceRequest::send(ClientChannel &   usingChannel,
                      ServiceResponse & response)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("usingChannel = ", &usingChannel, "response = ", &response); //####
+    ODL_OBJENTER(); //####
+    ODL_P2("usingChannel = ", &usingChannel, "response = ", &response); //####
     bool result = false;
     
     try
@@ -167,23 +167,23 @@ ServiceRequest::send(ClientChannel &   usingChannel,
         yarp::os::Bottle holder;        
         yarp::os::Bottle message;
         
-        OD_LOG_LL1("parameter size = ", _parameters.size()); //####
+        ODL_LL1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
-            OD_LOG_S1s("parameter = ", _parameters.get(ii).asString()); //####
+            ODL_S1s("parameter = ", _parameters.get(ii).asString()); //####
         }
         message.addString(_name);
         message.append(_parameters);
-        OD_LOG_S1s("message <- ", message.toString()); //####
+        ODL_S1s("message <- ", message.toString()); //####
         if (usingChannel.write(message, holder))
         {
-            OD_LOG_S1s("got ", holder.toString()); //####
+            ODL_S1s("got ", holder.toString()); //####
             response = holder;
             result = true;
         }
         else
         {
-            OD_LOG("! (usingChannel.write(message, holder))"); //####
+            ODL_LOG("! (usingChannel.write(message, holder))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -191,10 +191,10 @@ ServiceRequest::send(ClientChannel &   usingChannel,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ServiceRequest::send
 

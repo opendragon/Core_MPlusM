@@ -87,14 +87,14 @@ using namespace MplusM::RequestCounter;
 RequestCounterClient::RequestCounterClient(void) :
     inherited("requestcounter_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RequestCounterClient::RequestCounterClient
 
 RequestCounterClient::~RequestCounterClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RequestCounterClient::~RequestCounterClient
 
 #if defined(__APPLE__)
@@ -105,8 +105,8 @@ bool
 RequestCounterClient::getServiceStatistics(long &   counter,
                                            double & elapsedTime)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime); //####
+    ODL_OBJENTER(); //####
+    ODL_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime); //####
     bool okSoFar = false;
     
     try
@@ -130,33 +130,33 @@ RequestCounterClient::getServiceStatistics(long &   counter,
                 }
                 else
                 {
-                    OD_LOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())"); //####
+                    ODL_LOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STATS_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_STATS_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RequestCounterClient::getServiceStatistics
 
 bool
 RequestCounterClient::pokeService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -169,22 +169,22 @@ RequestCounterClient::pokeService(void)
         }
         else
         {
-            OD_LOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))"); //####
+            ODL_LOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RequestCounterClient::pokeService
 
 bool
 RequestCounterClient::resetServiceCounters(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -208,18 +208,18 @@ RequestCounterClient::resetServiceCounters(void)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isString())"); //####
+                    ODL_LOG("! (retrieved.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETCOUNTER_REQUEST_, parameters))
@@ -228,16 +228,16 @@ RequestCounterClient::resetServiceCounters(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters))"); //####
+            ODL_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RequestCounterClient::resetServiceCounters
 

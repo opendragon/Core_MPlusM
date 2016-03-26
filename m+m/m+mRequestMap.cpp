@@ -84,15 +84,15 @@ using namespace MplusM::Common;
 RequestMap::RequestMap(BaseService & owner) :
     _defaultHandler(NULL), _handlers(), _owner(owner)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", &owner); //####
+    ODL_EXIT_P(this); //####
 } // RequestMap::RequestMap
 
 RequestMap::~RequestMap(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::~RequestMap
 
 #if defined(__APPLE__)
@@ -102,7 +102,7 @@ RequestMap::~RequestMap(void)
 void
 RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         lock();
@@ -121,17 +121,17 @@ RequestMap::fillInListReply(yarp::os::Bottle & reply)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::fillInListReply
 
 void
 RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
                                    const YarpString & requestName)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         lock();
@@ -139,7 +139,7 @@ RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
         
         if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.end() == match)"); //####
+            ODL_LOG("(_handlers.end() == match)"); //####
         }
         else
         {
@@ -152,17 +152,17 @@ RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::fillInRequestInfo
 
 BaseRequestHandler *
 RequestMap::lookupRequestHandler(const YarpString & request)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
     BaseRequestHandler * result = NULL;
     
     try
@@ -172,30 +172,30 @@ RequestMap::lookupRequestHandler(const YarpString & request)
         
         if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.end() == match)"); //####
+            ODL_LOG("(_handlers.end() == match)"); //####
             result = _defaultHandler;
         }
         else
         {
-            OD_LOG("! (_handlers.end() == match)"); //####
+            ODL_LOG("! (_handlers.end() == match)"); //####
             result = match->second;
         }
         unlock();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_P(result); //####
+    ODL_OBJEXIT_P(result); //####
     return result;
 } // RequestMap::lookupRequestHandler
 
 void
 RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     try
     {
         if (handler)
@@ -219,28 +219,28 @@ RequestMap::registerRequestHandler(BaseRequestHandler * handler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::registerRequestHandler
 
 void
 RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     lock();
     _defaultHandler = handler;
     unlock();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::setDefaultRequestHandler
 
 void
 RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("handler = ", handler); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("handler = ", handler); //####
     try
     {
         if (handler)
@@ -263,10 +263,10 @@ RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RequestMap::unregisterRequestHandler
 
 #if defined(__APPLE__)

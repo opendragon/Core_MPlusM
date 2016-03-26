@@ -82,14 +82,14 @@ using namespace MplusM::Common;
 BaseThread::BaseThread(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseThread::BaseThread
 
 BaseThread::~BaseThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseThread::~BaseThread
 
 #if defined(__APPLE__)
@@ -98,23 +98,23 @@ BaseThread::~BaseThread(void)
 
 DEFINE_RUN_(BaseThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseThread::run
 
 DEFINE_THREADINIT_(BaseThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseThread::threadInit
 
 DEFINE_THREADRELEASE_(BaseThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseThread::threadRelease
 
 #if defined(__APPLE__)

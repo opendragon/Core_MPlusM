@@ -87,14 +87,14 @@ using namespace MplusM::Tunnel;
 TunnelClient::TunnelClient(void) :
     inherited("tunnel_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // TunnelClient::TunnelClient
 
 TunnelClient::~TunnelClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // TunnelClient::~TunnelClient
 
 #if defined(__APPLE__)
@@ -105,8 +105,8 @@ bool
 TunnelClient::getAddress(YarpString & address,
                          int &        port)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("address = ", &address, "port = ", &port); //####
+    ODL_OBJENTER(); //####
+    ODL_P2("address = ", &address, "port = ", &port); //####
     bool okSoFar = false;
     
     try
@@ -130,26 +130,26 @@ TunnelClient::getAddress(YarpString & address,
                 }
                 else
                 {
-                    OD_LOG("! (retrievedCounter.isString() && retrievedElapsed.isInt())"); //####
+                    ODL_LOG("! (retrievedCounter.isString() && retrievedElapsed.isInt())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_WHERE_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_WHERE_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // TunnelClient::getAddress
 

@@ -83,12 +83,12 @@ using std::endl;
 static void
 displayCommands(void)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  f - enter a search criteria for services" << endl;
     cout << "  q - quit the application" << endl;
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // displayCommands
 
 /*! @brief Produce a list of matching channel names from the given criteria.
@@ -98,8 +98,8 @@ static void
 getMatchingChannels(const YarpString &  criteria,
                     const OutputFlavour flavour)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("criteria = ", criteria); //####
+    ODL_ENTER(); //####
+    ODL_S1s("criteria = ", criteria); //####
     bool             reported = false;
     YarpStringVector services;
     
@@ -201,7 +201,7 @@ getMatchingChannels(const YarpString &  criteria,
         }
     }
     cout.flush();
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // getMatchingChannels
 
 /*! @brief Set up the environment and perform the operation.
@@ -211,8 +211,8 @@ static void
 setUpAndGo(const YarpString &  criteria,
            const OutputFlavour flavour)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("criteria = ", criteria); //####
+    ODL_ENTER(); //####
+    ODL_S1s("criteria = ", criteria); //####
     if (0 < criteria.length())
     {
         getMatchingChannels(criteria, flavour);
@@ -266,7 +266,7 @@ setUpAndGo(const YarpString &  criteria,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -287,10 +287,10 @@ main(int      argc,
 {
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -322,23 +322,23 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                     MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }
         catch (...)
         {
-            OD_LOG("Exception caught"); //####
+            ODL_LOG("Exception caught"); //####
         }
         yarp::os::Network::fini();
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

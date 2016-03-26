@@ -84,14 +84,14 @@ using namespace MplusM::Common;
 ServiceChannel::ServiceChannel(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ServiceChannel::ServiceChannel
 
 ServiceChannel::~ServiceChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ServiceChannel::~ServiceChannel
 
 #if defined(__APPLE__)

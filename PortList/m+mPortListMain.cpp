@@ -90,9 +90,9 @@ reportConnections(const OutputFlavour flavour,
                   CheckFunction       checker,
                   void *              checkStuff)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("portName = ", portName); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    ODL_ENTER(); //####
+    ODL_S1s("portName = ", portName); //####
+    ODL_P1("checkStuff = ", checkStuff); //####
     bool          sawInputs = false;
     bool          sawOutputs = false;
     ChannelVector inputs;
@@ -326,7 +326,7 @@ reportConnections(const OutputFlavour flavour,
             break;
             
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // reportConnections
 
 /*! @brief Print out connection information for a port.
@@ -340,9 +340,9 @@ reportPortStatus(const OutputFlavour               flavour,
                  const Utilities::PortDescriptor & aDescriptor,
                  const bool                        checkWithRegistry)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("aDescriptor = ", &aDescriptor); //####
-    OD_LOG_B1("checkWithRegistry = ", checkWithRegistry); //####
+    ODL_ENTER(); //####
+    ODL_P1("aDescriptor = ", &aDescriptor); //####
+    ODL_B1("checkWithRegistry = ", checkWithRegistry); //####
     bool       result;
     YarpString portName;
     YarpString portClass;
@@ -377,7 +377,7 @@ reportPortStatus(const OutputFlavour               flavour,
             request += aDescriptor._portName;
             yarp::os::Bottle matches(FindMatchingServices(request, true));
             
-            OD_LOG_S1s("matches <- ", matches.toString()); //####
+            ODL_S1s("matches <- ", matches.toString()); //####
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())
             {
                 YarpString matchesFirstString(matches.get(0).toString());
@@ -594,7 +594,7 @@ reportPortStatus(const OutputFlavour               flavour,
     {
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // reportPortStatus
 
@@ -615,10 +615,10 @@ main(int      argc,
 {
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -725,23 +725,23 @@ main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::GetDetectedPortList(ports, true))"); //####
+                    ODL_LOG("! (Utilities::GetDetectedPortList(ports, true))"); //####
                     MpM_FAIL_("Could not get port list.");
                 }
             }
             else
             {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                 MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }
         catch (...)
         {
-            OD_LOG("Exception caught"); //####
+            ODL_LOG("Exception caught"); //####
         }
         yarp::os::Network::fini();
     }
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main

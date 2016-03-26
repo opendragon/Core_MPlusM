@@ -122,15 +122,15 @@ show_error(_com_error & ee)
 ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_EXIT_P(this); //####
 } // ProComp2InputThread::ProComp2InputThread
 
 ProComp2InputThread::~ProComp2InputThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ProComp2InputThread::~ProComp2InputThread
 
 #if defined(__APPLE__)
@@ -140,17 +140,17 @@ ProComp2InputThread::~ProComp2InputThread(void)
 void
 ProComp2InputThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
 #if (! defined(MpM_BuildDummyServices))
 void
 ProComp2InputThread::readChannelData(const DWORD time)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("time = ", time); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("time = ", time); //####
     bool                 sawData = false;
     char                 tag[2];
     LONG                 samplesAvailable;
@@ -227,19 +227,19 @@ ProComp2InputThread::readChannelData(const DWORD time)
         props.put("time", static_cast<double>(time));
         if (! _outChannel->write(message))
         {
-            OD_LOG("(! _outChannel->write(message))"); //####
+            ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ProComp2InputThread::readChannelData
 #endif // ! defined(MpM_BuildDummyServices)
 
 DEFINE_RUN_(ProComp2InputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     MSG      aMessage;
     UINT_PTR aTimer = NULL;
@@ -279,21 +279,21 @@ DEFINE_RUN_(ProComp2InputThread)
         lTTLLive.Release();
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ProComp2InputThread::run
 
 bool
 ProComp2InputThread::setupEncoders(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
-    OD_LOG("Autodetecting encoders"); //####
+    ODL_LOG("Autodetecting encoders"); //####
     try
     {
 #if (! defined(MpM_BuildDummyServices))
         lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, NULL, NULL);
-        OD_LOG("Setting up channels"); //####
+        ODL_LOG("Setting up channels"); //####
         lTTLLive->AutoSetupChannels();
         for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
              channelHND = lTTLLive->GetNextChannelHND())
@@ -310,16 +310,16 @@ ProComp2InputThread::setupEncoders(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         result = false;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputThread::setupEncoders
 
 DEFINE_THREADINIT_(ProComp2InputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool    result = true;
 #if (! defined(MpM_BuildDummyServices))
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
@@ -328,7 +328,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
 #if (! defined(MpM_BuildDummyServices))
     if (SUCCEEDED(hr))
     {
-        OD_LOG("Creating instance"); //####
+        ODL_LOG("Creating instance"); //####
         hr = lTTLLive.CreateInstance(CLSID_TTLLive);
         if (SUCCEEDED(hr))
         {
@@ -336,7 +336,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
             {
                 T_Version sV;
              
-                OD_LOG("Getting version"); //####
+                ODL_LOG("Getting version"); //####
                 sV.liVersion = lTTLLive->Version;
                 cout << "TTL Version = " << static_cast<int>(sV.byMajor) << "." <<
                         static_cast<int>(sV.byMinor) << "." << static_cast<int>(sV.woBuild) << endl;
@@ -344,26 +344,26 @@ DEFINE_THREADINIT_(ProComp2InputThread)
             }
             catch (_com_error & ee)
             {
-                OD_LOG("_com_error caught"); //####
+                ODL_LOG("_com_error caught"); //####
                 show_error(ee);
                 result = false;
             }
             catch (...)
             {
-                OD_LOG("Exception caught"); //####
+                ODL_LOG("Exception caught"); //####
                 throw;
             }
         }
         else
         {
-            OD_LOG("! (SUCCEEDED(hr))"); //####
+            ODL_LOG("! (SUCCEEDED(hr))"); //####
             CheckHRESULT(hr);
             result = false;
         }
     }
     else
     {
-        OD_LOG("! (SUCCEEDED(hr)"); //####
+        ODL_LOG("! (SUCCEEDED(hr)"); //####
         CheckHRESULT(hr);
         MpM_FAIL_("CoInitializeEx() failed.");
     }
@@ -375,17 +375,17 @@ DEFINE_THREADINIT_(ProComp2InputThread)
         }
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputThread::threadInit
 
 DEFINE_THREADRELEASE_(ProComp2InputThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     CoUninitialize();
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ProComp2InputThread::threadRelease
 
 #if defined(__APPLE__)

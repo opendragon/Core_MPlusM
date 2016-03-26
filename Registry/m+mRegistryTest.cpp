@@ -100,8 +100,8 @@ doTestCreateRegistryService(const char * launchPath,
                             const int    argc,
                             char * *     argv) // create 'register' service
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -137,21 +137,21 @@ doTestCreateRegistryService(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (registry->startService())"); //####
+                ODL_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
         else
         {
-            OD_LOG("! (registry)"); //####
+            ODL_LOG("! (registry)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateRegistryService
 
@@ -165,8 +165,8 @@ doTestRequestRegistryService(const char * launchPath,
                              const int    argc,
                              char * *     argv) // send 'register' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = false;
     
     try
@@ -222,44 +222,44 @@ doTestRequestRegistryService(const char * launchPath,
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
+                                ODL_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
                             aService->stopService();
                         }
                         else
                         {
-                            OD_LOG("! (aService->startService())"); //####
+                            ODL_LOG("! (aService->startService())"); //####
                         }
                         delete aService;
                     }
                     else
                     {
-                        OD_LOG("! (aService)"); //####
+                        ODL_LOG("! (aService)"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (registry->isActive())"); //####
+                    ODL_LOG("! (registry->isActive())"); //####
                 }
                 registry->stopService();
             }
             else
             {
-                OD_LOG("! (registry->startService())"); //####
+                ODL_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
         else
         {
-            OD_LOG("! (registry)"); //####
+            ODL_LOG("! (registry)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestRegistryService
 
@@ -273,8 +273,8 @@ doTestRequestUnregisterService(const char * launchPath,
                                const int    argc,
                                char * *     argv) // send 'register' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -332,50 +332,50 @@ doTestRequestUnregisterService(const char * launchPath,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (UnregisterLocalService(channelName, " //####
+                                    ODL_LOG("! (UnregisterLocalService(channelName, " //####
                                            "*aService))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
+                                ODL_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
                             aService->stopService();
                         }
                         else
                         {
-                            OD_LOG("! (aService->startService())"); //####
+                            ODL_LOG("! (aService->startService())"); //####
                         }
                         delete aService;
                     }
                     else
                     {
-                        OD_LOG("! (aService)"); //####
+                        ODL_LOG("! (aService)"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (registry->isActive())"); //####
+                    ODL_LOG("! (registry->isActive())"); //####
                 }
                 registry->stopService();
             }
             else
             {
-                OD_LOG("! (registry->startService())"); //####
+                ODL_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
         else
         {
-            OD_LOG("! (registry)"); //####
+            ODL_LOG("! (registry)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestUnregisterService
 
@@ -389,8 +389,8 @@ doTestRequestSearchService(const char * launchPath,
                            const int    argc,
                            char * *     argv) // send 'match' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -405,36 +405,36 @@ doTestRequestSearchService(const char * launchPath,
                                                                                  argv,
                                                                                  TEST_INMEMORY_);
             
-            OD_LOG_B1("getNamesFlag <- ", getNamesFlag); //####
+            ODL_B1("getNamesFlag <- ", getNamesFlag); //####
             if (registry)
             {
-                OD_LOG("(registry)"); //####
+                ODL_LOG("(registry)"); //####
                 if (registry->startService())
                 {
-                    OD_LOG("(registry->startService())"); //####
+                    ODL_LOG("(registry->startService())"); //####
                     if (registry->isActive())
                     {
                         // Now we start up another service (Test16Service) and register it
-                        OD_LOG("(registry->isActive())"); //####
+                        ODL_LOG("(registry->isActive())"); //####
                         Test16Service * aService = new Test16Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
                         
                         if (aService)
                         {
-                            OD_LOG("(aService)"); //####
+                            ODL_LOG("(aService)"); //####
                             if (aService->startService())
                             {
-                                OD_LOG("(aService->start())"); //####
+                                ODL_LOG("(aService->start())"); //####
                                 YarpString channelName(aService->getEndpoint().getName());
                                 
                                 if (RegisterLocalService(channelName, *aService))
                                 {
-                                    OD_LOG("(RegisterLocalService(channelName, *aService))"); //####
+                                    ODL_LOG("(RegisterLocalService(channelName, *aService))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);
                                     
-                                    OD_LOG_S3("criteria <- ", argv[1], "expected <- ", //####
+                                    ODL_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
                                               matches.toString().c_str()); //####
                                     yarp::os::Bottle expected(argv[2]);
@@ -442,7 +442,7 @@ doTestRequestSearchService(const char * launchPath,
                                     if ((expected.size() == matches.size()) &&
                                         (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size()))
                                     {
-                                        OD_LOG("((expected.size() == matches.size()) && " //####
+                                        ODL_LOG("((expected.size() == matches.size()) && " //####
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
                                                "matches.size()))"); //####
                                         bool            wasASuccess = false;
@@ -451,7 +451,7 @@ doTestRequestSearchService(const char * launchPath,
                                         
                                         if (expectedFirst.isString())
                                         {
-                                            OD_LOG("(expectedFirst.isString())"); //####
+                                            ODL_LOG("(expectedFirst.isString())"); //####
                                             YarpString matchesFirstAsString =
                                                                             matchesFirst.toString();
                                             YarpString expectedFirstAsString =
@@ -459,7 +459,7 @@ doTestRequestSearchService(const char * launchPath,
                                             
                                             if (matchesFirstAsString == expectedFirstAsString)
                                             {
-                                                OD_LOG("(matchesFirstAsString == " //####
+                                                ODL_LOG("(matchesFirstAsString == " //####
                                                        "expectedFirstAsString)"); //####
                                                 result = 0;
                                                 if (! strcmp(MpM_OK_RESPONSE_,
@@ -470,23 +470,23 @@ doTestRequestSearchService(const char * launchPath,
                                             }
                                             else
                                             {
-                                                OD_LOG("! (matchesFirstAsString == " //####
+                                                ODL_LOG("! (matchesFirstAsString == " //####
                                                        "expectedFirstAsString)"); //####
                                             }
                                         }
                                         else
                                         {
-                                            OD_LOG("! (expectedFirst.isString())"); //####
+                                            ODL_LOG("! (expectedFirst.isString())"); //####
                                         }
                                         if ((! result) && wasASuccess)
                                         {
-                                            OD_LOG("((! result) && wasASuccess)"); //####
+                                            ODL_LOG("((! result) && wasASuccess)"); //####
                                             yarp::os::Value matchesSecond(matches.get(1));
                                             yarp::os::Value expectedSecond(expected.get(1));
                                             
                                             if (expectedSecond.isList())
                                             {
-                                                OD_LOG("(expectedSecond.isList())"); //####
+                                                ODL_LOG("(expectedSecond.isList())"); //####
                                                 yarp::os::Bottle * matchesSecondAsList =
                                                                             matchesSecond.asList();
                                                 yarp::os::Bottle * expectedSecondAsList =
@@ -496,13 +496,13 @@ doTestRequestSearchService(const char * launchPath,
                                                 int                expectedSecondCount =
                                                                     expectedSecondAsList->size();
                                                 
-                                                OD_LOG_LL2("matchesSecondCount <- ", //####
+                                                ODL_LL2("matchesSecondCount <- ", //####
                                                            matchesSecondCount, //####
                                                            "expectedSecondCount <- ", //####
                                                            expectedSecondCount); //####
                                                 if (matchesSecondCount == expectedSecondCount)
                                                 {
-                                                    OD_LOG("(matchesSecondCount == " //####
+                                                    ODL_LOG("(matchesSecondCount == " //####
                                                            "expectedSecondCount)"); //####
                                                     // Since the lists are the same length, we can
                                                     // just look for the expected values in the
@@ -532,7 +532,7 @@ doTestRequestSearchService(const char * launchPath,
                                                         }
                                                         if (! didFind)
                                                         {
-                                                            OD_LOG("(! didFind)"); //####
+                                                            ODL_LOG("(! didFind)"); //####
                                                             result = 1;
                                                             break;
                                                         }
@@ -541,76 +541,76 @@ doTestRequestSearchService(const char * launchPath,
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (matchesSecondCount == " //####
+                                                    ODL_LOG("! (matchesSecondCount == " //####
                                                            "expectedSecondCount)"); //####
                                                     result = 1;
                                                 }
                                             }
                                             else
                                             {
-                                                OD_LOG("! (expectedSecond.isList())"); //####
+                                                ODL_LOG("! (expectedSecond.isList())"); //####
                                                 result = 1;
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        OD_LOG("! ((expected.size() == matches.size()) && " //####
+                                        ODL_LOG("! ((expected.size() == matches.size()) && " //####
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
                                                "matches.size()))"); //####
                                     }
                                     if (! UnregisterLocalService(channelName, *aService))
                                     {
-                                        OD_LOG("(! UnregisterLocalService(channelName, " //####
+                                        ODL_LOG("(! UnregisterLocalService(channelName, " //####
                                                "*aService))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (RegisterLocalService(channelName, " //####
+                                    ODL_LOG("! (RegisterLocalService(channelName, " //####
                                            "*aService))"); //####
                                 }
                                 aService->stopService();
                             }
                             else
                             {
-                                OD_LOG("! (aService->start())"); //####
+                                ODL_LOG("! (aService->start())"); //####
                             }
                             delete aService;
                         }
                         else
                         {
-                            OD_LOG("! (aService)"); //####
+                            ODL_LOG("! (aService)"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (registry->isActive())"); //####
+                        ODL_LOG("! (registry->isActive())"); //####
                     }
                     registry->stopService();
                 }
                 else
                 {
-                    OD_LOG("! (registry->start())"); //####
+                    ODL_LOG("! (registry->start())"); //####
                 }
                 delete registry;
             }
             else
             {
-                OD_LOG("! (registry)"); //####
+                ODL_LOG("! (registry)"); //####
             }
         }
         else
         {
-            OD_LOG("! (1 < argc)"); //####
+            ODL_LOG("! (1 < argc)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestSearchService
 
@@ -619,8 +619,8 @@ doTestRequestSearchService(const char * launchPath,
 static void
 catchSignal(int signal)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("signal = ", signal); //####
+    ODL_ENTER(); //####
+    ODL_LL1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
 
@@ -629,7 +629,7 @@ catchSignal(int signal)
     message += " = ";
     message += NameOfSignal(signal);
     MpM_ERROR_(message.c_str());
-    OD_LOG_EXIT_EXIT(1); //####
+    ODL_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal
 
@@ -652,10 +652,10 @@ main(int      argc,
 {
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -678,7 +678,7 @@ main(int      argc,
                 char *       endPtr;
                 int          selector = strtol(startPtr, &endPtr, 10);
                 
-                OD_LOG_LL1("selector <- ", selector); //####
+                ODL_LL1("selector <- ", selector); //####
                 if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
                     SetSignalHandlers(catchSignal);
@@ -706,22 +706,22 @@ main(int      argc,
                     }
                     if (result)
                     {
-                        OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                        ODL_LL1("%%%%%%% unit test failure = ", result); //####
                     }
                 }
             }
             else
             {
-                OD_LOG("! (0 < --argc)"); //####
+                ODL_LOG("! (0 < --argc)"); //####
             }
         }
         Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // main

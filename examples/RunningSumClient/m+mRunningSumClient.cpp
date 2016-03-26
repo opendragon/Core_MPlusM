@@ -87,14 +87,14 @@ using namespace MplusM::Example;
 RunningSumClient::RunningSumClient(void) :
     inherited("examples/runningsum_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RunningSumClient::RunningSumClient
 
 RunningSumClient::~RunningSumClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumClient::~RunningSumClient
 
 #if defined(__APPLE__)
@@ -105,8 +105,8 @@ bool
 RunningSumClient::addToSum(const double value,
                            double &     newSum)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("newSum = ", &newSum); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("newSum = ", &newSum); //####
     bool okSoFar = false;
     
     try
@@ -134,26 +134,26 @@ RunningSumClient::addToSum(const double value,
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isInt())"); //####
+                    ODL_LOG("! (retrieved.isInt())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::addToSum
 
@@ -161,8 +161,8 @@ bool
 RunningSumClient::addToSum(const DoubleVector & values,
                            double &             newSum)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("values = ", &values, "newSum = ", &newSum); //####
+    ODL_OBJENTER(); //####
+    ODL_P2("values = ", &values, "newSum = ", &newSum); //####
     bool okSoFar = false;
     
     try
@@ -198,38 +198,38 @@ RunningSumClient::addToSum(const DoubleVector & values,
                     }
                     else
                     {
-                        OD_LOG("! (retrieved.isInt())"); //####
+                        ODL_LOG("! (retrieved.isInt())"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
-                    OD_LOG_S1s("response = ", response.asString()); //####
+                    ODL_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
+                    ODL_S1s("response = ", response.asString()); //####
                 }
             }
             else
             {
-                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
+                ODL_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
             }
         }
         else
         {
-            OD_LOG("! (1 <= parameters.size())"); //####
+            ODL_LOG("! (1 <= parameters.size())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::addToSum
 
 bool
 RunningSumClient::resetSum(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -253,18 +253,18 @@ RunningSumClient::resetSum(void)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isString())"); //####
+                    ODL_LOG("! (retrieved.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETSUM_REQUEST_, parameters))
@@ -273,23 +273,23 @@ RunningSumClient::resetSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters))"); //####
+            ODL_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::resetSum
 
 bool
 RunningSumClient::startSum(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -313,18 +313,18 @@ RunningSumClient::startSum(void)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isString())"); //####
+                    ODL_LOG("! (retrieved.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STARTSUM_REQUEST_, parameters))
@@ -333,23 +333,23 @@ RunningSumClient::startSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters))"); //####
+            ODL_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::startSum
 
 bool
 RunningSumClient::stopSum(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool okSoFar = false;
     
     try
@@ -373,18 +373,18 @@ RunningSumClient::stopSum(void)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isString())"); //####
+                    ODL_LOG("! (retrieved.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_ == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_ == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPSUM_REQUEST_, parameters))
@@ -393,16 +393,16 @@ RunningSumClient::stopSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters))"); //####
+            ODL_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar);
+    ODL_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::stopSum
 

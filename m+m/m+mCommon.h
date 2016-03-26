@@ -591,7 +591,7 @@ namespace MplusM
     void
     StopRunning(void);
     
-    /*! @brief The escapre character. */
+    /*! @brief The escape character. */
     extern const char kEscapeChar;
     
     /*! @brief The directory separator string; */

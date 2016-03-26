@@ -96,9 +96,9 @@ processArguments(const YarpString & outputMode,
                  bool &             needsAddress,
                  bool &             needsPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("outputMode = ", outputMode, "tag = ", tag); //####
-    OD_LOG_P3("namePattern = ", &namePattern, "needsAddress = ", &needsAddress, //####
+    ODL_ENTER(); //####
+    ODL_S2s("outputMode = ", outputMode, "tag = ", tag); //####
+    ODL_P3("namePattern = ", &namePattern, "needsAddress = ", &needsAddress, //####
               "needsPort = ", &needsPort); //####
     bool okSoFar = true;
     
@@ -133,7 +133,7 @@ processArguments(const YarpString & outputMode,
 
         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // processArguments
 
@@ -154,10 +154,10 @@ setUpAndGo(const YarpString &  outputMode,
            const OutputFlavour flavour)
 #endif // ! defined(MpM_ReportOnConnections)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2s("outputMode = ", outputMode, "tag = ", tag); //####
+    ODL_ENTER(); //####
+    ODL_S2s("outputMode = ", outputMode, "tag = ", tag); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
+    ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     AddressClient * aClient = new AddressClient;
     
@@ -246,19 +246,19 @@ setUpAndGo(const YarpString &  outputMode,
                     }
                     else
                     {
-                        OD_LOG("! (aClient->getAddress(address, port))"); //####
+                        ODL_LOG("! (aClient->getAddress(address, port))"); //####
                         MpM_FAIL_("Problem fetching the address information.");
                     }
                 }
                 else
                 {
-                    OD_LOG("! (aClient->connectToService())"); //####
+                    ODL_LOG("! (aClient->connectToService())"); //####
                     MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
                 }
             }
             else
             {
-                OD_LOG("! (aClient->findService(channelNameRequest)"); //####
+                ODL_LOG("! (aClient->findService(channelNameRequest)"); //####
                 MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
             }
         }
@@ -270,9 +270,9 @@ setUpAndGo(const YarpString &  outputMode,
     }
     else
     {
-        OD_LOG("! (aClient)"); //####
+        ODL_LOG("! (aClient)"); //####
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // setUpAndGo
 
 #if defined(__APPLE__)
@@ -296,10 +296,10 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -347,30 +347,30 @@ main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                        ODL_LOG("! (Utilities::CheckForRegistryService())"); //####
                         MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+                    ODL_LOG("! (Utilities::CheckForValidNetwork())"); //####
                     MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
             }
             catch (...)
             {
-                OD_LOG("Exception caught"); //####
+                ODL_LOG("Exception caught"); //####
             }
             yarp::os::Network::fini();
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0); //####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

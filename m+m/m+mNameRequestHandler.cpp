@@ -111,15 +111,15 @@ using namespace MplusM::Utilities;
 NameRequestHandler::NameRequestHandler(BaseService & service) :
     inherited(MpM_NAME_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // NameRequestHandler::NameRequestHandler
 
 NameRequestHandler::~NameRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // NameRequestHandler::~NameRequestHandler
 
 #if defined(__APPLE__)
@@ -128,17 +128,17 @@ NameRequestHandler::~NameRequestHandler(void)
 
 DEFINE_FILLINALIASES_(NameRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("n");
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NameRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -165,10 +165,10 @@ DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NameRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -182,10 +182,10 @@ DEFINE_PROCESSREQUEST_(NameRequestHandler)
 #  pragma unused(request,restOfInput,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -194,7 +194,7 @@ DEFINE_PROCESSREQUEST_(NameRequestHandler)
         
         _response.clear();
         ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
-        OD_LOG_S1("bigPath <- ", bigPath); //####
+        ODL_S1("bigPath <- ", bigPath); //####
         _response.addString(_service.serviceName());
         _response.addString(_service.description());
         _response.addString(_service.extraInformation());
@@ -206,10 +206,10 @@ DEFINE_PROCESSREQUEST_(NameRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // NameRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

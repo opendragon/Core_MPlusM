@@ -82,14 +82,14 @@ using namespace MplusM::Common;
 ChannelStatusReporter::ChannelStatusReporter(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ChannelStatusReporter::ChannelStatusReporter
 
 ChannelStatusReporter::~ChannelStatusReporter(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ChannelStatusReporter::~ChannelStatusReporter
 
 #if defined(__APPLE__)
@@ -99,30 +99,30 @@ ChannelStatusReporter::~ChannelStatusReporter(void)
 void
 ChannelStatusReporter::report(const yarp::os::PortInfo & info)
 {
-    OD_LOG_LL1("tag = ", info.tag); //####
+    ODL_LL1("tag = ", info.tag); //####
     switch (info.tag)
     {
         case yarp::os::PortInfo::PORTINFO_NULL :
-            OD_LOG("No information"); //####
+            ODL_LOG("No information"); //####
             break;
             
         case yarp::os::PortInfo::PORTINFO_CONNECTION :
-            OD_LOG("Information about an incoming or outgoing connection"); //####
+            ODL_LOG("Information about an incoming or outgoing connection"); //####
             break;
             
         case yarp::os::PortInfo::PORTINFO_MISC :
-            OD_LOG("Unspecified information"); //####
+            ODL_LOG("Unspecified information"); //####
             break;
             
         default :
-            OD_LOG("<unknown>"); //####
+            ODL_LOG("<unknown>"); //####
             break;
             
     }
-    OD_LOG_B2("incoming = ", info.incoming, "created = ", info.created); //####
-    OD_LOG_S4s("portName = ", info.portName, "sourceName = ", info.sourceName, //####
+    ODL_B2("incoming = ", info.incoming, "created = ", info.created); //####
+    ODL_S4s("portName = ", info.portName, "sourceName = ", info.sourceName, //####
                "targetName = ", info.targetName, "carrierName = ", info.carrierName); //####
-    OD_LOG_S1s("message = ", info.message); //####
+    ODL_S1s("message = ", info.message); //####
 } // ChannelStatusReporter::report
 
 #if defined(__APPLE__)

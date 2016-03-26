@@ -91,15 +91,15 @@ using namespace MplusM::Example;
 RunningSumDataInputHandler::RunningSumDataInputHandler(RunningSumAdapterData & shared) :
     inherited(), _shared(shared)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("shared = ", &shared); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("shared = ", &shared); //####
+    ODL_EXIT_P(this); //####
 } // RunningSumDataInputHandler::RunningSumDataInputHandler
 
 RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumDataInputHandler::~RunningSumDataInputHandler
 
 #if defined(__APPLE__)
@@ -117,10 +117,10 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -162,7 +162,7 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
-                                OD_LOG("(! theOutput->write(message))"); //####
+                                ODL_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -170,7 +170,7 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                         }
                         else
                         {
-                            OD_LOG("! (theClient->startSum())"); //####
+                            ODL_LOG("! (theClient->startSum())"); //####
                         }
                         _shared.unlock();
                     }
@@ -207,7 +207,7 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
-                                OD_LOG("(! theOutput->write(message))"); //####
+                                ODL_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -215,7 +215,7 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                         }
                         else
                         {
-                            OD_LOG("! (theClient->startSum())"); //####
+                            ODL_LOG("! (theClient->startSum())"); //####
                         }
                         _shared.unlock();
                     }
@@ -225,10 +225,10 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumDataInputHandler::handleInput
 #if (! MAC_OR_LINUX_)

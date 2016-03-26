@@ -95,25 +95,25 @@ AddressService::AddressService(const YarpString & hostName,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
+    ODL_ENTER(); //####
+    ODL_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    ODL_S1s("servicePortNumber = ", servicePortNumber); //####
+    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     std::stringstream buff;
 
     buff << "Host name is '" << _address.c_str() << "', host port is " << _port;
     setExtraInformation(buff.str());
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
+    ODL_EXIT_P(this); //####
 } // AddressService::AddressService
 
 AddressService::~AddressService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AddressService::~AddressService
 
 #if defined(__APPLE__)
@@ -123,7 +123,7 @@ AddressService::~AddressService(void)
 void
 AddressService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         _whereHandler = new WhereRequestHandler(*this);
@@ -133,21 +133,21 @@ AddressService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_whereHandler)"); //####
+            ODL_LOG("! (_whereHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AddressService::attachRequestHandlers
 
 void
 AddressService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (_whereHandler)
@@ -159,25 +159,25 @@ AddressService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AddressService::detachRequestHandlers
 
 void
 AddressService::getAddress(YarpString & address,
                            int &        port)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     address = _address;
     port = _port;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AddressService::getAddress
 
 DEFINE_STARTSERVICE_(AddressService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -191,23 +191,23 @@ DEFINE_STARTSERVICE_(AddressService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AddressService::startService
 
 DEFINE_STOPSERVICE_(AddressService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = false;
     
     try
@@ -216,10 +216,10 @@ DEFINE_STOPSERVICE_(AddressService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AddressService::stopService
 

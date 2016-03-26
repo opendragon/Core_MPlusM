@@ -83,15 +83,15 @@ using namespace MplusM::Test;
 Test10DefaultRequestHandler::Test10DefaultRequestHandler(BaseService & service) :
     inherited("", service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // Test10DefaultRequestHandler::Test10DefaultRequestHandler
 
 Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // Test10DefaultRequestHandler::~Test10DefaultRequestHandler
 
 #if defined(__APPLE__)
@@ -109,9 +109,9 @@ DEFINE_FILLINALIASES_(Test10DefaultRequestHandler)
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // Test10DefaultRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -128,10 +128,10 @@ DEFINE_FILLINDESCRIPTION_(Test10DefaultRequestHandler)
 #  pragma unused(request,info)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
+    ODL_OBJEXIT(); //####
 } // Test10DefaultRequestHandler::fillInDescription
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -148,17 +148,17 @@ DEFINE_PROCESSREQUEST_(Test10DefaultRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     _response.clear();
     _response.addString(name());
     _response.append(restOfInput);
     sendResponse(replyMechanism);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test10DefaultRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

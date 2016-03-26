@@ -101,20 +101,20 @@ TruncateFloatFilterService::TruncateFloatFilterService(const Utilities::Descript
               serviceEndpointName, servicePortNumber),
     _inHandler(new TruncateFloatFilterInputHandler)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // TruncateFloatFilterService::TruncateFloatFilterService
 
 TruncateFloatFilterService::~TruncateFloatFilterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::~TruncateFloatFilterService
 
 #if defined(__APPLE__)
@@ -132,8 +132,8 @@ DEFINE_CONFIGURE_(TruncateFloatFilterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -143,10 +143,10 @@ DEFINE_CONFIGURE_(TruncateFloatFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatFilterService::configure
 #if (! MAC_OR_LINUX_)
@@ -155,40 +155,40 @@ DEFINE_CONFIGURE_(TruncateFloatFilterService)
 
 DEFINE_DISABLEMETRICS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatFilterService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -197,15 +197,15 @@ DEFINE_RESTARTSTREAMS_(TruncateFloatFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -220,13 +220,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(TruncateFloatFilterService)
     description._portProtocol = "i+";
     description._protocolDescription = "One or more integer values";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatFilterService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -238,22 +238,22 @@ DEFINE_STARTSERVICE_(TruncateFloatFilterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // TruncateFloatFilterService::startService
 
 DEFINE_STARTSTREAMS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -269,15 +269,15 @@ DEFINE_STARTSTREAMS_(TruncateFloatFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::startStreams
 
 DEFINE_STOPSERVICE_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -286,16 +286,16 @@ DEFINE_STOPSERVICE_(TruncateFloatFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatFilterService::stopService
 
 DEFINE_STOPSTREAMS_(TruncateFloatFilterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -309,10 +309,10 @@ DEFINE_STOPSTREAMS_(TruncateFloatFilterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // TruncateFloatFilterService::stopStreams
 
 #if defined(__APPLE__)

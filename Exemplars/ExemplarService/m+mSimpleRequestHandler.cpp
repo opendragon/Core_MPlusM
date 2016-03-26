@@ -88,15 +88,15 @@ using namespace MplusM::Exemplar;
 SimpleRequestHandler::SimpleRequestHandler(ExemplarService & service) :
     inherited(MpM_SIMPLE_REQUEST_, service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // SimpleRequestHandler::SimpleRequestHandler
 
 SimpleRequestHandler::~SimpleRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // SimpleRequestHandler::~SimpleRequestHandler
 
 #if defined(__APPLE__)
@@ -105,16 +105,16 @@ SimpleRequestHandler::~SimpleRequestHandler(void)
 
 DEFINE_FILLINALIASES_(SimpleRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("alternateNames = ", &alternateNames); //####
+    ODL_OBJEXIT(); //####
 } // SimpleRequestHandler::fillInAliases
 
 DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
@@ -132,10 +132,10 @@ DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // SimpleRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
@@ -149,10 +149,10 @@ DEFINE_PROCESSREQUEST_(SimpleRequestHandler)
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+    ODL_OBJENTER(); //####
+    ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -186,16 +186,16 @@ DEFINE_PROCESSREQUEST_(SimpleRequestHandler)
         }
         else
         {
-            OD_LOG("! (count > 0)"); //####
+            ODL_LOG("! (count > 0)"); //####
         }
         sendResponse(replyMechanism);
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // SimpleRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)

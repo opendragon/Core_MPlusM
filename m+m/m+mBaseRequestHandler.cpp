@@ -87,16 +87,16 @@ BaseRequestHandler::BaseRequestHandler(const YarpString & request,
                                        BaseService &      service) :
     _owner(NULL), _name(request), _service(service)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_S1s("request = ", request); //####
+    ODL_P1("service = ", &service); //####
+    ODL_EXIT_P(this); //####
 } // BaseRequestHandler::BaseRequestHandler
 
 BaseRequestHandler::~BaseRequestHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseRequestHandler::~BaseRequestHandler
 
 #if defined(__APPLE__)
@@ -106,11 +106,11 @@ BaseRequestHandler::~BaseRequestHandler(void)
 void
 BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     if (replyMechanism)
     {
-        OD_LOG("(replyMechanism)"); //####
+        ODL_LOG("(replyMechanism)"); //####
         size_t messageSize = 0;
         
         _response.clear();
@@ -125,23 +125,23 @@ BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
         }
         else
         {
-            OD_LOG("(! _response.write(*replyMechanism))"); //####
+            ODL_LOG("(! _response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseRequestHandler::sendOKResponse
 
 void
 BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
     if (replyMechanism)
     {
-        OD_LOG("(replyMechanism)"); //####
+        ODL_LOG("(replyMechanism)"); //####
         if (_response.write(*replyMechanism))
         {
             if (_service.metricsAreEnabled())
@@ -154,22 +154,22 @@ BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
         }
         else
         {
-            OD_LOG("(! _response.write(*replyMechanism))"); //####
+            ODL_LOG("(! _response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseRequestHandler::sendResponse
 
 void
 BaseRequestHandler::setOwner(RequestMap & owner)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("owner = ", &owner); //####
     _owner = &owner;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseRequestHandler::setOwner
 
 #if defined(__APPLE__)

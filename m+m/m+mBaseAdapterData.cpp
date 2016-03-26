@@ -85,15 +85,15 @@ BaseAdapterData::BaseAdapterData(BaseClient *  client,
                                  BaseChannel * output) :
     _lock(), _output(output), _client(client), _active(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("client = ", client, "output = ", output); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P2("client = ", client, "output = ", output); //####
+    ODL_EXIT_P(this); //####
 } // BaseAdapterData::BaseAdapterData
 
 BaseAdapterData::~BaseAdapterData(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseAdapterData::~BaseAdapterData
 
 #if defined(__APPLE__)
@@ -103,28 +103,28 @@ BaseAdapterData::~BaseAdapterData(void)
 bool
 BaseAdapterData::activate(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool previous;
     
     lock();
     previous = _active;
     _active = true;
     unlock();
-    OD_LOG_OBJEXIT_B(previous); //####
+    ODL_OBJEXIT_B(previous); //####
     return previous;
 } // BaseAdapterData::activate
 
 bool
 BaseAdapterData::deactivate(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool previous;
     
     lock();
     previous = _active;
     _active = false;
     unlock();
-    OD_LOG_OBJEXIT_B(previous); //####
+    ODL_OBJEXIT_B(previous); //####
     return previous;
 } // BaseAdapterData::deactivate
 

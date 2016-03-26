@@ -87,14 +87,14 @@ using namespace MplusM::Exemplar;
 ExemplarClient::ExemplarClient(void) :
     inherited("exemplars/simple_")
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // ExemplarClient::ExemplarClient
 
 ExemplarClient::~ExemplarClient(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // ExemplarClient::~ExemplarClient
 
 #if defined(__APPLE__)
@@ -104,8 +104,8 @@ ExemplarClient::~ExemplarClient(void)
 bool
 ExemplarClient::getOneRandomNumber(double & result)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("result = ", &result); //####
     bool okSoFar = false;
     
     try
@@ -127,26 +127,26 @@ ExemplarClient::getOneRandomNumber(double & result)
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isDouble())"); //####
+                    ODL_LOG("! (retrieved.isDouble())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (1 == response.count())"); //####
-                OD_LOG_S1s("response = ", response.asString()); //####
+                ODL_LOG("! (1 == response.count())"); //####
+                ODL_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
+            ODL_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // ExemplarClient::getOneRandomNumber
 
@@ -154,9 +154,9 @@ bool
 ExemplarClient::getRandomNumbers(const int      howMany,
                                  DoubleVector & result)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("howMany = ", howMany); //####
-    OD_LOG_P1("result = ", &result); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("howMany = ", howMany); //####
+    ODL_P1("result = ", &result); //####
     bool okSoFar = false;
     
     try
@@ -184,7 +184,7 @@ ExemplarClient::getRandomNumbers(const int      howMany,
                         }
                         else
                         {
-                            OD_LOG("! (retrieved.isDouble())"); //####
+                            ODL_LOG("! (retrieved.isDouble())"); //####
                             okSoFar = false;
                             break;
                         }
@@ -193,26 +193,26 @@ ExemplarClient::getRandomNumbers(const int      howMany,
                 }
                 else
                 {
-                    OD_LOG("! (howMany == response.count())"); //####
-                    OD_LOG_S1s("response = ", response.asString()); //####
+                    ODL_LOG("! (howMany == response.count())"); //####
+                    ODL_S1s("response = ", response.asString()); //####
                 }
             }
             else
             {
-                OD_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
+                ODL_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
             }
         }
         else
         {
-            OD_LOG("! (0 < howMany)"); //####
+            ODL_LOG("! (0 < howMany)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // ExemplarClient::getRandomNumbers
 

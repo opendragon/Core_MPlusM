@@ -100,19 +100,19 @@ RandomBurstInputService::RandomBurstInputService(const Utilities::DescriptorVect
               RANDOMBURSTINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // RandomBurstInputService::RandomBurstInputService
 
 RandomBurstInputService::~RandomBurstInputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputService::~RandomBurstInputService
 
 #if defined(__APPLE__)
@@ -121,8 +121,8 @@ RandomBurstInputService::~RandomBurstInputService(void)
 
 DEFINE_CONFIGURE_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -143,8 +143,8 @@ DEFINE_CONFIGURE_(RandomBurstInputService)
                     
                     _burstPeriod = firstNumber;
                     _burstSize = secondNumber;
-                    OD_LOG_D1("_burstPeriod <- ", _burstPeriod); //####
-                    OD_LOG_LL1("_burstSize <- ", _burstSize); //####
+                    ODL_D1("_burstPeriod <- ", _burstPeriod); //####
+                    ODL_LL1("_burstSize <- ", _burstSize); //####
                     buff << "Burst period is " << _burstPeriod << ", burst size is " << _burstSize;
                     setExtraInformation(buff.str());
                     result = true;
@@ -166,29 +166,29 @@ DEFINE_CONFIGURE_(RandomBurstInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputService::configure
 
 DEFINE_GETCONFIGURATION_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addDouble(_burstPeriod);
     details.addInt(_burstSize);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -197,15 +197,15 @@ DEFINE_RESTARTSTREAMS_(RandomBurstInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -215,26 +215,26 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
     description._portProtocol = "d+";
     description._protocolDescription = "One or more numeric values";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputService::setUpStreamDescriptions
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
     if (_generator)
     {
         _generator->clearOutputChannel();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // RandomBurstInputService::shutDownOutputStreams
 
 DEFINE_STARTSERVICE_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -246,22 +246,22 @@ DEFINE_STARTSERVICE_(RandomBurstInputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // RandomBurstInputService::startService
 
 DEFINE_STARTSTREAMS_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -273,7 +273,7 @@ DEFINE_STARTSTREAMS_(RandomBurstInputService)
             }
             else
             {
-                OD_LOG("! (generator->start())"); //####
+                ODL_LOG("! (generator->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
                 delete _generator;
                 _generator = NULL;
@@ -282,15 +282,15 @@ DEFINE_STARTSTREAMS_(RandomBurstInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputService::startStreams
 
 DEFINE_STOPSERVICE_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -299,16 +299,16 @@ DEFINE_STOPSERVICE_(RandomBurstInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputService::stopService
 
 DEFINE_STOPSTREAMS_(RandomBurstInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -328,10 +328,10 @@ DEFINE_STOPSTREAMS_(RandomBurstInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RandomBurstInputService::stopStreams
 
 #if defined(__APPLE__)

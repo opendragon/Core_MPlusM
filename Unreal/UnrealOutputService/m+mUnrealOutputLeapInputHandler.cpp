@@ -99,10 +99,10 @@ dumpFingerProps(std::stringstream &  outBuffer,
                 bool &               okSoFar)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("outBuffer = ", &outBuffer, "fingerProps = ", fingerProps, "okSoFar = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("outBuffer = ", &outBuffer, "fingerProps = ", fingerProps, "okSoFar = ", //####
               &okSoFar); //####
-    OD_LOG_D1("scale = ", scale); //####
+    ODL_D1("scale = ", scale); //####
     yarp::os::Value & fingerType(fingerProps.find("type"));
     yarp::os::Value & tipPosition(fingerProps.find("tipposition"));
     yarp::os::Value & tipDirection(fingerProps.find("direction"));
@@ -198,7 +198,7 @@ dumpFingerProps(std::stringstream &  outBuffer,
         cerr << "Missing or invalid finger values" << endl; //!!!!
         okSoFar = false;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // dumpFingerProps
 
 /*! @brief Convert hand data into a character stream.
@@ -218,9 +218,9 @@ dumpHandData(std::stringstream &  outBuffer,
              const double         scale)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("outBuffer = ", &outBuffer, "handData = ", &handData); //####
-    OD_LOG_D1("scale = ", scale); //####
+    ODL_ENTER(); //####
+    ODL_P2("outBuffer = ", &outBuffer, "handData = ", &handData); //####
+    ODL_D1("scale = ", scale); //####
     bool              okSoFar = true;
     yarp::os::Value & idValue(handData.find("id"));
     yarp::os::Value & fingerValue(handData.find("fingers"));
@@ -302,7 +302,7 @@ dumpHandData(std::stringstream &  outBuffer,
         cerr << "Missing or invalid hand values" << endl; //!!!!
         okSoFar = false;
     }
-    OD_LOG_EXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // dumpHandData
 
@@ -317,15 +317,15 @@ dumpHandData(std::stringstream &  outBuffer,
 UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler(UnrealOutputService & owner) :
     inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", &owner); //####
+    ODL_EXIT_P(this); //####
 } // UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler
 
 UnrealOutputLeapInputHandler::~UnrealOutputLeapInputHandler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputLeapInputHandler::~UnrealOutputLeapInputHandler
 
 #if defined(__APPLE__)
@@ -343,10 +343,10 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try
@@ -503,10 +503,10 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputLeapInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
@@ -516,19 +516,19 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
 void
 UnrealOutputLeapInputHandler::setScale(const double newScale)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_D1("newScale = ", newScale); //####
+    ODL_OBJENTER(); //####
+    ODL_D1("newScale = ", newScale); //####
     _scale = newScale;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputLeapInputHandler::setScale
 
 void
 UnrealOutputLeapInputHandler::setSocket(const SOCKET outSocket)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("outSocket = ", outSocket); //####
+    ODL_OBJENTER(); //####
+    ODL_L1("outSocket = ", outSocket); //####
     _outSocket = outSocket;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // UnrealOutputLeapInputHandler::setSocket
 
 #if defined(__APPLE__)

@@ -83,14 +83,14 @@ using namespace MplusM::Test;
 Test08Handler::Test08Handler(void) :
     inherited()
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // Test08Handler::Test08Handler
 
 Test08Handler::~Test08Handler(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // Test08Handler::~Test08Handler
 
 #if defined(__APPLE__)
@@ -108,27 +108,27 @@ DEFINE_HANDLE_INPUT_(Test08Handler)
 #  pragma unused(senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    ODL_P1("replyMechanism = ", replyMechanism); //####
+    ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     if (replyMechanism)
     {
-        OD_LOG("(replyMechanism)"); //####
+        ODL_LOG("(replyMechanism)"); //####
         yarp::os::Bottle inputCopy(input);
         
-        OD_LOG_S1s("inputCopy <- ", inputCopy.toString()); //####
+        ODL_S1s("inputCopy <- ", inputCopy.toString()); //####
         if (! inputCopy.write(*replyMechanism))
         {
-            OD_LOG("(! inputCopy.write(*replyMechanism))"); //####
+            ODL_LOG("(! inputCopy.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // Test08Handler::handleInput
 #if (! MAC_OR_LINUX_)

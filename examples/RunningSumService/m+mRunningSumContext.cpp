@@ -83,14 +83,14 @@ using namespace MplusM::Example;
 RunningSumContext::RunningSumContext(void) :
     inherited(), _sum(0.0)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // RunningSumContext::RunningSumContext
 
 RunningSumContext::~RunningSumContext(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumContext::~RunningSumContext
 
 #if defined(__APPLE__)

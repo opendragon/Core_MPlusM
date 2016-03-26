@@ -103,19 +103,19 @@ ViconDataStreamInputService::ViconDataStreamInputService(const Utilities::Descri
               "", serviceEndpointName, servicePortNumber), _eventThread(NULL),
     _hostName(SELF_ADDRESS_NAME_), _hostPort(VICONDATASTREAMINPUT_DEFAULT_PORT_)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // ViconDataStreamInputService::ViconDataStreamInputService
 
 ViconDataStreamInputService::~ViconDataStreamInputService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamInputService::~ViconDataStreamInputService
 
 #if defined(__APPLE__)
@@ -124,8 +124,8 @@ ViconDataStreamInputService::~ViconDataStreamInputService(void)
 
 DEFINE_CONFIGURE_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -144,9 +144,9 @@ DEFINE_CONFIGURE_(ViconDataStreamInputService)
                     std::stringstream buff;
                     
                     _hostName = firstValue.asString();
-                    OD_LOG_S1s("_hostName <- ", _hostName); //####
+                    ODL_S1s("_hostName <- ", _hostName); //####
                     _hostPort = secondNumber;
-                    OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+                    ODL_LL1("_hostPort <- ", _hostPort); //####
                     buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
                             _hostPort;
                     setExtraInformation(buff.str());
@@ -170,29 +170,29 @@ DEFINE_CONFIGURE_(ViconDataStreamInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::configure
 
 DEFINE_GETCONFIGURATION_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
     details.addString(_hostName);
     details.addInt(_hostPort);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -201,15 +201,15 @@ DEFINE_RESTARTSTREAMS_(ViconDataStreamInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamInputService::restartStreams
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -221,26 +221,26 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconDataStreamInputService)
                     "Each subject being a list of the subject name and a dictionary of segments\n"
                     "Each segment being a dictionary with name, translation and rotation";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::setUpStreamDescriptions
 
 DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::shutDownOutputStreams
 
 DEFINE_STARTSERVICE_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -252,22 +252,22 @@ DEFINE_STARTSERVICE_(ViconDataStreamInputService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // ViconDataStreamInputService::startService
 
 DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -282,7 +282,7 @@ DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
             }
             else
             {
-                OD_LOG("! (_eventThread->start())"); //####
+                ODL_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
                 delete _eventThread;
                 _eventThread = NULL;
@@ -291,15 +291,15 @@ DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamInputService::startStreams
 
 DEFINE_STOPSERVICE_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -308,16 +308,16 @@ DEFINE_STOPSERVICE_(ViconDataStreamInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::stopService
 
 DEFINE_STOPSTREAMS_(ViconDataStreamInputService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -337,10 +337,10 @@ DEFINE_STOPSTREAMS_(ViconDataStreamInputService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // ViconDataStreamInputService::stopStreams
 
 #if defined(__APPLE__)

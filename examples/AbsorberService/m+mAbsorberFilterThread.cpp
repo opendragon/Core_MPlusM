@@ -86,16 +86,16 @@ AbsorberFilterThread::AbsorberFilterThread(AbsorberFilterService & service,
                                            const double            timeToWait) :
     inherited(), _service(service), _timeToWait(timeToWait)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("service = ", &service); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_EXIT_P(this); //####
 } // AbsorberFilterThread::AbsorberFilterThread
 
 AbsorberFilterThread::~AbsorberFilterThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterThread::~AbsorberFilterThread
 
 #if defined(__APPLE__)
@@ -104,34 +104,34 @@ AbsorberFilterThread::~AbsorberFilterThread(void)
 
 DEFINE_RUN_(AbsorberFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         if (_nextTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             _service.reportMessageRate();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterThread::run
 
 DEFINE_THREADINIT_(AbsorberFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // AbsorberFilterThread::threadInit
 
 DEFINE_THREADRELEASE_(AbsorberFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // AbsorberFilterThread::threadRelease
 
 #if defined(__APPLE__)

@@ -182,8 +182,8 @@ addBodyToMessage(yarp::os::Bottle &       message,
                  const HandState          rightHandState,
                  const TrackingConfidence rightHandConfidence)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
+    ODL_ENTER(); //####
+    ODL_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
               orientationData); //####
     message.addInt(index);
     message.addDouble(yarp::os::Time::now());
@@ -226,7 +226,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
     ADD_JOINT_TO_LIST_(JointType_AnkleLeft);
     ADD_JOINT_TO_LIST_(JointType_FootLeft);
     
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // addBodyToMessage
 #endif // ! defined(MpM_BuildDummyServices)
 
@@ -242,9 +242,9 @@ processBody(yarp::os::Bottle & message,
             const int          nBodyCount,
             IBody * *          ppBodies)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("message = ", message, "ppBodies = ", ppBodies); //####
-    OD_LOG_L1("nBodyCount = ", nBodyCount); //####
+    ODL_ENTER(); //####
+    ODL_P2("message = ", message, "ppBodies = ", ppBodies); //####
+    ODL_L1("nBodyCount = ", nBodyCount); //####
     bool result = false;
 
     for (int ii = 0; nBodyCount > ii; ++ii)
@@ -283,7 +283,7 @@ processBody(yarp::os::Bottle & message,
             }
         }
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // processBody
 #endif // ! defined(MpM_BuildDummyServices)
@@ -303,15 +303,15 @@ KinectV2SpecialEventThread::KinectV2SpecialEventThread(Common::GeneralChannel * 
 #endif // ! defined(MpM_BuildDummyServices)
     _outChannel(outChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("outChannel = ", outChannel); //####
+    ODL_EXIT_P(this); //####
 } // KinectV2SpecialEventThread::KinectV2SpecialEventThread
 
 KinectV2SpecialEventThread::~KinectV2SpecialEventThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::~KinectV2SpecialEventThread
 
 #if defined(__APPLE__)
@@ -321,16 +321,16 @@ KinectV2SpecialEventThread::~KinectV2SpecialEventThread(void)
 void
 KinectV2SpecialEventThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::clearOutputChannel
 
 #if (! defined(MpM_BuildDummyServices))
 HRESULT
 KinectV2SpecialEventThread::initializeDefaultSensor(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     HRESULT hr = GetDefaultKinectSensor(&_kinectSensor);
 
     if (! FAILED(hr))
@@ -359,7 +359,7 @@ KinectV2SpecialEventThread::initializeDefaultSensor(void)
             hr = E_FAIL;
         }
     }
-    OD_LOG_OBJEXIT_L(hr); //####
+    ODL_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2SpecialEventThread::initializeDefaultSensor
 #endif // ! defined(MpM_BuildDummyServices)
@@ -367,7 +367,7 @@ KinectV2SpecialEventThread::initializeDefaultSensor(void)
 void
 KinectV2SpecialEventThread::processEventData(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader)
     {
@@ -410,7 +410,7 @@ KinectV2SpecialEventThread::processEventData(void)
                         {
                             if (! _outChannel->write(message))
                             {
-                                OD_LOG("(! _outChannel->write(message))"); //####
+                                ODL_LOG("(! _outChannel->write(message))"); //####
 # if defined(MpM_StallOnSendProblem)
                                 Stall();
 # endif // defined(MpM_StallOnSendProblem)
@@ -422,12 +422,12 @@ KinectV2SpecialEventThread::processEventData(void)
         }
     }
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::processEventData
 
 DEFINE_RUN_(KinectV2SpecialEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
 #if (! defined(MpM_BuildDummyServices))
@@ -461,25 +461,25 @@ DEFINE_RUN_(KinectV2SpecialEventThread)
 #endif // ! defined(MpM_BuildDummyServices)
         ConsumeSomeTime();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::run
 
 DEFINE_THREADINIT_(KinectV2SpecialEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
     bool result = true;
 #else // ! defined(MpM_BuildDummyServices)
     bool result = SUCCEEDED(initializeDefaultSensor());
 #endif // ! defined(MpM_BuildDummyServices)
 
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2SpecialEventThread::threadInit
 
 DEFINE_THREADRELEASE_(KinectV2SpecialEventThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader && _frameEventHandle)
     {
@@ -496,7 +496,7 @@ DEFINE_THREADRELEASE_(KinectV2SpecialEventThread)
     }
     SafeRelease(_kinectSensor);
 #endif // ! defined(MpM_BuildDummyServices)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::threadRelease
 
 #if defined(__APPLE__)

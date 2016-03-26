@@ -91,7 +91,7 @@ setChannelIPAddress(yarp::os::Contact & workingContact,
         yarp::os::Contact aContact = yarp::os::Network::registerName(channelName);
         YarpString        ipAddress = aContact.getHost();
         
-        OD_LOG_S1s("ipAddress = ", ipAddress); //####
+        ODL_S1s("ipAddress = ", ipAddress); //####
         yarp::os::Network::unregisterName(channelName);
         workingContact = workingContact.addSocket(CHANNEL_CARRIER_, ipAddress, 0);
 #if defined(MpM_ReportContactDetails)
@@ -101,7 +101,7 @@ setChannelIPAddress(yarp::os::Contact & workingContact,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -114,8 +114,8 @@ setChannelIPAddress(yarp::os::Contact & workingContact,
 void
 BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("theChannel = ", theChannel); //####
+    ODL_ENTER(); //####
+    ODL_P1("theChannel = ", theChannel); //####
     if (theChannel)
     {
 #if (! defined(MpM_DontUseTimeouts))
@@ -131,14 +131,14 @@ BaseChannel::RelinquishChannel(BaseChannel * theChannel)
         }
         catch (...)
         {
-            OD_LOG("Exception caught"); //####
+            ODL_LOG("Exception caught"); //####
             throw;
         }
 #if (! defined(MpM_DontUseTimeouts))
         ShutDownCatcher();
 #endif // ! defined(MpM_DontUseTimeouts)
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // BaseChannel::RelinquishChannel
 
 #if defined(__APPLE__)
@@ -148,14 +148,14 @@ BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 BaseChannel::BaseChannel(void) :
     inherited(), _name(), _counters(), _metricsEnabled(false)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // BaseChannel::BaseChannel
 
 BaseChannel::~BaseChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::~BaseChannel
 
 #if defined(__APPLE__)
@@ -165,7 +165,7 @@ BaseChannel::~BaseChannel(void)
 void
 BaseChannel::close(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 #if (! defined(MpM_DontUseTimeouts))
     SetUpCatcher();
 #endif // ! defined(MpM_DontUseTimeouts)
@@ -176,44 +176,44 @@ BaseChannel::close(void)
 #endif // ! defined(MpM_DontUseTimeouts)
         
         inherited::interrupt();
-        OD_LOG("about to close"); //####
+        ODL_LOG("about to close"); //####
         inherited::close();
-        OD_LOG("close completed."); //####
+        ODL_LOG("close completed."); //####
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
 #if (! defined(MpM_DontUseTimeouts))
     ShutDownCatcher();
 #endif // ! defined(MpM_DontUseTimeouts)
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::close
 
 void
 BaseChannel::disableMetrics(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _metricsEnabled = false;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::disableMetrics
 
 void
 BaseChannel::enableMetrics(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     _metricsEnabled = true;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::enableMetrics
 
 void
 BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("counters = ", &counters); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("counters = ", &counters); //####
     counters = _counters;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::getSendReceiveCounters
 
 #if (! MAC_OR_LINUX_)
@@ -229,9 +229,9 @@ BaseChannel::openWithRetries(const YarpString & theChannelName,
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("theChannelName = ", theChannelName); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("theChannelName = ", theChannelName); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
     bool              result = false;
     yarp::os::Contact aContact = yarp::os::Contact::byName(theChannelName);
     
@@ -242,7 +242,7 @@ BaseChannel::openWithRetries(const YarpString & theChannelName,
     {
         result = openWithRetries(aContact, timeToWait);
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::openWithRetries
 #if (! MAC_OR_LINUX_)
@@ -262,9 +262,9 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theContactInfo = ", &theContactInfo); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("theContactInfo = ", &theContactInfo); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("theContactInfo = ", theContactInfo); //####
 #endif // defined(MpM_ReportContactDetails)
@@ -288,13 +288,13 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
         
         do
         {
-            OD_LOG("about to open"); //####
+            ODL_LOG("about to open"); //####
             result = inherited::open(theContactInfo);
             if (! result)
             {
                 if (0 < --retriesLeft)
                 {
-                    OD_LOG("%%retry%%"); //####
+                    ODL_LOG("%%retry%%"); //####
                     yarp::os::Time::delay(retryTime);
                     retryTime *= RETRY_MULTIPLIER_;
                 }
@@ -302,20 +302,20 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
             if (result)
             {
                 _name = theContactInfo.getName();
-                OD_LOG_S1s("_name <- ", _name); //####
+                ODL_S1s("_name <- ", _name); //####
             }
         }
         while ((! result) && (0 < retriesLeft));
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
 #if RETRY_LOOPS_USE_TIMEOUTS
     ShutDownCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::openWithRetries
 #if (! MAC_OR_LINUX_)
@@ -325,32 +325,32 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
 void
 BaseChannel::updateReceiveCounters(const size_t numBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("numBytes = ", numBytes); //####
     if (_metricsEnabled)
     {
         _counters.incrementInCounters(numBytes);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::updateReceiveCounters
 
 void
 BaseChannel::updateSendCounters(const size_t numBytes)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_LL1("numBytes = ", numBytes); //####
+    ODL_OBJENTER(); //####
+    ODL_LL1("numBytes = ", numBytes); //####
     if (_metricsEnabled)
     {
         _counters.incrementOutCounters(numBytes);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // BaseChannel::updateSendCounters
 
 bool
 BaseChannel::write(yarp::os::Bottle & message)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("message = ", message.toString()); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("message = ", message.toString()); //####
     size_t messageSize = 0;
     
     if (_metricsEnabled)
@@ -363,7 +363,7 @@ BaseChannel::write(yarp::os::Bottle & message)
     {
         updateSendCounters(messageSize);
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::write
 
@@ -371,9 +371,9 @@ bool
 BaseChannel::write(yarp::os::Bottle & message,
                    yarp::os::Bottle & reply)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("message = ", message.toString()); //####
-    OD_LOG_P1("reply = ", &reply); //####
+    ODL_OBJENTER(); //####
+    ODL_S1s("message = ", message.toString()); //####
+    ODL_P1("reply = ", &reply); //####
     size_t messageSize = 0;
     
     if (_metricsEnabled)
@@ -390,7 +390,7 @@ BaseChannel::write(yarp::os::Bottle & message,
         updateSendCounters(messageSize);
         updateReceiveCounters(replySize);
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::write
 

@@ -88,16 +88,16 @@ JavaScriptFilterThread::JavaScriptFilterThread(JavaScriptFilterService & owner,
                                                const double              timeToWait) :
     inherited(), _timeToWait(timeToWait), _owner(owner)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", &owner); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_P1("owner = ", &owner); //####
+    ODL_D1("timeToWait = ", timeToWait); //####
+    ODL_EXIT_P(this); //####
 } // JavaScriptFilterThread::JavaScriptFilterThread
 
 JavaScriptFilterThread::~JavaScriptFilterThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::~JavaScriptFilterThread
 
 #if defined(__APPLE__)
@@ -107,21 +107,21 @@ JavaScriptFilterThread::~JavaScriptFilterThread(void)
 void
 JavaScriptFilterThread::clearOutputChannel(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
 //    _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::clearOutputChannel
 
 DEFINE_RUN_(JavaScriptFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         for ( ; ! isStopping(); )
         {
             if (_nextTime <= yarp::os::Time::now())
             {
-                OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+                ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
                 _owner.signalRunFunction();
                 _nextTime = yarp::os::Time::now() + _timeToWait;
             }
@@ -130,25 +130,25 @@ DEFINE_RUN_(JavaScriptFilterThread)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::run
 
 DEFINE_THREADINIT_(JavaScriptFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterThread::threadInit
 
 DEFINE_THREADRELEASE_(JavaScriptFilterThread)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::threadRelease
 
 #if defined(__APPLE__)

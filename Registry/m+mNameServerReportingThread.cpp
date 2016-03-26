@@ -102,10 +102,10 @@ registrationCallback(DNSServiceRef       service,
 #  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("service = ", service, "context = ", context); //####
-    OD_LOG_L2("flags = ", flags, "errorCode = ", errorCode); //####
-    OD_LOG_S3("name = ", name, "type = ", type, "domain = ", domain); //####
+    ODL_ENTER(); //####
+    ODL_P2("service = ", service, "context = ", context); //####
+    ODL_L2("flags = ", flags, "errorCode = ", errorCode); //####
+    ODL_S3("name = ", name, "type = ", type, "domain = ", domain); //####
     if (kDNSServiceErr_NoError == errorCode)
     {
         cerr << "registered " << name << "." << type << domain << endl;
@@ -114,7 +114,7 @@ registrationCallback(DNSServiceRef       service,
     {
         cerr << "not registered -> " << errorCode << endl;
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // registrationCallback
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -131,14 +131,14 @@ registrationCallback(DNSServiceRef       service,
 NameServerReportingThread::NameServerReportingThread(void) :
     inherited(), _serviceRef(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
 } // NameServerReportingThread::NameServerReportingThread
 
 NameServerReportingThread::~NameServerReportingThread(void)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // NameServerReportingThread::~NameServerReportingThread
 
 #if defined(__APPLE__)
@@ -147,7 +147,7 @@ NameServerReportingThread::~NameServerReportingThread(void)
 
 DEFINE_RUN_(NameServerReportingThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     int            dns_sd_fd = DNSServiceRefSockFD(_serviceRef);
     int            nfds = dns_sd_fd + 1;
     fd_set         readfds;
@@ -202,12 +202,12 @@ DEFINE_RUN_(NameServerReportingThread)
             
         }
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NameServerReportingThread::run
 
 DEFINE_THREADINIT_(NameServerReportingThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     yarp::os::Contact   nsContact = yarp::os::Network::getNameServerContact();
     YarpString          serverAddress = nsContact.getHost();
     int                 serverPort = nsContact.getPort();
@@ -236,15 +236,15 @@ DEFINE_THREADINIT_(NameServerReportingThread)
     bool                result = (kDNSServiceErr_NoError == err);
 
     TXTRecordDeallocate(&txtRecord);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // NameServerReportingThread::threadInit
 
 DEFINE_THREADRELEASE_(NameServerReportingThread)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     DNSServiceRefDeallocate(_serviceRef);
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // NameServerReportingThread::threadRelease
 
 #if defined(__APPLE__)

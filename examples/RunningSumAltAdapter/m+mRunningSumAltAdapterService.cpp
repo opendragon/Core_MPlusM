@@ -102,20 +102,20 @@ RunningSumAltAdapterService::RunningSumAltAdapterService(const Utilities::Descri
               MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME_, RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION_,
               "", serviceEndpointName, servicePortNumber), _inHandler(NULL)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+    ODL_ENTER(); //####
+    ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_EXIT_P(this); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_EXIT_P(this); //####
 } // RunningSumAltAdapterService::RunningSumAltAdapterService
 
 RunningSumAltAdapterService::~RunningSumAltAdapterService(void)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::~RunningSumAltAdapterService
 
 #if defined(__APPLE__)
@@ -133,8 +133,8 @@ DEFINE_CONFIGURE_(RunningSumAltAdapterService)
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = false;
     
     try
@@ -144,10 +144,10 @@ DEFINE_CONFIGURE_(RunningSumAltAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumAltAdapterService::configure
 #if (! MAC_OR_LINUX_)
@@ -156,40 +156,40 @@ DEFINE_CONFIGURE_(RunningSumAltAdapterService)
 
 DEFINE_DISABLEMETRICS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::disableMetrics();
     if (_inHandler)
     {
         _inHandler->disableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::disableMetrics
 
 DEFINE_ENABLEMETRICS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     inherited::enableMetrics();
     if (_inHandler)
     {
         _inHandler->enableMetrics();
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("details = ", &details); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
     bool result = true;
 
     details.clear();
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumAltAdapterService::getConfiguration
 
 DEFINE_RESTARTSTREAMS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -198,27 +198,27 @@ DEFINE_RESTARTSTREAMS_(RunningSumAltAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::restartStreams
 
 void
 RunningSumAltAdapterService::setUpInputHandlers(RunningSumAdapterData & sharedData)
 {
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("sharedData = ", &sharedData); //####
+    ODL_OBJENTER(); //####
+    ODL_P1("sharedData = ", &sharedData); //####
     if (! _inHandler)
     {
         _inHandler = new RunningSumInputHandler(sharedData);
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::setUpInputHandlers
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
@@ -238,13 +238,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAltAdapterService)
     description._portProtocol = "";
     description._protocolDescription = "";
     _clientDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumAltAdapterService::setUpStreamDescriptions
 
 DEFINE_STARTSERVICE_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -256,22 +256,22 @@ DEFINE_STARTSERVICE_(RunningSumAltAdapterService)
             }
             else
             {
-                OD_LOG("! (isStarted())"); //####
+                ODL_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted()); //####
+    ODL_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // RunningSumAltAdapterService::startService
 
 DEFINE_STARTSTREAMS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (! isActive())
@@ -286,15 +286,15 @@ DEFINE_STARTSTREAMS_(RunningSumAltAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::startStreams
 
 DEFINE_STOPSERVICE_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     bool result;
     
     try
@@ -303,16 +303,16 @@ DEFINE_STOPSERVICE_(RunningSumAltAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result); //####
+    ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumAltAdapterService::stopService
 
 DEFINE_STOPSTREAMS_(RunningSumAltAdapterService)
 {
-    OD_LOG_OBJENTER(); //####
+    ODL_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -322,10 +322,10 @@ DEFINE_STOPSTREAMS_(RunningSumAltAdapterService)
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT(); //####
+    ODL_OBJEXIT(); //####
 } // RunningSumAltAdapterService::stopStreams
 
 #if defined(__APPLE__)

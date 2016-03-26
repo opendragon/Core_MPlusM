@@ -99,7 +99,7 @@ static Endpoint *
 doCreateEndpointForTest(const int argc,
                         char * *  argv)
 {
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
     Endpoint * stuff = NULL;
     
     try
@@ -125,10 +125,10 @@ doCreateEndpointForTest(const int argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(stuff); //####
+    ODL_EXIT_P(stuff); //####
     return stuff;
 } // doCreateEndpointForTest
 
@@ -140,8 +140,8 @@ static ClientChannel *
 doCreateTestChannel(const YarpString & destinationName,
                     const char *       channelPath)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath); //####
+    ODL_ENTER(); //####
+    ODL_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath); //####
     YarpString              aName(GetRandomChannelName(channelPath));
     ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
@@ -159,7 +159,7 @@ doCreateTestChannel(const YarpString & destinationName,
         {
             if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME_))
             {
-                OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
+                ODL_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
                        "STANDARD_WAIT_TIME_))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -170,14 +170,14 @@ doCreateTestChannel(const YarpString & destinationName,
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+            ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
         }
     }
     else
     {
-        OD_LOG("! (newChannel)"); //####
+        ODL_LOG("! (newChannel)"); //####
     }
-    OD_LOG_EXIT_P(newChannel); //####
+    ODL_EXIT_P(newChannel); //####
     return newChannel;
 } // doCreateTestChannel
 
@@ -208,15 +208,15 @@ doDestroyTestChannel(const YarpString & destinationName,
 #  pragma unused(destinationName)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("theChannel = ", theChannel); //####
+    ODL_ENTER(); //####
+    ODL_P1("theChannel = ", theChannel); //####
     if (theChannel)
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
                                                       STANDARD_WAIT_TIME_))
         {
-            OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
+            ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
                    "destinationName, STANDARD_WAIT_TIME_))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -225,7 +225,7 @@ doDestroyTestChannel(const YarpString & destinationName,
 #endif // defined(MpM_DoExplicitClose)
         BaseChannel::RelinquishChannel(theChannel);
     }
-    OD_LOG_EXIT(); //####
+    ODL_EXIT(); //####
 } // doDestroyTestChannel
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -264,8 +264,8 @@ doTestCreateEndpoint(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -276,26 +276,26 @@ doTestCreateEndpoint(const char * launchPath,
         {
             if (stuff->open(STANDARD_WAIT_TIME_))
             {
-                OD_LOG_S1s("endpoint name = ", stuff->getName());
+                ODL_S1s("endpoint name = ", stuff->getName());
                 result = 0;
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME_))"); //####
+                ODL_LOG("! (stuff->open(STANDARD_WAIT_TIME_))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateEndpoint
 #if (! MAC_OR_LINUX_)
@@ -325,8 +325,8 @@ doTestConnectToEndpoint(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -338,7 +338,7 @@ doTestConnectToEndpoint(const char * launchPath,
         {
             if (stuff->open(STANDARD_WAIT_TIME_) && stuff->setReporter(reporter, true))
             {
-                OD_LOG_S1s("endpoint name = ", stuff->getName());
+                ODL_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/connecttoendpoint_"));
                 ClientChannel * outChannel = new ClientChannel;
@@ -352,7 +352,7 @@ doTestConnectToEndpoint(const char * launchPath,
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
                         outChannel->getReport(reporter);
-                        OD_LOG_S1s("endpoint name = ", stuff->getName());
+                        ODL_S1s("endpoint name = ", stuff->getName());
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             result = 0;
@@ -360,14 +360,14 @@ doTestConnectToEndpoint(const char * launchPath,
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                STANDARD_WAIT_TIME_))
                             {
-                                OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
+                                ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
                                        "stuff->getName(), STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                            ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
@@ -376,34 +376,34 @@ doTestConnectToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                        ODL_LOG("! (outChannel->openWithRetries(aName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");
+                    ODL_LOG("! (outChannel)");
                 }
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME_) && " //####
+                ODL_LOG("! (stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestConnectToEndpoint
 #if (! MAC_OR_LINUX_)
@@ -433,8 +433,8 @@ doTestWriteToEndpoint(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -449,7 +449,7 @@ doTestWriteToEndpoint(const char * launchPath,
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
-                OD_LOG_S1s("endpoint name = ", stuff->getName());
+                ODL_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/writetoendpoint_"));
                 ClientChannel * outChannel = new ClientChannel;
@@ -477,7 +477,7 @@ doTestWriteToEndpoint(const char * launchPath,
                                                                    stuff->getName(),
                                                                    STANDARD_WAIT_TIME_))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                    ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), " //####
                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
@@ -485,7 +485,7 @@ doTestWriteToEndpoint(const char * launchPath,
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->write(message))"); //####
+                                ODL_LOG("! (outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -493,7 +493,7 @@ doTestWriteToEndpoint(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                            ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
@@ -502,19 +502,19 @@ doTestWriteToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                        ODL_LOG("! (outChannel->openWithRetries(aName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");
+                    ODL_LOG("! (outChannel)");
                 }
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                ODL_LOG("! (stuff->setInputHandler(handler) && " //####
                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
@@ -522,15 +522,15 @@ doTestWriteToEndpoint(const char * launchPath,
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestWriteToEndpoint
 #if (! MAC_OR_LINUX_)
@@ -560,8 +560,8 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -576,7 +576,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
-                OD_LOG_S1s("endpoint name = ", stuff->getName());
+                ODL_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader_"));
                 ClientChannel * outChannel = new ClientChannel;
@@ -605,7 +605,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                                                                    stuff->getName(),
                                                                    STANDARD_WAIT_TIME_))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                    ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), " //####
                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
@@ -613,7 +613,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->write(message, response))"); //####
+                                ODL_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -621,7 +621,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                            ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
@@ -630,19 +630,19 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                        ODL_LOG("! (outChannel->openWithRetries(aName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");
+                    ODL_LOG("! (outChannel)");
                 }
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                ODL_LOG("! (stuff->setInputHandler(handler) && " //####
                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
@@ -650,15 +650,15 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReader
 #if (! MAC_OR_LINUX_)
@@ -688,8 +688,8 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -704,7 +704,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
-                OD_LOG_S1s("endpoint name = ", stuff->getName());
+                ODL_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader"
                                                            "creator_"));
@@ -734,7 +734,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                                                    stuff->getName(),
                                                                    STANDARD_WAIT_TIME_))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                    ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), " //####
                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
@@ -742,7 +742,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->write(message, response))"); //####
+                                ODL_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -750,7 +750,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                            ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
@@ -759,19 +759,19 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                        ODL_LOG("! (outChannel->openWithRetries(aName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");
+                    ODL_LOG("! (outChannel)");
                 }
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && " //####
+                ODL_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && " //####
                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(&reporter, true))"); //####
             }
@@ -779,15 +779,15 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReaderCreator
 #if (! MAC_OR_LINUX_)
@@ -817,15 +817,15 @@ doTestCreateRequest(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
     {
         if (0 == argc)
         {
-            OD_LOG("0 == argc"); //####
+            ODL_LOG("0 == argc"); //####
         }
         else
         {
@@ -843,10 +843,10 @@ doTestCreateRequest(const char * launchPath,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateRequest
 #if (! MAC_OR_LINUX_)
@@ -876,8 +876,8 @@ doTestCreateResponse(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -895,10 +895,10 @@ doTestCreateResponse(const char * launchPath,
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateResponse
 #if (! MAC_OR_LINUX_)
@@ -928,8 +928,8 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -949,35 +949,35 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1s("endpoint name = ", stuff->getName());
+                    ODL_S1s("endpoint name = ", stuff->getName());
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outChannel, response))
                     {
-                        OD_LOG_LL1("response size = ", response.count()); //####
+                        ODL_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
+                            ODL_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, response))"); //####
+                        ODL_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)"); //####
+                    ODL_LOG("! (outChannel)"); //####
                 }
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                ODL_LOG("! (stuff->setInputHandler(handler) && " //####
                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
@@ -985,15 +985,15 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            ODL_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromEndpoint
 #if (! MAC_OR_LINUX_)
@@ -1014,8 +1014,8 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                                                    const int    argc,
                                                    char * *     argv) // send 'echo' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -1038,43 +1038,43 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                     
                     if (request.send(*outChannel, response))
                     {
-                        OD_LOG_LL1("response size = ", response.count()); //####
+                        ODL_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
+                            ODL_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, response))"); //####
+                        ODL_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)"); //####
+                    ODL_LOG("! (outChannel)"); //####
                 }
                 aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->startService())"); //####
+                ODL_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
         else
         {
-            OD_LOG("! (aService)"); //####
+            ODL_LOG("! (aService)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReader
 
@@ -1093,8 +1093,8 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
                                                           char * *     argv) // send 'echo'
                                                                              // request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -1117,43 +1117,43 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
                     
                     if (request.send(*outChannel, response))
                     {
-                        OD_LOG_LL1("response size = ", response.count()); //####
+                        ODL_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
+                            ODL_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, response))"); //####
+                        ODL_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)"); //####
+                    ODL_LOG("! (outChannel)"); //####
                 }
                 aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->startService())"); //####
+                ODL_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
         else
         {
-            OD_LOG("! (aService)"); //####
+            ODL_LOG("! (aService)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReaderCreator
 
@@ -1171,8 +1171,8 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                                                const int    argc,
                                                char * *     argv) // create 'echo' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -1207,7 +1207,7 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                             {
                                 if (expected[ii] != response.element(ii).toString())
                                 {
-                                    OD_LOG_S2s("expected[ii] = ", expected[ii], //####
+                                    ODL_S2s("expected[ii] = ", expected[ii], //####
                                                "response.element(ii).toString() = ", //####
                                                response.element(ii).toString()); //####
                                     result = 1;
@@ -1216,39 +1216,39 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (3 == response.count())"); //####
+                            ODL_LOG("! (3 == response.count())"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, response))"); //####
+                        ODL_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)"); //####
+                    ODL_LOG("! (outChannel)"); //####
                 }
                 aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->startService())"); //####
+                ODL_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
         else
         {
-            OD_LOG("! (aService)"); //####
+            ODL_LOG("! (aService)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandler
 
@@ -1286,14 +1286,14 @@ checkListDictionary(yarp::os::Property & asDict,
                     bool &               sawName,
                     bool &               sawSetMetricsState)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P4("asDict = ", &asDict, "sawArguments = ", &sawArguments, "sawChannels = ", //####
+    ODL_ENTER(); //####
+    ODL_P4("asDict = ", &asDict, "sawArguments = ", &sawArguments, "sawChannels = ", //####
               &sawChannels, "sawClients = ", &sawClients); //####
-    OD_LOG_P4("sawDetach = ", &sawDetach, "sawEcho = ", &sawEcho, "sawExtraInfo = ", //####
+    ODL_P4("sawDetach = ", &sawDetach, "sawEcho = ", &sawEcho, "sawExtraInfo = ", //####
               &sawExtraInfo, "sawInfo = ", &sawInfo);
-    OD_LOG_P4("sawList = ", &sawList, "sawMetrics = ", &sawMetrics, "sawMetricsState = ", //####
+    ODL_P4("sawList = ", &sawList, "sawMetrics = ", &sawMetrics, "sawMetricsState = ", //####
               &sawMetricsState, "sawName = ", &sawName);
-    OD_LOG_P1("sawSetMetricsState = ", &sawSetMetricsState); //####
+    ODL_P1("sawSetMetricsState = ", &sawSetMetricsState); //####
     bool result = true;
     bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY_);
     bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_);
@@ -1463,7 +1463,7 @@ checkListDictionary(yarp::os::Property & asDict,
     {
         result = false;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // checkListDictionary
 
@@ -1474,8 +1474,8 @@ checkListDictionary(yarp::os::Property & asDict,
 static bool
 checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse & response)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("response = ", &response); //####
+    ODL_ENTER(); //####
+    ODL_P1("response = ", &response); //####
     bool result = false;
     
     try
@@ -1550,15 +1550,15 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
         else
         {
             // Wrong number of values in the response.
-            OD_LOG("! (3 <= response.count())"); //####
+            ODL_LOG("! (3 <= response.count())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result); //####
+    ODL_EXIT_B(result); //####
     return result;
 } // checkResponseFromEchoFromServiceWithRequestHandlerAndInfo
 
@@ -1572,8 +1572,8 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                                                       const int    argc,
                                                       char * *     argv) // send 'list' request
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("launchPath = ", launchPath); //####
+    ODL_ENTER(); //####
+    ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
     
     try
@@ -1595,10 +1595,10 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                     
                     if (request.send(*outChannel, response))
                     {
-                        OD_LOG_LL1("response size = ", response.count()); //####
+                        ODL_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
+                            ODL_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         if (checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(response))
                         {
@@ -1606,40 +1606,40 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (checkResponseFromEchoFromServiceWithRequestHandler" //####
+                            ODL_LOG("! (checkResponseFromEchoFromServiceWithRequestHandler" //####
                                    "AndInfo(response))"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, response))"); //####
+                        ODL_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)"); //####
+                    ODL_LOG("! (outChannel)"); //####
                 }
                 aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->startService())"); //####
+                ODL_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
         else
         {
-            OD_LOG("! (aService)"); //####
+            ODL_LOG("! (aService)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
@@ -1648,8 +1648,8 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
 static void
 catchSignal(int signal)
 {
-    OD_LOG_ENTER(); //####
-    OD_LOG_LL1("signal = ", signal); //####
+    ODL_ENTER(); //####
+    ODL_LL1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
     
@@ -1658,7 +1658,7 @@ catchSignal(int signal)
     message += " = ";
     message += NameOfSignal(signal);
     MpM_ERROR_(message.c_str());
-    OD_LOG_EXIT_EXIT(1); //####
+    ODL_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal
 
@@ -1680,10 +1680,10 @@ main(int      argc,
 {
     YarpString progName(*argv);
 
-    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
                 kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
                 kODLoggingOptionWriteToStderr); //####
-    OD_LOG_ENTER(); //####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -1778,21 +1778,21 @@ main(int      argc,
                 }
                 if (result)
                 {
-                    OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                    ODL_LL1("%%%%%%% unit test failure = ", result); //####
                 }
             }
             else
             {
-                OD_LOG("! (0 < --argc)"); //####
+                ODL_LOG("! (0 < --argc)"); //####
             }
         }
         Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {
-        OD_LOG("Exception caught"); //####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(result); //####
+    ODL_EXIT_L(result); //####
     return result;
 } // main
