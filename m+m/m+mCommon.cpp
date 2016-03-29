@@ -320,8 +320,8 @@ Common::Initialize(const YarpString & progName)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
             lLogger->info(message.c_str());
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
-            lLogger->info("Movement And Meaning Version: " MpM_VERSION_ ", YARP Version: "
-                          YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
+            lLogger->info("m+m Version: " MpM_VERSION_ ", YARP Version: " YARP_VERSION_STRING
+                          ", ACE Version: " ACE_VERSION);
         }
 # endif // MAC_OR_LINUX_
 #endif // defined(MpM_ChattyStart)
