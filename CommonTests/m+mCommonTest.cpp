@@ -1681,8 +1681,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -1707,78 +1707,79 @@ main(int      argc,
                 
                 if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
-                    
-                }
-                
-                SetSignalHandlers(catchSignal);
-                switch (selector)
-                {
-                    case 0 :
-                        // Just used to validate the random number seed.
-                        result = 0;
-                        break;
-                        
-                    case 1 :
-                        result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 2 :
-                        result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 3 :
-                        result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 4 :
-                        result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 5 :
-                        result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 6 :
-                        result = doTestCreateRequest(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 7 :
-                        result = doTestCreateResponse(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 8 :
-                        result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 9 :
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv, argc - 1,
+                    SetSignalHandlers(catchSignal);
+                    switch (selector)
+                    {
+                        case 0 :
+                            // Just used to validate the random number seed.
+                            result = 0;
+                            break;
+                            
+                        case 1 :
+                            result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 2 :
+                            result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 3 :
+                            result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 4 :
+                            result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 5 :
+                            result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1,
+                                                                             argv + 2);
+                            break;
+                            
+                        case 6 :
+                            result = doTestCreateRequest(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 7 :
+                            result = doTestCreateResponse(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 8 :
+                            result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 9 :
+                            result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv,
+                                                                                        argc - 1,
+                                                                                        argv + 2);
+                            break;
+                            
+                        case 10 :
+                            result =
+                            doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv,
+                                                                                      argc - 1,
+                                                                                      argv + 2);
+                            break;
+                            
+                        case 11 :
+                            result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1,
                                                                                     argv + 2);
-                        break;
-                        
-                    case 10 :
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv,
+                            break;
+                            
+                        case 12 :
+                            result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
                                                                                            argc - 1,
                                                                                        argv + 2);
-                        break;
-                        
-                    case 11 :
-                        result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1,
-                                                                                argv + 2);
-                        break;
-                        
-                    case 12 :
-                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
-                                                                                       argc - 1,
-                                                                                       argv + 2);
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
-                if (result)
-                {
-                    ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                    if (result)
+                    {
+                        ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                    }
                 }
             }
             else

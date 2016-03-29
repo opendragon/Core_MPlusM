@@ -162,11 +162,11 @@ main(int      argc,
 
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_

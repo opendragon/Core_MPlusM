@@ -102,7 +102,7 @@ main(int      argc,
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
     try
     {

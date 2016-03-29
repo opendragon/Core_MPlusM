@@ -324,10 +324,10 @@ main(int      argc,
 {
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
     try

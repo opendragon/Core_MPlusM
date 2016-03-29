@@ -426,7 +426,7 @@ main(int      argc,
      char * * argv)
 {
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
     int result = 1;
     
