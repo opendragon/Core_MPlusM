@@ -454,3 +454,5 @@ docs/MMManagerUtility_Manual.ps
 docs/MpM_Manual.html
 docs/MpM_Manual.pdf
 docs/MpM_Manual.ps
+_m+mCommon_swig_python.so
+libm+mCommon_swig_csharp.so
