@@ -90,6 +90,10 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark *** Test Case 13 ***
+#endif // defined(__APPLE__)
+
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -154,6 +158,10 @@ doTestCreateRegistryService(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateRegistryService
+
+#if defined(__APPLE__)
+# pragma mark *** Test Case 14 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
@@ -262,6 +270,10 @@ doTestRequestRegistryService(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestRegistryService
+
+#if defined(__APPLE__)
+# pragma mark *** Test Case 15 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
@@ -378,6 +390,10 @@ doTestRequestUnregisterService(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestUnregisterService
+
+#if defined(__APPLE__)
+# pragma mark *** Test Case 16 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
