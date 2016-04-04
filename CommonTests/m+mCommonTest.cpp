@@ -100,6 +100,8 @@ doCreateEndpointForTest(const int argc,
                         char * *  argv)
 {
     ODL_ENTER(); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argc = ", argv); //####
     Endpoint * stuff = NULL;
     
     try
@@ -121,6 +123,10 @@ doCreateEndpointForTest(const int argc,
                     break;
                     
             }
+        }
+        else
+        {
+            ODL_LOG("! (0 < argc)"); //####
         }
     }
     catch (...)
