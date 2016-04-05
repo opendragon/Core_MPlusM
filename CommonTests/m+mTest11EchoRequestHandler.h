@@ -60,47 +60,47 @@ namespace MplusM
         class Test11EchoRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             Test11EchoRequestHandler(Common::BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~Test11EchoRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(Test11EchoRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // Test11EchoRequestHandler
-        
+
     } // Test
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTest11EchoRequestHandler_H_)

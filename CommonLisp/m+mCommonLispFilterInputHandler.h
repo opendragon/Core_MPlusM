@@ -72,49 +72,49 @@ namespace MplusM
     namespace CommonLisp
     {
         class CommonLispFilterService;
-        
+
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
         class CommonLispFilterInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that owns this handler.
              @param slotNumber The slot number of the associated channel.
              @param handlerFunc The %CommonLisp handler function for the channel. */
             CommonLispFilterInputHandler(CommonLispFilterService * owner,
                                          const size_t              slotNumber);
-            
+
             /*! @brief The destructor. */
             virtual
             ~CommonLispFilterInputHandler(void);
-            
+
             /*! @brief Turn on input processing. */
             inline void
             activate(void)
             {
                 _active = true;
             } // activate
-            
+
             /*! @brief Turn off input processing. */
             inline void
             deactivate(void)
             {
                 _active = false;
             } // deactivate
-            
+
             /*! @brief Return the most recently received data.
              @returns The most recently received data. */
             inline const yarp::os::Bottle &
@@ -123,37 +123,37 @@ namespace MplusM
             {
                 return _received;
             } // getReceivedData
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(CommonLispFilterInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that owns this handler. */
             CommonLispFilterService * _owner;
-            
+
             /*! @brief The data received by this handler. */
             yarp::os::Bottle _received;
-            
+
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;
-            
+
             /*! @brief @c true if the input is to be processed and @c false otherwise. */
             bool _active;
-            
+
         }; // CommonLispFilterInputHandler
-        
+
     } // CommonLisp
-    
+
 } // MplusM
 
 #endif // ! defined(MpMCommonLispFilterInputHandler_H_)

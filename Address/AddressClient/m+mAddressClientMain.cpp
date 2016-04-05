@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the client of the Address service. */
 
 /*! @dir AddressClient
@@ -101,7 +101,7 @@ processArguments(const YarpString & outputMode,
     ODL_P3("namePattern = ", &namePattern, "needsAddress = ", &needsAddress, //####
               "needsPort = ", &needsPort); //####
     bool okSoFar = true;
-    
+
     if (0 < outputMode.length())
     {
         if (outputMode == "address")
@@ -160,14 +160,14 @@ setUpAndGo(const YarpString &  outputMode,
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     AddressClient * aClient = new AddressClient;
-    
+
     if (aClient)
     {
         bool       needsAddress;
         bool       needsPort;
         YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY_ ":");
         YarpString namePattern(MpM_ADDRESS_CANONICAL_NAME_);
-        
+
 #if defined(MpM_ReportOnConnections)
         aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
@@ -180,7 +180,7 @@ setUpAndGo(const YarpString &  outputMode,
                 {
                     YarpString address;
                     int        port;
-                    
+
                     if (aClient->getAddress(address, port))
                     {
                         switch (flavour)
@@ -206,7 +206,7 @@ setUpAndGo(const YarpString &  outputMode,
                                 }
                                 cout << " }" << endl;
                                 break;
-                                
+
                             case kOutputFlavourTabs :
                                 if (needsAddress)
                                 {
@@ -222,7 +222,7 @@ setUpAndGo(const YarpString &  outputMode,
                                 }
                                 cout << endl;
                                 break;
-                                
+
                             case kOutputFlavourNormal :
                                 if (needsAddress)
                                 {
@@ -238,10 +238,10 @@ setUpAndGo(const YarpString &  outputMode,
                                 }
                                 cout << endl;
                                 break;
-                                
+
                             default :
                                 break;
-                                
+
                         }
                     }
                     else
@@ -314,7 +314,7 @@ main(int      argc,
                                                       Utilities::kArgModeOptional, "");
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour;
-        
+
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
@@ -332,7 +332,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

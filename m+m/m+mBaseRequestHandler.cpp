@@ -112,7 +112,7 @@ BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
     {
         ODL_LOG("(replyMechanism)"); //####
         size_t messageSize = 0;
-        
+
         _response.clear();
         _response.addString(MpM_OK_RESPONSE_);
         if (_service.metricsAreEnabled())
@@ -147,7 +147,7 @@ BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
             if (_service.metricsAreEnabled())
             {
                 size_t messageSize = 0;
-                
+
                 _response.toBinary(&messageSize);
                 _service.updateResponseCounters(messageSize);
             }

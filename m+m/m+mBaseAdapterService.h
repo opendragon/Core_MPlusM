@@ -63,16 +63,16 @@ namespace MplusM
         class BaseAdapterService : public Common::BaseInputOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -97,11 +97,11 @@ namespace MplusM
                                const YarpString &                  requestsDescription,
                                const YarpString &                  serviceEndpointName,
                                const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseAdapterService(void);
-            
+
             /*! @brief Start the service and set up its configuration.
              @param sharedData The shared data for the input handlers.
              @param helpText The help text to be displayed.
@@ -115,44 +115,44 @@ namespace MplusM
                           const bool         goWasSet,
                           const bool         stdinAvailable,
                           const bool         reportOnExit);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseAdapterService);
-            
+
             DECLARE_SETUPCLIENTSTREAMS_;
-            
+
             DECLARE_SETUPINPUTSTREAMS_;
-            
+
             DECLARE_SETUPOUTPUTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNCLIENTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNINPUTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
         public :
-        
+
         protected :
-        
+
             /*! @brief The descriptions of the client streams. */
             ChannelVector _clientDescriptions;
 
             /*! @brief The descriptions of the input streams. */
             ChannelVector _inDescriptions;
-            
+
             /*! @brief The descriptions of the output streams. */
             ChannelVector _outDescriptions;
-            
+
         private :
-            
+
         }; // BaseAdapterService
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseAdapterService_H_)

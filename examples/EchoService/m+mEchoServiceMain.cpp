@@ -110,13 +110,13 @@ setUpAndGo(const YarpString & progName,
     ODL_B1("reportOnExit = ", reportOnExit); //####
     EchoService * aService = new EchoService(progName, argc, argv, tag, serviceEndpointName,
                                              servicePortNumber);
-    
+
     if (aService)
     {
         if (aService->startService())
         {
             YarpString channelName(aService->getEndpoint().getName());
-            
+
             ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
@@ -128,10 +128,10 @@ setUpAndGo(const YarpString & progName,
                 if (reportOnExit)
                 {
                     yarp::os::Bottle metrics;
-                    
+
                     aService->gatherMetrics(metrics);
                     YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                    
+
                     cout << converted.c_str() << endl;
                 }
                 aService->stopService();
@@ -160,7 +160,7 @@ setUpAndGo(const YarpString & progName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Echo service. 
+/*! @brief The entry point for running the Echo service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Echo service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -205,7 +205,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_ECHO_SERVICE_NAME_, modFlag, tag, serviceEndpointName);
                 if (reportEndpoint)

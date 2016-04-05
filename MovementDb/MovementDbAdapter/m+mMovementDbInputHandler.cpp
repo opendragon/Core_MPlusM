@@ -119,29 +119,29 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         int howMany = input.size();
-        
+
         if (0 < howMany)
         {
             BaseChannel *      theOutput = _shared.getOutput();
             YarpString         command;
             double             outValue;
             MovementDbClient * theClient = (MovementDbClient *) _shared.getClient();
-            
+
             if (theClient && theOutput)
             {
                 // Process the whole input, one segment at a time.
                 for (int ii = 0; ii < howMany; ++ii)
                 {
                     yarp::os::Value argValue(input.get(ii));
-                    
+
                     if (argValue.isString())
                     {
                         YarpString argString(argValue.asString());
-                        
+
                         if (0 < command.length())
                         {
                             if (command == MpM_ADDFILE_REQUEST_)
@@ -162,7 +162,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                                 _shared.lock();
                                 if (theClient->setDataTrackForDb(argString))
                                 {
-                                    
+
                                 }
                                 else
                                 {
@@ -175,7 +175,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
                                 _shared.lock();
                                 if (theClient->setEmailAddressForDb(argString))
                                 {
-                                    
+
                                 }
                                 else
                                 {

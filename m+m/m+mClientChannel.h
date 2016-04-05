@@ -61,23 +61,23 @@ namespace MplusM
         class ClientChannel : public BaseChannel
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseChannel inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             ClientChannel(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ClientChannel(void);
-            
+
             /*! @brief Add an output to the channel, using a backoff strategy with retries.
              @param theChannelToBeAdded The output to be added to the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
@@ -85,23 +85,23 @@ namespace MplusM
             bool
             addOutputWithRetries(const YarpString & theChannelToBeAdded,
                                  const double       timeToWait);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ClientChannel);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ClientChannel
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMClientChannel_H_)

@@ -124,7 +124,7 @@ const
 {
     ODL_OBJENTER(); //####
     YarpString result(_values.toString());
-    
+
     ODL_OBJEXIT_S(result.c_str()); //####
     return result;
 } // ServiceResponse::asString
@@ -135,7 +135,7 @@ const
 {
     ODL_OBJENTER(); //####
     yarp::os::Value result;
-    
+
     try
     {
         if ((index >= 0) && (index < _values.size()))

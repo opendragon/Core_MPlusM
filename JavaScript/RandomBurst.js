@@ -47,7 +47,7 @@ var scriptHelp = 'The first argument is the burst period and the second argument
 function scriptInterval()
 {
     var interval;
-    
+
     if (1 < argv.length)
     {
         interval = parseFloat(argv[1]);
@@ -83,7 +83,7 @@ var scriptOutlets = [ { name: 'output', protocol: 'd+',
 function scriptThread()
 {
     var outList = [];
-    
+
     for (var ii = 0; burstSize > ii; ++ii)
     {
         outList[ii] = (10000 * Math.random());

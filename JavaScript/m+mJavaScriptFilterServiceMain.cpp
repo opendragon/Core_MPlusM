@@ -112,7 +112,7 @@ reportJavaScriptError(JSContext *     cx,
     {
         YarpString        errMessage(report->filename ? report->filename : "[no filename]");
         std::stringstream buff;
-        
+
         buff << report->lineno << ":" << message;
         errMessage += buff.str();
         MpM_FAIL_(errMessage.c_str());
@@ -138,7 +138,7 @@ dumpObjectToStdoutForJs(JSContext * jct,
     ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (2 == args.length())
     {
         if (args[0].isString())
@@ -146,12 +146,12 @@ dumpObjectToStdoutForJs(JSContext * jct,
             if (args[1].isObject())
             {
                 JS::RootedObject asObject(jct);
-                
+
                 if (JS_ValueToObject(jct, args[1], &asObject))
                 {
                     JSString * asString = args[0].toString();
                     char *     asChars = JS_EncodeString(jct, asString);
-                    
+
                     cout << asChars << endl;
                     JS_free(jct, asChars);
                     PrintJavaScriptObject(cout, jct, asObject, 1);
@@ -200,7 +200,7 @@ getTimeNowForJs(JSContext * jct,
     ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (0 < args.length())
     {
         JS_ReportError(jct, "Extra arguments to requestStop");
@@ -230,7 +230,7 @@ requestStopForJs(JSContext * jct,
     ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (0 < args.length())
     {
         JS_ReportError(jct, "Extra arguments to requestStop");
@@ -240,7 +240,7 @@ requestStopForJs(JSContext * jct,
     {
         JavaScriptFilterService * theService =
                             reinterpret_cast<JavaScriptFilterService *>(JS_GetContextPrivate(jct));
-        
+
         if (theService)
         {
             theService->requestServiceStop();
@@ -266,7 +266,7 @@ sendToChannelForJs(JSContext * jct,
     ODL_L1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (2 == args.length())
     {
         // Check that the first argument is a valid integer.
@@ -275,7 +275,7 @@ sendToChannelForJs(JSContext * jct,
             int32_t                   channelSlot = args[0].toInt32();
             JavaScriptFilterService * theService =
                             reinterpret_cast<JavaScriptFilterService *>(JS_GetContextPrivate(jct));
-            
+
             if (theService)
             {
                 result = theService->sendToChannel(channelSlot, args[1]);
@@ -309,7 +309,7 @@ writeLineToStdoutForJs(JSContext * jct,
     ODL_L1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (0 == args.length())
     {
         JS_ReportError(jct, "Missing argument to writeLineToStdout");
@@ -362,7 +362,7 @@ addCustomFunctions(JSContext *        jct,
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
-    
+
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomFunctions
@@ -404,7 +404,7 @@ cleanupStreamObject(JSFreeOp * freeOp,
     if (&lStreamClass == JS_GetClass(obj))
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(obj));
-        
+
         if (aFile)
         {
             fclose(aFile);
@@ -426,7 +426,7 @@ createStreamObject(JSContext * jct,
 {
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
+
     if (args.length())
     {
         cerr << "Extra arguments to Stream constructor" << endl;
@@ -434,7 +434,7 @@ createStreamObject(JSContext * jct,
     else
     {
         JSObject * obj = JS_NewObjectForConstructor(jct, &lStreamClass, args);
-        
+
         if (obj)
         {
             JS_SetPrivate(obj, NULL);
@@ -461,7 +461,7 @@ streamAtEofForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.atEof");
@@ -469,7 +469,7 @@ streamAtEofForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             args.rval().setBoolean(0 != feof(aFile));
@@ -501,7 +501,7 @@ streamClearErrorForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.clearError");
@@ -509,7 +509,7 @@ streamClearErrorForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             clearerr(aFile);
@@ -536,7 +536,7 @@ streamCloseForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.close");
@@ -544,7 +544,7 @@ streamCloseForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             fclose(aFile);
@@ -572,7 +572,7 @@ streamHasErrorForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.hasError");
@@ -580,7 +580,7 @@ streamHasErrorForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             args.rval().setBoolean(0 != feof(aFile));
@@ -612,7 +612,7 @@ streamIsOpenForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.isOpen");
@@ -620,7 +620,7 @@ streamIsOpenForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         args.rval().setBoolean(NULL != aFile);
         result = true;
     }
@@ -644,7 +644,7 @@ streamOpenForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (2 == args.length())
     {
         // Check if the Stream is already open and close it.
@@ -661,7 +661,7 @@ streamOpenForJs(JSContext * jct,
             char *     asChars1 = JS_EncodeString(jct, asString1);
             JSString * asString2 = args[1].toString();
             char *     asChars2 = JS_EncodeString(jct, asString2);
-            
+
             aFile = fopen(asChars1, asChars2);
             JS_free(jct, asChars1);
             JS_free(jct, asChars2);
@@ -701,7 +701,7 @@ streamReadCharacterForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.readCharacter");
@@ -709,15 +709,15 @@ streamReadCharacterForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             char aChar = '\0';
-            
+
             if (1 == fscanf(aFile, " %c", &aChar))
             {
                 JSString * outString = JS_NewStringCopyN(jct, &aChar, 1);
-                
+
                 args.rval().setString(outString);
             }
             result = true;
@@ -743,7 +743,7 @@ streamReadLineForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.readLine");
@@ -751,22 +751,22 @@ streamReadLineForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             bool       keepGoing = true;
             char       inBuffer[200];
             JSString * outString = JS_NewStringCopyZ(jct, "");
-            
+
             for ( ; keepGoing; )
             {
                 char * inPtr = fgets(inBuffer, sizeof(inBuffer), aFile);
-            
+
                 if (inPtr)
                 {
                     JSString * thisChunk;
                     size_t     len = strlen(inBuffer);
-                    
+
                     if ('\n' == inBuffer[len - 1])
                     {
                         // We don't want to copy the newline into the buffer.
@@ -779,7 +779,7 @@ streamReadLineForJs(JSContext * jct,
                     }
                     JS::RootedString leftString(jct);
                     JS::RootedString rightString(jct);
-                    
+
                     leftString = outString;
                     rightString = thisChunk;
                     outString = JS_ConcatStrings(jct, leftString, rightString);
@@ -813,7 +813,7 @@ streamReadNumberForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.readNumber");
@@ -821,11 +821,11 @@ streamReadNumberForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             double aDouble = 0;
-            
+
             if (1 == fscanf(aFile, " %lg", &aDouble))
             {
                 args.rval().setDouble(aDouble);
@@ -853,7 +853,7 @@ streamReadStringForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.readString");
@@ -861,11 +861,11 @@ streamReadStringForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             char aChar = '\0';
-            
+
             if (1 == fscanf(aFile, " %c", &aChar))
             {
                 bool       keepGoing = true;
@@ -874,7 +874,7 @@ streamReadStringForJs(JSContext * jct,
                 char       matchChar;
                 JSString * outString = NULL;
                 JSString * thisChunk = NULL;
-                
+
                 if (('"' == aChar) || ('\'' == aChar))
                 {
                     matchChar = aChar;
@@ -911,7 +911,7 @@ streamReadStringForJs(JSContext * jct,
                             thisChunk = JS_NewStringCopyN(jct, outBuff, outLen);
                             JS::RootedString leftString(jct);
                             JS::RootedString rightString(jct);
-                            
+
                             leftString = outString;
                             rightString = thisChunk;
                             outString = JS_ConcatStrings(jct, leftString, rightString);
@@ -933,7 +933,7 @@ streamReadStringForJs(JSContext * jct,
                         thisChunk = JS_NewStringCopyN(jct, outBuff, outLen);
                         JS::RootedString leftString(jct);
                         JS::RootedString rightString(jct);
-                        
+
                         leftString = outString;
                         rightString = thisChunk;
                         outString = JS_ConcatStrings(jct, leftString, rightString);
@@ -973,7 +973,7 @@ streamRewindForJs(JSContext * jct,
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
-    
+
     if (args.length())
     {
         JS_ReportError(jct, "Extra arguments to Stream.close");
@@ -981,7 +981,7 @@ streamRewindForJs(JSContext * jct,
     else
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
+
         if (aFile)
         {
             rewind(aFile);
@@ -1009,17 +1009,17 @@ streamWriteForJs(JSContext * jct,
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
     FILE *       aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-    
+
     if (aFile)
     {
         for (int ii = 0, mm = args.length(); mm > ii; ++ii)
         {
             JSString * asString = JS::ToString(jct, args[ii]);
-            
+
             if (asString && JS_GetStringLength(asString))
             {
                 char * asChars = JS_EncodeString(jct, asString);
-                
+
                 fputs(asChars, aFile);
                 JS_free(jct, asChars);
             }
@@ -1052,17 +1052,17 @@ streamWriteLineForJs(JSContext * jct,
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
     FILE *       aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-    
+
     if (aFile)
     {
         for (int ii = 0, mm = args.length(); mm > ii; ++ii)
         {
             JSString * asString = JS::ToString(jct, args[ii]);
-            
+
             if (asString && JS_GetStringLength(asString))
             {
                 char * asChars = JS_EncodeString(jct, asString);
-                
+
                 fputs(asChars, aFile);
                 JS_free(jct, asChars);
             }
@@ -1109,7 +1109,7 @@ addCustomClasses(JSContext *        jct,
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = false;
-    
+
 #if (40 < MOZJS_MAJOR_VERSION)
     if (JS_InitClass(jct, global, NULL, &lStreamClass, createStreamObject, 0, NULL,
                      lStreamFunctions, NULL, NULL))
@@ -1138,12 +1138,12 @@ addArgvObject(JSContext *              jct,
     ODL_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     bool       okSoFar = true;
     JSObject * argArray = JS_NewArrayObject(jct, 0);
-    
+
     if (argArray)
     {
         JS::RootedObject argObject(jct);
         JS::RootedValue  argValue(jct);
-        
+
         argObject = argArray;
         argValue.setObject(*argArray);
         if (JS_SetProperty(jct, global, "argv", argValue))
@@ -1153,23 +1153,23 @@ addArgvObject(JSContext *              jct,
             int32_t         tempInt;
             JS::RootedValue anElement(jct);
             JS::RootedId    aRootedId(jct);
-            
+
             for (size_t ii = 0; okSoFar && (argc > ii); ++ii)
             {
                 const char * anArg = argv[ii].c_str();
-                
+
                 // Check for an integer value
                 tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
                 if ((anArg == endPtr) || *endPtr)
                 {
                     // Check for an floating-point value
                     double tempDouble = strtod(anArg, &endPtr);
-                    
+
                     if ((anArg == endPtr) || *endPtr)
                     {
                         // Otherwise, treat as a string
                         JSString * aString = JS_NewStringCopyZ(jct, anArg);
-                        
+
                         if (aString)
                         {
                             anElement.setString(aString);
@@ -1229,11 +1229,11 @@ addScriptTagObject(JSContext *        jct,
     ODL_S1s("tag = ", tag); //####
     bool       okSoFar = true;
     JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
-    
+
     if (aString)
     {
         JS::RootedValue argValue(jct);
-        
+
         argValue.setString(aString);
         if (! JS_SetProperty(jct, global, "scriptTag", argValue))
         {
@@ -1264,7 +1264,7 @@ addCustomObjects(JSContext *              jct,
     ODL_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     ODL_S1s("tag = ", tag); //####
     bool okSoFar = addCustomFunctions(jct, global);
-    
+
     if (okSoFar)
     {
         okSoFar = addCustomClasses(jct, global);
@@ -1298,7 +1298,7 @@ loadScript(JSContext *                jct,
     ODL_S1s("scriptPath = ", scriptPath); //####
     bool            okSoFar;
     JS::RootedValue result(jct);
-    
+
     options.setFileAndLine(jct, scriptPath.c_str(), 1);
     // We can ignore the returned result, since we are only interested in setting up the functions
     // and variables in the environment. The documentation states that NULL can be passed as the
@@ -1331,7 +1331,7 @@ getLoadedDouble(JSContext *        jct,
     ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
     bool found = false;
     bool okSoFar;
-    
+
     result = 0;
     if (JS_HasProperty(jct, anObject, propertyName, &found))
     {
@@ -1350,7 +1350,7 @@ getLoadedDouble(JSContext *        jct,
     if (okSoFar && found)
     {
         JS::RootedValue value(jct);
-        
+
         if (JS_GetProperty(jct, anObject, propertyName, &value))
         {
             okSoFar = false;
@@ -1364,14 +1364,14 @@ getLoadedDouble(JSContext *        jct,
                 if (value.isObject())
                 {
                     JS::RootedObject asObject(jct);
-                    
+
                     if (JS_ValueToObject(jct, value, &asObject))
                     {
                         if (JS_ObjectIsFunction(jct, asObject))
                         {
                             JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
                             JS::RootedValue      funcResult(jct);
-                            
+
                             JS_BeginRequest(jct);
                             if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
                             {
@@ -1386,13 +1386,13 @@ getLoadedDouble(JSContext *        jct,
                                 ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
-                                
+
                                 if (JS_GetPendingException(jct, &exc))
                                 {
                                     JS_ClearPendingException(jct);
                                     YarpString message("Exception occurred while executing "
                                                        "function for Property '");
-                                    
+
                                     message += propertyName;
                                     message += "'.";
                                     MpM_FAIL_(message.c_str());
@@ -1408,7 +1408,7 @@ getLoadedDouble(JSContext *        jct,
                 ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
-                
+
                 message += propertyName;
                 message += "' has the wrong type.";
                 MpM_FAIL_(message.c_str());
@@ -1448,7 +1448,7 @@ getLoadedString(JSContext *        jct,
     ODL_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
     bool found = false;
     bool okSoFar;
-    
+
     result = "";
     if (JS_HasProperty(jct, anObject, propertyName, &found))
     {
@@ -1475,7 +1475,7 @@ getLoadedString(JSContext *        jct,
             {
                 JSString * asString = value.toString();
                 char *     asChars = JS_EncodeString(jct, asString);
-                
+
                 result = asChars;
                 JS_free(jct, asChars);
                 okSoFar = true;
@@ -1485,14 +1485,14 @@ getLoadedString(JSContext *        jct,
                 if (value.isObject())
                 {
                     JS::RootedObject asObject(jct);
-                    
+
                     if (JS_ValueToObject(jct, value, &asObject))
                     {
                         if (JS_ObjectIsFunction(jct, asObject))
                         {
                             JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
                             JS::RootedValue      funcResult(jct);
-                            
+
                             JS_BeginRequest(jct);
                             if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
                             {
@@ -1500,7 +1500,7 @@ getLoadedString(JSContext *        jct,
                                 {
                                     JSString * asString = funcResult.toString();
                                     char *     asChars = JS_EncodeString(jct, asString);
-                                    
+
                                     result = asChars;
                                     JS_free(jct, asChars);
                                     okSoFar = true;
@@ -1511,13 +1511,13 @@ getLoadedString(JSContext *        jct,
                                 ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
-                                
+
                                 if (JS_GetPendingException(jct, &exc))
                                 {
                                     JS_ClearPendingException(jct);
                                     YarpString message("Exception occurred while executing "
                                                        "function for Property '");
-                                    
+
                                     message += propertyName;
                                     message += "'.";
                                     MpM_FAIL_(message.c_str());
@@ -1533,7 +1533,7 @@ getLoadedString(JSContext *        jct,
                 ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
-                
+
                 message += propertyName;
                 message += "' has the wrong type.";
                 MpM_FAIL_(message.c_str());
@@ -1570,7 +1570,7 @@ getLoadedFunctionRef(JSContext *        jct,
     ODL_L1("arity = ", arity); //####
     bool found = false;
     bool okSoFar;
-    
+
     if (JS_HasProperty(jct, anObject, propertyName, &found))
     {
         okSoFar = found;
@@ -1589,12 +1589,12 @@ getLoadedFunctionRef(JSContext *        jct,
             if (result.isObject())
             {
                 JS::RootedObject asObject(jct);
-                
+
                 if (JS_ValueToObject(jct, result, &asObject) &&
                     JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
                 {
                     JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                    
+
                     if (asFunction)
                     {
                         okSoFar = (arity == JS_GetFunctionArity(asFunction));
@@ -1606,7 +1606,7 @@ getLoadedFunctionRef(JSContext *        jct,
                 ODL_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 YarpString message("Property '");
-                
+
                 message += propertyName;
                 message += "' has the wrong type.";
                 MpM_FAIL_(message.c_str());
@@ -1639,7 +1639,7 @@ processStreamDescription(JSContext *           jct,
     ODL_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
               "description = ", &description); //####
     bool okSoFar = true;
-    
+
     if (! anElement.isObject())
     {
         ODL_LOG("(! anElement.isObject())"); //####
@@ -1647,7 +1647,7 @@ processStreamDescription(JSContext *           jct,
         MpM_FAIL_("Array element has the wrong type.");
     }
     JS::RootedObject asObject(jct);
-    
+
     if (okSoFar)
     {
         if (! JS_ValueToObject(jct, anElement, &asObject))
@@ -1675,7 +1675,7 @@ processStreamDescription(JSContext *           jct,
     if (okSoFar && inletHandlers)
     {
         JS::RootedValue result(jct);
-        
+
         okSoFar = getLoadedFunctionRef(jct, asObject, "handler", 2, result);
         if (okSoFar)
         {
@@ -1707,7 +1707,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
     ODL_S1("arrayName = ", arrayName); //####
     bool found = false;
     bool okSoFar;
-    
+
     streamDescriptions.clear();
     if (JS_HasProperty(jct, global, arrayName, &found))
     {
@@ -1723,7 +1723,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
     {
         JS::RootedValue  value(jct);
         JS::RootedObject asObject(jct);
-        
+
         if (JS_GetProperty(jct, global, arrayName, &value))
         {
             okSoFar = false;
@@ -1745,7 +1745,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 {
                     JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
                     JS::RootedValue      funcResult(jct);
-                    
+
                     okSoFar = false;
                     JS_BeginRequest(jct);
                     if (JS_CallFunctionValue(jct, global, value, funcArgs, &funcResult))
@@ -1769,13 +1769,13 @@ getLoadedStreamDescriptions(JSContext *           jct,
                         ODL_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
                                "&funcResult))"); //####
                         JS::RootedValue exc(jct);
-                        
+
                         if (JS_GetPendingException(jct, &exc))
                         {
                             JS_ClearPendingException(jct);
                             YarpString message("Exception occurred while executing function for "
                                                "Property '");
-                                                          
+
                             message += arrayName;
                             message += "'.";
                             MpM_FAIL_(message.c_str());
@@ -1788,7 +1788,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
             {
                 ODL_LOG("(! okSoFar)"); //####
                 YarpString message("Property '");
-                
+
                 message += arrayName;
                 message += "' has the wrong type.";
                 MpM_FAIL_(message.c_str());
@@ -1801,7 +1801,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
             MpM_FAIL_("Problem retrieving a global property.");
         }
         uint32_t arrayLength;
-        
+
         if (okSoFar)
         {
             if (! JS_GetArrayLength(jct, asObject, &arrayLength))
@@ -1816,7 +1816,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
             for (uint32_t ii = 0; okSoFar && (arrayLength > ii); ++ii)
             {
                 JS::RootedValue anElement(jct);
-                
+
                 if (JS_GetElement(jct, asObject, ii, &anElement))
                 {
                     ChannelDescription description;
@@ -1937,7 +1937,7 @@ validateLoadedScript(JSContext *           jct,
  @param argv The arguments to be used with the %JavaScript filter service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service. 
+ @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
@@ -2032,13 +2032,13 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, nullptr,
                                                                       JS::FireOnNewGlobalHook,
                                                                       opts));
-                
+
 #else // 47 > MOZJS_MAJOR_VERSION
                 JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, nullptr,
                                                                       JS::FireOnNewGlobalHook));
-                
+
 #endif // 47 > MOZJS_MAJOR_VERSION
-                
+
                 if (global)
                 {
                     // Enter a request before running anything in the context. In particular, the
@@ -2227,7 +2227,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 YarpString scriptPath(firstArg.getCurrentValue());
                 YarpString tagModifier =
@@ -2235,7 +2235,7 @@ main(int      argc,
                 bool       nameWasSet = AdjustEndpointName(DEFAULT_JAVASCRIPT_SERVICE_NAME_,
                                                            modFlag, tag, serviceEndpointName,
                                                            tagModifier);
-                
+
                 if (reportEndpoint)
                 {
                     cout << serviceEndpointName.c_str() << endl;

@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the client of the Request Counter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -60,23 +60,23 @@ namespace MplusM
         class RequestCounterClient : public Common::BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RequestCounterClient(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RequestCounterClient(void);
-            
+
             /*! @brief Get the statistics from the service.
              @param counter The number of requests since the last reset.
              @param elapsedTime The number of seconds since the last reset.
@@ -85,33 +85,33 @@ namespace MplusM
             bool
             getServiceStatistics(long &   counter,
                                  double & elapsedTime);
-            
+
             /*! @brief Trigger the service counter.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             pokeService(void);
-            
+
             /*! @brief Reset the service counters.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             resetServiceCounters(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RequestCounterClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RequestCounterClient
-        
+
     } // RequestCounter
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRequestCounterClient_H_)

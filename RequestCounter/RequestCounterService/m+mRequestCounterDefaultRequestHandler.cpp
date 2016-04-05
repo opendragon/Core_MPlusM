@@ -157,7 +157,7 @@ DEFINE_PROCESSREQUEST_(RequestCounterDefaultRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         static_cast<RequestCounterService &>(_service).countRequest(senderChannel);

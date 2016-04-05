@@ -67,21 +67,21 @@ namespace MplusM
     namespace KinectV2Blob
     {
         class KinectV2BlobEventThread;
-        
+
         /*! @brief The Kinect V2 input service. */
         class KinectV2BlobInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -97,35 +97,35 @@ namespace MplusM
                                      const YarpString &                  tag,
                                      const YarpString &                  serviceEndpointName,
                                      const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~KinectV2BlobInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(KinectV2BlobInputService);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
 
         protected :
@@ -139,9 +139,9 @@ namespace MplusM
             KinectV2BlobEventThread * _eventThread;
 
         }; // KinectV2BlobInputService
-        
+
     } // KinectV2Blob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMKinectV2BlobInputService_H_)

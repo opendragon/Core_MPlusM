@@ -75,21 +75,21 @@ namespace MplusM
     namespace SendToMQ
     {
         class SendToMQOutputInputHandler;
-        
+
         /*! @brief The %Blob output service. */
         class SendToMQOutputService : public Common::BaseOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param hostName The name of the MQ broker.
              @param hostPort The port to connect to the MQ broker.
@@ -113,90 +113,90 @@ namespace MplusM
                                   const YarpString &                  tag,
                                   const YarpString &                  serviceEndpointName,
                                   const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~SendToMQOutputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             /*! @brief Deactivate the network connection. */
             void
             deactivateConnection(void);
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
-            
+
             DECLARE_RESTARTSTREAMS_;
-            
+
             /*! @brief Send a message via ActiveMQ.
              @param aMessage The message to send.
              @param messageLength The length of the message. */
             void
             sendMessage(const std::string & aMessage,
                         const size_t        messageLength);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-        
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(SendToMQOutputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name of the MQ broker. */
             YarpString _hostName;
-            
+
             /*! @brief The user password for the MQ broker. */
             YarpString _password;
-            
+
             /*! @brief The user name for the MQ broker. */
             YarpString _userName;
-            
+
             /*! @brief The topic or queue name to use. */
             YarpString _topicOrQueueName;
-            
+
             /*! @brief The port to connect to the MQ broker. */
             int _hostPort;
-            
+
             /*! @brief The handler for input data. */
             SendToMQOutputInputHandler * _inHandler;
-            
+
             /*! @brief The connection generating factory. */
             std::auto_ptr<cms::ConnectionFactory> _connectionFactory;
-            
+
             /*! @brief The active connection. */
             cms::Connection * _connection;
-            
+
             /*! @brief The active session. */
             cms::Session * _session;
-            
+
             /*! @brief The destination for the active session. */
             cms::Destination * _destination;
-            
+
             /*! @brief The message producer that works with the active session. */
             cms::MessageProducer * _producer;
-            
+
             /*! @brief If @c true, use a queue for transmission else use a topic. */
             bool _useQueue;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -206,11 +206,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // SendToMQOutputService
-        
+
     } // SendToMQ
-    
+
 } // MplusM
 
 #endif // ! defined(MpMSendToMQOutputService_H_)

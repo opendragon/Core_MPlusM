@@ -36,7 +36,7 @@ using namespace Option_;
 int MSC_Builtin_CLZ::builtin_clz(const unsigned xx)
 {
     unsigned long index;
-    
+
     _BitScanReverse(&index, xx);
     return (32 - index); // int is always 32 bit on Windows, even for target x64
 } // MSC_Builtin_CLZ::builtin_clz
@@ -58,7 +58,7 @@ Option::append(Option * new_last)
 {
     Option * pp = last();
     Option * ff = first();
-    
+
     pp->next_ = new_last;
     new_last->prev_ = pp;
     new_last->next_ = tag(ff);
@@ -69,7 +69,7 @@ int
 Option::count(void)
 {
     int cc = (desc ? 1 : 0);
-    
+
     for (Option * pp = first(); ! pp->isLast(); pp = pp->next_)
     {
         ++cc;
@@ -81,7 +81,7 @@ Option *
 Option::first(void)
 {
     Option * pp = this;
-    
+
     for ( ; ! pp->isFirst(); pp = pp->prev_)
     {
     }
@@ -309,7 +309,7 @@ Parser::parse(const bool         gnu,
               const int          bufmax)
 {
     StoreOptionAction action(*this, options, buffer, bufmax);
-    
+
     err = (! workhorse(gnu, usage, argc, argv, action, single_minus_longopt, true, min_abbr_len));
 } // Parser::parse
 
@@ -367,7 +367,7 @@ Parser::workhorse(const bool         gnu,
 {
     int numargs = numargsIn;
     int nonops = 0;
-    
+
     // protect against NULL pointer
     if (! args)
     {
@@ -376,7 +376,7 @@ Parser::workhorse(const bool         gnu,
     for ( ; numargs && *args; )
     {
         const char * param = *args; // param can be --long-option, -srto or non-option argument
-        
+
         // in POSIX mode the first non-option argument terminates the option list
         // a lone minus character is a non-option argument
         if (('-' != param[0]) || (! param[1]))
@@ -394,7 +394,7 @@ Parser::workhorse(const bool         gnu,
 
             break;
         }
-        
+
         // -- terminates the option list. The -- itself is skipped.
         if (('-' == param[1]) && (! param[2]))
         {
@@ -406,10 +406,10 @@ Parser::workhorse(const bool         gnu,
             }
             break;
         }
-        
+
         bool         handle_short_options;
         const char * longopt_name;
-        
+
         if ('-' == param[1]) // if --long-option
         {
             handle_short_options = false;
@@ -422,13 +422,13 @@ Parser::workhorse(const bool         gnu,
         }
         bool try_single_minus_longopt = single_minus_longopt;
         bool have_more_args = ((numargs > 1) || (numargs < 0)); // is referencing argv[1] valid?
-        
+
         do
         {
             // loop over short options in group, for long options the body is executed only once
             int          idx;
             const char * optarg;
-            
+
             /******************** long option **********************/
             if ((! handle_short_options) || try_single_minus_longopt)
             {
@@ -440,7 +440,7 @@ Parser::workhorse(const bool         gnu,
                 {
                     // if we should try to match abbreviated long options
                     int i1 = 0;
-                    
+
                     for ( ; usage[i1].longopt &&
                          (! streqabbr(usage[i1].longopt, longopt_name, min_abbr_len)); )
                     {
@@ -450,7 +450,7 @@ Parser::workhorse(const bool         gnu,
                     {
                         // now test if the match is unambiguous by checking for another match
                         int i2 = i1 + 1;
-                        
+
                         for ( ; usage[i2].longopt &&
                              (! streqabbr(usage[i2].longopt, longopt_name, min_abbr_len)); )
                         {
@@ -493,7 +493,7 @@ Parser::workhorse(const bool         gnu,
                 {
                     break; // end of short option group
                 }
-                
+
                 for (idx = 0; usage[idx].shortopt && (! instr(*param, usage[idx].shortopt)); )
                 {
                     ++idx;
@@ -510,7 +510,7 @@ Parser::workhorse(const bool         gnu,
                 }
             }
             const Descriptor * descriptor = &usage[idx];
-            
+
             if (! descriptor->shortopt)
             {
                 /**************  unknown option ********************/
@@ -526,12 +526,12 @@ Parser::workhorse(const bool         gnu,
             if (descriptor)
             {
                 Option option(descriptor, param, optarg);
-                
+
                 switch (descriptor->check_arg(option, print_errors))
                 {
                     case ARG_ILLEGAL:
                         return false; // fatal
-                        
+
                     case ARG_OK:
                         // skip one element of the argument vector, if it's a separated argument
                         if (optarg && have_more_args && (optarg == args[1]))
@@ -546,12 +546,12 @@ Parser::workhorse(const bool         gnu,
                         // No further short options are possible after an argument
                         handle_short_options = false;
                         break;
-                        
+
                     case ARG_IGNORE:
                     case ARG_NONE:
                         option.arg = 0;
                         break;
-                        
+
                 }
                 if (! action.perform(option))
                 {
@@ -605,7 +605,7 @@ Parser::streqabbr(const char * st1,
                   const size_t min)
 {
     const char * st1start = st1;
-    
+
     for ( ; *st1 && (*st1 == *st2); )
     {
         ++st1;
@@ -633,7 +633,7 @@ Parser::shift(const char * * args,
     for (int ii = 0; ii > (- count); --ii)
     {
         const char * temp = args[ii];
-        
+
         args[ii] = args[ii - 1];
         args[ii - 1] = temp;
     }
@@ -679,7 +679,7 @@ Parser::StoreOptionAction::StoreOptionAction(Parser &  parser_,
 {
     // find first empty slot in buffer (if any)
     int bufidx = 0;
-    
+
     for ( ; ((bufmax < 0) || (bufidx < bufmax)) && buffer[bufidx]; )
     {
         ++bufidx;
@@ -713,10 +713,10 @@ Parser::StoreOptionAction::perform(Option & option)
             return false; // overflow protection: don't accept number of options that doesn't fit
                           // signed int
         }
-        
+
         buffer[parser.op_count] = option;
         int idx = buffer[parser.op_count].desc->index;
-        
+
         if (options[idx])
         {
             options[idx].append(buffer[parser.op_count]);
@@ -742,7 +742,7 @@ PrintUsageImplementation::indent(IStringWriter & write,
                                  const int       want_x)
 {
     int indent = want_x - xx;
-    
+
     if (indent < 0)
     {
         write("\n", 1);
@@ -751,7 +751,7 @@ PrintUsageImplementation::indent(IStringWriter & write,
     if (indent > 0)
     {
         char space = ' ';
-        
+
         for (int ii = 0; ii < indent; ++ii)
         {
             write(&space, 1);
@@ -767,7 +767,7 @@ PrintUsageImplementation::isWideChar(const unsigned ch)
     {
         return false;
     }
-    
+
     return (((0x1100 <= ch) && (ch <= 0x115F)) || ((0x2329 <= ch) && (ch <= 0x232A)) ||
             ((0x2E80 <= ch) && (ch <= 0xA4C6)) || ((0xA960 <= ch) && (ch <= 0xA97C)) ||
             ((0xAC00 <= ch) && (ch <= 0xD7FB)) || ((0xF900 <= ch) && (ch <= 0xFAFF)) ||
@@ -783,14 +783,14 @@ PrintUsageImplementation::LinePartIterator::update_length(void)
     {
         ++screenlen;
         unsigned ch = static_cast<unsigned char>(ptr[len]);
-        
+
         if (ch > 0xC1)
         {
             // everything <= 0xC1 (yes, even 0xC1 itself) is not a valid UTF-8 start byte
             // int __builtin_clz (unsigned int x)
             // Returns the number of leading 0-bits in x, starting at the most significant bit
             unsigned mask = (static_cast<unsigned>(-1) >> __builtin_clz(ch ^ 0xff));
-            
+
             ch = ch & mask; // mask out length bits, we don't verify their correctness
             for ( ; (static_cast<unsigned char>(ptr[len + 1]) ^ 0x80) <= 0x3F; )
             {
@@ -852,7 +852,7 @@ PrintUsageImplementation::LinePartIterator::nextRow(void)
         restartRow();
         return rowstart != 0;
     }
-    
+
     for ( ; *ptr && ('\n' != *ptr); )
     {
         ++ptr;
@@ -864,7 +864,7 @@ PrintUsageImplementation::LinePartIterator::nextRow(void)
             // table break
             return false;
         }
-        
+
         ++rowdesc;
         rowstart = rowdesc->help;
     }
@@ -896,14 +896,14 @@ PrintUsageImplementation::LinePartIterator::next(void)
     {
         return false;
     }
-    
+
     if (col == -1)
     {
         col = 0;
         update_length();
         return true;
     }
-    
+
     ptr += len;
     for ( ; ; )
     {
@@ -913,7 +913,7 @@ PrintUsageImplementation::LinePartIterator::next(void)
                 upmax(max_line_in_block, ++line_in_block);
                 ++ptr;
                 break;
-                
+
             case '\t':
                 if (! hit_target_line)
                 {
@@ -923,13 +923,13 @@ PrintUsageImplementation::LinePartIterator::next(void)
                     hit_target_line = true;
                     return true;
                 }
-                
+
                 hit_target_line = false;
                 line_in_block = 0;
                 ++col;
                 ++ptr;
                 break;
-                
+
             case 0:
             case '\n':
                 if (! hit_target_line)
@@ -940,25 +940,25 @@ PrintUsageImplementation::LinePartIterator::next(void)
                     hit_target_line = true;
                     return true;
                 }
-                
+
                 if (++target_line_in_block > max_line_in_block)
                 {
                     update_length();
                     return false;
                 }
-                
+
                 hit_target_line = false;
                 line_in_block = 0;
                 col = 0;
                 ptr = rowstart;
                 continue;
-                
+
             default:
                 ++ptr;
                 continue;
-                
+
         } // switch
-        
+
         if (line_in_block == target_line_in_block)
         {
             update_length();
@@ -996,7 +996,7 @@ PrintUsageImplementation::LineWrapper::write_one_line(IStringWriter & write)
     {
         write("\n", 1);
         int _x = 0;
-        
+
         indent(write, _x, x);
     }
     if (! buf_empty())
@@ -1013,7 +1013,7 @@ PrintUsageImplementation::LineWrapper::flush(IStringWriter & write)
     if (! buf_empty())
     {
         int _x = 0;
-        
+
         indent(write, _x, x);
         wrote_something = false;
         for ( ; ! buf_empty(); )
@@ -1041,19 +1041,19 @@ PrintUsageImplementation::LineWrapper::process(IStringWriter & write,
         else // if (len > width)  it's possible (but not guaranteed) that utf8len > width
         {
             int maxi = 0;
-            
+
             for (int utf8width = 0; (maxi < len) && (utf8width < width); )
             {
                 int      charbytes = 1;
                 unsigned ch = static_cast<unsigned char>(data[maxi]);
-                
+
                 if (ch > 0xC1)
                 {
                     // everything <= 0xC1 (yes, even 0xC1 itself) is not a valid UTF-8 start byte
                     // int __builtin_clz (unsigned int x)
                     // Returns the number of leading 0-bits in x, starting at the most significant bit
                     unsigned mask = (static_cast<unsigned>(-1) >> __builtin_clz(ch ^ 0xff));
-                    
+
                     ch = ch & mask; // mask out length bits, we don't verify their correctness
                     for ( ; (maxi + charbytes < len) &&
                          ((static_cast<unsigned char>(data[maxi + charbytes]) ^ 0x80) <= 0x3F); )
@@ -1072,7 +1072,7 @@ PrintUsageImplementation::LineWrapper::process(IStringWriter & write,
                         {
                             break;
                         }
-                        
+
                         ++utf8width;
                     }
                 }
@@ -1089,14 +1089,14 @@ PrintUsageImplementation::LineWrapper::process(IStringWriter & write,
             else // if (maxi < len)  at least 1 character (data[maxi] that is) doesn't fit on the line
             {
                 int ii;
-                
+
                 for (ii = maxi; ii >= 0; --ii)
                 {
                     if (' ' == data[ii])
                     {
                         break;
                     }
-                    
+
                 }
                 if (ii >= 0)
                 {
@@ -1141,7 +1141,7 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
                                      const int          last_column_own_line_max_percent)
 {
     int width = widthIn;
-    
+
     if (width < 1)
     {
         // protect against nonsense values
@@ -1154,23 +1154,23 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
     }
     int last_column_min_width = (((width * last_column_min_percent) + 50) / 100);
     int last_column_own_line_max_width = (((width * last_column_own_line_max_percent) + 50) / 100);
-    
+
     if (0 == last_column_own_line_max_width)
     {
         last_column_own_line_max_width = 1;
     }
     LinePartIterator part(usage);
-    
+
     for ( ; part.nextTable(); )
     {
         /***************** Determine column widths *******************************/
-        
+
         const int maxcolumns = 8; // 8 columns are enough for everyone
         int       col_width[maxcolumns];
         int       lastcolumn;
         int       leftwidth;
         int       overlong_column_threshold = 10000;
-        
+
         do
         {
             lastcolumn = 0;
@@ -1201,7 +1201,7 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
                     }
                 }
             }
-            
+
             /*
              * If the last column doesn't fit on the same
              * line as the other columns, we can fix that by starting it on its own line.
@@ -1212,7 +1212,7 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
              * The result is a layout where everything is nicely formatted
              * except for a few overlong fragments.
              * */
-            
+
             leftwidth = 0;
             overlong_column_threshold = 0;
             for (int ii = 0; ii < lastcolumn; ++ii)
@@ -1220,13 +1220,13 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
                 leftwidth += col_width[ii];
                 upmax(overlong_column_threshold, col_width[ii]);
             }
-            
+
         }
         while (leftwidth > width);
-        
+
         /**************** Determine tab stops and last column handling **********************/
         int tabstop[maxcolumns];
-        
+
         tabstop[0] = 0;
         for (int ii = 1; ii < maxcolumns; ++ii)
         {
@@ -1234,13 +1234,13 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
         }
         int  rightwidth = width - tabstop[lastcolumn];
         bool print_last_column_on_own_line = false;
-        
+
         if ((rightwidth < last_column_min_width) && (rightwidth < col_width[lastcolumn]))
         {
             print_last_column_on_own_line = true;
             rightwidth = last_column_own_line_max_width;
         }
-        
+
         // If lastcolumn == 0 we must disable print_last_column_on_own_line because
         // otherwise 2 copies of the last (and only) column would be output.
         // Actually this is just defensive programming. It is currently not
@@ -1255,20 +1255,20 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
         }
         LineWrapper lastColumnLineWrapper(width - rightwidth, width);
         LineWrapper interjectionLineWrapper(0, width);
-        
+
         part.restartTable();
         /***************** Print out all rows of the table *************************************/
         for ( ; part.nextRow(); )
         {
             int xx = -1;
-            
+
             for ( ; part.next(); )
             {
                 if (part.column() > lastcolumn)
                 {
                     continue; // drop excess columns (can happen if lastcolumn == maxcolumns-1)
                 }
-                
+
                 if (part.column() == 0)
                 {
                     if (xx >= 0)
@@ -1291,10 +1291,10 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
                     // an interjection that doesn't contain \v or \t
                     // NOTE: This code block is not necessarily executed for
                     // each line, because some rows may have fewer columns.
-                    
+
                     LineWrapper & lineWrapper = ((part.column() == 0) ? interjectionLineWrapper :
                                                  lastColumnLineWrapper);
-                    
+
                     if (! print_last_column_on_own_line)
                     {
                         lineWrapper.process(write, part.data(), part.length());
@@ -1310,7 +1310,7 @@ PrintUsageImplementation::printUsage(IStringWriter &    write,
                     {
                         write("\n", 1);
                         int _x = 0;
-                        
+
                         indent(write, _x, width - rightwidth);
                         lastColumnLineWrapper.process(write, part.data(), part.length());
                     }

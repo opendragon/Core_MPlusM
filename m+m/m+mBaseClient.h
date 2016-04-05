@@ -59,27 +59,27 @@ namespace MplusM
         class ChannelStatusReporter;
         class ClientChannel;
         class ServiceResponse;
-        
+
         /*! @brief The minimal functionality required for an m+m client. */
         class BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param baseChannelName The name to be used as the root for the client channel. */
             explicit
             BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseClient(void);
-            
+
             /*! @brief Create a connection with the service.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
@@ -87,7 +87,7 @@ namespace MplusM
             bool
             connectToService(CheckFunction checker = NULL,
                              void *        checkStuff = NULL);
-            
+
             /*! @brief Disconnect from the service.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
@@ -96,7 +96,7 @@ namespace MplusM
             bool
             disconnectFromService(CheckFunction checker = NULL,
                                   void *        checkStuff = NULL);
-            
+
             /*! @brief Find a matching service and prepare to send requests to it.
              @param criteria The criteria to use to locate the service.
              @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first
@@ -110,12 +110,12 @@ namespace MplusM
                         const bool    allowOnlyOneMatch = false,
                         CheckFunction checker = NULL,
                         void *        checkStuff = NULL);
-            
+
             /*! @brief Set the channel for the client to use.
              @param newChannel The channel to be used. */
             void
             setChannel(ClientChannel * newChannel = NULL);
-            
+
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.
              @param andReportNow @c true if the channel status reporter is to be activated
@@ -123,16 +123,16 @@ namespace MplusM
             void
             setReporter(ChannelStatusReporter & reporter,
                         const bool              andReportNow = false);
-            
+
         protected :
-            
+
             /*! @brief Re-establish the service connection if it has dropped.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
             void
             reconnectIfDisconnected(CheckFunction checker = NULL,
                                     void *        checkStuff = NULL);
-            
+
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.
@@ -141,7 +141,7 @@ namespace MplusM
             bool
             send(const char *             request,
                  const yarp::os::Bottle & parameters);
-            
+
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.
@@ -154,40 +154,40 @@ namespace MplusM
                  ServiceResponse &        response);
 
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel status reporter that has been set for this channel. */
             ChannelStatusReporter * _reporter;
-            
+
             /*! @brief The channel that the client uses for communication. */
             ClientChannel * _channel;
-            
+
             /*! @brief The root name for the client channel. */
             YarpString _baseChannelName;
-            
+
             /*! @brief The name of the client channel being used. */
             YarpString _channelName;
-            
+
             /*! @brief The name of the service channel being used. */
             YarpString _serviceChannelName;
-            
+
             /*! @brief @c true if the client owns the channel and @c false otherwise. */
             bool _clientOwnsChannel;
-            
+
             /*! @brief @c true if the client is connected to the service and @c false otherwise. */
             bool _connected;
-            
+
             /*! @brief @c true if the channel status is to be reported on initial creation of the
              channel. */
             bool _reportImmediately;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -197,9 +197,9 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseClient
-        
+
         /*! @brief Find one or more matching services that are registered with a running %Registry
          service.
          @param criteria The matching conditions.
@@ -213,9 +213,9 @@ namespace MplusM
                              const bool         getNames = false,
                              CheckFunction      checker = NULL,
                              void *             checkStuff = NULL);
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseClient_H_)

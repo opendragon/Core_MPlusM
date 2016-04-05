@@ -57,52 +57,52 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'detach' request handler.
-         
+
          There is no input or output for the request. */
         class DetachRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             DetachRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~DetachRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(DetachRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-        
+
         }; // DetachRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMDetachRequestHandler_H_)

@@ -122,7 +122,7 @@ DEFINE_CHECKNAME_(TestNameValidator)
     ODL_ENTER(); //####
     ODL_S1("aString = ", aString); //####
     bool result = false;
-    
+
     try
     {
         for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
@@ -132,7 +132,7 @@ DEFINE_CHECKNAME_(TestNameValidator)
                 result = true;
                 break;
             }
-            
+
         }
     }
     catch (...)
@@ -150,7 +150,7 @@ DEFINE_GETPREFIXANDSUFFIX_(TestNameValidator)
     ODL_S1("aString = ", aString); //####
     ODL_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
     const char * result = NULL;
-    
+
     try
     {
         for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
@@ -160,7 +160,7 @@ DEFINE_GETPREFIXANDSUFFIX_(TestNameValidator)
                 result = kFieldNames[ii];
                 break;
             }
-            
+
         }
         prefixString = NULL;
         suffixString = NULL;

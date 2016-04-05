@@ -59,11 +59,11 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief A trailing arguments description.
-         
+
          The external representation of a trailing arguments description is:
-         
+
          extraTagAndInfo ::= 'E';
-         
+
          Note that the concept of 'optional' versus 'mandatory' is not applicable to trailing
          arguments, as it's possible to have zero or more of them.
          Likewise, there is no 'default' value that makes sense or, for that matter, a single
@@ -71,26 +71,26 @@ namespace MplusM
         class ExtraArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument. */
             ExtraArgumentDescriptor(const YarpString & argName,
                                     const YarpString & argDescription);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExtraArgumentDescriptor(void);
-            
+
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
@@ -98,40 +98,40 @@ namespace MplusM
             parseArgString(const YarpString & inString);
 
         protected :
-        
+
         private :
-            
+
             DECLARE_ADDVALUETOBOTTLE_;
-            
+
             DECLARE_CLONE_;
 
             DECLARE_GETDEFAULTVALUE_;
-            
+
             DECLARE_GETPROCESSEDVALUE_;
-            
+
             DECLARE_ISEXTRA_
             {
                 return true;
             } // isExtra
-            
+
             DECLARE_SETTODEFAULTVALUE_;
-            
+
             DECLARE_TOSTRING_;
-            
+
             DECLARE_VALIDATE_;
-            
+
             COPY_AND_ASSIGNMENT_(ExtraArgumentDescriptor);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ExtraArgumentDescriptor
 
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExtraArgumentDescriptor_H_)

@@ -135,7 +135,7 @@ DEFINE_FILLINDESCRIPTION_(MatchRequestHandler)
                  "description of the problem encountered");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         asList->addString("find");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
@@ -164,7 +164,7 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         // We are expecting an integer and a string as the parameter
@@ -173,12 +173,12 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
         {
             yarp::os::Value condition(restOfInput.get(0));
             yarp::os::Value argument(restOfInput.get(1));
-            
+
             if (condition.isInt() && argument.isString())
             {
                 int        conditionAsInt = condition.asInt();
                 YarpString argAsString(argument.toString());
-                
+
                 ODL_S1s("argAsString <- ", argAsString); //####
                 size_t                    endPos;
                 Parser::MatchExpression * matcher =
@@ -186,7 +186,7 @@ DEFINE_PROCESSREQUEST_(MatchRequestHandler)
                                                                                argAsString.length(),
                                                                                0, endPos,
                                                                                _validator);
-                
+
                 if (matcher)
                 {
                     ODL_LOG("(matcher)"); //####

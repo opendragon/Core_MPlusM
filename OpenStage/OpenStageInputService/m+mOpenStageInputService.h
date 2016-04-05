@@ -64,21 +64,21 @@ namespace MplusM
     namespace OpenStage
     {
         class OpenStageInputThread;
-        
+
         /*! @brief The Organic Motion %OpenStage input service. */
         class OpenStageInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -94,41 +94,41 @@ namespace MplusM
                                   const YarpString &                  tag,
                                   const YarpString &                  serviceEndpointName,
                                   const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~OpenStageInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(OpenStageInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name of the Organic Motion %OpenStage device server. */
             YarpString _hostName;
 
@@ -137,11 +137,11 @@ namespace MplusM
 
             /*! @brief The output thread to use. */
             OpenStageInputThread * _eventThread;
-            
+
         }; // OpenStageInputService
-        
+
     } // OpenStage
-    
+
 } // MplusM
 
 #endif // ! defined(MpMOpenStageInputService_H_)

@@ -134,7 +134,7 @@ DEFINE_CONFIGURE_(MovementDbAdapterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -220,7 +220,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(MovementDbAdapterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "s+";
@@ -250,7 +250,7 @@ DEFINE_STARTSERVICE_(MovementDbAdapterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -294,7 +294,7 @@ DEFINE_STOPSERVICE_(MovementDbAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

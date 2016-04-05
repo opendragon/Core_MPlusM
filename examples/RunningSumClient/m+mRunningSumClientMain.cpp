@@ -108,7 +108,7 @@ setUpAndGo(void)
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     RunningSumClient * aClient = new RunningSumClient;
-    
+
     if (aClient)
     {
         StartRunning();
@@ -125,7 +125,7 @@ setUpAndGo(void)
                     char   inChar;
                     double newSum;
                     double value;
-                    
+
                     cout << "Operation: [? + q r s]? ";
                     cout.flush();
                     cin >> inChar;
@@ -135,7 +135,7 @@ setUpAndGo(void)
                             // Help
                             displayCommands();
                             break;
-                            
+
                         case '+' :
                             cout << "add: ";
                             cout.flush();
@@ -151,7 +151,7 @@ setUpAndGo(void)
                                 MpM_FAIL_("Problem adding to the sum.");
                             }
                             break;
-                            
+
                         case 'q' :
                         case 'Q' :
                             cout << "Exiting" << endl;
@@ -162,7 +162,7 @@ setUpAndGo(void)
                             }
                             StopRunning();
                             break;
-                            
+
                         case 'r' :
                         case 'R' :
                             cout << "Resetting" << endl;
@@ -172,7 +172,7 @@ setUpAndGo(void)
                                 MpM_FAIL_("Problem resetting the sum.");
                             }
                             break;
-                            
+
                         case 's' :
                         case 'S' :
                             cout << "Starting" << endl;
@@ -182,11 +182,11 @@ setUpAndGo(void)
                                 MpM_FAIL_("Problem starting the sum.");
                             }
                             break;
-                            
+
                         default :
                             cout << "Unrecognized request '" << inChar << "'." << endl;
                             break;
-                            
+
                     }
                 }
                 if (! aClient->disconnectFromService())
@@ -224,21 +224,21 @@ setUpAndGo(void)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Running Sum service.
- 
+
  Commands from standard input will be interpreted and will result in requests being sent to the
  service.
  Commands are not case-sensitive. The commands are:
- 
+
  @c ? Display the list of commands.
- 
+
  @c + Read a number from standard input and send it to the service.
- 
+
  @c r Ask the service to reset its running sum.
- 
+
  @c s Ask the service to start calculating the running sum.
- 
+
  @c x Ask the service to stop calculating the running sum and exit from the program.
- 
+
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -262,7 +262,7 @@ main(int      argc,
     {
         Utilities::DescriptorVector argumentList;
         OutputFlavour               flavour;
-        
+
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Running Sum service",
                                                     2014, STANDARD_COPYRIGHT_NAME_, flavour, true))
@@ -278,7 +278,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

@@ -127,7 +127,7 @@ DEFINE_FILLINDESCRIPTION_(AddToSumRequestHandler)
                  "Output: the current running sum, including the new values");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -155,21 +155,21 @@ DEFINE_PROCESSREQUEST_(AddToSumRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         double total = 0.0;
         int    count = restOfInput.size();
-        
+
         _response.clear();
         if (1 <= count)
         {
             int tally = 0;
-            
+
             for (int ii = 0; ii < count; ++ii)
             {
                 yarp::os::Value incoming(restOfInput.get(ii));
-                
+
                 if (incoming.isInt())
                 {
                     ++tally;

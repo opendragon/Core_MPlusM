@@ -107,7 +107,7 @@ DEFINE_HANDLE_INPUT_(ServiceInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (0 < input.size())

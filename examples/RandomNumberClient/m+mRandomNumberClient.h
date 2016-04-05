@@ -60,29 +60,29 @@ namespace MplusM
         class RandomNumberClient : public Common::BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RandomNumberClient(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RandomNumberClient(void);
-            
+
             /*! @brief Get one random number from the service.
              @param result Where to return the number.
              @returns @c true if the number was retrieved successfully and @c false otherwise. */
             bool
             getOneRandomNumber(double & result);
-            
+
             /*! @brief Get a sequence of random numbers from the service.
              @param howMany The number of random numbers to retrieve.
              @param result Where to return the numbers.
@@ -90,23 +90,23 @@ namespace MplusM
             bool
             getRandomNumbers(const int              howMany,
                              Common::DoubleVector & result);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RandomNumberClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RandomNumberClient
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRandomNumberClient_H_)

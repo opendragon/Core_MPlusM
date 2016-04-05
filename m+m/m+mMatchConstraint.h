@@ -58,54 +58,54 @@ namespace MplusM
     {
         class BaseNameValidator;
         class MatchFieldWithValues;
-        
+
         /*! @brief A pattern matcher for AND clauses. */
         class MatchConstraint : public BaseMatcher
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
-            
+
             /*! @brief A sequence of fields with values. */
             typedef std::vector<MatchFieldWithValues *> MatchConstraintListData;
-            
+
             /*! @brief The size-type for sequence data. */
             typedef MatchConstraintListData::size_type MatchConstraintListSize;
-            
+
         public :
-            
+
             /*! @brief The destructor. */
             virtual
             ~MatchConstraint(void);
-            
+
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(void)
             const;
-            
+
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
             YarpString
             asString(void)
             const;
-            
+
             /*! @brief The character used between constraint list elements.
              @returns The character that separates constraint list elements. */
             static char
             ConstraintSeparatorCharacter(void);
-            
+
             /*! @brief Return the number of elements in the constraint list.
              @returns The number of elements in the constraint list. */
             int
             count(void)
             const;
-            
+
             /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -121,7 +121,7 @@ namespace MplusM
                           const size_t        startPos,
                           size_t &            endPos,
                           BaseNameValidator * validator = NULL);
-            
+
             /*! @brief Return an element from the constraint list.
              @param index The zero-origin index of the element.
              @returns An element of the constraint list or @c NULL if the index is outside the range
@@ -129,33 +129,33 @@ namespace MplusM
             const MatchFieldWithValues *
             element(const int index)
             const;
-            
+
         protected :
-            
+
         private :
-            
+
             /*! @brief The constructor. */
             MatchConstraint(void);
-            
+
             COPY_AND_ASSIGNMENT_(MatchConstraint);
-            
+
             /*! @brief Remove all the list elements. */
             void
             empty(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The elements of the list. */
             MatchConstraintListData _fieldsWithValues;
-            
+
         }; // MatchConstraint
-        
+
     } // Parser
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMatchConstraint_H_)

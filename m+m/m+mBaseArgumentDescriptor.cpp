@@ -141,13 +141,13 @@ BaseArgumentDescriptor::partitionString(const YarpString & inString,
             if (0 < workingCopy.length())
             {
                 size_t innerIndx = workingCopy.find(innerChar, 0);
-                
+
                 if (YarpString::npos == innerIndx)
                 {
                     // Badly formatted - the matching delimiter is missing!
                     break;
                 }
-                
+
                 result.push_back(workingCopy.substr(0, innerIndx));
                 workingCopy = workingCopy.substr(innerIndx + 1);
                 if (0 < workingCopy.length())
@@ -162,14 +162,14 @@ BaseArgumentDescriptor::partitionString(const YarpString & inString,
                         // Badly formatted - the delimiter is not followed by the separator!
                         break;
                     }
-                    
+
                 }
             }
             else
             {
                 break;
             }
-            
+
         }
         else
         {
@@ -188,7 +188,7 @@ BaseArgumentDescriptor::partitionString(const YarpString & inString,
                     {
                         break;
                     }
-                    
+
                 }
                 result.push_back(workingCopy);
                 workingCopy = "";
@@ -213,7 +213,7 @@ const
     ODL_S1s("tagForField = ", tagForField); //####
     YarpString        result(_argName);
     std::stringstream buff;
-    
+
     buff << static_cast<int>(_argMode);
     result += _parameterSeparator + tagForField + _parameterSeparator + buff.str();
     ODL_OBJEXIT_s(result); //####
@@ -229,7 +229,7 @@ BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
                                     "abcdefghijklmnopqrtuvwxyz0123456789";
     char              charToUse = possibles[0];
     YarpString        result(_parameterSeparator);
-    
+
     if (0 < defaultToUse.length())
     {
         // Determine an appropriate delimiter
@@ -260,11 +260,11 @@ Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
     ODL_P1("arguments = ", &arguments); //####
     YarpString result;
     size_t     numOptional = 0;
-    
+
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg)
         {
             if (0 < ii)
@@ -295,15 +295,15 @@ Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
     ODL_ENTER(); //####
     ODL_P2("arguments = ", &arguments, "output = ", &output); //####
     int nameSize = -1;
-    
+
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg)
         {
             int len = static_cast<int>(anArg->argumentName().length());
-            
+
             if (nameSize < len)
             {
                 nameSize = len;
@@ -316,12 +316,12 @@ Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
         for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
-            
+
             if (anArg)
             {
                 YarpString aLine(anArg->argumentName());
                 size_t     len = aLine.length();
-                
+
                 aLine += YarpString(nameSize - len, ' ');
                 if (anArg->isOptional())
                 {
@@ -342,11 +342,11 @@ Utilities::CombineArguments(const DescriptorVector & arguments,
     ODL_ENTER(); //####
     ODL_S1s("sep = ", sep); //####
     YarpString result;
-    
+
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (0 < ii)
         {
             result += sep;
@@ -413,7 +413,7 @@ Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg && (! anArg->isRequired()) && (! anArg->isExtra()))
         {
             anArg->addValueToBottle(container);
@@ -430,12 +430,12 @@ Utilities::ModeFromString(const YarpString & modeString)
     ArgumentMode      result = kArgModeUnknown;
     std::stringstream buff(modeString.c_str());
     int               modeAsInt;
-    
+
     buff >> modeAsInt;
     if (! buff.fail())
     {
         int holder = modeAsInt;
-        
+
         // Check that only the known bits are set!
         holder &= ~kArgModeMask;
         if (! holder)
@@ -487,7 +487,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
     for (size_t ii = 0; result && (numArgs > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg)
         {
             ODL_LOG("(anArg)"); //####
@@ -517,7 +517,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
         for (size_t ii = 0; numToCheck > ii; ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
-            
+
             if (anArg && (! anArg->isExtra()))
             {
                 ODL_LOG("(anArg && (! anArg->isExtra()))"); //####
@@ -540,7 +540,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
     for (size_t ii = numToCheck; numArgs > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg && (! anArg->isExtra()))
         {
             ODL_LOG("(anArg && (! anArg->isExtra()))"); //####
@@ -583,13 +583,13 @@ Utilities::PromptForValues(const DescriptorVector & arguments)
     for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
-        
+
         if (anArg && (! anArg->isRequired()) && (! anArg->isExtra()))
         {
             std::string currentValue(anArg->getProcessedValue().c_str());
             std::string defaultValue(anArg->getDefaultValue().c_str());
             std::string inputLine;
-            
+
             std::cout << anArg->argumentDescription().c_str();
             std::cout << " (default=" << defaultValue << ", current=" << currentValue << "): ";
             std::cout.flush();
@@ -611,12 +611,12 @@ Utilities::PromptForValues(const DescriptorVector & arguments)
                 {
                     break;
                 }
-                
+
                 if (! std::cin)
                 {
                     break;
                 }
-                
+
             }
             if (getline(std::cin, inputLine))
             {

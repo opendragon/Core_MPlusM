@@ -131,7 +131,7 @@ DEFINE_CONFIGURE_(KinectV2InputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         result = true;
@@ -182,7 +182,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2InputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "KINECT";
@@ -198,7 +198,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2InputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -217,7 +217,7 @@ DEFINE_STARTSERVICE_(KinectV2InputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -267,7 +267,7 @@ DEFINE_STOPSERVICE_(KinectV2InputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

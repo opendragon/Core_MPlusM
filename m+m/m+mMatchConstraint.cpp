@@ -99,18 +99,18 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchConstraint * result = NULL;
-    
+
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-        
+
         if (workPos < inLength)
         {
             // We potentially have a constraint list.
             bool       done = false;
             bool       okSoFar = true;
             const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
-            
+
             result = new MatchConstraint;
             for ( ; okSoFar && (! done); )
             {
@@ -120,7 +120,7 @@ MatchConstraint::CreateMatcher(const YarpString &  inString,
                                                                                      workPos,
                                                                                      nextElementPos,
                                                                                      validator);
-                
+
                 if (element)
                 {
                     // Skip over any trailing whitespace, to find if the constraint list is complete
@@ -214,13 +214,13 @@ const
 {
     ODL_OBJENTER(); //####
     YarpString result;
-    
+
     try
     {
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
         {
             MatchFieldWithValues * element = _fieldsWithValues[ii];
-            
+
             if (ii)
             {
                 result += " AND ";
@@ -242,13 +242,13 @@ MatchConstraint::asString(void)
 const
 {
     YarpString result;
-    
+
     try
     {
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
         {
             MatchFieldWithValues * element = _fieldsWithValues[ii];
-            
+
             if (ii)
             {
                 result += " ";
@@ -278,7 +278,7 @@ MatchConstraint::element(const int index)
 const
 {
     MatchFieldWithValues * result = NULL;
-    
+
     try
     {
         if ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))
@@ -309,7 +309,7 @@ MatchConstraint::empty(void)
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
         {
             MatchFieldWithValues * element = _fieldsWithValues[ii];
-            
+
             delete element;
         }
         _fieldsWithValues.clear();

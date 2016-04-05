@@ -87,7 +87,7 @@ validateMatchResponse(const yarp::os::Bottle & response)
     ODL_ENTER(); //####
     ODL_S1s("response = ", response.toString()); //####
     yarp::os::Bottle result;
-    
+
     try
     {
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == response.size())
@@ -95,16 +95,16 @@ validateMatchResponse(const yarp::os::Bottle & response)
             // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second
             // element should be a list of service port names.
             yarp::os::Value responseFirst(response.get(0));
-            
+
             if (responseFirst.isString())
             {
                 YarpString responseFirstAsString(responseFirst.toString());
-                
+
                 if (! strcmp(MpM_OK_RESPONSE_, responseFirstAsString.c_str()))
                 {
                     // Now, check the second element.
                     yarp::os::Value responseSecond(response.get(1));
-                    
+
                     if (responseSecond.isList())
                     {
                         result = response;
@@ -263,7 +263,7 @@ BaseClient::disconnectFromService(CheckFunction checker,
             if (MpM_EXPECTED_DETACH_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
@@ -322,27 +322,27 @@ BaseClient::findService(const char *  criteria,
     ODL_B1("allowOnlyOneMatch = ", allowOnlyOneMatch); //####
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     try
     {
         yarp::os::Bottle candidates(FindMatchingServices(criteria, false, checker, checkStuff));
-        
+
         ODL_S1s("candidates <- ", candidates.toString()); //####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == candidates.size())
         {
             // First, check if the search succeeded.
             YarpString candidatesFirstString(candidates.get(0).toString());
-            
+
             if (! strcmp(MpM_OK_RESPONSE_, candidatesFirstString.c_str()))
             {
                 // Now, process the second element.
                 yarp::os::Bottle * candidateList = candidates.get(1).asList();
-                
+
                 if (candidateList)
                 {
                     // Now, set up the service channel.
                     int candidateCount = candidateList->size();
-                    
+
                     if ((! allowOnlyOneMatch) || (1 == candidateCount))
                     {
                         _serviceChannelName = candidateList->get(0).toString();
@@ -413,7 +413,7 @@ BaseClient::send(const char *             request,
     ODL_OBJENTER(); //####
     ODL_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
     bool result = false;
-    
+
     try
     {
         if (_connected)
@@ -421,7 +421,7 @@ BaseClient::send(const char *             request,
             if (0 < _serviceChannelName.length())
             {
                 ServiceRequest actualRequest(request, parameters);
-                
+
                 result = actualRequest.send(*_channel);
             }
             else
@@ -452,7 +452,7 @@ BaseClient::send(const char *             request,
     ODL_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
     ODL_P1("response = ", &response); //####
     bool result = false;
-    
+
     try
     {
         if (_connected)
@@ -460,7 +460,7 @@ BaseClient::send(const char *             request,
             if (0 < _serviceChannelName.length())
             {
                 ServiceRequest actualRequest(request, parameters);
-                
+
                 result = actualRequest.send(*_channel, response);
             }
             else
@@ -536,14 +536,14 @@ Common::FindMatchingServices(const YarpString & criteria,
     ODL_B1("getNames = ", getNames); //####
     ODL_P1("checkStuff = ", checkStuff); //####
     yarp::os::Bottle result;
-    
+
     try
     {
         YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                    BUILD_NAME_("findmatch_",
                                                                DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
-        
+
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
@@ -556,12 +556,12 @@ Common::FindMatchingServices(const YarpString & criteria,
                                                          checkStuff))
                 {
                     yarp::os::Bottle parameters;
-                    
+
                     parameters.addInt(getNames ? 1 : 0);
                     parameters.addString(criteria);
                     ServiceRequest  request(MpM_MATCH_REQUEST_, parameters);
                     ServiceResponse response;
-                    
+
                     if (request.send(*newChannel, response))
                     {
                         ODL_S1s("response <- ", response.asString()); //####

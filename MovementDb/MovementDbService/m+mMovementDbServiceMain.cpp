@@ -118,13 +118,13 @@ setUpAndGo(const YarpString & progName,
     ODL_B1("reportOnExit = ", reportOnExit); //####
     MovementDbService * aService = new MovementDbService(progName, argc, argv, tag, databaseAddress,
                                                          serviceEndpointName, servicePortNumber);
-    
+
     if (aService)
     {
         if (aService->startService())
         {
             YarpString channelName(aService->getEndpoint().getName());
-            
+
             ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
@@ -136,10 +136,10 @@ setUpAndGo(const YarpString & progName,
                 if (reportOnExit)
                 {
                     yarp::os::Bottle metrics;
-                    
+
                     aService->gatherMetrics(metrics);
                     YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                    
+
                     cout << converted.c_str() << endl;
                 }
                 aService->stopService();
@@ -169,7 +169,7 @@ setUpAndGo(const YarpString & progName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Movement Database service.
- 
+
  The first argument is the IP address of the database server to be connected to.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Movement Database service.
@@ -217,7 +217,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_MOVEMENTDB_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);
@@ -228,7 +228,7 @@ main(int      argc,
                 else if (Utilities::CheckForRegistryService())
                 {
                     YarpString databaseAddress(firstArg.getCurrentValue());
-                    
+
                     setUpAndGo(databaseAddress, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

@@ -78,36 +78,36 @@ namespace MplusM
     namespace Common
     {
         class BaseChannel;
-        
+
         /*! @brief A handler for partially-structured input data. */
         class BaseInputHandler : public yarp::os::PortReader
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReader inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             BaseInputHandler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseInputHandler(void);
-            
+
             /*! @brief Turn off the send / receive metrics collecting. */
             void
             disableMetrics(void);
-            
+
             /*! @brief Turn on the send / receive metrics collecting. */
             void
             enableMetrics(void);
-            
+
             /*! @fn virtual bool
                     handleInput(const yarp::os::Bottle &     input,
                                 const YarpString &           senderChannel,
@@ -120,7 +120,7 @@ namespace MplusM
              @param numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             DECLARE_HANDLEINPUT_ = 0;
-            
+
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
@@ -130,43 +130,43 @@ namespace MplusM
             {
                 return _metricsEnabled;
             } // metricsAreEnabled
-            
+
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */
             void
             setChannel(BaseChannel * theChannel);
-            
+
             /*! @brief Terminate processing of the input data stream. */
             void
             stopProcessing(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseInputHandler);
-            
+
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */
             virtual bool
             read(yarp::os::ConnectionReader & connection);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel that is feeding this input handler. */
             BaseChannel * _channel;
-            
+
             /*! @brief @c true if input stream processing is enabled. */
             bool _canProcessInput;
-            
+
             /*! @brief @c true if metrics are enabled and @c false otherwise. */
             bool _metricsEnabled;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -176,11 +176,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseInputHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseInputHandler_H_)

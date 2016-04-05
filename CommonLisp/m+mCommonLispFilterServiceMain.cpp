@@ -127,7 +127,7 @@ getTimeNowForCl(void)
     ODL_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
     cl_object  result = ecl_make_double_float(yarp::os::Time::now());
-    
+
     ODL_EXIT_P(result); //####
     ecl_return1(env, result);
 } // getTimeNowForCl
@@ -138,7 +138,7 @@ requestStopForCl(void)
 {
     ODL_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
-    
+
     if (lActiveService)
     {
         lActiveService->requestServiceStop();
@@ -185,7 +185,7 @@ addCustomFunctions(void)
                                         "(gethash 'protocolDescription entry) protocolDescription "
                                         "(gethash 'handler entry) handler) entry))");
     cl_object aFunction = cl_safe_eval(form, ECL_NIL, ECL_NIL);
-    
+
     if (ECL_NIL == aFunction)
     {
         MpM_FAIL_("Could not create 'create-inlet-entry' function.");
@@ -212,7 +212,7 @@ addCustomClasses(cl_object ourPackage)
     ODL_ENTER(); //####
     ODL_P1("ourPackage = ", ourPackage); //####
     bool okSoFar = true;
-    
+
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomClasses
@@ -276,7 +276,7 @@ addCustomObjects(const YarpString &       tag,
                                                c_string_to_object(MpM_COMMONLISP_PACKAGE_ABBREV_)),
                                            c_string_to_object(":use"),
                                            cl_list(1, c_string_to_object(":common-lisp")));
-    
+
     addCustomFunctions();
     addCustomClasses(ourPackage);
     addArgvObject(ourPackage, argv);
@@ -971,7 +971,7 @@ validateLoadedScript(bool &          sawThread,
  @param argv The arguments to be used with the %CommonLisp filter service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service. 
+ @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
@@ -1158,7 +1158,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 YarpString scriptPath(firstArg.getCurrentValue());
                 YarpString tagModifier =
@@ -1166,7 +1166,7 @@ main(int      argc,
                 bool       nameWasSet = AdjustEndpointName(DEFAULT_COMMONLISP_SERVICE_NAME_,
                                                            modFlag, tag, serviceEndpointName,
                                                            tagModifier);
-                
+
                 if (reportEndpoint)
                 {
                     cout << serviceEndpointName.c_str() << endl;

@@ -128,18 +128,18 @@ DEFINE_CONFIGURE_(UnrealOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
-            
+
             if (firstValue.isInt() && secondValue.isDouble())
             {
                 std::stringstream buff;
-                
+
                 _outPort = firstValue.asInt();
                 ODL_LL1("_outPort <- ", _outPort); //####
                 _translationScale = secondValue.asDouble();
@@ -262,7 +262,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "leapinput";
     description._portProtocol = "LEAP";
@@ -290,7 +290,7 @@ DEFINE_STARTSERVICE_(UnrealOutputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -322,7 +322,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-                
+
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
                 {
@@ -331,7 +331,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                 else
                 {
                     struct sockaddr_in addr;
-                    
+
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(_outPort);
@@ -375,7 +375,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                     {
                         cerr << "creating socket" << endl; //!!!!
                         SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                        
+
                         if (INVALID_SOCKET == listenSocket)
                         {
                             cerr << "Could not create socket." << endl;
@@ -383,7 +383,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                         else
                         {
                             SOCKADDR_IN addr;
-                            
+
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -455,7 +455,7 @@ DEFINE_STOPSERVICE_(UnrealOutputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

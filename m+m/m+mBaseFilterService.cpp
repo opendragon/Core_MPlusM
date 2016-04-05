@@ -122,7 +122,7 @@ DEFINE_SETUPINPUTSTREAMS_(BaseFilterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
-    
+
     if (result)
     {
         result = addInStreamsFromDescriptions(_inDescriptions);
@@ -135,7 +135,7 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseFilterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
-    
+
     if (result)
     {
         result = addOutStreamsFromDescriptions(_outDescriptions);
@@ -148,7 +148,7 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseFilterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::shutDownInputStreams
@@ -157,7 +157,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseFilterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::shutDownOutputStreams

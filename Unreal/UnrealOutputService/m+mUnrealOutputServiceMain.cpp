@@ -118,7 +118,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     UnrealOutputService * aService = new UnrealOutputService(argumentList, progName, argc, argv,
                                                              tag, serviceEndpointName,
                                                              servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -128,7 +128,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     {
         ODL_LOG("! (aService)"); //####
     }
-    
+
     ODL_EXIT(); //####
 } // setUpAndGo
 
@@ -137,7 +137,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the %Unreal output service.
- 
+
  The second, optional, argument is the translation scale factor and the first, optional, argument is
  the port to be written to.
  @param argc The number of arguments in 'argv'.
@@ -193,7 +193,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_UNREALOUTPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);
@@ -205,7 +205,7 @@ main(int      argc,
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
-                    
+
                 }
                 else
                 {

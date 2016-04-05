@@ -68,7 +68,7 @@ if(WIN32)
 	install(FILES
                 "${MpMNATNET_LIB_DIR}/NatNetLib.dll"
                 DESTINATION bin
-                COMPONENT applications)			
+                COMPONENT applications)
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -82,7 +82,7 @@ endif(MpM_BuildDummyServices)
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
-    
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 

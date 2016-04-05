@@ -178,16 +178,16 @@ namespace MplusM
         {
             /*! @brief The argument is required. */
             kArgModeRequired = 0x00,
-            
+
             /*! @brief The argument is optional. */
             kArgModeOptional = 0x01,
-            
+
             /*! @brief The argument is modifiable. */
             kArgModeModifiable = 0x02,
 
             /*! @brief The argument is a password (not displayable). */
             kArgModePassword = 0x04,
-            
+
             /*! @brief The argument is both required and modifiable. */
             kArgModeRequiredModifiable = (kArgModeRequired | kArgModeModifiable),
 
@@ -196,27 +196,27 @@ namespace MplusM
 
             /*! @brief The argument is both required and modifiable. */
             kArgModeRequiredPassword = (kArgModeRequired | kArgModePassword),
-            
+
             /*! @brief The argument is both optional and modifiable. */
             kArgModeOptionalPassword = (kArgModeOptional | kArgModePassword),
-            
+
             /*! @brief A mask for the available flags. */
             kArgModeMask = (kArgModeOptional | kArgModeModifiable | kArgModePassword),
-            
+
             /*! @brief The mode of the argument is undefined. */
             kArgModeUnknown = -1
-            
+
         }; // ArgumentMode
-        
+
         /*! @brief An argument description.
-         
+
          The external representation of an argument description is:
-         
+
          argFormat ::= argName sep argMode sep typeTagAndInfo sep default_value sep
                         text_description_for_label;
-         
+
          sep ::= ':';
-         
+
          argMode ::= numeric value of mode;
 
          default_value ::= delimiter text delimiter;
@@ -224,34 +224,34 @@ namespace MplusM
 
          where typeTagAndInfo is described with each derived class.
          The following enumerates the standard type tags:
-         
+
          'A' => address
-         
+
          'B' => boolean
-         
+
          'C' => channel
-         
+
          'D' => double
-         
+
          'E' => extra (a placeholder for zero or more trailing arguments)
-         
+
          'F' => file path
-         
+
          'I' => integer
-         
+
          'P' => port number
-         
+
          'S' => string */
         class BaseArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
@@ -259,7 +259,7 @@ namespace MplusM
             BaseArgumentDescriptor(const YarpString & argName,
                                    const YarpString & argDescription,
                                    const ArgumentMode argMode);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseArgumentDescriptor(void);
@@ -269,7 +269,7 @@ namespace MplusM
              @brief Add the processed value to a bottle.
              @param container The bottle to be modified. */
             DECLARE_ADDVALUETOBOTTLE_ = 0;
-            
+
             /*! @brief Return the description of the command-line argument.
              @returns The description of the command-line argument. */
             inline const YarpString &
@@ -302,7 +302,7 @@ namespace MplusM
              @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             DECLARE_CLONE_ = 0;
-            
+
             /*! @fn virtual YarpString
                     getDefaultValue(void)
              @brief Return the default value.
@@ -314,7 +314,7 @@ namespace MplusM
              @brief Return the processed value.
              @returns The processed value. */
             DECLARE_GETPROCESSEDVALUE_ = 0;
-            
+
             /*! @fn virtual bool
                     isBoolean(void)
                     const
@@ -324,7 +324,7 @@ namespace MplusM
             {
                 return false;
             } // isBoolean
-            
+
             /*! @fn virtual bool
                     isExtra(void)
                     const
@@ -336,7 +336,7 @@ namespace MplusM
             {
                 return false;
             } // isExtra
-            
+
             /*! @fn virtual bool
                     isForFiles(bool & isForOutput)
                     const
@@ -349,7 +349,7 @@ namespace MplusM
                 isForOutput = false;
                 return false;
             } // isForFiles
-            
+
             /*! @brief Return @c true if the argument is modifiable and @c false otherwise.
              @returns @c true if the argument is modifiable and @c false otherwise. */
             inline bool
@@ -358,7 +358,7 @@ namespace MplusM
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeModifiable)));
             } // isModifiable
-            
+
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
              @returns @c true if the argument is optional and @c false otherwise. */
             inline bool
@@ -367,7 +367,7 @@ namespace MplusM
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeOptional)));
             } // isOptional
-          
+
             /*! @brief Return @c true if the argument is a password and @c false otherwise.
              @returns @c true if the argument is a password and @c false otherwise. */
             inline bool
@@ -376,7 +376,7 @@ namespace MplusM
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
             } // isPassword
-            
+
             /*! @brief Return @c true if the argument is required and @c false otherwise.
              @returns @c true if the argument is required and @c false otherwise. */
             inline bool
@@ -385,7 +385,7 @@ namespace MplusM
             {
                 return ((kArgModeUnknown != _argMode) && (0 == (_argMode & kArgModeOptional)));
             } // isRequired
-            
+
             /*! @brief Return @c true if the argument is valid and @c false otherwise.
              @returns @c true if the argument is valid and @c false otherwise. */
             inline bool
@@ -394,7 +394,7 @@ namespace MplusM
             {
                 return _valid;
             } // isValid
-            
+
             /*! @fn virtual void
                     setToDefaultValue(void)
              @brief Set the associated variable to the default value. */
@@ -405,7 +405,7 @@ namespace MplusM
              @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             DECLARE_TOSTRING_ = 0;
-            
+
             /*! @fn virtual bool
                     validate(const YarpString & value)
              @brief Check an input value against the constraints of the descriptor.
@@ -413,7 +413,7 @@ namespace MplusM
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
             DECLARE_VALIDATE_ = 0;
-            
+
         protected :
 
             /*! @brief Partition a string that is in 'arguments' format into a sequence of strings.
@@ -445,32 +445,32 @@ namespace MplusM
              a command-line argument. */
             YarpString
             suffixFields(const YarpString & defaultToUse);
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseArgumentDescriptor);
-            
+
         public :
-        
+
         protected :
-            
+
             /*! @brief The separator string to use when converting to a string. */
             static YarpString _parameterSeparator;
-        
+
             /*! @brief @c true if the argument was valid and @c false otherwise. */
             bool _valid;
-            
+
         private :
-            
+
             /*! @brief The description of the command-line argument for the adapter. */
             YarpString _argDescription;
 
             /*! @brief The name of the command-line argument. */
             YarpString _argName;
-            
+
             /*! @brief The mode of the command-line argument. */
             ArgumentMode _argMode;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -480,19 +480,19 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-        
+
         }; // BaseArgumentDescriptor
-        
+
         /*! @brief A sequence of argument descriptors. */
         typedef std::vector<BaseArgumentDescriptor *> DescriptorVector;
-        
+
         /*! @brief Generate the standard 'argument list' description from an argument sequence.
          @param arguments The argument sequence.
          @returns A string containing the standard 'argument list' representation of the argument
          sequence. */
         YarpString
         ArgumentsToArgString(const DescriptorVector & arguments);
-        
+
         /*! @brief Generate the standard 'argument description' from an argument sequence.
          @param arguments The argument sequence.
          @param output The generated argument descriptions.
@@ -502,7 +502,7 @@ namespace MplusM
         ArgumentsToDescriptionArray(const DescriptorVector & arguments,
                                     YarpStringVector &       output,
                                     const size_t             minSpace);
-        
+
         /*! @brief Return the resulting argument values.
          @param arguments The argument sequence.
          @param sep The separator string between the argument values.
@@ -523,13 +523,13 @@ namespace MplusM
         void
         CopyArgumentsToBottle(const DescriptorVector & arguments,
                               yarp::os::Bottle &       container);
-        
+
         /*! @brief Return the mode corresponding to a string.
          @param modeString The mode value as a string.
          @returns The mode corresponding to a string. */
         ArgumentMode
         ModeFromString(const YarpString & modeString);
-        
+
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.
          @param parseResult The parsed argument list.
@@ -546,9 +546,9 @@ namespace MplusM
          @returns @c true if all arguments are valid and @c false otherwise. */
         bool
         PromptForValues(const DescriptorVector & arguments);
-        
+
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseArgumentDescriptor_H_)

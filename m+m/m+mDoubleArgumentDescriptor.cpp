@@ -116,7 +116,7 @@ DEFINE_ADDVALUETOBOTTLE_(DoubleArgumentDescriptor)
 {
     ODL_ENTER(); //####
     ODL_P1("container = ", &container); //####
-    
+
     container.addDouble(_currentValue);
     ODL_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
@@ -258,7 +258,7 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
     if (_hasMinimumValue)
     {
         std::stringstream buff;
-        
+
         buff << _minimumValue;
         result += buff.str();
     }
@@ -266,7 +266,7 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
     if (_hasMaximumValue)
     {
         std::stringstream buff;
-        
+
         buff << _maximumValue;
         result += buff.str();
     }
@@ -281,7 +281,7 @@ DEFINE_VALIDATE_(DoubleArgumentDescriptor)
     const char * startPtr = value.c_str();
     char *       endPtr;
     double       dblValue = strtod(startPtr, &endPtr);
-    
+
     if ((startPtr != endPtr) && (! *endPtr))
     {
         _valid = true;

@@ -120,11 +120,11 @@ ServiceRequest::send(ClientChannel & usingChannel)
     ODL_OBJENTER(); //####
     ODL_P1("usingChannel = ", &usingChannel); //####
     bool result = false;
-    
+
     try
     {
         yarp::os::Bottle message;
-        
+
         ODL_LL1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
@@ -161,12 +161,12 @@ ServiceRequest::send(ClientChannel &   usingChannel,
     ODL_OBJENTER(); //####
     ODL_P2("usingChannel = ", &usingChannel, "response = ", &response); //####
     bool result = false;
-    
+
     try
     {
-        yarp::os::Bottle holder;        
+        yarp::os::Bottle holder;
         yarp::os::Bottle message;
-        
+
         ODL_LL1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {

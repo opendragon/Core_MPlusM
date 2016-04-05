@@ -116,7 +116,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     AbsorberFilterService * aService = new AbsorberFilterService(argumentList, progName, argc, argv,
                                                                  tag, serviceEndpointName,
                                                                  servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -170,7 +170,7 @@ main(int      argc,
                                                   Utilities::kArgModeOptionalModifiable, 0,
                                                   true, 0, false, 0);
         Utilities::DescriptorVector      argumentList;
-        
+
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           ABSORBERFILTER_SERVICE_DESCRIPTION_, "", 2014,
@@ -184,7 +184,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_ABSORBERFILTER_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

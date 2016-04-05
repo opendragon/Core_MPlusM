@@ -81,13 +81,13 @@ namespace MplusM
         class SendReceiveCounters
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param initialInBytes The initial number of bytes received.
              @param initialInMessages The initial number of messages received.
@@ -98,30 +98,30 @@ namespace MplusM
                                 const size_t  initialInMessages = 0,
                                 const int64_t initialOutBytes = 0,
                                 const size_t  initialOutMessages = 0);
-            
+
             /*! @brief Add a dictionary to a list from the send / receive counters.
              @param counterList The list to be modified.
              @param channel The channel associated with the counters. */
             void
             addToList(yarp::os::Bottle & counterList,
                       const YarpString & channel);
-            
+
             /*! @brief Reset the send / receive counters. */
             void
             clearCounters(void);
-            
+
             /*! @brief Update the received data.
              @param moreInBytes The number of bytes received.
              @returns The modified values. */
             SendReceiveCounters &
             incrementInCounters(const int64_t moreInBytes);
-            
+
             /*! @brief Update the sent data.
              @param moreOutBytes The number of bytes sent.
              @returns The modified values. */
             SendReceiveCounters &
             incrementOutCounters(const int64_t moreOutBytes);
-            
+
             /*! @brief The assignment operator.
              @param other The values to be assigned to the send / receive counters.
              @returns The modified values. */
@@ -133,31 +133,31 @@ namespace MplusM
              @returns The modified values. */
             SendReceiveCounters &
             operator +=(const SendReceiveCounters & other);
-            
+
         protected :
-            
+
         private :
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The number of bytes received. */
             int64_t _inBytes;
-            
+
             /*! @brief The number of bytes sent. */
             int64_t _outBytes;
-            
+
             /*! @brief The number of messages received. */
             size_t _inMessages;
-            
+
             /*! @brief The number of messages sent. */
             size_t _outMessages;
-            
+
         }; // SendReceiveCounters
-        
+
     } // Common
 
 } // MplusM

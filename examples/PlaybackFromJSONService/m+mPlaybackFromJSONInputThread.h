@@ -61,16 +61,16 @@ namespace MplusM
         class PlaybackFromJSONInputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send the data to.
              @param outMessage The data to be used.
@@ -83,55 +83,55 @@ namespace MplusM
                                         const double             playbackRatio,
                                         const double             initialDelay,
                                         const bool               loopPlayback);
-            
+
             /*! @brief The destructor. */
             virtual
             ~PlaybackFromJSONInputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(PlaybackFromJSONInputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The data to be used. */
             yarp::os::Bottle & _outMessage;
-            
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
             /*! @brief The initial delay. */
             double _initialDelay;
-            
+
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
-            
+
             /*! @brief The speed at which to send data. */
             double _playbackRatio;
-            
+
             /*! @brief The index of the next value to be sent. */
             int _nextIndex;
-            
+
             /*! @brief @c true if the output should repeat when the end of the input is reached and
              @c false otherwise. */
             bool _loopPlayback;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -141,11 +141,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-                        
+
         }; // PlaybackFromJSONInputThread
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMPlaybackFromJSONInputThread_H_)

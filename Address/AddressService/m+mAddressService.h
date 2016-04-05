@@ -63,21 +63,21 @@ namespace MplusM
     namespace Address
     {
         class WhereRequestHandler;
-        
+
         /*! @brief The Address service. */
         class AddressService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param hostName The host address to be returned.
              @param hostPort The port to be returned.
@@ -95,55 +95,55 @@ namespace MplusM
                            const YarpString & tag,
                            const YarpString & serviceEndpointName,
                            const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~AddressService(void);
-            
+
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
             void
             getAddress(YarpString & address,
                        int &        port);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(AddressService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The remembered address. */
             YarpString _address;
-            
+
             /*! @brief The request handler for the 'where' request. */
             WhereRequestHandler * _whereHandler;
-            
+
             /*! @brief The remembered port. */
             int _port;
-            
+
         }; // AddressService
-        
+
     } // Address
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAddressService_H_)

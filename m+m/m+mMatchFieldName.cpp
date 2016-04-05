@@ -97,17 +97,17 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchFieldName * result = NULL;
-    
+
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-        
+
         if (workPos < inLength)
         {
             // Remember where we began.
             char   scanChar = kColon;
             size_t startSubPos = workPos;
-            
+
             for ( ; workPos < inLength; ++workPos)
             {
                 scanChar = inString[workPos];
@@ -115,13 +115,13 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
                 {
                     break;
                 }
-                
+
             }
             if (startSubPos < workPos)
             {
                 // We have at least one character in the name.
                 size_t nameEndPos = workPos;
-                
+
                 if (isspace(scanChar))
                 {
                     workPos = SkipWhitespace(inString, inLength, workPos);
@@ -137,7 +137,7 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
                     {
                         YarpString tempString(inString.substr(startSubPos,
                                                               nameEndPos - startSubPos));
-                        
+
                         if (validator)
                         {
                             // If we have a non-empty substring, we need to check if the field is a
@@ -147,7 +147,7 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
 #else // ! MAC_OR_LINUX_
                             char * tempAsChars = _strdup(tempString.c_str());
 #endif // ! MAC_OR_LINUX_
-                            
+
                             // Convert the copy of the string to lower-case:
                             for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
                             {

@@ -110,12 +110,12 @@ MovementDbClient::addFileToDb(const YarpString & filePath)
     ODL_OBJENTER(); //####
     ODL_S1s("filePath = ", filePath); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         parameters.addString(filePath);
         if (send(MpM_ADDFILE_REQUEST_, parameters, response))
@@ -124,7 +124,7 @@ MovementDbClient::addFileToDb(const YarpString & filePath)
             if (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
-                
+
                 if (theValue.isString())
                 {
                     okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -160,12 +160,12 @@ MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
     ODL_OBJENTER(); //####
     ODL_S1s("dataTrack = ", dataTrack); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         parameters.addString(dataTrack);
         if (send(MpM_SETDATATRACK_REQUEST_, parameters, response))
@@ -174,7 +174,7 @@ MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
             if (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
-                
+
                 if (theValue.isString())
                 {
                     okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -210,12 +210,12 @@ MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
     ODL_OBJENTER(); //####
     ODL_S1s("emailAddress = ", emailAddress); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         parameters.addString(emailAddress);
         if (send(MpM_SETEMAIL_REQUEST_, parameters, response))
@@ -224,7 +224,7 @@ MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
             if (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
-                
+
                 if (theValue.isString())
                 {
                     okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -259,14 +259,14 @@ MovementDbClient::stopDbConnection(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
 #if defined(MpM_DoExplicitCheckForOK)
         ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-        
+
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPDB_REQUEST_, parameters, response))
@@ -274,7 +274,7 @@ MovementDbClient::stopDbConnection(void)
             if (MpM_EXPECTED_STOPDB_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);

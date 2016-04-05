@@ -131,11 +131,11 @@ MovementDbService::addFileToDb(const YarpString & key,
     ODL_OBJENTER(); //####
     ODL_S2s("key = ", key, "filePath = ", filePath); //####
     bool okSoFar = false;
-    
+
     try
     {
         MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new MovementDbContext;
@@ -231,11 +231,11 @@ MovementDbService::setDataTrack(const YarpString & key,
     ODL_OBJENTER(); //####
     ODL_S2s("key = ", key, "dataTrack = ", dataTrack); //####
     bool okSoFar = false;
-    
+
     try
     {
         MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new MovementDbContext;
@@ -260,11 +260,11 @@ MovementDbService::setEmailAddress(const YarpString & key,
     ODL_OBJENTER(); //####
     ODL_S2s("key = ", key, "emailAddress = ", emailAddress); //####
     bool okSoFar = false;
-    
+
     try
     {
         MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new MovementDbContext;
@@ -286,7 +286,7 @@ DEFINE_STARTSERVICE_(MovementDbService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -294,7 +294,7 @@ DEFINE_STARTSERVICE_(MovementDbService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -316,7 +316,7 @@ DEFINE_STOPSERVICE_(MovementDbService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

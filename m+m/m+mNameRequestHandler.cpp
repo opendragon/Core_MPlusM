@@ -154,7 +154,7 @@ DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
                  "and the description of the requests for the service");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         asList->addString("canonical");
         asList->addString("description");
@@ -187,11 +187,11 @@ DEFINE_PROCESSREQUEST_(NameRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         char bigPath[PATH_MAX * 2];
-        
+
         _response.clear();
         ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
         ODL_S1("bigPath <- ", bigPath); //####

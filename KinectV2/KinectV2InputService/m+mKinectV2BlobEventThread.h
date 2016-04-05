@@ -67,25 +67,25 @@ namespace MplusM
         class KinectV2BlobEventThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
             explicit
             KinectV2BlobEventThread(Common::GeneralChannel * outChannel);
-            
+
             /*! @brief The destructor. */
             virtual
             ~KinectV2BlobEventThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
@@ -103,28 +103,28 @@ namespace MplusM
             {
                 return _translationScale;
             } // translationScale
-            
+
         protected :
-            
+
         private :
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
             HRESULT
             initializeDefaultSensor(void);
 # endif // ! defined(MpM_BuildDummyServices)
-            
+
             /*! @brief Handle the sensor data associated with the event. */
             void
             processEventData(void);
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(KinectV2BlobEventThread);
 
         public :
@@ -135,7 +135,7 @@ namespace MplusM
 
             /*! @brief The translation scale to be used. */
             double _translationScale;
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
@@ -168,9 +168,9 @@ namespace MplusM
             Common::GeneralChannel * _outChannel;
 
         }; // KinectV2BlobEventThread
-        
+
     } // KinectV2Blob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMKinectV2BlobEventThread_H_)

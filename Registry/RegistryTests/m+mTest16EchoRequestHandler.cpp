@@ -136,7 +136,7 @@ DEFINE_FILLINDESCRIPTION_(Test16EchoRequestHandler)
         info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Echo back any input");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         asList->addString("blorg");
         asList->addString("blirg");
@@ -166,7 +166,7 @@ DEFINE_PROCESSREQUEST_(Test16EchoRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         _response = restOfInput;

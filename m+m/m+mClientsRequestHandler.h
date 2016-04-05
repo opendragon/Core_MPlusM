@@ -57,52 +57,52 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'clients' request handler.
-         
+
          There is no input for the request and the output is a list of clients for the service. */
         class ClientsRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             ClientsRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ClientsRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(ClientsRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ClientsRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMClientsRequestHandler_H_)

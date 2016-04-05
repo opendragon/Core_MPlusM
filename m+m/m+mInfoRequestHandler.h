@@ -57,54 +57,54 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'info' request handler.
-         
+
          The input is the name of a request and the output is a dictionary of fields describing the
          request. The fields 'detail', 'input', 'keywords', 'output', and 'version' are optional,
          while the field 'request' is always present. */
         class InfoRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             InfoRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~InfoRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(InfoRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // InfoRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMInfoRequestHandler_H_)

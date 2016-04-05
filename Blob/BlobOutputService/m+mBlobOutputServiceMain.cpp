@@ -117,7 +117,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
               "reportOnExit = ", reportOnExit); //####
     BlobOutputService * aService = new BlobOutputService(argumentList, progName, argc, argv, tag,
                                                          serviceEndpointName, servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -127,7 +127,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     {
         ODL_LOG("! (aService)"); //####
     }
-    
+
     ODL_EXIT(); //####
 } // setUpAndGo
 
@@ -136,7 +136,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the %Blob output service.
- 
+
  The first, optional, argument is the port to be written to.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Blob output service.
@@ -186,7 +186,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_BLOBOUTPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

@@ -127,7 +127,7 @@ DEFINE_GETDEFAULTVALUE_(BoolArgumentDescriptor)
 {
     ODL_OBJENTER(); //####
     YarpString result(_defaultValue ? "1" : "0");
-    
+
     ODL_OBJEXIT_s(result); //####
     return result;
 } // BoolArgumentDescriptor::getDefaultValue
@@ -156,7 +156,7 @@ BoolArgumentDescriptor::parseArgString(const YarpString & inString)
         bool         defaultValue;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   modeString(inVector[2]);        
+        YarpString   modeString(inVector[2]);
         YarpString   defaultString(inVector[3]);
         YarpString   description(inVector[4]);
 
@@ -227,7 +227,7 @@ DEFINE_VALIDATE_(BoolArgumentDescriptor)
     ODL_OBJENTER(); //####
     bool boolValue;
     char firstChar = tolower(value[0]);
-    
+
     if (('0' == firstChar) || ('f' == firstChar) || ('n' == firstChar))
     {
         boolValue = false;

@@ -122,7 +122,7 @@ DEFINE_THREADINIT_(AbsorberFilterThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _nextTime = yarp::os::Time::now() + _timeToWait;
     ODL_OBJEXIT_B(result); //####
     return result;

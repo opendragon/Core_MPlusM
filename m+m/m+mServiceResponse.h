@@ -60,36 +60,36 @@ namespace MplusM
         class ServiceResponse
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             ServiceResponse(void);
-            
+
             /*! @brief The constructor.
              @param values The (optional) values for the response. */
             explicit
             ServiceResponse(const yarp::os::Bottle & values);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ServiceResponse(void);
-            
+
             /*! @brief The assignment operator.
              @param values The (optional) values for the response. */
             ServiceResponse &
             operator =(const yarp::os::Bottle & values);
-            
+
             /*! @brief Return a printable version of the response.
              @returns A printable version of the response. */
             YarpString
             asString(void)
             const;
-            
+
             /*! @brief The number of values in the response.
              @returns The number of values in the response. */
             inline int
@@ -98,14 +98,14 @@ namespace MplusM
             {
                 return _values.size();
             } // count
-            
+
             /*! @brief Fetch an element from the values.
              @param index The @c 0-based index of the desired element.
              @returns The element corresponding to the provided index. */
             yarp::os::Value
             element(const int index)
             const;
-            
+
             /*! @brief Return the full set of values.
              @returns All the values in the response. */
             inline yarp::os::Bottle
@@ -114,26 +114,26 @@ namespace MplusM
             {
                 return _values;
             } // values
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ServiceResponse);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The response values. */
             yarp::os::Bottle _values;
-            
+
         }; // ServiceResponse
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMServiceResponse_H_)

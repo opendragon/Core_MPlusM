@@ -57,62 +57,62 @@ namespace MplusM
     namespace Common
     {
         class BaseService;
-        
+
         /*! @brief A convenience class to generate pings. */
         class PingThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param channelName The channel that we are acting on the behalf of.
              @param service The service associated with the request. */
             PingThread(const YarpString & channelName,
                        BaseService &      service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~PingThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(PingThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name of the service channel to report. */
             YarpString _channelName;
-            
+
             /*! @brief The service that is associated with the request. */
             BaseService & _service;
-            
+
             /*! @brief The time at which the thread will next 'ping'. */
             double _pingTime;
-            
+
         }; // PingThread
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMPingThread_H_)

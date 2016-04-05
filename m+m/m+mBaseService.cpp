@@ -212,15 +212,15 @@ BaseService::BaseService(const ServiceKind  theKind,
         case 1 :
             _endpoint = new Endpoint(*argv);
             break;
-            
+
         case 2 :
             _endpoint = new Endpoint(*argv, argv[1]);
             break;
-            
+
         default :
             ODL_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
             throw new Exception("Invalid parameters for service endpoint");
-            
+
     }
     if (_metricsEnabled)
     {
@@ -343,7 +343,7 @@ BaseService::clearContexts(void)
              ++walker)
         {
             BaseContext * value = walker->second;
-            
+
             if (value)
             {
                 delete value;
@@ -529,12 +529,12 @@ BaseService::findContext(const YarpString & key)
     ODL_OBJENTER(); //####
     ODL_S1s("key = ", key); //####
     BaseContext * result = NULL;
-    
+
     try
     {
         lockContexts();
         ContextMap::iterator match(_contexts.find(key));
-        
+
         if (_contexts.end() != match)
         {
             result = match->second;
@@ -557,7 +557,7 @@ DEFINE_GATHERMETRICS_(BaseService)
     if (_endpoint)
     {
         SendReceiveCounters counters;
-    
+
         _endpoint->getSendReceiveCounters(counters);
         counters.addToList(metrics, _endpoint->getName());
     }
@@ -585,11 +585,11 @@ BaseService::processRequest(const YarpString &           request,
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
-        
+
         if (handler)
         {
             ODL_LOG("(handler)"); //####
@@ -602,7 +602,7 @@ BaseService::processRequest(const YarpString &           request,
             {
                 ODL_LOG("(replyMechanism)"); //####
                 yarp::os::Bottle errorMessage(MpM_UNRECOGNIZED_REQUEST_);
-                
+
                 ODL_S1s("errorMessage <- ", errorMessage.toString()); //####
                 if (! errorMessage.write(*replyMechanism))
                 {
@@ -642,11 +642,11 @@ BaseService::removeContext(const YarpString & key)
     {
         lockContexts();
         ContextMap::iterator match(_contexts.find(key));
-        
+
         if (_contexts.end() != match)
         {
             BaseContext * value = match->second;
-            
+
             if (value)
             {
                 delete value;
@@ -672,7 +672,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
     ODL_S1s("channelName = ", channelName); //####
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     try
     {
         YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
@@ -682,7 +682,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-        
+
         if (newChannel)
         {
             if (_metricsEnabled)
@@ -706,14 +706,14 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_PING_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful ping!
                         if (MpM_EXPECTED_PING_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
-                            
+
                             if (theValue.isString())
                             {
                                 result = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -761,7 +761,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                 ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
-            
+
             newChannel->getSendReceiveCounters(newCounters);
             incrementAuxiliaryCounters(newCounters);
             BaseChannel::RelinquishChannel(newChannel);
@@ -931,37 +931,37 @@ Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
                "tagModifier = ", tagModifier); //####
     bool       nameWasSet = false;
     YarpString trimmedModifier;
-    
+
     if (kModificationNone != modFlag)
     {
         NetworkAddress    ourAddress;
         std::stringstream buff;
         YarpString        addressModifier;
-        
+
         GetOurEffectiveAddress(ourAddress);
         switch (modFlag)
         {
             case kModificationBottomByte :
                 buff << ourAddress._ipBytes[3];
                 break;
-                
+
             case kModificationBottomTwoBytes :
                 buff << ourAddress._ipBytes[2] << "." << ourAddress._ipBytes[3];
                 break;
-                
+
             case kModificationBottomThreeBytes :
                 buff << ourAddress._ipBytes[1] << "." << ourAddress._ipBytes[2] << "." <<
                         ourAddress._ipBytes[3];
                 break;
-                
+
             case kModificationAllBytes :
                 buff << ourAddress._ipBytes[0] << "." << ourAddress._ipBytes[1] << "." <<
                         ourAddress._ipBytes[2] << "." << ourAddress._ipBytes[3];
                 break;
-                
+
             default :
-                break;            
-                
+                break;
+
         }
         addressModifier = YarpString(buff.str());
         if (0 < tag.length())
@@ -976,7 +976,7 @@ Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
     if (0 < tagModifier.length())
     {
         char lastChar = tagModifier[tagModifier.length() - 1];
-        
+
         // Drop a trailing period, if present.
         if ('.' == lastChar)
         {
@@ -1027,14 +1027,14 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
     ODL_ENTER(); //####
     ODL_P1("convertedAddress = ", &convertedAddress); //####
     bool okSoFar = false;
-    
+
     try
     {
         YarpString    aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                  BUILD_NAME_("whereAmI_",
                                                              DEFAULT_CHANNEL_ROOT_)));
         BaseChannel * newChannel = new BaseChannel;
-        
+
         if (newChannel)
         {
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
@@ -1042,7 +1042,7 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
                 yarp::os::Contact aContact(newChannel->where());
                 YarpString        hostName(aContact.getHost());
                 struct in_addr    rawAddress;
-                
+
                 if (hostName == SELF_ADDRESS_NAME_)
                 {
                     hostName = SELF_ADDRESS_IPADDR_;
@@ -1052,7 +1052,7 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
 #else // ! MAC_OR_LINUX_
                 int res = InetPton(AF_INET, hostName.c_str(), &rawAddress);
 #endif // ! MAC_OR_LINUX_
-                
+
                 if (0 < res)
                 {
                     char              buffer[INET_ADDRSTRLEN + 5];
@@ -1067,7 +1067,7 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
                     char              sep_0_1;
                     char              sep_1_2;
                     char              sep_2_3;
-                    
+
                     ourAddress._ipPort = aContact.getPort();
                     buff >> ourAddress._ipBytes[0] >> sep_0_1 >> ourAddress._ipBytes[1] >>
                     sep_1_2 >> ourAddress._ipBytes[2] >> sep_2_3 >> ourAddress._ipBytes[3];
@@ -1138,7 +1138,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
         kOptionTAG,
         kOptionVERSION
     }; // optionIndex
-    
+
     bool       isAdapter = (0 < matchingCriteria.length());
     bool       keepGoing = true;
     YarpString serviceKindName(isAdapter ? "adapter" : "service");
@@ -1146,7 +1146,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     YarpString infoPartText("  --info, -i        Print executable type, supported ");
     YarpString reportPartText("  --report, -r      Report the ");
     YarpString tagPartText("  --tag, -t         Specify the tag to be used as part of the ");
-    
+
     goPartText += serviceKindName + " immediately";
     infoPartText += serviceKindName + " options";
     if (isAdapter)
@@ -1220,7 +1220,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     usageString += "\n\nOptions:";
     // firstDescriptor, helpDescriptor, versionDescriptor, lastDescriptor
     size_t descriptorCount = 4;
-    
+
     if (! (skipOptions & kSkipArgsOption))
     {
         ++descriptorCount;
@@ -1259,7 +1259,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     }
     Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
     Option_::Descriptor * usageWalker = usage;
-    
+
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
@@ -1312,7 +1312,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
     YarpString        badArgs;
-    
+
     if (parse.error())
     {
         ODL_LOG("(parse.error())"); //####
@@ -1328,7 +1328,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     {
         ODL_LOG("(options[kOptionVERSION])"); //####
         YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
-        
+
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
         keepGoing = false;
@@ -1356,7 +1356,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     {
         ODL_LOG("(options[kOptionINFO])"); //####
         bool needTab = true;
-        
+
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
         // determining what choices to offer when launching a service.
         cout << (isAdapter ? "Adapter" : "Service");
@@ -1462,13 +1462,13 @@ Common::ProcessStandardServiceOptions(const int                     argc,
         if (options[kOptionMOD])
         {
             YarpString modArg = options[kOptionMOD].arg;
-            
+
             if (0 < modArg.length())
             {
                 const char * startPtr = modArg.c_str();
                 char *       endPtr;
                 int          numBytes = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                
+
                 if ((startPtr != endPtr) && (!*endPtr))
                 {
                     switch (numBytes)
@@ -1476,26 +1476,26 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                         case 0 :
                             modFlag = kModificationNone;
                             break;
-                            
+
                         case 1 :
                             modFlag = kModificationBottomByte;
                             break;
-                            
+
                         case 2 :
                             modFlag = kModificationBottomTwoBytes;
                             break;
-                            
+
                         case 3 :
                             modFlag = kModificationBottomThreeBytes;
                             break;
-                            
+
                         case 4 :
                             modFlag = kModificationAllBytes;
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                 }
             }
@@ -1563,7 +1563,7 @@ Common::RegisterLocalService(const YarpString & channelName,
     ODL_S1s("channelName = ", channelName); //####
     ODL_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     try
     {
         YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
@@ -1573,7 +1573,7 @@ Common::RegisterLocalService(const YarpString & channelName,
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-        
+
         if (newChannel)
         {
             if (service.metricsAreEnabled())
@@ -1597,14 +1597,14 @@ Common::RegisterLocalService(const YarpString & channelName,
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_REGISTER_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-registration!
                         if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
-                            
+
                             if (theValue.isString())
                             {
                                 result = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -1652,7 +1652,7 @@ Common::RegisterLocalService(const YarpString & channelName,
                 ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
-            
+
             newChannel->getSendReceiveCounters(newCounters);
             service.incrementAuxiliaryCounters(newCounters);
             BaseChannel::RelinquishChannel(newChannel);
@@ -1681,7 +1681,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
     ODL_S1s("channelName = ", channelName); //####
     ODL_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     try
     {
         YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
@@ -1691,7 +1691,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-        
+
         if (newChannel)
         {
             if (service.metricsAreEnabled())
@@ -1715,14 +1715,14 @@ Common::UnregisterLocalService(const YarpString & channelName,
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_UNREGISTER_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-deregistration!
                         if (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
-                            
+
                             if (theValue.isString())
                             {
                                 result = (theValue.toString() == MpM_OK_RESPONSE_);
@@ -1770,7 +1770,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
                 ODL_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
-            
+
             newChannel->getSendReceiveCounters(newCounters);
             service.incrementAuxiliaryCounters(newCounters);
             BaseChannel::RelinquishChannel(newChannel);

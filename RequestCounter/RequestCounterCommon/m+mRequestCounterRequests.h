@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The common macro definitions for requests and responses for the Request Counter service. */
 
 /*! @namespace MplusM::RequestCounter

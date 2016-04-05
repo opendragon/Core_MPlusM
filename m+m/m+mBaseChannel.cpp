@@ -85,12 +85,12 @@ setChannelIPAddress(yarp::os::Contact & workingContact,
     DumpContactToLog("enter setIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
     bool result = false;
-    
+
     try
     {
         yarp::os::Contact aContact = yarp::os::Network::registerName(channelName);
         YarpString        ipAddress = aContact.getHost();
-        
+
         ODL_S1s("ipAddress = ", ipAddress); //####
         yarp::os::Network::unregisterName(channelName);
         workingContact = workingContact.addSocket(CHANNEL_CARRIER_, ipAddress, 0);
@@ -126,7 +126,7 @@ BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 #if (! defined(MpM_DontUseTimeouts))
             BailOut bailer(*theChannel, STANDARD_WAIT_TIME_);
 #endif // ! defined(MpM_DontUseTimeouts)
-            
+
             delete theChannel;
         }
         catch (...)
@@ -174,7 +174,7 @@ BaseChannel::close(void)
 #if (! defined(MpM_DontUseTimeouts))
         BailOut bailer(*this, STANDARD_WAIT_TIME_);
 #endif // ! defined(MpM_DontUseTimeouts)
-        
+
         inherited::interrupt();
         ODL_LOG("about to close"); //####
         inherited::close();
@@ -234,7 +234,7 @@ BaseChannel::openWithRetries(const YarpString & theChannelName,
     ODL_D1("timeToWait = ", timeToWait); //####
     bool              result = false;
     yarp::os::Contact aContact = yarp::os::Contact::byName(theChannelName);
-    
+
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("after byName", aContact); //####
 #endif // defined(MpM_ReportContactDetails)
@@ -271,7 +271,7 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL_;
     int    retriesLeft = MAX_RETRIES_;
-    
+
 #if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(1);
 #else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
@@ -285,7 +285,7 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
 #if RETRY_LOOPS_USE_TIMEOUTS
         BailOut bailer(*this, timeToWait);
 #endif // RETRY_LOOPS_USE_TIMEOUTS
-        
+
         do
         {
             ODL_LOG("about to open"); //####
@@ -352,7 +352,7 @@ BaseChannel::write(yarp::os::Bottle & message)
     ODL_OBJENTER(); //####
     ODL_S1s("message = ", message.toString()); //####
     size_t messageSize = 0;
-    
+
     if (_metricsEnabled)
     {
         message.toBinary(&messageSize);
@@ -375,13 +375,13 @@ BaseChannel::write(yarp::os::Bottle & message,
     ODL_S1s("message = ", message.toString()); //####
     ODL_P1("reply = ", &reply); //####
     size_t messageSize = 0;
-    
+
     if (_metricsEnabled)
     {
         message.toBinary(&messageSize);
     }
     bool result = inherited::write(message, reply);
-    
+
     if (result && _metricsEnabled)
     {
         size_t replySize = 0;

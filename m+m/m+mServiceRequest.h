@@ -59,40 +59,40 @@ namespace MplusM
         class ClientChannel;
         class Endpoint;
         class ServiceResponse;
-        
+
         /*! @brief The data constituting a service request. */
         class ServiceRequest
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param requestName The request to be processed. */
             explicit
             ServiceRequest(const YarpString & requestName);
-            
+
             /*! @brief The constructor.
              @param requestName The request to be processed.
              @param parameters The (optional) parameters for the request. */
             ServiceRequest(const YarpString &       requestName,
                            const yarp::os::Bottle & parameters);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ServiceRequest(void);
-            
+
             /*! @brief Send the request to an endpoint for processing.
              @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
              channel is to be used.
              @returns @c true if the request was successfully transmitted. */
             bool
             send(ClientChannel & usingChannel);
-            
+
             /*! @brief Send the request to an endpoint for processing.
              @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
              channel is to be used.
@@ -103,27 +103,27 @@ namespace MplusM
                  ServiceResponse & response);
 
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ServiceRequest);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The request name. */
             YarpString _name;
-            
+
             /*! @brief The request parameters. */
             yarp::os::Bottle _parameters;
-            
+
         }; // ServiceRequest
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMServiceRequest_H_)

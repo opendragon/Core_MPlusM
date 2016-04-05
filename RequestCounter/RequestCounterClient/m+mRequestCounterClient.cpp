@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class definition for the client of the Request Counter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -108,12 +108,12 @@ RequestCounterClient::getServiceStatistics(long &   counter,
     ODL_OBJENTER(); //####
     ODL_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         if (send(MpM_STATS_REQUEST_, parameters, response))
         {
@@ -121,7 +121,7 @@ RequestCounterClient::getServiceStatistics(long &   counter,
             {
                 yarp::os::Value retrievedCounter(response.element(0));
                 yarp::os::Value retrievedElapsed(response.element(1));
-                
+
                 if (retrievedCounter.isInt() && retrievedElapsed.isDouble())
                 {
                     counter = retrievedCounter.asInt();
@@ -158,11 +158,11 @@ RequestCounterClient::pokeService(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
-        
+
         if (send("blarg_blerg_blirg_blorg_blurg", parameters))
         {
             okSoFar = true;
@@ -186,14 +186,14 @@ RequestCounterClient::resetServiceCounters(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
 #if defined(MpM_DoExplicitCheckForOK)
         ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-        
+
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETCOUNTER_REQUEST_, parameters, response))
@@ -201,7 +201,7 @@ RequestCounterClient::resetServiceCounters(void)
             if (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);

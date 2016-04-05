@@ -105,19 +105,19 @@ ChannelStatusReporter::report(const yarp::os::PortInfo & info)
         case yarp::os::PortInfo::PORTINFO_NULL :
             ODL_LOG("No information"); //####
             break;
-            
+
         case yarp::os::PortInfo::PORTINFO_CONNECTION :
             ODL_LOG("Information about an incoming or outgoing connection"); //####
             break;
-            
+
         case yarp::os::PortInfo::PORTINFO_MISC :
             ODL_LOG("Unspecified information"); //####
             break;
-            
+
         default :
             ODL_LOG("<unknown>"); //####
             break;
-            
+
     }
     ODL_B2("incoming = ", info.incoming, "created = ", info.created); //####
     ODL_S4s("portName = ", info.portName, "sourceName = ", info.sourceName, //####

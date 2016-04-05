@@ -57,55 +57,55 @@ namespace MplusM
     namespace RequestCounter
     {
         class RequestCounterService;
-        
+
         /*! @brief The example 'stats' request handler.
-         
+
          There is no input for the request and the output is a single floating point number, between
          0 and 1. */
         class StatsRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             StatsRequestHandler(RequestCounterService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~StatsRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(StatsRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // StatsRequestHandler
-        
+
     } // RequestCounter
-    
+
 } // MplusM
 
 #endif // ! defined(MpMStatsRequestHandler_H_)

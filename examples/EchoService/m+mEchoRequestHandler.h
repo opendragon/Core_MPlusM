@@ -57,54 +57,54 @@ namespace MplusM
     namespace Example
     {
         class EchoService;
-        
+
         /*! @brief The 'echo' request handler.
-         
+
          The input is a list of strings and the output is the same list of strings. */
         class EchoRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             EchoRequestHandler(EchoService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~EchoRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(EchoRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // EchoRequestHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMEchoRequestHandler_H_)

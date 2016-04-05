@@ -65,21 +65,21 @@ namespace MplusM
     namespace Example
     {
         class PlaybackFromJSONInputThread;
-        
+
         /*! @brief The Playback From JSON input service. */
         class PlaybackFromJSONInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param inputPath The path to the data file.
              @param argumentList Descriptions of the arguments to the executable.
@@ -98,60 +98,60 @@ namespace MplusM
                                          const YarpString &                  serviceEndpointName,
                                          const YarpString &
                                                                             servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~PlaybackFromJSONInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(PlaybackFromJSONInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The output thread to use. */
             PlaybackFromJSONInputThread * _generator;
-            
+
             /*! @brief The path to the input file used for playback. */
             YarpString _inPath;
-            
+
             /*! @brief The data to be used. */
             yarp::os::Bottle _outMessage;
-            
+
             /*! @brief The initial delay. */
             double _initialDelay;
-            
+
             /*! @brief The playback ratio. */
             double _playbackRatio;
-            
+
             /*! @brief @c true if the output should repeat when the end of the input is reached and
              @c false otherwise. */
             bool _loopPlayback;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -161,11 +161,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // PlaybackFromJSONInputService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMPlaybackFromJSONInputService_H_)

@@ -121,7 +121,7 @@ BaseInputHandler::read(yarp::os::ConnectionReader & connection)
     ODL_OBJENTER(); //####
     ODL_P1("connection = ", &connection); //####
     bool result = true;
-    
+
     try
     {
         if (_canProcessInput)
@@ -131,7 +131,7 @@ BaseInputHandler::read(yarp::os::ConnectionReader & connection)
 #endif // defined(MpM_ReportContactDetails)
             yarp::os::Bottle aBottle;
             size_t           numBytes = connection.getSize();
-            
+
             if (_metricsEnabled && _channel && _channel->metricsAreEnabled())
             {
                 _channel->updateReceiveCounters(numBytes);

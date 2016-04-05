@@ -126,7 +126,7 @@ DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
                  "Output one or more random numbers per request");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -154,16 +154,16 @@ DEFINE_PROCESSREQUEST_(SimpleRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         int count;
-        
+
         _response.clear();
         if (0 < restOfInput.size())
         {
             yarp::os::Value number(restOfInput.get(0));
-            
+
             if (number.isInt())
             {
                 count = number.asInt();

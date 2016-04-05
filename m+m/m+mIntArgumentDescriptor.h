@@ -59,31 +59,31 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief An integer argument description.
-         
+
          The external representation of an integer argument description is:
-         
+
          integerTagAndInfo ::= 'I' sep integerRange;
-         
+
          integerRange ::= minIntegerValue sep maxIntegerValue;
-         
+
          minIntegerValue ::= integerValue | ;
          # empty value indicates no minimum constraint.
-         
+
          maxIntegerValue ::= integerValue | ;
          # empty value indicates no maximum constraint. */
         class IntArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
@@ -103,11 +103,11 @@ namespace MplusM
                                   const int          minimumValue,
                                   const bool         hasMaximumValue,
                                   const int          maximumValue);
-            
+
             /*! @brief The destructor. */
             virtual
             ~IntArgumentDescriptor(void);
-            
+
             /*! @brief Return the current value.
              @returns The current value. */
             inline int
@@ -116,7 +116,7 @@ namespace MplusM
             {
                 return _currentValue;
             } // getCurrentValue
-            
+
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
@@ -124,53 +124,53 @@ namespace MplusM
             parseArgString(const YarpString & inString);
 
         protected :
-        
+
             DECLARE_GETDEFAULTVALUE_;
-            
+
         private :
-            
+
             DECLARE_ADDVALUETOBOTTLE_;
-            
+
             DECLARE_CLONE_;
 
             DECLARE_GETPROCESSEDVALUE_;
-            
+
             DECLARE_SETTODEFAULTVALUE_;
-            
+
             DECLARE_TOSTRING_;
-            
+
             DECLARE_VALIDATE_;
-            
+
             COPY_AND_ASSIGNMENT_(IntArgumentDescriptor);
-            
+
         public :
-        
+
         protected :
-        
+
             /*! @brief The address of the variable to be set with the argument value. */
             int * _argumentReference;
-            
+
             /*! @brief The default value for the command-line argument. */
             int _defaultValue;
 
         private :
-            
+
             /*! @brief The current value of the command-line argument. */
             int _currentValue;
-            
+
             /*! @brief The maximum value that is acceptable. */
             int _maximumValue;
-            
+
             /*! @brief The minimum value that is acceptable. */
             int _minimumValue;
-            
+
             /*! @brief @c true if the value must be less than or equal to the specified maximum. */
             bool _hasMaximumValue;
-            
+
             /*! @brief @c true if the value must be greater than or equal to the specified minimum
              or @c false otherwise. */
             bool _hasMinimumValue;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -180,11 +180,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // IntArgumentDescriptor
-        
+
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMIntArgumentDescriptor_H_)

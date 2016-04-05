@@ -57,54 +57,54 @@ namespace MplusM
     namespace Common
     {
         class BaseInputOutputService;
-        
+
         /*! @brief The standard 'configure' request handler.
-         
+
          The input for the request depends on the service and there is no output. */
         class ConfigureRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             ConfigureRequestHandler(BaseInputOutputService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ConfigureRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(ConfigureRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ConfigureRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMConfigureRequestHandler_H_)

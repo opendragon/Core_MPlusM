@@ -98,7 +98,7 @@ addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
     ODL_ENTER(); //####
     ODL_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
     yarp::os::Bottle & holder = outMessage.addList();
-    
+
     for (rapidjson::Value::ConstValueIterator walker(inValue.Begin()); inValue.End() != walker;
          ++walker)
     {
@@ -118,20 +118,20 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
     ODL_P2("outValue = ", &outValue, "inValue = ", &inValue); //####
     yarp::os::Bottle *   asList;
     yarp::os::Property * asDict;
-    
+
     switch (inValue.GetType())
     {
         case rapidjson::kNullType :
             break;
-            
+
         case rapidjson::kFalseType :
             outValue = yarp::os::Value(0);
             break;
-            
+
         case rapidjson::kTrueType :
             outValue = yarp::os::Value(1);
             break;
-            
+
         case rapidjson::kObjectType :
             asDict = outValue.asDict();
             if (asDict)
@@ -140,13 +140,13 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
                      inValue.MemberEnd() != walker; ++walker)
                 {
                     yarp::os::Value newValue;
-                    
+
                     convertJSONValueToValue(newValue, walker->value);
                     asDict->put(walker->name.GetString(), newValue);
                 }
             }
             break;
-            
+
         case rapidjson::kArrayType :
             asList = outValue.asList();
             if (asList)
@@ -155,14 +155,14 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
                      inValue.End() != walker; ++walker)
                 {
                     addJSONValueToMessage(*asList, *walker);
-                }                
+                }
             }
             break;
-            
+
         case rapidjson::kStringType :
             outValue = yarp::os::Value(inValue.GetString());
             break;
-            
+
         case rapidjson::kNumberType :
             if (inValue.IsDouble())
             {
@@ -189,11 +189,11 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
                 outValue = yarp::os::Value(0);
             }
             break;
-            
+
         default :
             cerr << "unknown" << endl;
             break;
-            
+
     }
     ODL_EXIT(); //####
 } // convertJSONValueToValue
@@ -208,12 +208,12 @@ addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
     ODL_ENTER(); //####
     ODL_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
     yarp::os::Property & holder = outMessage.addDict();
-    
+
     for (rapidjson::Value::ConstMemberIterator walker(inValue.MemberBegin());
          inValue.MemberEnd() != walker; ++walker)
     {
         yarp::os::Value newValue;
-        
+
         convertJSONValueToValue(newValue, walker->value);
         holder.put(walker->name.GetString(), newValue);
     }
@@ -231,27 +231,27 @@ addJSONValueToMessage(yarp::os::Bottle &       outMessage,
         case rapidjson::kNullType :
             outMessage.addList();
             break;
-            
+
         case rapidjson::kFalseType :
             outMessage.addInt(0);
             break;
-            
+
         case rapidjson::kTrueType :
             outMessage.addInt(1);
             break;
-            
+
         case rapidjson::kObjectType :
             addJSONObjectToMessage(outMessage, inValue);
             break;
-            
+
         case rapidjson::kArrayType :
             addJSONArrayToMessage(outMessage, inValue);
             break;
-            
+
         case rapidjson::kStringType :
             outMessage.addString(inValue.GetString());
             break;
-            
+
         case rapidjson::kNumberType :
             if (inValue.IsDouble())
             {
@@ -278,11 +278,11 @@ addJSONValueToMessage(yarp::os::Bottle &       outMessage,
                 outMessage.addInt(0);
             }
             break;
-            
+
         default :
             cerr << "unknown" << endl;
             break;
-            
+
     }
     ODL_EXIT(); //####
 } // addJSONValueToMessage
@@ -299,29 +299,29 @@ convertJSONtoMessage(yarp::os::Bottle &    outMessage,
     ODL_ENTER(); //####
     ODL_P2("outMessage = ", &outMessage, "inData = ", &inData); //####
     bool okSoFar = true;
-    
+
     ODL_EXIT_B(okSoFar); //####
     if (inData.IsArray())
     {
         bool   isFirstElement = true;
         double prevTime = -1;
-        
+
         for (rapidjson::Value::ConstValueIterator walker(inData.Begin());
              okSoFar && (inData.End() != walker); ++walker)
         {
             const rapidjson::Value & aValue(*walker);
-            
+
             if (aValue.IsObject())
             {
                 if (aValue.HasMember("time") && aValue.HasMember("value"))
                 {
                     const rapidjson::Value & timeValue = aValue["time"];
                     const rapidjson::Value & valueValue = aValue["value"];
-                    
+
                     if (timeValue.IsNumber())
                     {
                         double aTime;
-                        
+
                         if (timeValue.IsDouble())
                         {
                             aTime = timeValue.GetDouble();
@@ -359,7 +359,7 @@ convertJSONtoMessage(yarp::os::Bottle &    outMessage,
                                 outMessage.addDouble((aTime - prevTime) / 1000.0);
                             }
                             yarp::os::Bottle & holder = outMessage.addList();
-                            
+
                             addJSONValueToMessage(holder, valueValue);
                             prevTime = aTime;
                         }
@@ -442,7 +442,7 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (3 <= details.size())
@@ -450,13 +450,13 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
             yarp::os::Value thirdValue(details.get(2));
-            
+
             if (firstValue.isDouble() && secondValue.isDouble() && thirdValue.isInt())
             {
                 double firstNumber = firstValue.asDouble();
                 double secondNumber = secondValue.asDouble();
                 int    thirdNumber = thirdValue.asInt();
-                
+
                 if ((0 < firstNumber) && (0 <= secondNumber))
                 {
                     std::stringstream buff;
@@ -534,7 +534,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(PlaybackFromJSONInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "*";
@@ -548,7 +548,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(PlaybackFromJSONInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_generator)
     {
         _generator->clearOutputChannel();
@@ -569,7 +569,7 @@ DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
             {
                 FILE * inFile;
                 int    why;
-                
+
 #if MAC_OR_LINUX_
                 inFile = fopen(_inPath.c_str(), "r");
                 why = errno;
@@ -587,7 +587,7 @@ DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
                     char                buffer[10240];
                     size_t              numRead;
                     rapidjson::Document jsonData;
-                    
+
                     for ( ; ! feof(inFile); )
                     {
                         numRead = fread(buffer, 1, sizeof(buffer) - 1, inFile);
@@ -671,7 +671,7 @@ DEFINE_STOPSERVICE_(PlaybackFromJSONInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

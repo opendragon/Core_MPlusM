@@ -103,25 +103,25 @@ convertDictionary(JSContext *              jct,
     ODL_P3("jct = ", jct, "theData = ", &theData, "inputAsList = ", &inputAsList); //####
     JS::RootedObject empty(jct);
     JSObject *       valueObject = JS_NewObject(jct, NULL);
-    
+
     if (valueObject)
     {
         JS::RootedObject objectRooted(jct);
         JS::RootedValue  anElement(jct);
-        
+
         objectRooted = valueObject;
         for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
         {
             yarp::os::Value anEntry(inputAsList.get(ii));
-            
+
             if (anEntry.isList())
             {
                 yarp::os::Bottle * entryAsList = anEntry.asList();
-                
+
                 if (entryAsList && (2 == entryAsList->size()))
                 {
                     yarp::os::Value aValue(entryAsList->get(1));
-                    
+
                     convertValue(jct, &anElement, aValue);
                     JS_SetProperty(jct, objectRooted, entryAsList->get(0).toString().c_str(),
                                    anElement);
@@ -145,18 +145,18 @@ convertList(JSContext *              jct,
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "inputValue = ", &inputValue); //####
     JSObject * valueArray = JS_NewArrayObject(jct, 0);
-    
+
     if (valueArray)
     {
         JS::RootedObject arrayRooted(jct);
         JS::RootedValue  anElement(jct);
         JS::RootedId     aRootedId(jct);
-        
+
         arrayRooted = valueArray;
         for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
         {
             yarp::os::Value aValue(inputValue.get(ii));
-            
+
             convertValue(jct, &anElement, aValue);
             if (JS_IndexToId(jct, ii, &aRootedId))
             {
@@ -187,7 +187,7 @@ convertValue(JSContext *             jct,
     {
         YarpString value = inputValue.asString();
         JSString * aString = JS_NewStringCopyZ(jct, value.c_str());
-        
+
         if (aString)
         {
             theData.setString(aString);
@@ -200,22 +200,22 @@ convertValue(JSContext *             jct,
     else if (inputValue.isDict())
     {
         yarp::os::Property * value = inputValue.asDict();
-        
+
         if (value)
         {
             yarp::os::Bottle asList(value->toString());
-            
+
             convertDictionary(jct, theData, asList);
         }
     }
     else if (inputValue.isList())
     {
         yarp::os::Bottle * value = inputValue.asList();
-        
+
         if (value)
         {
             yarp::os::Property asDict;
-            
+
             if (ListIsReallyDictionary(*value, asDict))
             {
                 convertDictionary(jct, theData, *value);
@@ -274,7 +274,7 @@ fillBottleFromValue(JSContext *        jct,
     else if (theData.isDouble())
     {
         double aValue;
-        
+
         if (JS::ToNumber(jct, asRootedValue, &aValue))
         {
             aBottle.addDouble(aValue);
@@ -283,7 +283,7 @@ fillBottleFromValue(JSContext *        jct,
     else if (theData.isInt32())
     {
         int32_t aValue;
-        
+
         if (JS::ToInt32(jct, asRootedValue, &aValue))
         {
             aBottle.addInt(aValue);
@@ -293,21 +293,21 @@ fillBottleFromValue(JSContext *        jct,
     {
         JSString * asString = theData.toString();
         char *     asChars = JS_EncodeString(jct, asString);
-        
+
         aBottle.addString(asChars);
         JS_free(jct, asChars);
     }
     else if (theData.isObject())
     {
         JS::RootedObject asObject(jct);
-        
+
         if (JS_ValueToObject(jct, asRootedValue, &asObject))
         {
             bool processed = false;
 #if (47 <= MOZJS_MAJOR_VERSION)
             bool isArray;
 #endif // 47 <= MOZJS_MAJOR_VERSION
-            
+
 #if (47 <= MOZJS_MAJOR_VERSION)
             if (JS_IsArrayObject(jct, asObject, &isArray))
 #else // 47 > MOZJS_MAJOR_VERSION
@@ -315,7 +315,7 @@ fillBottleFromValue(JSContext *        jct,
 #endif // 47 > MOZJS_MAJOR_VERSION
             {
                 uint32_t arrayLength;
-                
+
                 if (JS_GetArrayLength(jct, asObject, &arrayLength))
                 {
                     // Treat as a list
@@ -324,7 +324,7 @@ fillBottleFromValue(JSContext *        jct,
                         for (uint32_t ii = 0; arrayLength > ii; ++ii)
                         {
                             JS::RootedValue anElement(jct);
-                            
+
                             if (JS_GetElement(jct, asObject, ii, &anElement))
                             {
                                 fillBottleFromValue(jct, aBottle, anElement, false);
@@ -334,17 +334,17 @@ fillBottleFromValue(JSContext *        jct,
                     else
                     {
                         yarp::os::Bottle & innerList(aBottle.addList());
-                        
+
                         for (uint32_t ii = 0; arrayLength > ii; ++ii)
                         {
                             JS::RootedValue anElement(jct);
-                            
+
                             if (JS_GetElement(jct, asObject, ii, &anElement))
                             {
                                 fillBottleFromValue(jct, innerList, anElement, false);
                             }
                         }
-                        
+
                     }
                     processed = true;
                 }
@@ -358,7 +358,7 @@ fillBottleFromValue(JSContext *        jct,
 #else // 47 > MOZJS_MAJOR_VERSION
                 JS::AutoIdArray          ids(jct, JS_Enumerate(jct, asObject));
 #endif // 47 > MOZJS_MAJOR_VERSION
-                
+
 #if (47 <= MOZJS_MAJOR_VERSION)
                 if (JS_Enumerate(jct, asObject, &ids))
 #else // 47 > MOZJS_MAJOR_VERSION
@@ -367,17 +367,17 @@ fillBottleFromValue(JSContext *        jct,
 #endif // 47 > MOZJS_MAJOR_VERSION
                 {
                     bool okSoFar = true;
-                    
+
                     for (size_t ii = 0, len = ids.length(); len > ii; ++ii)
                     {
                         JS::RootedValue key(jct);
-                        
+
                         if (JS_IdToValue(jct, ids[ii], &key))
                         {
                             JS::RootedValue key(jct);
                             JS::RootedValue result(jct);
                             JS::RootedId    aRootedId(jct);
-                            
+
                             aRootedId = ids[ii];
                             if (JS_IdToValue(jct, ids[ii], &key) &&
                                 JS_GetPropertyById(jct, asObject, aRootedId, &result))
@@ -386,13 +386,13 @@ fillBottleFromValue(JSContext *        jct,
                                 char *           keyAsChars = JS_EncodeString(jct, keyString);
                                 YarpString       keyToUse(keyAsChars);
                                 yarp::os::Bottle convertedResult;
-                                
+
                                 JS_free(jct, keyAsChars);
                                 fillBottleFromValue(jct, convertedResult, result, false);
                                 if (1 == convertedResult.size())
                                 {
                                     yarp::os::Value anElement(convertedResult.get(0));
-                                    
+
                                     if (anElement.isInt())
                                     {
                                         innerDict.put(keyToUse, anElement.asInt());
@@ -521,7 +521,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Check if the script is happy.
@@ -529,7 +529,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
         {
             JS::AutoValueVector funcArgs(_context);
             JS::RootedValue     funcResult(_context);
-            
+
             JS_BeginRequest(_context);
             if (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, funcArgs, &funcResult))
             {
@@ -552,7 +552,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
                     // Script rejected starting.
                     JSString * reason = funcResult.toString();
                     char *     asChars = JS_EncodeString(_context, reason);
-                    
+
                     cout << "Could not configure -> " << asChars << "." << endl;
                     JS_free(_context, asChars);
                 }
@@ -562,7 +562,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
                 ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
                        "funcArgs, &funcResult))"); //####
                 JS::RootedValue exc(_context);
-                
+
                 if (JS_GetPendingException(_context, &exc))
                 {
                     JS_ClearPendingException(_context);
@@ -596,7 +596,7 @@ DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
          ++walker)
     {
         JavaScriptFilterInputHandler * aHandler = *walker;
-        
+
         if (aHandler)
         {
             aHandler->disableMetrics();
@@ -631,7 +631,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                         JS::Value           slotNumberValue;
                         JS::AutoValueVector funcArgs(_context);
                         JS::RootedValue     funcResult(_context);
-                        
+
                         slotNumberValue.setInt32(static_cast<int32_t>(_mostRecentSlot));
                         createValueFromBottle(_context, aHandler->getReceivedData(), &argValue);
                         funcArgs.append(slotNumberValue);
@@ -648,14 +648,14 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                             ODL_LOG("! (JS_CallFunctionValue(_context, _global, handlerFunc, " //####
                                    "funcArgs, &funcResult))"); //####
                             JS::RootedValue exc(_context);
-                            
+
                             if (JS_GetPendingException(_context, &exc))
                             {
                                 JS_ClearPendingException(_context);
                                 std::stringstream buff;
                                 YarpString        message("Exception occurred while executing "
                                                           "handler function for inlet ");
-                                
+
                                 buff << _mostRecentSlot;
                                 message += buff.str();
                                 message += ".";
@@ -674,7 +674,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                 {
                     JS::AutoValueVector funcArgs(_context);
                     JS::RootedValue     funcResult(_context);
-                    
+
                     JS_BeginRequest(_context);
                     if (JS_CallFunctionValue(_context, _global, _scriptThreadFunc, funcArgs,
                                              &funcResult))
@@ -689,7 +689,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                         ODL_LOG("! (JS_CallFunctionValue(_context, _global, " //####
                                "_scriptThreadFunc, funcArgs, &funcResult))"); //####
                         JS::RootedValue exc(_context);
-                        
+
                         if (JS_GetPendingException(_context, &exc))
                         {
                             ODL_LOG("(JS_GetPendingException(_context, &exc))"); //####
@@ -719,7 +719,7 @@ DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
          ++walker)
     {
         JavaScriptFilterInputHandler * aHandler = *walker;
-        
+
         if (aHandler)
         {
             aHandler->enableMetrics();
@@ -749,7 +749,7 @@ JavaScriptFilterService::releaseHandlers(void)
              ++walker)
         {
             JavaScriptFilterInputHandler * aHandler = *walker;
-            
+
             if (aHandler)
             {
                 ODL_P1("aHandler = ", aHandler); //####
@@ -785,12 +785,12 @@ JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
     ODL_OBJENTER();
     ODL_L1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
-    
+
     if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
     {
         Common::GeneralChannel * outChannel = getOutletStream(channelSlot);
         yarp::os::Bottle         outBottle;
-        
+
         fillBottleFromValue(_context, outBottle, theData, true);
         if ((0 < outBottle.size()) && outChannel)
         {
@@ -823,7 +823,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     for (ChannelVector::const_iterator walker(_loadedInletDescriptions.begin());
          _loadedInletDescriptions.end() != walker; ++walker)
@@ -874,7 +874,7 @@ DEFINE_STARTSERVICE_(JavaScriptFilterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -916,7 +916,7 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
                 {
                     JavaScriptFilterInputHandler * aHandler = new JavaScriptFilterInputHandler(this,
                                                                                                ii);
-                    
+
                     if (aHandler)
                     {
                         _inHandlers.push_back(aHandler);
@@ -941,7 +941,7 @@ DEFINE_STOPSERVICE_(JavaScriptFilterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();
@@ -980,12 +980,12 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     JavaScriptFilterInputHandler * aHandler = _inHandlers.at(ii);
-                    
+
                     if (aHandler)
                     {
                         aHandler->deactivate();
                     }
-                }                
+                }
             }
             clearActive();
             // Tell the script that we're done for now.
@@ -993,7 +993,7 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
             {
                 JS::AutoValueVector funcArgs(_context);
                 JS::RootedValue     funcResult(_context);
-                
+
                 JS_BeginRequest(_context);
                 if (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, funcArgs,
                                          &funcResult))
@@ -1006,7 +1006,7 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                     ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
                            "funcArgs, &funcResult))"); //####
                     JS::RootedValue exc(_context);
-                    
+
                     if (JS_GetPendingException(_context, &exc))
                     {
                         JS_ClearPendingException(_context);
@@ -1043,7 +1043,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
 #else // 47 > MOZJS_MAJOR_VERSION
     JS::AutoIdArray          ids(jct, JS_Enumerate(jct, anObject));
 #endif // 47 > MOZJS_MAJOR_VERSION
-    
+
 #if (47 <= MOZJS_MAJOR_VERSION)
     if (JS_Enumerate(jct, anObject, &ids))
 #else // 47 > MOZJS_MAJOR_VERSION
@@ -1052,11 +1052,11 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
 #endif // 47 > MOZJS_MAJOR_VERSION
     {
         bool okSoFar = true;
-        
+
         for (size_t ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
         {
             JS::RootedValue key(jct);
-            
+
             if (JS_IdToValue(jct, ids[ii], &key))
             {
                 PrintJavaScriptValue(outStream, jct, "id = ", key, depth);
@@ -1069,7 +1069,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
             {
                 JS::RootedValue result(jct);
                 JS::RootedId    aRootedId(jct);
-                
+
                 aRootedId = ids[ii];
                 if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
                 {
@@ -1084,13 +1084,13 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                     if (result.isObject())
                     {
                         JS::RootedObject asObject(jct);
-                        
+
                         if (JS_ValueToObject(jct, result, &asObject))
                         {
 #if (47 <= MOZJS_MAJOR_VERSION)
                             bool isArray;
 #endif // 47 <= MOZJS_MAJOR_VERSION
-                            
+
 #if (47 <= MOZJS_MAJOR_VERSION)
                             if (JS_IsArrayObject(jct, result, &isArray))
 #else // 47 > MOZJS_MAJOR_VERSION
@@ -1099,7 +1099,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                                 {
                                     outStream << "array";
                                     uint32_t arrayLength;
-                                    
+
                                     if (JS_GetArrayLength(jct, asObject, &arrayLength))
                                     {
                                         outStream << ", size = " << arrayLength;
@@ -1109,7 +1109,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                                 {
                                     outStream << "function";
                                     JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                                    
+
                                     if (asFunction)
                                     {
                                         outStream << ", arity = " <<
@@ -1167,7 +1167,7 @@ JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
     {
         JSString * asString = value.toString();
         char *     asChars = JS_EncodeString(jct, asString);
-        
+
         outStream << "string(" << asChars << ")";
         JS_free(jct, asChars);
     }

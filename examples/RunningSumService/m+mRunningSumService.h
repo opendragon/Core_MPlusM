@@ -67,21 +67,21 @@ namespace MplusM
         class ResetSumRequestHandler;
         class StartSumRequestHandler;
         class StopSumRequestHandler;
-        
+
         /*! @brief The Running Sum service. */
         class RunningSumService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -95,11 +95,11 @@ namespace MplusM
                               const YarpString & tag,
                               const YarpString & serviceEndpointName,
                               const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~RunningSumService(void);
-            
+
             /*! @brief Add to the running sum for the given client.
              @param key The client-provided key.
              @param value The value to be added to the running sum.
@@ -107,57 +107,57 @@ namespace MplusM
             double
             addToSum(const YarpString & key,
                      const double       value);
-            
+
             /*! @brief Reset the running sum for the given client.
              @param key The client-provided key. */
             void
             resetSum(const YarpString & key);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
             void
             startSum(const YarpString & key);
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RunningSumService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The request handler for the 'addToSum' request. */
             AddToSumRequestHandler * _addToSumHandler;
-            
+
             /*! @brief The request handler for the 'resetSum' request. */
             ResetSumRequestHandler * _resetSumHandler;
-            
+
             /*! @brief The request handler for the 'startSum' request. */
             StartSumRequestHandler * _startSumHandler;
-            
+
             /*! @brief The request handler for the 'stopSum' request. */
             StopSumRequestHandler * _stopSumHandler;
-            
+
         }; // RunningSumService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRunningSumService_H_)

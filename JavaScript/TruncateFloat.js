@@ -40,7 +40,7 @@ function doTruncateFloat(portNumber, incomingData)
 {
     var aValue;
     var outValues;
-    
+
     if (Array.isArray(incomingData))
     {
         outValues = [];

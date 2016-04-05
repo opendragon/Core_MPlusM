@@ -60,53 +60,53 @@ namespace MplusM
     namespace Example
     {
         class RGBLEDService;
-        
+
         /*! @brief The example 'rgbled' request handler.
-         
+
          The input is a list of strings and the output is the same list of strings. */
         class RGBLEDRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             explicit
             RGBLEDRequestHandler(RGBLEDService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RGBLEDRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(RGBLEDRequestHandler);
 
         public :
-            
+
         protected :
 
         private :
-            
+
         }; // RGBLEDRequestHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRGBLEDRequestHandler_H_)

@@ -80,27 +80,27 @@ namespace MplusM
     {
         class CommonLispFilterInputHandler;
         class CommonLispFilterThread;
-        
+
         /*! @brief A sequence of object pointers. */
         typedef std::vector<cl_object> ObjectVector;
-        
+
         /*! @brief The %CommonLisp filter service. */
         class CommonLispFilterService : public Common::BaseFilterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
-            
+
             /*! @brief A sequence of input handlers. */
             typedef std::vector<CommonLispFilterInputHandler *> HandlerVector;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -135,23 +135,23 @@ namespace MplusM
                                     const double                        loadedInterval,
                                     const YarpString &                  serviceEndpointName,
                                     const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~CommonLispFilterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_DOIDLE_;
 
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
              @param theData The value to be sent.
@@ -169,45 +169,45 @@ namespace MplusM
              @param slotNumber The slot number of the input handler making the request. */
             void
             stallUntilIdle(const size_t slotNumber);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(CommonLispFilterService);
-            
+
             /*! @brief Release all the allocated handlers. */
             void
             releaseHandlers(void);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler functions to use for input. */
             const ObjectVector & _inletHandlers;
 
             /*! @brief The set of input handlers. */
             HandlerVector _inHandlers;
-            
+
             /*! @brief The output thread to use. */
             CommonLispFilterThread * _generator;
-            
+
             /*! @brief The list of loaded inlet stream descriptions. */
             const Common::ChannelVector & _loadedInletDescriptions;
-            
+
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
 
@@ -216,7 +216,7 @@ namespace MplusM
 
             /*! @brief The communication signal for the handlers. */
             yarp::os::Semaphore _staller;
-            
+
             /*! @brief The Common Lisp script starting function. */
             cl_object _scriptStartingFunc;
 
@@ -231,16 +231,16 @@ namespace MplusM
 
             /*! @brief The setHash function. */
             cl_object _setHashFunc;
-            
+
             /*! @brief The thread interval. */
             double _threadInterval;
-            
+
             /*! @brief The slot of the most recent input handler. */
             size_t _mostRecentSlot;
 
             /*! @brief @c true if a thread is being used. */
             bool _isThreaded;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -252,9 +252,9 @@ namespace MplusM
 # endif // defined(__APPLE__)
 
         }; // CommonLispFilterService
-        
+
         /*! @brief Create a new base-string.
-         
+
          Note that there is a bug in the ecl_make_simple_base_string where, instead of freshly
          allocating storage, the input character pointer is shared, resulting in garbage data being
          retained.
@@ -266,7 +266,7 @@ namespace MplusM
                          const size_t inLength);
 
     } // CommonLisp
-    
+
 } // MplusM
 
 #endif // ! defined(MpMCommonLispFilterService_H_)

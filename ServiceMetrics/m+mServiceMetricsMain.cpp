@@ -207,7 +207,7 @@ setUpAndGo(const YarpString &  channelName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for displaying service metrics.
- 
+
  The first, optional, argument is the name of the channel for the service. If the channel is not
  specified, all service channels will be reported. Standard output will receive a list of the
  specified metrics.
@@ -231,7 +231,7 @@ main(int      argc,
                                                   Utilities::kArgModeOptional, "");
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
-    
+
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Display service metrics", 2014,

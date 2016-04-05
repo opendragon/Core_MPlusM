@@ -58,53 +58,53 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'setMetricsState' request handler.
-         
+
          There is no input for the request and the output is a @c 0 if metrics are disabled and @c 1
          if they are enabled. */
         class SetMetricsStateRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             SetMetricsStateRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~SetMetricsStateRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(SetMetricsStateRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // SetMetricsStateRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMSetMetricsStateRequestHandler_H_)

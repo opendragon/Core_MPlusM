@@ -57,55 +57,55 @@ namespace MplusM
     namespace MovementDb
     {
         class MovementDbService;
-        
+
         /*! @brief The 'setemail' request handler for the movement database service.
-         
+
          The input for the request is the e-mail address to use for subsequent files; there is no
          output for the request. */
         class SetEmailRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             SetEmailRequestHandler(MovementDbService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~SetEmailRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(SetEmailRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // SetEmailRequestHandler
-        
+
     } // MovementDb
-    
+
 } // MplusM
 
 #endif // ! defined(MpMSetEmailRequestHandler_H_)

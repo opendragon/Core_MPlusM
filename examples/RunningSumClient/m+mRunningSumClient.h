@@ -60,23 +60,23 @@ namespace MplusM
         class RunningSumClient : public Common::BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RunningSumClient(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RunningSumClient(void);
-            
+
             /*! @brief Update the running sum for this client.
              @param value The value to add to the running sum.
              @param newSum The new running sum.
@@ -84,7 +84,7 @@ namespace MplusM
             bool
             addToSum(const double value,
                      double &     newSum);
-            
+
             /*! @brief Update the running sum for this client.
              @param values The set of values to add to the running sum.
              @param newSum The new running sum.
@@ -92,38 +92,38 @@ namespace MplusM
             bool
             addToSum(const Common::DoubleVector & values,
                      double &                     newSum);
-            
+
             /*! @brief Reset the running sum for this client.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             resetSum(void);
-            
+
             /*! @brief Start the running sum for this client.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             startSum(void);
-            
+
             /*! @brief Stop the running sum for this client.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             stopSum(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RunningSumClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RunningSumClient
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRunningSumClient_H_)

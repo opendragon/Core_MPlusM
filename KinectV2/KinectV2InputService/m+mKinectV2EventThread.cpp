@@ -148,7 +148,7 @@ addBoneToList(yarp::os::Bottle &       listToUpdate,
             (TrackingState_Inferred != endJoint.TrackingState))
         {
             yarp::os::Property & boneProps = listToUpdate.addDict();
-            
+
             boneProps.put("tag", jointTag);
             add3VectorToDictionary(boneProps, "startposition", startJoint.Position);
             add3VectorToDictionary(boneProps, "endposition", endJoint.Position);
@@ -176,7 +176,7 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
         if (TrackingState_Inferred != jointData.TrackingState)
         {
             yarp::os::Property & jointProps = listToUpdate.addDict();
-            
+
             jointProps.put("tag", jointTag);
             add3VectorToDictionary(jointProps, "position", jointData.Position);
             add4VectorToDictionary(jointProps, "orientation", orientationData.Orientation);
@@ -299,7 +299,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
     yarp::os::Value    joints;
     yarp::os::Bottle * jointsList = joints.asList();
 # endif // ! defined(GENERATE_BONES_)
-    
+
 # if defined(GENERATE_BONES_)
     if (bonesList)
     {
@@ -314,7 +314,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
                           JointType_ShoulderLeft);
         ADD_BONE_TO_LIST_("spinebase2hipright", JointType_SpineBase, JointType_HipRight);
         ADD_BONE_TO_LIST_("spinebase2hipleft", JointType_SpineBase, JointType_HipLeft);
-        
+
         // Right arm
         ADD_BONE_TO_LIST_("shoulderright2elbowright", JointType_ShoulderRight,
                           JointType_ElbowRight);
@@ -322,24 +322,24 @@ addBodyToMessage(yarp::os::Bottle &       message,
         ADD_BONE_TO_LIST_("wristright2handright", JointType_WristRight, JointType_HandRight);
         ADD_BONE_TO_LIST_("handright2handtipright", JointType_HandRight, JointType_HandTipRight);
         ADD_BONE_TO_LIST_("wristright2thumbright", JointType_WristRight, JointType_ThumbRight);
-        
+
         // Left arm
         ADD_BONE_TO_LIST_("shoulderleft2elbowleft", JointType_ShoulderLeft, JointType_ElbowLeft);
         ADD_BONE_TO_LIST_("elbowleft2wristleft", JointType_ElbowLeft, JointType_WristLeft);
         ADD_BONE_TO_LIST_("wristleft2handleft", JointType_WristLeft, JointType_HandLeft);
         ADD_BONE_TO_LIST_("handleft2handtipleft", JointType_HandLeft, JointType_HandTipLeft);
         ADD_BONE_TO_LIST_("wristleft2thumbleft", JointType_WristLeft, JointType_ThumbLeft);
-        
+
         // Right leg
         ADD_BONE_TO_LIST_("hipright2kneeright", JointType_HipRight, JointType_KneeRight);
         ADD_BONE_TO_LIST_("kneeright2ankleright", JointType_KneeRight, JointType_AnkleRight);
         ADD_BONE_TO_LIST_("ankleright2footright", JointType_AnkleRight, JointType_FootRight);
-        
+
         // Left leg
         ADD_BONE_TO_LIST_("hipleft2kneeleft", JointType_HipLeft, JointType_KneeLeft);
         ADD_BONE_TO_LIST_("kneeleft2ankleleft", JointType_KneeLeft, JointType_AnkleLeft);
         ADD_BONE_TO_LIST_("ankleleft2footleft", JointType_AnkleLeft, JointType_FootLeft);
-        
+
         // Add them all
         bodyProps.put("bones", bones);
     }
@@ -363,14 +363,14 @@ addBodyToMessage(yarp::os::Bottle &       message,
         ADD_JOINT_TO_LIST_("handright", JointType_HandRight);
         ADD_JOINT_TO_LIST_("handtipright", JointType_HandTipRight);
         ADD_JOINT_TO_LIST_("thumbright", JointType_ThumbRight);
-       
+
         // Left arm
         ADD_JOINT_TO_LIST_("elbowleft", JointType_ElbowLeft);
         ADD_JOINT_TO_LIST_("wristleft", JointType_WristLeft);
         ADD_JOINT_TO_LIST_("handleft", JointType_HandLeft);
         ADD_JOINT_TO_LIST_("handtipleft", JointType_HandTipLeft);
         ADD_JOINT_TO_LIST_("thumbleft", JointType_ThumbLeft);
-        
+
         // Right leg
         ADD_JOINT_TO_LIST_("kneeright", JointType_KneeRight);
         ADD_JOINT_TO_LIST_("ankleright", JointType_AnkleRight);
@@ -610,7 +610,7 @@ DEFINE_RUN_(KinectV2EventThread)
 
                 default :
                     break;
-                    
+
             }
         }
         if (WM_QUIT == msg.message)

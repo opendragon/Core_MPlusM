@@ -117,7 +117,7 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_outFile)
@@ -126,16 +126,16 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
             if (1 == input.size())
             {
                 yarp::os::Value & firstTopValue = input.get(0);
-                
+
                 if (firstTopValue.isBlob())
                 {
                     size_t       numBytes = firstTopValue.asBlobLength();
                     const char * asBytes = firstTopValue.asBlob();
-                    
+
                     if ((0 < numBytes) && asBytes)
                     {
                         size_t retVal = fwrite(asBytes, numBytes, 1, _outFile);
-                        
+
                         if (retVal == numBytes)
                         {
                             fflush(_outFile);

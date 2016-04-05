@@ -59,53 +59,53 @@ namespace MplusM
     namespace Example
     {
         class AbsorberFilterService;
-        
+
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of integer values. */
         class AbsorberFilterInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that manages the message count. */
             explicit
             AbsorberFilterInputHandler(AbsorberFilterService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~AbsorberFilterInputHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(AbsorberFilterInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that manages the message count. */
             AbsorberFilterService & _service;
-            
+
         }; // AbsorberFilterInputHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAbsorberFilterInputHandler_H_)

@@ -107,11 +107,11 @@ doTestCreateRegistryService(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Registry::RegistryService * registry = NULL;
-        
+
         if (0 <= argc)
         {
             switch (argc)
@@ -121,15 +121,15 @@ doTestCreateRegistryService(const char * launchPath,
                     registry = new Registry::RegistryService(launchPath, argc, argv,
                                                              TEST_INMEMORY_);
                     break;
-                    
+
                 case 1 :
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
         }
         if (registry)
@@ -176,12 +176,12 @@ doTestRequestRegistryService(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = false;
-    
+
     try
     {
         const char *                secondServiceChannel;
         Registry::RegistryService * registry = NULL;
-        
+
         if (0 <= argc)
         {
             switch (argc)
@@ -190,22 +190,22 @@ doTestRequestRegistryService(const char * launchPath,
                 case 0 :
                     registry = new Registry::RegistryService(launchPath, argc, argv,
                                                              TEST_INMEMORY_);
-                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestregisterservice_1"));
                     break;
-                    
+
                 case 1 :
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestregisterservice_2"));
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
         }
         if (registry)
@@ -217,13 +217,13 @@ doTestRequestRegistryService(const char * launchPath,
                     // Now we start up another service (Test14Service) and register it
                     Test14Service * aService = new Test14Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
-                    
+
                     if (aService)
                     {
                         if (aService->startService())
                         {
                             YarpString channelName(aService->getEndpoint().getName());
-                            
+
                             if (RegisterLocalService(channelName, *aService))
                             {
                                 result = 0;
@@ -288,12 +288,12 @@ doTestRequestUnregisterService(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         const char *                secondServiceChannel;
         Registry::RegistryService * registry = NULL;
-        
+
         if (0 <= argc)
         {
             switch (argc)
@@ -302,22 +302,22 @@ doTestRequestUnregisterService(const char * launchPath,
                 case 0 :
                     registry = new Registry::RegistryService(launchPath, argc, argv,
                                                              TEST_INMEMORY_);
-                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestunregisterservice_1"));
                     break;
-                    
+
                 case 1 :
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestunregisterservice_2"));
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
         }
         if (registry)
@@ -329,13 +329,13 @@ doTestRequestUnregisterService(const char * launchPath,
                     // Now we start up another service (Test15Service) and register it
                     Test15Service * aService = new Test15Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
-                    
+
                     if (aService)
                     {
                         if (aService->startService())
                         {
                             YarpString channelName(aService->getEndpoint().getName());
-                            
+
                             if (RegisterLocalService(channelName, *aService))
                             {
                                 if (UnregisterLocalService(channelName, *aService))
@@ -408,19 +408,19 @@ doTestRequestSearchService(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         if (1 < argc)
         {
             bool                        getNamesFlag = ('0' != **argv);
-            const char *                secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+            const char *                secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                                            BUILD_NAME_("test",
                                                                            "requestsearchservice"));
             Registry::RegistryService * registry = new Registry::RegistryService(launchPath, argc,
                                                                                  argv,
                                                                                  TEST_INMEMORY_);
-            
+
             ODL_B1("getNamesFlag <- ", getNamesFlag); //####
             if (registry)
             {
@@ -434,7 +434,7 @@ doTestRequestSearchService(const char * launchPath,
                         ODL_LOG("(registry->isActive())"); //####
                         Test16Service * aService = new Test16Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
-                        
+
                         if (aService)
                         {
                             ODL_LOG("(aService)"); //####
@@ -442,19 +442,19 @@ doTestRequestSearchService(const char * launchPath,
                             {
                                 ODL_LOG("(aService->start())"); //####
                                 YarpString channelName(aService->getEndpoint().getName());
-                                
+
                                 if (RegisterLocalService(channelName, *aService))
                                 {
                                     ODL_LOG("(RegisterLocalService(channelName, *aService))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);
-                                    
+
                                     ODL_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
                                               matches.toString().c_str()); //####
                                     yarp::os::Bottle expected(argv[2]);
-                                    
+
                                     if ((expected.size() == matches.size()) &&
                                         (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size()))
                                     {
@@ -464,7 +464,7 @@ doTestRequestSearchService(const char * launchPath,
                                         bool            wasASuccess = false;
                                         yarp::os::Value matchesFirst(matches.get(0));
                                         yarp::os::Value expectedFirst(expected.get(0));
-                                        
+
                                         if (expectedFirst.isString())
                                         {
                                             ODL_LOG("(expectedFirst.isString())"); //####
@@ -472,7 +472,7 @@ doTestRequestSearchService(const char * launchPath,
                                                                             matchesFirst.toString();
                                             YarpString expectedFirstAsString =
                                                                         expectedFirst.toString();
-                                            
+
                                             if (matchesFirstAsString == expectedFirstAsString)
                                             {
                                                 ODL_LOG("(matchesFirstAsString == " //####
@@ -499,7 +499,7 @@ doTestRequestSearchService(const char * launchPath,
                                             ODL_LOG("((! result) && wasASuccess)"); //####
                                             yarp::os::Value matchesSecond(matches.get(1));
                                             yarp::os::Value expectedSecond(expected.get(1));
-                                            
+
                                             if (expectedSecond.isList())
                                             {
                                                 ODL_LOG("(expectedSecond.isList())"); //####
@@ -511,7 +511,7 @@ doTestRequestSearchService(const char * launchPath,
                                                                         matchesSecondAsList->size();
                                                 int                expectedSecondCount =
                                                                     expectedSecondAsList->size();
-                                                
+
                                                 ODL_LL2("matchesSecondCount <- ", //####
                                                            matchesSecondCount, //####
                                                            "expectedSecondCount <- ", //####
@@ -530,7 +530,7 @@ doTestRequestSearchService(const char * launchPath,
                                                                     expectedSecondAsList->get(ii);
                                                         YarpString      expectedString =
                                                                     expectedSecondValue.toString();
-                                                        
+
                                                         for (int jj = 0; jj < expectedSecondCount;
                                                              ++jj)
                                                         {
@@ -538,13 +538,13 @@ doTestRequestSearchService(const char * launchPath,
                                                                     matchesSecondAsList->get(jj);
                                                             YarpString      matchesString =
                                                                     matchesSecondValue.toString();
-                                                            
+
                                                             if (expectedString == matchesString)
                                                             {
                                                                 didFind = true;
                                                                 break;
                                                             }
-                                                            
+
                                                         }
                                                         if (! didFind)
                                                         {
@@ -552,7 +552,7 @@ doTestRequestSearchService(const char * launchPath,
                                                             result = 1;
                                                             break;
                                                         }
-                                                        
+
                                                     }
                                                 }
                                                 else
@@ -654,7 +654,7 @@ catchSignal(int signal)
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for unit tests of the %Registry Service classes.
- 
+
  The first argument is the test number, the second argument is the name of the channel to be used
  with the test, the optional third argument is the machine to connect to and the optional fourth
  argument is the port number to be used.
@@ -676,7 +676,7 @@ main(int      argc,
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     int result = 1;
-    
+
     try
     {
         // We normally call CheckForNameServerReporter() here, but we should only run the tests with
@@ -686,14 +686,14 @@ main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
-            
+
             Initialize(progName);
             if (0 < --argc)
             {
                 const char * startPtr = argv[1];
                 char *       endPtr;
                 int          selector = strtol(startPtr, &endPtr, 10);
-                
+
                 ODL_LL1("selector <- ", selector); //####
                 if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
@@ -703,22 +703,22 @@ main(int      argc,
                         case 13 :
                             result = doTestCreateRegistryService(*argv, argc - 1, argv + 2);
                             break;
-                            
+
                         case 14 :
                             result = doTestRequestRegistryService(*argv, argc - 1, argv + 2);
                             break;
-                            
+
                         case 15 :
                             result = doTestRequestUnregisterService(*argv, argc - 1, argv + 2);
                             break;
-                            
+
                         case 16 :
                             result = doTestRequestSearchService(*argv, argc - 1, argv + 2);
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     if (result)
                     {

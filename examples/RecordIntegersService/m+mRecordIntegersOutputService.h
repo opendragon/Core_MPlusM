@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the Record Integers output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -65,21 +65,21 @@ namespace MplusM
     namespace Example
     {
         class RecordIntegersOutputInputHandler;
-        
+
         /*! @brief The Record Integers output service. */
         class RecordIntegersOutputService : public Common::BaseOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -95,56 +95,56 @@ namespace MplusM
                                         const YarpString &                  tag,
                                         const YarpString &                  serviceEndpointName,
                                         const YarpString &                  servicePortNumber);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RecordIntegersOutputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RecordIntegersOutputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The path to the output file used for recording. */
             YarpString _outPath;
-            
+
             /*! @brief The file output to be written to. */
             FILE * _outFile;
-            
+
             /*! @brief The handler for input data. */
             RecordIntegersOutputInputHandler * _inHandler;
-            
+
         }; // RecordIntegersOutputService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRecordIntegersOutputService_H_)

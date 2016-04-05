@@ -137,7 +137,7 @@ DEFINE_FILLINDESCRIPTION_(SetEmailRequestHandler)
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -165,7 +165,7 @@ DEFINE_PROCESSREQUEST_(SetEmailRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         // Set the e-mail address for the backend database
@@ -173,12 +173,12 @@ DEFINE_PROCESSREQUEST_(SetEmailRequestHandler)
         if (1 == restOfInput.size())
         {
             yarp::os::Value firstValue(restOfInput.get(0));
-            
+
             if (firstValue.isString())
             {
                 YarpString          emailAddress(firstValue.toString());
                 MovementDbService & theService = static_cast<MovementDbService &>(_service);
-                
+
                 if (theService.setEmailAddress(senderChannel, emailAddress))
                 {
                     _response.addString(MpM_OK_RESPONSE_);

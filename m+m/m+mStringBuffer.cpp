@@ -144,7 +144,7 @@ StringBuffer::addDouble(const double aDouble)
     ODL_OBJENTER(); //####
     ODL_D1("aDouble = ", aDouble); //####
     char numBuff[kNumBuffSize];
-    
+
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%g", aDouble);
 #else // ! MAC_OR_LINUX_
@@ -152,7 +152,7 @@ StringBuffer::addDouble(const double aDouble)
 #endif // ! MAC_OR_LINUX_
     ODL_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
-    
+
     // Note that the array 'numBuff' is significantly smaller than the initial size of the internal
     // buffer, so there's no need to calculate the increase factor to apply.
     if ((_currentLength + lengthToAdd) >= _thresholdLength)
@@ -177,7 +177,7 @@ StringBuffer::addLong(const int64_t aLong)
     snprintf(numBuff, sizeof(numBuff), "%" PRId64, aLong);
     ODL_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
-    
+
     // Note that the array 'numBuff' is significantly smaller than the initial size of the internal
     // buffer, so there's no need to calculate the increase factor to apply.
     if ((_currentLength + lengthToAdd) >= _thresholdLength)
@@ -200,7 +200,7 @@ StringBuffer::addString(const char * aString)
     if (aString)
     {
         size_t lengthToAdd = strlen(aString);
-        
+
         if ((_currentLength + lengthToAdd) >= _thresholdLength)
         {
             ODL_LOG("((_currentLength + lengthToAdd) >= _thresholdLength)"); //####
@@ -210,7 +210,7 @@ StringBuffer::addString(const char * aString)
 #else // ! MAC_OR_LINUX_
             double factorToUse = max(scaleFactor, kBufferIncreaseFactor);
 #endif // ! MAC_OR_LINUX_
-            
+
             setSize(static_cast<size_t>(_currentSize * factorToUse));
         }
         memcpy(_buffer + _currentLength, aString, lengthToAdd + 1);
@@ -227,11 +227,11 @@ StringBuffer::addString(const YarpString & aString)
     ODL_OBJENTER(); //####
     ODL_S1s("aString = ", aString); //####
     const char * actualString = aString.c_str();
-    
+
     if (actualString)
     {
         size_t lengthToAdd = strlen(actualString);
-        
+
         if ((_currentLength + lengthToAdd) >= _thresholdLength)
         {
             ODL_LOG("((_currentLength + lengthToAdd) >= _thresholdLength)"); //####
@@ -241,7 +241,7 @@ StringBuffer::addString(const YarpString & aString)
 #else // ! MAC_OR_LINUX_
             double factorToUse = max(scaleFactor, kBufferIncreaseFactor);
 #endif // ! MAC_OR_LINUX_
-            
+
             setSize(static_cast<size_t>(_currentSize * factorToUse));
         }
         memcpy(_buffer + _currentLength, actualString, lengthToAdd + 1);
@@ -283,7 +283,7 @@ StringBuffer::setSize(const size_t newSize)
     ODL_OBJENTER(); //####
     ODL_LL1("newSize = ", newSize); //####
     char * newBuffer = new char[newSize];
-    
+
     if (_buffer && (0 < _currentLength))
     {
         memcpy(newBuffer, _buffer, _currentLength);

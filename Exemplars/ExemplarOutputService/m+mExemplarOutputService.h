@@ -64,21 +64,21 @@ namespace MplusM
     namespace Exemplar
     {
         class ExemplarOutputInputHandler;
-        
+
         /*! @brief The exemplar output service. */
         class ExemplarOutputService : public Common::BaseOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -94,56 +94,56 @@ namespace MplusM
                                   const YarpString &                  tag,
                                   const YarpString &                  serviceEndpointName,
                                   const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExemplarOutputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ExemplarOutputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The path to the output file used for recording. */
             YarpString _outPath;
-            
+
             /*! @brief The file output to be written to. */
             FILE * _outFile;
-            
+
             /*! @brief The handler for input data. */
             ExemplarOutputInputHandler * _inHandler;
-            
+
         }; // ExemplarOutputService
-        
+
     } // Exemplar
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExemplarOutputService_H_)

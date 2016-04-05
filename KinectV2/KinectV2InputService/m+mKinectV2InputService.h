@@ -67,21 +67,21 @@ namespace MplusM
     namespace KinectV2
     {
         class KinectV2EventThread;
-        
+
         /*! @brief The Kinect V2 input service. */
         class KinectV2InputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -97,35 +97,35 @@ namespace MplusM
                                  const YarpString &                  tag,
                                  const YarpString &                  serviceEndpointName,
                                  const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~KinectV2InputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(KinectV2InputService);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
 
         protected :
@@ -136,9 +136,9 @@ namespace MplusM
             KinectV2EventThread * _eventThread;
 
         }; // KinectV2InputService
-        
+
     } // KinectV2
-    
+
 } // MplusM
 
 #endif // ! defined(MpMKinectV2InputService_H_)

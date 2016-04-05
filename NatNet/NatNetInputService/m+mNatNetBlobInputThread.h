@@ -70,16 +70,16 @@ namespace MplusM
         class NatNetBlobInputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
              @param name The IP address of the Natural Point %NatNet device.
@@ -89,15 +89,15 @@ namespace MplusM
                                   const YarpString &       name,
                                   const int                commandPort,
                                   const int                dataPort);
-            
+
             /*! @brief The destructor. */
             virtual
             ~NatNetBlobInputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief Provide access to the output buffer.
              This is meant to be used by the data received callback.
@@ -120,7 +120,7 @@ namespace MplusM
              @param newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
-            
+
             /*! @brief Return the translation scale.
              @returns The translation scale. */
             inline double
@@ -131,26 +131,26 @@ namespace MplusM
             } // translationScale
 
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(NatNetBlobInputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
             /*! @brief The address of the Natural Point %NatNet device. */
             YarpString _address;
 
@@ -162,7 +162,7 @@ namespace MplusM
 
             /*! @brief The command port of the Natural Point %NatNet device. */
             int _dataPort;
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief The connection to the Natural Point %NatNet device. */
             NatNetClient * _client;
@@ -183,9 +183,9 @@ namespace MplusM
             char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
 
         }; // NatNetBlobInputThread
-        
+
     } // NatNet
-    
+
 } // MplusM
 
 #endif // ! defined(MpMNatNetBlobInputThread_H_)

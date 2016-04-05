@@ -102,7 +102,7 @@ getMatchingChannels(const YarpString &  criteria,
     ODL_S1s("criteria = ", criteria); //####
     bool             reported = false;
     YarpStringVector services;
-    
+
     if (Utilities::GetServiceNamesFromCriteria(criteria, services, true))
     {
         if (kOutputFlavourJSON == flavour)
@@ -123,7 +123,7 @@ getMatchingChannels(const YarpString &  criteria,
                         }
                         cout << SanitizeString(*walker).c_str();
                         break;
-                        
+
                     case kOutputFlavourJSON :
                         if (reported)
                         {
@@ -141,10 +141,10 @@ getMatchingChannels(const YarpString &  criteria,
                         }
                         cout << SanitizeString(*walker).c_str();
                         break;
-                        
+
                     default :
                         break;
-                        
+
                 }
                 reported = true;
             }
@@ -157,11 +157,11 @@ getMatchingChannels(const YarpString &  criteria,
                     cout << endl;
                 }
                 break;
-                
+
             case kOutputFlavourJSON :
                 cout << " ]" << endl;
                 break;
-                
+
             case kOutputFlavourNormal :
                 if (reported)
                 {
@@ -172,10 +172,10 @@ getMatchingChannels(const YarpString &  criteria,
                     cout << "No services found." << endl;
                 }
                 break;
-                
+
             default :
                 break;
-                
+
         }
     }
     else
@@ -185,19 +185,19 @@ getMatchingChannels(const YarpString &  criteria,
             case kOutputFlavourTabs :
                 cout << "There was a problem with the criteria." << endl;
                 break;
-                
+
             case kOutputFlavourJSON :
                 cout << T_(CHAR_DOUBLEQUOTE_) << "There was a problem with the criteria." <<
                         T_(CHAR_DOUBLEQUOTE_) << endl;
                 break;
-                
+
             case kOutputFlavourNormal :
                 cout << "There was a problem with the criteria." << endl;
                 break;
-                
+
             default :
                 break;
-                
+
         }
     }
     cout.flush();
@@ -220,13 +220,13 @@ setUpAndGo(const YarpString &  criteria,
     else if (CanReadFromStandardInput())
     {
         YarpString localCriteria;
-        
+
         StartRunning();
         for ( ; IsRunning(); )
         {
             char        inChar;
             std::string inputLine;
-            
+
             cout << "Operation: [? f q]? ";
             cout.flush();
             cin >> inChar;
@@ -236,7 +236,7 @@ setUpAndGo(const YarpString &  criteria,
                     // Help
                     displayCommands();
                     break;
-                    
+
                 case 'f' :
                 case 'F' :
                     cout << "Match criteria: ";
@@ -252,17 +252,17 @@ setUpAndGo(const YarpString &  criteria,
                         }
                     }
                     break;
-                    
+
                 case 'q' :
                 case 'Q' :
                     // Quit
                     StopRunning();
                     break;
-                    
+
                 default :
                     cout << "Unrecognized request '" << inChar << "'." << endl;
                     break;
-                    
+
             }
         }
     }
@@ -274,7 +274,7 @@ setUpAndGo(const YarpString &  criteria,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for finding matching services.
- 
+
  The first, optional, argument is the search criteria to be used. If the search criteria is not
  specified, all service channels will be reported. Standard output will receive a list of the
  matching services.
@@ -298,7 +298,7 @@ main(int      argc,
                                                  Utilities::kArgModeOptional, "");
     Utilities::DescriptorVector         argumentList;
     OutputFlavour                       flavour;
-    
+
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Find matching services", 2014,
@@ -312,7 +312,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {

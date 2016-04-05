@@ -359,7 +359,7 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
     ODL_OBJENTER(); //####
     ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
-    
+
     try
     {
         if (0 < descriptions.size())
@@ -367,16 +367,16 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-            
+
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
                 ClientChannel * newChannel = new ClientChannel;
-                
+
                 if (newChannel)
                 {
                     ChannelDescription aDescription(*walker);
-                    
+
 #if defined(MpM_ReportOnConnections)
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
@@ -424,7 +424,7 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
     ODL_OBJENTER(); //####
     ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
-    
+
     try
     {
         if (0 < descriptions.size())
@@ -437,11 +437,11 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
                  result && (descriptions.end() != walker); ++walker)
             {
                 GeneralChannel * newChannel = new GeneralChannel(false);
-                
+
                 if (newChannel)
                 {
                     ChannelDescription aDescription(*walker);
-                    
+
 #if defined(MpM_ReportOnConnections)
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
@@ -491,7 +491,7 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
     ODL_OBJENTER(); //####
     ODL_P1("descriptions = ", &descriptions); //####
     bool result = true;
-    
+
     try
     {
         if (0 < descriptions.size())
@@ -499,16 +499,16 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-            
+
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
                 GeneralChannel * newChannel = new GeneralChannel(true);
-                
+
                 if (newChannel)
                 {
                     ChannelDescription aDescription(*walker);
-                    
+
 #if defined(MpM_ReportOnConnections)
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
@@ -650,7 +650,7 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
              _clientStreams.end() != walker; ++walker)
         {
             ClientChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->disableMetrics();
@@ -663,7 +663,7 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
              _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->disableMetrics();
@@ -676,7 +676,7 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
              _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->disableMetrics();
@@ -702,7 +702,7 @@ DEFINE_ENABLEMETRICS_(BaseInputOutputService)
              _clientStreams.end() != walker; ++walker)
         {
             ClientChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->enableMetrics();
@@ -715,7 +715,7 @@ DEFINE_ENABLEMETRICS_(BaseInputOutputService)
              _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->enableMetrics();
@@ -728,7 +728,7 @@ DEFINE_ENABLEMETRICS_(BaseInputOutputService)
              _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 aChannel->enableMetrics();
@@ -749,12 +749,12 @@ DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
              _clientStreams.end() != walker; ++walker)
         {
             ClientChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
-                
+
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = "";
                 descriptor._portMode = kChannelModeTCP;
@@ -777,12 +777,12 @@ DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
              _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
-                
+
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
                 descriptor._portMode = kChannelModeTCP;
@@ -805,12 +805,12 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
              _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_S1s("aChannel = ", aChannel->name()); //####
                 ChannelDescription descriptor;
-                
+
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
                 descriptor._portMode = kChannelModeTCP;
@@ -827,13 +827,13 @@ DEFINE_GATHERMETRICS_(BaseInputOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("metrics = ", &metrics); //####
     SendReceiveCounters counters;
-    
+
     inherited::gatherMetrics(metrics);
     for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
          _clientStreams.end() != walker; ++walker)
     {
         ClientChannel * aChannel = *walker;
-        
+
         if (aChannel)
         {
             aChannel->getSendReceiveCounters(counters);
@@ -844,7 +844,7 @@ DEFINE_GATHERMETRICS_(BaseInputOutputService)
          _inStreams.end() != walker; ++walker)
     {
         GeneralChannel * aChannel = *walker;
-        
+
         if (aChannel)
         {
             aChannel->getSendReceiveCounters(counters);
@@ -855,7 +855,7 @@ DEFINE_GATHERMETRICS_(BaseInputOutputService)
          _outStreams.end() != walker; ++walker)
     {
         GeneralChannel * aChannel = *walker;
-        
+
         if (aChannel)
         {
             aChannel->getSendReceiveCounters(counters);
@@ -871,7 +871,7 @@ const
 {
     ODL_OBJENTER(); //####
     size_t result = _clientStreams.size();
-    
+
     ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getClientCount
@@ -883,7 +883,7 @@ const
     ODL_OBJENTER(); //####
     ODL_LL1("index = ", index); //####
     ClientChannel * result = _clientStreams.at(index);
-    
+
     ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getClientStream
@@ -894,7 +894,7 @@ const
 {
     ODL_OBJENTER(); //####
     size_t result = _inStreams.size();
-    
+
     ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getInletCount
@@ -906,7 +906,7 @@ const
     ODL_OBJENTER(); //####
     ODL_LL1("index = ", index); //####
     GeneralChannel * result = _inStreams.at(index);
-    
+
     ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getInletStream
@@ -917,7 +917,7 @@ const
 {
     ODL_OBJENTER(); //####
     size_t result = _outStreams.size();
-    
+
     ODL_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getOutletCount
@@ -929,7 +929,7 @@ const
     ODL_OBJENTER(); //####
     ODL_LL1("index = ", index); //####
     GeneralChannel * result = _outStreams.at(index);
-    
+
     ODL_OBJEXIT_P(result); //####
     return result;
 } // BaseInputOutputService::getOutletStream
@@ -947,7 +947,7 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
     if (startService())
     {
         YarpString channelName(getEndpoint().getName());
-        
+
         ODL_S1s("channelName = ", channelName); //####
         if (RegisterLocalService(channelName, *this))
         {
@@ -959,10 +959,10 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
             if (reportOnExit)
             {
                 yarp::os::Bottle metrics;
-                
+
                 gatherMetrics(metrics);
                 YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                
+
                 cout << converted.c_str() << endl;
             }
             stopService();
@@ -1017,7 +1017,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
         if ((! goWasSet) && stdinAvailable)
         {
             char inChar;
-            
+
             cout << "Operation: [? b c e q r]? ";
             cout.flush();
             for (set_tty_cbreak(); ! lStopTheService; )
@@ -1031,7 +1031,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                     {
                         break;
                     }
-                    
+
                 }
                 else
                 {
@@ -1051,7 +1051,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                 for ( ; ! lStopTheService; )
                 {
                     char peekChar = kb_getc();
-                    
+
                     if (peekChar)
                     {
                         if (isspace(peekChar))
@@ -1059,7 +1059,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                             set_tty_cooked();
                             break;
                         }
-                        
+
                     }
                     else
                     {
@@ -1092,7 +1092,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                         // Help
                         displayCommands(helpText, forAdapter);
                         break;
-                        
+
                     case 'b' :
                     case 'B' :
                         // Start streams
@@ -1117,7 +1117,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                             startStreams();
                         }
                         break;
-                        
+
                     case 'c' :
                     case 'C' :
                         // Configure
@@ -1135,13 +1135,13 @@ BaseInputOutputService::runService(const YarpString & helpText,
                             cout << "One or more values out of range." << endl;
                         }
                         break;
-                        
+
                     case 'e' :
                     case 'E' :
                         // Stop streams
                         stopStreams();
                         break;
-                        
+
                     case 0 : // Some external event has caused us to exit!
                     case 'q' :
                     case 'Q' :
@@ -1150,7 +1150,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                         cout << endl;
                         cout.flush();
                         break;
-                        
+
                     case 'r' :
                     case 'R' :
                         // Restart streams
@@ -1175,11 +1175,11 @@ BaseInputOutputService::runService(const YarpString & helpText,
                             restartStreams();
                         }
                         break;
-                        
+
                     default :
                         cout << "Unrecognized request '" << inChar << "'." << endl;
                         break;
-                        
+
                 }
             }
         }
@@ -1199,7 +1199,7 @@ DEFINE_SETUPCLIENTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownClientStreams(); // clear out existing streams first
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpClientStreams
@@ -1208,7 +1208,7 @@ DEFINE_SETUPINPUTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownInputStreams(); // clear out existing streams first
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpInputStreams
@@ -1217,7 +1217,7 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownOutputStreams(); // clear out existing streams first
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseInputOutputService::setUpOutputStreams
@@ -1226,14 +1226,14 @@ DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
-    
+
     if (0 < _clientStreams.size())
     {
         for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
              _clientStreams.end() != walker; ++walker)
         {
             ClientChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_P1("aChannel = ", aChannel); //####
@@ -1250,14 +1250,14 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
-    
+
     if (0 < _inStreams.size())
     {
         for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
              _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_P1("aChannel = ", aChannel); //####
@@ -1274,14 +1274,14 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
-    
+
     if (0 < _outStreams.size())
     {
         for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
              _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
-            
+
             if (aChannel)
             {
                 ODL_P1("aChannel = ", aChannel); //####
@@ -1298,7 +1298,7 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -1307,7 +1307,7 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
             if (isStarted() && setUpStreamDescriptions() && setUpClientStreams() &&
                 setUpInputStreams() && setUpOutputStreams())
             {
-            
+
             }
             else
             {
@@ -1331,7 +1331,7 @@ DEFINE_STOPSERVICE_(BaseInputOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     try
     {
         if (! shutDownClientStreams())

@@ -172,7 +172,7 @@ ProComp2InputThread::readChannelData(const DWORD time)
         if (samplesAvailable)
         {
             variant = lTTLLive->ReadChannelDataVT(channelHND, samplesAvailable);
-            
+
             if (VT_ARRAY == (variant.vt & VT_ARRAY))
             {
                 if (VT_R4 == (variant.vt & VT_R4))
@@ -196,7 +196,7 @@ ProComp2InputThread::readChannelData(const DWORD time)
             if (S_OK == ::SafeArrayLock(pSA))
             {
                 FLOAT * data = reinterpret_cast<FLOAT *>(pSA->pvData);
-                
+
                 ::SafeArrayUnlock(pSA);
                 tag[0] = static_cast<char>('A' + channelHND);
                 sawData = true;
@@ -244,7 +244,7 @@ DEFINE_RUN_(ProComp2InputThread)
     MSG      aMessage;
     UINT_PTR aTimer = NULL;
 #endif // ! defined(MpM_BuildDummyServices)
-    
+
 #if (! defined(MpM_BuildDummyServices))
     memset(&aMessage, 0, sizeof(aMessage));
     if (0 < lTTLLive->EncoderCount)
@@ -287,7 +287,7 @@ ProComp2InputThread::setupEncoders(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     ODL_LOG("Autodetecting encoders"); //####
     try
     {
@@ -324,7 +324,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
 #if (! defined(MpM_BuildDummyServices))
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 #endif // ! defined(MpM_BuildDummyServices)
-    
+
 #if (! defined(MpM_BuildDummyServices))
     if (SUCCEEDED(hr))
     {
@@ -335,7 +335,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
             try
             {
                 T_Version sV;
-             
+
                 ODL_LOG("Getting version"); //####
                 sV.liVersion = lTTLLive->Version;
                 cout << "TTL Version = " << static_cast<int>(sV.byMajor) << "." <<

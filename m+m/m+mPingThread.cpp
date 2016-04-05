@@ -106,7 +106,7 @@ DEFINE_RUN_(PingThread)
     for ( ; ! isStopping(); )
     {
         double now = yarp::os::Time::now();
-        
+
         if (_pingTime <= now)
         {
             // Send a ping!
@@ -122,7 +122,7 @@ DEFINE_THREADINIT_(PingThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _pingTime = yarp::os::Time::now() + PING_INTERVAL_;
     ODL_OBJEXIT_B(result); //####
     return result;

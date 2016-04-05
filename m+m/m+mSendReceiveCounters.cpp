@@ -84,7 +84,7 @@ addLargeValueToDictionary(yarp::os::Property & dictionary,
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
-    
+
     if (stuffAsList)
     {
         stuffAsList->addInt(static_cast<int>(bigValue >> 32));

@@ -72,66 +72,66 @@ namespace MplusM
     namespace CommonLisp
     {
         class CommonLispFilterService;
-        
+
         /*! @brief A convenience class to generate output. */
         class CommonLispFilterThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that owns this thread.
              @param timeToWait The number of seconds to delay before triggering. */
             CommonLispFilterThread(CommonLispFilterService & owner,
                                    const double              timeToWait);
-            
+
             /*! @brief The destructor. */
             virtual
             ~CommonLispFilterThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(CommonLispFilterThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that owns this thread. */
             CommonLispFilterService & _owner;
 
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
-            
+
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
-            
+
         }; // CommonLispFilterThread
-        
+
     } // CommonLisp
-    
+
 } // MplusM
 
 #endif // ! defined(MpMCommonLispFilterThread_H_)

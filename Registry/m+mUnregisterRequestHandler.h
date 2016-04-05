@@ -57,55 +57,55 @@ namespace MplusM
     namespace Registry
     {
         class RegistryService;
-        
+
         /*! @brief The 'unregister' request handler.
-         
+
          The input is the name of a service channel and the output is either 'OK', which indicates
          success, or 'FAILED' followed with a description of the reason for failure. */
         class UnregisterRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             UnregisterRequestHandler(RegistryService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~UnregisterRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(UnregisterRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // UnregisterRequestHandler
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #endif // ! defined(MpMUnregisterRequestHandler_H_)

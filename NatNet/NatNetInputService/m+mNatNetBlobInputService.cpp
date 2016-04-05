@@ -126,7 +126,7 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (4 <= details.size())
@@ -229,7 +229,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetBlobInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "b";
@@ -244,7 +244,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -263,7 +263,7 @@ DEFINE_STARTSERVICE_(NatNetBlobInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -315,7 +315,7 @@ DEFINE_STOPSERVICE_(NatNetBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

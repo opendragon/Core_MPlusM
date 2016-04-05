@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the %Leap %Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -180,7 +180,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to YARP
                                         // infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_LEAPBLOBINPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

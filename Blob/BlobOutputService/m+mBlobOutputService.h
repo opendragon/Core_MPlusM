@@ -73,16 +73,16 @@ namespace MplusM
         class BlobOutputService : public Common::BaseOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -98,47 +98,47 @@ namespace MplusM
                               const YarpString &                  tag,
                               const YarpString &                  serviceEndpointName,
                               const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~BlobOutputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             /*! @brief Deactivate the network connection. */
             void
             deactivateConnection(void);
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BlobOutputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The output port number to be used. */
             int _outPort;
 
@@ -149,9 +149,9 @@ namespace MplusM
             BlobOutputInputHandler * _inHandler;
 
         }; // BlobOutputService
-        
+
     } // Blob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBlobOutputService_H_)

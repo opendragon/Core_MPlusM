@@ -57,53 +57,53 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'extraInfo' request handler.
-         
+
          There is no input for the request and the output is the extra information for the
          service. */
         class ExtraInfoRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             ExtraInfoRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExtraInfoRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(ExtraInfoRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ExtraInfoRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExtraInfoRequestHandler_H_)

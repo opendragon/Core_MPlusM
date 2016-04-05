@@ -57,55 +57,55 @@ namespace MplusM
     namespace Registry
     {
         class RegistryService;
-        
+
         /*! @brief The 'ping' request handler.
-         
+
          The input is the name of a service channel and the output is either 'OK', which indicates
          success, or 'FAILED' followed with a description of the reason for failure. */
         class PingRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             PingRequestHandler(RegistryService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~PingRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(PingRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // PingRequestHandler
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #endif // ! defined(MpMPingRequestHandler_H_)

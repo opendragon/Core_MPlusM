@@ -140,7 +140,7 @@ DEFINE_THREADINIT_(BailOutThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _endTime = yarp::os::Time::now() + _timeToWait;
     ODL_OBJEXIT_B(result); //####
     return result;

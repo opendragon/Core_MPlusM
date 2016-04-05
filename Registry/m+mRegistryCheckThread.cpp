@@ -105,7 +105,7 @@ DEFINE_RUN_(RegistryCheckThread)
     for ( ; ! isStopping(); )
     {
         double now = yarp::os::Time::now();
-        
+
         if (_checkTime <= now)
         {
             _service.checkServiceTimes();
@@ -120,7 +120,7 @@ DEFINE_THREADINIT_(RegistryCheckThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _checkTime = yarp::os::Time::now() + PING_CHECK_INTERVAL_;
     ODL_OBJEXIT_B(result); //####
     return result;

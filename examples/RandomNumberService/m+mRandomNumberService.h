@@ -64,21 +64,21 @@ namespace MplusM
     namespace Example
     {
         class RandomRequestHandler;
-        
+
         /*! @brief The Random Number service. */
         class RandomNumberService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -92,42 +92,42 @@ namespace MplusM
                                 const YarpString & tag,
                                 const YarpString & serviceEndpointName,
                                 const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~RandomNumberService(void);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RandomNumberService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The request handler for the 'random' request. */
             RandomRequestHandler * _randomHandler;
-            
+
         }; // RandomNumberService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRandomNumberService_H_)

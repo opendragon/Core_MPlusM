@@ -119,7 +119,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     RunningSumClient * aClient = new RunningSumClient;
-    
+
     if (aClient)
     {
         StartRunning();
@@ -131,7 +131,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                                      argv, tag,
                                                                              serviceEndpointName,
                                                                                  servicePortNumber);
-            
+
 #if defined(MpM_ReportOnConnections)
             aClient->setReporter(Utilities::GetGlobalStatusReporter(), true);
 #endif // defined(MpM_ReportOnConnections)
@@ -140,7 +140,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 if (aService->startService())
                 {
                     YarpString channelName(aService->getEndpoint().getName());
-                    
+
                     ODL_S1s("channelName = ", channelName); //####
                     if (RegisterLocalService(channelName, *aService))
                     {
@@ -149,7 +149,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         {
                             RunningSumAdapterData sharedData(aClient,
                                                              aService->getOutletStream(0));
-                            
+
                             aService->setUpInputHandlers(sharedData);
                             aService->performLaunch(sharedData, "", goWasSet, stdinAvailable,
                                                     reportOnExit);
@@ -163,10 +163,10 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         if (reportOnExit)
                         {
                             yarp::os::Bottle metrics;
-                            
+
                             aService->gatherMetrics(metrics);
                             YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                            
+
                             cout << converted.c_str() << endl;
                         }
                         aService->stopService();
@@ -253,7 +253,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_RUNNINGSUMALTADAPTER_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

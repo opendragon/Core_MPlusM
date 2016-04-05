@@ -63,23 +63,23 @@ namespace MplusM
         class EchoClient : public Common::BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             EchoClient(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~EchoClient(void);
-            
+
             /*! @brief Send a string to the service and retrieve it back from the service.
              @param outgoing The string to send to the service.
              @param incoming The returned string from the service.
@@ -87,23 +87,23 @@ namespace MplusM
             bool
             sendAndReceive(const YarpString & outgoing,
                            YarpString &       incoming);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(EchoClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // EchoClient
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMEchoClient_H_)

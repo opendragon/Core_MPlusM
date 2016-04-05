@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the client of the Request Counter service. */
 
 /*! @dir RequestCounterClient
@@ -88,7 +88,7 @@ reportTimeInReasonableUnits(const double measurement)
 {
     double       newValue;
     const char * tag;
-    
+
     if (measurement < 1e-6)
     {
         // Less than a microsecond
@@ -142,7 +142,7 @@ setUpAndGo(void)
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     RequestCounterClient * aClient = new RequestCounterClient;
-    
+
     if (aClient)
     {
 #if defined(MpM_ReportOnConnections)
@@ -153,7 +153,7 @@ setUpAndGo(void)
         for ( ; IsRunning(); )
         {
             int count;
-            
+
             cout << "How many requests? ";
             cout.flush();
             cin >> count;
@@ -161,7 +161,7 @@ setUpAndGo(void)
             {
                 break;
             }
-            
+
             if (aClient->findService("name:RequestCounter"))
             {
                 if (aClient->connectToService())
@@ -175,11 +175,11 @@ setUpAndGo(void)
                                 MpM_FAIL_("Problem poking the service.");
                                 break;
                             }
-                            
+
                         }
                         long   counter;
                         double elapsedTime;
-                        
+
                         if (aClient->getServiceStatistics(counter, elapsedTime))
                         {
                             if (0 < counter)
@@ -243,7 +243,7 @@ setUpAndGo(void)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Request Counter service.
- 
+
  Integers read from standard input will be sent to the service as the number of requests to
  simulate. Entering a zero will exit the program.
  @param argc The number of arguments in 'argv'.
@@ -269,7 +269,7 @@ main(int      argc,
     {
         Utilities::DescriptorVector argumentList;
         OutputFlavour               flavour;
-        
+
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Request Counter service",
                                                     2014, STANDARD_COPYRIGHT_NAME_, flavour, true))
@@ -285,7 +285,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

@@ -59,23 +59,23 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief An address argument description.
-         
+
         The external representation of an address argument description is:
-        
+
          addressTagAndInfo ::= 'A'; */
         class AddressArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef StringArgumentDescriptor inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
@@ -91,7 +91,7 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual
             ~AddressArgumentDescriptor(void);
-            
+
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
@@ -99,30 +99,30 @@ namespace MplusM
             parseArgString(const YarpString & inString);
 
         protected :
-        
+
         private :
-            
+
             DECLARE_CLONE_;
-            
+
             DECLARE_TOSTRING_;
-            
+
             DECLARE_VALIDATE_;
-            
+
             COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The variable to be filled in with the actual address. */
             struct in_addr * _addrBuff;
-            
+
         }; // AddressArgumentDescriptor
-        
+
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAddressArgumentDescriptor_H_)

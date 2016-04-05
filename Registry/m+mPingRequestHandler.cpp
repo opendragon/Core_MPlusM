@@ -143,7 +143,7 @@ DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -171,7 +171,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         // Validate the name as a channel name
@@ -179,15 +179,15 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
         if (1 == restOfInput.size())
         {
             yarp::os::Value argument(restOfInput.get(0));
-            
+
             if (argument.isString())
             {
                 YarpString argAsString(argument.toString());
-                
+
                 if (Endpoint::CheckEndpointName(argAsString))
                 {
                     RegistryService & theService = static_cast<RegistryService &>(_service);
-                    
+
                     theService.reportStatusChange(argAsString,
                                                   RegistryService::kRegistryPingFromService);
                     if (theService.checkForExistingService(argAsString))
@@ -208,7 +208,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                                                      BUILD_NAME_("ping_",
                                                                           DEFAULT_CHANNEL_ROOT_));
                         ClientChannel * outChannel = new ClientChannel;
-                        
+
                         if (outChannel)
                         {
                             if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
@@ -218,14 +218,14 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                 {
                                     yarp::os::Bottle message1(MpM_NAME_REQUEST_);
                                     yarp::os::Bottle reply;
-                                    
+
                                     if (outChannel->write(message1, reply))
                                     {
                                         if (theService.processNameResponse(argAsString,
                                                                            ServiceResponse(reply)))
                                         {
                                             yarp::os::Bottle message2(MpM_LIST_REQUEST_);
-                                            
+
                                             if (outChannel->write(message2, reply))
                                             {
                                                 if (theService.processListResponse(argAsString,

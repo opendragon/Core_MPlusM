@@ -113,13 +113,13 @@ setUpAndGo(const YarpString & progName,
     RequestCounterService * aService = new RequestCounterService(progName, argc, argv,
                                                                  serviceEndpointName,
                                                                  servicePortNumber);
-    
+
     if (aService)
     {
         if (aService->startService())
         {
             YarpString channelName(aService->getEndpoint().getName());
-            
+
             ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
@@ -131,10 +131,10 @@ setUpAndGo(const YarpString & progName,
                 if (reportOnExit)
                 {
                     yarp::os::Bottle metrics;
-                    
+
                     aService->gatherMetrics(metrics);
                     YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                    
+
                     cout << converted.c_str() << endl;
                 }
                 aService->stopService();
@@ -211,7 +211,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_REQUESTCOUNTER_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

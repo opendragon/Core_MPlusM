@@ -59,49 +59,49 @@ namespace MplusM
     namespace Exemplar
     {
         class ExemplarClient;
-        
+
         /*! @brief The data shared between the input handlers and the main thread of
          the template adapter. */
         class ExemplarAdapterData : public Common::BaseAdapterData
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             explicit
             ExemplarAdapterData(ExemplarClient *      client = NULL,
                                 Common::BaseChannel * output = NULL);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExemplarAdapterData(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ExemplarAdapterData);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ExemplarAdapterData
-        
+
     } // Exemplar
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExemplarAdapterData_H_)

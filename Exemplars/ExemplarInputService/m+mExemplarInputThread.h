@@ -61,16 +61,16 @@ namespace MplusM
         class ExemplarInputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
              @param timeToWait The number of seconds to delay before triggering.
@@ -78,45 +78,45 @@ namespace MplusM
             ExemplarInputThread(Common::GeneralChannel * outChannel,
                                 const double             timeToWait,
                                 const int                numValues);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExemplarInputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(ExemplarInputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
-            
+
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
-            
+
             /*! @brief The number of values to send in each burst. */
             int _numValues;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -126,11 +126,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // ExemplarInputThread
-        
+
     } // Exemplar
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExemplarInputThread_H_)

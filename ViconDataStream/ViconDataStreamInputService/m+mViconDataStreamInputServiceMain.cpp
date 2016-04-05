@@ -123,7 +123,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                              argc, argv, tag,
                                                                              serviceEndpointName,
                                                                              servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -133,7 +133,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     {
         ODL_LOG("! (aService)"); //####
     }
-    
+
     ODL_EXIT(); //####
 } // setUpAndGo
 
@@ -143,7 +143,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Vicon DataStream input service.
- 
+
  The second, optional, argument is the port for the Vicon device server and the first, optional,
  argument is the host name for the Vicon device server.
  @param argc The number of arguments in 'argv'.
@@ -200,7 +200,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

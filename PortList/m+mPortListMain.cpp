@@ -99,7 +99,7 @@ reportConnections(const OutputFlavour flavour,
     ChannelVector outputs;
     YarpString    inputsAsString;
     YarpString    outputsAsString;
-    
+
     Utilities::GatherPortConnections(portName, inputs, outputs, Utilities::kInputAndOutputBoth,
                                      false, checker, checkStuff);
     if (0 < inputs.size())
@@ -119,21 +119,21 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             inputsAsString += " TCP";
                             break;
-                            
+
                         case kChannelModeUDP :
                             inputsAsString += " UDP";
                             break;
-                            
+
                         case kChannelModeOther :
                             inputsAsString += " unknown";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     break;
-                    
+
                 case kOutputFlavourJSON :
                     if (sawInputs)
                     {
@@ -149,22 +149,22 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             inputsAsString += "TCP";
                             break;
-                            
+
                         case kChannelModeUDP :
                             inputsAsString += "UDP";
                             break;
-                            
+
                         case kChannelModeOther :
                             inputsAsString += "unknown";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     inputsAsString += T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
-                    
+
                 case kOutputFlavourNormal :
                     inputsAsString += "   Input from ";
                     inputsAsString += SanitizeString(walker->_portName, true);
@@ -173,25 +173,25 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             inputsAsString += " via TCP.";
                             break;
-                            
+
                         case kChannelModeUDP :
                             inputsAsString += " via UDP.";
                             break;
-                            
+
                         case kChannelModeOther :
                             inputsAsString += " via non-TCP/non-UDP.";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     inputsAsString += "\n";
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
             sawInputs = true;
         }
@@ -214,21 +214,21 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             outputsAsString += " TCP";
                             break;
-                            
+
                         case kChannelModeUDP :
                             outputsAsString += " UDP";
                             break;
-                            
+
                         case kChannelModeOther :
                             outputsAsString += " unknown";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     break;
-                    
+
                 case kOutputFlavourJSON :
                     if (sawOutputs)
                     {
@@ -244,22 +244,22 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             outputsAsString += "TCP";
                             break;
-                            
+
                         case kChannelModeUDP :
                             outputsAsString += "UDP";
                             break;
-                            
+
                         case kChannelModeOther :
                             outputsAsString += "unknown";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     outputsAsString += T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
-                    
+
                 case kOutputFlavourNormal :
                     outputsAsString += "   Output to ";
                     outputsAsString += SanitizeString(walker->_portName, true);
@@ -268,25 +268,25 @@ reportConnections(const OutputFlavour flavour,
                         case kChannelModeTCP :
                             outputsAsString += " via TCP.";
                             break;
-                            
+
                         case kChannelModeUDP :
                             outputsAsString += " via UDP.";
                             break;
-                            
+
                         case kChannelModeOther :
                             outputsAsString += " via non-TCP/non-UDP.";
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     outputsAsString += "\n";
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
             sawOutputs = true;
         }
@@ -296,14 +296,14 @@ reportConnections(const OutputFlavour flavour,
         case kOutputFlavourTabs :
             cout << inputsAsString.c_str() << "\t" << outputsAsString.c_str();
             break;
-            
+
         case kOutputFlavourJSON :
             cout << T_(CHAR_DOUBLEQUOTE_ "Inputs" CHAR_DOUBLEQUOTE_ ": [ ") <<
                     inputsAsString.c_str() << T_(" ], " CHAR_DOUBLEQUOTE_ "Outputs"
                                                  CHAR_DOUBLEQUOTE_ ": [ ") <<
                     outputsAsString.c_str() << " ]";
             break;
-            
+
         case kOutputFlavourNormal :
             if (sawInputs || sawOutputs)
             {
@@ -321,10 +321,10 @@ reportConnections(const OutputFlavour flavour,
                 cout << "   No active connections." << endl;
             }
             break;
-            
+
         default :
             break;
-            
+
     }
     ODL_EXIT(); //####
 } // reportConnections
@@ -346,7 +346,7 @@ reportPortStatus(const OutputFlavour               flavour,
     bool       result;
     YarpString portName;
     YarpString portClass;
-    
+
     portName = SanitizeString(aDescriptor._portName, kOutputFlavourJSON != flavour);
     if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX_, sizeof(HIDDEN_CHANNEL_PREFIX_) - 1))
     {
@@ -356,32 +356,32 @@ reportPortStatus(const OutputFlavour               flavour,
             case kOutputFlavourTabs :
                 cout << portName.c_str() << "\t";
                 break;
-                
+
             case kOutputFlavourJSON :
                 cout << T_("{ " CHAR_DOUBLEQUOTE_ "PortName" CHAR_DOUBLEQUOTE_ ": "
                            CHAR_DOUBLEQUOTE_) << portName.c_str() << T_(CHAR_DOUBLEQUOTE_ ", ");
                 break;
-                
+
             case kOutputFlavourNormal :
                 cout << portName.c_str() << ": ";
                 break;
-                
+
             default :
                 break;
-                
+
         }
         if (checkWithRegistry)
         {
             YarpString request(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
-            
+
             request += aDescriptor._portName;
             yarp::os::Bottle matches(FindMatchingServices(request, true));
-            
+
             ODL_S1s("matches <- ", matches.toString()); //####
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())
             {
                 YarpString matchesFirstString(matches.get(0).toString());
-                
+
                 if (strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))
                 {
                     // Didn't match - use a simpler check, in case it's unregistered or is an
@@ -391,43 +391,43 @@ reportPortStatus(const OutputFlavour               flavour,
                         case Utilities::kPortKindAdapter :
                             portClass = "Adapter port";
                             break;
-                            
+
                         case Utilities::kPortKindClient :
                             portClass = "Client port";
                             break;
-                            
+
                         case Utilities::kPortKindRegistryService :
                             portClass = "Registry Service port";
                             break;
-                            
+
                         case Utilities::kPortKindService :
                             portClass = "Unregistered service port";
                             break;
-                            
+
                         case Utilities::kPortKindStandard :
                             portClass = "Standard port at ";
                             portClass += aDescriptor._portIpAddress;
                             portClass += ":";
                             portClass += aDescriptor._portPortNumber;
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                 }
                 else
                 {
                     yarp::os::Value secondValue(matches.get(1));
-                    
+
                     if (secondValue.isList())
                     {
                         yarp::os::Bottle * secondList = secondValue.asList();
-                        
+
                         if (secondList && (0 < secondList->size()))
                         {
                             YarpString serviceName(matches.get(1).toString());
-                            
+
                             if (aDescriptor._portName == MpM_REGISTRY_ENDPOINT_NAME_)
                             {
                                 portClass = "Registry Service port for '";
@@ -450,29 +450,29 @@ reportPortStatus(const OutputFlavour               flavour,
                                 case Utilities::kPortKindAdapter :
                                     portClass = "Adapter port";
                                     break;
-                                    
+
                                 case Utilities::kPortKindClient :
                                     portClass = "Client port";
                                     break;
-                                    
+
                                 case Utilities::kPortKindRegistryService :
                                     portClass = "Registry Service port";
                                     break;
-                                    
+
                                 case Utilities::kPortKindService :
                                     portClass = "Unregistered service port";
                                     break;
-                                    
+
                                 case Utilities::kPortKindStandard :
                                     portClass = "Standard port at ";
                                     portClass += aDescriptor._portIpAddress;
                                     portClass += ":";
                                     portClass += aDescriptor._portPortNumber;
                                     break;
-                                    
+
                                 default :
                                     break;
-                                    
+
                             }
                         }
                     }
@@ -483,20 +483,20 @@ reportPortStatus(const OutputFlavour               flavour,
                 case kOutputFlavourTabs :
                     cout << SanitizeString(portClass, true).c_str() << "\t";
                     break;
-                    
+
                 case kOutputFlavourJSON :
                     cout << T_(CHAR_DOUBLEQUOTE_ "PortClass" CHAR_DOUBLEQUOTE_ ": "
                                CHAR_DOUBLEQUOTE_) << SanitizeString(portClass).c_str() <<
                             T_(CHAR_DOUBLEQUOTE_ ", ");
                     break;
-                    
+
                 case kOutputFlavourNormal :
                     cout << SanitizeString(portClass, true).c_str() << ".";
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
         }
         else
@@ -510,83 +510,83 @@ reportPortStatus(const OutputFlavour               flavour,
                 case Utilities::kPortKindAdapter :
                     portClass = "Adapter port";
                     break;
-                    
+
                 case Utilities::kPortKindClient :
                     portClass = "Client port";
                     break;
-                    
+
                 case Utilities::kPortKindRegistryService :
                     portClass = "Registry Service port";
                     break;
-                    
+
                 case Utilities::kPortKindService :
                     portClass = "Unregistered service port";
                     break;
-                    
+
                 case Utilities::kPortKindStandard :
                     portClass = "Standard port at ";
                     portClass += aDescriptor._portIpAddress;
                     portClass += ":";
                     portClass += aDescriptor._portPortNumber;
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
             switch (flavour)
             {
                 case kOutputFlavourTabs :
                     cout << SanitizeString(portClass, true).c_str() << "\t";
                     break;
-                    
+
                 case kOutputFlavourJSON :
                     cout << T_(CHAR_DOUBLEQUOTE_ "PortClass" CHAR_DOUBLEQUOTE_ ": "
                                CHAR_DOUBLEQUOTE_) << SanitizeString(portClass).c_str() <<
                             T_(CHAR_DOUBLEQUOTE_ ", ");
                     break;
-                    
+
                 case kOutputFlavourNormal :
                     cout << SanitizeString(portClass, true).c_str() << ".";
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
         }
         switch (flavour)
         {
             case kOutputFlavourTabs :
                 break;
-                
+
             case kOutputFlavourJSON :
                 break;
-                
+
             case kOutputFlavourNormal :
                 cout << endl;
                 break;
-                
+
             default :
                 break;
-                
+
         }
         reportConnections(flavour, aDescriptor._portName, NULL, NULL);
         switch (flavour)
         {
             case kOutputFlavourTabs :
                 break;
-                
+
             case kOutputFlavourJSON :
                 cout << " }";
                 break;
-                
+
             case kOutputFlavourNormal :
                 break;
-                
+
             default :
                 break;
-                
+
         }
         result = true;
     }
@@ -603,7 +603,7 @@ reportPortStatus(const OutputFlavour               flavour,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for listing the connection status of all visible YARP ports.
- 
+
  There is no input and the output consists of a list of ports and what, if anything, is connected to
  them.
  @param argc The number of arguments in 'argv'.
@@ -624,7 +624,7 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;
-    
+
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List the connection status of YARP ports", 2014,
                                                    STANDARD_COPYRIGHT_NAME_, flavour))
@@ -639,29 +639,29 @@ main(int      argc,
                 yarp::os::Network     yarp; // This is necessary to establish any connections to the
                                             // YARP infrastructure
                 Utilities::PortVector ports;
-                
+
                 Initialize(progName);
                 Utilities::RemoveStalePorts();
                 if (Utilities::GetDetectedPortList(ports, true))
                 {
                     bool serviceRegistryPresent = Utilities::CheckListForRegistryService(ports);
-                    
+
                     switch (flavour)
                     {
                         case kOutputFlavourTabs :
                             break;
-                            
+
                         case kOutputFlavourJSON :
                             cout << "[ ";
                             break;
-                            
+
                         case kOutputFlavourNormal :
                             cout << "Ports:" << endl;
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     if (0 < ports.size())
                     {
@@ -676,20 +676,20 @@ main(int      argc,
                                         cout << "," << endl;
                                     }
                                     break;
-                                    
+
                                 case kOutputFlavourTabs :
                                     if (found)
                                     {
                                         cout << endl;
                                     }
                                     break;
-                                    
+
                                 case kOutputFlavourNormal :
                                     break;
-                                    
+
                                 default :
                                     break;
-                                    
+
                             }
                             found = reportPortStatus(flavour, *walker, serviceRegistryPresent);
                         }
@@ -702,11 +702,11 @@ main(int      argc,
                                 cout << endl;
                             }
                             break;
-                            
+
                         case kOutputFlavourJSON :
                             cout << " ]" << endl;
                             break;
-                            
+
                         case kOutputFlavourNormal :
                             if (found)
                             {
@@ -717,10 +717,10 @@ main(int      argc,
                                 cout << "   No ports found." << endl;
                             }
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                 }
                 else

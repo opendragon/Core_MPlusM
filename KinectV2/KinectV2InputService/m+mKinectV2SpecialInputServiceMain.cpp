@@ -113,7 +113,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                              argc, argv, tag,
                                                                              serviceEndpointName,
                                                                              servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -176,7 +176,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_KINECTV2SPECIALINPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

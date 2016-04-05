@@ -139,7 +139,7 @@ DEFINE_CONFIGURE_(LeapTwoFingersInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -191,7 +191,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapTwoFingersInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "2FINGERS";
@@ -207,7 +207,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapTwoFingersInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_listener)
     {
         _listener->clearOutputChannel();
@@ -226,7 +226,7 @@ DEFINE_STARTSERVICE_(LeapTwoFingersInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -270,7 +270,7 @@ DEFINE_STOPSERVICE_(LeapTwoFingersInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

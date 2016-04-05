@@ -99,27 +99,27 @@ dumpSegments(std::stringstream & outBuffer,
     ODL_D1("scale = ", scale); //####
     bool okSoFar = true;
     int  numSegments = segmentsAsBottle.size();
-    
+
     if (0 < numSegments)
     {
         for (int ii = 0; okSoFar && (numSegments > ii); ++ii)
         {
             yarp::os::Value & aValue = segmentsAsBottle.get(ii);
-            
+
             if (aValue.isList())
             {
                 yarp::os::Bottle * asList = aValue.asList();
-                
+
                 if (asList && (2 == asList->size()))
                 {
                     yarp::os::Value & keyValue = asList->get(0);
                     yarp::os::Value & valueValue = asList->get(1);
-                    
+
                     if (keyValue.isString() && valueValue.isList())
                     {
                         YarpString         keyString = keyValue.asString();
                         yarp::os::Bottle * valueList = valueValue.asList();
-                        
+
 #if defined(MpM_UseCustomStringBuffer)
                         outBuffer.addString(keyString);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -128,12 +128,12 @@ dumpSegments(std::stringstream & outBuffer,
                         if (valueList && (7 == valueList->size()))
                         {
                             int numValues = valueList->size();
-                            
+
                             for (int jj = 0; okSoFar && (numValues > jj); ++jj)
                             {
                                 double            elementAsDouble;
                                 yarp::os::Value & valueElement = valueList->get(jj);
-                                
+
                                 if (valueElement.isDouble())
                                 {
                                     elementAsDouble = valueElement.asDouble();
@@ -242,7 +242,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_owner.isActive())
@@ -254,14 +254,14 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
             else
             {
                 int numSubjects = input.size();
-                
+
                 if (0 < numSubjects)
                 {
                     bool              okSoFar = true;
 #if (! defined(MpM_UseCustomStringBuffer))
                     std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                    
+
 //                    cerr << "# subjects = " << numSubjects << endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
                     _outBuffer.reset().addLong(numSubjects).addString(LINE_END_);
@@ -271,26 +271,26 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
                     for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                     {
                         yarp::os::Value & aValue = input.get(ii);
-                        
+
                         if (aValue.isList())
                         {
                             yarp::os::Bottle * asBottle = aValue.asList();
-                            
+
                             if (asBottle)
                             {
                                 if (2 == asBottle->size())
                                 {
                                     yarp::os::Value & firstValue = asBottle->get(0);
-                                    
+
                                     if (firstValue.isString())
                                     {
                                         YarpString        subjName = firstValue.asString();
                                         yarp::os::Value & secondValue = asBottle->get(1);
-                                        
+
                                         if (secondValue.isDict())
                                         {
                                             yarp::os::Property * segments = secondValue.asDict();
-                                            
+
 //                                            cerr << subjName.c_str() << endl; //!!!!
                                             if (segments)
                                             {
@@ -300,7 +300,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 //                                                        ":" << endl; //!!!!
                                                 yarp::os::Bottle segmentsAsBottle =
                                                                                 segmentsAsString;
-                                                
+
                                                 cerr << ":" << segmentsAsBottle.size() << ":" <<
                                                         segmentsAsBottle.toString() << ":" <<
                                                         endl; //!!!!
@@ -327,11 +327,11 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
                                         else if (secondValue.isList())
                                         {
                                             yarp::os::Bottle * asList = secondValue.asList();
-                                            
+
                                             if (asList)
                                             {
                                                 yarp::os::Property segments;
-                                                
+
                                                 if (ListIsReallyDictionary(*asList, segments))
                                                 {
                                                     YarpString       segmentsAsString =
@@ -340,7 +340,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 //                                                            endl; //!!!!
                                                     yarp::os::Bottle segmentsAsBottle =
                                                                                 segmentsAsString;
-                                                    
+
                                                     cerr << ":" << segmentsAsBottle.size() << ":" <<
                                                             segmentsAsBottle.toString() << ":" <<
                                                             endl; //!!!!
@@ -414,7 +414,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 #if (! defined(MpM_UseCustomStringBuffer))
                         std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                        
+
 #if defined(MpM_UseCustomStringBuffer)
                         outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -425,7 +425,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
                         {
                             int retVal = send(_outSocket, outString,
                                               static_cast<int>(outLength), 0);
-                            
+
                             cerr << "send--> " << retVal << endl; //!!!!
                             if (0 > retVal)
                             {
@@ -434,7 +434,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
                             else
                             {
                                 SendReceiveCounters toBeAdded(0, 0, retVal, 1);
-                                
+
                                 _owner.incrementAuxiliaryCounters(toBeAdded);
                             }
                         }

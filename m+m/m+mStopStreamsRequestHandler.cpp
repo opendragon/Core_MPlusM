@@ -136,7 +136,7 @@ DEFINE_FILLINDESCRIPTION_(StopStreamsRequestHandler)
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -164,7 +164,7 @@ DEFINE_PROCESSREQUEST_(StopStreamsRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         static_cast<BaseInputOutputService &>(_service).stopStreams();

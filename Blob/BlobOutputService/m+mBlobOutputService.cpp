@@ -124,17 +124,17 @@ DEFINE_CONFIGURE_(BlobOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            
+
             if (firstValue.isInt())
             {
                 std::stringstream buff;
-                
+
                 _outPort = firstValue.asInt();
                 ODL_LL1("_outPort <- ", _outPort); //####
                 buff << "Output port is " << _outPort;
@@ -241,7 +241,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(BlobOutputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "b";
@@ -261,7 +261,7 @@ DEFINE_STARTSERVICE_(BlobOutputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -293,7 +293,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-                
+
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
                 {
@@ -302,7 +302,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                 else
                 {
                     struct sockaddr_in addr;
-                    
+
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(_outPort);
@@ -341,7 +341,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                     {
                         cerr << "creating socket" << endl; //!!!!
                         SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                        
+
                         if (INVALID_SOCKET == listenSocket)
                         {
                             cerr << "Could not create socket." << endl;
@@ -349,7 +349,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                         else
                         {
                             SOCKADDR_IN addr;
-                            
+
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -416,7 +416,7 @@ DEFINE_STOPSERVICE_(BlobOutputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

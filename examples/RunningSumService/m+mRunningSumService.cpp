@@ -129,11 +129,11 @@ RunningSumService::addToSum(const YarpString & key,
     ODL_S1s("key = ", key); //####
     ODL_D1("value = ", value); //####
     double result = 0.0;
-    
+
     try
     {
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RunningSumContext;
@@ -229,7 +229,7 @@ RunningSumService::resetSum(const YarpString & key)
     try
     {
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RunningSumContext;
@@ -249,7 +249,7 @@ DEFINE_STARTSERVICE_(RunningSumService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -257,7 +257,7 @@ DEFINE_STARTSERVICE_(RunningSumService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -283,7 +283,7 @@ RunningSumService::startSum(const YarpString & key)
     try
     {
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RunningSumContext;
@@ -303,7 +303,7 @@ DEFINE_STOPSERVICE_(RunningSumService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

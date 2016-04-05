@@ -136,7 +136,7 @@ DEFINE_FILLINDESCRIPTION_(WhereRequestHandler)
                  "Output: the remembered IP address and port");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -164,12 +164,12 @@ DEFINE_PROCESSREQUEST_(WhereRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         YarpString address;
         int        port;
-        
+
         static_cast<TunnelService &>(_service).getAddress(address, port);
         _response.clear();
         _response.addString(address);

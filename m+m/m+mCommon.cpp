@@ -141,7 +141,7 @@ localCatcher(int signal)
     {
         std::stringstream buff;
         YarpString        message("Exiting due to signal ");
-        
+
         buff << signal;
         message += buff.str();
         message += " = ";
@@ -170,7 +170,7 @@ Common::DumpContactToLog(const char *              tag,
     {
         std::stringstream buff;
         YarpString        message("tag = ");
-        
+
         buff << aContact.getPort();
         message += tag;
 # if USE_YARP_FATAL_NOT_FAIL_
@@ -240,14 +240,14 @@ Common::GetRandomChannelName(const char * channelRoot)
     ODL_ENTER(); //####
     ODL_S1("channelRoot = ", channelRoot); //####
     YarpString result;
-    
+
     try
     {
         bool              hasLeadingSlash = false;
         const char *      stringToUse;
         int               randNumb = static_cast<int>(yarp::os::Random::uniform() * kMaxRandom);
         std::stringstream buff;
-        
+
         if (channelRoot)
         {
             stringToUse = channelRoot;
@@ -307,7 +307,7 @@ Common::Initialize(const YarpString & progName)
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
-        
+
 #if defined(MpM_ChattyStart)
 # if MAC_OR_LINUX_
         if (lLogger)
@@ -348,7 +348,7 @@ Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     sigset_t         blocking;
     struct sigaction act;
 #endif // MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
@@ -408,7 +408,7 @@ Common::SetUpCatcher(void)
     sigset_t         unblocking;
     struct sigaction act;
 #endif // MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE_);
@@ -444,7 +444,7 @@ Common::ShutDownCatcher(void)
     sigset_t         blocking;
     struct sigaction act;
 #endif // MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE_);
@@ -477,7 +477,7 @@ MplusM::CanReadFromStandardInput(void)
     HWND  wind = GetConsoleWindow();
 #endif // ! MAC_OR_LINUX_
     bool  result = false;
-    
+
 #if MAC_OR_LINUX_
     if (-1 == fg)
     {
@@ -537,27 +537,27 @@ MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
     ODL_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####
     int  mm = aList.size();
     bool isDictionary = (0 < mm);
-    
+
     aDictionary.clear();
     for (int ii = 0; isDictionary && (mm > ii); ++ii)
     {
         yarp::os::Value anEntry(aList.get(ii));
-        
+
         if (anEntry.isList())
         {
             yarp::os::Bottle * entryAsList = anEntry.asList();
-            
+
             if (entryAsList)
             {
                 if (2 == entryAsList->size())
                 {
                     yarp::os::Value key(entryAsList->get(0));
                     yarp::os::Value data(entryAsList->get(1));
-                    
+
                     if (key.isString())
                     {
                         YarpString keyAsString(key.toString());
-                        
+
                         if (aDictionary.check(keyAsString))
                         {
                             isDictionary = false;
@@ -591,34 +591,34 @@ const char *
 MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
-    
+
 #if MAC_OR_LINUX_
     switch (theSignal)
     {
         case SIGHUP :
             result = "SIGHUP[hangup]";
             break;
-            
+
         case SIGINT :
             result = "SIGINT[interrupt]";
             break;
-            
+
         case SIGQUIT :
             result = "SIGQUIT[quit]";
             break;
-            
+
         case SIGILL :
             result = "SIGILL[illegal instruction]";
             break;
-            
+
         case SIGTRAP :
             result = "SIGTRAP[trace trap]";
             break;
-            
+
         case SIGABRT :
             result = "SIGABRT[abort()]";
             break;
-            
+
 # if (defined(_POSIX_C_SOURCE) && (! defined(_DARWIN_C_SOURCE)))
         case SIGPOLL :
             result = "SIGPOLL[pollable evebt]";
@@ -628,113 +628,113 @@ MplusM::NameOfSignal(const int theSignal)
             result = "SIGEMT[EMT instruction]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
-            
+
         case SIGFPE :
             result = "SIGFPE[floating point exception]";
             break;
-            
+
         case SIGKILL :
             result = "SIGKILL[kill]";
             break;
-            
+
         case SIGBUS :
             result = "SIGBUS[bus error]";
             break;
-            
+
         case SIGSEGV :
             result = "SIGSEGV[segmentation violation]";
             break;
-            
+
         case SIGSYS :
             result = "SIGSYS[bad argument to system call]";
             break;
-            
+
         case SIGPIPE :
             result = "SIGPIPE[write on a pipe with no one to read it]";
             break;
-            
+
         case SIGALRM :
             result = "SIGALRM[alarm clock]";
             break;
-            
+
         case SIGTERM :
             result = "SIGTERM[software termination signal from kill]";
             break;
-            
+
         case SIGURG :
             result = "SIGURG[urgent condition on IO channel]";
             break;
-            
+
         case SIGSTOP :
             result = "SIGSTOP[sendable stop signal not from tty]";
             break;
-            
+
         case SIGTSTP :
             result = "SIGTSTP[stop signal from tty]";
             break;
-            
+
         case SIGCONT :
             result = "SIGCONT[continue a stopped process]";
             break;
-            
+
         case SIGCHLD :
             result = "SIGCHLD[to parent on child stop or exit]";
             break;
-            
+
         case SIGTTIN :
             result = "SIGTTIN[to readers pgrp upon background tty read]";
             break;
-            
+
         case SIGTTOU :
             result = "SIGTTOU[like TTIN for output if (tp->t_local&LTOSTOP)]";
             break;
-            
+
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGIO :
             result = "SIGIO[input/output possible signal]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
-            
+
         case SIGXCPU :
             result = "SIGXCPU[exceeded CPU time limit]";
             break;
-            
+
         case SIGXFSZ :
             result = "SIGXFSZ[exceeded file size limit]";
             break;
-            
+
         case SIGVTALRM :
             result = "SIGVTALRM[virtual time alarm]";
             break;
-            
+
         case SIGPROF :
             result = "SIGPROF[profiling time alarm]";
             break;
-            
+
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGWINCH :
             result = "SIGWINCH[window size changes]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
-            
+
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGINFO :
             result = "SIGINFO[information request]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
-            
+
         case SIGUSR1 :
             result = "SIGUSR1[user defined signal 1]";
             break;
-            
+
         case SIGUSR2 :
             result = "SIGUSR2[user defined signal 2]";
             break;
-            
+
         default :
             result = "unknown";
             break;
-            
+
     }
 #else // ! MAC_OR_LINUX_
     switch (theSignal)
@@ -742,15 +742,15 @@ MplusM::NameOfSignal(const int theSignal)
         case SIGINT :
             result = "SIGINT[interrupt]";
             break;
-            
+
         case SIGABRT :
             result = "SIGABRT[abort()]";
             break;
-            
+
         default :
             result = "unknown";
             break;
-            
+
     }
 #endif // ! MAC_OR_LINUX_
     return result;
@@ -766,20 +766,20 @@ MplusM::OutputDescription(std::ostream &     outStream,
     size_t     pieceStart = 0;
     YarpString blanks(indentSize, ' ');
     YarpString indent(heading);
-    
+
     for (size_t ii = 0; ii < descriptionLength; ++ii)
     {
         if ('\n' == description[ii])
         {
             YarpString piece(description.substr(pieceStart, ii - pieceStart));
-            
+
             outStream << indent << piece.c_str() << endl;
             pieceStart = ii + 1;
             indent = blanks;
         }
     }
     YarpString piece(description.substr(pieceStart, descriptionLength - pieceStart));
-    
+
     outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription
 
@@ -791,39 +791,39 @@ MplusM::SanitizeString(const YarpString & inString,
     ODL_S1s("channelRoot = ", inString); //####
     ODL_B1("allowDoubleQuotes = ", allowDoubleQuotes); //####
     YarpString outString;
-    
+
     try
     {
         for (size_t ii = 0, mm = inString.length(); mm > ii; )
         {
             char cc = inString[ii++];
-            
+
             switch (cc)
             {
                 case '\t' :
                     outString += kEscapeChar;
                     cc = 't';
                     break;
-                    
+
                 case '\n' :
                     outString += kEscapeChar;
                     cc = 'n';
                     break;
-                    
+
                 case '\\' :
                     outString += kEscapeChar;
                     break;
-                    
+
                 case '"' :
                     if (! allowDoubleQuotes)
                     {
                         outString += kEscapeChar;
                     }
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
             outString += cc;
         }

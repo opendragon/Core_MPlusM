@@ -106,7 +106,7 @@ DEFINE_THREADINIT_(BaseThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseThread::threadInit

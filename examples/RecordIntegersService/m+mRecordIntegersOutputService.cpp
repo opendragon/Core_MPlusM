@@ -129,13 +129,13 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            
+
             if (firstValue.isString())
             {
                 _outPath = firstValue.asString();
@@ -220,7 +220,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordIntegersOutputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "i+";
@@ -240,7 +240,7 @@ DEFINE_STARTSERVICE_(RecordIntegersOutputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -310,7 +310,7 @@ DEFINE_STOPSERVICE_(RecordIntegersOutputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

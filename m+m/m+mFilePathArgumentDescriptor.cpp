@@ -94,12 +94,12 @@ checkFilePath(const char * thePath,
     ODL_S1("thePath = ", thePath); //####
     ODL_B1("forOutput = ", forOutput); //####
     bool okSoFar;
-    
+
     if (forOutput)
     {
         YarpString dirPath(thePath);
         size_t     lastDelim = dirPath.rfind(kDirectorySeparator[0]);
-        
+
         if (YarpString::npos == lastDelim)
         {
 #if MAC_OR_LINUX_
@@ -125,7 +125,7 @@ checkFilePath(const char * thePath,
         okSoFar = (0 == access(thePath, R_OK));
 #else // ! MAC_OR_LINUX_
         okSoFar = (0 == _access(thePath, 4));
-#endif // ! MAC_OR_LINUX_        
+#endif // ! MAC_OR_LINUX_
     }
     else
     {
@@ -264,7 +264,7 @@ FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
         if (okSoFar)
         {
             YarpString tempString(defaultString);
-            
+
             if (usesRandom)
             {
                 tempString += Utilities::GetRandomHexString();

@@ -59,54 +59,54 @@ namespace MplusM
     namespace RecordBlob
     {
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of arbitrary YARP messages. */
         class RecordBlobOutputInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RecordBlobOutputInputHandler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RecordBlobOutputInputHandler(void);
-            
+
             /*! @brief Set the file to be written to.
              @param outFile The file to be written to. */
             void
             setFile(FILE * outFile);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(RecordBlobOutputInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
-            
+
         }; // RecordBlobOutputInputHandler
-        
+
     } // RecordBlob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRecordBlobOutputInputHandler_H_)

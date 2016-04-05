@@ -138,7 +138,7 @@ DEFINE_FILLINDESCRIPTION_(EchoRequestHandler)
                  "Output: same as input");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -166,7 +166,7 @@ DEFINE_PROCESSREQUEST_(EchoRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         _response = restOfInput;

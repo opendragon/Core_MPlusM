@@ -105,7 +105,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for reporting the version numbers.
- 
+
  Standard output will receive a list of the version numbers.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
@@ -116,7 +116,7 @@ main(int      argc,
 {
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;
-    
+
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Reports the version numbers", 2014,
                                                    STANDARD_COPYRIGHT_NAME_, flavour))
@@ -134,7 +134,7 @@ main(int      argc,
                 cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
                         aceVersionString.c_str() << endl;
                 break;
-                
+
             case kOutputFlavourJSON :
                 aceVersionString = SanitizeString(ACE_VERSION);
                 mpmVersionString = SanitizeString(MpM_VERSION_);
@@ -148,7 +148,7 @@ main(int      argc,
                                                         CHAR_DOUBLEQUOTE_) <<
                         aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ " }") << endl;
                 break;
-                
+
             case kOutputFlavourNormal :
                 aceVersionString = SanitizeString(ACE_VERSION, true);
                 mpmVersionString = SanitizeString(MpM_VERSION_, true);
@@ -157,10 +157,10 @@ main(int      argc,
                         yarpVersionString.c_str() << ", ACE Version: " << aceVersionString.c_str() <<
                         endl;
                 break;
-                
+
             default :
                 break;
-                
+
         }
     }
     return 0;

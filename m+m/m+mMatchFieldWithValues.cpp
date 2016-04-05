@@ -92,25 +92,25 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchFieldWithValues * result = NULL;
-    
+
     try
     {
         size_t           workPos = startPos;
         MatchFieldName * fieldName = MatchFieldName::CreateMatcher(inString, inLength, startPos,
                                                                    workPos, validator);
-        
+
         if (fieldName)
         {
             workPos = SkipWhitespace(inString, inLength, workPos);
             if (workPos < inLength)
             {
                 size_t nextPos;
-                
+
                 if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
                 {
                     MatchValueList * asList = MatchValueList::CreateMatcher(inString, inLength,
                                                                             workPos, nextPos);
-                    
+
                     if (asList)
                     {
                         result = new MatchFieldWithValues(validator, fieldName, asList);
@@ -124,7 +124,7 @@ MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
                 {
                     MatchValue * asSingle = MatchValue::CreateMatcher(inString, inLength, workPos,
                                                                       nextPos);
-                    
+
                     if (asSingle)
                     {
                         result = new MatchFieldWithValues(validator, fieldName, asSingle);
@@ -208,7 +208,7 @@ const
 {
     ODL_OBJENTER(); //####
     YarpString converted;
-    
+
     try
     {
         bool         negated = _fieldName->isNegated();
@@ -216,7 +216,7 @@ const
         const char * prefixString = NULL;
         const char * suffixString = NULL;
         const char * trueName;
-        
+
         if (_validator)
         {
             trueName = _validator->getPrefixAndSuffix(field.c_str(), prefixString, suffixString);
@@ -274,7 +274,7 @@ MatchFieldWithValues::asString(void)
 const
 {
     YarpString result;
-    
+
     try
     {
         result += _fieldName->asString();

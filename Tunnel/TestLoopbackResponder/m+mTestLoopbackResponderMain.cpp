@@ -47,7 +47,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the Test Loopback Responder utility. */
 
 /*! @dir TestLoopbackResponder
@@ -110,7 +110,7 @@ main(int      argc,
                                                    Utilities::kArgModeRequired, 12345, false);
         Utilities::DescriptorVector       argumentList;
         OutputFlavour                     flavour; // ignored
-        
+
         argumentList.push_back(&firstArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        T_("Communicates with the Test Loopback "
@@ -126,13 +126,13 @@ main(int      argc,
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-                
+
 #if MAC_OR_LINUX_
                 listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 if (INVALID_SOCKET != listenSocket)
                 {
                     struct sockaddr_in addr;
-                    
+
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(listenPort);
@@ -158,13 +158,13 @@ main(int      argc,
                     if (INVALID_SOCKET != listenSocket)
                     {
                         SOCKADDR_IN addr;
-                        
+
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(listenPort);
                         addr.sin_addr.s_addr = htonl(INADDR_ANY);
                         int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr),
                                        sizeof(addr));
-                        
+
                         if (SOCKET_ERROR == res)
                         {
                             ODL_LOG("(SOCKET_ERROR == res)"); //####
@@ -185,7 +185,7 @@ main(int      argc,
                     char   theBuffer[BUFFER_SIZE_];
                     ODL_LOG("waiting for a connection"); //####
                     SOCKET loopSocket = accept(listenSocket, NULL, NULL);
-                    
+
                     ODL_L1("loopSocket = ", loopSocket); //####
                     for ( ; keepGoing; )
                     {
@@ -194,7 +194,7 @@ main(int      argc,
 #else // ! MAC_OR_LINUX_
                         int     inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
 #endif // ! MAC_OR_LINUX_
-                        
+
                         if (0 < inSize)
                         {
 #if defined(CHATTY_OUTPUT_)

@@ -85,7 +85,7 @@ setUpAndGo(const OutputFlavour flavour)
     ODL_ENTER(); //####
     bool             reported = false;
     YarpStringVector services;
-    
+
     if (Utilities::GetServiceNames(services))
     {
         if (kOutputFlavourJSON == flavour)
@@ -98,7 +98,7 @@ setUpAndGo(const OutputFlavour flavour)
                  services.end() != walker; ++walker)
             {
                 Utilities::ServiceDescriptor descriptor;
-                
+
                 if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
                                                                STANDARD_WAIT_TIME_))
                 {
@@ -115,7 +115,7 @@ setUpAndGo(const OutputFlavour flavour)
                     YarpString serviceName;
                     YarpString servicePortName;
                     YarpString tag;
-                    
+
                     switch (flavour)
                     {
                         case kOutputFlavourTabs :
@@ -124,7 +124,7 @@ setUpAndGo(const OutputFlavour flavour)
                                 cout << endl;
                             }
                             break;
-                            
+
                         case kOutputFlavourJSON :
                             if (reported)
                             {
@@ -132,7 +132,7 @@ setUpAndGo(const OutputFlavour flavour)
                             }
                             cout << "{ ";
                             break;
-                            
+
                         case kOutputFlavourNormal :
                             if (! reported)
                             {
@@ -140,10 +140,10 @@ setUpAndGo(const OutputFlavour flavour)
                             }
                             cout << endl;
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                     reported = true;
                     if (kOutputFlavourJSON == flavour)
@@ -153,12 +153,12 @@ setUpAndGo(const OutputFlavour flavour)
                         outChannelNames = "[ ";
                     }
                     ChannelVector & inChannels = descriptor._inputChannels;
-                    
+
                     for (ChannelVector::const_iterator iWalker(inChannels.begin());
                          inChannels.end() != iWalker; ++iWalker)
                     {
                         ChannelDescription iDescriptor(*iWalker);
-                        
+
                         if (kOutputFlavourJSON == flavour)
                         {
                             if (sawInputs)
@@ -193,12 +193,12 @@ setUpAndGo(const OutputFlavour flavour)
                         inChannelNames += " ]";
                     }
                     ChannelVector & outChannels = descriptor._outputChannels;
-                    
+
                     for (ChannelVector::const_iterator oWalker(outChannels.begin());
                          outChannels.end() != oWalker; ++oWalker)
                     {
                         ChannelDescription oDescriptor(*oWalker);
-                        
+
                         if (kOutputFlavourJSON == flavour)
                         {
                             if (sawOutputs)
@@ -234,12 +234,12 @@ setUpAndGo(const OutputFlavour flavour)
                         outChannelNames += " ]";
                     }
                     ChannelVector & clientChannels = descriptor._clientChannels;
-                    
+
                     for (ChannelVector::const_iterator cWalker(clientChannels.begin());
                          clientChannels.end() != cWalker; ++cWalker)
                     {
                         ChannelDescription cDescriptor(*cWalker);
-                        
+
                         if (kOutputFlavourJSON == flavour)
                         {
                             if (sawClients)
@@ -316,7 +316,7 @@ setUpAndGo(const OutputFlavour flavour)
                             cout << T_(CHAR_DOUBLEQUOTE_ "SecondaryClients" CHAR_DOUBLEQUOTE_
                                        ": ") << clientChannelNames.c_str() << " }";
                             break;
-                            
+
                         case kOutputFlavourTabs :
                             cout << servicePortName.c_str() << "\t";
                             cout << serviceName.c_str() << "\t";
@@ -330,7 +330,7 @@ setUpAndGo(const OutputFlavour flavour)
                                     inChannelNames.c_str() << "\t" << outChannelNames.c_str() <<
                                     "\t" << clientChannelNames.c_str();
                             break;
-                            
+
                         case kOutputFlavourNormal :
                             cout << "Service port:      " << servicePortName.c_str() << endl;
                             cout << "Service name:      " << serviceName.c_str() << endl;
@@ -359,10 +359,10 @@ setUpAndGo(const OutputFlavour flavour)
                                 OutputDescription(cout, "Secondary clients: ", clientChannelNames);
                             }
                             break;
-                            
+
                         default :
                             break;
-                            
+
                     }
                 }
             }
@@ -375,11 +375,11 @@ setUpAndGo(const OutputFlavour flavour)
                     cout << endl;
                 }
                 break;
-                
+
             case kOutputFlavourJSON :
                 cout << " ]" << endl;
                 break;
-                
+
             case kOutputFlavourNormal :
                 if (reported)
                 {
@@ -390,10 +390,10 @@ setUpAndGo(const OutputFlavour flavour)
                     cout << "No services found." << endl;
                 }
                 break;
-                
+
             default :
                 break;
-                
+
         }
     }
     ODL_EXIT(); //####
@@ -404,7 +404,7 @@ setUpAndGo(const OutputFlavour flavour)
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for listing the available services.
- 
+
  There are no input arguments and standard output will receive a list of the available services.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
@@ -424,7 +424,7 @@ main(int      argc,
 #endif // MAC_OR_LINUX_
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;
-    
+
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List the available services", 2014,
                                                    STANDARD_COPYRIGHT_NAME_, flavour))
@@ -437,7 +437,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {

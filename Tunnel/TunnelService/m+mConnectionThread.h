@@ -57,30 +57,30 @@ namespace MplusM
     namespace Tunnel
     {
         class TunnelService;
-        
+
         /*! @brief A convenience class to handle network connections. */
         class ConnectionThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that manages the network connection. */
             explicit
             ConnectionThread(TunnelService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ConnectionThread(void);
-            
+
             /*! @brief Set the address of the data source.
              @param sourceName The data source address to be connected to.
              @param sourcePort The data source port to be connected to. */
@@ -89,42 +89,42 @@ namespace MplusM
                              const int          sourcePort);
 
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(ConnectionThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that manages the connection information. */
             TunnelService & _service;
-            
+
             /*! @brief The data source address. */
             YarpString _sourceAddress;
-            
+
             /*! @brief The data source port. */
             int _sourcePort;
-            
+
             /*! @brief The network socket that is to be listened to. */
             SOCKET _listenSocket;
-            
+
             /*! @brief The network socket that provides the source data. */
             SOCKET _sourceSocket;
-            
+
         }; // ConnectionThread
-        
+
     } // Tunnel
-    
+
 } // MplusM
 
 #endif // ! defined(MpMConnectionThread_H_)

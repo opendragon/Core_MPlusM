@@ -72,24 +72,24 @@ namespace MplusM
     {
         class JavaScriptFilterInputHandler;
         class JavaScriptFilterThread;
-        
+
         /*! @brief The %JavaScript filter service. */
         class JavaScriptFilterService : public Common::BaseFilterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
-            
+
             /*! @brief A sequence of input handlers. */
             typedef std::vector<JavaScriptFilterInputHandler *> HandlerVector;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param context The %JavaScript engine context.
@@ -128,19 +128,19 @@ namespace MplusM
                                     const double                        loadedInterval,
                                     const YarpString &                  serviceEndpointName,
                                     const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~JavaScriptFilterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_DOIDLE_;
 
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             /*! @brief Return the %JavaScript execution environment.
@@ -151,7 +151,7 @@ namespace MplusM
             {
                 return _context;
             } // getContext
-            
+
             /*! @brief Return the global object for the %JavaScript execution environment.
              @returns The global object for the %JavaScript execution environment. */
             inline JS::RootedObject &
@@ -160,9 +160,9 @@ namespace MplusM
             {
                 return _global;
             } // getGlobal
-            
+
             DECLARE_RESTARTSTREAMS_;
-            
+
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
              @param theData The value to be sent.
@@ -170,89 +170,89 @@ namespace MplusM
             bool
             sendToChannel(const int32_t channelSlot,
                           JS::Value     theData);
-            
+
             /*! @brief Signal to the background process that the thread or handler function should
              be performed. */
             void
             signalRunFunction(void);
-            
+
             /*! @brief Stall a thread until the main thread can process the request and then process
              the request.
              @param slotNumber The slot number of the input handler making the request. */
             void
             stallUntilIdle(const size_t slotNumber);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(JavaScriptFilterService);
-            
+
             /*! @brief Release all the allocated handlers. */
             void
             releaseHandlers(void);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler functions to use for input. */
             JS::AutoValueVector _inletHandlers;
-            
+
             /*! @brief The set of input handlers. */
             HandlerVector _inHandlers;
-            
+
             /*! @brief The output thread to use. */
             JavaScriptFilterThread * _generator;
-            
+
             /*! @brief The %JavaScript execution environment. */
             JSContext * _context;
-            
+
             /*! @brief The %JavaScript global object for this execution environment. */
             JS::RootedObject & _global;
-            
+
             /*! @brief The list of loaded inlet stream descriptions. */
             const Common::ChannelVector & _loadedInletDescriptions;
-            
+
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
-            
+
             /*! @brief The communication signal for the thread or handlers. */
             yarp::os::Semaphore _goAhead;
-            
+
             /*! @brief The communication signal for the handlers. */
             yarp::os::Semaphore _staller;
-            
+
             /*! @brief The %JavaScript script starting function. */
             JS::RootedValue _scriptStartingFunc;
-            
+
             /*! @brief The %JavaScript script stopping function. */
             JS::RootedValue _scriptStoppingFunc;
-            
+
             /*! @brief The %JavaScript script thread function. */
             JS::RootedValue _scriptThreadFunc;
-            
+
             /*! @brief The thread interval. */
             double _threadInterval;
-            
+
             /*! @brief The slot of the most recent input handler. */
             size_t _mostRecentSlot;
-            
+
             /*! @brief @c true if a thread is being used. */
             bool _isThreaded;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -264,7 +264,7 @@ namespace MplusM
 # endif // defined(__APPLE__)
 
         }; // JavaScriptFilterService
-        
+
         /*! @brief Print out a %JavaScript object.
          @param outStream Where to write the object.
          @param jct The %JavaScript engine context.
@@ -276,7 +276,7 @@ namespace MplusM
                               JSContext *        jct,
                               JS::RootedObject & anObject,
                               const int          depth);
-        
+
         /*! @brief Print out a value.
          @param outStream Where to write the value.
          @param jct The %JavaScript engine context.
@@ -292,7 +292,7 @@ namespace MplusM
                              const int         depth);
 
     } // JavaScript
-    
+
 } // MplusM
 
 #endif // ! defined(MpMJavaScriptService_H_)

@@ -175,7 +175,7 @@ DEFINE_TOSTRING_(ChannelArgumentDescriptor)
 DEFINE_VALIDATE_(ChannelArgumentDescriptor)
 {
     ODL_OBJENTER(); //####
-    _valid = Endpoint::CheckEndpointName(value);    
+    _valid = Endpoint::CheckEndpointName(value);
     ODL_B1("_valid <- ", _valid); //####
     if (_valid)
     {

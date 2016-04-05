@@ -257,7 +257,7 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
     if (_hasMinimumValue)
     {
         std::stringstream buff;
-        
+
         buff << _minimumValue;
         result += buff.str();
     }
@@ -265,7 +265,7 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
     if (_hasMaximumValue)
     {
         std::stringstream buff;
-        
+
         buff << _maximumValue;
         result += buff.str();
     }
@@ -280,7 +280,7 @@ DEFINE_VALIDATE_(IntArgumentDescriptor)
     const char * startPtr = value.c_str();
     char *       endPtr;
     int          intValue = strtol(startPtr, &endPtr, 10);
-    
+
     if ((startPtr != endPtr) && (! *endPtr))
     {
         _valid = true;
@@ -298,7 +298,7 @@ DEFINE_VALIDATE_(IntArgumentDescriptor)
     }
     else
     {
-        _valid = false;        
+        _valid = false;
         ODL_B1("_valid <- ", _valid); //####
     }
     if (_valid)

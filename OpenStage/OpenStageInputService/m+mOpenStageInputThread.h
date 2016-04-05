@@ -73,36 +73,36 @@ namespace MplusM
         class OpenStageInputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
              @param name The host name to connect to the Organic Motion %OpenStage server.
-             @param port The host port to connect to the Organic Motion %OpenStage server. */    
+             @param port The host port to connect to the Organic Motion %OpenStage server. */
             OpenStageInputThread(Common::GeneralChannel * outChannel,
                                  const YarpString &       name,
                                  const int                port);
-            
+
             /*! @brief The destructor. */
             virtual
             ~OpenStageInputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
         protected :
-            
+
         private :
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Process the received data.
              @param actorData The data to be processed. */
@@ -111,19 +111,19 @@ namespace MplusM
 # endif // ! defined(MpM_BuildDummyServices)
 
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(OpenStageInputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The address of the Organic Motion %OpenStage device. */
             YarpString _address;
 
@@ -132,7 +132,7 @@ namespace MplusM
 
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief The connection to the device. */
             om::sdk2::ClientPtr _client;
@@ -149,9 +149,9 @@ namespace MplusM
 # endif // ! defined(MpM_BuildDummyServices)
 
         }; // OpenStageInputThread
-        
+
     } // OpenStage
-    
+
 } // MplusM
 
 #endif // ! defined(MpMOpenStageInputThread_H_)

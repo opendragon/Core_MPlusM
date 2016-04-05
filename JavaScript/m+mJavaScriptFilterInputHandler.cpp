@@ -121,7 +121,7 @@ DEFINE_HANDLE_INPUT_(JavaScriptFilterInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_active && _owner)

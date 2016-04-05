@@ -61,16 +61,16 @@ namespace MplusM
         class BaseInputService : public Common::BaseInputOutputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputOutputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -95,34 +95,34 @@ namespace MplusM
                              const YarpString &                  requestsDescription,
                              const YarpString &                  serviceEndpointName,
                              const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseInputService(void);
-            
+
         protected :
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseInputService);
-            
+
             DECLARE_SETUPOUTPUTSTREAMS_;
-            
+
         public :
-        
+
         protected :
-        
+
             /*! @brief The descriptions of the output streams. */
             ChannelVector _outDescriptions;
-            
+
         private :
-            
+
         }; // BaseInputService
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseInputService_H_)

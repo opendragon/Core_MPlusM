@@ -168,7 +168,7 @@ DEFINE_STARTSERVICE_(ExemplarService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -189,7 +189,7 @@ DEFINE_STOPSERVICE_(ExemplarService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

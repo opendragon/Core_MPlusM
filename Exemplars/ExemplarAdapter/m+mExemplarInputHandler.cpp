@@ -121,19 +121,19 @@ DEFINE_HANDLE_INPUT_(ExemplarInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (0 < input.size())
         {
             BaseChannel *    theOutput = _shared.getOutput();
             ExemplarClient * theClient = (ExemplarClient *) _shared.getClient();
-            
+
             if (theClient && theOutput)
             {
                 int             count;
                 yarp::os::Value argValue(input.get(0));
-                
+
                 if (argValue.isInt())
                 {
                     count = argValue.asInt();
@@ -153,11 +153,11 @@ DEFINE_HANDLE_INPUT_(ExemplarInputHandler)
                 if (1 < count)
                 {
                     DoubleVector randResult;
-                    
+
                     if (theClient->getRandomNumbers(count, randResult))
                     {
                         yarp::os::Bottle message;
-                        
+
                         if (0 < randResult.size())
                         {
                             for (DoubleVector::const_iterator it(randResult.begin());
@@ -184,11 +184,11 @@ DEFINE_HANDLE_INPUT_(ExemplarInputHandler)
                 else if (0 < count)
                 {
                     double randResult;
-                    
+
                     if (theClient->getOneRandomNumber(randResult))
                     {
                         yarp::os::Bottle message;
-                        
+
                         message.addDouble(randResult);
                         _shared.lock();
                         if (! theOutput->write(message))

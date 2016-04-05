@@ -155,7 +155,7 @@ DEFINE_PROCESSREQUEST_(Test11EchoRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     _response = restOfInput;
     sendResponse(replyMechanism);
     ODL_OBJEXIT_B(result); //####

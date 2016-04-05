@@ -115,18 +115,18 @@ DEFINE_HANDLE_INPUT_(ExemplarOutputInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_outFile)
         {
             ODL_LOG("(_outFile)"); //####
             bool sawValue = false;
-            
+
             for (int ii = 0, mm = input.size(); mm > ii; ++ii)
             {
                 yarp::os::Value aValue(input.get(ii));
-                
+
                 if (aValue.isInt())
                 {
                     if (sawValue)

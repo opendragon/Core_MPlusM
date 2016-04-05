@@ -90,51 +90,51 @@ namespace MplusM
         class BaseThread : public yarp::os::Thread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             BaseThread(void);
-                        
+
             /*! @brief The destructor. */
             virtual
             ~BaseThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             /*! @fn virtual void
                     run(void)
              @brief The thread main body. */
             DECLARE_RUN_;
-            
+
             /*! @fn virtual bool
                     threadInit(void)
              @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             DECLARE_THREADINIT_;
-            
+
             /*! @fn virtual void
                     threadRelease(void)
              @brief The thread termination method. */
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(BaseThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -144,11 +144,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseThread
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseThread_H_)

@@ -61,59 +61,59 @@ namespace MplusM
         class MovementDbContext : public Common::BaseContext
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseContext inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             MovementDbContext(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~MovementDbContext(void);
-            
+
             /*! @brief An accessor for the data track. */
             inline YarpString &
             dataTrack(void)
             {
                 return _dataTrack;
             } // dataTrack
-            
+
             /*! @brief An accessor for the e-mail address. */
             inline YarpString &
             emailAddress(void)
             {
                 return _emailAddress;
             } // emailAddress
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(MovementDbContext);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The data track to use. */
             YarpString _dataTrack;
-            
+
             /*! @brief The e-mail address to use. */
             YarpString _emailAddress;
-            
+
         }; // MovementDbContext
-        
+
     } // MovementDb
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMovementDbContext_H_)

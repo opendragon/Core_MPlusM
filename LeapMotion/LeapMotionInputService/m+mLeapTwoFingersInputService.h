@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the %Leap Two Fingers input service. */
 
 /*! @namespace MplusM::LeapTwoFingers
@@ -70,21 +70,21 @@ namespace MplusM
     namespace LeapTwoFingers
     {
         class LeapTwoFingersInputListener;
-        
+
         /*! @brief The %Leap Two Fingers input service. */
         class LeapTwoFingersInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -100,51 +100,51 @@ namespace MplusM
                                        const YarpString &                  tag,
                                        const YarpString &                  serviceEndpointName,
                                        const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~LeapTwoFingersInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(LeapTwoFingersInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;
-            
+
             /*! @brief The Two Fingers event handler. */
             LeapTwoFingersInputListener * _listener;
-            
+
         }; // LeapTwoFingersInputService
-        
+
     } // LeapTwoFingers
-    
+
 } // MplusM
 
 #endif // ! defined(MpMLeapTwoFingersInputService_H_)

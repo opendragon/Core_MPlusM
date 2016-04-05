@@ -92,17 +92,17 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchExpression * result = NULL;
-    
+
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-        
+
         if (workPos < inLength)
         {
             // We potentially have a constraint list.
             bool done = false;
             bool okSoFar = true;
-            
+
             result = new MatchExpression;
             for ( ; okSoFar && (! done); )
             {
@@ -110,7 +110,7 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
                 MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength,
                                                                            workPos, nextElementPos,
                                                                            validator);
-                
+
                 if (element)
                 {
                     // Skip over any trailing whitespace, to find if the constraint list is complete
@@ -119,7 +119,7 @@ MatchExpression::CreateMatcher(const YarpString &  inString,
                     if (workPos < inLength)
                     {
                         char scanChar = inString[workPos];
-                        
+
                         if (kComma == scanChar)
                         {
                             // We've got more elements to go.
@@ -207,13 +207,13 @@ const
     ODL_OBJENTER(); //####
     ODL_S2("prefixString = ", prefixString, "suffixString = ", suffixString); //####
     YarpString result;
-    
+
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
         {
             MatchConstraint * element = _constraints[ii];
-            
+
             if (ii)
             {
                 if (suffixString)
@@ -247,13 +247,13 @@ MatchExpression::asString(void)
 const
 {
     YarpString result;
-    
+
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
         {
             MatchConstraint * element = _constraints[ii];
-            
+
             if (ii)
             {
                 result += kComma;
@@ -282,7 +282,7 @@ MatchExpression::element(const int index)
 const
 {
     MatchConstraint * result = NULL;
-    
+
     try
     {
         if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
@@ -312,7 +312,7 @@ MatchExpression::empty(void)
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
         {
             MatchConstraint * element = _constraints[ii];
-            
+
             delete element;
         }
         _constraints.clear();

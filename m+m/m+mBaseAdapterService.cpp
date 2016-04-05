@@ -135,7 +135,7 @@ BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     BaseClient * aClient = sharedData.getClient();
-    
+
     startPinger();
     sharedData.activate();
     runService("", true, goWasSet, stdinAvailable, reportOnExit);
@@ -151,7 +151,7 @@ DEFINE_SETUPCLIENTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpClientStreams();
-    
+
     if (result)
     {
         result = addClientStreamsFromDescriptions(_clientDescriptions);
@@ -164,7 +164,7 @@ DEFINE_SETUPINPUTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
-    
+
     if (result)
     {
         result = addInStreamsFromDescriptions(_inDescriptions);
@@ -177,7 +177,7 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
-    
+
     if (result)
     {
         result = addOutStreamsFromDescriptions(_outDescriptions);
@@ -190,7 +190,7 @@ DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownClientStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseAdapterService::shutDownClientStreams
@@ -199,7 +199,7 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseAdapterService::shutDownInputStreams
@@ -208,7 +208,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseAdapterService::shutDownOutputStreams

@@ -99,13 +99,13 @@ doTestParseValue(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t               endPos;
         size_t               len = strlen(inString);
         Parser::MatchValue * didMatch = Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -147,14 +147,14 @@ doTestParseValueList(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t                   endPos;
         size_t                   len = strlen(inString);
         Parser::MatchValueList * didMatch = Parser::MatchValueList::CreateMatcher(inString, len, 0,
                                                                                   endPos);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -196,7 +196,7 @@ doTestParseFieldName(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t                   endPos;
@@ -205,7 +205,7 @@ doTestParseFieldName(const bool   expected,
         Parser::MatchFieldName * didMatch = Parser::MatchFieldName::CreateMatcher(inString, len, 0,
                                                                                   endPos,
                                                                                   validator);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -248,7 +248,7 @@ doTestParseFieldWithValues(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t                         endPos;
@@ -259,7 +259,7 @@ doTestParseFieldWithValues(const bool   expected,
                                                                                         len, 0,
                                                                                         endPos,
                                                                                         validator);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -302,7 +302,7 @@ doTestParseConstraintList(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t                    endPos;
@@ -311,7 +311,7 @@ doTestParseConstraintList(const bool   expected,
         Parser::MatchConstraint * didMatch = Parser::MatchConstraint::CreateMatcher(inString, len,
                                                                                     0, endPos,
                                                                                     validator);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -354,7 +354,7 @@ doTestParseExpression(const bool   expected,
     ODL_B1("expected = ", expected); //####
     ODL_S1("inString = ", inString); //####
     int result = 1;
-    
+
     try
     {
         size_t                    endPos;
@@ -363,7 +363,7 @@ doTestParseExpression(const bool   expected,
         Parser::MatchExpression * didMatch = Parser::MatchExpression::CreateMatcher(inString, len,
                                                                                     0, endPos,
                                                                                     validator);
-        
+
         if ((NULL != didMatch) == expected)
         {
             result = 0;
@@ -399,7 +399,7 @@ catchSignal(int signal)
     ODL_LL1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
-    
+
     buff << signal;
     message += buff.str();
     message += " = ";
@@ -414,7 +414,7 @@ catchSignal(int signal)
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for unit tests of the m+m Parser classes.
- 
+
  The first argument is the test number, the second argument is either 't' or 'f', to indicate if the
  test is expected to succeed or fail, respectivelly, and the third argument is the string to be
  parsed. Output depends on the test being run.
@@ -429,7 +429,7 @@ main(int      argc,
              kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
     int result = 1;
-    
+
     try
     {
         if (2 < --argc)
@@ -437,12 +437,12 @@ main(int      argc,
             const char * startPtr = argv[1];
             char *       endPtr;
             int          selector = strtol(startPtr, &endPtr, 10);
-            
+
             ODL_LL1("selector <- ", selector); //####
             if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
             {
                 bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
-                
+
                 SetSignalHandlers(catchSignal);
                 ODL_B1("expected <- ", expected); //####
                 switch (selector)
@@ -450,30 +450,30 @@ main(int      argc,
                     case 1 :
                         result = doTestParseValue(expected, *(argv + 3));
                         break;
-                        
+
                     case 2 :
                         result = doTestParseValueList(expected, *(argv + 3));
                         break;
-                        
+
                     case 3 :
                         result = doTestParseFieldName(expected, *(argv + 3));
                         break;
-                        
+
                     case 4 :
                         result = doTestParseFieldWithValues(expected, *(argv + 3));
                         break;
-                        
+
                     case 5 :
                         result = doTestParseConstraintList(expected, *(argv + 3));
                         break;
-                        
+
                     case 6 :
                         result = doTestParseExpression(expected, *(argv + 3));
                         break;
-                        
+
                     default :
                         break;
-                        
+
                 }
                 if (result)
                 {

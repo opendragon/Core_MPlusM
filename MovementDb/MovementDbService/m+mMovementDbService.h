@@ -66,21 +66,21 @@ namespace MplusM
         class SetDataTrackRequestHandler;
         class SetEmailRequestHandler;
         class StopDbRequestHandler;
-        
+
         /*! @brief The movement database service. */
         class MovementDbService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -96,11 +96,11 @@ namespace MplusM
                               const YarpString & databaseServerAddress,
                               const YarpString & serviceEndpointName,
                               const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~MovementDbService(void);
-            
+
             /*! @brief Add a file entry to the backend database.
              @param key The client-provided key.
              @param filePath The filesystem path to the file.
@@ -108,7 +108,7 @@ namespace MplusM
             bool
             addFileToDb(const YarpString & key,
                         const YarpString & filePath);
-            
+
             /*! @brief Set the active data track.
              @param key The client-provided key.
              @param dataTrack The data track to use with subsequent files.
@@ -126,48 +126,48 @@ namespace MplusM
                             const YarpString & emailAddress);
 
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(MovementDbService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The IP address of the backend database server. */
             YarpString _databaseAddress;
-            
+
             /*! @brief The request handler for the 'addfile' request. */
             AddFileRequestHandler * _addFileHandler;
-            
+
             /*! @brief The request handler for the 'setdatatrack' request. */
             SetDataTrackRequestHandler * _setDataTrackHandler;
-            
+
             /*! @brief The request handler for the 'setemail' request. */
             SetEmailRequestHandler * _setEmailHandler;
-            
+
             /*! @brief The request handler for the 'stop' request. */
             StopDbRequestHandler * _stopDbHandler;
-            
+
         }; // MovementDbService
-        
+
     } // MovementDb
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMovementDbService_H_)

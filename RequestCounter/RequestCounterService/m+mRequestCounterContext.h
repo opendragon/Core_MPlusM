@@ -61,59 +61,59 @@ namespace MplusM
         class RequestCounterContext : public Common::BaseContext
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseContext inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RequestCounterContext(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RequestCounterContext(void);
-            
+
             /*! @brief An accessor for the number of requests since the most recent reset. */
             inline long &
             counter(void)
             {
                 return _counter;
             } // counter
-            
+
             /*! @brief An accessor for the time of the most recent reset. */
             inline double &
             lastReset(void)
             {
                 return _lastReset;
             } // lastReset
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RequestCounterContext);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The number of requests since the most recent reset. */
             long _counter;
-            
+
             /*! @brief The time of the last reset. */
             double _lastReset;
-            
+
         }; // RequestCounterContext
-        
+
     } // RequestCounter
-    
+
 } // MplusM
 
 # endif // ! defined(MpMRequestCounterContext_H_)

@@ -124,7 +124,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                          argc, argv, tag,
                                                                          serviceEndpointName,
                                                                          servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -142,7 +142,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Record As JSON output service.
- 
+
  The first, optional, argument is the path to the file being written.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Record As JSON output service.
@@ -194,14 +194,14 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 YarpString recordPath(firstArg.getCurrentValue());
-                
+
                 if (0 == recordPath.length())
                 {
                     std::stringstream buff;
-                    
+
                     buff << (TEMP_ROOT_+ kDirectorySeparator + "record_").c_str();
                     buff << (Utilities::GetRandomHexString() + ".txt").c_str();
                     recordPath = buff.str();
@@ -209,7 +209,7 @@ main(int      argc,
                 }
                 YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(recordPath));
-                
+
                 AdjustEndpointName(DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName, tagModifier);
                 if (reportEndpoint)

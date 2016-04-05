@@ -58,55 +58,55 @@ namespace MplusM
     {
         class BailOutThread;
         class BaseChannel;
-        
+
         /*! @brief A convenience class to timeout objects. */
         class BailOut
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
             explicit
             BailOut(const double timeToWait);
-            
+
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
             BailOut(BaseChannel & channelOfInterest,
                     const double  timeToWait);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BailOut(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BailOut);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The bailout thread to use. */
             BailOutThread * _bailer;
-            
+
             /*! @brief The amount of time to wait for the thread to stop. */
             double _stopTime;
-            
+
         }; // BailOut
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBailOut_H_)

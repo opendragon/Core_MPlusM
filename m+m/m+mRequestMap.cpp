@@ -113,7 +113,7 @@ RequestMap::fillInListReply(yarp::os::Bottle & reply)
             {
                 yarp::os::Property & aDict = reply.addDict();
                 BaseRequestHandler * aHandler = walker->second;
-                
+
                 aHandler->fillInDescription(walker->first.c_str(), aDict);
             }
         }
@@ -136,7 +136,7 @@ RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
     {
         lock();
         RequestHandlerMap::const_iterator match(_handlers.find(requestName));
-        
+
         if (_handlers.end() == match)
         {
             ODL_LOG("(_handlers.end() == match)"); //####
@@ -145,7 +145,7 @@ RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
         {
             yarp::os::Property & aDict = reply.addDict();
             BaseRequestHandler * aHandler = match->second;
-            
+
             aHandler->fillInDescription(match->first.c_str(), aDict);
         }
         unlock();
@@ -164,12 +164,12 @@ RequestMap::lookupRequestHandler(const YarpString & request)
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
     BaseRequestHandler * result = NULL;
-    
+
     try
     {
         lock();
         RequestHandlerMap::const_iterator match(_handlers.find(request));
-        
+
         if (_handlers.end() == match)
         {
             ODL_LOG("(_handlers.end() == match)"); //####
@@ -201,7 +201,7 @@ RequestMap::registerRequestHandler(BaseRequestHandler * handler)
         if (handler)
         {
             YarpStringVector aliases;
-            
+
             handler->fillInAliases(aliases);
             lock();
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
@@ -246,7 +246,7 @@ RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
         if (handler)
         {
             YarpStringVector aliases;
-            
+
             handler->fillInAliases(aliases);
             lock();
             _handlers.erase(handler->name());

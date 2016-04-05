@@ -137,7 +137,7 @@ DEFINE_FILLINDESCRIPTION_(AddFileRequestHandler)
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -165,7 +165,7 @@ DEFINE_PROCESSREQUEST_(AddFileRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         // Add the file to the backend database
@@ -173,7 +173,7 @@ DEFINE_PROCESSREQUEST_(AddFileRequestHandler)
         if (1 == restOfInput.size())
         {
             yarp::os::Value firstValue(restOfInput.get(0));
-            
+
             if (firstValue.isString())
             {
                 YarpString          filePath(firstValue.toString());

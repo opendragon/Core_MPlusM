@@ -143,7 +143,7 @@ setUpAndGo(const YarpString &                  inputPath,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Playback From JSON input service.
- 
+
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
  The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
@@ -211,12 +211,12 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 YarpString inputPath(firstArg.getCurrentValue());
                 YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(inputPath));
-                
+
                 AdjustEndpointName(DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName, tagModifier);
                 if (reportEndpoint)

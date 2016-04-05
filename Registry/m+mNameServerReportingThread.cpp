@@ -153,7 +153,7 @@ DEFINE_RUN_(NameServerReportingThread)
     fd_set         readfds;
     struct timeval tv;
     int            result;
-    
+
     for ( ; ! isStopping(); )
     {
         FD_ZERO(&readfds);
@@ -164,7 +164,7 @@ DEFINE_RUN_(NameServerReportingThread)
         if (0 < result)
         {
             DNSServiceErrorType err = kDNSServiceErr_NoError;
-            
+
             if (FD_ISSET(dns_sd_fd, &readfds))
             {
                 err = DNSServiceProcessResult(_serviceRef);
@@ -174,7 +174,7 @@ DEFINE_RUN_(NameServerReportingThread)
                 cerr << "DNSServiceProcessResult returned " << err << endl;
                 break;
             }
-            
+
         }
         else if (0 != result)
         {
@@ -187,7 +187,7 @@ DEFINE_RUN_(NameServerReportingThread)
             int    res;
 # endif // ! LINUX_
 #endif // MAC_OR_LINUX_
-            
+
 #if MAC_OR_LINUX_
             res = strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
@@ -199,7 +199,7 @@ DEFINE_RUN_(NameServerReportingThread)
             {
                 break;
             }
-            
+
         }
     }
     ODL_OBJEXIT(); //####
@@ -216,7 +216,7 @@ DEFINE_THREADINIT_(NameServerReportingThread)
     const uint16_t      maxTXTSize = 256;
     char                txtBuffer[maxTXTSize];
     TXTRecordRef        txtRecord;
-    
+
     if (nsContact.isValid())
     {
         if (serverAddress != SELF_ADDRESS_IPADDR_)

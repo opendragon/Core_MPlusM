@@ -189,7 +189,7 @@ DEFINE_STARTSERVICE_(TunnelService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -198,7 +198,7 @@ DEFINE_STARTSERVICE_(TunnelService)
             if (isStarted())
             {
                 yarp::os::Contact where = getEndpoint().where();
-                
+
                 _listenAddress = where.getHost();
                 _listenPort = -1;
                 if (_connection)
@@ -240,7 +240,7 @@ DEFINE_STOPSERVICE_(TunnelService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (_connection)

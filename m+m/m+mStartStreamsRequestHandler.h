@@ -57,54 +57,54 @@ namespace MplusM
     namespace Common
     {
         class BaseInputOutputService;
-        
+
         /*! @brief The standard 'startStreams' request handler.
-         
+
          There is no input for the request and there is no output. */
         class StartStreamsRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             StartStreamsRequestHandler(BaseInputOutputService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~StartStreamsRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(StartStreamsRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // StartStreamsRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMStartStreamsRequestHandler_H_)

@@ -102,7 +102,7 @@ DEFINE_CREATE_(Test05HandlerCreator)
 {
     ODL_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;
-    
+
     result->setChannel(_channel);
     ODL_OBJEXIT_P(result); //####
     return result;

@@ -117,7 +117,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_owner.isActive())
@@ -126,7 +126,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
 #if defined(MpM_UseCustomStringBuffer)
             Utilities::ConvertMessageToJSON(_outBuffer, input);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -134,7 +134,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #endif // ! defined(MpM_UseCustomStringBuffer)
             size_t      outLength;
             std::string buffAsString;
-            
+
 #if defined(MpM_UseCustomStringBuffer)
             buffAsString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -145,7 +145,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
             {
                 ODL_LOG("(buffAsString.length())"); //####
                 SendReceiveCounters toBeAdded(0, 0, outLength, 1);
-                
+
                 _owner.sendMessage(buffAsString, outLength);
                 _owner.incrementAuxiliaryCounters(toBeAdded);
             }

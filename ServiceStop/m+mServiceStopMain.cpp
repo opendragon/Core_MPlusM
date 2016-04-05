@@ -97,7 +97,7 @@ setUpAndGo(const YarpString & channelName)
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for stopping a service.
- 
+
  The first argument is the name of the primary channel for the service.
  Nothing is written to standard output.
  @param argc The number of arguments in 'argv'.
@@ -120,11 +120,11 @@ main(int      argc,
                                                   Utilities::kArgModeRequired, "");
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour; // ignored
-    
+
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList, "Stop a service", 2015,
                                                    STANDARD_COPYRIGHT_NAME_, flavour, true))
-    
+
     {
         try
         {
@@ -134,7 +134,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {

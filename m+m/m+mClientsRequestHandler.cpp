@@ -127,7 +127,7 @@ DEFINE_FILLINDESCRIPTION_(ClientsRequestHandler)
                  "Outputs: a list of client channels");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -155,17 +155,17 @@ DEFINE_PROCESSREQUEST_(ClientsRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         YarpStringVector clients;
-        
+
         _service.fillInClientList(clients);
         _response.clear();
         for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
         {
             const YarpString & aString = clients.at(ii);
-            
+
             _response.addString(aString.c_str());
         }
         sendResponse(replyMechanism);

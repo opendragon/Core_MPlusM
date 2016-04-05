@@ -64,21 +64,21 @@ namespace MplusM
     {
         class MovementDbAdapterData;
         class MovementDbInputHandler;
-        
+
         /*! @brief The movement database adapter service. */
         class MovementDbAdapterService : public Common::BaseAdapterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -98,51 +98,51 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual
             ~MovementDbAdapterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             /*! @brief Set up the input handlers.
              @param sharedData The shared data for the input handlers. */
             void
             setUpInputHandlers(MovementDbAdapterData & sharedData);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(MovementDbAdapterService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler for input data. */
             MovementDbInputHandler * _inHandler;
-            
+
         }; // MovementDbAdapterService
-        
+
     } // MovementDb
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMovementDbAdapterService_H_)

@@ -350,78 +350,78 @@ namespace MplusM
         {
             /*! @brief The connection is a TCP connection. */
             kChannelModeTCP,
-            
+
             /*! @brief The connection is a UDP connection. */
             kChannelModeUDP,
-            
+
             /*! @brief The connection is neither a TCP nor a UDP connection. */
             kChannelModeOther,
-            
+
             /*! @brief Force the size to be 4 bytes. */
             kChannelModeUnknown = 0x7FFFFFFF
-            
+
         }; // ChannelMode
-        
+
         /*! @brief The format for the output from command-line tools. */
         enum OutputFlavour
         {
             /*! @brief Normal output with no special processing. */
             kOutputFlavourNormal,
-            
+
             /*! @brief Output in JSON format. Tabs and newlines are replaced with spaces. */
             kOutputFlavourJSON,
-            
+
             /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with
              spaces. */
             kOutputFlavourTabs,
-            
+
             /*! @brief Force the size to be 4 bytes. */
             kOutputFlavourUnknown = 0x7FFFFFFF
-            
+
         }; // OutputFlavour
-        
+
         /*! @brief The behavioural model for the service. */
         enum ServiceKind
         {
             /*! @brief The service provides a proxy for a transformative process that utilizes
              another service. */
             kServiceKindAdapter,
-            
+
             /*! @brief The service provides a proxy for a transformative process. */
             kServiceKindFilter,
-            
+
             /*! @brief The service provides a proxy for an input source. */
             kServiceKindInput,
-            
+
             /*! @brief The service has no specical characteristics. */
             kServiceKindNormal,
-            
+
             /*! @brief The service provides a proxy for an output destination. */
             kServiceKindOutput,
-            
+
             /*! @brief The service is the %Registry, which is a specialized 'normal' service. */
             kServiceKindRegistry,
-            
+
             /*! @brief Force the size to be 4 bytes. */
             kServiceKindUnknown = 0x7FFFFFFF
-            
+
         }; // ServiceKind
-        
+
         /*! @brief A description of a channel. */
         struct ChannelDescription
         {
             /*! @brief The name of the port being connected to. */
             YarpString _portName;
-            
+
             /*! @brief The protocol of the port. */
             YarpString _portProtocol;
-            
+
             /*! @brief The protocol description. */
             YarpString _protocolDescription;
-            
+
             /*! @brief The mode of the connection. */
             ChannelMode _portMode;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -431,40 +431,40 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // ChannelDescription
-        
+
         /*! @brief An IPv4 address. */
         struct NetworkAddress
         {
             /*! @brief The bytes of the address, in the order MSB .. LSB. */
             int _ipBytes[4];
-            
+
             /*! @brief The port number of the address. */
             int _ipPort;
-            
+
         }; // NetworkAddress
-        
+
         /*! @brief A sequence of connections. */
         typedef std::vector<ChannelDescription> ChannelVector;
-        
+
         /*! @brief A sequence of random numbers. */
         typedef std::vector<double> DoubleVector;
-        
+
         /*! @brief A function that checks for early exit from loops.
          @param stuff Private data for the function.
          @returns @c true if the caller should exit any loops and @c false otherwise. */
         typedef bool
         (*CheckFunction)
             (void * stuff);
-        
+
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
          @param aContact The connection information to be reported. */
         void
         DumpContactToLog(const char *              tag,
                          const yarp::os::Contact & aContact);
-        
+
 # if MAC_OR_LINUX_
         /*! @brief Return the YARP logging object.
          @returns The YARP logging object. */
@@ -476,33 +476,33 @@ namespace MplusM
          @returns A randomly-generated channel name. */
         YarpString
         GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT_);
-        
+
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
         YarpString
         GetRandomChannelName(const YarpString & channelRoot);
-        
+
         /*! @brief Perform initialization of internal resources.
          @param progName The name of the executing program.
-         
+
          Should be called in the main() function of each application or service. */
         void
         Initialize(const YarpString & progName);
-        
+
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */
         void
         SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
-        
-        /*! @brief Set up the signal-handling behaviour so that this thread will catch our 
+
+        /*! @brief Set up the signal-handling behaviour so that this thread will catch our
          signal. */
         void
         SetUpCatcher(void);
-        
+
 # if MAC_OR_LINUX_
         /*! @brief Set up the error logger.
          @param progName The name of the executing program.
-         
+
          Should be called in the main() function of each application or service before anything
          else. */
         void
@@ -512,7 +512,7 @@ namespace MplusM
         /*! @brief Restore the normal signal-handling behaviour. */
         void
         ShutDownCatcher(void);
-        
+
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
 # if MAC_OR_LINUX_
         void
@@ -521,19 +521,19 @@ namespace MplusM
         void
         Stall(void);
 # endif // ! MAC_OR_LINUX_
-        
+
     } // Common
-    
+
     /*! @brief Return @c true if standard input can be used and @c false otherwise.
      @returns @c true if standard input can be used and @c false otherwise. */
     bool
     CanReadFromStandardInput(void);
-    
+
     /*! @brief Introduce some delay in processing.
      @param factor The fraction of a second to delay. */
     void
     ConsumeSomeTime(const double factor = 200.0);
-    
+
     /*! @brief Sit in an idle loop until a request to stop occurs. */
     void
     IdleUntilNotRunning(void);
@@ -542,10 +542,10 @@ namespace MplusM
      @returns @c true if the executable can continue running and @c false otherwise. */
     bool
     IsRunning(void);
-    
+
     /*! @brief Check if a list is actually a dictionary, as they have the same textual
      representation.
-     
+
      Note that the output dictionary will be modified, regardless of whether or not the list is, in
      fact, a dictionary.
      @param aList The list of interest.
@@ -554,13 +554,13 @@ namespace MplusM
     bool
     ListIsReallyDictionary(const yarp::os::Bottle & aList,
                            yarp::os::Property &     aDictionary);
-    
+
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.
      @returns A string description of the signal. */
     const char *
     NameOfSignal(const int theSignal);
-    
+
     /*! @brief Write out a (possibly multi-line) description.
      @param outStream The stream to write to.
      @param heading The text to appear on the first line before the beginning of the description.
@@ -569,7 +569,7 @@ namespace MplusM
     OutputDescription(std::ostream &             outStream,
                       const char *               heading,
                       const YarpString & description);
-    
+
     /*! @brief Return a string with special characters escaped.
      @param inString The string to be processed.
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
@@ -577,23 +577,23 @@ namespace MplusM
     YarpString
     SanitizeString(const YarpString & inString,
                    const bool         allowDoubleQuotes = false);
-    
+
     /*! @brief The signal handler to catch requests to stop the service.
      @param signal The signal being handled. */
     void
     SignalRunningStop(const int signal);
-    
+
     /*! @brief Mark the executable as running or ready-to-run. */
     void
     StartRunning(void);
-    
+
     /*! @brief Indicate that the executable should stop running. */
     void
     StopRunning(void);
-    
+
     /*! @brief The escape character. */
     extern const char kEscapeChar;
-    
+
     /*! @brief The directory separator string; */
     extern const YarpString kDirectorySeparator;
 

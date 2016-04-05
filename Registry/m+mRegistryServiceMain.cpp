@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the m+m %Registry Service. */
 
 /*! @dir Registry
@@ -120,7 +120,7 @@ setUpAndGo(const YarpString & progName,
             // need to call RegisterLocalService() _or_ start a 'pinger'.
             Registry::NameServerReportingThread * reporter =
                                                             new Registry::NameServerReportingThread;
-            
+
             StartRunning();
             SetSignalHandlers(SignalRunningStop);
             if (reporter->start())
@@ -145,10 +145,10 @@ setUpAndGo(const YarpString & progName,
             if (reportOnExit)
             {
                 yarp::os::Bottle metrics;
-                
+
                 aService->gatherMetrics(metrics);
                 YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                
+
                 cout << converted.c_str() << endl;
             }
             aService->stopService();
@@ -218,7 +218,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(MpM_REGISTRY_ENDPOINT_NAME_, modFlag, tag, serviceEndpointName);
                 if (reportEndpoint)

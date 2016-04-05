@@ -64,21 +64,21 @@ namespace MplusM
     namespace NatNet
     {
         class NatNetInputThread;
-        
+
         /*! @brief The %NatNet input service. */
         class NatNetInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -94,41 +94,41 @@ namespace MplusM
                                const YarpString &                  tag,
                                const YarpString &                  serviceEndpointName,
                                const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~NatNetInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(NatNetInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name of the Natural Point %NatNet device server. */
             YarpString _hostName;
 
@@ -140,7 +140,7 @@ namespace MplusM
 
             /*! @brief The output thread to use. */
             NatNetInputThread * _eventThread;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -150,11 +150,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // NatNetInputService
-        
+
     } // NatNet
-    
+
 } // MplusM
 
 #endif // ! defined(MpMNatNetInputService_H_)
