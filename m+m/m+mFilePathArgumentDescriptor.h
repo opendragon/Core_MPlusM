@@ -115,21 +115,43 @@ namespace MplusM
 
         private :
 
-            DECLARE_CLONE_;
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor *
+            clone(void);
 
-            DECLARE_GETDEFAULTVALUE_;
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual YarpString
+            getDefaultValue(void);
 
-            DECLARE_ISFORFILES_
+            /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
+             @param isForOutput Set to @c true if the argument is for output files and @c false
+             otherwise.
+             @returns @c true if the argument is for file paths and @c false otherwise. */
+            virtual bool
+            isForFiles(bool & isForOutput)
+            const
             {
                 isForOutput = _forOutput;
                 return true;
             } // isForFiles
 
-            DECLARE_SETTODEFAULTVALUE_;
+            /*! @brief Set the associated variable to the default value. */
+            virtual void
+            setToDefaultValue(void);
 
-            DECLARE_TOSTRING_;
+            /*! @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
+            virtual YarpString
+            toString(void);
 
-            DECLARE_VALIDATE_;
+            /*! @brief Check an input value against the constraints of the descriptor.
+             @param value The value to be checked.
+             @returns @c true if the value is within the domain of the descriptor and @c false
+             otherwise. */
+            virtual bool
+            validate(const YarpString & value);
 
             COPY_AND_ASSIGNMENT_(FilePathArgumentDescriptor);
 
