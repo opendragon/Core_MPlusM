@@ -435,7 +435,14 @@ subs.db
 test.db
 
 !Documentation/makefile
-!LeapMotion/LeapMotionInputService/win_lib/*.*
+!LeapMotion/LeapMotionInputService/win_lib/x86/Leap.lib
+!LeapMotion/LeapMotionInputService/win_lib/x64/Leap.lib
+!NatNet/NatNetInputService/NatNetSDK/lib/NatNetLib.lib
+!NatNet/NatNetInputService/NatNetSDK/lib/NatNetLibStatic.lib
+!NatNet/NatNetInputService/NatNetSDK/lib/x64/NatNetLib.lib
+!NatNet/NatNetInputService/NatNetSDK/lib/x64/NatNetLibStatic.lib
+!OpenStage/OpenStageInputService/om_sdk/lib/omsdk2.lib
+!OpenStage/OpenStageInputService/om_sdk/lib/omuuid.lib
 !ViconDataStream/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib
 !bonjoursdksetup.exe
 !vc_redist.x64.exe
@@ -454,3 +461,11 @@ docs/MMManagerUtility_Manual.ps
 docs/MpM_Manual.html
 docs/MpM_Manual.pdf
 docs/MpM_Manual.ps
+CommonTests/Debug/m+mCommonTestSupport.lib
+CommonTests/Release/m+mCommonTestSupport.lib
+Registry/RegistryTests/Debug/m+mRegistryTestSupport.lib
+Registry/RegistryTests/Release/m+mRegistryTestSupport.lib
+m+m/Debug/m+mCommon.lib
+m+m/Release/m+mCommon.lib
+odl/Debug/odLogging.lib
+odl/Release/odLogging.lib
