@@ -49,7 +49,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the %Leap Two Palms input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -113,7 +113,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                        argv, tag,
                                                                        serviceEndpointName,
                                                                        servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -142,11 +142,11 @@ main(int      argc,
 
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -176,7 +176,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_LEAPTWOPALMSINPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);

@@ -109,12 +109,12 @@ EchoClient::sendAndReceive(const YarpString & outgoing,
     ODL_S1s("outgoing = ", outgoing); //####
     ODL_P1("incoming = ", &incoming); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters(outgoing);
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         if (send(MpM_ECHO_REQUEST_, parameters, response))
         {

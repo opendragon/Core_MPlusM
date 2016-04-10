@@ -182,11 +182,11 @@ main(int      argc,
 
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -221,7 +221,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_ADDRESS_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);
@@ -233,7 +233,7 @@ main(int      argc,
                 {
                     int        hostPort = secondArg.getCurrentValue();
                     YarpString hostName(firstArg.getCurrentValue());
-                    
+
                     setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

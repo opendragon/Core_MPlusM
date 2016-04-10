@@ -153,7 +153,7 @@ RequestCounterService::countRequest(const YarpString & key)
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RequestCounterContext;
@@ -211,7 +211,7 @@ RequestCounterService::getStatistics(const YarpString & key,
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RequestCounterContext;
@@ -235,7 +235,7 @@ RequestCounterService::resetCounters(const YarpString & key)
     try
     {
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-        
+
         if (! context)
         {
             context = new RequestCounterContext;
@@ -256,7 +256,7 @@ DEFINE_STARTSERVICE_(RequestCounterService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -264,7 +264,7 @@ DEFINE_STARTSERVICE_(RequestCounterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -286,7 +286,7 @@ DEFINE_STOPSERVICE_(RequestCounterService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

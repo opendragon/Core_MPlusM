@@ -133,7 +133,7 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (1 <= details.size())
@@ -214,7 +214,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2BlobInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "b";
@@ -229,7 +229,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2BlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -248,7 +248,7 @@ DEFINE_STARTSERVICE_(KinectV2BlobInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -299,7 +299,7 @@ DEFINE_STOPSERVICE_(KinectV2BlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

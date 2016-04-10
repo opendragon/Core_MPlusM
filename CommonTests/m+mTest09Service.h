@@ -57,21 +57,21 @@ namespace MplusM
     namespace Test
     {
         class Test09DefaultRequestHandler;
-        
+
         /*! @brief A test service. */
         class Test09Service : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -79,42 +79,42 @@ namespace MplusM
             Test09Service(const YarpString & launchPath,
                           const int          argc,
                           char * *           argv);
-            
+
             /*! @brief The destructor. */
             virtual
             ~Test09Service(void);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(Test09Service);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The request handler for unrecognized requests. */
             Test09DefaultRequestHandler * _defaultHandler;
-            
+
         }; // Test09Service
-        
+
     } // Test
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTest09Service_H_)

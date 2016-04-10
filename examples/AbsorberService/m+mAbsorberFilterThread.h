@@ -58,62 +58,62 @@ namespace MplusM
     namespace Example
     {
         class AbsorberFilterService;
-        
+
         /*! @brief A convenience class to generate output. */
         class AbsorberFilterThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that manages the reporting.
              @param timeToWait The number of seconds to delay before triggering. */
             AbsorberFilterThread(AbsorberFilterService & service,
                                  const double            timeToWait);
-            
+
             /*! @brief The destructor. */
             virtual
             ~AbsorberFilterThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(AbsorberFilterThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that manages the reporting. */
             AbsorberFilterService & _service;
-            
+
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
-            
+
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
-            
+
         }; // AbsorberFilterThread
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAbsorberFilterThread_H_)

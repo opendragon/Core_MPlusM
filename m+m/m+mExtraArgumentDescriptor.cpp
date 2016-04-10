@@ -101,7 +101,8 @@ ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_ADDVALUETOBOTTLE_(ExtraArgumentDescriptor)
+void
+ExtraArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
 {
     ODL_ENTER(); //####
     ODL_P1("container = ", &container); //####
@@ -109,7 +110,8 @@ DEFINE_ADDVALUETOBOTTLE_(ExtraArgumentDescriptor)
     ODL_EXIT(); //####
 } // ExtraArgumentDescriptor::addValueToBottle
 
-DEFINE_CLONE_(ExtraArgumentDescriptor)
+BaseArgumentDescriptor *
+ExtraArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new ExtraArgumentDescriptor(argumentName(),
@@ -119,7 +121,8 @@ DEFINE_CLONE_(ExtraArgumentDescriptor)
     return result;
 } // ExtraArgumentDescriptor::clone
 
-DEFINE_GETDEFAULTVALUE_(ExtraArgumentDescriptor)
+YarpString
+ExtraArgumentDescriptor::getDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString result;
@@ -128,7 +131,8 @@ DEFINE_GETDEFAULTVALUE_(ExtraArgumentDescriptor)
     return result;
 } // ExtraArgumentDescriptor::getDefaultValue
 
-DEFINE_GETPROCESSEDVALUE_(ExtraArgumentDescriptor)
+YarpString
+ExtraArgumentDescriptor::getProcessedValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString result;
@@ -177,13 +181,15 @@ ExtraArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // ExtraArgumentDescriptor::parseArgString
 
-DEFINE_SETTODEFAULTVALUE_(ExtraArgumentDescriptor)
+void
+ExtraArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     ODL_OBJEXIT(); //####
 } // ExtraArgumentDescriptor::setToDefaultValue
 
-DEFINE_TOSTRING_(ExtraArgumentDescriptor)
+YarpString
+ExtraArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(prefixFields("E"));
@@ -193,7 +199,8 @@ DEFINE_TOSTRING_(ExtraArgumentDescriptor)
     return result;
 } // ExtraArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(ExtraArgumentDescriptor)
+bool
+ExtraArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
     _valid = true;

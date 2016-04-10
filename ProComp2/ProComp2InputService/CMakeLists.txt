@@ -55,7 +55,7 @@ add_executable(${THIS_TARGET}
 
 if(WIN32)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
+                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib"
                        $<TARGET_FILE_DIR:m+mProComp2InputService>)
     install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
             DESTINATION bin
@@ -74,7 +74,7 @@ endif(MpM_BuildDummyServices)
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
-    
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 

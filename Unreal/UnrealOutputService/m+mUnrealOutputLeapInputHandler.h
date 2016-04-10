@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the %Leap Motion input channel input handler used by the %Unreal
  output service. */
 # if defined(__APPLE__)
@@ -62,72 +62,72 @@ namespace MplusM
         class UnrealOutputService;
 
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of %Leap Motion segments. */
         class UnrealOutputLeapInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
             explicit
             UnrealOutputLeapInputHandler(UnrealOutputService & owner);
-            
+
             /*! @brief The destructor. */
             virtual
             ~UnrealOutputLeapInputHandler(void);
-            
+
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
-            
+
             /*! @brief Set the network socket to be written to.
              @param outSocket The network socket to be written to. */
             void
             setSocket(const SOCKET outSocket);
 
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(UnrealOutputLeapInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that this handler is connected to. */
             UnrealOutputService & _owner;
-            
+
             /*! @brief The translation scale to be used. */
             double _scale;
-            
+
             /*! @brief The network socket that is to be written to. */
             SOCKET _outSocket;
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
 
         }; // UnrealOutputLeapInputHandler
-        
+
     } // Unreal
-    
+
 } // MplusM
 
 #endif // ! defined(MpMUnrealOutputLeapInputHandler_H_)

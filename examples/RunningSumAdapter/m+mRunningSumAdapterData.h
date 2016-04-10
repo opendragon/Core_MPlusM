@@ -59,48 +59,48 @@ namespace MplusM
     namespace Example
     {
         class RunningSumClient;
-        
+
         /*! @brief A handler for partially-structured input data. */
         class RunningSumAdapterData : public Common::BaseAdapterData
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             explicit
             RunningSumAdapterData(RunningSumClient *    client = NULL,
                                   Common::BaseChannel * output = NULL);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RunningSumAdapterData(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RunningSumAdapterData);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RunningSumAdapterData
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRunningSumAdapterData_H_)

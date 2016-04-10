@@ -95,12 +95,12 @@ if(WIN32)
                     "${MpMVICON_BOOST3_DLL}"
                     "${MpMVICON_BOOST4_DLL}"
                     DESTINATION bin
-                    COMPONENT applications)			
+                    COMPONENT applications)
 	else(WIN64)
             install(FILES
                     "${MpMVICON_BOOST1_DLL}"
                     DESTINATION bin
-                    COMPONENT applications)			
+                    COMPONENT applications)
 	endif(WIN64)
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMVICON_LIB_DIR}" $<TARGET_FILE_DIR:m+mViconDataStreamInputService>)
@@ -117,7 +117,7 @@ endif(MpM_BuildDummyServices)
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
-    
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 

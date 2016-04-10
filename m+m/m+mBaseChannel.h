@@ -60,35 +60,35 @@ namespace MplusM
         class BaseChannel : public yarp::os::Port
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Port inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             BaseChannel(void);
 
             /*! @brief The destructor. */
             virtual
             ~BaseChannel(void);
-            
+
             /*! @brief Close the channel. */
             void
             close(void);
-            
+
             /*! @brief Turn off the send / receive metrics collecting. */
             void
             disableMetrics(void);
-            
+
             /*! @brief Turn on the send / receive metrics collecting. */
             void
             enableMetrics(void);
-            
+
             /*! @brief Return the send / receive counters.
              @param counters The send / receive counters. */
             void
@@ -103,7 +103,7 @@ namespace MplusM
             {
                 return _metricsEnabled;
             } // metricsAreEnabled
-            
+
             /*! @brief Returns the name associated with the channel.
              @returns The name associated with the channel. */
             inline const YarpString &
@@ -112,7 +112,7 @@ namespace MplusM
             {
                 return _name;
             } // name
-            
+
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theChannelName The name to be associated with the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
@@ -128,28 +128,28 @@ namespace MplusM
             bool
             openWithRetries(yarp::os::Contact & theContactInfo,
                             const double        timeToWait);
-            
+
             /*! @brief Release an allocated adapter channel.
              @param theChannel A pointer to the channel to be released. */
             static void
             RelinquishChannel(BaseChannel * theChannel);
-            
+
             /*! @brief Update the receive counters for the channel.
              @param numBytes The number of bytes received. */
             void
             updateReceiveCounters(const size_t numBytes);
-            
+
             /*! @brief Update the send counters for the channel.
              @param numBytes The number of bytes sent. */
             void
             updateSendCounters(const size_t numBytes);
-            
+
             /*! @brief Write a message to the port.
              @param message The message to write.
              @returns @c true if the message was successfully sent and @c false otherwise. */
             bool
             write(yarp::os::Bottle & message);
-            
+
             /*! @brief Write a message to the port, with a reply expected.
              @param message The message to write.
              @param reply Where to put the expected reply.
@@ -157,28 +157,28 @@ namespace MplusM
             bool
             write(yarp::os::Bottle & message,
                   yarp::os::Bottle & reply);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseChannel);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name associated with the channel. */
             YarpString _name;
-            
+
             /*! @brief The send / receive counters. */
             SendReceiveCounters _counters;
-            
+
             /*! @brief @c true if metrics are enabled and @c false otherwise. */
             bool _metricsEnabled;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -188,11 +188,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseChannel
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseChannel_H_)

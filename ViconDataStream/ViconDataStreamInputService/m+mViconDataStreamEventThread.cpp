@@ -226,7 +226,7 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
                             _viconClient.GetSegmentGlobalRotationQuaternion(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
 # endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
-                        
+
 # if defined(USE_SEGMENT_LOCAL_DATA_)
                         if ((CPP::Result::Success == o_gseglt.Result) &&
                             (CPP::Result::Success == o_gseglrq.Result))

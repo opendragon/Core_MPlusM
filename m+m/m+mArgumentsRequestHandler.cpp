@@ -130,7 +130,7 @@ DEFINE_FILLINDESCRIPTION_(ArgumentsRequestHandler)
                  "received");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -158,11 +158,11 @@ DEFINE_PROCESSREQUEST_(ArgumentsRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         const YarpStringVector & args = _service.getArguments();
-        
+
         _response.clear();
         for (size_t ii = 0, mm = args.size(); mm > ii; ++ii)
         {

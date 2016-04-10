@@ -273,7 +273,7 @@ DEFINE_THREADINIT_(OpenStageInputThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
 #if (! defined(MpM_BuildDummyServices))
     // Create the necessary objects.
     _client = sdk2::CreateClient();

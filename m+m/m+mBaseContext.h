@@ -60,36 +60,36 @@ namespace MplusM
         class BaseContext
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             BaseContext(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseContext(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseContext);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // BaseContext
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseContext_H_)

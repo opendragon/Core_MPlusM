@@ -95,10 +95,10 @@ main(int      argc,
 {
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
     try
@@ -143,11 +143,11 @@ main(int      argc,
 #endif // ! MAC_OR_LINUX_
             if (okSoFar)
             {
-                
+
                 // Useable data.
                 char    buffer[INCOMING_SIZE_ + 100];
                 SOCKET  sinkSocket;
-                
+
                 sinkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 if (INVALID_SOCKET != sinkSocket)
                 {
@@ -157,7 +157,7 @@ main(int      argc,
 #else // ! MAC_OR_LINUX_
                     SOCKADDR_IN        addr;
 #endif // ! MAC_OR_LINUX_
-                    
+
 #if MAC_OR_LINUX_
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
@@ -194,7 +194,7 @@ main(int      argc,
 #else // ! MAC_OR_LINUX_
                     int     inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
 #endif // ! MAC_OR_LINUX_
-                    
+
                     if (0 < inSize)
                     {
                         cout << "received " << inSize << " bytes." << endl;

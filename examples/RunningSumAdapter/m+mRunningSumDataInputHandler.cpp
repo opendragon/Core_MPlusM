@@ -122,16 +122,16 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         int howMany = input.size();
-        
+
         if (0 < howMany)
         {
             BaseChannel *      theOutput = _shared.getOutput();
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
-            
+
             if (_shared.isActive() && theClient && theOutput)
             {
                 if (1 == howMany)
@@ -139,7 +139,7 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                     bool            gotValue = false;
                     double          inValue = 0.0;
                     yarp::os::Value argValue(input.get(0));
-                    
+
                     if (argValue.isInt())
                     {
                         inValue = argValue.asInt();
@@ -153,12 +153,12 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                     if (gotValue)
                     {
                         double outValue;
-                        
+
                         _shared.lock();
                         if (theClient->addToSum(inValue, outValue))
                         {
                             yarp::os::Bottle message;
-                            
+
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
@@ -178,12 +178,12 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                 else
                 {
                     DoubleVector values;
-                    
+
                     for (int ii = 0; ii < howMany; ++ii)
                     {
                         double          inValue;
                         yarp::os::Value aValue(input.get(ii));
-                        
+
                         if (aValue.isInt())
                         {
                             inValue = aValue.asInt();
@@ -198,12 +198,12 @@ DEFINE_HANDLE_INPUT_(RunningSumDataInputHandler)
                     if (0 < values.size())
                     {
                         double outValue;
-                        
+
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
                             yarp::os::Bottle message;
-                            
+
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {

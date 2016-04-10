@@ -106,7 +106,8 @@ ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CLONE_(ChannelArgumentDescriptor)
+BaseArgumentDescriptor *
+ChannelArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new ChannelArgumentDescriptor(argumentName(),
@@ -162,7 +163,8 @@ ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // ChannelArgumentDescriptor::parseArgString
 
-DEFINE_TOSTRING_(ChannelArgumentDescriptor)
+YarpString
+ChannelArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(prefixFields("C"));
@@ -172,10 +174,11 @@ DEFINE_TOSTRING_(ChannelArgumentDescriptor)
     return result;
 } // ChannelArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(ChannelArgumentDescriptor)
+bool
+ChannelArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
-    _valid = Endpoint::CheckEndpointName(value);    
+    _valid = Endpoint::CheckEndpointName(value);
     ODL_B1("_valid <- ", _valid); //####
     if (_valid)
     {

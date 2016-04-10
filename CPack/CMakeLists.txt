@@ -57,7 +57,7 @@ set(CPACK_COMPONENT_GROUP_CORE_DESCRIPTION "The core m+m libraries and executabl
 set(CPACK_COMPONENT_GROUP_CORE_BOLD_TITLE ON)
 set(CPACK_COMPONENT_GROUP_OPTIONAL_DESCRIPTION
     "Example applications, manuals and source code for the libraries and standard applications")
-	
+
 set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode manuals)
 
 #end General Packaging stuff
@@ -219,7 +219,7 @@ if(WIN32)
         ExecWait '$INSTDIR/support/vc_redist.x64.exe'
         ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
         WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
-        WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'	
+        WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'
         Delete '$INSTDIR/support/bonjoursdksetup.exe'
         CreateShortCut \\\"$DESKTOP\\\\m+m manager.lnk\\\" \\\"$INSTDIR\\\\bin\\\\m+m manager.exe\\\"
         ")

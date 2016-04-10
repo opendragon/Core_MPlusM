@@ -122,18 +122,18 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         int howMany = input.size();
-        
+
         if (0 < howMany)
         {
             BaseChannel *      theOutput = _shared.getOutput();
             DoubleVector       values;
             double             outValue;
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
-            
+
             if (theClient && theOutput)
             {
                 // We might have values and commands intermixed; process the whole input, one
@@ -141,22 +141,22 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                 for (int ii = 0; ii < howMany; ++ii)
                 {
                     yarp::os::Value argValue(input.get(ii));
-                    
+
                     if (argValue.isString())
                     {
                         YarpString argString(argValue.asString());
-                        
+
                         if (values.size())
                         {
                             DoubleVector::size_type soFar = values.size();
-                            
+
                             if (1 == soFar)
                             {
                                 _shared.lock();
                                 if (theClient->addToSum(values[0], outValue))
                                 {
                                     yarp::os::Bottle message;
-                                    
+
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
@@ -178,7 +178,7 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                                 if (theClient->addToSum(values, outValue))
                                 {
                                     yarp::os::Bottle message;
-                                    
+
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
@@ -201,7 +201,7 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                             _shared.lock();
                             if (theClient->resetSum())
                             {
-                            
+
                             }
                             else
                             {
@@ -218,7 +218,7 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                             _shared.lock();
                             if (theClient->startSum())
                             {
-                            
+
                             }
                             else
                             {
@@ -231,7 +231,7 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                             _shared.lock();
                             if (theClient->stopSum())
                             {
-                            
+
                             }
                             else
                             {
@@ -252,14 +252,14 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                 if (values.size())
                 {
                     DoubleVector::size_type soFar = values.size();
-                    
+
                     if (1 == soFar)
                     {
                         _shared.lock();
                         if (theClient->addToSum(values[0], outValue))
                         {
                             yarp::os::Bottle message;
-                            
+
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
@@ -281,7 +281,7 @@ DEFINE_HANDLE_INPUT_(RunningSumInputHandler)
                         if (theClient->addToSum(values, outValue))
                         {
                             yarp::os::Bottle message;
-                            
+
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {

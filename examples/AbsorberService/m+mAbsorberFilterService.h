@@ -65,21 +65,21 @@ namespace MplusM
     {
         class AbsorberFilterInputHandler;
         class AbsorberFilterThread;
-        
+
         /*! @brief The Absorber filter service. */
         class AbsorberFilterService : public Common::BaseFilterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -95,77 +95,77 @@ namespace MplusM
                                   const YarpString &                  tag,
                                   const YarpString &                  serviceEndpointName,
                                   const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~AbsorberFilterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
             /*! @brief Report the average messages per second. */
             void
             reportMessageRate(void);
-            
+
             /*! @brief Increment and report the count.
              @param numBytes The bytes reported on the input channel. */
             void
             updateCount(const size_t numBytes);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(AbsorberFilterService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler for input data. */
             AbsorberFilterInputHandler * _inHandler;
-            
+
             /*! @brief The output thread to use. */
             AbsorberFilterThread * _generator;
-            
+
             /*! @brief The number of messages seen. */
             long _count;
 
             /*! @brief The previous number of messages seen. */
             long _lastCount;
-            
+
             /*! @brief The previous total number of bytes reported. */
             size_t _lastBytes;
-            
+
             /*! @brief The total number of bytes reported. */
             size_t _totalBytes;
 
             /*! @brief The number of seconds between samples. */
             int _sampleInterval;
-            
+
         }; // AbsorberFilterService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAbsorberFilterService_H_)

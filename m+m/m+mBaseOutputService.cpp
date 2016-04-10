@@ -122,7 +122,7 @@ DEFINE_SETUPINPUTSTREAMS_(BaseOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
-    
+
     if (result)
     {
         result = addInStreamsFromDescriptions(_inDescriptions);
@@ -135,7 +135,7 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseOutputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // BaseOutputService::shutDownInputStreams

@@ -63,41 +63,41 @@ namespace MplusM
         class Test03Handler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             Test03Handler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~Test03Handler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(Test03Handler);
-            
+
         public :
-            
+
         protected :
-            
+
         private :
-            
+
         }; // Test03Handler
-        
+
     } // Test
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTest03Handler_H_)

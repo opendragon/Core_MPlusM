@@ -171,7 +171,7 @@ DEFINE_STARTSERVICE_(RGBLEDService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -192,7 +192,7 @@ DEFINE_STOPSERVICE_(RGBLEDService)
 {
     ODL_OBJENTER();//####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

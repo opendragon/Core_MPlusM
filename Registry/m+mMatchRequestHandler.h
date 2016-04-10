@@ -58,30 +58,30 @@ namespace MplusM
     namespace Registry
     {
         class RegistryService;
-        
+
         /*! @brief The 'match' request handler.
-         
+
          The input is in the form of a pattern to be matched and the output is either 'OK', followed
          by a list of matching service channels, which indicates success, or 'FAILED' followed with
          a description of the reason for failure. Note that it is possible to have a successful
          request with no matching service channels.
-         
+
          The matching pattern consists of a sequence of AND clauses, separated with commas.
-         
+
          If a service matches any of the AND clauses, it will appear in the output of the pattern.
          Each AND clause is a sequence of field/value pairs, separated by ampersands.
-         
+
          If a service matches all of the field/value pairs in the AND clause, it will be in the
          output of the AND clause. Field/value pairs consist of a field name followed by either a
          single value or a list of values, separated by either white space or a colon character. If
          a list of values is used, it must be surrounded by round brackets and, in this case, the
          white space or colon character between the field name and the list of values are optional.
-         
+
          If the value in the pair is a single value, a service is in the output of the field/value
          pair if the corresponding field in the service matches the specified value. If value in the
          pair is a list, as service is in the output of the field/value pair if the corresponding
          field in the service matches at least one of the values in the list.
-         
+
          A value consists of a sequence of non-blank, printable characters, or a sequence of
          printable characters surrounded by matching quote characters - either single quote or
          double quote. Note that a single quote character may appear within double quotes and vice
@@ -91,57 +91,57 @@ namespace MplusM
          'escape' mechanism so that quote characters, asterisks, question marks and backslashes may
          appear within the value as literal characters rather than being interpreted as special
          characters.
-         
+
          Note that matching is case-sensitive. */
         class MatchRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request.
              @param validator The field validator to use. */
             explicit
             MatchRequestHandler(RegistryService &           service,
                                 Parser::BaseNameValidator * validator = NULL);
-            
+
             /*! @brief The destructor. */
             virtual
             ~MatchRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(MatchRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The field name validator to be used. */
             Parser::BaseNameValidator * _validator;
-            
+
         }; // MatchRequestHandler
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMatchRequestHandler_H_)

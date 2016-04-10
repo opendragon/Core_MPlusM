@@ -49,7 +49,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class definition for the request handler for the standard 'channels' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -143,7 +143,7 @@ DEFINE_FILLINDESCRIPTION_(ChannelsRequestHandler)
                  "protocol descriptions for the input and output channels");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -171,13 +171,13 @@ DEFINE_PROCESSREQUEST_(ChannelsRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         _response.clear();
         ChannelVector      channels;
         yarp::os::Bottle & aList1 = _response.addList();
-        
+
         _service.fillInSecondaryInputChannelsList(channels);
         if (0 < channels.size())
         {
@@ -186,7 +186,7 @@ DEFINE_PROCESSREQUEST_(ChannelsRequestHandler)
             {
                 const ChannelDescription & aChannel = *walker;
                 yarp::os::Bottle &         newBottle = aList1.addList();
-                
+
                 newBottle.addString(aChannel._portName);
                 newBottle.addString(aChannel._portProtocol);
                 newBottle.addString(aChannel._protocolDescription);
@@ -195,7 +195,7 @@ DEFINE_PROCESSREQUEST_(ChannelsRequestHandler)
         // Note that we can't reuse the first list variable; we wind up with duplicate entries
         // for some reason.
         yarp::os::Bottle & aList2 = _response.addList();
-        
+
         _service.fillInSecondaryOutputChannelsList(channels);
         if (0 < channels.size())
         {
@@ -204,14 +204,14 @@ DEFINE_PROCESSREQUEST_(ChannelsRequestHandler)
             {
                 const ChannelDescription & aChannel = *walker;
                 yarp::os::Bottle &         newBottle = aList2.addList();
-                
+
                 newBottle.addString(aChannel._portName);
                 newBottle.addString(aChannel._portProtocol);
                 newBottle.addString(aChannel._protocolDescription);
             }
         }
         yarp::os::Bottle & aList3 = _response.addList();
-        
+
         _service.fillInSecondaryClientChannelsList(channels);
         if (0 < channels.size())
         {
@@ -220,7 +220,7 @@ DEFINE_PROCESSREQUEST_(ChannelsRequestHandler)
             {
                 const ChannelDescription & aChannel = *walker;
                 yarp::os::Bottle &         newBottle = aList3.addList();
-                
+
                 newBottle.addString(aChannel._portName);
                 newBottle.addString(aChannel._portProtocol);
                 newBottle.addString(aChannel._protocolDescription);

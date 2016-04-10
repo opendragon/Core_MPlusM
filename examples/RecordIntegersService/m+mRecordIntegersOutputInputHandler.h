@@ -59,54 +59,54 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of integer values. */
         class RecordIntegersOutputInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RecordIntegersOutputInputHandler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RecordIntegersOutputInputHandler(void);
-            
+
             /*! @brief Set the file to be written to.
              @param outFile The file to be written to. */
             void
             setFile(FILE * outFile);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(RecordIntegersOutputInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
-            
+
         }; // RecordIntegersOutputInputHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRecordIntegersOutputInputHandler_H_)

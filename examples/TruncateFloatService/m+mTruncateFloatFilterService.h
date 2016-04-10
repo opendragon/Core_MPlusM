@@ -65,21 +65,21 @@ namespace MplusM
     namespace Example
     {
         class TruncateFloatFilterInputHandler;
-        
+
         /*! @brief The Truncate Float service. */
         class TruncateFloatFilterService : public Common::BaseFilterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -95,50 +95,50 @@ namespace MplusM
                                        const YarpString &                  tag,
                                        const YarpString &                  serviceEndpointName,
                                        const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~TruncateFloatFilterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(TruncateFloatFilterService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler for input data. */
             TruncateFloatFilterInputHandler * _inHandler;
-            
+
         }; // TruncateFloatFilterService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTruncateFloatFilterService_H_)

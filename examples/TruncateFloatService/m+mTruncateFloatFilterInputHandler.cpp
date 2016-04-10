@@ -115,15 +115,15 @@ DEFINE_HANDLE_INPUT_(TruncateFloatFilterInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         yarp::os::Bottle outBottle;
-        
+
         for (int ii = 0, mm = input.size(); mm > ii; ++ii)
         {
             yarp::os::Value aValue(input.get(ii));
-            
+
             if (aValue.isInt())
             {
                 outBottle.addInt(aValue.asInt());

@@ -95,7 +95,7 @@ setUpAndGo(void)
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     EchoClient * aClient = new EchoClient;
-    
+
     if (aClient)
     {
         StartRunning();
@@ -111,13 +111,13 @@ setUpAndGo(void)
                 {
                     YarpString  incoming;
                     std::string inputLine;
-                    
+
                     cout << "Type something to be echoed: ";
                     cout.flush();
                     if (getline(cin, inputLine))
                     {
                         YarpString outgoing(inputLine.c_str());
-                        
+
                         if (aClient->sendAndReceive(outgoing, incoming))
                         {
                             cout << "Received: '" << incoming.c_str() << "'." << endl;
@@ -134,7 +134,7 @@ setUpAndGo(void)
                     {
                         break;
                     }
-                    
+
                 }
                 if (! aClient->disconnectFromService())
                 {
@@ -173,7 +173,7 @@ setUpAndGo(void)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Echo service.
- 
+
  Strings read from standard input will be sent to the service. Entering an end-of-file will exit the
  program.
  @param argc The number of arguments in 'argv'.
@@ -189,8 +189,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -199,7 +199,7 @@ main(int      argc,
     {
         Utilities::DescriptorVector argumentList;
         OutputFlavour               flavour;
-        
+
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Echo service", 2014,
                                                     STANDARD_COPYRIGHT_NAME_, flavour, true))
@@ -215,7 +215,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

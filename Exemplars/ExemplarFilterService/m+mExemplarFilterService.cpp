@@ -132,7 +132,7 @@ DEFINE_CONFIGURE_(ExemplarFilterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -206,7 +206,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "d+";
@@ -231,7 +231,7 @@ DEFINE_STARTSERVICE_(ExemplarFilterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -276,7 +276,7 @@ DEFINE_STOPSERVICE_(ExemplarFilterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

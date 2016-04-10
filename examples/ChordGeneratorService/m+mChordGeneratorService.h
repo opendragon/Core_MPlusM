@@ -64,22 +64,22 @@ namespace MplusM
     namespace Example
     {
         class ChordGeneratorRequestHandler;
-        
+
         /*! @brief An example m+m service, handling requests for chords. A list of MIDI note value
          is returned as INTs for a given root note */
         class ChordGeneratorService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -93,42 +93,42 @@ namespace MplusM
                                   const YarpString & tag,
                                   const YarpString & serviceEndpointName,
                                   const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~ChordGeneratorService(void);
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ChordGeneratorService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The request handler for the Chord request. */
             ChordGeneratorRequestHandler * _chordReqHandler;
-            
+
         }; // ChordGeneratorService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMChordGeneratorService_H_)

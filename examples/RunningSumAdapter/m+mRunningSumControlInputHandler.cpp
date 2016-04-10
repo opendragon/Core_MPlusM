@@ -119,28 +119,28 @@ DEFINE_HANDLE_INPUT_(RunningSumControlInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (0 < input.size())
         {
             BaseChannel *      theOutput = _shared.getOutput();
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
-            
+
             if (theClient && theOutput)
             {
                 yarp::os::Value argValue(input.get(0));
-                
+
                 if (argValue.isString())
                 {
                     YarpString argString(argValue.asString());
-                    
+
                     if (argString == MpM_RESETSUM_REQUEST_)
                     {
                         _shared.lock();
                         if (theClient->resetSum())
                         {
-                        
+
                         }
                         else
                         {
@@ -157,7 +157,7 @@ DEFINE_HANDLE_INPUT_(RunningSumControlInputHandler)
                         _shared.lock();
                         if (theClient->startSum())
                         {
-                        
+
                         }
                         else
                         {
@@ -170,7 +170,7 @@ DEFINE_HANDLE_INPUT_(RunningSumControlInputHandler)
                         _shared.lock();
                         if (theClient->stopSum())
                         {
-                        
+
                         }
                         else
                         {

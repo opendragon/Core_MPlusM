@@ -107,19 +107,19 @@ RandomNumberClient::getOneRandomNumber(double & result)
     ODL_OBJENTER(); //####
     ODL_P1("result = ", &result); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         if (send(MpM_RANDOM_REQUEST_, parameters, response))
         {
             if (1 == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isDouble())
                 {
                     result = retrieved.asDouble();
@@ -158,14 +158,14 @@ RandomNumberClient::getRandomNumbers(const int      howMany,
     ODL_LL1("howMany = ", howMany); //####
     ODL_P1("result = ", &result); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (0 < howMany)
         {
             yarp::os::Bottle parameters;
             ServiceResponse  response;
-            
+
             parameters.addInt(howMany);
             reconnectIfDisconnected();
             if (send(MpM_RANDOM_REQUEST_, parameters, response))
@@ -177,7 +177,7 @@ RandomNumberClient::getRandomNumbers(const int      howMany,
                     for (int ii = 0; ii < howMany; ++ii)
                     {
                         yarp::os::Value retrieved(response.element(ii));
-                        
+
                         if (retrieved.isDouble())
                         {
                             result.push_back(retrieved.asDouble());
@@ -188,7 +188,7 @@ RandomNumberClient::getRandomNumbers(const int      howMany,
                             okSoFar = false;
                             break;
                         }
-                        
+
                     }
                 }
                 else

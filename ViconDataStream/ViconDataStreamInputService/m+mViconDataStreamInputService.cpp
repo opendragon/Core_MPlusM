@@ -127,22 +127,22 @@ DEFINE_CONFIGURE_(ViconDataStreamInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
-            
+
             if (firstValue.isString() && secondValue.isInt())
             {
                 int secondNumber = secondValue.asInt();
-                
+
                 if (0 < secondNumber)
                 {
                     std::stringstream buff;
-                    
+
                     _hostName = firstValue.asString();
                     ODL_S1s("_hostName <- ", _hostName); //####
                     _hostPort = secondNumber;
@@ -213,7 +213,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconDataStreamInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "VICONDS";
@@ -229,7 +229,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconDataStreamInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -248,7 +248,7 @@ DEFINE_STARTSERVICE_(ViconDataStreamInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -301,7 +301,7 @@ DEFINE_STOPSERVICE_(ViconDataStreamInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class definition for the client of the %Tunnel service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -108,12 +108,12 @@ TunnelClient::getAddress(YarpString & address,
     ODL_OBJENTER(); //####
     ODL_P2("address = ", &address, "port = ", &port); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         reconnectIfDisconnected();
         if (send(MpM_WHERE_REQUEST_, parameters, response))
         {
@@ -121,7 +121,7 @@ TunnelClient::getAddress(YarpString & address,
             {
                 yarp::os::Value retrievedAddress(response.element(0));
                 yarp::os::Value retrievedPort(response.element(1));
-                
+
                 if (retrievedAddress.isString() && retrievedPort.isInt())
                 {
                     address = retrievedAddress.asString();

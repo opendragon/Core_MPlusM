@@ -57,58 +57,58 @@ namespace MplusM
     namespace Registry
     {
         class RegistryService;
-        
+
         /*! @brief A convenience class to schedule registry checks. */
         class RegistryCheckThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has owns this thread. */
             explicit
             RegistryCheckThread(RegistryService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RegistryCheckThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(RegistryCheckThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that owns this thread. */
             RegistryService & _service;
-            
+
             /*! @brief The time at which the thread will next check the %Registry Service. */
             double _checkTime;
-            
+
         }; // RegistryCheckThread
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRegistryCheckThread_H_)

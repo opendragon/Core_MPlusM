@@ -100,8 +100,10 @@ doCreateEndpointForTest(const int argc,
                         char * *  argv)
 {
     ODL_ENTER(); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argc = ", argv); //####
     Endpoint * stuff = NULL;
-    
+
     try
     {
         if (0 < argc)
@@ -112,15 +114,19 @@ doCreateEndpointForTest(const int argc,
                 case 1 :
                     stuff = new Endpoint(*argv);
                     break;
-                    
+
                 case 2 :
                     stuff = new Endpoint(*argv, argv[1]);
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
+        }
+        else
+        {
+            ODL_LOG("! (0 < argc)"); //####
         }
     }
     catch (...)
@@ -147,8 +153,8 @@ doCreateTestChannel(const YarpString & destinationName,
 #if defined(MpM_ReportOnConnections)
     ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-    
-    
+
+
     if (newChannel)
     {
 #if defined(MpM_ReportOnConnections)
@@ -267,11 +273,11 @@ doTestCreateEndpoint(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint * stuff = doCreateEndpointForTest(argc, argv);
-        
+
         if (stuff)
         {
             if (stuff->open(STANDARD_WAIT_TIME_))
@@ -328,12 +334,12 @@ doTestConnectToEndpoint(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
         ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
-        
+
         if (stuff)
         {
             if (stuff->open(STANDARD_WAIT_TIME_) && stuff->setReporter(reporter, true))
@@ -342,7 +348,7 @@ doTestConnectToEndpoint(const char * launchPath,
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/connecttoendpoint_"));
                 ClientChannel * outChannel = new ClientChannel;
-                
+
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
@@ -436,16 +442,16 @@ doTestWriteToEndpoint(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
         ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
-        
+
         if (stuff)
         {
             Test03Handler handler;
-            
+
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
@@ -453,7 +459,7 @@ doTestWriteToEndpoint(const char * launchPath,
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/writetoendpoint_"));
                 ClientChannel * outChannel = new ClientChannel;
-                
+
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
@@ -466,7 +472,7 @@ doTestWriteToEndpoint(const char * launchPath,
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             yarp::os::Bottle message;
-                            
+
                             message.addString(aName);
                             message.addString("howdi");
                             if (outChannel->write(message))
@@ -563,16 +569,16 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
         ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
-        
+
         if (stuff)
         {
             Test04Handler handler;
-            
+
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
@@ -580,7 +586,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                 // Now we try to connect!
                 YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader_"));
                 ClientChannel * outChannel = new ClientChannel;
-                
+
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
@@ -594,7 +600,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                         {
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
-                            
+
                             message.addString(aName);
                             message.addString("howdi");
                             if (outChannel->write(message, response))
@@ -691,16 +697,16 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
         ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
-        
+
         if (stuff)
         {
             Test05HandlerCreator handlerCreator;
-            
+
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
@@ -709,7 +715,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                 YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader"
                                                            "creator_"));
                 ClientChannel * outChannel = new ClientChannel;
-                
+
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
@@ -723,7 +729,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         {
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
-                            
+
                             message.addString(aName);
                             message.addString("howdi");
                             if (outChannel->write(message, response))
@@ -820,7 +826,7 @@ doTestCreateRequest(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         if (0 == argc)
@@ -830,13 +836,13 @@ doTestCreateRequest(const char * launchPath,
         else
         {
             yarp::os::Bottle parameters;
-            
+
             for (int ii = 1; ii < argc; ++ii)
             {
                 parameters.addString(argv[ii]);
             }
             ServiceRequest * stuff = new ServiceRequest(*argv, parameters);
-            
+
             delete stuff;
             result = 0;
         }
@@ -879,17 +885,17 @@ doTestCreateResponse(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         yarp::os::Bottle parameters;
-        
+
         for (int ii = 0; ii < argc; ++ii)
         {
             parameters.addString(argv[ii]);
         }
         ServiceResponse * stuff = new ServiceResponse(parameters);
-        
+
         delete stuff;
         result = 0;
     }
@@ -931,29 +937,29 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
         ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
-        
+
         if (stuff)
         {
             Test08Handler handler;
-            
+
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getName(),
                                                                  "test/requestechofromendpoint_");
-                
+
                 if (outChannel)
                 {
                     ODL_S1s("endpoint name = ", stuff->getName());
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*outChannel, response))
                     {
                         ODL_LL1("response size = ", response.count()); //####
@@ -1017,11 +1023,11 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Test09Service * aService = new Test09Service(launchPath, argc, argv);
-        
+
         if (aService)
         {
             if (aService->startService())
@@ -1029,13 +1035,13 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "usingdefaultwithreader");
-                
+
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*outChannel, response))
                     {
                         ODL_LL1("response size = ", response.count()); //####
@@ -1096,11 +1102,11 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Test10Service * aService = new Test10Service(launchPath, argc, argv);
-        
+
         if (aService)
         {
             if (aService->startService())
@@ -1108,13 +1114,13 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "usingdefaultwithreadercreator_");
-                
+
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*outChannel, response))
                     {
                         ODL_LL1("response size = ", response.count()); //####
@@ -1174,11 +1180,11 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Test11Service * aService = new Test11Service(launchPath, argc, argv);
-        
+
         if (aService)
         {
             if (aService->startService())
@@ -1186,13 +1192,13 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "withrequesthandler_");
-                
+
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
-                    
+
                     if (request.send(*outChannel, response))
                     {
                         if (3 == response.count())
@@ -1201,7 +1207,7 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                             {
                                 "some", "to", "send"
                             };
-                            
+
                             result = 0;
                             for (int ii = 0; (! result) && (ii < response.count()); ++ii)
                             {
@@ -1297,11 +1303,11 @@ checkListDictionary(yarp::os::Property & asDict,
     bool result = true;
     bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY_);
     bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_);
-    
+
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
     {
         YarpString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
-        
+
         if (aName == MpM_ARGUMENTS_REQUEST_)
         {
             if (sawArguments)
@@ -1311,7 +1317,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawArguments = (itsOutput == "s+");
             }
         }
@@ -1324,7 +1330,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawChannels = (itsOutput == "(s*)(s*)(s*)");
             }
         }
@@ -1337,7 +1343,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawClients = (itsOutput == "(s*)");
             }
         }
@@ -1362,7 +1368,7 @@ checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
-                
+
                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
             }
         }
@@ -1375,7 +1381,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawExtraInfo = (itsOutput == "s");
             }
         }
@@ -1389,7 +1395,7 @@ checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
-                
+
                 sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
             }
         }
@@ -1402,7 +1408,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawList = (itsOutput == "([]+)");
             }
         }
@@ -1415,7 +1421,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawMetrics = (itsOutput == "([]+)");
             }
         }
@@ -1428,7 +1434,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawMetricsState = (itsOutput == "i");
             }
         }
@@ -1441,7 +1447,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if ((! hasInput) && hasOutput)
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
-                
+
                 sawName = (itsOutput == "sssssss");
             }
         }
@@ -1454,7 +1460,7 @@ checkListDictionary(yarp::os::Property & asDict,
             else if (hasInput && (! hasOutput))
             {
                 YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
-                
+
                 sawSetMetricsState = (itsInput == "i");
             }
         }
@@ -1477,7 +1483,7 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
     ODL_ENTER(); //####
     ODL_P1("response = ", &response); //####
     bool result = false;
-    
+
     try
     {
         if (3 <= response.count())
@@ -1494,16 +1500,16 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
             bool sawMetricsState = false;
             bool sawName = false;
             bool sawSetMetricsState = false;
-            
+
             result = true;
             for (int ii = 0; result && (ii < response.count()); ++ii)
             {
                 yarp::os::Value anElement(response.element(ii));
-                
+
                 if (anElement.isDict())
                 {
                     yarp::os::Property * asDict = anElement.asDict();
-                    
+
                     if (asDict)
                     {
                         result = checkListDictionary(*asDict, sawArguments, sawChannels, sawClients,
@@ -1515,11 +1521,11 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
                 else if (anElement.isList())
                 {
                     yarp::os::Bottle * asList = anElement.asList();
-                    
+
                     if (asList)
                     {
                         yarp::os::Property asDict;
-                        
+
                         if (ListIsReallyDictionary(*asList, asDict))
                         {
                             result = checkListDictionary(asDict, sawArguments, sawChannels,
@@ -1575,11 +1581,11 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     int result = 1;
-    
+
     try
     {
         Test12Service * aService = new Test12Service(launchPath, argc, argv);
-        
+
         if (aService)
         {
             if (aService->startService())
@@ -1587,12 +1593,12 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "withrequesthandlerandinfo_");
-                
+
                 if (outChannel)
                 {
                     ServiceRequest  request(MpM_LIST_REQUEST_);
                     ServiceResponse response;
-                    
+
                     if (request.send(*outChannel, response))
                     {
                         ODL_LL1("response size = ", response.count()); //####
@@ -1652,7 +1658,7 @@ catchSignal(int signal)
     ODL_LL1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
-    
+
     buff << signal;
     message += buff.str();
     message += " = ";
@@ -1667,7 +1673,7 @@ catchSignal(int signal)
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for unit tests of the m+m common classes.
- 
+
  The first argument is the test number, the second argument is the name of the channel to be used
  with the test, the optional third argument is the machine to connect to and the optional fourth
  argument is the port number to be used. Output depends on the test being run.
@@ -1681,14 +1687,14 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     int result = 1;
-    
+
     try
     {
         Utilities::SetUpGlobalStatusReporter();
@@ -1697,88 +1703,89 @@ main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
-            
+
             Initialize(progName);
             if (0 < --argc)
             {
                 const char * startPtr = argv[1];
                 char *       endPtr;
                 int          selector = strtol(startPtr, &endPtr, 10);
-                
+
                 if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
-                    
-                }
-                
-                SetSignalHandlers(catchSignal);
-                switch (selector)
-                {
-                    case 0 :
-                        // Just used to validate the random number seed.
-                        result = 0;
-                        break;
-                        
-                    case 1 :
-                        result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 2 :
-                        result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 3 :
-                        result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 4 :
-                        result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 5 :
-                        result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 6 :
-                        result = doTestCreateRequest(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 7 :
-                        result = doTestCreateResponse(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 8 :
-                        result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 9 :
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv, argc - 1,
+                    SetSignalHandlers(catchSignal);
+                    switch (selector)
+                    {
+                        case 0 :
+                            // Just used to validate the random number seed.
+                            result = 0;
+                            break;
+
+                        case 1 :
+                            result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 2 :
+                            result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 3 :
+                            result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 4 :
+                            result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 5 :
+                            result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1,
+                                                                             argv + 2);
+                            break;
+
+                        case 6 :
+                            result = doTestCreateRequest(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 7 :
+                            result = doTestCreateResponse(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 8 :
+                            result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
+                            break;
+
+                        case 9 :
+                            result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv,
+                                                                                        argc - 1,
+                                                                                        argv + 2);
+                            break;
+
+                        case 10 :
+                            result =
+                            doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv,
+                                                                                      argc - 1,
+                                                                                      argv + 2);
+                            break;
+
+                        case 11 :
+                            result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1,
                                                                                     argv + 2);
-                        break;
-                        
-                    case 10 :
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv,
+                            break;
+
+                        case 12 :
+                            result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
                                                                                            argc - 1,
                                                                                        argv + 2);
-                        break;
-                        
-                    case 11 :
-                        result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1,
-                                                                                argv + 2);
-                        break;
-                        
-                    case 12 :
-                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
-                                                                                       argc - 1,
-                                                                                       argv + 2);
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
-                if (result)
-                {
-                    ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                            break;
+
+                        default :
+                            break;
+
+                    }
+                    if (result)
+                    {
+                        ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                    }
                 }
             }
             else

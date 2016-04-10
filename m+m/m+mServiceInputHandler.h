@@ -58,51 +58,51 @@ namespace MplusM
     namespace Common
     {
         class BaseService;
-        
+
         /*! @brief The minimal functionality required for an m+m service. */
         class ServiceInputHandler : public BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that this handler is used with. */
             explicit
             ServiceInputHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ServiceInputHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(ServiceInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;
-            
+
         }; // ServiceInputHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMServiceInputHandler_H_)

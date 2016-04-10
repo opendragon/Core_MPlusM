@@ -125,7 +125,7 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (3 <= details.size())
@@ -133,12 +133,12 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
             yarp::os::Value thirdValue(details.get(2));
-            
+
             if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
                 thirdValue.isInt())
             {
                 int thirdNumber = thirdValue.asInt();
-                
+
                 if (firstValue.isDouble())
                 {
                     _translationScale = firstValue.asDouble();
@@ -151,7 +151,7 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
                 if ((0 < _translationScale) && (0 < thirdNumber))
                 {
                     std::stringstream buff;
-                    
+
                     _hostName = secondValue.asString();
                     ODL_S1s("_hostName <- ", _hostName); //####
                     _hostPort = thirdNumber;
@@ -224,7 +224,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconBlobInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "b";
@@ -239,7 +239,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -258,7 +258,7 @@ DEFINE_STARTSERVICE_(ViconBlobInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -312,7 +312,7 @@ DEFINE_STOPSERVICE_(ViconBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

@@ -469,3 +469,5 @@ m+m/Debug/m+mCommon.lib
 m+m/Release/m+mCommon.lib
 odl/Debug/odLogging.lib
 odl/Release/odLogging.lib
+_m+mCommon_swig_python.so
+libm+mCommon_swig_csharp.so

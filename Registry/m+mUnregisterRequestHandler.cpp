@@ -130,7 +130,7 @@ DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         asList->addString("remove");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
@@ -159,7 +159,7 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         // Validate the name as a channel name
@@ -167,15 +167,15 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
         if (1 == restOfInput.size())
         {
             yarp::os::Value argument(restOfInput.get(0));
-            
+
             if (argument.isString())
             {
                 YarpString argAsString(argument.toString());
-                
+
                 if (Endpoint::CheckEndpointName(argAsString))
                 {
                     RegistryService & theService = static_cast<RegistryService &>(_service);
-                    
+
                     theService.reportStatusChange(argAsString,
                                                   RegistryService::kRegistryUnregisterService);
                     // Forget the information associated with the channel name

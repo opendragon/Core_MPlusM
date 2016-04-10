@@ -59,49 +59,49 @@ namespace MplusM
     namespace Example
     {
         class RandomNumberClient;
-        
+
         /*! @brief The data shared between the input handlers and the main thread of
          the Random Number adapter. */
         class RandomNumberAdapterData : public Common::BaseAdapterData
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             explicit
             RandomNumberAdapterData(RandomNumberClient *  client = NULL,
                                     Common::BaseChannel * output = NULL);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RandomNumberAdapterData(void);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RandomNumberAdapterData);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RandomNumberAdapterData
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRandomNumberAdapterData_H_)

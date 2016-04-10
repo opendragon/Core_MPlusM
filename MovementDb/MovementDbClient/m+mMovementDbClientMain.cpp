@@ -102,7 +102,7 @@ reportTimeInReasonableUnits(const double measurement)
 {
     double       newValue;
     const char * tag;
-    
+
     if (measurement < 1e-6)
     {
         // Less than a microsecond
@@ -156,7 +156,7 @@ setUpAndGo(void)
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     MovementDbClient * aClient = new MovementDbClient;
-    
+
     if (aClient)
     {
 #if defined(MpM_ReportOnConnections)
@@ -173,7 +173,7 @@ setUpAndGo(void)
                     char        inChar;
                     std::string inputLine;
                     YarpString  inputString;
-                    
+
                     cout << "Operation: [? + d e q]? ";
                     cout.flush();
                     if (getline(cin, inputLine))
@@ -203,7 +203,7 @@ setUpAndGo(void)
                                     cout << "Empty file path provided." << endl;
                                 }
                                 break;
-                                
+
                             case 'd' :
                             case 'D' :
                                 cout << "set data track: ";
@@ -221,7 +221,7 @@ setUpAndGo(void)
                                     cout << "Data track not set for database." << endl;
                                 }
                                 break;
-                                
+
                             case 'e' :
                             case 'E' :
                                 cout << "set e-mail address: ";
@@ -240,7 +240,7 @@ setUpAndGo(void)
                                     endl;
                                 }
                                 break;
-                                
+
                             case 'q' :
                             case 'Q' :
                                 cout << "Exiting" << endl;
@@ -252,17 +252,17 @@ setUpAndGo(void)
                                 }
                                 StopRunning();
                                 break;
-                                
+
                             case '?' :
                                 // Help
                                 displayCommands();
                                 break;
-                                
+
                             default :
                                 cout << "Unrecognized request '" << inChar << "'." << endl;
                                 cout.flush();
                                 break;
-                                
+
                         }
                     }
                 }
@@ -301,7 +301,7 @@ setUpAndGo(void)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Movement Database service.
- 
+
  Integers read from standard input will be sent to the service as the number of requests to
  simulate. Entering a zero will exit the program.
  @param argc The number of arguments in 'argv'.
@@ -317,8 +317,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -327,7 +327,7 @@ main(int      argc,
     {
         Utilities::DescriptorVector argumentList;
         OutputFlavour               flavour;
-        
+
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Movement Database service",
                                                     2014, STANDARD_COPYRIGHT_NAME_, flavour, true))
@@ -343,7 +343,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

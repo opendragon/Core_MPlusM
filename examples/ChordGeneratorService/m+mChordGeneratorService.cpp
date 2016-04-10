@@ -169,7 +169,7 @@ DEFINE_STARTSERVICE_(ChordGeneratorService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -190,7 +190,7 @@ DEFINE_STOPSERVICE_(ChordGeneratorService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

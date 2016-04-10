@@ -63,7 +63,7 @@ namespace MplusM
         class BaseAdapterArguments;
         class StringBuffer;
     } // Common
-    
+
     namespace Utilities
     {
         /*! @brief Which combination of input and output to use. */
@@ -71,70 +71,70 @@ namespace MplusM
         {
             /*! @brief Neither input nor output. */
             kInputAndOutputNone   = 0x0,
-            
+
             /*! @brief Input. */
             kInputAndOutputInput  = 0x1,
-            
+
             /*! @brief Output. */
             kInputAndOutputOutput = 0x2,
-            
+
             /*! @brief Both input and output. */
             kInputAndOutputBoth   = 0x3,
-            
+
             /*! @brief Force the size to be 4 bytes. */
             kInputAndOutputUnknown = 0x7FFFFFFF
-            
+
         }; // InputOutputFlag
-        
+
         /*! @brief The kinds of ports. */
         enum PortKind
         {
             /*! @brief The port is an adapter port. */
             kPortKindAdapter,
-            
+
             /*! @brief The port is a client port. */
             kPortKindClient,
-            
+
             /*! @brief The port is the %Registry Service port. */
             kPortKindRegistryService,
-            
+
             /*! @brief The port is a service port. */
             kPortKindService,
-            
+
             /*! @brief The port is s standard port. */
             kPortKindStandard,
-            
+
             /*! @brief Force the size to be 4 bytes. */
             kPortKindUnknown = 0x7FFFFFFF
-            
+
         }; // PortKind
-        
+
         /*! @brief The attributes of a port. */
         struct PortDescriptor
         {
             /*! @brief The registered name of the port. */
             YarpString _portName;
-            
+
             /*! @brief The IP address for the port. */
             YarpString _portIpAddress;
-            
+
             /*! @brief The IP port number for the port. */
             YarpString _portPortNumber;
-            
+
         }; // PortDescriptor
-        
+
         /*! @brief The attributes of a service or adapter. */
         struct ServiceDescriptor
         {
             /*! @brief The standard name for the service or adapter. */
             YarpString _serviceName;
-            
+
             /*! @brief The standard channel for the service or adapter. */
             YarpString _channelName;
-            
+
             /*! @brief The description of the service or adapter. */
             YarpString _description;
-            
+
             /*! @brief The extra information for the service or adapter. */
             YarpString _extraInfo;
 
@@ -143,30 +143,30 @@ namespace MplusM
 
             /*! @brief The set of secondary client channels for the service or adapter. */
             Common::ChannelVector _clientChannels;
-            
+
             /*! @brief The set of secondary input channels for the service or adapter. */
             Common::ChannelVector _inputChannels;
-            
+
             /*! @brief The set of secondary output channels for the service or adapter. */
             Common::ChannelVector _outputChannels;
-            
+
             /*! @brief The description of the behavioural model for the service or adapter. */
             YarpString _kind;
-            
+
             /*! @brief The name of the input channel for the service or adapter. */
             YarpString _path;
-            
+
             /*! @brief The description of the requests for the service or adapter. */
             YarpString _requestsDescription;
-            
+
             /*! @brief The modifier tag for the service or adapter. */
             YarpString _tag;
-            
+
         }; // ServiceDescriptor
-        
+
         /*! @brief A set of port descriptions. */
         typedef std::vector<PortDescriptor> PortVector;
-        
+
         /*! @brief Add a connection between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.
@@ -182,7 +182,7 @@ namespace MplusM
                       const bool            isUDP = false,
                       Common::CheckFunction checker = NULL,
                       void *                checkStuff = NULL);
-        
+
         /*! @brief Check if a connection exists between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.
@@ -206,19 +206,19 @@ namespace MplusM
          @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool
         CheckForRegistryService(void);
-        
+
         /*! @brief Check if the YARP network is available.
          @param quiet @c true if nothing should be reported on failure and @c false otherwise.
          @returns @c true if the YARP network is available and @c false otherwise. */
         bool
         CheckForValidNetwork(const bool quiet = false);
-        
+
         /*! @brief Check if the %Registry Service is present in a list.
          @param ports The set of detected ports.
          @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool
         CheckListForRegistryService(const PortVector & ports);
-        
+
         /*! @brief Convert a YARP message into a JSON record.
          @param outBuffer The buffer to be written to.
          @param input The message to be processed. */
@@ -231,7 +231,7 @@ namespace MplusM
         ConvertMessageToJSON(std::stringstream &      outBuffer,
                              const yarp::os::Bottle & input);
 # endif // ! defined(MpM_UseCustomStringBuffer)
-        
+
         /*! @brief Convert the service metrics into a string.
          @param metrics The metrics to convert.
          @param flavour The output format to be used.
@@ -239,7 +239,7 @@ namespace MplusM
         YarpString
         ConvertMetricsToString(const yarp::os::Bottle &    metrics,
                                const Common::OutputFlavour flavour = Common::kOutputFlavourNormal);
-        
+
         /*! @brief Collect the input and output connections for a port.
          @param portName The port to be inspected.
          @param inputs The collected inputs for the port.
@@ -256,7 +256,7 @@ namespace MplusM
                               const bool              quiet = false,
                               Common::CheckFunction   checker = NULL,
                               void *                  checkStuff = NULL);
-        
+
         /*! @brief Retrieve the configuration values for a service.
          @param serviceChannelName The channel for the service.
          @param values The configuration values for a service.
@@ -270,7 +270,7 @@ namespace MplusM
                                    const double          timeToWait,
                                    Common::CheckFunction checker = NULL,
                                    void *                checkStuff = NULL);
-        
+
         /*! @brief Return the time since 1 January, 1970, as milliseconds.
          @returns The time elapsed since 1 January, 1970. */
         int64_t
@@ -283,7 +283,7 @@ namespace MplusM
         bool
         GetCurrentYarpConfiguration(struct in_addr & serverAddress,
                                     int &            serverPort);
-        
+
         /*! @brief Fill buffers with the current date and time as strings.
          @param dateBuffer The buffer to fill with the date.
          @param dateBufferSize The size of the buffer for the date.
@@ -294,7 +294,7 @@ namespace MplusM
                        const size_t dateBufferSize,
                        char *       timeBuffer,
                        const size_t timeBufferSize);
-        
+
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports.
          @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports
@@ -303,7 +303,7 @@ namespace MplusM
         bool
         GetDetectedPortList(PortVector & ports,
                             const bool   includeHiddenPorts = false);
-        
+
         /*! @brief Retrieve the extra information string for a service.
          @param serviceChannelName The channel for the service.
          @param extraInfo The extra information for a service.
@@ -317,24 +317,24 @@ namespace MplusM
                                       const double          timeToWait,
                                       Common::CheckFunction checker = NULL,
                                       void *                checkStuff = NULL);
-        
+
         /*! @brief Return the base name of a file name.
          @param inFileName The file name to be processed.
          @returns The base name of a file name. */
         YarpString
         GetFileNameBase(const YarpString & inFileName);
-        
+
         /*! @brief Return the file name part of a path.
          @param inFileName The file path to be processed.
          @returns The file name part of a path. */
         YarpString
         GetFileNamePart(const YarpString & inFileName);
-        
+
         /*! @brief Return the global status reporter.
          @returns The global status reporter. */
         Common::ChannelStatusReporter *
         GetGlobalStatusReporter(void);
-        
+
         /*! @brief Retrieve the list of available IP addresses for the machine.
          @param result The list of available IP addresses. */
         void
@@ -353,7 +353,7 @@ namespace MplusM
                              const double          timeToWait,
                              Common::CheckFunction checker = NULL,
                              void *                checkStuff = NULL);
-        
+
         /*! @brief Retrieve the state of the channel metrics for a service.
          @param serviceChannelName The channel for the service.
          @param metricsState The state of metrics collection for the channels of a service.
@@ -367,7 +367,7 @@ namespace MplusM
                                   const double          timeToWait,
                                   Common::CheckFunction checker = NULL,
                                   void *                checkStuff = NULL);
-        
+
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
          @param descriptor The details for a service.
@@ -381,24 +381,24 @@ namespace MplusM
                                         const double          timeToWait,
                                         Common::CheckFunction checker = NULL,
                                         void *                checkStuff = NULL);
-        
+
         /*! @brief Map a port name to the port kind.
          @param portName The name of the port.
          @returns The kind of the port. */
         PortKind
         GetPortKind(const YarpString & portName);
-        
+
         /*! @brief Return the IP address and port number for a port.
          @param portName The port to be located.
          @returns The IP address and port number of the port. */
         YarpString
         GetPortLocation(const YarpString & portName);
-        
+
         /*! @brief Return a random string of hexadecimal digits.
          @returns A random string of hexadecimal digits. */
         YarpString
         GetRandomHexString(void);
-        
+
         /*! @brief Retrieve the set of known services.
          @param services The set of registered services.
          @param quiet @c true if status output is to be suppressed and @c false otherwise.
@@ -411,7 +411,7 @@ namespace MplusM
                         const bool            quiet = false,
                         Common::CheckFunction checker = NULL,
                         void *                checkStuff = NULL);
-        
+
         /*! @brief Retrieve the set of known services.
          @param criteria The matching criteria to be used.
          @param services The set of registered services.
@@ -431,19 +431,19 @@ namespace MplusM
          @param milliseconds The number of milliseconds to sleep. */
         void
         GoToSleep(const int milliseconds);
-        
+
         /*! @brief Return a string representation of a service kind.
          @param kind The value to be converted.
          @returns A string representation of the service kind. */
         const char *
         MapServiceKindToString(const Common::ServiceKind kind);
-        
+
         /*! @brief Return the service kind corresponding to a string.
          @param kindString The value to be converted.
          @returns The service kind corresponding to a string. */
         Common::ServiceKind
         MapStringToServiceKind(const YarpString & kindString);
-        
+
         /*! @brief Connect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
@@ -459,7 +459,7 @@ namespace MplusM
                                   const bool            isUDP = false,
                                   Common::CheckFunction checker = NULL,
                                   void *                checkStuff = NULL);
-        
+
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
@@ -473,7 +473,7 @@ namespace MplusM
                                      const double          timeToWait,
                                      Common::CheckFunction checker = NULL,
                                      void *                checkStuff = NULL);
-        
+
         /*! @brief Return @c true if the port name is for the %Registry Service.
          @param portName the name of the port.
          @returns @c true if the port name is for the %Registry Service main port. */
@@ -512,7 +512,7 @@ namespace MplusM
                                      Common::OutputFlavour & flavour,
                                      const bool              ignoreFlavours = false,
                                      YarpStringVector *      arguments = NULL);
-        
+
         /*! @brief Process the standard options for utility executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
@@ -523,7 +523,7 @@ namespace MplusM
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
          @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the utility.         
+         @param argv The arguments to be used with the utility.
          @param argumentDescriptions Descriptions of the arguments to the adapter.
          @param utilityDescription A description of the utility.
          @param year The copyright year for the calling application.
@@ -542,7 +542,7 @@ namespace MplusM
                                         Common::OutputFlavour & flavour,
                                         const bool              ignoreFlavours = false,
                                         YarpStringVector *      arguments = NULL);
-        
+
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.
@@ -554,12 +554,12 @@ namespace MplusM
                          const YarpString &    toPortName,
                          Common::CheckFunction checker = NULL,
                          void *                checkStuff = NULL);
-        
+
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
         void
         RemoveStalePorts(const float timeout = 5);
-        
+
         /*! @brief Restart a service.
          @param serviceChannelName The channel for the service.
          @param timeToWait The number of seconds allowed before a failure is considered.
@@ -585,7 +585,7 @@ namespace MplusM
                                    const double             timeToWait,
                                    Common::CheckFunction    checker = NULL,
                                    void *                   checkStuff = NULL);
-        
+
         /*! @brief Set the state of the channel metrics for a service.
          @param serviceChannelName The channel for the service.
          @param newMetricsState The desired state of metrics collection for the channels of a
@@ -600,15 +600,15 @@ namespace MplusM
                                   const double          timeToWait,
                                   Common::CheckFunction checker = NULL,
                                   void *                checkStuff = NULL);
-        
+
         /*! @brief Set up the global status reporter. */
         void
         SetUpGlobalStatusReporter(void);
-        
+
         /*! @brief Shut down the global status reporter. */
         void
         ShutDownGlobalStatusReporter(void);
-        
+
         /*! @brief Shut down a service.
          @param serviceChannelName The channel for the service.
          @param timeToWait The number of seconds allowed before a failure is considered.
@@ -620,7 +620,7 @@ namespace MplusM
                      const double          timeToWait,
                      Common::CheckFunction checker = NULL,
                      void *                checkStuff = NULL);
-        
+
         /*! @brief Checks a network port number for validity.
          @param aPort The port number to be checked.
          @param systemAllowed @c true if system port numbers are valid and @c false otherwise.
@@ -632,9 +632,9 @@ namespace MplusM
             return (((systemAllowed ? 0 : MINIMUM_PORT_ALLOWED_) <= aPort) &&
                     (MAXIMUM_PORT_ALLOWED_ >= aPort));
         } // ValidPortNumber
-        
+
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMUtilities_H_)

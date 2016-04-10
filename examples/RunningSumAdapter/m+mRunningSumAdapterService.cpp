@@ -136,7 +136,7 @@ DEFINE_CONFIGURE_(RunningSumAdapterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -234,7 +234,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAdapterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "control";
     description._portProtocol = "s";
@@ -268,7 +268,7 @@ DEFINE_STARTSERVICE_(RunningSumAdapterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -314,7 +314,7 @@ DEFINE_STOPSERVICE_(RunningSumAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

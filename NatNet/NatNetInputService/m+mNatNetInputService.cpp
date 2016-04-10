@@ -123,7 +123,7 @@ DEFINE_CONFIGURE_(NatNetInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (3 <= details.size())
@@ -213,7 +213,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "NN";
@@ -227,7 +227,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -246,7 +246,7 @@ DEFINE_STARTSERVICE_(NatNetInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -297,7 +297,7 @@ DEFINE_STOPSERVICE_(NatNetInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

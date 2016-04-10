@@ -119,7 +119,7 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
 {
     ODL_OBJENTER(); //####
     bool atEnd = false;
-    
+
     for ( ; (! atEnd) && (! isStopping()); )
     {
         if (_nextTime <= yarp::os::Time::now())
@@ -128,11 +128,11 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
             if (_nextIndex < _outMessage.size())
             {
                 yarp::os::Value & nextValue = _outMessage.get(_nextIndex++);
-                
+
                 if (nextValue.isList())
                 {
                     yarp::os::Bottle * toWrite = nextValue.asList();
-                    
+
                     if (toWrite && _outChannel)
                     {
                         if (! _outChannel->write(*toWrite))
@@ -148,7 +148,7 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
                 {
                     double            deltaTime;
                     yarp::os::Value & timeValue = _outMessage.get(_nextIndex++);
-                    
+
                     if (timeValue.isInt())
                     {
                         deltaTime = timeValue.asInt();
@@ -194,7 +194,7 @@ DEFINE_THREADINIT_(PlaybackFromJSONInputThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _nextTime = yarp::os::Time::now() + _initialDelay;
     ODL_OBJEXIT_B(result); //####
     return result;

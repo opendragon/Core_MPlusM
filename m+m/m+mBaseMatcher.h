@@ -61,22 +61,22 @@ namespace MplusM
         class BaseMatcher
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseMatcher(void);
-            
+
         protected :
-            
+
             /*! @brief The constructor. */
             BaseMatcher(void);
-            
+
             /*! @brief Scan a string for the next non-whitespace character.
              @param inString The string to be scanned.
              @param inLength The length of the string being scanned.
@@ -88,21 +88,21 @@ namespace MplusM
             SkipWhitespace(const YarpString & inString,
                            const size_t       inLength,
                            const size_t       startPos);
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseMatcher);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // BaseMatcher
-        
+
     } // Parser
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseMatcher_H_)

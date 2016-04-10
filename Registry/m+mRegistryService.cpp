@@ -122,49 +122,49 @@ namespace MplusM
         typedef int (*BindFunction)
             (sqlite3_stmt * statement,
             const void *    stuff);
-        
+
         /*! @brief The data needed to add a request-keyword entry into the database. */
         struct RequestKeywordData
         {
             /*! @brief The name of the request. */
             YarpString _request;
-            
+
             /*! @brief The service channel for the request. */
             YarpString _channel;
-            
+
             /*! @brief A keyword for the request. */
             YarpString _key;
-            
+
         }; // RequestKeywordData
-        
+
         /*! @brief The data needed to add a service entry into the database. */
         struct ServiceData
         {
             /*! @brief The service channel for the service. */
             YarpString _channel;
-            
+
             /*! @brief The description of the service. */
             YarpString _description;
-            
+
             /*! @brief The path to the executable for the service. */
             YarpString _executable;
-            
+
             /*! @brief The extra information for the service. */
             YarpString _extraInfo;
 
             /*! @brief The name of the service. */
             YarpString _name;
-            
+
             /*! @brief The description of the requests for the service. */
             YarpString _requestsDescription;
-            
+
             /*! @brief The tag modifier for the service. */
             YarpString _tag;
-            
+
         }; // ServiceData
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #if defined(__APPLE__)
@@ -183,137 +183,137 @@ static const char *
 mapStatusToStringForSQL(const int sqlRes)
 {
     const char * result;
-    
+
     switch (sqlRes)
     {
         case SQLITE_OK :
             result = "SQLITE_OK";
             break;
-            
+
         case SQLITE_ERROR :
             result = "SQLITE_ERROR";
             break;
-            
+
         case SQLITE_INTERNAL :
             result = "SQLITE_INTERNAL";
             break;
-            
+
         case SQLITE_PERM :
             result = "SQLITE_PERM";
             break;
-            
+
         case SQLITE_ABORT :
             result = "SQLITE_ABORT";
             break;
-            
+
         case SQLITE_BUSY :
             result = "SQLITE_BUSY";
             break;
-            
+
         case SQLITE_LOCKED :
             result = "SQLITE_LOCKED";
             break;
-            
+
         case SQLITE_NOMEM :
             result = "SQLITE_NOMEM";
             break;
-            
+
         case SQLITE_READONLY :
             result = "SQLITE_READONLY";
             break;
-            
+
         case SQLITE_INTERRUPT :
             result = "SQLITE_INTERRUPT";
             break;
-            
+
         case SQLITE_IOERR :
             result = "SQLITE_IOERR";
             break;
-            
+
         case SQLITE_CORRUPT :
             result = "SQLITE_CORRUPT";
             break;
-            
+
         case SQLITE_NOTFOUND :
             result = "SQLITE_NOTFOUND";
             break;
-            
+
         case SQLITE_FULL :
             result = "SQLITE_FULL";
             break;
-            
+
         case SQLITE_CANTOPEN :
             result = "SQLITE_CANTOPEN";
             break;
-            
+
         case SQLITE_PROTOCOL :
             result = "SQLITE_PROTOCOL";
             break;
-            
+
         case SQLITE_EMPTY :
             result = "SQLITE_EMPTY";
             break;
-            
+
         case SQLITE_SCHEMA :
             result = "SQLITE_SCHEMA";
             break;
-            
+
         case SQLITE_TOOBIG :
             result = "SQLITE_TOOBIG";
             break;
-            
+
         case SQLITE_CONSTRAINT :
             result = "SQLITE_CONSTRAINT";
             break;
-            
+
         case SQLITE_MISMATCH :
             result = "SQLITE_MISMATCH";
             break;
-            
+
         case SQLITE_MISUSE :
             result = "SQLITE_MISUSE";
             break;
-            
+
         case SQLITE_NOLFS :
             result = "SQLITE_NOLFS";
             break;
-            
+
         case SQLITE_AUTH :
             result = "SQLITE_AUTH";
             break;
-            
+
         case SQLITE_FORMAT :
             result = "SQLITE_FORMAT";
             break;
-            
+
         case SQLITE_RANGE :
             result = "SQLITE_RANGE";
             break;
-            
+
         case SQLITE_NOTADB :
             result = "SQLITE_NOTADB";
             break;
-            
+
         case SQLITE_NOTICE :
             result = "SQLITE_NOTICE";
             break;
-            
+
         case SQLITE_WARNING :
             result = "SQLITE_WARNING";
             break;
-            
+
         case SQLITE_ROW :
             result = "SQLITE_ROW";
             break;
-            
+
         case SQLITE_DONE :
             result = "SQLITE_DONE";
             break;
-            
+
         default :
             result = "<Unknown>";
             break;
-            
+
     }
     return result;
 } // mapStatusToStringForSQL
@@ -335,7 +335,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
     ODL_P2("database = ", database, "data = ", data); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
@@ -344,7 +344,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
-            
+
             ODL_LL1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
@@ -410,7 +410,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
     ODL_P1("database = ", database); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
@@ -419,7 +419,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
-            
+
             ODL_LL1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
@@ -482,7 +482,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
     ODL_P2("database = ", database, "data = ", data); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
@@ -491,7 +491,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
-            
+
             ODL_LL1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
@@ -569,7 +569,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                columnOfInterest2); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))
@@ -578,7 +578,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
-            
+
             ODL_LL1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
@@ -609,7 +609,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                         {
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
-                            
+
                             ODL_LL1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest1 < colCount) &&
                                 (columnOfInterest2 < colCount))
@@ -618,7 +618,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                 const char *       value =
                                     reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest1));
-                                
+
                                 ODL_S1("value <- ", value); //####
                                 if (value)
                                 {
@@ -660,7 +660,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    
+
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithDoubleColumnResults
@@ -686,7 +686,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
     ODL_LL1("columnOfInterest = ", columnOfInterest); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database && (0 <= columnOfInterest))
@@ -695,7 +695,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
-            
+
             ODL_LL1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
@@ -726,14 +726,14 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                         {
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
-                            
+
                             ODL_LL1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest < colCount))
                             {
                                 const char * value =
                                     reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest));
-                                
+
                                 ODL_S1("value <- ", value); //####
                                 if (value)
                                 {
@@ -767,7 +767,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    
+
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithSingleColumnResults
@@ -781,13 +781,13 @@ doBeginTransaction(sqlite3 * database)
     ODL_ENTER(); //####
     ODL_P1("database = ", database); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
         {
             static const char * beginTransaction = "BEGIN TRANSACTION";
-            
+
             okSoFar = performSQLstatementWithNoResultsNoArgs(database, beginTransaction);
         }
         else
@@ -817,14 +817,14 @@ doEndTransaction(sqlite3 *  database,
     ODL_P1("database = ", database); //####
     ODL_B1("wasOK = ", wasOK); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
         {
             static const char * abortTransaction = "ROLLBACK TRANSACTION";
             static const char * commitTransaction = "END TRANSACTION";
-            
+
             okSoFar = performSQLstatementWithNoResultsNoArgs(database, wasOK ? commitTransaction :
                                                              abortTransaction);
         }
@@ -852,7 +852,7 @@ constructTables(sqlite3 * database)
     ODL_ENTER(); //####
     ODL_P1("database = ", database); //####
     bool okSoFar = true;
-    
+
     try
     {
         if (database)
@@ -900,7 +900,7 @@ constructTables(sqlite3 * database)
                        REQUESTSKEYWORDS_T_ "(" REQUESTS_ID_C_ ")"),
                 };
                 static const size_t numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
-                
+
                 okSoFar = true;
                 for (size_t ii = 0; okSoFar && (ii < numTables); ++ii)
                 {
@@ -935,15 +935,15 @@ setupCheckService(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelNameString = static_cast<const char *>(stuff);
-            
+
             ODL_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
                                        static_cast<int>(strlen(channelNameString)),
@@ -978,15 +978,15 @@ setupCollectAssociates(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelNameString = static_cast<const char *>(stuff);
-            
+
             ODL_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
                                        static_cast<int>(strlen(channelNameString)),
@@ -1021,15 +1021,15 @@ setupInsertIntoChannels(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelIndex)
         {
             const char * channelString = static_cast<const char *>(stuff);
-            
+
             ODL_S1("channelString <- ", channelString); //####
             result = sqlite3_bind_text(statement, channelIndex, channelString,
                                        static_cast<int>(strlen(channelString)), SQLITE_TRANSIENT);
@@ -1063,15 +1063,15 @@ setupInsertIntoKeywords(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int keywordIndex = sqlite3_bind_parameter_index(statement, "@" KEYWORD_C_);
-        
+
         if (0 < keywordIndex)
         {
             const char * nameString = static_cast<const char *>(stuff);
-            
+
             ODL_S1("nameString <- ", nameString); //####
             result = sqlite3_bind_text(statement, keywordIndex, nameString,
                                        static_cast<int>(strlen(nameString)), SQLITE_TRANSIENT);
@@ -1105,7 +1105,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
@@ -1114,20 +1114,20 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
         int outputIndex = sqlite3_bind_parameter_index(statement, "@" OUTPUT_C_);
         int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_C_);
         int versionIndex = sqlite3_bind_parameter_index(statement, "@" VERSION_C_);
-        
+
         if ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) &&
             (0 < requestIndex) && (0 < versionIndex))
         {
             const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
             const char *               channelName = descriptor->_channel.c_str();
-            
+
             ODL_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
-                
+
                 ODL_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
                                            static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
@@ -1135,7 +1135,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * input = descriptor->_inputs.c_str();
-                
+
                 ODL_S1("input <- ", input); //####
                 result = sqlite3_bind_text(statement, inputIndex, input,
                                            static_cast<int>(strlen(input)), SQLITE_TRANSIENT);
@@ -1143,7 +1143,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * output = descriptor->_outputs.c_str();
-                
+
                 ODL_S1("output <- ", output); //####
                 result = sqlite3_bind_text(statement, outputIndex, output,
                                            static_cast<int>(strlen(output)), SQLITE_TRANSIENT);
@@ -1151,7 +1151,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * version = descriptor->_version.c_str();
-                
+
                 ODL_S1("version <- ", version); //####
                 result = sqlite3_bind_text(statement, versionIndex, version,
                                            static_cast<int>(strlen(version)), SQLITE_TRANSIENT);
@@ -1159,7 +1159,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * details = descriptor->_details.c_str();
-                
+
                 ODL_S1("details <- ", details); //####
                 result = sqlite3_bind_text(statement, detailsIndex, details,
                                            static_cast<int>(strlen(details)), SQLITE_TRANSIENT);
@@ -1195,25 +1195,25 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int keywordIndex = sqlite3_bind_parameter_index(statement, "@" KEYWORD_C_);
         int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_C_);
-        
+
         if ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))
         {
             const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *>(stuff);
             const char *               keyword = descriptor->_key.c_str();
-            
+
             ODL_S1("keyword <- ", keyword); //####
             result = sqlite3_bind_text(statement, keywordIndex, keyword,
                                        static_cast<int>(strlen(keyword)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
-                
+
                 ODL_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
                                            static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
@@ -1221,7 +1221,7 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * channelName = descriptor->_channel.c_str();
-                
+
                 ODL_S1("channelName <- ", channelName); //####
                 result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                            static_cast<int>(strlen(channelName)),
@@ -1257,7 +1257,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
@@ -1268,21 +1268,21 @@ setupInsertIntoServices(sqlite3_stmt * statement,
         int requestsDescriptionIndex = sqlite3_bind_parameter_index(statement,
                                                                     "@" REQUESTSDESCRIPTION_C_);
         int tagIndex = sqlite3_bind_parameter_index(statement, "@" TAG_C_);
-        
+
         if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) &&
             (0 < extraInfoIndex) && (0 < nameIndex) && (0 < requestsDescriptionIndex) &&
             (0 < tagIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
-            
+
             ODL_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * name = descriptor->_name.c_str();
-                
+
                 ODL_S1("name <- ", name); //####
                 result = sqlite3_bind_text(statement, nameIndex, name,
                                            static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
@@ -1290,7 +1290,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * description = descriptor->_description.c_str();
-                
+
                 ODL_S1("description <- ", description); //####
                 result = sqlite3_bind_text(statement, descriptionIndex, description,
                                            static_cast<int>(strlen(description)),
@@ -1299,7 +1299,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * executable = descriptor->_executable.c_str();
-                
+
                 ODL_S1("executable <- ", executable); //####
                 result = sqlite3_bind_text(statement, executableIndex, executable,
                                            static_cast<int>(strlen(executable)),
@@ -1316,7 +1316,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * requestsDescription = descriptor->_requestsDescription.c_str();
-                
+
                 ODL_S1("requestsDescription <- ", requestsDescription); //####
                 result = sqlite3_bind_text(statement, requestsDescriptionIndex, requestsDescription,
                                            static_cast<int>(strlen(requestsDescription)),
@@ -1325,7 +1325,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
             if (SQLITE_OK == result)
             {
                 const char * tag = descriptor->_tag.c_str();
-                
+
                 ODL_S1("tag <- ", tag); //####
                 result = sqlite3_bind_text(statement, tagIndex, tag, static_cast<int>(strlen(tag)),
                                            SQLITE_TRANSIENT);
@@ -1362,15 +1362,15 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelName = static_cast<const char *>(stuff);
-            
+
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
@@ -1403,15 +1403,15 @@ setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelName = static_cast<const char *>(stuff);
-            
+
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
@@ -1444,15 +1444,15 @@ setupRemoveFromRequests(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelName = static_cast<const char *>(stuff);
-            
+
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
@@ -1485,15 +1485,15 @@ setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelName = static_cast<const char *>(stuff);
-            
+
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
@@ -1526,15 +1526,15 @@ setupRemoveFromServices(sqlite3_stmt * statement,
     ODL_ENTER(); //####
     ODL_P2("statement = ", statement, "stuff = ", stuff); //####
     int result = SQLITE_MISUSE;
-    
+
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        
+
         if (0 < channelNameIndex)
         {
             const char * channelName = static_cast<const char *>(stuff);
-            
+
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
                                        static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
@@ -1622,7 +1622,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (doBeginTransaction(_db))
@@ -1633,7 +1633,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                                         ") VALUES(@" CHANNELNAME_C_ ",@" REQUEST_C_
                                                         ",@" INPUT_C_ ",@" OUTPUT_C_ ",@" VERSION_C_
                                                         ",@" DETAILS_C_ ")");
-            
+
             // Add the request.
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoRequests,
                                                        setupInsertIntoRequests,
@@ -1643,13 +1643,13 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                 // Add the keywords.
                 int                numKeywords = keywordList.size();
                 RequestKeywordData reqKeyData;
-                
+
                 reqKeyData._request = description._request;
                 reqKeyData._channel = description._channel;
                 for (int ii = 0; okSoFar && (ii < numKeywords); ++ii)
                 {
                     yarp::os::Value & aKeyword(keywordList.get(ii));
-                    
+
                     if (aKeyword.isString())
                     {
                         static const char * insertIntoKeywords = T_("INSERT INTO " KEYWORDS_T_ "("
@@ -1666,7 +1666,7 @@ RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                                                             REQUEST_C_ " AND "
                                                                             CHANNELNAME_C_ " = @"
                                                                             CHANNELNAME_C_);
-                        
+
                         reqKeyData._key = aKeyword.toString();
                         okSoFar = performSQLstatementWithNoResults(_db, insertIntoKeywords,
                                                                    setupInsertIntoKeywords,
@@ -1717,7 +1717,7 @@ RegistryService::addServiceRecord(const YarpString & channelName,
                "extraInfo = ", extraInfo); //####
     ODL_S2s("executable = ", executable, "requestsDescription = ", requestsDescription); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (doBeginTransaction(_db))
@@ -1732,7 +1732,7 @@ RegistryService::addServiceRecord(const YarpString & channelName,
                                                         EXECUTABLE_C_ ",@" EXTRAINFO_C_ ",@"
                                                         REQUESTSDESCRIPTION_C_ ",@" TAG_C_ ")");
             ServiceData         servData;
-            
+
             servData._channel = channelName;
             servData._name = name;
             servData._description = description;
@@ -1798,7 +1798,7 @@ RegistryService::checkForExistingService(const YarpString & channelName)
     ODL_OBJENTER(); //####
     ODL_S1s("channelName = ", channelName); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (doBeginTransaction(_db))
@@ -1806,7 +1806,7 @@ RegistryService::checkForExistingService(const YarpString & channelName)
             yarp::os::Bottle    dummy;
             static const char * checkService = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
                                                   " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
-            
+
             okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkService, 0,
                                                                  setupCheckService,
                                                  static_cast<const void *>(channelName.c_str()));
@@ -1836,7 +1836,7 @@ RegistryService::checkServiceTimes(void)
     ODL_OBJENTER(); //####
     double           now = yarp::os::Time::now();
     YarpStringVector expired;
-    
+
     // Build a list of expired services.
     _checkedTimeLock.lock();
     if (0 < _lastCheckedTime.size())
@@ -1845,7 +1845,7 @@ RegistryService::checkServiceTimes(void)
              _lastCheckedTime.end() != walker; ++walker)
         {
             double check = walker->second;
-            
+
             if (now > check)
             {
                 expired.push_back(walker->first);
@@ -1859,7 +1859,7 @@ RegistryService::checkServiceTimes(void)
              ++walker)
         {
             YarpString channelName(*walker);
-            
+
             reportStatusChange(channelName, kRegistryStaleService);
             if (removeServiceRecord(channelName))
             {
@@ -1939,7 +1939,7 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
     if (_statusChannel)
     {
         ChannelDescription descriptor;
-        
+
         descriptor._portName = _statusChannel->name();
         descriptor._portProtocol = _statusChannel->protocol();
         descriptor._portMode = kChannelModeTCP;
@@ -1957,7 +1957,7 @@ DEFINE_GATHERMETRICS_(RegistryService)
     if (_statusChannel)
     {
         SendReceiveCounters counters;
-        
+
         _statusChannel->getSendReceiveCounters(counters);
         counters.addToList(metrics, _statusChannel->name());
     }
@@ -1978,12 +1978,12 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         YarpString         theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
         yarp::os::Bottle   keywordList;
         RequestDescription requestDescriptor;
-        
+
         ODL_S1s("theRequest <- ", theRequest); //####
         if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY_))
         {
             yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY_);
-            
+
             ODL_S1s("theDetails <- ", theDetails.toString()); //####
             if (theDetails.isString())
             {
@@ -1999,7 +1999,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_INPUT_KEY_))
         {
             yarp::os::Value theInputs(asDict.find(MpM_REQREP_DICT_INPUT_KEY_));
-            
+
             ODL_S1s("theInputs <- ", theInputs.toString()); //####
             if (theInputs.isString())
             {
@@ -2015,7 +2015,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY_))
         {
             yarp::os::Value theKeywords(asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY_));
-            
+
             ODL_S1s("theKeywords <- ", theKeywords.toString()); //####
             if (theKeywords.isList())
             {
@@ -2031,7 +2031,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_))
         {
             yarp::os::Value theOutputs(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_));
-            
+
             ODL_S1s("theOutputs <- ", theOutputs.toString()); //####
             if (theOutputs.isString())
             {
@@ -2047,7 +2047,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_VERSION_KEY_))
         {
             yarp::os::Value theVersion(asDict.find(MpM_REQREP_DICT_VERSION_KEY_));
-            
+
             ODL_S1s("theVersion <- ", theVersion.toString()); //####
             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
             {
@@ -2091,22 +2091,22 @@ RegistryService::processListResponse(const YarpString &      channelName,
     ODL_OBJENTER(); //####
     ODL_S2s("channelName = ", channelName, "response = ", response.asString()); //####
     bool result = false;
-    
+
     try
     {
         int count = response.count();
-        
+
         if (0 < count)
         {
             result = true;
             for (int ii = 0; result && (ii < count); ++ii)
             {
                 yarp::os::Value anElement(response.element(ii));
-                
+
                 if (anElement.isDict())
                 {
                     yarp::os::Property * asDict = anElement.asDict();
-                    
+
                     if (asDict)
                     {
                         result = processDictionaryEntry(*asDict, channelName);
@@ -2115,11 +2115,11 @@ RegistryService::processListResponse(const YarpString &      channelName,
                 else if (anElement.isList())
                 {
                     yarp::os::Bottle * asList = anElement.asList();
-                    
+
                     if (asList)
                     {
                         yarp::os::Property asDict;
-                        
+
                         if (ListIsReallyDictionary(*asList, asDict))
                         {
                             result = processDictionaryEntry(asDict, channelName);;
@@ -2132,7 +2132,7 @@ RegistryService::processListResponse(const YarpString &      channelName,
                     else
                     {
                         result = false;
-                    }                    
+                    }
                 }
                 else
                 {
@@ -2166,7 +2166,7 @@ RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     ODL_P1("matcher = ", matcher); //####
     ODL_B1("getNames = ", getNames); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (matcher)
@@ -2183,7 +2183,7 @@ RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
                 const char *        sqlStart = (getNames ?  sqlStartGetNames : sqlStartNoNames);
                 const char *        sqlEnd = (getNames ? T_(")") : T_(""));
                 YarpString          requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
-                
+
                 ODL_S1s("requestAsSQL <- ", requestAsSQL); //####
                 okSoFar = performSQLstatementWithSingleColumnResults(_db, subList,
                                                                      requestAsSQL.c_str());
@@ -2211,7 +2211,7 @@ RegistryService::processNameResponse(const YarpString &      channelName,
     ODL_OBJENTER(); //####
     ODL_S2s("channelName = ", channelName, "response = ", response.asString()); //####
     bool result = false;
-    
+
     try
     {
         if (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response.count())
@@ -2223,7 +2223,7 @@ RegistryService::processNameResponse(const YarpString &      channelName,
             yarp::os::Value thePath(response.element(4));
             yarp::os::Value theRequestsDescription(response.element(5));
             yarp::os::Value theTag(response.element(6));
-            
+
             if (theCanonicalName.isString() && theDescription.isString() &&
                 theExtraInformation.isString() && theKind.isString() && thePath.isString() &&
                 theRequestsDescription.isString())
@@ -2279,7 +2279,7 @@ RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
     ODL_OBJENTER(); //####
     ODL_S1s("serviceChannelName = ", serviceChannelName); //####
     bool okSoFar = false;
-    
+
     try
     {
         if (doBeginTransaction(_db))
@@ -2290,7 +2290,7 @@ RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
                                                                 " IN (SELECT " KEY_C_ " FROM "
                                                                 REQUESTS_T_ " WHERE " CHANNELNAME_C_
                                                                 " = @" CHANNELNAME_C_ ")");
-            
+
             okSoFar = performSQLstatementWithNoResults(_db, removeFromRequestsKeywords,
                                                        setupRemoveFromRequestsKeywords,
                                            static_cast<const void *>(serviceChannelName.c_str()));
@@ -2299,7 +2299,7 @@ RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
                 // Remove the service channel requests.
                 static const char * removeFromRequests = T_("DELETE FROM " REQUESTS_T_ " WHERE "
                                                             CHANNELNAME_C_ " = @" CHANNELNAME_C_);
-                
+
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromRequests,
                                                            setupRemoveFromRequests,
                                            static_cast<const void *>(serviceChannelName.c_str()));
@@ -2309,7 +2309,7 @@ RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
                 // Remove the service channel name.
                 static const char * removeFromServices = T_("DELETE FROM " SERVICES_T_ " WHERE "
                                                             CHANNELNAME_C_ " = @" CHANNELNAME_C_);
-                
+
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromServices,
                                                            setupRemoveFromServices,
                                            static_cast<const void *>(serviceChannelName.c_str()));
@@ -2339,7 +2339,7 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
         char             buffer1[DATE_TIME_BUFFER_SIZE_];
         char             buffer2[DATE_TIME_BUFFER_SIZE_];
         yarp::os::Bottle message;
-        
+
         Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         message.addString(buffer1);
         message.addString(buffer2);
@@ -2352,23 +2352,23 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 message.addString("at");
                 message.addString(details);
                 break;
-                
+
             case kRegistryNotAnExistingAssociation :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryNotAnExistingService :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryPingFromService :
                 message.addString(MpM_REGISTRY_STATUS_PINGED_);
                 message.addString("by");
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryProblemAddingRequest :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM_);
                 message.addString("adding");
@@ -2377,7 +2377,7 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 message.addString("for");
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryProblemAddingService :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM_);
                 message.addString("adding");
@@ -2386,31 +2386,31 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 message.addString("for");
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryRegisterService :
                 message.addString(MpM_REGISTRY_STATUS_REGISTERING_);
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryRemoveService :
                 message.addString(MpM_REGISTRY_STATUS_REMOVING_);
                 message.addString(channelName);
                 break;
-                
+
             case kRegistryStaleService :
                 message.addString(MpM_REGISTRY_STATUS_STALE_);
                 message.addString(channelName);
                 message.addString("detected");
                 break;
-                
+
             case kRegistryStarted :
                 message.addString(MpM_REGISTRY_STATUS_STARTING_);
                 break;
-                
+
             case kRegistryStopped :
                 message.addString(MpM_REGISTRY_STATUS_STOPPING_);
                 break;
-                
+
             case kRegistryUnregisterService :
                 message.addString(MpM_REGISTRY_STATUS_UNREGISTERING_);
                 message.addString(channelName);
@@ -2418,7 +2418,7 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
 
             default :
                 break;
-                
+
         }
         if (! _statusChannel->write(message))
         {
@@ -2436,15 +2436,15 @@ RegistryService::setUpDatabase(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = true;
-    
+
     try
     {
         int sqlRes;
-        
+
         if (! _db)
         {
             const char * dbFileName;
-            
+
 #if defined(MpM_UseTestDatabase)
             dbFileName = "/tmp/test.db";
 #else // ! defined(MpM_UseTestDatabase)
@@ -2492,7 +2492,7 @@ RegistryService::setUpStatusChannel(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         _statusChannel = new GeneralChannel(true);
@@ -2502,7 +2502,7 @@ RegistryService::setUpStatusChannel(void)
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-            
+
 #if defined(MpM_ReportOnConnections)
             _statusChannel->setReporter(*reporter);
             _statusChannel->getReport(*reporter);
@@ -2544,7 +2544,7 @@ DEFINE_STARTSERVICE_(RegistryService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if ((! isActive()) && (! isStarted()))
@@ -2556,7 +2556,7 @@ DEFINE_STARTSERVICE_(RegistryService)
                 YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "temp_"
                                                            MpM_REGISTRY_ENDPOINT_NAME_));
                 ClientChannel * newChannel = new ClientChannel;
-                
+
                 if (newChannel)
                 {
                     if (metricsAreEnabled())
@@ -2575,14 +2575,14 @@ DEFINE_STARTSERVICE_(RegistryService)
                             yarp::os::Bottle parameters(MpM_REGISTRY_ENDPOINT_NAME_);
                             ServiceRequest   request(MpM_REGISTER_REQUEST_, parameters);
                             ServiceResponse  response;
-                            
+
                             if (request.send(*newChannel, response))
                             {
                                 // Check that we got a successful self-registration!
                                 if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == response.count())
                                 {
                                     yarp::os::Value theValue = response.element(0);
-                                    
+
                                     ODL_S1s("theValue <- ", theValue.toString()); //####
                                     if (theValue.isString())
                                     {
@@ -2669,7 +2669,7 @@ DEFINE_STOPSERVICE_(RegistryService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (_checker)

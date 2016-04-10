@@ -62,48 +62,48 @@ namespace MplusM
         class NameServerReportingThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             NameServerReportingThread(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~NameServerReportingThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(NameServerReportingThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service reference for the mDNS service entity. */
             DNSServiceRef _serviceRef;
-            
+
         }; // NameServerReportingThread
-        
+
     } // Registry
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRegistryCheckThread_H_)

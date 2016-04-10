@@ -101,16 +101,16 @@ processResponse(const OutputFlavour     flavour,
     ODL_P1("response = ", &response); //####
     bool       result = false;
     YarpString cleanServiceName(SanitizeString(serviceName, kOutputFlavourJSON != flavour));
-    
+
     ODL_S1s("response = ", response.asString()); //####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
-        
+
         if (element.isString())
         {
             YarpString clientString(element.toString());
-            
+
             switch (flavour)
             {
                 case kOutputFlavourJSON :
@@ -125,12 +125,12 @@ processResponse(const OutputFlavour     flavour,
                             SanitizeString(clientString, true).c_str() <<
                             T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
-                    
+
                 case kOutputFlavourTabs :
                     cout << cleanServiceName.c_str() << "\t" <<
                             SanitizeString(clientString).c_str() << endl;
                     break;
-                    
+
                 case kOutputFlavourNormal :
                     if (! result)
                     {
@@ -139,10 +139,10 @@ processResponse(const OutputFlavour     flavour,
                     }
                     cout << "   " << SanitizeString(clientString).c_str() << endl;
                     break;
-                    
+
                 default :
                     break;
-                    
+
             }
             result = true;
         }
@@ -162,7 +162,7 @@ setUpAndGo(const YarpString &  channelName,
     ODL_S1s("channelName = ", channelName); //####
     YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
     YarpStringVector services;
-    
+
     if (0 < channelName.length())
     {
         channelNameRequest += channelName;
@@ -301,7 +301,7 @@ setUpAndGo(const YarpString &  channelName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for listing the clients of a service.
- 
+
  The optional argument is the name of the channel for the service. If the channel is not specified,
  all service channels will be reported. Standard output will receive a list of the specified
  clients.
@@ -315,8 +315,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -339,12 +339,12 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
                     YarpString channelName(firstArg.getCurrentValue());
-                    
+
                     setUpAndGo(channelName, flavour);
                 }
                 else

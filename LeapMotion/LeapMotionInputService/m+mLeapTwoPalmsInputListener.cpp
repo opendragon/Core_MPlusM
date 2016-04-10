@@ -69,13 +69,13 @@ enum HandMask
 {
     /*! @brief No data for either hand is present. */
     kNoHands   = 0x00,
-    
+
     /*! @brief Data for the left hand is present. */
     kLeftHand  = 0x01,
-    
+
     /*! @brief Data for the right hand is present. */
     kRightHand = 0x02
-    
+
 }; // HandMask
 
 #if defined(__APPLE__)
@@ -175,19 +175,19 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     Leap::Frame latestFrame(theController.frame());
-    
+
     if (latestFrame.isValid())
     {
         Leap::HandList hands(latestFrame.hands());
         int            handCount = hands.count();
-        
+
         if (0 < handCount)
         {
             HandMask handsPresent = kNoHands;
             double   palmNormals[6];
             double   palmPositions[6];
             double   palmVelocities[6];
-            
+
             memset(palmNormals, 0, sizeof(palmNormals));
             memset(palmPositions, 0, sizeof(palmPositions));
             memset(palmVelocities, 0, sizeof(palmVelocities));
@@ -195,12 +195,12 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                  hands.end() != handWalker; ++handWalker)
             {
                 Leap::Hand aHand(*handWalker);
-                
+
                 if (aHand.isValid())
                 {
                     HandMask thisHand;
                     int      offset;
-                    
+
                     if (aHand.isLeft())
                     {
                         offset = 0;
@@ -221,7 +221,7 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                         const Leap::Vector & normal = aHand.palmNormal();
                         const Leap::Vector & position = aHand.palmPosition();
                         const Leap::Vector & velocities = aHand.palmVelocity();
-                        
+
                         palmNormals[offset] = normal.x;
                         palmNormals[offset + 1] = normal.y;
                         palmNormals[offset + 2] = normal.z;
@@ -238,7 +238,7 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
             if (kNoHands != handsPresent)
             {
                 yarp::os::Bottle message;
-                
+
                 message.addInt(handsPresent);
                 for (int ii = 0; ii < (sizeof(palmPositions) / sizeof(*palmPositions)); ++ii)
                 {

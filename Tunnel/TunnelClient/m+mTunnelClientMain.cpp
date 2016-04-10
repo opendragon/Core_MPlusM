@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the client of the %Tunnel service. */
 
 /*! @dir TunnelClient
@@ -92,7 +92,7 @@ processArguments(const YarpStringVector & arguments,
     ODL_ENTER(); //####
     ODL_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
     YarpString tag;
-    
+
     for (size_t ii = 0, argc = arguments.size(); argc > ii; ++ii)
     {
         tag = arguments[ii];
@@ -125,7 +125,7 @@ setUpListeningPost(const int listenPort)
     if (INVALID_SOCKET != listenSocket)
     {
         struct sockaddr_in addr;
-    
+
         memset(&addr, 0, sizeof(addr));
         addr.sin_family = AF_INET;
         addr.sin_port = htons(listenPort);
@@ -150,12 +150,12 @@ setUpListeningPost(const int listenPort)
         if (INVALID_SOCKET != listenSocket)
         {
             SOCKADDR_IN addr;
-            
+
             addr.sin_family = AF_INET;
             addr.sin_port = htons(listenPort);
             addr.sin_addr.s_addr = htonl(INADDR_ANY);
             int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-            
+
             if (SOCKET_ERROR == res)
             {
                 ODL_LOG("(SOCKET_ERROR == res)"); //####
@@ -191,7 +191,7 @@ connectToTunnel(const YarpString & serviceAddress,
 #else // ! MAC_OR_LINUX_
     int            res = InetPton(AF_INET, serviceAddress.c_str(), &addrBuff);
 #endif // ! MAC_OR_LINUX_
-    
+
     if (0 < res)
     {
         tunnelSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -203,7 +203,7 @@ connectToTunnel(const YarpString & serviceAddress,
 #else // ! MAC_OR_LINUX_
             SOCKADDR_IN        addr;
 #endif // ! MAC_OR_LINUX_
-            
+
 #if MAC_OR_LINUX_
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
@@ -221,7 +221,7 @@ connectToTunnel(const YarpString & serviceAddress,
             addr.sin_port = htons(servicePort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
             int res = connect(tunnelSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-            
+
             if (SOCKET_ERROR == res)
             {
                 ODL_LOG("(SOCKET_ERROR == res)"); //####
@@ -255,7 +255,7 @@ handleConnections(SOCKET             listenSocket,
     if (INVALID_SOCKET != sinkSocket)
     {
         SOCKET tunnelSocket = connectToTunnel(serviceAddress, servicePort);
-        
+
         if (INVALID_SOCKET != tunnelSocket)
         {
             ODL_LOG("(INVALID_SOCKET != tunnelSocket)"); //####
@@ -267,7 +267,7 @@ handleConnections(SOCKET             listenSocket,
 #else // ! MAC_OR_LINUX_
                 int     inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
 #endif // ! MAC_OR_LINUX_
-                
+
                 if (0 < inSize)
                 {
                     if (send(sinkSocket, buffer, inSize, 0) != inSize)
@@ -330,18 +330,18 @@ setUpAndGo(const int          listenPort,
 #endif // defined(MpM_ReportOnConnections)
         YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY_ ":");
         YarpString namePattern(MpM_TUNNEL_CANONICAL_NAME_);
-        
+
         if (0 < tag.length())
         {
             YarpString singleQuote("'");
-            
+
             namePattern = singleQuote + namePattern + " " + tag + singleQuote;
         }
         channelNameRequest += namePattern;
         if (aClient->findService(channelNameRequest.c_str()))
         {
             SOCKET listenSocket = setUpListeningPost(listenPort);
-            
+
             if (INVALID_SOCKET != listenSocket)
             {
                 ODL_LOG("(INVALID_SOCKET != listenSocket)"); //####
@@ -349,7 +349,7 @@ setUpAndGo(const int          listenPort,
                 {
                     YarpString serviceAddress;
                     int        servicePort;
-                    
+
                     if (aClient->getAddress(serviceAddress, servicePort))
                     {
                         handleConnections(listenSocket, serviceAddress, servicePort);
@@ -410,8 +410,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -425,7 +425,7 @@ main(int      argc,
                                                       Utilities::kArgModeOptional, "");
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour; // ignored
-        
+
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
@@ -443,13 +443,13 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {
                         int        listenPort = firstArg.getCurrentValue();
                         YarpString tag(secondArg.getCurrentValue());
-                        
+
 #if defined(MpM_ReportOnConnections)
                         setUpAndGo(listenPort, tag, reporter);
 #else // ! defined(MpM_ReportOnConnections)

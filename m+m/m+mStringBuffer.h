@@ -60,51 +60,51 @@ namespace MplusM
         class StringBuffer
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             StringBuffer(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~StringBuffer(void);
-            
+
             /*! @brief Add a character to the buffer.
              @param aChar The character to add.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addChar(const char aChar);
-            
+
             /*! @brief Add a character string representation of a floating-point value to the
              buffer.
              @param aDouble The value to add.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addDouble(const double aDouble);
-            
+
             /*! @brief Add a character string representation of an integer value to the buffer.
              @param aLong The value to add.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addLong(const int64_t aLong);
-            
+
             /*! @brief Add a character string to the buffer.
              @param aString The value to add.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addString(const char * aString);
-            
+
             /*! @brief Add a character string to the buffer.
              @param aString The value to add.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addString(const YarpString & aString);
-            
+
             /*! @brief Add a horizontal tab character to the buffer.
              @returns The StringBuffer object so that cascading can be done. */
             StringBuffer &
@@ -121,7 +121,7 @@ namespace MplusM
                 length = _currentLength;
                 return _buffer;
             } // getString
-            
+
             /*! @brief Return the number of valid charaacters in the buffer.
              @returns The number of valid characters in the buffer. */
             inline size_t
@@ -130,45 +130,45 @@ namespace MplusM
             {
                 return _currentLength;
             } // length
-            
+
              /*! @brief Prepare the buffer for reuse.
              @returns The StringBuffer object so that cascading can be done. */
              StringBuffer & reset(void);
 
         protected :
-            
+
         private :
-            
+
             /*! @brief Increase the size of the internal buffer, copying the current contents into
              the new buffer.
              @param newSize The size for the new internal buffer. */
             void
             setSize(const size_t newSize);
-            
+
             COPY_AND_ASSIGNMENT_(StringBuffer);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The internal buffer used to hold the assembled text. */
             char * _buffer;
-            
+
             /*! @brief The position of the last valid character in the internal buffer. */
             size_t _currentLength;
-            
+
             /*! @brief The current size of the buffer. */
             size_t _currentSize;
-            
+
             /*! @brief The length at which the buffer should be resized. */
             size_t _thresholdLength;
-            
+
         }; // StringBuffer
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMStringBuffer_H_)

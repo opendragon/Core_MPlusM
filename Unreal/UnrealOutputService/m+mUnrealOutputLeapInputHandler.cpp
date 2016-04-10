@@ -106,13 +106,13 @@ dumpFingerProps(std::stringstream &  outBuffer,
     yarp::os::Value & fingerType(fingerProps.find("type"));
     yarp::os::Value & tipPosition(fingerProps.find("tipposition"));
     yarp::os::Value & tipDirection(fingerProps.find("direction"));
-    
+
     if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
     {
         YarpString         fingerTag = fingerType.asString();
         yarp::os::Bottle * positionData = tipPosition.asList();
         yarp::os::Bottle * directionData = tipDirection.asList();
-        
+
         if (positionData && (3 == positionData->size()) && directionData &&
             (3 == directionData->size()))
         {
@@ -126,7 +126,7 @@ dumpFingerProps(std::stringstream &  outBuffer,
             {
                 double            aValue;
                 yarp::os::Value & anElement = positionData->get(jj);
-                
+
                 if (anElement.isDouble())
                 {
                     aValue = anElement.asDouble();
@@ -154,7 +154,7 @@ dumpFingerProps(std::stringstream &  outBuffer,
             {
                 double            aValue;
                 yarp::os::Value & anElement = directionData->get(jj);
-                
+
                 if (anElement.isDouble())
                 {
                     aValue = anElement.asDouble();
@@ -225,16 +225,16 @@ dumpHandData(std::stringstream &  outBuffer,
     yarp::os::Value & idValue(handData.find("id"));
     yarp::os::Value & fingerValue(handData.find("fingers"));
     yarp::os::Value & sideValue(handData.find("side"));
-    
+
     if ((! idValue.isNull()) && sideValue.isString() && fingerValue.isList())
     {
         YarpString         nameTag(sideValue.asString());
         yarp::os::Bottle * fingers = fingerValue.asList();
-        
+
         if (fingers)
         {
             int fingerCount = fingers->size();
-            
+
             cerr << "Subject = " << nameTag.c_str() << endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
             outBuffer.addString(nameTag).addTab().addLong(fingerCount).
@@ -245,11 +245,11 @@ dumpHandData(std::stringstream &  outBuffer,
             for (int ii = 0; okSoFar && (fingerCount > ii); ++ii)
             {
                 yarp::os::Value & aFinger = fingers->get(ii);
-                
+
                 if (aFinger.isDict())
                 {
                     yarp::os::Property * fingerProps = aFinger.asDict();
-                    
+
                     if (fingerProps)
                     {
                         dumpFingerProps(outBuffer, *fingerProps, scale, okSoFar);
@@ -263,11 +263,11 @@ dumpHandData(std::stringstream &  outBuffer,
                 else if (aFinger.isList())
                 {
                     yarp::os::Bottle * fingerList = aFinger.asList();
-                    
+
                     if (fingerList)
                     {
                         yarp::os::Property fingerProps;
-                        
+
                         if (ListIsReallyDictionary(*fingerList, fingerProps))
                         {
                             dumpFingerProps(outBuffer, fingerProps, scale, okSoFar);
@@ -348,7 +348,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_owner.isActive())
@@ -364,23 +364,23 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                 {
                     yarp::os::Value & firstTopValue = input.get(0);
                     yarp::os::Value & secondTopValue = input.get(1);
-                    
+
                     if (firstTopValue.isList() && secondTopValue.isList())
                     {
                         yarp::os::Bottle * handList = firstTopValue.asList();
                         yarp::os::Bottle * toolList = secondTopValue.asList();
-                        
+
                         if (handList && toolList)
                         {
                             int handCount = handList->size();
-                            
+
                             if (0 < handCount)
                             {
                                 bool              okSoFar = true;
 #if (! defined(MpM_UseCustomStringBuffer))
                                 std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                                
+
 //                                cerr << "# hands = " << handCount << endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
                                 _outBuffer.reset().addLong(handCount).addString(LINE_END_);
@@ -390,11 +390,11 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                                 for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                                 {
                                     yarp::os::Value & handValue = handList->get(ii);
-                                    
+
                                     if (handValue.isDict())
                                     {
                                         yarp::os::Property * handData = handValue.asDict();
-                                        
+
                                         if (handData)
                                         {
 #if defined(MpM_UseCustomStringBuffer)
@@ -412,11 +412,11 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                                     else if (handValue.isList())
                                     {
                                         yarp::os::Bottle * asList = handValue.asList();
-                                        
+
                                         if (asList)
                                         {
                                             yarp::os::Property handData;
-                                            
+
                                             if (ListIsReallyDictionary(*asList, handData))
                                             {
 #if defined(MpM_UseCustomStringBuffer)
@@ -457,7 +457,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
 #if (! defined(MpM_UseCustomStringBuffer))
                                     std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                                    
+
 #if defined(MpM_UseCustomStringBuffer)
                                     outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -468,7 +468,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                                     {
                                         int retVal = send(_outSocket, outString,
                                                           static_cast<int>(outLength), 0);
-                                        
+
                                         cerr << "send--> " << retVal << endl; //!!!!
                                         if (0 > retVal)
                                         {
@@ -477,7 +477,7 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                                         else
                                         {
                                             SendReceiveCounters toBeAdded(0, 0, retVal, 1);
-                                            
+
                                             _owner.incrementAuxiliaryCounters(toBeAdded);
                                         }
                                     }

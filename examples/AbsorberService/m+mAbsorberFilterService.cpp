@@ -91,12 +91,12 @@ static YarpString convertToCommaSplitNumber(const size_t aNumber)
     // mechanism in C++ for OS X is very, very broken - so we can't use 'std::imbue'!
     YarpString result;
     size_t     work = aNumber;
-    
+
     do
     {
         size_t            bottom = (work % 1000);
         std::stringstream buff;
-        
+
         if (1000 <= work)
         {
             buff.width(3);
@@ -161,21 +161,21 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            
+
             if (firstValue.isInt())
             {
                 int firstNumber = firstValue.asInt();
-                
+
                 if (0 <= firstNumber)
                 {
                     std::stringstream buff;
-                    
+
                     _sampleInterval = firstNumber;
                     ODL_LL1("_sampleInterval <- ", _sampleInterval); //####
                     buff << "Sample interval is " << _sampleInterval;
@@ -233,7 +233,7 @@ DEFINE_GETCONFIGURATION_(AbsorberFilterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = true;
-    
+
     details.clear();
     details.addInt(_sampleInterval);
     ODL_OBJEXIT_B(result); //####
@@ -263,7 +263,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = ""; // Empty, so everything accepted
@@ -288,7 +288,7 @@ DEFINE_STARTSERVICE_(AbsorberFilterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -350,7 +350,7 @@ DEFINE_STOPSERVICE_(AbsorberFilterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();
@@ -403,12 +403,12 @@ AbsorberFilterService::reportMessageRate(void)
         double           messageRate = (countDelta / _sampleInterval);
         double           byteRate = (byteDelta / _sampleInterval);
         GeneralChannel * outStream = getOutletStream(0);
-        
+
         cout << "rate = " << messageRate << " messages/s, " << byteRate << " bytes/s" << endl;
         if (outStream)
         {
             yarp::os::Bottle outBottle;
-            
+
             outBottle.addDouble(messageRate);
             outBottle.addDouble(byteRate);
             if (! outStream->write(outBottle))

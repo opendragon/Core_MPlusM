@@ -97,11 +97,11 @@ MatchValueList::CreateMatcher(const YarpString & inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchValueList * result = NULL;
-    
+
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-        
+
         if (workPos < inLength)
         {
             if (kRoundOpenBracket == inString[workPos])
@@ -109,14 +109,14 @@ MatchValueList::CreateMatcher(const YarpString & inString,
                 // We potentially have a value list.
                 bool done = false;
                 bool okSoFar = true;
-                
+
                 result = new MatchValueList;
                 for (++workPos; okSoFar && (! done); )
                 {
                     size_t       nextElementPos;
                     MatchValue * element = MatchValue::CreateMatcher(inString, inLength, workPos,
                                                                      nextElementPos);
-                    
+
                     if (element)
                     {
                         // Skip over any trailing whitespace, to find if the value list is complete
@@ -125,7 +125,7 @@ MatchValueList::CreateMatcher(const YarpString & inString,
                         if (workPos < inLength)
                         {
                             char scanChar = inString[workPos];
-                            
+
                             if (kRoundCloseBracket == scanChar)
                             {
                                 // We've seen the end of the value list.
@@ -238,19 +238,19 @@ const
     ODL_OBJENTER(); //####
     ODL_S1("fieldName = ", fieldName); //####
     YarpString result;
-    
+
     try
     {
         if (0 < _values.size())
         {
             bool simpleForm = true;
             int  nonWild = 0;
-            
+
             // Check if none of the values contain wildcards.
             for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
             {
                 MatchValue * element = _values[ii];
-                
+
                 if (element->hasWildcardCharacters())
                 {
                     simpleForm = false;
@@ -274,7 +274,7 @@ const
                     for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
                     {
                         MatchValue * element = _values[ii];
-                        
+
                         if (ii)
                         {
                             result += kComma;
@@ -298,14 +298,14 @@ const
                     for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
                     {
                         MatchValue * element = _values[ii];
-                        
+
                         if (! element->hasWildcardCharacters())
                         {
                             result += (negated ? " != " : " = ");
                             result += _values[ii]->asSQLString();
                             break;
                         }
-                        
+
                     }
                 }
                 else if (nonWild)
@@ -315,7 +315,7 @@ const
                     for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
                     {
                         MatchValue * element = _values[ii];
-                        
+
                         if (! element->hasWildcardCharacters())
                         {
                             if (jj)
@@ -338,7 +338,7 @@ const
                 for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
                 {
                     MatchValue * element = _values[ii];
-                    
+
                     if (element->hasWildcardCharacters())
                     {
                         if (jj)
@@ -372,14 +372,14 @@ MatchValueList::asString(void)
 const
 {
     YarpString result;
-    
+
     try
     {
         result += kRoundOpenBracket;
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
         {
             MatchValue * element = _values[ii];
-            
+
             if (ii)
             {
                 result += kComma;
@@ -409,7 +409,7 @@ MatchValueList::element(const int index)
 const
 {
     MatchValue * result = NULL;
-    
+
     try
     {
         if ((index >= 0) && (index < static_cast<int>(_values.size())))
@@ -439,7 +439,7 @@ MatchValueList::empty(void)
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
         {
             MatchValue * element = _values[ii];
-            
+
             delete element;
         }
         _values.clear();

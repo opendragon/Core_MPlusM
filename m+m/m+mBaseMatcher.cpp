@@ -83,18 +83,18 @@ BaseMatcher::SkipWhitespace(const YarpString & inString,
                             const size_t       startPos)
 {
     size_t result = startPos;
-    
+
     try
     {
         for ( ; result < inLength; ++result)
         {
             char scanChar = inString[result];
-            
+
             if (! isspace(scanChar))
             {
                 break;
             }
-            
+
         }
     }
     catch (...)

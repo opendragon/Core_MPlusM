@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the %Leap Motion input service. */
 
 /*! @namespace MplusM::LeapMotion
@@ -69,21 +69,21 @@ namespace MplusM
     namespace LeapMotion
     {
         class LeapMotionInputListener;
-        
+
         /*! @brief The %Leap Motion input service. */
         class LeapMotionInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -99,51 +99,51 @@ namespace MplusM
                                    const YarpString &                  tag,
                                    const YarpString &                  serviceEndpointName,
                                    const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~LeapMotionInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(LeapMotionInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;
-            
+
             /*! @brief The %Leap Motion event handler. */
             LeapMotionInputListener * _listener;
-            
+
         }; // LeapMotionInputService
-        
+
     } // LeapMotion
-    
+
 } // MplusM
 
 #endif // ! defined(MpMLeapMotionInputService_H_)

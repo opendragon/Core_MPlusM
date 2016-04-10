@@ -57,53 +57,53 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'metrics' request handler.
-         
+
          There is no input for the request and the output is a list of measurements for the channels
          of the service. */
         class MetricsRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             MetricsRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~MetricsRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(MetricsRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // MetricsRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMetricsRequestHandler_H_)

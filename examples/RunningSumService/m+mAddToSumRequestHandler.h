@@ -57,55 +57,55 @@ namespace MplusM
     namespace Example
     {
         class RunningSumService;
-        
+
         /*! @brief The example 'addToSum' request handler.
-         
+
          The input for the request is a single floating point number, and the output is a single
          floating point number. */
         class AddToSumRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             AddToSumRequestHandler(RunningSumService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~AddToSumRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
 
             COPY_AND_ASSIGNMENT_(AddToSumRequestHandler);
-            
+
         public :
-            
+
         protected :
-            
+
         private :
-            
+
         }; // AddToSumRequestHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAddToSumRequestHandler_H_)

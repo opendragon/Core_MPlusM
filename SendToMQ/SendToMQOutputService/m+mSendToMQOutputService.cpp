@@ -91,7 +91,7 @@ constructURI(const YarpString & hostName,
     ODL_S1s("hostName = ", hostName); //####
     ODL_LL1("hostPort = ", hostPort); //####
     std::stringstream buff;
-    
+
     buff << "failover://(tcp://" << hostName.c_str() << ":" << hostPort << ")";
     ODL_EXIT_s(buff.str()); //####
     return buff.str();
@@ -151,19 +151,19 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
-            
+
             if (firstValue.isString() && secondValue.isInt())
             {
                 int               secondNumber = secondValue.asInt();
                 std::stringstream buff;
-                
+
                 _topicOrQueueName = firstValue.asString();
                 ODL_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
                 _useQueue = (0 != secondNumber);
@@ -222,7 +222,7 @@ DEFINE_GETCONFIGURATION_(SendToMQOutputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = true;
-    
+
     details.clear();
     details.addString(_topicOrQueueName);
     details.addInt(_useQueue ? 1 : 0);
@@ -297,7 +297,7 @@ SendToMQOutputService::sendMessage(const std::string & aMessage,
             ODL_LOG("(isActive())"); //####
             Common::SendReceiveCounters     newCount(0, 0, messageLength, 1);
             std::auto_ptr<cms::TextMessage> stuff(_session->createTextMessage(aMessage));
-            
+
             incrementAuxiliaryCounters(newCount);
             _producer->send(stuff.get());
         }
@@ -320,7 +320,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "*";
@@ -340,7 +340,7 @@ DEFINE_STARTSERVICE_(SendToMQOutputService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -365,7 +365,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
         if (! isActive())
         {
             std::string brokerURI(constructURI(_hostName, _hostPort));
-            
+
             _connectionFactory.reset(cms::ConnectionFactory::createCMSConnectionFactory(brokerURI));
             if (_connectionFactory.get())
             {
@@ -463,7 +463,7 @@ DEFINE_STOPSERVICE_(SendToMQOutputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

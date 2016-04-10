@@ -54,7 +54,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 
-/*! @file 
+/*! @file
  @brief A utility application to list the available requests. */
 
 /*! @dir RequestInfo
@@ -103,7 +103,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
     ODL_S1s("cleanServiceName = ", cleanServiceName); //####
     ODL_B1("sawResponse = ", sawResponse); //####
     bool result = false;
-    
+
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
     {
         YarpString       theDetailsString;
@@ -112,12 +112,12 @@ processDictionaryEntry(yarp::os::Property & asDict,
         YarpString       theVersionString;
         YarpString       theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
         yarp::os::Bottle keywordList;
-        
+
         theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
         if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY_))
         {
             yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY_);
-            
+
             if (theDetails.isString())
             {
                 theDetailsString = theDetails.toString();
@@ -126,7 +126,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_INPUT_KEY_))
         {
             yarp::os::Value theInputs = asDict.find(MpM_REQREP_DICT_INPUT_KEY_);
-            
+
             if (theInputs.isString())
             {
                 theInputsString = theInputs.toString();
@@ -135,7 +135,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY_))
         {
             yarp::os::Value theKeywords = asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY_);
-            
+
             if (theKeywords.isList())
             {
                 keywordList = *theKeywords.asList();
@@ -144,7 +144,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_))
         {
             yarp::os::Value theOutputs = asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_);
-            
+
             if (theOutputs.isString())
             {
                 theOutputsString = theOutputs.toString();
@@ -153,7 +153,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
         if (asDict.check(MpM_REQREP_DICT_VERSION_KEY_))
         {
             yarp::os::Value theVersion = asDict.find(MpM_REQREP_DICT_VERSION_KEY_);
-            
+
             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
             {
                 theVersionString = theVersion.toString();
@@ -168,7 +168,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
                         SanitizeString(keywordList.toString()).c_str() << "\t" <<
                         theInputsString.c_str() << "\t" << theOutputsString.c_str() << endl;
                 break;
-                
+
             case kOutputFlavourJSON :
                 if (result || sawResponse)
                 {
@@ -187,7 +187,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
                 for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
                 {
                     yarp::os::Value aKeyword(keywordList.get(jj));
-                    
+
                     if (jj)
                     {
                         cout << ", ";
@@ -201,7 +201,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
                            CHAR_DOUBLEQUOTE_) << theOutputsString.c_str() <<
                         T_(CHAR_DOUBLEQUOTE_ " }");
                 break;
-                
+
             case kOutputFlavourNormal :
                 cout << "Service Port: " << cleanServiceName.c_str() << endl;
                 cout << "Request:      " << theRequest.c_str() << endl;
@@ -229,10 +229,10 @@ processDictionaryEntry(yarp::os::Property & asDict,
                 }
                 cout << endl;
                 break;
-                
+
             default :
                 break;
-                
+
         }
         result = true;
     }
@@ -259,15 +259,15 @@ processResponse(const OutputFlavour     flavour,
     ODL_B1("sawResponse = ", sawResponse); //####
     bool       result = false;
     YarpString cleanServiceName(SanitizeString(serviceName, kOutputFlavourJSON != flavour));
-    
+
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
-        
+
         if (element.isDict())
         {
             yarp::os::Property * propDict = element.asDict();
-            
+
             if (propDict)
             {
                 result = processDictionaryEntry(*propDict, cleanServiceName, flavour, sawResponse);
@@ -276,11 +276,11 @@ processResponse(const OutputFlavour     flavour,
         else if (element.isList())
         {
             yarp::os::Bottle * asList = element.asList();
-            
+
             if (asList)
             {
                 yarp::os::Property asDict;
-                
+
                 if (ListIsReallyDictionary(*asList, asDict))
                 {
                     result = processDictionaryEntry(asDict, cleanServiceName, flavour, sawResponse);
@@ -486,7 +486,7 @@ setUpAndGo(const YarpString &  channelName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for listing the available requests.
- 
+
  The second, optional, argument is the name of the request to be matched and the first, optional,
  argument is the name of the channel for the service. If the request is not specified, all requests
  will be listed and if the channel is not specified, all service channels will be reported. Standard
@@ -501,8 +501,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -514,7 +514,7 @@ main(int      argc,
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
     YarpStringVector                     arguments;
-    
+
     argumentList.push_back(&firstArg);
     argumentList.push_back(&secondArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
@@ -530,7 +530,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {

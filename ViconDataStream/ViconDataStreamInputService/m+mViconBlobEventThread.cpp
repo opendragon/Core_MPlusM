@@ -340,7 +340,7 @@ ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 # if (! defined(MpM_UseCustomStringBuffer))
             std::string  buffAsString(outBuffer.str());
 # endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             outString = _outBuffer.getString(outLength);
 # else // ! defined(MpM_UseCustomStringBuffer)

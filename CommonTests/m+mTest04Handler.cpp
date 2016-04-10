@@ -113,12 +113,12 @@ DEFINE_HANDLE_INPUT_(Test04Handler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     if (replyMechanism)
     {
         ODL_LOG("(replyMechanism)"); //####
         yarp::os::Bottle inputCopy(input);
-        
+
         ODL_S1s("inputCopy <- ", inputCopy.toString()); //####
         if (! inputCopy.write(*replyMechanism))
         {

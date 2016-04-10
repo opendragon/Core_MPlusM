@@ -239,7 +239,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
                 {
                     ODL_LOG("(ECL_NIL != cl_characterp(aKey))"); //####
                     cl_object asString = cl_string(aKey);
-                    
+
                     if (ECL_NIL != asString)
                     {
                         ODL_LOG("(ECL_NIL != asString)"); //####
@@ -366,28 +366,28 @@ convertDictionary(cl_object                setHashFunction,
     ODL_P2("setHashFunction = ", setHashFunction, "inputAsList = ", &inputAsList); //####
     cl_object result = cl_make_hash_table(0);
     ODL_P1("result <- ", result); //####
-    
+
     for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
     {
         yarp::os::Value anEntry(inputAsList.get(ii));
-        
+
         if (anEntry.isList())
         {
             ODL_LOG("(anEntry.isList())"); //####
             yarp::os::Bottle * entryAsList = anEntry.asList();
-            
+
             if (entryAsList && (2 == entryAsList->size()))
             {
                 ODL_LOG("(entryAsList && (2 == entryAsList->size()))"); //####
                 YarpString      aKey(entryAsList->get(0).toString());
                 yarp::os::Value aValue(entryAsList->get(1));
                 cl_object       anElement = convertValue(setHashFunction, aValue);
-                
+
                 ODL_P1("anElement <- ", anElement); //####
                 cl_object       elementKey = CreateBaseString(aKey.c_str(), aKey.length());
                 cl_env_ptr      env = ecl_process_env();
                 cl_object       errorSymbol = ecl_make_symbol("ERROR", "CL");
-                
+
                 ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
                 {
                     /* This form is evaluated with bound handlers. */
@@ -417,14 +417,14 @@ convertList(cl_object                setHashFunction,
     ODL_ENTER(); //####
     ODL_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
     cl_object result = ecl_alloc_simple_vector(inputValue.size(), ecl_aet_object);
-    
+
     ODL_P1("result <- ", result); //####
     for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
     {
         yarp::os::Value aValue(inputValue.get(ii));
         cl_object       anElement = convertValue(setHashFunction, aValue);
         ODL_P1("anElement <- ", anElement); //####
-        
+
         ecl_aset1(result, ii, anElement);
     }
     ODL_EXIT_P(result); //####
@@ -438,7 +438,7 @@ convertValue(cl_object               setHashFunction,
     ODL_ENTER(); //####
     ODL_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
     cl_object result = ECL_NIL;
-    
+
     if (inputValue.isBool())
     {
         ODL_LOG("(inputValue.isBool())"); //####
@@ -455,7 +455,7 @@ convertValue(cl_object               setHashFunction,
     {
         ODL_LOG("(inputValue.isString())"); //####
         YarpString value = inputValue.asString();
-        
+
         result = CreateBaseString(value.c_str(), value.length());
         ODL_P1("result <- ", result); //####
     }
@@ -469,12 +469,12 @@ convertValue(cl_object               setHashFunction,
     {
         ODL_LOG("(inputValue.isDict())"); //####
         yarp::os::Property * value = inputValue.asDict();
-        
+
         if (value)
         {
             ODL_LOG("(value)"); //####
             yarp::os::Bottle asList(value->toString());
-            
+
             result = convertDictionary(setHashFunction, asList);
             ODL_P1("result <- ", result); //####
         }
@@ -483,12 +483,12 @@ convertValue(cl_object               setHashFunction,
     {
         ODL_LOG("(inputValue.isList())"); //####
         yarp::os::Bottle * value = inputValue.asList();
-        
+
         if (value)
         {
             ODL_LOG("(value)"); //####
             yarp::os::Property asDict;
-            
+
             if (ListIsReallyDictionary(*value, asDict))
             {
                 ODL_LOG("(ListIsReallyDictionary(*value, asDict))"); //####
@@ -525,7 +525,7 @@ createObjectFromBottle(cl_object                setHashFunction,
     ODL_ENTER(); //####
     ODL_P2("setHashFunction = ", setHashFunction, "aBottle = ", &aBottle); //####
     cl_object result;
-    
+
 //    cerr << "'" << aBottle.toString().c_str() << "'" << endl;
     result = convertList(setHashFunction, aBottle);
     ODL_EXIT_P(result); //####
@@ -605,7 +605,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
                                             "(maphash #'(lambda (key val) "
                                             "(setq asList (acons key val asList))) aTable)"
                                             " asList))");
-        
+
         _hash2assocFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
         if (ECL_NIL == _hash2assocFunc)
         {
@@ -615,7 +615,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
         // Lisp -
         form = c_string_to_object("(defun setHash (table key value) "
                                   "(setf (gethash key table) value))");
-        
+
         _setHashFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
         if (ECL_NIL == _setHashFunc)
         {
@@ -654,7 +654,7 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (ECL_NIL == _scriptStartingFunc)
@@ -723,7 +723,7 @@ DEFINE_DISABLEMETRICS_(CommonLispFilterService)
          ++walker)
     {
         CommonLispFilterInputHandler * aHandler = *walker;
-        
+
         if (aHandler)
         {
             aHandler->disableMetrics();
@@ -750,19 +750,19 @@ DEFINE_DOIDLE_(CommonLispFilterService)
                     ODL_LOG("(_inletHandlers.size() > _mostRecentSlot)"); //####
                     cl_object                      handlerFunc = _inletHandlers[_mostRecentSlot];
                     CommonLispFilterInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
-                    
+
                     if (aHandler && (ECL_NIL != handlerFunc))
                     {
                         ODL_LOG("(aHandler && (ECL_NIL != handlerFunc))"); //####
                         cl_object incoming = createObjectFromBottle(_setHashFunc,
                                                                     aHandler->getReceivedData());
-                        
+
                         if (ECL_NIL != incoming)
                         {
                             ODL_LOG("(ECL_NIL != incoming)"); //####
                             cl_env_ptr env = ecl_process_env();
                             cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
-                            
+
                             ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
                             {
                                 /* This form is evaluated with bound handlers. */
@@ -819,7 +819,7 @@ DEFINE_ENABLEMETRICS_(CommonLispFilterService)
          ++walker)
     {
         CommonLispFilterInputHandler * aHandler = *walker;
-        
+
         if (aHandler)
         {
             aHandler->enableMetrics();
@@ -849,7 +849,7 @@ CommonLispFilterService::releaseHandlers(void)
              ++walker)
         {
             CommonLispFilterInputHandler * aHandler = *walker;
-            
+
             if (aHandler)
             {
                 ODL_P1("aHandler = ", aHandler); //####
@@ -925,7 +925,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     for (ChannelVector::const_iterator walker(_loadedInletDescriptions.begin());
          _loadedInletDescriptions.end() != walker; ++walker)
@@ -976,7 +976,7 @@ DEFINE_STARTSERVICE_(CommonLispFilterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -1019,7 +1019,7 @@ DEFINE_STARTSTREAMS_(CommonLispFilterService)
                     cl_object                      handlerFunc = _inletHandlers[ii];
                     CommonLispFilterInputHandler * aHandler = new CommonLispFilterInputHandler(this,
                                                                                                ii);
-                    
+
                     if (aHandler)
                     {
                         _inHandlers.push_back(aHandler);
@@ -1044,7 +1044,7 @@ DEFINE_STOPSERVICE_(CommonLispFilterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();
@@ -1083,7 +1083,7 @@ DEFINE_STOPSTREAMS_(CommonLispFilterService)
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     CommonLispFilterInputHandler * aHandler = _inHandlers.at(ii);
-                    
+
                     if (aHandler)
                     {
                         aHandler->deactivate();
@@ -1131,7 +1131,7 @@ CommonLisp::CreateBaseString(const char * inString,
     ODL_S1("inString = ", inString); //####
     ODL_LL1("inLength = ", inLength); //####
     cl_object result;
-    
+
     if (inString)
     {
         result = ecl_alloc_simple_base_string(inLength);

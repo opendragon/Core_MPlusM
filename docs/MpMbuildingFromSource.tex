@@ -98,52 +98,19 @@ Note that some of the tools may already be installed on an \linux{} system.
 \secondaryStart{Initial~Steps}
 \tertiaryStart{Initial~steps~for~\osx}
 \begin{itemize}
-\item There are three choices for where the source code will be obtained from:
-\begin{itemize}
-\item The \textbf{ZIP} archives that have been installed via the \asCode{Developer}
-package; all but the files \asCode{Core\fUS{}MPlusM.zip} and
-\asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional and \asCode{yarp\fUS{}MPlusM.zip}
-is a variation of the standard \textbf{\yarp} distribution to support \ios{} builds
-\item\exSp{}A snapshot of the current state of the source code for a package; this will be
-a `point in time' copy, rather than an updatable version
-\item\exSp{}An updatable version of the source code for the packages
-\end{itemize}
-\item\exSp{}Create a directory to hold the source code, where the build will be performed;
+\item Create a directory to hold the source code, where the build will be performed;
 we'll refer to it from now on as `\asCode{\textbf{devel}}'
-\item\exSp{}To use the \textbf{ZIP} archives that have been installed via the
-\asCode{Developer} package, perform the following steps:
-\begin{itemize}
-\item Copy the desired \textbf{ZIP} archive files from their installation location
-(\asCode{/opt/m+m/src}) to the new directory \asCode{\textbf{devel}}; all but the files
-\asCode{Core\fUS{}MPlusM.zip} and \asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
+\item\exSp{}Copy the desired \textbf{ZIP} archive files from their installation location
+(\asCode{/opt/m+m/src}) to the new directory \asCode{\textbf{devel}}
 \item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
 \asCode{\textbf{devel}}
-\item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
-present
-\end{itemize}
-\item\exSp{}To obtain a snapshot of the source code for the packages, perform the
-following steps:
-\begin{itemize}
-\item \asCode{cd \textbf{devel}}
-\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Core\fUS{}MPlusM/%
-archive/master.zip}
-\item\exSp\asCode{unzip master.zip}
-\item\exSp\asCode{rm master.zip}
-\item\exSp\asCode{mv Core\fUS{}MPlusM-master Core\fUS{}MPlusM}
-\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}%
-manager/archive/master.zip}
-\item\exSp\asCode{unzip master.zip}
-\item\exSp\asCode{rm master.zip}
-\item\exSp\asCode{mv Utilities\fUS{}mm\fUS{}manager-master
-Utilities\fUS{}mm\fUS{}manager}
-\end{itemize}
-\item\exSp{}To obtain an updatable version of the source code for the packages, perform
-the following steps:
+\item\exSp{}Perform the following steps:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
 \item\exSp\asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
 \item\exSp\asCode{git clone
 https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
+\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/yarp\fUS{}MPlusM.git}
 \end{itemize}
 \end{itemize}
 \secondaryEnd
@@ -154,12 +121,37 @@ https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
 refer to it from now on as `\asCode{\textbf{devel}}'
 \item\exSp{}Copy the desired \textbf{ZIP} archive files from their installation location
 (\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}src}) to the
-new directory \asCode{\textbf{devel}}; all but the files \asCode{Core\fUS{}MPlusM.zip} and
-\asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
+new directory \asCode{\textbf{devel}}
 \item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
 \asCode{\textbf{devel}}
-\item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
-present
+\item\exSp{}If \asCode{git} is available as a command\longDash{}tool on the system, do the
+following:
+\begin{itemize}
+\item Open a Command Prompt window and move to the directory containing the
+\mplusm{} source code, \asCode{\textbf{devel}}
+\item\exSp{}Execute the following commands:
+\begin{itemize}
+\item \asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
+\item\exSp\asCode{git clone
+https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
+\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/yarp\fUS{}MPlusM.git}
+\end{itemize}
+\item\exSp{}Close the Command Prompt window.
+\end{itemize}
+\item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
+the following:
+\begin{itemize}
+\item Open the \asCode{SourceTree} GUI application
+\item\exSp{}Clone the repository
+`\asCode{https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}' in the directory
+`\asCode{\textbf{devel}}'
+\item\exSp{}Clone the repository
+`\asCode{https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}' in the
+directory `\asCode{\textbf{devel}}'
+\item\exSp{}Clone the repository
+`\asCode{https://github.com/MovementAndMeaning/yarp\fUS{}MPlusM.git}' in the directory
+`\asCode{\textbf{devel}}'
+\end{itemize}
 \item\exSp{}Make sure to update the date recorded in the last line of the
 \asCode{license.txt} file, located in the `\asCode{Core\fUS{}MPlusM}' directory
 \end{itemize}
@@ -169,29 +161,13 @@ present
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
 refer to it from now on as `\asCode{\textbf{devel}}'
-\item\exSp{}If you wish to get a snapshot of the current source, execute the following
-commands in the \asCode{Terminal} application:
-\begin{itemize}
-\item \asCode{cd \textbf{devel}}
-\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Core\fUS{}MPlusM/%
-archive/master.zip}
-\item\exSp\asCode{unzip master.zip}
-\item\exSp\asCode{rm master.zip}
-\item\exSp\asCode{mv Core\fUS{}MPlusM-master Core\fUS{}MPlusM}
-\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}%
-manager/archive/master.zip}
-\item\exSp\asCode{unzip master.zip}
-\item\exSp\asCode{rm master.zip}
-\item\exSp\asCode{mv Utilities\fUS{}mm\fUS{}manager-master
-Utilities\fUS{}mm\fUS{}manager}
-\end{itemize}
-\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
-following commands in the \asCode{Terminal} application:
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
 \item\exSp\asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
 \item\exSp\asCode{git clone
 https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
+\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/yarp\fUS{}MPlusM.git}
 \end{itemize}
 \item\exSp{}Add the following lines to the end of the files
 \asCode{\textdollar{}HOME/.bashrc} and \asCode{\textdollar{}HOME/.bash\fUS{}profile},
@@ -251,7 +227,7 @@ code, \asCode{\textbf{devel}}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}MPlusM\textbackslash{}ACE\fUS{}%
-MPlusM\fUS{}vc14.sln}' with \asCode{Visual Studio}
+MPlusM\fUS{}vc12.sln}' with \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
 configuration
 \item\exSp{}Clear out any older binary files via the menu item
@@ -630,7 +606,7 @@ following:
 \item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
 the following:
 \begin{itemize}
-\item \exSp{}Use \asCode{SourceTree} to clone the repository
+\item\exSp{}Use \asCode{SourceTree} to clone the repository
 `\asCode{https://github.com/mozilla/gecko-dev.git}' into the directory
 `\asCode{\textbf{spidermonkey}}'
 \item\exSp{}Open a Command Prompt window, running as Administrator
@@ -698,7 +674,7 @@ following commands in the \asCode{Terminal} application:
 \end{itemize}
 \item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
-\item \exSp\asCode{cd \textbf{spidermonkey}}
+\item\exSp\asCode{cd \textbf{spidermonkey}}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf2.13}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -794,7 +770,7 @@ following commands in the \asCode{Terminal} application:
 \end{itemize}
 \item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
-\item \exSp\asCode{cd \textbf{ecl}}
+\item\exSp\asCode{cd \textbf{ecl}}
 \item\exSp\asCode{make clean}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
 {-}{-}with-dffi \textbackslash\\

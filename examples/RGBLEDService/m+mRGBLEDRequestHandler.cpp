@@ -141,7 +141,7 @@ DEFINE_FILLINDESCRIPTION_(RGBLEDRequestHandler)
                  "Output: 1 if ok");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
@@ -169,7 +169,7 @@ DEFINE_PROCESSREQUEST_(RGBLEDRequestHandler)
                "senderChannel = ", senderChannel);//####
     ODL_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
-    
+
     try
     {
         _response = restOfInput;

@@ -117,7 +117,7 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_owner.isActive())
@@ -131,16 +131,16 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
                 if (1 == input.size())
                 {
                     yarp::os::Value & firstTopValue = input.get(0);
-                    
+
                     if (firstTopValue.isBlob())
                     {
                         size_t       numBytes = firstTopValue.asBlobLength();
                         const char * asBytes = firstTopValue.asBlob();
-                        
+
                         if ((0 < numBytes) && asBytes)
                         {
                             int retVal = send(_outSocket, asBytes, static_cast<int>(numBytes), 0);
-                            
+
                             cerr << "send--> " << retVal << endl; //!!!!
                             if (0 > retVal)
                             {
@@ -149,7 +149,7 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
                             else
                             {
                                 SendReceiveCounters toBeAdded(0, 0, numBytes, 1);
-                                
+
                                 _owner.incrementAuxiliaryCounters(toBeAdded);
                             }
                         }

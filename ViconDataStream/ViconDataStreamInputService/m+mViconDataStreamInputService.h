@@ -67,21 +67,21 @@ namespace MplusM
     namespace ViconDataStream
     {
         class ViconDataStreamEventThread;
-        
+
         /*! @brief The Vicon DataStream input service. */
         class  ViconDataStreamInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -97,35 +97,35 @@ namespace MplusM
                                         const YarpString &                  tag,
                                         const YarpString &                  serviceEndpointName,
                                         const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~ViconDataStreamInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(ViconDataStreamInputService);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
 
         protected :
@@ -134,17 +134,17 @@ namespace MplusM
 
             /*! @brief The name of the Vicon device server. */
             YarpString _hostName;
-            
+
             /*! @brief The port to connect to the Vicon device server. */
             int _hostPort;
-            
+
             /*! @brief The event thread to use. */
             ViconDataStreamEventThread * _eventThread;
 
         }; // ViconDataStreamInputService
-        
+
     } // ViconDataStream
-    
+
 } // MplusM
 
 #endif // ! defined(MpMViconDataStreamInputService_H_)

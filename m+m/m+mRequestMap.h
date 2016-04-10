@@ -58,73 +58,73 @@ namespace MplusM
     {
         class BaseRequestHandler;
         class BaseService;
-        
+
         /*! @brief A class to manage the mapping from requests to request handlers. */
         class RequestMap
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief A mapping from strings to requests. */
             typedef std::map<YarpString, BaseRequestHandler *> RequestHandlerMap;
-            
+
             /*! @brief The entry-type for the mapping. */
             typedef RequestHandlerMap::value_type RequestHandlerMapValue;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that owns the mapping. */
             explicit
             RequestMap(BaseService & owner);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RequestMap(void);
-            
+
             /*! @brief Construct the response to a 'list' request.
              @param reply The package to hold the reply. */
             void
             fillInListReply(yarp::os::Bottle & reply);
-            
+
             /*! @brief Construct the response to an 'info' request.
              @param reply The package to hold the reply.
              @param requestName The name of the request that is being looked at. */
             void
             fillInRequestInfo(yarp::os::Bottle & reply,
                               const YarpString & requestName);
-            
+
             /*! @brief Return the function corresponding to a particular request.
              @param request The requested operation.
              @returns A pointer to the function to be invoked for the request, or @c NULL if it is
              not recognized. */
             BaseRequestHandler *
             lookupRequestHandler(const YarpString & request);
-            
+
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
             void
             registerRequestHandler(BaseRequestHandler * handler);
-            
+
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
             void
             setDefaultRequestHandler(BaseRequestHandler * handler);
-            
+
             /*! @brief Forget the function to be used to handle a particular request.
              @param handler The function that was called for the request. */
             void
             unregisterRequestHandler(BaseRequestHandler * handler);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RequestMap);
-            
+
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool
@@ -132,43 +132,43 @@ namespace MplusM
             {
                 return _lock.tryLock();
             } // conditionallyLock
-            
+
             /*! @brief Lock the data. */
             inline void
             lock(void)
             {
                 _lock.lock();
             } // lock
-            
+
             /*! @brief Unlock the data. */
             inline void
             unlock(void)
             {
                 _lock.unlock();
             } // unlock
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _lock;
-            
+
             /*! @brief The default handler to use for unrecognized requests. */
             BaseRequestHandler * _defaultHandler;
-            
+
             /*! @brief The map between requests and request handlers. */
             RequestHandlerMap _handlers;
-            
+
             /*! @brief The service that owns this map. */
             BaseService & _owner;
-            
+
         }; // RequestMap
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRequestMap_H_)

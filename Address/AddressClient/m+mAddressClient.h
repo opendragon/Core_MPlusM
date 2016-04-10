@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the client of the Address service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -60,23 +60,23 @@ namespace MplusM
         class AddressClient : public Common::BaseClient
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             AddressClient(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~AddressClient(void);
-            
+
             /*! @brief Get the address from the service.
              @param address The remembered address.
              @param port The remembered port.
@@ -84,23 +84,23 @@ namespace MplusM
             bool
             getAddress(YarpString & address,
                        int &        port);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(AddressClient);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // AddressClient
-        
+
     } // Address
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAddressClient_H_)

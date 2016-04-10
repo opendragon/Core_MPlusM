@@ -164,27 +164,27 @@ namespace MplusM
         class ServiceInputHandlerCreator;
         class SetMetricsStateRequestHandler;
         class StopRequestHandler;
-        
+
         /*! @brief The modification values to be used with the service channel tag. */
         enum AddressTagModifier
         {
             /*! @brief Apply no modification. */
             kModificationNone,
-            
+
             /*! @brief Use the LSB of the IP address as a modifier. */
             kModificationBottomByte,
-            
+
             /*! @brief Use the low byte pair of the IP address as a modifier. */
             kModificationBottomTwoBytes,
-            
+
             /*! @brief Use all but the MSB of the IP address as a modifier. */
             kModificationBottomThreeBytes,
-            
+
             /*! @brief Use all the bytes of the IP address as a modifier. */
             kModificationAllBytes
-            
+
         }; // AddressTagModifier
-        
+
         /*! @brief The command-line options to skip.
          Note that the 'help' and 'version' options are always present. */
         enum OptionsMask
@@ -197,49 +197,49 @@ namespace MplusM
 
             /*! @brief Skip the 'channel' option. */
             kSkipChannelOption   = 0x0002,
-            
+
             /*! @brief Skip the 'endpoint' option. */
             kSkipEndpointOption  = 0x0004,
-            
+
             /*! @brief Skip the 'autostart' option. */
             kSkipGoOption        = 0x0008,
 
             /*! @brief Skip the 'info' option. */
             kSkipInfoOption      = 0x0010,
-            
+
             /*! @brief Skip the 'mod' option. */
             kSkipModOption       = 0x0020,
-            
+
             /*! @brief Skip the 'port' option. */
             kSkipPortOption      = 0x0040,
-            
+
             /*! @brief Skip the 'report' option. */
             kSkipReportOption    = 0x0080,
-            
+
             /*! @brief Skip the 'tag' option. */
             kSkipTagOption       = 0x0100,
-            
+
             /*! @brief Skip all the options. */
             kSkipAllOptions      = 0xFFFF
         }; // OptionsMask
-        
+
         /*! @brief The minimal functionality required for an m+m service. */
         class BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief A mapping from strings to contexts. */
             typedef std::map<YarpString, BaseContext *> ContextMap;
-            
+
             /*! @brief The entry-type for the mapping. */
             typedef ContextMap::value_type ContextMapValue;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
@@ -264,9 +264,9 @@ namespace MplusM
                         const YarpString & requestsDescription,
                         const YarpString & serviceEndpointName,
                         const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The constructor.
-             
+
              Note that this is a special constructor for the test code, which does not support the
              service name modifier.
              @param theKind The behavioural model for the service.
@@ -286,11 +286,11 @@ namespace MplusM
                         const YarpString & canonicalName,
                         const YarpString & description,
                         const YarpString & requestsDescription);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseService(void);
-            
+
             /*! @brief Return the description of the service.
              @returns The description of the service. */
             inline const YarpString &
@@ -299,22 +299,22 @@ namespace MplusM
             {
                 return _description;
             } // description
-            
+
             /*! @brief Forget the specified client.
              @param key The client-provided key. */
             void
             detachClient(const YarpString & key);
-            
+
             /*! @fn virtual void
                     disableMetrics(void)
              @brief Turn off the send / receive metrics collecting. */
             DECLARE_DISABLEMETRICS_;
-            
+
             /*! @fn virtual void
                     enableMetrics(void)
              @brief Turn on the send / receive metrics collecting. */
             DECLARE_ENABLEMETRICS_;
-            
+
             /*! @brief Return the extra information for the service.
              @returns The extra information for the service. */
             inline const YarpString &
@@ -328,31 +328,31 @@ namespace MplusM
              @param clients The list to be filled in. */
             void
             fillInClientList(YarpStringVector & clients);
-            
+
             /*! @fn virtual void
                     fillInSecondaryClientChannelsList(ChannelVector & channels)
              @brief Fill in a list of secondary client channels for the service.
              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
-            
+
             /*! @fn virtual void
                     fillInSecondaryInputChannelsList(ChannelVector & channels)
              @brief Fill in a list of secondary input channels for the service.
              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
-            
+
             /*! @fn virtual void
                     fillInSecondaryOutputChannelsList(ChannelVector & channels)
              @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
-            
+
             /*! @fn virtual void
                     gatherMetrics(yarp::os::Bottle & metrics)
              @brief Fill in the metrics for the service.
              @param metrics The gathered metrics. */
             DECLARE_GATHERMETRICS_;
-            
+
             /*! @brief Return the list of arguments given to the service.
              @returns The list of arguments given to the service. */
             inline const YarpStringVector &
@@ -361,7 +361,7 @@ namespace MplusM
             {
                 return _originalArguments;
             } // getArguments
-            
+
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
             inline Endpoint &
@@ -370,12 +370,12 @@ namespace MplusM
             {
                 return *_endpoint;
             } // getEndpoint
-            
+
             /*! @brief Update the auxiliary send / receive counters.
              @param additionalCounters The counters to add. */
             void
             incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
-            
+
             /*! @brief Return the state of the service.
              @returns @c true if the service has been started and @c false otherwise. */
             inline bool
@@ -384,7 +384,7 @@ namespace MplusM
             {
                 return _started;
             } // isStarted
-            
+
             /*! @brief Return the behavioural model for the service.
              @returns The behavioural model for the service. */
             inline ServiceKind
@@ -393,7 +393,7 @@ namespace MplusM
             {
                 return _kind;
             } // kind
-            
+
             /*! @brief Return the command-line name used to launch the service.
              @returns The command-line name used to launch the service. */
             inline const YarpString &
@@ -402,7 +402,7 @@ namespace MplusM
             {
                 return _launchPath;
             } // launchPath
-            
+
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
@@ -412,7 +412,7 @@ namespace MplusM
             {
                 return _metricsEnabled;
             } // metricsAreEnabled
-            
+
             /*! @brief Process partially-structured input data.
              @param request The requested operation.
              @param restOfInput The arguments for the operation.
@@ -424,7 +424,7 @@ namespace MplusM
                            const yarp::os::Bottle &     restOfInput,
                            const YarpString &           senderChannel,
                            yarp::os::ConnectionWriter * replyMechanism);
-            
+
             /*! @brief Return the description of the requests for the service.
              @returns The description of the requests for the service. */
             inline const YarpString &
@@ -433,7 +433,7 @@ namespace MplusM
             {
                 return _requestsDescription;
             } // requestsDescription
-            
+
             /*! @brief Send a 'ping' on behalf of a service.
              @param channelName The service channel to report with the ping.
              @param checker A function that provides for early exit from loops.
@@ -442,7 +442,7 @@ namespace MplusM
             sendPingForChannel(const YarpString & channelName,
                                CheckFunction      checker = NULL,
                                void *             checkStuff = NULL);
-            
+
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
             inline const YarpString &
@@ -462,17 +462,17 @@ namespace MplusM
              @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             DECLARE_STARTSERVICE_;
-            
+
             /*! @brief Start the background 'pinging' thread. */
             void
             startPinger(void);
-            
+
             /*! @fn virtual bool
                     stopService(void)
              @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
             DECLARE_STOPSERVICE_;
-            
+
             /*! @brief Return the modifier tag of the service.
              @returns The modifier tag of the service. */
             inline const YarpString &
@@ -481,60 +481,60 @@ namespace MplusM
             {
                 return _tag;
             } // tag
-            
+
             /*! @brief Update the response counters for the service port.
              @param numBytes The number of bytes sent. */
             void
             updateResponseCounters(const size_t numBytes);
-            
+
         protected :
-            
+
             /*! @brief Add a context for a persistent connection.
              @param key The name for the context.
              @param context The context to be remembered. */
             void
             addContext(const YarpString & key,
                        BaseContext *      context);
-            
+
             /*! @brief Remove all contexts. */
             void
             clearContexts(void);
-            
+
             /*! @brief Locate the context corresponding to a name.
              @param key The name of the context.
              @returns @c NULL if the named context could not be found or a pointer to the context if
              found. */
             BaseContext *
             findContext(const YarpString & key);
-            
+
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
             void
             registerRequestHandler(BaseRequestHandler * handler);
-            
+
             /*! @brief Remove a context.
              @param key The name of the context. */
             void
             removeContext(const YarpString & key);
-            
+
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
             void
             setDefaultRequestHandler(BaseRequestHandler * handler);
-            
+
             /*! @brief Forget the function to be used to handle a particular request.
              @param handler The function that was called for the request. */
             void
             unregisterRequestHandler(BaseRequestHandler * handler);
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool
@@ -542,43 +542,43 @@ namespace MplusM
             {
                 return _contextsLock.tryLock();
             } // conditionallyLockContexts
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
             /*! @brief Lock the data. */
             inline void
             lockContexts(void)
             {
                 _contextsLock.lock();
             } // lockContexts
-            
+
             /*! @brief Unlock the data. */
             inline void
             unlockContexts(void)
             {
                 _contextsLock.unlock();
             } // unlockContexts
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The command-line name used to launch the service. */
             YarpString _launchPath;
-            
+
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _contextsLock;
-            
+
             /*! @brief The map between requests and request handlers. */
             RequestMap _requestHandlers;
-            
+
             /*! @brief The map between requests and request handlers. */
             ContextMap _contexts;
-            
+
             /*! @brief The description of the service. */
             YarpString _description;
 
@@ -587,41 +587,41 @@ namespace MplusM
 
             /*! @brief The description of the requests for the service. */
             YarpString _requestsDescription;
-            
+
             /*! @brief The channel-independent name of the service. */
             YarpString _serviceName;
-            
+
             /*! @brief The modifier tag for the service. */
             YarpString _tag;
-            
+
             /*! @brief The arguments that were used to launch the executable that created this
              service. */
             YarpStringVector _originalArguments;
-            
+
             /*! @brief The auxiliary send / receive counters. */
             SendReceiveCounters _auxCounters;
-            
+
             /*! @brief The request handler for the 'arguments' request. */
             ArgumentsRequestHandler * _argumentsHandler;
-            
+
             /*! @brief The request handler for the 'channels' request. */
             ChannelsRequestHandler * _channelsHandler;
-            
+
             /*! @brief The request handler for the 'clients' request. */
             ClientsRequestHandler * _clientsHandler;
-            
+
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler * _detachHandler;
-            
+
             /*! @brief The request handler for the 'extraInfo' request. */
             ExtraInfoRequestHandler * _extraInfoHandler;
-            
+
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler * _infoHandler;
-            
+
             /*! @brief The request handler for the 'list' request. */
             ListRequestHandler * _listHandler;
-            
+
             /*! @brief The request handler for the 'metrics' request. */
             MetricsRequestHandler * _metricsHandler;
 
@@ -630,39 +630,39 @@ namespace MplusM
 
             /*! @brief The request handler for the 'name' request. */
             NameRequestHandler * _nameHandler;
-            
+
             /*! @brief The request handler for the 'setMetricsState' request. */
             SetMetricsStateRequestHandler * _setMetricsStateHandler;
-            
+
             /*! @brief The request handler for the 'stop' request. */
             StopRequestHandler * _stopHandler;
-            
+
             /*! @brief The connection point for the service. */
             Endpoint * _endpoint;
-            
+
             /*! @brief The input handler for the service. */
             ServiceInputHandler * _handler;
-            
+
             /*! @brief The input handler creator for the service. */
             ServiceInputHandlerCreator * _handlerCreator;
-            
+
             /*! @brief The object used to generate 'pings' for the service. */
             PingThread * _pinger;
-            
+
             /*! @brief The kind of service. */
             ServiceKind _kind;
-            
+
             /*! @brief @c true if metrics are enabled and @c false otherwise. */
             bool _metricsEnabled;
-            
+
             /*! @brief The current state of the service - @c true if active and @c false
              otherwise. */
             bool _started;
-            
+
             /*! @brief Whether to use a handler creator or a handler - @c true for a creator and
              @c false otherwise. */
             bool _useMultipleHandlers;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -672,9 +672,9 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseService
-        
+
         /*! @brief Update the endpoint name based on the provided arguments to the service.
          @param defaultEndpointNameRoot The default endpoint root name.
          @param modFlag The address-based modifier to apply to the tag value.
@@ -696,7 +696,7 @@ namespace MplusM
          @returns @c true if the address was determined and @c false otherwise. */
         bool
         GetOurEffectiveAddress(NetworkAddress & ourAddress);
-        
+
         /*! @brief Process the standard options for service executables.
          The option '-c' / '--channel' displays the endpoint name after applying all other
          options and retunrs @c false.
@@ -751,7 +751,7 @@ namespace MplusM
                                       AddressTagModifier &          modFlag,
                                       const OptionsMask             skipOptions = kSkipNone,
                                       YarpStringVector *            arguments = NULL);
-        
+
         /*! @brief Register a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
          @param service The actual service being registered.
@@ -763,7 +763,7 @@ namespace MplusM
                              BaseService &      service,
                              CheckFunction      checker = NULL,
                              void *             checkStuff = NULL);
-        
+
         /*! @brief Unregister a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
          @param service The actual service being unregistered.
@@ -775,9 +775,9 @@ namespace MplusM
                                BaseService &      service,
                                CheckFunction      checker = NULL,
                                void *             checkStuff = NULL);
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseService_H_)

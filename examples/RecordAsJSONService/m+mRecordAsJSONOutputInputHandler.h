@@ -60,47 +60,47 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of arbitrary YARP messages. */
         class RecordAsJSONOutputInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             RecordAsJSONOutputInputHandler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RecordAsJSONOutputInputHandler(void);
-            
+
             /*! @brief Set the file to be written to.
              @param outFile The file to be written to. */
             void
             setFile(FILE * outFile);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(RecordAsJSONOutputInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
@@ -108,15 +108,15 @@ namespace MplusM
 
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
-            
+
             /*! @brief @c true if the next output will be the first output written and @c false
              otherwise. */
             bool _isFirst;
-            
+
         }; // RecordAsJSONOutputInputHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRecordAsJSONOutputInputHandler_H_)

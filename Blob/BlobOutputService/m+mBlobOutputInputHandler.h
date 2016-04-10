@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the input handler used by the %Blob output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -59,59 +59,59 @@ namespace MplusM
         class BlobOutputService;
 
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of arbitrary YARP messages. */
         class BlobOutputInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
             explicit
             BlobOutputInputHandler(BlobOutputService & owner);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BlobOutputInputHandler(void);
-            
+
             /*! @brief Set the network socket to be written to.
              @param outSocket The network socket to be written to. */
             void
             setSocket(const SOCKET outSocket);
 
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(BlobOutputInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The service that this handler is connected to. */
             BlobOutputService & _owner;
-            
+
             /*! @brief The network socket that is to be written to. */
             SOCKET _outSocket;
-            
+
         }; // BlobOutputInputHandler
-        
+
     } // Blob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBlobOutputInputHandler_H_)

@@ -66,21 +66,21 @@ namespace MplusM
     {
         class RunningSumAdapterData;
         class RunningSumInputHandler;
-        
+
         /*! @brief The Running Sum alternative adapter service. */
         class RunningSumAltAdapterService : public Common::BaseAdapterService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -96,55 +96,55 @@ namespace MplusM
                                         const YarpString &                  tag,
                                         const YarpString &                  serviceEndpointName,
                                         const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~RunningSumAltAdapterService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             /*! @brief Set up the input handlers.
              @param sharedData The shared data for the input handlers. */
             void
             setUpInputHandlers(RunningSumAdapterData & sharedData);
-            
+
             DECLARE_STARTSERVICE_;
 
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(RunningSumAltAdapterService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The handler for input data. */
             RunningSumInputHandler * _inHandler;
-            
+
         }; // RunningSumAltAdapterService
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRunningSumAltAdapterService_H_)

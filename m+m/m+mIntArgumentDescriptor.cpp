@@ -112,7 +112,8 @@ IntArgumentDescriptor::~IntArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_ADDVALUETOBOTTLE_(IntArgumentDescriptor)
+void
+IntArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
 {
     ODL_ENTER(); //####
     ODL_P1("container = ", &container); //####
@@ -120,7 +121,8 @@ DEFINE_ADDVALUETOBOTTLE_(IntArgumentDescriptor)
     ODL_EXIT(); //####
 } // IntArgumentDescriptor::addValueToBottle
 
-DEFINE_CLONE_(IntArgumentDescriptor)
+BaseArgumentDescriptor *
+IntArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new IntArgumentDescriptor(argumentName(),
@@ -133,7 +135,8 @@ DEFINE_CLONE_(IntArgumentDescriptor)
     return result;
 } // IntArgumentDescriptor::clone
 
-DEFINE_GETDEFAULTVALUE_(IntArgumentDescriptor)
+YarpString
+IntArgumentDescriptor::getDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString        result;
@@ -145,7 +148,8 @@ DEFINE_GETDEFAULTVALUE_(IntArgumentDescriptor)
     return result;
 } // IntArgumentDescriptor::getDefaultValue
 
-DEFINE_GETPROCESSEDVALUE_(IntArgumentDescriptor)
+YarpString
+IntArgumentDescriptor::getProcessedValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString        result;
@@ -240,7 +244,8 @@ IntArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // IntArgumentDescriptor::parseArgString
 
-DEFINE_SETTODEFAULTVALUE_(IntArgumentDescriptor)
+void
+IntArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
@@ -248,7 +253,8 @@ DEFINE_SETTODEFAULTVALUE_(IntArgumentDescriptor)
     ODL_OBJEXIT(); //####
 } // IntArgumentDescriptor::setToDefaultValue
 
-DEFINE_TOSTRING_(IntArgumentDescriptor)
+YarpString
+IntArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(prefixFields("I"));
@@ -257,7 +263,7 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
     if (_hasMinimumValue)
     {
         std::stringstream buff;
-        
+
         buff << _minimumValue;
         result += buff.str();
     }
@@ -265,7 +271,7 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
     if (_hasMaximumValue)
     {
         std::stringstream buff;
-        
+
         buff << _maximumValue;
         result += buff.str();
     }
@@ -274,13 +280,14 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
     return result;
 } // IntArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(IntArgumentDescriptor)
+bool
+IntArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
     const char * startPtr = value.c_str();
     char *       endPtr;
     int          intValue = strtol(startPtr, &endPtr, 10);
-    
+
     if ((startPtr != endPtr) && (! *endPtr))
     {
         _valid = true;
@@ -298,7 +305,7 @@ DEFINE_VALIDATE_(IntArgumentDescriptor)
     }
     else
     {
-        _valid = false;        
+        _valid = false;
         ODL_B1("_valid <- ", _valid); //####
     }
     if (_valid)

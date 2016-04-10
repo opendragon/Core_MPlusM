@@ -136,7 +136,7 @@ DEFINE_CONFIGURE_(RunningSumAltAdapterService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -222,7 +222,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAltAdapterService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "d+";
@@ -252,7 +252,7 @@ DEFINE_STARTSERVICE_(RunningSumAltAdapterService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -296,7 +296,7 @@ DEFINE_STOPSERVICE_(RunningSumAltAdapterService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

@@ -133,7 +133,7 @@ setUpAndGo(const YarpString &                  hostName,
                                                                  progName, argc, argv, tag,
                                                                  serviceEndpointName,
                                                                  servicePortNumber);
-    
+
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -143,7 +143,7 @@ setUpAndGo(const YarpString &                  hostName,
     {
         ODL_LOG("! (aService)"); //####
     }
-    
+
     ODL_EXIT(); //####
 } // setUpAndGo
 
@@ -152,7 +152,7 @@ setUpAndGo(const YarpString &                  hostName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the %SendToMQ output service.
- 
+
  The first, optional, argument is the port to be written to.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Blob output service.
@@ -162,14 +162,14 @@ main(int      argc,
      char * * argv)
 {
     YarpString progName(*argv);
-    
+
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -207,7 +207,7 @@ main(int      argc,
                                                       T_("Send via a queue (versus a topic)"),
                                                       Utilities::kArgModeOptionalModifiable, false);
         Utilities::DescriptorVector          argumentList;
-        
+
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         argumentList.push_back(&thirdArg);
@@ -226,7 +226,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_, modFlag, tag,
                                    serviceEndpointName);
@@ -240,7 +240,7 @@ main(int      argc,
                     YarpString hostName(firstArg.getCurrentValue());
                     YarpString userName(thirdArg.getCurrentValue());
                     YarpString userPassword(fourthArg.getCurrentValue());
-                    
+
                     activemq::library::ActiveMQCPP::initializeLibrary();
                     setUpAndGo(hostName, hostPort, userName, userPassword, argumentList, progName,
                                argc, argv, tag, serviceEndpointName, servicePortNumber, goWasSet,

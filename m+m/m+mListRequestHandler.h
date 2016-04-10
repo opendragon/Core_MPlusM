@@ -57,54 +57,54 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The standard 'list' request handler.
-         
+
          There is no input for the request and the output is a list of dictionaries of fields,
          describing all the known requests. The fields 'details', 'input', 'keywords', 'output', and
          'version' are optional in each dictionary, while the field 'request' is always present. */
         class ListRequestHandler : public BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             ListRequestHandler(BaseService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ListRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(ListRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ListRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMListRequestHandler_H_)

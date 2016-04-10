@@ -41,11 +41,11 @@ var outStream = null;
 function doRecordIntegers(portNumber, incomingData)
 {
     var aValue;
-    
+
     if (Array.isArray(incomingData))
     {
         var mm = incomingData.length;
-        
+
         for (var ii = 0; mm > ii; ++ii)
         {
             if (0 < ii)
@@ -84,13 +84,13 @@ var scriptInlets = [ { name: 'incoming', protocol: 'i+',
 function scriptStarting()
 {
     var okSoFar = false;
-    
+
     writeLineToStdout('script starting');
     dumpObjectToStdout('argv:', argv);
     if (1 < argv.length)
     {
         var path = argv[1];
-        
+
         writeLineToStdout('path = ' + path);
         outStream = new Stream();
         outStream.open(path, "w");

@@ -83,13 +83,13 @@ createListener(void)
     WORD    wVersionRequested = MAKEWORD(2, 2);
     WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (INVALID_SOCKET != listenSocket)
     {
         struct sockaddr_in addr;
-        
+
         memset(&addr, 0, sizeof(addr));
         addr.sin_family = AF_INET;
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -113,11 +113,11 @@ createListener(void)
         if (INVALID_SOCKET != listenSocket)
         {
             SOCKADDR_IN addr;
-            
+
             addr.sin_family = AF_INET;
             addr.sin_addr.s_addr = htonl(INADDR_ANY);
             int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-            
+
             if (SOCKET_ERROR == res)
             {
                 closesocket(listenSocket);
@@ -152,7 +152,7 @@ connectToSource(const YarpString & dataAddress,
 #else // ! MAC_OR_LINUX_
     int            res = InetPton(AF_INET, dataAddress.c_str(), &addrBuff);
 #endif // ! MAC_OR_LINUX_
-    
+
     if (0 < res)
     {
         dataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -163,7 +163,7 @@ connectToSource(const YarpString & dataAddress,
 #else // ! MAC_OR_LINUX_
             SOCKADDR_IN        addr;
 #endif // ! MAC_OR_LINUX_
-            
+
 #if MAC_OR_LINUX_
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
@@ -179,7 +179,7 @@ connectToSource(const YarpString & dataAddress,
             addr.sin_port = htons(dataPort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
             int res = connect(dataSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-            
+
             if (SOCKET_ERROR == res)
             {
                 closesocket(dataSocket);
@@ -223,7 +223,7 @@ DEFINE_RUN_(ConnectionThread)
 {
     ODL_OBJENTER(); //####
     SOCKET destinationSocket = accept(_listenSocket, 0, 0);
-    
+
     if (INVALID_SOCKET == destinationSocket)
     {
         _service.setPort(-1);
@@ -250,7 +250,7 @@ DEFINE_RUN_(ConnectionThread)
         else
         {
             char buffer[10240];
-            
+
             for (bool keepGoing = true; keepGoing && (! isStopping()); )
             {
                 ConsumeSomeTime();
@@ -259,13 +259,13 @@ DEFINE_RUN_(ConnectionThread)
 #else // ! MAC_OR_LINUX_
                 int     inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
 #endif // ! MAC_OR_LINUX_
-                
+
                 if (0 < inSize)
                 {
                     if (send(destinationSocket, buffer, inSize, 0) == inSize)
                     {
                         Common::SendReceiveCounters newCount(inSize, 1, inSize, 1);
-                        
+
                         _service.incrementAuxiliaryCounters(newCount);
                     }
                     else
@@ -311,7 +311,7 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
     ODL_L1("sourcePort = ", sourcePort); //####
     YarpString tunnelAddress;
     int        tunnelPort;
-    
+
     _sourceAddress = sourceName;
     _sourcePort = sourcePort;
     // We'll be determining the port to use, so the value returned for the port, here, is ignored.
@@ -321,7 +321,7 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
     {
         struct sockaddr_in sin;
         socklen_t          len = sizeof(sin);
-        
+
         if ((! getsockname(_listenSocket, reinterpret_cast<struct sockaddr *>(&sin), &len)) &&
             (sin.sin_family == AF_INET) && (sizeof(sin) == len))
         {
@@ -345,7 +345,7 @@ DEFINE_THREADINIT_(ConnectionThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ConnectionThread::threadInit

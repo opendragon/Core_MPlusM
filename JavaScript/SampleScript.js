@@ -186,7 +186,7 @@ function scriptInlets()
 {
     var inletCount;
     var inlets = [];
-    
+
     if (1 < argv.length)
     {
         inletCount = parseInt(argv[1]);

@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the %Leap %Blob input service. */
 
 /*! @namespace MplusM::LeapBlob
@@ -69,21 +69,21 @@ namespace MplusM
     namespace LeapBlob
     {
         class LeapBlobInputListener;
-        
+
         /*! @brief The %Leap %Blob input service. */
         class LeapBlobInputService : public Common::BaseInputService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
@@ -103,50 +103,50 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual
             ~LeapBlobInputService(void);
-            
+
             DECLARE_CONFIGURE_;
-            
+
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;
-            
+
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STARTSTREAMS_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             DECLARE_STOPSTREAMS_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(LeapBlobInputService);
-            
+
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The scale factor to apply to the translation data. */
             double _translationScale;
 
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;
-            
+
             /*! @brief The %Leap Motion event handler. */
             LeapBlobInputListener * _listener;
-            
+
         }; // LeapBlobInputService
-        
+
     } // LeapBlob
-    
+
 } // MplusM
 
 #endif // ! defined(MpMLeapBlobInputService_H_)

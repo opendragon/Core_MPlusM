@@ -183,14 +183,14 @@ addBodyToMessage(std::stringstream &      outBuffer,
     ADD_JOINT_TO_BUFFER_("handright", JointType_HandRight);
     ADD_JOINT_TO_BUFFER_("handtipright", JointType_HandTipRight);
     ADD_JOINT_TO_BUFFER_("thumbright", JointType_ThumbRight);
-   
+
     // Left arm
     ADD_JOINT_TO_BUFFER_("elbowleft", JointType_ElbowLeft);
     ADD_JOINT_TO_BUFFER_("wristleft", JointType_WristLeft);
     ADD_JOINT_TO_BUFFER_("handleft", JointType_HandLeft);
     ADD_JOINT_TO_BUFFER_("handtipleft", JointType_HandTipLeft);
     ADD_JOINT_TO_BUFFER_("thumbleft", JointType_ThumbLeft);
-    
+
     // Right leg
     ADD_JOINT_TO_BUFFER_("kneeright", JointType_KneeRight);
     ADD_JOINT_TO_BUFFER_("ankleright", JointType_AnkleRight);
@@ -431,7 +431,7 @@ KinectV2BlobEventThread::processEventData(void)
 # if (! defined(MpM_UseCustomStringBuffer))
                         std::stringstream outBuffer;
 # endif // ! defined(MpM_UseCustomStringBuffer)
-                        
+
                         _messageBottle.clear();
 # if defined(MpM_UseCustomStringBuffer)
                         if (processBody(_outBuffer, _translationScale, BODY_COUNT, ppBodies))
@@ -517,7 +517,7 @@ DEFINE_RUN_(KinectV2BlobEventThread)
 
                 default :
                     break;
-                    
+
             }
         }
         if (WM_QUIT == msg.message)

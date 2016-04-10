@@ -95,7 +95,7 @@ reportTimeInReasonableUnits(const double measurement)
 {
     double       newValue;
     const char * tag;
-    
+
     if (measurement < 1e-6)
     {
         // Less than a microsecond
@@ -189,7 +189,7 @@ sendAndReceiveRandom(SOCKET talkSocket)
     if (send(talkSocket, outBuffer, sendSize, 0) == sendSize)
     {
         double afterSend = getTimeNow();
-        
+
         cout << "sent " << sendSize << " bytes." << endl;
         double  beforeReceive = getTimeNow();
 #if MAC_OR_LINUX_
@@ -197,12 +197,12 @@ sendAndReceiveRandom(SOCKET talkSocket)
 #else // ! MAC_OR_LINUX_
         int     inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #endif // ! MAC_OR_LINUX_
-        
+
         if (0 < inSize)
         {
             bool   okSoFar = true;
             double afterReceive = getTimeNow();
-            
+
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
             {
@@ -215,7 +215,7 @@ sendAndReceiveRandom(SOCKET talkSocket)
             if (okSoFar)
             {
                 double elapsedTime = (afterReceive - beforeReceive) + (afterSend - beforeSend);
-                
+
                 cout << "Elapsed time = ";
                 reportTimeInReasonableUnits(elapsedTime);
                 cout << endl;
@@ -256,11 +256,11 @@ sendAndReceiveText(SOCKET              talkSocket,
     int          sendSize = min(inSize, BUFFER_SIZE_);
 #endif // ! MAC_OR_LINUX_
     double       beforeSend = getTimeNow();
-    
+
     if (send(talkSocket, inChars, sendSize, 0) == sendSize)
     {
         double afterSend = getTimeNow();
-        
+
         cout << "sent " << sendSize << " bytes." << endl;
         double  beforeReceive = getTimeNow();
 #if MAC_OR_LINUX_
@@ -268,12 +268,12 @@ sendAndReceiveText(SOCKET              talkSocket,
 #else // ! MAC_OR_LINUX_
         int     inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #endif // ! MAC_OR_LINUX_
-        
+
         if (0 < inSize)
         {
             bool   okSoFar = true;
             double afterReceive = getTimeNow();
-            
+
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
             {
@@ -286,7 +286,7 @@ sendAndReceiveText(SOCKET              talkSocket,
             if (okSoFar)
             {
                 double elapsedTime = (afterReceive - beforeReceive) + (afterSend - beforeSend);
-                
+
                 cout << "Elapsed time = ";
                 reportTimeInReasonableUnits(elapsedTime);
                 cout << endl;
@@ -324,10 +324,10 @@ main(int      argc,
 {
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
     try
@@ -340,7 +340,7 @@ main(int      argc,
                                                        Utilities::kArgModeRequired, 12345, true);
         Utilities::DescriptorVector          argumentList;
         OutputFlavour                        flavour; // ignored
-        
+
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
@@ -356,7 +356,7 @@ main(int      argc,
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-                
+
 #if MAC_OR_LINUX_
                 okSoFar = true;
 #else // ! MAC_OR_LINUX_
@@ -377,7 +377,7 @@ main(int      argc,
                 {
                     // Useable data.
                     SOCKET talkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                    
+
                     if (INVALID_SOCKET != talkSocket)
                     {
                         int                hostPort = secondArg.getCurrentValue();
@@ -386,7 +386,7 @@ main(int      argc,
 #else // ! MAC_OR_LINUX_
                         SOCKADDR_IN        addr;
 #endif // ! MAC_OR_LINUX_
-                        
+
 #if MAC_OR_LINUX_
                         memset(&addr, 0, sizeof(addr));
                         addr.sin_family = AF_INET;
@@ -438,7 +438,7 @@ main(int      argc,
                         {
                             char        inChar;
                             std::string inputLine;
-                            
+
                             cout << "Operation: [? + q r t]? ";
                             cout.flush();
                             if (getline(cin, inputLine))
@@ -447,13 +447,13 @@ main(int      argc,
                                 for (size_t ii = 0, len = inputLine.size(); ii < len; ++ii)
                                 {
                                     char aChar = inputLine[ii];
-                                    
+
                                     if (! isspace(aChar))
                                     {
                                         inChar = aChar;
                                         break;
                                     }
-                                    
+
                                 }
                                 switch (inChar)
                                 {
@@ -461,18 +461,18 @@ main(int      argc,
                                         // Help
                                         displayCommands();
                                         break;
-                                        
+
                                     case 'q' :
                                     case 'Q' :
                                         cout << "Exiting" << endl;
                                         StopRunning();
                                         break;
-                                        
+
                                     case 'r' :
                                     case 'R' :
                                         sendAndReceiveRandom(talkSocket);
                                         break;
-                                        
+
                                     case 't' :
                                     case 'T' :
                                         cout << "Type something to be echoed: ";
@@ -486,10 +486,10 @@ main(int      argc,
                                             StopRunning();
                                         }
                                         break;
-                                        
+
                                     default :
                                         break;
-                                        
+
                                 }
                             }
                             else

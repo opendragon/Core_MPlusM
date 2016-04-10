@@ -95,7 +95,7 @@ setUpAndGo(void)
     ODL_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
     RandomNumberClient * aClient = new RandomNumberClient;
-    
+
     if (aClient)
     {
         StartRunning();
@@ -110,7 +110,7 @@ setUpAndGo(void)
                 for ( ; IsRunning(); )
                 {
                     int count;
-                    
+
                     cout << "How many random numbers? ";
                     cout.flush();
                     cin >> count;
@@ -118,11 +118,11 @@ setUpAndGo(void)
                     {
                         break;
                     }
-                    
+
                     if (1 == count)
                     {
                         double result;
-                        
+
                         if (aClient->getOneRandomNumber(result))
                         {
                             cout << "result = " << result << endl;
@@ -136,7 +136,7 @@ setUpAndGo(void)
                     else
                     {
                         DoubleVector results;
-                        
+
                         if (aClient->getRandomNumbers(count, results))
                         {
                             cout << "result = (";
@@ -192,7 +192,7 @@ setUpAndGo(void)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Random Number service.
- 
+
  Integers read from standard input will be sent to the service as the number of random numbers to
  generate. Entering a zero will exit the program.
  @param argc The number of arguments in 'argv'.
@@ -208,8 +208,8 @@ main(int      argc,
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
-                kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+             kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
@@ -218,7 +218,7 @@ main(int      argc,
     {
         Utilities::DescriptorVector argumentList;
         OutputFlavour               flavour;
-        
+
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Random Number service",
                                                     2014, STANDARD_COPYRIGHT_NAME_, flavour, true))
@@ -234,7 +234,7 @@ main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
-                    
+
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {

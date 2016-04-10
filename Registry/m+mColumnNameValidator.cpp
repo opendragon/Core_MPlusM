@@ -154,7 +154,7 @@ DEFINE_CHECKNAME_(ColumnNameValidator)
     ODL_ENTER(); //####
     ODL_S1("aString = ", aString); //####
     bool result = false;
-    
+
     try
     {
         for (size_t ii = 0; ii < kColumnNamesCount; ii += 4)
@@ -164,7 +164,7 @@ DEFINE_CHECKNAME_(ColumnNameValidator)
                 result = true;
                 break;
             }
-            
+
         }
     }
     catch (...)
@@ -182,12 +182,12 @@ DEFINE_GETPREFIXANDSUFFIX_(ColumnNameValidator)
     ODL_S1("aString = ", aString); //####
     ODL_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
     const char * result = NULL;
-    
+
     try
     {
         const char * resultPrefix = NULL;
         const char * resultSuffix = NULL;
-        
+
         for (size_t ii = 0; ii < kColumnNamesCount; ii += 4)
         {
             if (! strcmp(aString, kColumnNames[ii]))
@@ -197,7 +197,7 @@ DEFINE_GETPREFIXANDSUFFIX_(ColumnNameValidator)
                 resultSuffix = kColumnNames[ii + 3];
                 break;
             }
-            
+
         }
         prefixString = resultPrefix;
         suffixString = resultSuffix;

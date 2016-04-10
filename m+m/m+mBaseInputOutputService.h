@@ -218,21 +218,21 @@ namespace MplusM
         class RestartStreamsRequestHandler;
         class StartStreamsRequestHandler;
         class StopStreamsRequestHandler;
-        
+
         /*! @brief An input/output service. */
         class BaseInputOutputService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
              @param theKind The behavioural model for the service.
@@ -259,18 +259,18 @@ namespace MplusM
                                    const YarpString &                  requestsDescription,
                                    const YarpString &                  serviceEndpointName,
                                    const YarpString &                  servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseInputOutputService(void);
-            
+
             /*! @fn virtual bool
                     configure(const yarp::os::Bottle & details)
              @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             DECLARE_CONFIGURE_ = 0;
-            
+
             /*! @fn virtual void
                     doIdle(void)
              @brief Declare the doIdle method, which is executed repeatedly once the service has
@@ -278,9 +278,9 @@ namespace MplusM
             DECLARE_DOIDLE_;
 
             DECLARE_DISABLEMETRICS_;
-            
+
             DECLARE_ENABLEMETRICS_;
-            
+
             DECLARE_GATHERMETRICS_;
 
             /*! @brief Returns the descriptions of the arguments to the application.
@@ -297,14 +297,14 @@ namespace MplusM
             size_t
             getClientCount(void)
             const;
-            
+
             /*! @brief Returns a specific client stream.
              @param index The zero-origin index of the client stream.
              @returns The client stream at the specified index. */
             ClientChannel *
             getClientStream(const size_t index)
             const;
-            
+
             /*! @fn virtual bool
                     getConfiguration(yarp::os::Bottle & details)
              @brief Get the configuration of the input/output streams.
@@ -318,27 +318,27 @@ namespace MplusM
             size_t
             getInletCount(void)
             const;
-  
+
             /*! @brief Returns a specific input stream.
              @param index The zero-origin index of the input stream.
              @returns The input stream at the specified index. */
             GeneralChannel *
             getInletStream(const size_t index)
             const;
-            
+
             /*! @brief Returns the number of output streams.
              @returns The number of output streams. */
             size_t
             getOutletCount(void)
             const;
-            
+
             /*! @brief Returns a specific output stream.
              @param index The zero-origin index of the output stream.
              @returns The output stream at the specified index. */
             GeneralChannel *
             getOutletStream(const size_t index)
             const;
-            
+
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
              @returns @c true if the streams are processing data and @c false otherwise. */
             inline bool
@@ -347,7 +347,7 @@ namespace MplusM
             {
                 return _active;
             } // isActive
-            
+
             /*! @brief Start the service and set up its configuration.
              @param helpText The help text to be displayed.
              @param goWasSet @c true if the service is to be started immediately.
@@ -359,63 +359,63 @@ namespace MplusM
                           const bool         goWasSet,
                           const bool         stdinAvailable,
                           const bool         reportOnExit);
-            
+
             /*! @brief Request that the service stop as soon as possible. */
             void
             requestServiceStop(void);
-            
+
             /*! @fn virtual void
                     restartStreams(void)
              @brief Restart the input / output streams. */
             DECLARE_RESTARTSTREAMS_ = 0;
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             /*! @fn virtual void
                     startStreams(void)
              @brief Start the input / output streams. */
             DECLARE_STARTSTREAMS_ = 0;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
             /*! @fn virtual void
                     stopStreams(void)
              @brief Stop the input / output streams. */
             DECLARE_STOPSTREAMS_ = 0;
-            
+
         protected :
-            
+
             /*! @brief A set of client channels. */
             typedef std::vector<ClientChannel *> ClientChannelVector;
 
             /*! @brief A set of general channels. */
             typedef std::vector<GeneralChannel *> GeneralChannelVector;
-            
+
             /*! @brief Add a set of client channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addClientStreamsFromDescriptions(const ChannelVector & descriptions);
-            
+
             /*! @brief Add a set of input channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addInStreamsFromDescriptions(const ChannelVector & descriptions);
-            
+
             /*! @brief Add a set of output channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addOutStreamsFromDescriptions(const ChannelVector & descriptions);
-            
+
             /*! @brief Indicate that the streams are not processing data. */
             inline void
             clearActive(void)
             {
                 _active = false;
             } // clearActive
-            
+
             /*! @brief If interactive, prompt for commands and then start the service. Otherwise,
              start the service immediately.
              @param helpText The help text to be displayed.
@@ -444,7 +444,7 @@ namespace MplusM
             {
                 _needsIdle = true;
             } // setNeedsIdle
-            
+
             /*! @fn virtual bool
                     setUpClientStreams(void)
              @brief Set up the client streams.
@@ -456,20 +456,20 @@ namespace MplusM
              @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */
             DECLARE_SETUPINPUTSTREAMS_;
-            
+
             /*! @fn virtual bool
                     setUpOutputStreams(void)
              @brief Set up the output streams.
              @returns @c true if the channels were set up and @c false otherwise. */
             DECLARE_SETUPOUTPUTSTREAMS_;
-            
+
             /*! @fn virtual bool
                     setUpStreamDescriptions(void)
              @brief Set up the descriptions that will be used to construct the input / output
              streams.
              @returns @c true if the descriptions were set up and @c false otherwise. */
             DECLARE_SETUPSTREAMDESCRIPTIONS_ = 0;
-            
+
             /*! @fn virtual bool
                     shutDownClientStreams(void)
              @brief Shut down the client streams.
@@ -481,43 +481,43 @@ namespace MplusM
              @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
             DECLARE_SHUTDOWNINPUTSTREAMS_;
-            
+
             /*! @fn virtual bool
                     shutDownOutputStreams(void)
              @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
-            
+
         private :
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
             DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
-            
+
             DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
-            
+
             DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
-            
+
             COPY_AND_ASSIGNMENT_(BaseInputOutputService);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The set of client channels. */
             ClientChannelVector _clientStreams;
-            
+
             /*! @brief The set of input channels. */
             GeneralChannelVector _inStreams;
-            
+
             /*! @brief The set of output channels. */
             GeneralChannelVector _outStreams;
 
@@ -533,16 +533,16 @@ namespace MplusM
 
             /*! @brief The request handler for the 'configure' request. */
             ConfigureRequestHandler * _configureHandler;
-            
+
             /*! @brief The request handler for the 'restartStreams' request. */
             RestartStreamsRequestHandler * _restartStreamsHandler;
-            
+
             /*! @brief The request handler for the 'startStreams' request. */
             StartStreamsRequestHandler * _startStreamsHandler;
-            
+
             /*! @brief The request handler for the 'stopStreams' request. */
             StopStreamsRequestHandler * _stopStreamsHandler;
-            
+
             /*! @brief @c true if the streams are processing data and @c false otherwise. */
             bool _active;
 
@@ -559,11 +559,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseInputOutputService
 
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseInputOutputService_H_)

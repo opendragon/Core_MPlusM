@@ -70,50 +70,50 @@ namespace MplusM
         class ViconDataStreamEventThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
              @param nameAndPort The host name and port to connect to the Vicon server. */
             ViconDataStreamEventThread(Common::GeneralChannel * outChannel,
                                        const YarpString &       nameAndPort);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ViconDataStreamEventThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
 
         protected :
-            
+
         private :
-            
+
             /*! @brief Initialize the connection to the Vicon device.
              @returns @c true on success and @c false otherwise. */
             bool
             initializeConnection(void);
-            
+
             /*! @brief Handle the sensor data associated with the current frame.
              @param subjectCount The number of subjects in the data. */
             void
             processEventData(const unsigned int subjectCount);
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(ViconDataStreamEventThread);
 
         public :
@@ -134,9 +134,9 @@ namespace MplusM
             Common::GeneralChannel * _outChannel;
 
         }; // ViconDataStreamEventThread
-        
+
     } // ViconDataStream
-    
+
 } // MplusM
 
 #endif // ! defined(MpMViconDataStreamEventThread_H_)

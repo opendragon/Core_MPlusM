@@ -57,25 +57,25 @@ namespace MplusM
     namespace Parser
     {
         class BaseNameValidator;
-        
+
         /*! @brief A pattern matcher for field names. */
         class MatchFieldName : public BaseMatcher
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
-            
+
         public :
-            
+
             /*! @brief The destructor. */
             virtual
             ~MatchFieldName(void);
-            
+
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
             inline const YarpString &
@@ -84,7 +84,7 @@ namespace MplusM
             {
                 return _matchingString;
             } // asSQLString
-            
+
             /*! @brief Return the match value.
              @returns The matching substring. */
             inline const YarpString &
@@ -93,7 +93,7 @@ namespace MplusM
             {
                 return _matchingString;
             } // asString
-            
+
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -109,7 +109,7 @@ namespace MplusM
                           const size_t        startPos,
                           size_t &            endPos,
                           BaseNameValidator * validator = NULL);
-            
+
             /*! @brief Return whether or not the field name was followed by the negation character.
              @returns @c true if the field name was followed by the negation character and @c false
              otherwise. */
@@ -119,33 +119,33 @@ namespace MplusM
             {
                 return _isNegated;
             } // isNegated
-            
+
         protected :
-            
+
         private :
-            
+
             /*! @brief The constructor.
              @param inString The matching segment of the original string.
              @param negationSeen @c true if the field name was followed by the negation character
              and @c false otherwise. */
             MatchFieldName(const YarpString & inString,
                            const bool         negationSeen);
-            
+
             COPY_AND_ASSIGNMENT_(MatchFieldName);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The subtring that (maximally) matched as a value. */
             YarpString _matchingString;
-            
+
             /*! @brief The field name was followed by the negation character (an exclamation
              mark). */
             bool _isNegated;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -155,11 +155,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // MatchFieldName
-        
+
     } // Parser
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMatchFieldName_H_)

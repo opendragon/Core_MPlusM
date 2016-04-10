@@ -127,7 +127,7 @@ DEFINE_FILLINDESCRIPTION_(ListRequestHandler)
                  "Output: a list of request descriptions");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
-        
+
         asList->addString(request);
         asList->addString("requests");
         asList->addString("methods");
@@ -158,7 +158,7 @@ DEFINE_PROCESSREQUEST_(ListRequestHandler)
                "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
+
     try
     {
         _response.clear();

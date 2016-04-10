@@ -64,21 +64,21 @@ namespace MplusM
     {
         class ConnectionThread;
         class WhereRequestHandler;
-        
+
         /*! @brief The %Tunnel service. */
         class TunnelService : public Common::BaseService
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param sourceName The data source address to be connected to.
              @param sourcePort The data source port to be connected to.
@@ -96,18 +96,18 @@ namespace MplusM
                           const YarpString & tag,
                           const YarpString & serviceEndpointName,
                           const YarpString & servicePortNumber = "");
-            
+
             /*! @brief The destructor. */
             virtual
             ~TunnelService(void);
-            
+
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
             void
             getAddress(YarpString & address,
                        int &        port);
-            
+
             /*! @brief Set the port that will be remembered.
              @param port The port to be remembered. */
             inline void
@@ -115,53 +115,53 @@ namespace MplusM
             {
                 _listenPort = port;
             } // setPort
-            
+
             DECLARE_STARTSERVICE_;
-            
+
             DECLARE_STOPSERVICE_;
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(TunnelService);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The remembered address. */
             YarpString _listenAddress;
-            
+
             /*! @brief The data source address. */
             YarpString _sourceAddress;
-            
+
             /*! @brief The request handler for the 'where' request. */
             WhereRequestHandler * _whereHandler;
-            
+
             /*! @brief The thread to handle the network connections. */
             ConnectionThread * _connection;
-            
+
             /*! @brief The remembered port. */
             int _listenPort;
-            
+
             /*! @brief The data source port. */
             int _sourcePort;
 
         }; // TunnelService
-        
+
     } // Tunnel
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTunnelService_H_)

@@ -120,13 +120,13 @@ setUpAndGo(const YarpString & hostName,
     ODL_B1("reportOnExit = ", reportOnExit); //####
     TunnelService * aService = new TunnelService(hostName, hostPort, progName, argc, argv, tag,
                                                  serviceEndpointName, servicePortNumber);
-    
+
     if (aService)
     {
         if (aService->startService())
         {
             YarpString channelName(aService->getEndpoint().getName());
-            
+
             ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
@@ -138,10 +138,10 @@ setUpAndGo(const YarpString & hostName,
                 if (reportOnExit)
                 {
                     yarp::os::Bottle metrics;
-                    
+
                     aService->gatherMetrics(metrics);
                     YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                    
+
                     cout << converted.c_str() << endl;
                 }
                 aService->stopService();
@@ -182,11 +182,11 @@ main(int      argc,
 
 #if defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-                kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -222,7 +222,7 @@ main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-                
+
                 Initialize(progName);
                 AdjustEndpointName(DEFAULT_TUNNEL_SERVICE_NAME_, modFlag, tag, serviceEndpointName);
                 if (reportEndpoint)
@@ -233,7 +233,7 @@ main(int      argc,
                 {
                     YarpString hostName(firstArg.getCurrentValue());
                     int        hostPort = secondArg.getCurrentValue();
-                    
+
                     setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

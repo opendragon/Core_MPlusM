@@ -69,13 +69,13 @@ enum HandMask
 {
     /*! @brief No data for either hand is present. */
     kNoHands   = 0x00,
-    
+
     /*! @brief Data for the left hand is present. */
     kLeftHand  = 0x01,
-    
+
     /*! @brief Data for the right hand is present. */
     kRightHand = 0x02
-    
+
 }; // HandMask
 
 #if defined(__APPLE__)
@@ -175,7 +175,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     Leap::Frame latestFrame(theController.frame());
-    
+
     if (latestFrame.isValid())
     {
         Leap::HandList hands(latestFrame.hands());
@@ -191,7 +191,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                  hands.end() != handWalker; ++handWalker)
             {
                 Leap::Hand aHand(*handWalker);
-                
+
                 if (aHand.isValid())
                 {
                     HandMask thisHand;
@@ -216,7 +216,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                     {
                         // fingers
                         Leap::FingerList fingers(aHand.fingers());
-                        
+
                         for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
                              fingers.end() != fingerWalker; ++fingerWalker)
                         {
@@ -232,7 +232,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                                 handsPresent = static_cast<HandMask>(handsPresent | thisHand);
                                 break;
                             }
-                            
+
                         }
                     }
                 }

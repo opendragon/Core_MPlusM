@@ -179,7 +179,7 @@ DEFINE_STARTSERVICE_(AddressService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         if (! isStarted())
@@ -187,7 +187,7 @@ DEFINE_STARTSERVICE_(AddressService)
             inherited::startService();
             if (isStarted())
             {
-                
+
             }
             else
             {
@@ -209,7 +209,7 @@ DEFINE_STOPSERVICE_(AddressService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

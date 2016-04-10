@@ -161,7 +161,7 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     Leap::Frame latestFrame(theController.frame());
-    
+
     if (latestFrame.isValid())
     {
         Leap::HandList hands(latestFrame.hands());
@@ -323,7 +323,7 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
 #if (! defined(MpM_UseCustomStringBuffer))
                     std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                    
+
 #if defined(MpM_UseCustomStringBuffer)
                     outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -335,7 +335,7 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                         void *          rawString =
                                                 static_cast<void *>(const_cast<char *>(outString));
                         yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
-                        
+
                         _messageBottle.clear();
                         _messageBottle.add(blobValue);
                         if (! _outChannel->write(_messageBottle))

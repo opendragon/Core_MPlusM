@@ -59,54 +59,54 @@ namespace MplusM
     namespace Example
     {
         class RunningSumAdapterData;
-        
+
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of floating point data or commands. */
         class RunningSumInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
             explicit
             RunningSumInputHandler(RunningSumAdapterData & shared);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RunningSumInputHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(RunningSumInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The shared data that describes the connection to the service that we are
              using. */
             RunningSumAdapterData & _shared;
-            
+
         }; // RunningSumInputHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRunningSumInputHandler_H_)

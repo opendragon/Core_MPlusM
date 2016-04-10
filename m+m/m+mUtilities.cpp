@@ -180,7 +180,7 @@ getNameServerPortList(yarp::os::Bottle & response)
     bool                   okSoFar;
     yarp::os::Bottle       request;
     yarp::os::ContactStyle contactInfo;
-    
+
     request.addString("list");
     contactInfo.timeout = 5.0;
     if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
@@ -259,7 +259,7 @@ resolveCallback(DNSServiceRef         service,
         uint8_t      valueLen = 0;
         const void * valuePtr = TXTRecordGetValuePtr(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY_,
                                                      &valueLen);
-        
+
         if (valuePtr && (0 < valueLen))
         {
             std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION_);
@@ -267,7 +267,7 @@ resolveCallback(DNSServiceRef         service,
             std::stringstream buff2(inString);
             int               thisVersion;
             int               otherVersion;
-            
+
             buff1 >> thisVersion;
             buff2 >> otherVersion;
             okToUse = (thisVersion <= otherVersion);
@@ -278,7 +278,7 @@ resolveCallback(DNSServiceRef         service,
     {
         addrinfo   hints;
         addrinfo * res = NULL;
-        
+
         memset(&hints, 0, sizeof(hints));
         hints.ai_family = AF_INET;
         hints.ai_socktype = SOCK_STREAM;
@@ -298,7 +298,7 @@ resolveCallback(DNSServiceRef         service,
 #if defined(CONFIG_FILE_AVAILABLE_)
             yarp::os::Contact          address(addressAsString, ntohs(port));
 #endif // ! defined(CONFIG_FILE_AVAILABLE_)
-            
+
 #if defined(CONFIG_FILE_AVAILABLE_)
             nc.setAddress(address);
             nc.toFile();
@@ -356,7 +356,7 @@ browseCallBack(DNSServiceRef       service,
             DNSServiceRef       service2 = NULL;
             DNSServiceErrorType err = DNSServiceResolve(&service2, 0, interfaceIndex, name, type,
                                                         domain, resolveCallback, NULL);
-            
+
             if (kDNSServiceErr_NoError == err)
             {
                 // Wait for the resolver?
@@ -365,7 +365,7 @@ browseCallBack(DNSServiceRef       service,
                 fd_set         readfds;
                 struct timeval tv;
                 int            result;
-                
+
                 for ( ; ! lSawResolve; )
                 {
                     FD_ZERO(&readfds);
@@ -376,7 +376,7 @@ browseCallBack(DNSServiceRef       service,
                     if (0 < result)
                     {
                         DNSServiceErrorType err = kDNSServiceErr_NoError;
-                        
+
                         if (FD_ISSET(dns_sd_fd, &readfds))
                         {
                             err = DNSServiceProcessResult(service2);
@@ -386,7 +386,7 @@ browseCallBack(DNSServiceRef       service,
                             cerr << "DNSServiceProcessResult returned " << err << endl;
                             break;
                         }
-                        
+
                     }
                     else if (0 != result)
                     {
@@ -399,7 +399,7 @@ browseCallBack(DNSServiceRef       service,
                         int    res;
 # endif // ! LINUX_
 #endif // MAC_OR_LINUX_
-                        
+
 #if MAC_OR_LINUX_
                         res = strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
@@ -411,14 +411,14 @@ browseCallBack(DNSServiceRef       service,
                         {
                             break;
                         }
-                        
+
                     }
                     else
                     {
                         // Ran out of time - maybe there is no NameServerReporter running...
                         break;
                     }
-                    
+
                 }
                 DNSServiceRefDeallocate(service2);
             }
@@ -455,15 +455,15 @@ checkForInputConnection(const yarp::os::Bottle & response,
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
-    
+
     if (respLen >= matchLen)
     {
         bool matched = true;
-        
+
         for (int ii = 0; matched && (ii < matchLen); ++ii)
         {
             YarpString element(response.get(ii).asString());
-            
+
             if (matchString[ii])
             {
                 if (element != matchString[ii])
@@ -477,11 +477,11 @@ checkForInputConnection(const yarp::os::Bottle & response,
             YarpString mode(response.get(matchLen - 1).asString());
             YarpString destination(response.get(matchLen - 3).asString());
             YarpString source(response.get(matchLen - 5).asString());
-            
+
             if ((source != kMagicName) && (destination != kMagicName))
             {
                 ChannelDescription connection;
-                
+
                 connection._portName = source;
                 if (mode == "tcp")
                 {
@@ -519,15 +519,15 @@ checkForOutputConnection(const yarp::os::Bottle & response,
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
-    
+
     if (respLen >= matchLen)
     {
         bool matched = true;
-        
+
         for (int ii = 0; matched && (ii < matchLen); ++ii)
         {
             YarpString element(response.get(ii).asString());
-            
+
             if (matchString[ii])
             {
                 if (element != matchString[ii])
@@ -541,11 +541,11 @@ checkForOutputConnection(const yarp::os::Bottle & response,
             YarpString mode(response.get(matchLen - 1).asString());
             YarpString destination(response.get(matchLen - 3).asString());
             YarpString source(response.get(matchLen - 5).asString());
-            
+
             if ((source != kMagicName) && (destination != kMagicName))
             {
                 ChannelDescription connection;
-                
+
                 connection._portName = destination;
                 if (mode == "tcp")
                 {
@@ -593,11 +593,11 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     int64_t            inMessageCount = 0;
     int64_t            outByteCount = 0;
     int64_t            outMessageCount = 0;
-    
+
     if (propList.check(MpM_SENDRECEIVE_CHANNEL_))
     {
         yarp::os::Value theChannel = propList.find(MpM_SENDRECEIVE_CHANNEL_);
-        
+
         if (theChannel.isString())
         {
             theChannelAsString = theChannel.toString();
@@ -606,7 +606,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_DATE_))
     {
         yarp::os::Value theDate = propList.find(MpM_SENDRECEIVE_DATE_);
-        
+
         if (theDate.isString())
         {
             theDateAsString = theDate.toString();
@@ -615,7 +615,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_TIME_))
     {
         yarp::os::Value theTime = propList.find(MpM_SENDRECEIVE_TIME_);
-        
+
         if (theTime.isString())
         {
             theTimeAsString = theTime.toString();
@@ -624,7 +624,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_INBYTES_))
     {
         yarp::os::Value theInBytes = propList.find(MpM_SENDRECEIVE_INBYTES_);
-        
+
         if (theInBytes.isList())
         {
             theInBytesAsList = theInBytes.asList();
@@ -632,7 +632,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
             {
                 yarp::os::Value firstValue(theInBytesAsList->get(0));
                 yarp::os::Value secondValue(theInBytesAsList->get(1));
-                
+
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     inByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
@@ -644,7 +644,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_INMESSAGES_))
     {
         yarp::os::Value theInMessages = propList.find(MpM_SENDRECEIVE_INMESSAGES_);
-        
+
         if (theInMessages.isList())
         {
             theInMessagesAsList = theInMessages.asList();
@@ -652,7 +652,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
             {
                 yarp::os::Value firstValue(theInMessagesAsList->get(0));
                 yarp::os::Value secondValue(theInMessagesAsList->get(1));
-                
+
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     inMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
@@ -664,7 +664,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_OUTBYTES_))
     {
         yarp::os::Value theOutBytes = propList.find(MpM_SENDRECEIVE_OUTBYTES_);
-        
+
         if (theOutBytes.isList())
         {
             theOutBytesAsList = theOutBytes.asList();
@@ -672,7 +672,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
             {
                 yarp::os::Value firstValue(theOutBytesAsList->get(0));
                 yarp::os::Value secondValue(theOutBytesAsList->get(1));
-                
+
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
@@ -684,7 +684,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
     if (propList.check(MpM_SENDRECEIVE_OUTMESSAGES_))
     {
         yarp::os::Value theOutMessages = propList.find(MpM_SENDRECEIVE_OUTMESSAGES_);
-        
+
         if (theOutMessages.isList())
         {
             theOutMessagesAsList = theOutMessages.asList();
@@ -692,7 +692,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
             {
                 yarp::os::Value firstValue(theOutMessagesAsList->get(0));
                 yarp::os::Value secondValue(theOutMessagesAsList->get(1));
-                
+
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     outMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
@@ -714,7 +714,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                         theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
                         outByteCount << "\t" << inMessageCount << "\t" << outMessageCount;
                 break;
-                
+
             case kOutputFlavourJSON :
                 if (sawSome)
                 {
@@ -736,7 +736,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                            ": " CHAR_DOUBLEQUOTE_) << outMessageCount <<
                         T_(CHAR_DOUBLEQUOTE_ " }");
                 break;
-                
+
             case kOutputFlavourNormal :
                 if (sawSome)
                 {
@@ -748,17 +748,17 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                         inByteCount << ", out: " << outByteCount << ", messages in: " <<
                         inMessageCount << ", out: " << outMessageCount << "]";
                 break;
-                
+
             default :
                 break;
-                
+
         }
         sawSome = true;
     }
 } // convertMetricPropertyToString
 
 /*! @brief Process the response from the name server.
- 
+
  Note that each line of the response, except the last, is started with 'registration name'. This is
  followed by the port name, 'ip', the IP address, 'port' and the port number.
  @param received The response to be processed.
@@ -776,7 +776,7 @@ processNameServerResponse(const YarpString & received,
     size_t     lineMakerLength = strlen(kLineMarker);
     YarpString nameServerName(yarp::os::Network::getNameServerName());
     YarpString workingCopy(received);
-    
+
     ODL_S1s("nameServerName = ", nameServerName); //####
     for (size_t nextPos = 0; YarpString::npos != nextPos; )
     {
@@ -785,7 +785,7 @@ processNameServerResponse(const YarpString & received,
         {
             workingCopy = workingCopy.substr(nextPos + lineMakerLength);
             size_t chopPos = workingCopy.find(kLineMarker);
-            
+
             if (YarpString::npos != chopPos)
             {
                 char *     channelName = NULL;
@@ -798,7 +798,7 @@ processNameServerResponse(const YarpString & received,
                 char *     ipAddress = NULL;
                 char *     saved;
                 char *     pp = strtok_r(choppedAsChars, " ", &saved);
-                
+
                 if (pp)
                 {
                     // Port name
@@ -861,7 +861,7 @@ processNameServerResponse(const YarpString & received,
                 if (pp)
                 {
                     PortDescriptor aDescriptor;
-                    
+
                     aDescriptor._portName = channelName;
                     aDescriptor._portIpAddress = ipAddress;
                     aDescriptor._portPortNumber = pp;
@@ -910,7 +910,7 @@ processString(std::stringstream & outBuffer,
     for (size_t ii = 0, mm = inputString.length(); mm > ii; ++ii)
     {
         char aChar = inputString[ii];
-        
+
         switch (aChar)
         {
             case '\\' :
@@ -922,7 +922,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << aChar;
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             case '\b' :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(kEscapeChar).addChar('b');
@@ -930,7 +930,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << 'b';
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             case '\f' :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(kEscapeChar).addChar('f');
@@ -938,7 +938,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << 'f';
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             case '\n' :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(kEscapeChar).addChar('n');
@@ -946,7 +946,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << 'n';
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             case '\r' :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(kEscapeChar).addChar('r');
@@ -954,7 +954,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << 'r';
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             case '\t' :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(kEscapeChar).addChar('t');
@@ -962,7 +962,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << kEscapeChar << 't';
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
             default :
 #if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addChar(aChar);
@@ -970,7 +970,7 @@ processString(std::stringstream & outBuffer,
                 outBuffer << aChar;
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 break;
-                
+
         }
     }
 #if defined(MpM_UseCustomStringBuffer)
@@ -997,7 +997,7 @@ processDictionary(std::stringstream &        outBuffer,
     ODL_ENTER(); //####
     ODL_P2("outBuffer = ", &outBuffer, "inputDictionary = ", &inputDictionary); //####
     yarp::os::Bottle asList(inputDictionary.toString());
-    
+
     // A dictionary converted to a string is a list of two-element lists, with the key as the first
     // entry and the value as the second.
 #if defined(MpM_UseCustomStringBuffer)
@@ -1008,11 +1008,11 @@ processDictionary(std::stringstream &        outBuffer,
     for (int ii = 0, mm = asList.size(); mm > ii; ++ii)
     {
         yarp::os::Value anEntry(asList.get(ii));
-        
+
         if (anEntry.isList())
         {
             yarp::os::Bottle * entryAsList = anEntry.asList();
-            
+
             if (entryAsList && (2 == entryAsList->size()))
             {
                 if (0 < ii)
@@ -1064,7 +1064,7 @@ processList(std::stringstream &      outBuffer,
     for (int ii = 0, mm = inputList.size(); mm > ii; ++ii)
     {
         yarp::os::Value aValue(inputList.get(ii));
-        
+
         if (0 < ii)
         {
 #if defined(MpM_UseCustomStringBuffer)
@@ -1098,7 +1098,7 @@ processValue(std::stringstream &     outBuffer,
     if (inputValue.isBool())
     {
         bool value = inputValue.asBool();
-        
+
 #if defined(MpM_UseCustomStringBuffer)
         outBuffer.addString(value ? "true" : "false");
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -1108,7 +1108,7 @@ processValue(std::stringstream &     outBuffer,
     else if (inputValue.isInt())
     {
         int value = inputValue.asInt();
-        
+
 #if defined(MpM_UseCustomStringBuffer)
         outBuffer.addLong(value);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -1118,13 +1118,13 @@ processValue(std::stringstream &     outBuffer,
     else if (inputValue.isString())
     {
         YarpString value = inputValue.asString();
-        
+
         processString(outBuffer, value);
     }
     else if (inputValue.isDouble())
     {
         double value = inputValue.asDouble();
-        
+
 #if defined(MpM_UseCustomStringBuffer)
         outBuffer.addDouble(value);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -1134,7 +1134,7 @@ processValue(std::stringstream &     outBuffer,
     else if (inputValue.isDict())
     {
         yarp::os::Property * value = inputValue.asDict();
-        
+
         if (value)
         {
             processDictionary(outBuffer, *value);
@@ -1143,11 +1143,11 @@ processValue(std::stringstream &     outBuffer,
     else if (inputValue.isList())
     {
         yarp::os::Bottle * value = inputValue.asList();
-        
+
         if (value)
         {
             yarp::os::Property asDict;
-            
+
             if (ListIsReallyDictionary(*value, asDict))
             {
                 processDictionary(outBuffer, asDict);
@@ -1189,7 +1189,7 @@ Utilities::AddConnection(const YarpString & fromPortName,
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = NetworkConnectWithRetries(fromPortName, toPortName, timeToWait, isUDP, checker,
                                             checkStuff);
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::AddConnection
@@ -1201,7 +1201,7 @@ Utilities::CheckConnection(const YarpString & fromPortName,
     ODL_ENTER(); //####
     ODL_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
     bool result = yarp::os::Network::isConnected(fromPortName, toPortName);
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::CheckConnection
@@ -1229,7 +1229,7 @@ Utilities::CheckForNameServerReporter(void)
     {
         ODL_LOG("(nc.fromFile())"); //####
         yarp::os::Contact address = nc.getAddress();
-        
+
         if (address.isValid())
         {
             ODL_LOG("(address.isValid())"); //####
@@ -1253,7 +1253,7 @@ Utilities::CheckForNameServerReporter(void)
         static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
         DNSServiceErrorType err = DNSServiceBrowse(&serviceRef, 0, 0, regType, NULL /* domain */,
                                                    browseCallBack, NULL);
-        
+
         if (kDNSServiceErr_NoError == err)
         {
             ODL_LOG("(kDNSServiceErr_NoError == err)"); //####
@@ -1263,7 +1263,7 @@ Utilities::CheckForNameServerReporter(void)
             fd_set         readfds;
             struct timeval tv;
             int            result;
-            
+
             for ( ; ! lSawBrowseAdd; )
             {
                 FD_ZERO(&readfds);
@@ -1274,7 +1274,7 @@ Utilities::CheckForNameServerReporter(void)
                 if (0 < result)
                 {
                     DNSServiceErrorType err = kDNSServiceErr_NoError;
-                    
+
                     if (FD_ISSET(dns_sd_fd, &readfds))
                     {
                         err = DNSServiceProcessResult(serviceRef);
@@ -1284,7 +1284,7 @@ Utilities::CheckForNameServerReporter(void)
                         cerr << "DNSServiceProcessResult returned " << err << endl;
                         break;
                     }
-                    
+
                 }
                 else if (0 != result)
                 {
@@ -1297,7 +1297,7 @@ Utilities::CheckForNameServerReporter(void)
                     int    res;
 # endif // ! LINUX_
 #endif // MAC_OR_LINUX_
-                        
+
 #if MAC_OR_LINUX_
                     res = strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
@@ -1309,14 +1309,14 @@ Utilities::CheckForNameServerReporter(void)
                     {
                         break;
                     }
-                    
+
                 }
                 else
                 {
                     // Ran out of time - maybe there is no NameServerReporter running...
                     break;
                 }
-                
+
             }
             DNSServiceRefDeallocate(serviceRef);
         }
@@ -1329,7 +1329,7 @@ Utilities::CheckForRegistryService(void)
 {
     ODL_ENTER(); //####
     bool result = CheckForChannel(MpM_REGISTRY_ENDPOINT_NAME_);
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::CheckForRegistryService
@@ -1340,7 +1340,7 @@ Utilities::CheckForValidNetwork(const bool quiet)
     ODL_ENTER(); //####
     ODL_B1("quiet =", quiet); //####
     bool result;
-    
+
     if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT_))
     {
         result = true;
@@ -1356,7 +1356,7 @@ Utilities::CheckForValidNetwork(const bool quiet)
         yarp::os::Bottle  response;
         yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                 // infrastructure
-        
+
         // Ask the YARP name server for a list of ports - we don't care about the actual list, this
         // is a secondary check to see if there really is a YARP network available.
         result = getNameServerPortList(response);
@@ -1375,7 +1375,7 @@ Utilities::CheckListForRegistryService(const PortVector & ports)
     ODL_ENTER(); //####
     ODL_P1("ports = ", &ports); //####
     bool result = false;
-    
+
     if (0 < ports.size())
     {
         for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
@@ -1385,7 +1385,7 @@ Utilities::CheckListForRegistryService(const PortVector & ports)
                 result = true;
                 break;
             }
-            
+
         }
     }
     ODL_EXIT_B(result); //####
@@ -1406,7 +1406,7 @@ Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
     ODL_P2("outBuffer = ", &outBuffer, "input = ", &input); //####
     int     mm = input.size();
     int64_t now = GetCurrentTimeInMilliseconds();
-    
+
 #if defined(MpM_UseCustomStringBuffer)
     outBuffer.reset();
     outBuffer.addString("{ \"time\" : ");
@@ -1448,30 +1448,30 @@ Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
     bool                  sawSome = false;
     size_t                channelWidth = 0;
     std::stringstream     result;
-    
+
     // First, calculate the tag width:
     if (kOutputFlavourNormal == flavour)
     {
         for (int ii = 0, maxm = metrics.size(); maxm > ii; ++ii)
         {
             yarp::os::Value & aValue(metrics.get(ii));
-            
+
             if (aValue.isDict())
             {
                 yarp::os::Property * propList = aValue.asDict();
-                
+
                 if (propList)
                 {
                     YarpString theTagAsString;
-                    
+
                     if (propList->check(MpM_SENDRECEIVE_CHANNEL_))
                     {
                         yarp::os::Value theChannel = propList->find(MpM_SENDRECEIVE_CHANNEL_);
-                        
+
                         if (theChannel.isString())
                         {
                             size_t ww = theChannel.toString().length();
-                            
+
                             if (channelWidth < ww)
                             {
                                 channelWidth = ww;
@@ -1483,23 +1483,23 @@ Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
             else if (aValue.isList())
             {
                 yarp::os::Bottle * asList = aValue.asList();
-                
+
                 if (asList)
                 {
                     yarp::os::Property propList;
-                    
+
                     if (ListIsReallyDictionary(*asList, propList))
                     {
                         YarpString theTagAsString;
-                        
+
                         if (propList.check(MpM_SENDRECEIVE_CHANNEL_))
                         {
                             yarp::os::Value theChannel = propList.find(MpM_SENDRECEIVE_CHANNEL_);
-                            
+
                             if (theChannel.isString())
                             {
                                 size_t ww = theChannel.toString().length();
-                                
+
                                 if (channelWidth < ww)
                                 {
                                     channelWidth = ww;
@@ -1518,11 +1518,11 @@ Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
     for (int ii = 0, maxm = metrics.size(); maxm > ii; ++ii)
     {
         yarp::os::Value & aValue(metrics.get(ii));
-        
+
         if (aValue.isDict())
         {
             yarp::os::Property * propList = aValue.asDict();
-            
+
             if (propList)
             {
                 convertMetricPropertyToString(*propList, flavour, channelWidth, sawSome, result);
@@ -1531,11 +1531,11 @@ Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
         else if (aValue.isList())
         {
             yarp::os::Bottle * asList = aValue.asList();
-            
+
             if (asList)
             {
                 yarp::os::Property propList;
-                
+
                 if (ListIsReallyDictionary(*asList, propList))
                 {
                     convertMetricPropertyToString(propList, flavour, channelWidth, sawSome, result);
@@ -1570,7 +1570,7 @@ Utilities::GatherPortConnections(const YarpString &    portName,
     try
     {
         yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
-    
+
         if (address.isValid())
         {
             if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
@@ -1580,11 +1580,11 @@ Utilities::GatherPortConnections(const YarpString &    portName,
                 // given is for an 'output' port that is connected to another 'output' port.
                 // 'yarp ping /port' will hang as well.
                 yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
-            
+
                 if (out)
                 {
                     yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
-                
+
                     if (out->open(rr))
                     {
                         yarp::os::Bottle                         resp;
@@ -1594,7 +1594,7 @@ Utilities::GatherPortConnections(const YarpString &    portName,
                         yarp::os::OutputStream &                 os = out->getOutputStream();
                         yarp::os::impl::PortCommand              pc(0, "*");
                         yarp::os::impl::StreamConnectionReader   reader;
-                    
+
                         pc.write(bw);
                         bw.write(os);
                         reader.reset(is, NULL, rr, 0, true);
@@ -1604,10 +1604,10 @@ Utilities::GatherPortConnections(const YarpString &    portName,
                             {
                                 break;
                             }
-                            
+
                             resp.read(reader);
                             YarpString checkString(resp.get(0).asString());
-                        
+
                             if (checkString == "<ACK>")
                             {
                                 done = true;
@@ -1672,7 +1672,7 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
                                                BUILD_NAME_("configuration_",
                                                            DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
-    
+
     values.clear();
     if (newChannel)
     {
@@ -1684,7 +1684,7 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
                 yarp::os::Bottle parameters;
                 ServiceRequest   request(MpM_CONFIGURATION_REQUEST_, parameters);
                 ServiceResponse  response;
-                
+
                 if (request.send(*newChannel, response))
                 {
                     ODL_S1s("response <- ", response.asString()); //####
@@ -1694,7 +1694,7 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
                         for (int ii = 0, howMany = response.count(); howMany > ii; ++ii)
                         {
                             yarp::os::Value aValue(response.element(ii));
-                            
+
                             values.push_back(aValue.toString());
                         }
                         result = true;
@@ -1746,7 +1746,7 @@ Utilities::GetCurrentTimeInMilliseconds(void)
 #else // ! MAC_OR_LINUX_
     struct _timeb  tt;
 #endif // ! MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     gettimeofday(&tv, NULL);
     result = (static_cast<int64_t>(tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
@@ -1800,7 +1800,7 @@ Utilities::GetDateAndTime(char *       dateBuffer,
     ODL_L2("dateBufferSize = ", dateBufferSize, "timeBufferSize = ", timeBufferSize); //####
     time_t    rawtime;
     struct tm locTime;
-    
+
     time(&rawtime);
     memset(&locTime, 0, sizeof(locTime));
 #if MAC_OR_LINUX_
@@ -1824,12 +1824,12 @@ Utilities::GetDetectedPortList(PortVector & ports,
     ODL_B1("includeHiddenPorts = ", includeHiddenPorts); //####
     yarp::os::Bottle response;
     bool             okSoFar = getNameServerPortList(response);
-    
+
     ports.clear();
     if (okSoFar)
     {
         yarp::os::Value responseValue(response.get(0));
-        
+
         if (responseValue.isString())
         {
             processNameServerResponse(responseValue.asString(), includeHiddenPorts, ports);
@@ -1844,7 +1844,7 @@ Utilities::GetDetectedPortList(PortVector & ports,
     {
         char buffer1[DATE_TIME_BUFFER_SIZE_];
         char buffer2[DATE_TIME_BUFFER_SIZE_];
-        
+
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << endl;
     }
@@ -1864,14 +1864,14 @@ Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
     ODL_P2("extraInfo = ", &extraInfo, "checkStuff = ", checkStuff); //####
     ODL_D1("timeToWait = ", timeToWait); //####
     bool result = false;
-    
+
     try
     {
         YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                    BUILD_NAME_("extraInfo_",
                                                                DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
-        
+
         if (newChannel)
         {
             if (newChannel->openWithRetries(aName, timeToWait))
@@ -1882,14 +1882,14 @@ Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
                     yarp::os::Bottle parameters1;
                     ServiceRequest   request1(MpM_EXTRAINFO_REQUEST_, parameters1);
                     ServiceResponse  response1;
-                    
+
                     if (request1.send(*newChannel, response1))
                     {
                         ODL_S1s("response1 <- ", response1.asString()); //####
                         if (MpM_EXPECTED_EXTRAINFO_RESPONSE_SIZE_ == response1.count())
                         {
                             yarp::os::Value theExtraInfo(response1.element(0));
-                            
+
                             ODL_S1s("theExtraInfo <- ", theExtraInfo.toString()); //####
                             if (theExtraInfo.isString())
                             {
@@ -1957,7 +1957,7 @@ Utilities::GetFileNameBase(const YarpString & inFileName)
     ODL_S1s("inFileName = ", inFileName);
     YarpString result;
     size_t     index = inFileName.rfind('.');
-    
+
     if (YarpString::npos == index)
     {
         result = inFileName;
@@ -1982,7 +1982,7 @@ Utilities::GetFileNamePart(const YarpString & inFileName)
     char       baseFileName[_MAX_FNAME + 10];
     char       baseExtension[_MAX_EXT + 10];
 #endif // ! MAC_OR_LINUX_
-    
+
 #if MAC_OR_LINUX_
     result = basename(nameCopy);
     free(nameCopy);
@@ -2011,13 +2011,13 @@ Utilities::GetMachineIPs(YarpStringVector & result)
     ODL_ENTER(); //####
     ODL_P1("result = ", &result); //####
     YarpString ipString(yarp::os::impl::NameConfig::getIps());
-    
+
     ODL_S1s("ipString <- ", ipString); //####
     result.clear();
     for ( ; 0 < ipString.length(); )
     {
         size_t indx = ipString.find(" ");
-        
+
         if (YarpString::npos == indx)
         {
             result.push_back(ipString);
@@ -2048,7 +2048,7 @@ Utilities::GetMetricsForService(const YarpString & serviceChannelName,
                                                BUILD_NAME_("servicemetrics_",
                                                            DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
-    
+
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName, timeToWait))
@@ -2059,7 +2059,7 @@ Utilities::GetMetricsForService(const YarpString & serviceChannelName,
                 yarp::os::Bottle parameters;
                 ServiceRequest   request(MpM_METRICS_REQUEST_, parameters);
                 ServiceResponse  response;
-                
+
                 if (request.send(*newChannel, response))
                 {
                     ODL_S1s("response <- ", response.asString()); //####
@@ -2118,7 +2118,7 @@ Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
                                                BUILD_NAME_("servicemetrics_",
                                                            DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
-    
+
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName, timeToWait))
@@ -2129,14 +2129,14 @@ Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
                 yarp::os::Bottle parameters;
                 ServiceRequest   request(MpM_METRICSSTATE_REQUEST_, parameters);
                 ServiceResponse  response;
-                
+
                 if (request.send(*newChannel, response))
                 {
                     ODL_S1s("response <- ", response.asString()); //####
                     if (MpM_EXPECTED_METRICSSTATE_RESPONSE_SIZE_ == response.count())
                     {
                         yarp::os::Value responseValue = response.element(0);
-                        
+
                         if (responseValue.isInt())
                         {
                             metricsState = (0 != responseValue.asInt());
@@ -2200,14 +2200,14 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
     ODL_P2("descriptor = ", &descriptor, "checkStuff = ", checkStuff); //####
     ODL_D1("timeToWait = ", timeToWait); //####
     bool result = false;
-    
+
     try
     {
         YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                    BUILD_NAME_("servicelister_",
                                                                DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
-        
+
         if (newChannel)
         {
             if (newChannel->openWithRetries(aName, timeToWait))
@@ -2218,7 +2218,7 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                     yarp::os::Bottle parameters1;
                     ServiceRequest   request1(MpM_NAME_REQUEST_, parameters1);
                     ServiceResponse  response1;
-                    
+
                     if (request1.send(*newChannel, response1))
                     {
                         ODL_S1s("response1 <- ", response1.asString()); //####
@@ -2231,7 +2231,7 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                             yarp::os::Value thePath(response1.element(4));
                             yarp::os::Value theRequestsDescription(response1.element(5));
                             yarp::os::Value theTag(response1.element(6));
-                            
+
                             ODL_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
                                        "theDescription <- ", theDescription.toString(), //####
                                        "theExtraInfo <- ", theExtraInfo.toString(), //####
@@ -2281,7 +2281,7 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                         yarp::os::Bottle parameters2;
                         ServiceRequest   request2(MpM_CHANNELS_REQUEST_, parameters2);
                         ServiceResponse  response2;
-                        
+
                         if (request2.send(*newChannel, response2))
                         {
                             ODL_S1s("response2 <- ", response2.asString()); //####
@@ -2290,7 +2290,7 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                 yarp::os::Value theInputChannels(response2.element(0));
                                 yarp::os::Value theOutputChannels(response2.element(1));
                                 yarp::os::Value theClientChannels(response2.element(2));
-                                
+
                                 ODL_S3s("theInputChannels <- ", //####
                                            theInputChannels.toString(), //####
                                            "theOutputChannels <- ", //####
@@ -2306,17 +2306,17 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                                         theOutputChannels.asList();
                                     yarp::os::Bottle * clientChannelsAsList =
                                                                         theClientChannels.asList();
-                                    
+
                                     for (int ii = 0, howMany = inputChannelsAsList->size();
                                          result && (howMany > ii); ++ii)
                                     {
                                         yarp::os::Value element(inputChannelsAsList->get(ii));
-                                        
+
                                         if (element.isList())
                                         {
                                             yarp::os::Bottle * inputChannelAsList =
                                                                                 element.asList();
-                                            
+
                                             if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                                         inputChannelAsList->size())
                                             {
@@ -2326,12 +2326,12 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                                         inputChannelAsList->get(1);
                                                 yarp::os::Value thirdValue =
                                                                         inputChannelAsList->get(2);
-                                                
+
                                                 if (firstValue.isString() &&
                                                     secondValue.isString() && thirdValue.isString())
                                                 {
                                                     ChannelDescription aChannel;
-                                                    
+
                                                     aChannel._portName = firstValue.asString();
                                                     aChannel._portProtocol = secondValue.asString();
                                                     aChannel._portMode = kChannelModeOther;
@@ -2365,12 +2365,12 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                          result && (howMany > ii); ++ii)
                                     {
                                         yarp::os::Value element(outputChannelsAsList->get(ii));
-                                        
+
                                         if (element.isList())
                                         {
                                             yarp::os::Bottle * outputChannelAsList =
                                                                                 element.asList();
-                                            
+
                                             if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                                         outputChannelAsList->size())
                                             {
@@ -2380,12 +2380,12 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                                         outputChannelAsList->get(1);
                                                 yarp::os::Value thirdValue =
                                                                         outputChannelAsList->get(2);
-                                                
+
                                                 if (firstValue.isString() &&
                                                     secondValue.isString() && thirdValue.isString())
                                                 {
                                                     ChannelDescription aChannel;
-                                                    
+
                                                     aChannel._portName = firstValue.asString();
                                                     aChannel._portProtocol = secondValue.asString();
                                                     aChannel._portMode = kChannelModeOther;
@@ -2419,12 +2419,12 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                          result && (howMany > ii); ++ii)
                                     {
                                         yarp::os::Value element(clientChannelsAsList->get(ii));
-                                        
+
                                         if (element.isList())
                                         {
                                             yarp::os::Bottle * clientChannelAsList =
                                                                                 element.asList();
-                                            
+
                                             if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                                         clientChannelAsList->size())
                                             {
@@ -2434,12 +2434,12 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                                         clientChannelAsList->get(1);
                                                 yarp::os::Value thirdValue =
                                                                         clientChannelAsList->get(2);
-                                                
+
                                                 if (firstValue.isString() &&
                                                     secondValue.isString() && thirdValue.isString())
                                                 {
                                                     ChannelDescription aChannel;
-                                                    
+
                                                     aChannel._portName = firstValue.asString();
                                                     aChannel._portProtocol = secondValue.asString();
                                                     aChannel._portMode = kChannelModeOther;
@@ -2587,7 +2587,7 @@ Utilities::GetPortKind(const YarpString & portName)
     const size_t kClientPortNameBaseLen = sizeof(MpM_CLIENT_BASE_NAME_) - 1;
     const size_t kDefaultServiceNameBaseLen = sizeof(MpM_SERVICE_BASE_NAME_) - 1;
     PortKind     result;
-    
+
     if (! strcmp(MpM_REGISTRY_ENDPOINT_NAME_, portNameChars))
     {
         result = kPortKindRegistryService;
@@ -2641,7 +2641,7 @@ Utilities::GetRandomHexString(void)
     int               randNumb;
     YarpString        result;
     std::stringstream buff;
-    
+
     if (! lRandomSeeded)
     {
 #if defined(__APPLE__)
@@ -2669,7 +2669,7 @@ Utilities::GetServiceNames(YarpStringVector & services,
     ODL_B1("quiet = ", quiet); //####
     bool okSoFar = GetServiceNamesFromCriteria(MpM_REQREP_DICT_REQUEST_KEY_ ":*", services, quiet,
                                                checker, checkStuff);
-    
+
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Utilities::GetServiceNames
@@ -2687,19 +2687,19 @@ Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     ODL_B1("quiet = ", quiet); //####
     bool             okSoFar = false;
     yarp::os::Bottle matches(FindMatchingServices(criteria, false, checker, checkStuff));
-    
+
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())
     {
         // First, check if the search succeeded.
         YarpString matchesFirstString(matches.get(0).toString());
-        
+
         if (strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))
         {
             ODL_LOG("(strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))"); //####
             if (! quiet)
             {
                 YarpString reason("Failed: ");
-                
+
                 reason += matches.get(1).toString();
                 reason += ".";
                 MpM_FAIL_(reason.c_str());
@@ -2709,7 +2709,7 @@ Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
         {
             // Now, process the second element.
             yarp::os::Bottle * matchesList = matches.get(1).asList();
-            
+
             if (matchesList)
             {
                 for (int ii = 0, matchesCount = matchesList->size(); ii < matchesCount; ++ii)
@@ -2732,7 +2732,7 @@ Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     {
         char buffer1[DATE_TIME_BUFFER_SIZE_];
         char buffer2[DATE_TIME_BUFFER_SIZE_];
-        
+
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." << endl;
     }
@@ -2758,37 +2758,37 @@ Utilities::MapServiceKindToString(const ServiceKind kind)
     ODL_ENTER(); //####
     ODL_L1("kind = ", static_cast<int>(kind)); //####
     const char * result;
-    
+
     switch (kind)
     {
         case kServiceKindAdapter :
             result = "Adapter";
             break;
-            
+
         case kServiceKindFilter :
             result = "Filter";
             break;
-            
+
         case kServiceKindInput :
             result = "Input";
             break;
-            
+
         case kServiceKindOutput :
             result = "Output";
             break;
-            
+
         case kServiceKindRegistry :
             result = "Registry";
             break;
-            
+
         case kServiceKindNormal :
             result = "Normal";
             break;
-            
+
         default :
             result = "unknown";
             break;
-            
+
     }
     ODL_EXIT_S(result); //####
     return result;
@@ -2801,7 +2801,7 @@ Utilities::MapStringToServiceKind(const YarpString & kindString)
     ODL_S1s("kindString = ", kindString); //####
     ServiceKind  result;
     const char * kindStringChars = kindString.c_str();
-    
+
     if (! strcmp("Adapter", kindStringChars))
     {
         result = kServiceKindAdapter;
@@ -2853,12 +2853,12 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
     ODL_B1("isUDP = ", isUDP); //####
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
         double retryTime = INITIAL_RETRY_INTERVAL_;
         int    retriesLeft = MAX_RETRIES_;
-        
+
 #if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS
@@ -2868,7 +2868,7 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
             BailOut      bailer(timeToWait);
 #endif // RETRY_LOOPS_USE_TIMEOUTS
             const char * carrier;
-            
+
             if (isUDP)
             {
                 carrier = "udp";
@@ -2883,7 +2883,7 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                 {
                     break;
                 }
-                
+
                 ODL_LOG("about to connect"); //####
 #if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
@@ -2945,12 +2945,12 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
     ODL_D1("timeToWait = ", timeToWait); //####
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = false;
-    
+
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
         double retryTime = INITIAL_RETRY_INTERVAL_;
         int    retriesLeft = MAX_RETRIES_;
-        
+
 #if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS
@@ -2959,14 +2959,14 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
 #if RETRY_LOOPS_USE_TIMEOUTS
             BailOut bailer(timeToWait);
 #endif // RETRY_LOOPS_USE_TIMEOUTS
-            
+
             do
             {
                 if (checker && checker(checkStuff))
                 {
                     break;
                 }
-                
+
                 ODL_LOG("about to disconnect"); //####
 #if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, false);
@@ -3034,7 +3034,7 @@ Utilities::ProcessStandardClientOptions(const int          argc,
         kOptionTABS,
         kOptionVERSION
     }; // optionIndex
-    
+
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
@@ -3054,14 +3054,14 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
     YarpString            argList(ArgumentsToArgString(argumentDescriptions));
-    
+
     flavour = kOutputFlavourNormal;
     usageString += *argv;
     usageString += " [options]";
     if (0 < argList.length())
     {
         YarpStringVector descriptions;
-        
+
         ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
@@ -3078,14 +3078,14 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     usageString += "\n\nOptions:";
     // firstDescriptor, helpDescriptor, infoDescriptor, versionDescriptor, lastDescriptor
     size_t descriptorCount = 5;
-    
+
     if (! ignoreFlavours)
     {
         descriptorCount += 2;
     }
     Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
     Option_::Descriptor * usageWalker = usage;
-    
+
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
@@ -3111,7 +3111,7 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
     YarpString        badArgs;
-    
+
     if (parse.error())
     {
         keepGoing = false;
@@ -3124,7 +3124,7 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     else if (options[kOptionVERSION])
     {
         YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
-        
+
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
         copyrightHolder << "." << endl;
         keepGoing = false;
@@ -3192,7 +3192,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
         kOptionTABS,
         kOptionVERSION
     }; // optionIndex
-    
+
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
@@ -3214,14 +3214,14 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
     YarpString            argList(ArgumentsToArgString(argumentDescriptions));
-    
+
     flavour = kOutputFlavourNormal;
     usageString += *argv;
     usageString += " [options]";
     if (0 < argList.length())
     {
         YarpStringVector descriptions;
-        
+
         ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
@@ -3246,7 +3246,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
     if (! ignoreFlavours)
     {
-        memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));        
+        memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));
     }
     if (! ignoreFlavours)
     {
@@ -3261,7 +3261,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
     YarpString        badArgs;
-    
+
     if (parse.error())
     {
         keepGoing = false;
@@ -3274,7 +3274,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     else if (options[kOptionVERSION])
     {
         YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
-        
+
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
         keepGoing = false;
@@ -3325,7 +3325,7 @@ Utilities::RemoveConnection(const YarpString & fromPortName,
     ODL_P1("checkStuff = ", checkStuff); //####
     bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME_,
                                                checker, checkStuff);
-    
+
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::RemoveConnection
@@ -3340,7 +3340,7 @@ Utilities::RemoveStalePorts(const float timeout)
     yarp::os::impl::String     name = nc.getNamespace();
     yarp::os::Bottle           msg;
     yarp::os::Bottle           reply;
-    
+
     msg.addString("bot");
     msg.addString("list");
     okSoFar = yarp::os::NetworkBase::write(name.c_str(), msg, reply);
@@ -3362,16 +3362,16 @@ Utilities::RemoveStalePorts(const float timeout)
         for (int ii = 1; reply.size() > ii; ++ii)
         {
             yarp::os::Bottle * entry = reply.get(ii).asList();
-            
+
             if (entry)
             {
                 YarpString port = entry->check("name", yarp::os::Value("")).asString();
-                
+
                 ODL_S1s("port = ", port); //####
                 if ((port != "") && (port != "fallback") && (port != name.c_str()))
                 {
                     yarp::os::Contact cc = yarp::os::Contact::byConfig(*entry);
-                    
+
                     if (cc.getCarrier() == "mcast")
                     {
                         ODL_LOG("Skipping mcast port."); //####
@@ -3380,7 +3380,7 @@ Utilities::RemoveStalePorts(const float timeout)
                     {
                         ODL_LOG("! (cc.getCarrier() == \"mcast\")"); //####
                         yarp::os::Contact addr = cc;
-                        
+
                         ODL_S1s("Testing at ", addr.toURI()); //####
                         if (addr.isValid())
                         {
@@ -3390,7 +3390,7 @@ Utilities::RemoveStalePorts(const float timeout)
                             }
                             yarp::os::OutputProtocol * out =
                                                             yarp::os::impl::Carriers::connect(addr);
-                            
+
                             if (out)
                             {
                                 delete out;
@@ -3400,7 +3400,7 @@ Utilities::RemoveStalePorts(const float timeout)
                                 ODL_LOG("No response, removing port."); //####
                                 char buffer1[DATE_TIME_BUFFER_SIZE_];
                                 char buffer2[DATE_TIME_BUFFER_SIZE_];
-                                
+
                                 GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
                                 yarp::os::NetworkBase::unregisterName(port);
                                 cerr << buffer1 << " " << buffer2 << " Removing stale port '" <<
@@ -3420,7 +3420,7 @@ Utilities::RemoveStalePorts(const float timeout)
     YarpString       serverName = yarp::os::NetworkBase::getNameServerName();
     yarp::os::Bottle cmd2("gc");
     yarp::os::Bottle reply2;
-    
+
     if (yarp::os::NetworkBase::write(serverName, cmd2, reply2))
     {
         ODL_S1s("Name server says: ", reply2.toString()); //####
@@ -3528,7 +3528,7 @@ Utilities::SetConfigurationForService(const YarpString &       serviceChannelNam
                                                BUILD_NAME_("configure_",
                                                            DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
-    
+
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName, timeToWait))
@@ -3538,7 +3538,7 @@ Utilities::SetConfigurationForService(const YarpString &       serviceChannelNam
             {
                 ServiceRequest  request(MpM_CONFIGURE_REQUEST_, newValues);
                 ServiceResponse response;
-                
+
                 if (request.send(*newChannel, response))
                 {
                     ODL_S1s("response <- ", response.asString()); //####
@@ -3600,7 +3600,7 @@ Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
                                                BUILD_NAME_("servicemetrics_",
                                                            DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
-    
+
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName, timeToWait))
@@ -3609,11 +3609,11 @@ Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
                                           checkStuff))
             {
                 yarp::os::Bottle parameters;
-                
+
                 parameters.addInt(newMetricsState ? 1 : 0);
                 ServiceRequest  request(MpM_SETMETRICSSTATE_REQUEST_, parameters);
                 ServiceResponse response;
-                
+
                 if (request.send(*newChannel, response))
                 {
                     ODL_S1s("response <- ", response.asString()); //####
@@ -3689,14 +3689,14 @@ Utilities::StopAService(const YarpString & serviceChannelName,
     ODL_P1("checkStuff = ", checkStuff); //####
     ODL_D1("timeToWait = ", timeToWait); //####
     bool result = false;
-    
+
     try
     {
         YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                    BUILD_NAME_("stop_",
                                                                DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
-        
+
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
@@ -3712,7 +3712,7 @@ Utilities::StopAService(const YarpString & serviceChannelName,
 #if defined(MpM_DoExplicitCheckForOK)
                     ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-                    
+
 #if defined(MpM_DoExplicitCheckForOK)
                     if (! request.send(*newChannel, response))
                     {

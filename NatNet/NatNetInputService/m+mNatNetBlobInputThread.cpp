@@ -101,7 +101,7 @@ dataReceived(sFrameOfMocapData * aFrame,
 # else // ! defined(MpM_UseCustomStringBuffer)
             std::stringstream      outBuffer;
 # endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
             // Write out the number of skeletons == bodies.
 # if defined(MpM_UseCustomStringBuffer)
             outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
@@ -112,7 +112,7 @@ dataReceived(sFrameOfMocapData * aFrame,
             {
                 sSkeletonData &  aSkel = aFrame->Skeletons[ii];
                 int              numBones = aSkel.nRigidBodies;
-                
+
 # if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addLong(ii).addTab().addLong(numBones).addString(LINE_END_);
 # else // ! defined(MpM_UseCustomStringBuffer)
@@ -121,7 +121,7 @@ dataReceived(sFrameOfMocapData * aFrame,
                 for (int jj = 0; numBones > jj; ++jj)
                 {
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
-                    
+
 # if defined(MpM_UseCustomStringBuffer)
                     outBuffer.addLong(aBone.ID).addTab();
                     outBuffer.addDouble(aBone.x * scale).addTab();
@@ -149,7 +149,7 @@ dataReceived(sFrameOfMocapData * aFrame,
 # if (! defined(MpM_UseCustomStringBuffer))
             std::string  buffAsString(outBuffer.str());
 # endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             outString = outBuffer.getString(outLength);
 # else // ! defined(MpM_UseCustomStringBuffer)
@@ -283,7 +283,7 @@ NatNetBlobInputThread::sendMessage(const char * message,
     {
         void *          rawString = static_cast<void *>(const_cast<char *>(message));
         yarp::os::Value blobValue(rawString, static_cast<int>(length));
-        
+
         _messageBottle.clear();
         _messageBottle.add(blobValue);
         if (! _outChannel->write(_messageBottle))

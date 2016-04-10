@@ -94,12 +94,12 @@ checkFilePath(const char * thePath,
     ODL_S1("thePath = ", thePath); //####
     ODL_B1("forOutput = ", forOutput); //####
     bool okSoFar;
-    
+
     if (forOutput)
     {
         YarpString dirPath(thePath);
         size_t     lastDelim = dirPath.rfind(kDirectorySeparator[0]);
-        
+
         if (YarpString::npos == lastDelim)
         {
 #if MAC_OR_LINUX_
@@ -125,7 +125,7 @@ checkFilePath(const char * thePath,
         okSoFar = (0 == access(thePath, R_OK));
 #else // ! MAC_OR_LINUX_
         okSoFar = (0 == _access(thePath, 4));
-#endif // ! MAC_OR_LINUX_        
+#endif // ! MAC_OR_LINUX_
     }
     else
     {
@@ -172,7 +172,8 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CLONE_(FilePathArgumentDescriptor)
+BaseArgumentDescriptor *
+FilePathArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new FilePathArgumentDescriptor(argumentName(),
@@ -185,7 +186,8 @@ DEFINE_CLONE_(FilePathArgumentDescriptor)
     return result;
 } // FilePathArgumentDescriptor::clone
 
-DEFINE_GETDEFAULTVALUE_(FilePathArgumentDescriptor)
+YarpString
+FilePathArgumentDescriptor::getDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     _defaultValue = _pathPrefix;
@@ -264,7 +266,7 @@ FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
         if (okSoFar)
         {
             YarpString tempString(defaultString);
-            
+
             if (usesRandom)
             {
                 tempString += Utilities::GetRandomHexString();
@@ -282,7 +284,8 @@ FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
-DEFINE_SETTODEFAULTVALUE_(FilePathArgumentDescriptor)
+void
+FilePathArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     if (! _defaultSet)
@@ -294,7 +297,8 @@ DEFINE_SETTODEFAULTVALUE_(FilePathArgumentDescriptor)
     ODL_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::setToDefaultValue
 
-DEFINE_TOSTRING_(FilePathArgumentDescriptor)
+YarpString
+FilePathArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString oldDefault(_defaultValue);
@@ -308,7 +312,8 @@ DEFINE_TOSTRING_(FilePathArgumentDescriptor)
     return result;
 } // FilePathArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(FilePathArgumentDescriptor)
+bool
+FilePathArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
     _valid = checkFilePath(value.c_str(), _forOutput, false);

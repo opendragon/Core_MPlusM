@@ -167,7 +167,7 @@ DEFINE_STARTSERVICE_(EchoService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -188,7 +188,7 @@ DEFINE_STOPSERVICE_(EchoService)
 {
     ODL_OBJENTER(); //####
     bool result = false;
-    
+
     try
     {
         result = inherited::stopService();

@@ -59,23 +59,23 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief A channel-type argument description.
-         
+
          The external representation of a channel-type argument description is:
-         
+
          channelTagAndInfo ::= 'C'; */
         class ChannelArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef StringArgumentDescriptor inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
@@ -85,11 +85,11 @@ namespace MplusM
                                       const YarpString & argDescription,
                                       const ArgumentMode argMode,
                                       const YarpString & defaultValue);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ChannelArgumentDescriptor(void);
-            
+
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
@@ -97,27 +97,38 @@ namespace MplusM
             parseArgString(const YarpString & inString);
 
         protected :
-        
-        private :
-            
-            DECLARE_CLONE_;
 
-            DECLARE_TOSTRING_;
-            
-            DECLARE_VALIDATE_;
-            
-            COPY_AND_ASSIGNMENT_(ChannelArgumentDescriptor);
-            
-        public :
-        
-        protected :
-        
         private :
-            
+
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor *
+            clone(void);
+
+            /*! @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
+            virtual YarpString
+            toString(void);
+
+            /*! @brief Check an input value against the constraints of the descriptor.
+             @param value The value to be checked.
+             @returns @c true if the value is within the domain of the descriptor and @c false
+             otherwise. */
+            virtual bool
+            validate(const YarpString & value);
+
+            COPY_AND_ASSIGNMENT_(ChannelArgumentDescriptor);
+
+        public :
+
+        protected :
+
+        private :
+
         }; // ChannelArgumentDescriptor
-        
+
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMChannelArgumentDescriptor_H_)

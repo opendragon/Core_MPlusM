@@ -47,7 +47,7 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The main application for the Test Source utility. */
 
 /*! @dir TestSource
@@ -100,7 +100,7 @@ main(int      argc,
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+             kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
     try
     {
@@ -108,7 +108,7 @@ main(int      argc,
                                                    Utilities::kArgModeRequired, 12345, false);
         Utilities::DescriptorVector       argumentList;
         OutputFlavour                     flavour; // ignored
-        
+
         argumentList.push_back(&firstArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        T_("Communicates with the Test Sink "
@@ -124,13 +124,13 @@ main(int      argc,
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-                
+
 #if MAC_OR_LINUX_
                 listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 if (INVALID_SOCKET != listenSocket)
                 {
                     struct sockaddr_in addr;
-                    
+
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(listenPort);
@@ -156,13 +156,13 @@ main(int      argc,
                     if (INVALID_SOCKET != listenSocket)
                     {
                         SOCKADDR_IN addr;
-                        
+
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(listenPort);
                         addr.sin_addr.s_addr = htonl(INADDR_ANY);
                         int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr),
                                        sizeof(addr));
-                        
+
                         if (SOCKET_ERROR == res)
                         {
                             ODL_LOG("(SOCKET_ERROR == res)"); //####
@@ -183,7 +183,7 @@ main(int      argc,
                     char   outBuff[OUTGOING_SIZE_];
                     ODL_LOG("waiting for a connection"); //####
                     SOCKET sourceSocket = accept(listenSocket, NULL, NULL);
-                    
+
                     ODL_L1("sourceSocket = ", sourceSocket); //####
                     for (int ii = 0; ii < OUTGOING_SIZE_; ++ii)
                     {
@@ -196,7 +196,7 @@ main(int      argc,
 #else // ! MAC_OR_LINUX_
                         int outSize = max(1, rand() % OUTGOING_SIZE_);
 #endif // ! MAC_OR_LINUX_
-                        
+
                         if (send(sourceSocket, outBuff, outSize, 0) != outSize)
                         {
                             ODL_LOG("(send(sourceSocket, outBuff, outSize, 0) != outSize)"); //####

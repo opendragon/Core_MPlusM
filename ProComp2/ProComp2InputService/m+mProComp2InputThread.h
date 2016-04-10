@@ -61,66 +61,66 @@ namespace MplusM
         class ProComp2InputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
             explicit
             ProComp2InputThread(Common::GeneralChannel * outChannel);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ProComp2InputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
         protected :
-            
+
         private :
-            
+
 # if (! defined(MpM_BuildDummyServices))
            /*! @brief Extract the data for all channels and send it.
              @param time The time at which the channels are processed. */
             void
             readChannelData(const DWORD time);
 # endif // ! defined(MpM_BuildDummyServices)
-            
+
             DECLARE_RUN_;
-            
+
             /*! @brief Prepare any attached encoders for use.
              @returns @c true if at least one encoder was set up. */
             bool
             setupEncoders(void);
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(ProComp2InputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
         }; // ProComp2InputThread
-        
+
     } // ProComp2
-    
+
 } // MplusM
 
 #endif // ! defined(MpMProComp2InputThread_H_)

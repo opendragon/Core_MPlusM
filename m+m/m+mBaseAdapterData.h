@@ -60,35 +60,35 @@ namespace MplusM
     {
         class BaseChannel;
         class BaseClient;
-        
+
         /*! @brief The data shared between an input handler and the main thread of an m+m
          adapter. */
         class BaseAdapterData
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             explicit
             BaseAdapterData(BaseClient *  client = NULL,
                                      BaseChannel * output = NULL);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseAdapterData(void);
-            
+
             /*! @brief Mark the adapter as active.
              @returns @c true if the adapter was already active and @c false otherwise. */
             bool
             activate(void);
-            
+
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool
@@ -96,12 +96,12 @@ namespace MplusM
             {
                 return _lock.tryLock();
             } // conditionallyLock
-            
+
             /*! @brief Mark the adapter as inactive.
              @returns @c true if the adapter was active and @c false otherwise. */
             bool
             deactivate(void);
-            
+
             /*! @brief Return the client.
              @returns The client. */
             inline BaseClient *
@@ -110,7 +110,7 @@ namespace MplusM
             {
                 return _client;
             } // getClient
-            
+
             /*! @brief Return the output channel.
              @returns The output channel. */
             inline BaseChannel *
@@ -119,7 +119,7 @@ namespace MplusM
             {
                 return _output;
             } // getOutput
-            
+
             /*! @brief Return the adapter state.
              @returns @c true if the adapter is active and @c false otherwise. */
             inline bool
@@ -128,45 +128,45 @@ namespace MplusM
             {
                 return _active;
             } // isActive
-            
+
             /*! @brief Lock the data. */
             inline void
             lock(void)
             {
                 _lock.lock();
             } // lock
-            
+
             /*! @brief Unlock the data. */
             inline void
             unlock(void)
             {
                 _lock.unlock();
             } // unlock
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseAdapterData);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The contention lock used to avoid intermixing of outputs. */
             yarp::os::Mutex _lock;
-            
+
             /*! @brief The output channel to use. */
             BaseChannel * _output;
-            
+
             /*! @brief The connection to the service. */
             BaseClient * _client;
-            
+
             /*! @brief @c true if the adapter is active and @c false otherwise. */
             bool _active;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -176,11 +176,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // BaseAdapterData
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseAdapterData_H_)

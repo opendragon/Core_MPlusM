@@ -45,12 +45,12 @@ var scriptHelp = 'The first argument is the path to the input file';
 function scriptStarting()
 {
     var okSoFar = false;
-    
+
     writeLineToStdout('script starting');
     if (1 < argv.length)
     {
         var path = argv[1];
-        
+
         writeLineToStdout('path = ' + path);
         inStream = new Stream();
         inStream.open(path, "r");
@@ -58,7 +58,7 @@ function scriptStarting()
         if (inStream.isOpen())
         {
             var inString;
-            
+
             writeLineToStdout('inStream isOpen = true');
             writeLineToStdout('inStream atEof = ' + inStream.atEof());
             writeLineToStdout('inStream hasError = ' + inStream.hasError());

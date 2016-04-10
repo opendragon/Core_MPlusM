@@ -59,11 +59,11 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief A trailing arguments description.
-         
+
          The external representation of a trailing arguments description is:
-         
+
          extraTagAndInfo ::= 'E';
-         
+
          Note that the concept of 'optional' versus 'mandatory' is not applicable to trailing
          arguments, as it's possible to have zero or more of them.
          Likewise, there is no 'default' value that makes sense or, for that matter, a single
@@ -71,26 +71,26 @@ namespace MplusM
         class ExtraArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument. */
             ExtraArgumentDescriptor(const YarpString & argName,
                                     const YarpString & argDescription);
-            
+
             /*! @brief The destructor. */
             virtual
             ~ExtraArgumentDescriptor(void);
-            
+
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
@@ -98,40 +98,68 @@ namespace MplusM
             parseArgString(const YarpString & inString);
 
         protected :
-        
-        private :
-            
-            DECLARE_ADDVALUETOBOTTLE_;
-            
-            DECLARE_CLONE_;
 
-            DECLARE_GETDEFAULTVALUE_;
-            
-            DECLARE_GETPROCESSEDVALUE_;
-            
-            DECLARE_ISEXTRA_
+        private :
+
+            /*! @brief Add the processed value to a bottle.
+             @param container The bottle to be modified. */
+            virtual void
+            addValueToBottle(yarp::os::Bottle & container);
+
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor *
+            clone(void);
+
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual YarpString
+            getDefaultValue(void);
+
+            /*! @brief Return the processed value.
+             @returns The processed value. */
+            virtual YarpString
+            getProcessedValue(void);
+
+            /*! @brief Return @c true if the argument is a placeholder for zero or more trailing
+             arguments.
+             @returns @c true if the argument is a placeholder for zero of more trailing arguments
+             and @c false otherwise. */
+            virtual bool
+            isExtra(void)
+            const
             {
                 return true;
             } // isExtra
-            
-            DECLARE_SETTODEFAULTVALUE_;
-            
-            DECLARE_TOSTRING_;
-            
-            DECLARE_VALIDATE_;
-            
+
+            /*! @brief Set the associated variable to the default value. */
+            virtual void
+            setToDefaultValue(void);
+
+            /*! @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
+            virtual YarpString
+            toString(void);
+
+            /*! @brief Check an input value against the constraints of the descriptor.
+             @param value The value to be checked.
+             @returns @c true if the value is within the domain of the descriptor and @c false
+             otherwise. */
+            virtual bool
+            validate(const YarpString & value);
+
             COPY_AND_ASSIGNMENT_(ExtraArgumentDescriptor);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // ExtraArgumentDescriptor
 
     } // Utilities
-    
+
 } // MplusM
 
 #endif // ! defined(MpMExtraArgumentDescriptor_H_)

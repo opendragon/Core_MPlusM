@@ -69,16 +69,16 @@ namespace MplusM
         class NatNetInputThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
              @param name The IP address of the Natural Point %NatNet device.
@@ -88,41 +88,41 @@ namespace MplusM
                               const YarpString &       name,
                               const int                commandPort,
                               const int                dataPort);
-            
+
             /*! @brief The destructor. */
             virtual
             ~NatNetInputThread(void);
-            
+
             /*! @brief Stop using the output channel. */
             void
             clearOutputChannel(void);
-            
+
             /*! @brief Send a message via the output channel.
              @param message The message to send. */
             void
             sendMessage(yarp::os::Bottle & message);
 
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(NatNetInputThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
+
             /*! @brief The address of the Natural Point %NatNet device. */
             YarpString _address;
 
@@ -131,7 +131,7 @@ namespace MplusM
 
             /*! @brief The command port of the Natural Point %NatNet device. */
             int _dataPort;
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief The connection to the Natural Point %NatNet device. */
             NatNetClient * _client;
@@ -144,9 +144,9 @@ namespace MplusM
             char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
 
         }; // NatNetInputThread
-        
+
     } // NatNet
-    
+
 } // MplusM
 
 #endif // ! defined(MpMNatNetInputThread_H_)

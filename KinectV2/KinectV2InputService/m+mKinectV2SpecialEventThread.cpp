@@ -201,31 +201,31 @@ addBodyToMessage(yarp::os::Bottle &       message,
     ADD_JOINT_TO_LIST_(JointType_ShoulderLeft);
     ADD_JOINT_TO_LIST_(JointType_HipRight);
     ADD_JOINT_TO_LIST_(JointType_HipLeft);
-    
+
     // Right arm
     ADD_JOINT_TO_LIST_(JointType_ElbowRight);
     ADD_JOINT_TO_LIST_(JointType_WristRight);
     ADD_JOINT_TO_LIST_(JointType_HandRight);
     ADD_JOINT_TO_LIST_(JointType_HandTipRight);
     ADD_JOINT_TO_LIST_(JointType_ThumbRight);
-    
+
     // Left arm
     ADD_JOINT_TO_LIST_(JointType_ElbowLeft);
     ADD_JOINT_TO_LIST_(JointType_WristLeft);
     ADD_JOINT_TO_LIST_(JointType_HandLeft);
     ADD_JOINT_TO_LIST_(JointType_HandTipLeft);
     ADD_JOINT_TO_LIST_(JointType_ThumbLeft);
-    
+
     // Right leg
     ADD_JOINT_TO_LIST_(JointType_KneeRight);
     ADD_JOINT_TO_LIST_(JointType_AnkleRight);
     ADD_JOINT_TO_LIST_(JointType_FootRight);
-    
+
     // Left leg
     ADD_JOINT_TO_LIST_(JointType_KneeLeft);
     ADD_JOINT_TO_LIST_(JointType_AnkleLeft);
     ADD_JOINT_TO_LIST_(JointType_FootLeft);
-    
+
     ODL_EXIT(); //####
 } // addBodyToMessage
 #endif // ! defined(MpM_BuildDummyServices)
@@ -451,7 +451,7 @@ DEFINE_RUN_(KinectV2SpecialEventThread)
 
                 default :
                     break;
-                    
+
             }
         }
         if (WM_QUIT == msg.message)

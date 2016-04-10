@@ -58,58 +58,58 @@ namespace MplusM
     namespace SendToMQ
     {
         class SendToMQOutputService;
-        
+
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of arbitrary YARP messages. */
         class SendToMQOutputInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
             explicit
             SendToMQOutputInputHandler(SendToMQOutputService & owner);
-            
+
             /*! @brief The destructor. */
             virtual
             ~SendToMQOutputInputHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(SendToMQOutputInputHandler);
-            
+
         public :
-            
+
         protected :
-            
+
         private :
-            
+
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
-            
+
             /*! @brief The service that this handler is connected to. */
             SendToMQOutputService & _owner;
-            
+
         }; // SendToMQOutputInputHandler
-        
+
     } // SendToMQ
-    
+
 } // MplusM
 
 #endif // ! defined(MpMSendToMQOutputInputHandler_H_)

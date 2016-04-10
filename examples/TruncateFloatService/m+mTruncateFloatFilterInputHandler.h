@@ -60,55 +60,55 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A handler for partially-structured input data.
-         
+
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
         class TruncateFloatFilterInputHandler : public Common::BaseInputHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             TruncateFloatFilterInputHandler(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~TruncateFloatFilterInputHandler(void);
-            
+
             /*! @brief Set the channel to be written to.
              @param output The channel to be written to. */
             void
             setOutput(Common::GeneralChannel * output);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_HANDLEINPUT_;
-            
+
             COPY_AND_ASSIGNMENT_(TruncateFloatFilterInputHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;
-            
+
         }; // TruncateFloatFilterInputHandler
-        
+
     } // Example
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTruncateFloatFilterInputHandler_H_)

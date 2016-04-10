@@ -58,52 +58,52 @@ namespace MplusM
     namespace RequestCounter
     {
         class RequestCounterService;
-        
+
         /*! @brief A test request handler. */
         class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             RequestCounterDefaultRequestHandler(RequestCounterService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~RequestCounterDefaultRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
 
             COPY_AND_ASSIGNMENT_(RequestCounterDefaultRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // RequestCounterDefaultRequestHandler
-        
+
     } // RequestCounter
-    
+
 } // MplusM
 
 #endif // ! defined(MpMRequestCounterDefaultRequestHandler_H_)

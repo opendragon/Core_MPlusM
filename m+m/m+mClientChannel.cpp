@@ -117,7 +117,7 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL_;
     int    retriesLeft = MAX_RETRIES_;
-    
+
 #if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS
@@ -126,7 +126,7 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
 #if RETRY_LOOPS_USE_TIMEOUTS
         BailOut bailer(*this, timeToWait);
 #endif // RETRY_LOOPS_USE_TIMEOUTS
-        
+
         do
         {
             ODL_LOG("about to add an output"); //####

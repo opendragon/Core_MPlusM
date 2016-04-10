@@ -105,7 +105,7 @@ DEFINE_CREATE_(ServiceInputHandlerCreator)
 {
     ODL_OBJENTER(); //####
     BaseInputHandler * result = new ServiceInputHandler(_service);
-    
+
     result->setChannel(_channel);
     ODL_OBJEXIT_P(result); //####
     return result;

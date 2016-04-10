@@ -117,7 +117,7 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         if (_outFile)
@@ -126,7 +126,7 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 #if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
 #if defined(MpM_UseCustomStringBuffer)
             Utilities::ConvertMessageToJSON(_outBuffer, input);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -137,7 +137,7 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 #if (! defined(MpM_UseCustomStringBuffer))
             std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
-            
+
 #if defined(MpM_UseCustomStringBuffer)
             outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)

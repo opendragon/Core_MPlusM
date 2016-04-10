@@ -89,11 +89,11 @@ checkHostPort(int &              realPort,
     ODL_P1("realPort = ", &realPort); //####
     ODL_S1s("portNumber = ", portNumber); //####
     bool result = true;
-    
+
     try
     {
         size_t portLength = portNumber.length();
-        
+
         if (0 < portLength)
         {
             if (result)
@@ -101,7 +101,7 @@ checkHostPort(int &              realPort,
                 const char * startPtr = portNumber.c_str();
                 char *       endPtr;
                 int          realPort = strtol(startPtr, &endPtr, 10);
-                
+
                 if ((startPtr == endPtr) || *endPtr ||
                     (! Utilities::ValidPortNumber(realPort)))
                 {
@@ -142,12 +142,12 @@ setEndpointIPAddress(yarp::os::Contact & workingContact,
     DumpContactToLog("enter setEndpointIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
     bool result = false;
-    
+
     try
     {
         yarp::os::Contact aContact = yarp::os::Network::registerName(endpointName);
         YarpString        ipAddress = aContact.getHost();
-        
+
         ODL_S1s("ipAddress = ", ipAddress); //####
         yarp::os::Network::unregisterName(endpointName);
         workingContact = workingContact.addSocket(CHANNEL_CARRIER_, ipAddress, portNumber);
@@ -175,15 +175,15 @@ Endpoint::CheckEndpointName(const YarpString & channelName)
     ODL_ENTER(); //####
     ODL_S1s("channelName = ", channelName); //####
     bool result = false;
-    
+
     try
     {
         size_t nameLength = channelName.length();
-        
+
         if (0 < nameLength)
         {
             char firstChar = channelName[0];
-            
+
             result = ('/' == firstChar);
             for (size_t ii = 1; result && (ii < nameLength); ++ii)
             {
@@ -219,7 +219,7 @@ Endpoint::Endpoint(const YarpString & endpointName,
     if (CheckEndpointName(endpointName))
     {
         int realPort;
-        
+
         if (checkHostPort(realPort, portNumber))
         {
             _contact = yarp::os::Contact::byName(endpointName);
@@ -345,7 +345,7 @@ Endpoint::getName(void)
 const
 {
     YarpString result;
-    
+
     try
     {
         if (_channel)
@@ -376,7 +376,7 @@ Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
     }
     else
     {
-        counters.clearCounters();        
+        counters.clearCounters();
     }
     ODL_OBJEXIT(); //####
 } // Endpoint::getSendReceiveCounters
@@ -387,7 +387,7 @@ Endpoint::open(const double timeToWait)
     ODL_OBJENTER(); //####
     ODL_D1("timeToWait = ", timeToWait); //####
     bool result = false;
-    
+
     try
     {
         if (! isOpen())
@@ -453,7 +453,7 @@ Endpoint::setInputHandler(BaseInputHandler & handler)
     ODL_OBJENTER(); //####
     ODL_P1("handler = ", &handler); //####
     bool result = false;
-    
+
     try
     {
         if (_handlerCreator)
@@ -495,7 +495,7 @@ Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
     ODL_OBJENTER(); //####
     ODL_P1("handlerCreator = ", &handlerCreator); //####
     bool result = false;
-    
+
     try
     {
         if (_handler)
@@ -538,7 +538,7 @@ Endpoint::setReporter(ChannelStatusReporter & reporter,
     ODL_P1("reporter = ", &reporter); //####
     ODL_B1("andReportNow = ", andReportNow); //####
     bool result = false;
-    
+
     try
     {
         if (_channel)
@@ -569,7 +569,7 @@ Endpoint::updateSendCounters(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
     ODL_LL1("numBytes = ", numBytes); //####
-    
+
     if (_channel && _metricsEnabled)
     {
         _channel->updateSendCounters(numBytes);
@@ -583,7 +583,7 @@ const
 {
     ODL_OBJENTER(); //####
     yarp::os::Contact result;
-    
+
     if (_channel && isOpen())
     {
         result = _channel->where();

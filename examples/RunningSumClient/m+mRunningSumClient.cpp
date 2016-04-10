@@ -108,12 +108,12 @@ RunningSumClient::addToSum(const double value,
     ODL_OBJENTER(); //####
     ODL_P1("newSum = ", &newSum); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         parameters.addDouble(value);
         reconnectIfDisconnected();
         if (send(MpM_ADDTOSUM_REQUEST_, parameters, response))
@@ -121,7 +121,7 @@ RunningSumClient::addToSum(const double value,
             if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isDouble())
                 {
                     newSum = retrieved.asDouble();
@@ -164,12 +164,12 @@ RunningSumClient::addToSum(const DoubleVector & values,
     ODL_OBJENTER(); //####
     ODL_P2("values = ", &values, "newSum = ", &newSum); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
         ServiceResponse  response;
-        
+
         if (0 < values.size())
         {
             for (DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
@@ -185,7 +185,7 @@ RunningSumClient::addToSum(const DoubleVector & values,
                 if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())
                 {
                     yarp::os::Value retrieved(response.element(0));
-                    
+
                     if (retrieved.isDouble())
                     {
                         newSum = retrieved.asDouble();
@@ -231,14 +231,14 @@ RunningSumClient::resetSum(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
 #if defined(MpM_DoExplicitCheckForOK)
         ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-        
+
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETSUM_REQUEST_, parameters, response))
@@ -246,7 +246,7 @@ RunningSumClient::resetSum(void)
             if (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
@@ -291,14 +291,14 @@ RunningSumClient::startSum(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
 #if defined(MpM_DoExplicitCheckForOK)
         ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-        
+
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STARTSUM_REQUEST_, parameters, response))
@@ -306,7 +306,7 @@ RunningSumClient::startSum(void)
             if (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
@@ -351,14 +351,14 @@ RunningSumClient::stopSum(void)
 {
     ODL_OBJENTER(); //####
     bool okSoFar = false;
-    
+
     try
     {
         yarp::os::Bottle parameters;
 #if defined(MpM_DoExplicitCheckForOK)
         ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)
-        
+
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPSUM_REQUEST_, parameters, response))
@@ -366,7 +366,7 @@ RunningSumClient::stopSum(void)
             if (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
-                
+
                 if (retrieved.isString())
                 {
                     okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);

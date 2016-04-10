@@ -104,7 +104,8 @@ BoolArgumentDescriptor::~BoolArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_ADDVALUETOBOTTLE_(BoolArgumentDescriptor)
+void
+BoolArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
 {
     ODL_ENTER(); //####
     ODL_P1("container = ", &container); //####
@@ -112,7 +113,8 @@ DEFINE_ADDVALUETOBOTTLE_(BoolArgumentDescriptor)
     ODL_EXIT(); //####
 } // BoolArgumentDescriptor::addValueToBottle
 
-DEFINE_CLONE_(BoolArgumentDescriptor)
+BaseArgumentDescriptor *
+BoolArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new BoolArgumentDescriptor(argumentName(),
@@ -123,16 +125,18 @@ DEFINE_CLONE_(BoolArgumentDescriptor)
     return result;
 } // BoolArgumentDescriptor::clone
 
-DEFINE_GETDEFAULTVALUE_(BoolArgumentDescriptor)
+YarpString
+BoolArgumentDescriptor::getDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(_defaultValue ? "1" : "0");
-    
+
     ODL_OBJEXIT_s(result); //####
     return result;
 } // BoolArgumentDescriptor::getDefaultValue
 
-DEFINE_GETPROCESSEDVALUE_(BoolArgumentDescriptor)
+YarpString
+BoolArgumentDescriptor::getProcessedValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(_currentValue ? "1" : "0");
@@ -156,7 +160,7 @@ BoolArgumentDescriptor::parseArgString(const YarpString & inString)
         bool         defaultValue;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   modeString(inVector[2]);        
+        YarpString   modeString(inVector[2]);
         YarpString   defaultString(inVector[3]);
         YarpString   description(inVector[4]);
 
@@ -204,7 +208,8 @@ BoolArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // BoolArgumentDescriptor::parseArgString
 
-DEFINE_SETTODEFAULTVALUE_(BoolArgumentDescriptor)
+void
+BoolArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
@@ -212,7 +217,8 @@ DEFINE_SETTODEFAULTVALUE_(BoolArgumentDescriptor)
     ODL_OBJEXIT(); //####
 } // BoolArgumentDescriptor::setToDefaultValue
 
-DEFINE_TOSTRING_(BoolArgumentDescriptor)
+YarpString
+BoolArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(prefixFields("B"));
@@ -222,12 +228,13 @@ DEFINE_TOSTRING_(BoolArgumentDescriptor)
     return result;
 } // BoolArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(BoolArgumentDescriptor)
+bool
+BoolArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
     bool boolValue;
     char firstChar = tolower(value[0]);
-    
+
     if (('0' == firstChar) || ('f' == firstChar) || ('n' == firstChar))
     {
         boolValue = false;

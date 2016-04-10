@@ -57,56 +57,56 @@ namespace MplusM
     namespace Exemplar
     {
         class ExemplarService;
-        
+
         /*! @brief The 'simple' request handler.
-         
+
          The input for the request is an optional count of the number of random numbers to generate
          and the output is either a single floating point number, between 0 and 1 or a list of
          floating point numbers, between 0 and 1. */
         class SimpleRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             SimpleRequestHandler(ExemplarService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~SimpleRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(SimpleRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // SimpleRequestHandler
-        
+
     } // Exemplar
-    
+
 } // MplusM
 
 #endif // ! defined(MpMSimpleRequestHandler_H_)

@@ -60,43 +60,43 @@ namespace MplusM
         class TestNameValidator : public MplusM::Parser::BaseNameValidator
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseNameValidator inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             TestNameValidator(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~TestNameValidator(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_CHECKNAME_;
-            
+
             DECLARE_GETPREFIXANDSUFFIX_;
-            
+
             COPY_AND_ASSIGNMENT_(TestNameValidator);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // TestNameValidator
-        
+
     } // Test
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTestNameValidator_H_)

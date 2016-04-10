@@ -60,25 +60,25 @@ namespace MplusM
         class GeneralChannel : public BaseChannel
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseChannel inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
             explicit
             GeneralChannel(const bool isOutput);
-            
+
             /*! @brief The destructor. */
             virtual
             ~GeneralChannel(void);
-            
+
             /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
              @returns @c true if the channel is used for output and @c false otherwise. */
             inline bool
@@ -87,7 +87,7 @@ namespace MplusM
             {
                 return _isOutput;
             } // isOutput
-            
+
             /*! @brief Returns the protocol associated with the channel.
              @returns The protocol associated with the channel. */
             inline const YarpString &
@@ -96,7 +96,7 @@ namespace MplusM
             {
                 return _protocol;
             } // protocol
-            
+
             /*! @brief Returns the description of the protocol associated with the channel.
              @returns The description of the protocol associated with the channel. */
             inline const YarpString &
@@ -105,35 +105,35 @@ namespace MplusM
             {
                 return _protocolDescription;
             } // protocolDescription
-            
+
             /*! @brief Sets the protocol associated with the channel.
              @param newProtocol The new protocol associated with the channel.
              @param description The description of the new protocol. */
             void
             setProtocol(const YarpString & newProtocol,
                         const YarpString & description);
-            
+
         protected :
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(GeneralChannel);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The protocol that the channel supports. */
             YarpString _protocol;
-            
+
             /*! @brief The description of the protocol that the channel supports. */
             YarpString _protocolDescription;
-            
+
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
             bool _isOutput;
-            
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
@@ -143,11 +143,11 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
+
         }; // GeneralChannel
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMGeneralChannel_H_)

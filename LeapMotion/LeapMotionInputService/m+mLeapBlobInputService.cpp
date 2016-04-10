@@ -127,17 +127,17 @@ DEFINE_CONFIGURE_(LeapBlobInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            
+
             if (firstValue.isDouble() || firstValue.isInt())
             {
                 std::stringstream buff;
-                
+
                 if (firstValue.isDouble())
                 {
                     _translationScale = firstValue.asDouble();
@@ -205,7 +205,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapBlobInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "b";
@@ -220,7 +220,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_listener)
     {
         _listener->clearOutputChannel();
@@ -239,7 +239,7 @@ DEFINE_STARTSERVICE_(LeapBlobInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -284,7 +284,7 @@ DEFINE_STOPSERVICE_(LeapBlobInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

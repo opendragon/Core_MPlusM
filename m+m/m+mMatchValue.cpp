@@ -108,11 +108,11 @@ MatchValue::CreateMatcher(const YarpString & inString,
     ODL_S1s("inString = ", inString); //####
     ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchValue * result = NULL;
-    
+
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-        
+
         if (workPos < inLength)
         {
             // Remember where we began.
@@ -126,7 +126,7 @@ MatchValue::CreateMatcher(const YarpString & inString,
             const char listTerminator = MatchValueList::ListTerminatorCharacter();
             YarpString assembled;
             size_t     startSubPos = workPos;
-            
+
             // If we have a quote character, scan for the matching character. If we have an illegal
             // starting character, reject the string.
             if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
@@ -244,7 +244,7 @@ MatchValue::MatchValue(const YarpString & inString) :
     for (size_t ii = 0; len > ii; ++ii)
     {
         char walker = inString[ii];
-        
+
         if (! escapeNextChar)
         {
             if (kEscapeChar == walker)
@@ -273,7 +273,7 @@ MatchValue::MatchValue(const YarpString & inString) :
         for (size_t ii = 0; len > ii; ++ii)
         {
             char walker = inString[ii];
-            
+
             if (! escapeNextChar)
             {
                 if (kEscapeChar == walker)
@@ -312,21 +312,21 @@ const
 {
     ODL_OBJENTER(); //####
     YarpString converted;
-    
+
     try
     {
         bool escapeNextChar = false;
-        
+
         converted += kSingleQuote;
         if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
             ODL_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)"); //####
             bool wasEscaped = false;
-            
+
             for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
             {
                 char walker = _matchingString[ii];
-                
+
                 // If there are SQL special characters present, escape them.
                 if (escapeNextChar)
                 {
@@ -395,7 +395,7 @@ const
             for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
             {
                 char walker = _matchingString[ii];
-                
+
                 if (kEscapeChar != walker)
                 {
                     converted += walker;
@@ -418,19 +418,19 @@ MatchValue::asString(void)
 const
 {
     YarpString converted;
-    
+
     try
     {
         bool   sawDoubleQuote = false;
         bool   sawSingleQuote = false;
         bool   sawWhitespace = false;
         size_t len = _matchingString.length();
-        
+
         // First, check if there are blanks or quotes in the string:
         for (size_t ii = 0; ii < len; ++ii)
         {
             char walker = _matchingString[ii];
-            
+
             if (isspace(walker))
             {
                 sawWhitespace = true;
@@ -454,7 +454,7 @@ const
                 for (size_t ii = 0; ii < len; ++ii)
                 {
                     char walker = _matchingString[ii];
-                    
+
                     if (kDoubleQuote == walker)
                     {
                         converted += kEscapeChar;

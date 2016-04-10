@@ -57,31 +57,31 @@ namespace MplusM
     namespace Parser
     {
         class MatchValue;
-        
+
         /*! @brief A pattern matcher for lists of simple values. */
         class MatchValueList : public BaseMatcher
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
-            
+
             /*! @brief A sequence of values. */
             typedef std::vector<MatchValue *> MatchValueListData;
-            
+
             /*! @brief The size-type for sequence data. */
             typedef MatchValueListData::size_type MatchValueListSize;
-            
+
         public :
-            
+
             /*! @brief The destructor. */
             virtual
             ~MatchValueList(void);
-            
+
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @param fieldName The name to be used in the SQL matching expression.
              @param negated @c true if the matching is negated and @c false otherwise.
@@ -90,19 +90,19 @@ namespace MplusM
             asSQLString(const char * fieldName,
                         const bool   negated)
             const;
-            
+
             /*! @brief Create a printable representation of the value list.
              @returns A printable representation of the value list. */
             const YarpString
             asString(void)
             const;
-            
+
             /*! @brief Return the number of elements in the value list.
              @returns The number of elements in the value list. */
             int
             count(void)
             const;
-            
+
             /*! @brief Create a pattern matcher if the next substring would be a valid value list.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -115,7 +115,7 @@ namespace MplusM
                           const size_t       inLength,
                           const size_t       startPos,
                           size_t &           endPos);
-            
+
             /*! @brief Return an element from the value list.
              @param index The zero-origin index of the element.
              @returns An element of the value list or @c NULL if the index is outside the range of
@@ -123,48 +123,48 @@ namespace MplusM
             const MatchValue *
             element(const int index)
             const;
-            
+
             /*! @brief The character used to signal the beginning of a value list.
              @returns The character that ends a value list. */
             static char
             ListInitiatorCharacter(void);
-            
+
             /*! @brief The character used between value list elements.
              @returns The character that separates value list elements. */
             static char
             ListSeparatorCharacter(void);
-            
+
             /*! @brief The character used to signal the end of a value list.
              @returns The character that ends a value list. */
             static char
             ListTerminatorCharacter(void);
-            
+
         protected :
-            
+
             /*! @brief The constructor. */
             MatchValueList(void);
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(MatchValueList);
-            
+
             /*! @brief Remove all the list elements. */
             void
             empty(void);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The elements of the list. */
             MatchValueListData _values;
-            
+
         }; // MatchValueList
-        
+
     } // Parser
-    
+
 } // MplusM
 
 #endif // ! defined(MpMMatchValueList_H_)

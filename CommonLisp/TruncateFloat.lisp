@@ -38,7 +38,7 @@
 
 (defun truncAValue (inValue)
   (if (numberp inValue) (truncate inValue) inValue))
-  
+
 (defun doTruncateFloat (portNumber incomingData)
   (let* (outValues)
     (if (arrayp incomingData)

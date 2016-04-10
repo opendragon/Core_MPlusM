@@ -105,7 +105,7 @@ BaseAdapterData::activate(void)
 {
     ODL_OBJENTER(); //####
     bool previous;
-    
+
     lock();
     previous = _active;
     _active = true;
@@ -119,7 +119,7 @@ BaseAdapterData::deactivate(void)
 {
     ODL_OBJENTER(); //####
     bool previous;
-    
+
     lock();
     previous = _active;
     _active = false;

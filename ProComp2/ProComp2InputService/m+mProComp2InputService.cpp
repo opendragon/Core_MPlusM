@@ -131,7 +131,7 @@ DEFINE_CONFIGURE_(ProComp2InputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         result = true;
@@ -182,7 +182,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ProComp2InputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "PROCOMP2";
@@ -196,7 +196,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ProComp2InputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
@@ -215,7 +215,7 @@ DEFINE_STARTSERVICE_(ProComp2InputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -262,7 +262,7 @@ DEFINE_STOPSERVICE_(ProComp2InputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

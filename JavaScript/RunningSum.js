@@ -41,7 +41,7 @@ var runningSum = 0;
 function doCommand(aCommand, itsArgs)
 {
     var aValue;
-    
+
     switch (aCommand)
     {
         case 'add' :
@@ -65,18 +65,18 @@ function doCommand(aCommand, itsArgs)
                 }
             }
             break;
-            
+
         case 'quit' :
             requestStop();
             break;
-            
+
         case 'reset' :
             runningSum = 0;
             break;
-            
+
         default :
             break;
-            
+
     }
 } // doCommand
 
@@ -85,7 +85,7 @@ function doRunningSum(portNumber, incomingData)
     if (Array.isArray(incomingData))
     {
         var cmd = String(incomingData.shift());
-        
+
         doCommand(cmd, incomingData);
     }
     else

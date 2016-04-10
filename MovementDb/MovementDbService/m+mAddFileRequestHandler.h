@@ -57,55 +57,55 @@ namespace MplusM
     namespace MovementDb
     {
         class MovementDbService;
-        
+
         /*! @brief The 'addfile' request handler for the movement database service.
-         
+
          The inputs for the request is the file-system path to the file; there is no output for the
          request. */
         class AddFileRequestHandler : public Common::BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param service The service that has registered this request. */
             explicit
             AddFileRequestHandler(MovementDbService & service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~AddFileRequestHandler(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_FILLINALIASES_;
-            
+
             DECLARE_FILLINDESCRIPTION_;
-            
+
             DECLARE_PROCESSREQUEST_;
-            
+
             COPY_AND_ASSIGNMENT_(AddFileRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // AddFileRequestHandler
-        
+
     } // MovementDb
-    
+
 } // MplusM
 
 #endif // ! defined(MpMAddFileRequestHandler_H_)

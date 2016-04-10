@@ -136,7 +136,7 @@ DEFINE_CONFIGURE_(LeapMotionInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -188,7 +188,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapMotionInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "LEAP";
@@ -205,7 +205,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapMotionInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_listener)
     {
         _listener->clearOutputChannel();
@@ -224,7 +224,7 @@ DEFINE_STARTSERVICE_(LeapMotionInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -268,7 +268,7 @@ DEFINE_STOPSERVICE_(LeapMotionInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

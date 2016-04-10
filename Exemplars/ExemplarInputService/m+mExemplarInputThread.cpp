@@ -119,7 +119,7 @@ DEFINE_RUN_(ExemplarInputThread)
         {
             ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             yarp::os::Bottle message;
-            
+
             for (int ii = 0; ii < _numValues; ++ii)
             {
                 message.addDouble(10000 * yarp::os::Random::uniform());
@@ -145,7 +145,7 @@ DEFINE_THREADINIT_(ExemplarInputThread)
 {
     ODL_OBJENTER(); //####
     bool result = true;
-    
+
     _nextTime = yarp::os::Time::now() + _timeToWait;
     ODL_OBJEXIT_B(result); //####
     return result;

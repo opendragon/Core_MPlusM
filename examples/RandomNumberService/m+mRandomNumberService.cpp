@@ -168,7 +168,7 @@ DEFINE_STARTSERVICE_(RandomNumberService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -189,7 +189,7 @@ DEFINE_STOPSERVICE_(RandomNumberService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

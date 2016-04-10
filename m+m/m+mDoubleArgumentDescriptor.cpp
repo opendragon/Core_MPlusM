@@ -112,16 +112,18 @@ DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_ADDVALUETOBOTTLE_(DoubleArgumentDescriptor)
+void
+DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
 {
     ODL_ENTER(); //####
     ODL_P1("container = ", &container); //####
-    
+
     container.addDouble(_currentValue);
     ODL_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
 
-DEFINE_CLONE_(DoubleArgumentDescriptor)
+BaseArgumentDescriptor *
+DoubleArgumentDescriptor::clone(void)
 {
     ODL_OBJENTER(); //####
     BaseArgumentDescriptor * result = new DoubleArgumentDescriptor(argumentName(),
@@ -134,7 +136,8 @@ DEFINE_CLONE_(DoubleArgumentDescriptor)
     return result;
 } // DoubleArgumentDescriptor::clone
 
-DEFINE_GETDEFAULTVALUE_(DoubleArgumentDescriptor)
+YarpString
+DoubleArgumentDescriptor::getDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString        result;
@@ -146,7 +149,8 @@ DEFINE_GETDEFAULTVALUE_(DoubleArgumentDescriptor)
     return result;
 } // DoubleArgumentDescriptor::getDefaultValue
 
-DEFINE_GETPROCESSEDVALUE_(DoubleArgumentDescriptor)
+YarpString
+DoubleArgumentDescriptor::getProcessedValue(void)
 {
     ODL_OBJENTER(); //####
     YarpString        result;
@@ -241,7 +245,8 @@ DoubleArgumentDescriptor::parseArgString(const YarpString & inString)
     return result;
 } // DoubleArgumentDescriptor::parseArgString
 
-DEFINE_SETTODEFAULTVALUE_(DoubleArgumentDescriptor)
+void
+DoubleArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
@@ -249,7 +254,8 @@ DEFINE_SETTODEFAULTVALUE_(DoubleArgumentDescriptor)
     ODL_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefaultValue
 
-DEFINE_TOSTRING_(DoubleArgumentDescriptor)
+YarpString
+DoubleArgumentDescriptor::toString(void)
 {
     ODL_OBJENTER(); //####
     YarpString result(prefixFields("D"));
@@ -258,7 +264,7 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
     if (_hasMinimumValue)
     {
         std::stringstream buff;
-        
+
         buff << _minimumValue;
         result += buff.str();
     }
@@ -266,7 +272,7 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
     if (_hasMaximumValue)
     {
         std::stringstream buff;
-        
+
         buff << _maximumValue;
         result += buff.str();
     }
@@ -275,13 +281,14 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
     return result;
 } // DoubleArgumentDescriptor::toString
 
-DEFINE_VALIDATE_(DoubleArgumentDescriptor)
+bool
+DoubleArgumentDescriptor::validate(const YarpString & value)
 {
     ODL_OBJENTER(); //####
     const char * startPtr = value.c_str();
     char *       endPtr;
     double       dblValue = strtod(startPtr, &endPtr);
-    
+
     if ((startPtr != endPtr) && (! *endPtr))
     {
         _valid = true;

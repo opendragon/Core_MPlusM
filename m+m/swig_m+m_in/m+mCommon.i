@@ -1,4 +1,4 @@
-%module m+m
+%module MplusM
 %{
 #include "m+mAddressArgumentDescriptor.h"
 #include "m+mBailOut.h"

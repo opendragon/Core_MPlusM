@@ -116,7 +116,7 @@ DEFINE_HANDLE_INPUT_(AbsorberFilterInputHandler)
     ODL_P1("replyMechanism = ", replyMechanism); //####
     ODL_L1("numBytes = ", numBytes); //####
     bool result = true;
-    
+
     try
     {
         _service.updateCount(numBytes);

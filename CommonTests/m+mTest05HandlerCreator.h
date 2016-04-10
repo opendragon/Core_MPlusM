@@ -60,41 +60,41 @@ namespace MplusM
         class Test05HandlerCreator : public Common::BaseInputHandlerCreator
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandlerCreator inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor. */
             Test05HandlerCreator(void);
-            
+
             /*! @brief The destructor. */
             virtual
             ~Test05HandlerCreator(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_CREATE_;
-            
+
             COPY_AND_ASSIGNMENT_(Test05HandlerCreator);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         }; // Test05HandlerCreator
-        
+
     } // Test
-    
+
 } // MplusM
 
 #endif // ! defined(MpMTest05HandlerCreator_H_)

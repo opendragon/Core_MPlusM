@@ -124,23 +124,23 @@ DEFINE_CONFIGURE_(RandomBurstInputService)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
-            
+
             if (firstValue.isDouble() && secondValue.isInt())
             {
                 double firstNumber = firstValue.asDouble();
                 int    secondNumber = secondValue.asInt();
-                
+
                 if ((0 < firstNumber) && (0 < secondNumber))
                 {
                     std::stringstream buff;
-                    
+
                     _burstPeriod = firstNumber;
                     _burstSize = secondNumber;
                     ODL_D1("_burstPeriod <- ", _burstPeriod); //####
@@ -209,7 +209,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-    
+
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "d+";
@@ -223,7 +223,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(RandomBurstInputService)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
-    
+
     if (_generator)
     {
         _generator->clearOutputChannel();
@@ -242,7 +242,7 @@ DEFINE_STARTSERVICE_(RandomBurstInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+
             }
             else
             {
@@ -292,7 +292,7 @@ DEFINE_STOPSERVICE_(RandomBurstInputService)
 {
     ODL_OBJENTER(); //####
     bool result;
-    
+
     try
     {
         result = inherited::stopService();

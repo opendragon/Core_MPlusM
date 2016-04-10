@@ -103,34 +103,34 @@ namespace MplusM
     {
         class RequestMap;
         class BaseService;
-        
+
         /*! @brief A convenience class to provide function objects for requests. */
         class BaseRequestHandler
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param request The name of the request.
              @param service The service associated with the request. */
             BaseRequestHandler(const YarpString & request,
                                BaseService &      service);
-            
+
             /*! @brief The destructor. */
             virtual
             ~BaseRequestHandler(void);
-            
+
             /*! @fn virtual void
                     fillInAliases(YarpStringVector & alternateNames)
              @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
             DECLARE_FILLINALIASES_ = 0;
-            
+
             /*! @fn virtual void
                     fillInDescription(const YarpString &   request,
                                       yarp::os::Property & info)
@@ -138,7 +138,7 @@ namespace MplusM
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             DECLARE_FILLINDESCRIPTION_ = 0;
-            
+
             /*! @brief Return the name of the request.
              @returns The name of the request. */
             inline const YarpString &
@@ -147,7 +147,7 @@ namespace MplusM
             {
                 return _name;
             } // name
-            
+
             /*! @fn virtual bool
                     processRequest(const YarpString &           request,
                                    const yarp::os::Bottle &     restOfInput,
@@ -159,50 +159,50 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             DECLARE_PROCESSREQUEST_ = 0;
-            
+
             /*! @brief Send a simple OK response to a request.
              @param replyMechanism The destination for the response. */
             void
             sendOKResponse(yarp::os::ConnectionWriter * replyMechanism);
-            
+
             /*! @brief Send a response to a request.
              @param replyMechanism The destination for the response. */
             void
             sendResponse(yarp::os::ConnectionWriter * replyMechanism);
-            
+
             /*! @brief Connect the handler to a map.
              @param owner The map that contains this handler. */
             void
             setOwner(RequestMap & owner);
-            
+
         protected :
-            
+
             /*! @brief The object to use to hold the request response. */
             yarp::os::Bottle _response;
-            
+
             /*! @brief The service that is associated with the request. */
             BaseService & _service;
-            
+
             /*! @brief The request map that 'owns' this handler. */
             RequestMap * _owner;
-            
+
         private :
-            
+
             COPY_AND_ASSIGNMENT_(BaseRequestHandler);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The name of the request. */
             YarpString _name;
-            
+
         }; // BaseRequestHandler
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBaseRequestHandler_H_)

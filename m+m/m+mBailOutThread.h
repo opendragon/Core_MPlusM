@@ -57,67 +57,67 @@ namespace MplusM
     namespace Common
     {
         class BaseChannel;
-        
+
         /*! @brief A convenience class to timeout objects. */
         class BailOutThread : public Common::BaseThread
         {
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseThread inherited;
-            
+
         public :
-            
+
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
             explicit
             BailOutThread(const double timeToWait);
-            
+
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
             BailOutThread(BaseChannel & channelOfInterest,
                           const double  timeToWait);
-                        
+
             /*! @brief The destructor. */
             virtual
             ~BailOutThread(void);
-            
+
         protected :
-            
+
         private :
-            
+
             DECLARE_RUN_;
-            
+
             DECLARE_THREADINIT_;
-            
+
             DECLARE_THREADRELEASE_;
-            
+
             COPY_AND_ASSIGNMENT_(BailOutThread);
-            
+
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The base channel that we are waiting on. */
             BaseChannel * _baseChannel;
-            
+
             /*! @brief The time at which the thread will stop running. */
             double _endTime;
-            
+
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
-            
+
         }; // BailOutThread
-        
+
     } // Common
-    
+
 } // MplusM
 
 #endif // ! defined(MpMBailOutThread_H_)
