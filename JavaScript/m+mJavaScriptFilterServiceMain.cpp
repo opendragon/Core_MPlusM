@@ -376,24 +376,25 @@ static void
 cleanupStreamObject(JSFreeOp * freeOp,
                     JSObject * obj);
 
-/*! @brief The class of the global object. */
+/*! @brief The function pointers for the stream class. */
+static JSClassOps lStreamOps =
+{
+	NULL,               // addProperty
+	NULL,               // delProperty
+	NULL,               // getProperty
+	NULL,               // setProperty
+	NULL,               // enumerate
+	NULL,               // resolve
+    NULL,               // mayResolve
+	cleanupStreamObject // finalize
+}; // lStreamOps
+
+/*! @brief The class of the stream class. */
 static JSClass lStreamClass =
 {
     "Stream",            // name
     JSCLASS_HAS_PRIVATE, // flags
-    NULL,             // addProperty
-    NULL,             // delProperty
-    NULL,             // getProperty
-    NULL,             // setProperty
-    NULL,             // enumerate
-#if (47 > MOZJS_MAJOR_VERSION)
-    NULL,             // resolve
-#endif // 47 > MOZJS_MAJOR_VERSION
-#if (39 < MOZJS_MAJOR_VERSION)
-    NULL,             // mayResolve
-#endif // 39 < MOZJS_MAJOR_VERSION
-    NULL,             // convert
-    cleanupStreamObject  // finalize
+	&lStreamOps
 }; // lStreamClass
 
 static void

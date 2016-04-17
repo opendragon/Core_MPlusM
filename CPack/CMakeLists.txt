@@ -92,20 +92,11 @@ if(WIN32)
             "${MpM_ACE_ROOT}/lib/ACE.dll"
             DESTINATION bin
             COMPONENT libraries)
-    install(FILES
-            "${MpM_ACE_ROOT}/lib/ACEd.dll"
-            DESTINATION bin
-            COMPONENT libraries)
     #ACE LIB
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.lib"
             DESTINATION lib
             COMPONENT libraries)
-    install(FILES
-            "${MpM_ACE_ROOT}/lib/ACEd.lib"
-            DESTINATION lib
-            COMPONENT libraries)
-
     #YARP HEADERS
     install(DIRECTORY "${MpM_YARP_DIR}/generated_include"
             DESTINATION yarp
@@ -190,12 +181,8 @@ if(WIN32)
 
     #Source archives
     install(FILES
-            "${MpM_SOURCE_DIR}/../archives/ACE_wrappers.zip"
-            "${MpM_SOURCE_DIR}/../archives/Core_MPlusM-master.zip"
+            "${MpM_SOURCE_DIR}/../archives/ACE_MPlusM.zip"
             "${MpM_SOURCE_DIR}/../archives/OGDF.zip"
-            "${MpM_SOURCE_DIR}/../archives/Utilities_mm_manager-master.zip"
-            "${MpM_SOURCE_DIR}/../archives/Utilities_ServiceViewer-master.zip"
-            "${MpM_SOURCE_DIR}/../archives/yarp_MPlusM-master.zip"
             DESTINATION src
             COMPONENT sourcecode)
 
