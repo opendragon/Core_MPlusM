@@ -1,5 +1,6 @@
 \ProvidesFile{MpMbuildingFromSource.tex}[v1.0.0]
 \newcommand{\osxDeploy}{10.7}%
+\newcommand{\spiderversion}{48a1}%
 \appendixStart[BuildingFromSource]{\textitcorr{Building \mplusm{} From Source}}
 For \osx{} and \win{}, an \mplusm{} installation is normally simply installed according to
 the \emph{\MMM{}~Installation} manual.
@@ -227,7 +228,8 @@ code, \asCode{\textbf{devel}}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}MPlusM\textbackslash{}ACE\fUS{}%
-MPlusM\fUS{}vc12.sln}' with \asCode{Visual Studio}
+MPlusM\fUS{}vc12.sln}' with \asCode{Visual Studio}, allowing it to upgrade the
+projects
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
 configuration
 \item\exSp{}Clear out any older binary files via the menu item
@@ -314,8 +316,7 @@ warnings for project developers, which can be cleared by pressing `\textbf{e}'
 \item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
 developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{make clean \&\& make}'
-\item\exSp{}Execute the command
-`\asCode{\textbf{devel}/Core\fUS{}MPlusM/after-yarp-build.sh}';
+\item\exSp{}Execute the command `\asCode{sudo ../after-yarp-build.sh}';
 this corrects some linking issues with \yarp{} caused by installing it in a
 non\longDash{}default location
 \item\exSp{}Execute the command `\asCode{sudo make install}'
@@ -491,7 +492,7 @@ following items:
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
-\asCode{Visual Studio}
+\asCode{Visual Studio}, allowing it to upgrade the projects
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
 configuration
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
@@ -537,7 +538,6 @@ following items:
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\newcommand{\spiderversion}{48a1}%
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
 \textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Filter
 service of \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
@@ -584,9 +584,7 @@ to distribute the resulting directories
 \tertiaryEnd
 \tertiaryStart{Building~on~\win}
 The most recent version of \textbf{SpiderMonkey} can be built on \win{} with the
-`\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} - there are
-no scripts that support newer versions than this, and older versions are not supported at
-all, even though the scripts exist.
+`\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} or newer.
 \begin{itemize}
 \item Download and install the \asCode{MozillaBuild} package, located at
 \asCode{https://wiki.mozilla.org/MozillaBuild};
@@ -631,19 +629,17 @@ must not be `\asCode{C:\textbackslash{}spidermonkey}'
 \end{itemize}
 \item\exSp{}Execute the command `\asCode{../configure {-}{-}enable-release
 {-}{-}enable-more-deterministic \textbackslash\\
-{-}{-}enable-build-nspr {-}{-}prefix=c:/spidermonkey {-}{-}target=x86\fUS{}64-pc-mingw32
-\textbackslash\\
+{-}{-}prefix=c:/spidermonkey {-}{-}target=x86\fUS{}64-pc-mingw32
+\textbackslash
 {-}{-}host=x86\fUS{}64-pc-mingw32}'; note that the build environment has problems with the
 standard \win{} paths for program files, so the target directory is not the final one
 \item\exSp{}Execute the following commands:
 \begin{itemize}
 \item \asCode{mozmake}
 \item\exSp\asCode{mozmake install}
-\item\exSp\asCode{cp dist/bin/icu*.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/mozglue.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/nspr4.dll /c/spidermonkey/lib}
-\item\exSp\asCode{cp dist/bin/plds4.dll /c/spidermonkey/lib}
-\item\exSp\asCode{cp dist/bin/plc4.dll /c/spidermonkey/lib}
+\item\exSp\asCode{cp dist/bin/pl*.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cd /c/}
 \item\exSp\asCode{cd Program\textbackslash{} Files}
 \item\exSp\asCode{cd m+m}
