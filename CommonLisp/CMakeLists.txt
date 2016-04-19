@@ -59,6 +59,7 @@ if(APPLE)
 # So, we need to temporarily build for 64-bit only...
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
 endif(APPLE)
 
 add_library(ECL SHARED IMPORTED)

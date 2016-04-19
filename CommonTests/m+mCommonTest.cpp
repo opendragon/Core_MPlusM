@@ -101,7 +101,7 @@ doCreateEndpointForTest(const int argc,
 {
     ODL_ENTER(); //####
     ODL_LL1("argc = ", argc); //####
-    ODL_P1("argc = ", argv); //####
+    ODL_P1("argv = ", argv); //####
     Endpoint * stuff = NULL;
 
     try
@@ -272,6 +272,8 @@ doTestCreateEndpoint(const char * launchPath,
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -333,6 +335,8 @@ doTestConnectToEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -441,6 +445,8 @@ doTestWriteToEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -568,6 +574,8 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -696,6 +704,8 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -825,6 +835,8 @@ doTestCreateRequest(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -884,6 +896,8 @@ doTestCreateResponse(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -936,6 +950,8 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -1022,6 +1038,8 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -1101,6 +1119,8 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -1179,6 +1199,8 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -1580,6 +1602,8 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -1798,6 +1822,7 @@ main(int      argc,
     catch (...)
     {
         ODL_LOG("Exception caught"); //####
+        throw;
     }
     yarp::os::Network::fini();
     ODL_EXIT_L(result); //####

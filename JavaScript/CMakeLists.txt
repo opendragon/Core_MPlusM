@@ -72,6 +72,7 @@ if(APPLE)
 # for Solaris and adds a '-KPIC' flag?!?!?
 # So, we need to temporarily build for 64-bit only...
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(OLD_CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}")
     set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};${SPIDER_PATH}/lib" CACHE STRING

@@ -106,6 +106,8 @@ doTestCreateRegistryService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -175,6 +177,8 @@ doTestRequestRegistryService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = false;
 
     try
@@ -287,6 +291,8 @@ doTestRequestUnregisterService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -407,6 +413,8 @@ doTestRequestSearchService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
+    ODL_LL1("argc = ", argc); //####
+    ODL_P1("argv = ", argv); //####
     int result = 1;
 
     try
@@ -736,6 +744,7 @@ main(int      argc,
     catch (...)
     {
         ODL_LOG("Exception caught"); //####
+        throw;
     }
     yarp::os::Network::fini();
     ODL_EXIT_L(result); //####
