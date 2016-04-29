@@ -227,7 +227,8 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                                         }
                                         else
                                         {
-                                            ODL_LOG("! (outChannel->write(message2, reply))"); //####
+                                            ODL_LOG("! (outChannel->write(message2, " //####
+                                                    "reply))"); //####
                                             _response.addString(MpM_FAILED_RESPONSE_);
                                             _response.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)

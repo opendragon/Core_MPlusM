@@ -518,7 +518,8 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                     while (SQLITE_BUSY == sqlRes);
                     if ((SQLITE_CONSTRAINT != sqlRes) && (SQLITE_DONE != sqlRes))
                     {
-                        ODL_LOG("((SQLITE_CONSTRAINT != sqlRes) && (SQLITE_DONE != sqlRes))"); //####
+                        ODL_LOG("((SQLITE_CONSTRAINT != sqlRes) && " //####
+                                "(SQLITE_DONE != sqlRes))"); //####
                         okSoFar = false;
                     }
                 }
@@ -1234,7 +1235,8 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
         }
         else
         {
-            ODL_LOG("! ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))"); //####
+            ODL_LOG("! ((0 < channelNameIndex) && (0 < keywordIndex) && " //####
+                    "(0 < requestIndex))"); //####
         }
     }
     catch (...)

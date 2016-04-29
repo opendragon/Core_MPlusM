@@ -154,8 +154,8 @@ main(int      argc,
                 mpmVersionString = SanitizeString(MpM_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
                 cout << "m+m Version: " << mpmVersionString.c_str() << ", YARP Version: " <<
-                        yarpVersionString.c_str() << ", ACE Version: " << aceVersionString.c_str() <<
-                        endl;
+                        yarpVersionString.c_str() << ", ACE Version: " <<
+                        aceVersionString.c_str() << endl;
                 break;
 
             default :

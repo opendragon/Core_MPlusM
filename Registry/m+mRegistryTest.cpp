@@ -453,7 +453,8 @@ doTestRequestSearchService(const char * launchPath,
 
                                 if (RegisterLocalService(channelName, *aService))
                                 {
-                                    ODL_LOG("(RegisterLocalService(channelName, *aService))"); //####
+                                    ODL_LOG("(RegisterLocalService(channelName, " //####
+                                            "*aService))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);

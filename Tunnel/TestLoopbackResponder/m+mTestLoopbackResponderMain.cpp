@@ -202,7 +202,8 @@ main(int      argc,
 #endif // defined(CHATTY_OUTPUT_)
                             if (send(loopSocket, theBuffer, inSize, 0) != inSize)
                             {
-                                ODL_LOG("(send(loopSocket, theBuffer, inSize, 0) != inSize)"); //####
+                                ODL_LOG("(send(loopSocket, theBuffer, inSize, 0) != " //####
+                                        "inSize)"); //####
 #if defined(CHATTY_OUTPUT_)
                                 cout << "sent " << inSize << " bytes." << endl;
 #endif // defined(CHATTY_OUTPUT_)
