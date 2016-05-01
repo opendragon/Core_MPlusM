@@ -229,14 +229,14 @@ setUpAndGo(const YarpString &  channelName,
                                                                           STANDARD_WAIT_TIME_))
                             {
                                 ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                                       "aMatch, STANDARD_WAIT_TIME_))"); //####
+                                        "aMatch, STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
                             ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, aMatch, " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                         }
                     }
                     if (kOutputFlavourJSON == flavour)

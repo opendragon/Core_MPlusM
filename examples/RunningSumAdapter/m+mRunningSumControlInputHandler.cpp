@@ -107,7 +107,11 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_HANDLE_INPUT_(RunningSumControlInputHandler)
+bool
+RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                           const YarpString &           senderChannel,
+                                           yarp::os::ConnectionWriter * replyMechanism,
+                                           const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_

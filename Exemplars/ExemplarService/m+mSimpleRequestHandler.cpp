@@ -103,19 +103,9 @@ SimpleRequestHandler::~SimpleRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(SimpleRequestHandler)
-{
-#if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(ODL_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // SimpleRequestHandler::fillInAliases
-
-DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
+void
+SimpleRequestHandler::fillInDescription(const YarpString &   request,
+                                        yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -126,9 +116,9 @@ DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_INT_ MpM_REQREP_0_OR_1_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_DOUBLE_ MpM_REQREP_1_OR_MORE_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, SIMPLE_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Generate one or more random numbers\n"
-                 "Input: the number of random values to generate\n"
-                 "Output one or more random numbers per request");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Generate one or more random numbers\n"
+                                                  "Input: the number of random values to generate\n"
+                                                  "Output one or more random numbers per request"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -147,7 +137,11 @@ DEFINE_FILLINDESCRIPTION_(SimpleRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(SimpleRequestHandler)
+bool
+SimpleRequestHandler::processRequest(const YarpString &           request,
+                                     const yarp::os::Bottle &     restOfInput,
+                                     const YarpString &           senderChannel,
+                                     yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -156,7 +150,7 @@ DEFINE_PROCESSREQUEST_(SimpleRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

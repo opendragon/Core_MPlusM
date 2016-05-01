@@ -93,11 +93,6 @@ namespace MplusM
              @param other The object to be copied. */
             RGBLEDRequestHandler(const RGBLEDRequestHandler & other);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void
-            fillInAliases(YarpStringVector & alternateNames);
-            
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */

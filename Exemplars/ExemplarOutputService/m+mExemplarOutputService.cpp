@@ -104,7 +104,7 @@ ExemplarOutputService::ExemplarOutputService(const Utilities::DescriptorVector &
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ExemplarOutputService::ExemplarOutputService
@@ -121,7 +121,8 @@ ExemplarOutputService::~ExemplarOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(ExemplarOutputService)
+bool
+ExemplarOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -160,7 +161,8 @@ DEFINE_CONFIGURE_(ExemplarOutputService)
     return result;
 } // ExemplarOutputService::configure
 
-DEFINE_DISABLEMETRICS_(ExemplarOutputService)
+void
+ExemplarOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -171,7 +173,8 @@ DEFINE_DISABLEMETRICS_(ExemplarOutputService)
     ODL_OBJEXIT(); //####
 } // ExemplarOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(ExemplarOutputService)
+void
+ExemplarOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -182,7 +185,8 @@ DEFINE_ENABLEMETRICS_(ExemplarOutputService)
     ODL_OBJEXIT(); //####
 } // ExemplarOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(ExemplarOutputService)
+bool
+ExemplarOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -194,24 +198,8 @@ DEFINE_GETCONFIGURATION_(ExemplarOutputService)
     return result;
 } // ExemplarOutputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(ExemplarOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ExemplarOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarOutputService)
+bool
+ExemplarOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -227,34 +215,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarOutputService)
     return result;
 } // ExemplarOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(ExemplarOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ExemplarOutputService::startService
-
-DEFINE_STARTSTREAMS_(ExemplarOutputService)
+void
+ExemplarOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -291,25 +253,8 @@ DEFINE_STARTSTREAMS_(ExemplarOutputService)
     ODL_OBJEXIT(); //####
 } // ExemplarOutputService::startStreams
 
-DEFINE_STOPSERVICE_(ExemplarOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarOutputService::stopService
-
-DEFINE_STOPSTREAMS_(ExemplarOutputService)
+void
+ExemplarOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

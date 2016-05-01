@@ -368,7 +368,8 @@ ViconBlobEventThread::processEventData(const unsigned int subjectCount)
     ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::processEventData
 
-DEFINE_RUN_(ViconBlobEventThread)
+void
+ViconBlobEventThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -403,7 +404,8 @@ ViconBlobEventThread::setScale(const double newScale)
     ODL_OBJEXIT(); //####
 } // ViconBlobEventThread::setScale
 
-DEFINE_THREADINIT_(ViconBlobEventThread)
+bool
+ViconBlobEventThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = initializeConnection();
@@ -411,12 +413,6 @@ DEFINE_THREADINIT_(ViconBlobEventThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconBlobEventThread::threadInit
-
-DEFINE_THREADRELEASE_(ViconBlobEventThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // ViconBlobEventThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

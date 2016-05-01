@@ -239,7 +239,8 @@ NatNetInputThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // NatNetInputThread::clearOutputChannel
 
-DEFINE_RUN_(NatNetInputThread)
+void
+NatNetInputThread::run(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -282,7 +283,8 @@ NatNetInputThread::sendMessage(yarp::os::Bottle & message)
     ODL_OBJEXIT(); //####
 } // NatNetInputThread::sendMessage
 
-DEFINE_THREADINIT_(NatNetInputThread)
+bool
+NatNetInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -326,7 +328,7 @@ DEFINE_THREADINIT_(NatNetInputThread)
             else
             {
                 ODL_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
-                    "_commandPort, _dataPort))"); //####
+                        "_commandPort, _dataPort))"); //####
                 std::cerr << "Initialization problem with Natural Point NatNet service: ";
                 switch (retCode)
                 {
@@ -365,12 +367,6 @@ DEFINE_THREADINIT_(NatNetInputThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // NatNetInputThread::threadInit
-
-DEFINE_THREADRELEASE_(NatNetInputThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // NatNetInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

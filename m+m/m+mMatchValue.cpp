@@ -493,7 +493,7 @@ const
     }
     catch (...)
     {
-        ODL_LOG("Exception caught");//####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
     return converted;

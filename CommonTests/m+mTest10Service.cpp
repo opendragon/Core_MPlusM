@@ -151,54 +151,6 @@ Test10Service::detachRequestHandlers(void)
     ODL_OBJEXIT(); //####
 } // Test10Service::detachRequestHandlers
 
-DEFINE_STARTSERVICE_(Test10Service)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // Test10Service::startService
-
-DEFINE_STOPSERVICE_(Test10Service)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // Test10Service::stopService
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)

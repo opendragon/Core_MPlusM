@@ -285,7 +285,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
 {
     ODL_ENTER(); //####
     ODL_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
-              orientationData); //####
+           orientationData); //####
     yarp::os::Property & bodyProps = message.addDict();
 
     bodyProps.put("lefthand", handStateToString(leftHandState));
@@ -584,7 +584,8 @@ KinectV2EventThread::processEventData(void)
     ODL_OBJEXIT(); //####
 } // KinectV2EventThread::processEventData
 
-DEFINE_RUN_(KinectV2EventThread)
+void
+KinectV2EventThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -623,7 +624,8 @@ DEFINE_RUN_(KinectV2EventThread)
     ODL_OBJEXIT(); //####
 } // KinectV2EventThread::run
 
-DEFINE_THREADINIT_(KinectV2EventThread)
+bool
+KinectV2EventThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
@@ -636,7 +638,8 @@ DEFINE_THREADINIT_(KinectV2EventThread)
     return result;
 } // KinectV2EventThread::threadInit
 
-DEFINE_THREADRELEASE_(KinectV2EventThread)
+void
+KinectV2EventThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))

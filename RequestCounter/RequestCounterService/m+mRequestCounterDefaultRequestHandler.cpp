@@ -106,46 +106,11 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(RequestCounterDefaultRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // RequestCounterDefaultRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINDESCRIPTION_(RequestCounterDefaultRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(request,info)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_S1s("request = ", request); //####
-    ODL_P1("info = ", &info); //####
-    ODL_OBJEXIT(); //####
-} // RequestCounterDefaultRequestHandler::fillInDescription
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(RequestCounterDefaultRequestHandler)
+bool
+RequestCounterDefaultRequestHandler::processRequest(const YarpString &           request,
+                                                    const yarp::os::Bottle &     restOfInput,
+                                                    const YarpString &           senderChannel,
+                                                    yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -154,7 +119,7 @@ DEFINE_PROCESSREQUEST_(RequestCounterDefaultRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

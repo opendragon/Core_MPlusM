@@ -212,7 +212,7 @@ connectToTunnel(const YarpString & serviceAddress,
             if (connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
             {
                 ODL_LOG("(connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
-                       "sizeof(addr)))"); //####
+                        "sizeof(addr)))"); //####
                 close(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }

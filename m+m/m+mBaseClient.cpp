@@ -121,7 +121,7 @@ validateMatchResponse(const yarp::os::Bottle & response)
                 else
                 {
                     ODL_LOG("! (! strcmp(MpM_FAILED_RESPONSE_, " //####
-                           "responseFirstAsString.c_str()))"); //####
+                            "responseFirstAsString.c_str()))"); //####
                 }
             }
             else
@@ -217,14 +217,14 @@ BaseClient::connectToService(CheckFunction checker,
                     else
                     {
                         ODL_LOG("! (Utilities::NetworkConnectWithRetries(_channelName, " //####
-                               "_serviceChannelName, STANDARD_WAIT_TIME_, false, checker, " //####
-                               "checkStuff))"); //####
+                                "_serviceChannelName, STANDARD_WAIT_TIME_, false, checker, " //####
+                                "checkStuff))"); //####
                     }
                 }
                 else
                 {
                     ODL_LOG("! (_channel->openWithRetries(_channelName, " //####
-                           "STANDARD_WAIT_TIME_))"); //####
+                            "STANDARD_WAIT_TIME_))"); //####
                 }
             }
             else
@@ -303,7 +303,7 @@ BaseClient::disconnectFromService(CheckFunction checker,
             else
             {
                 ODL_LOG("! (Utilities::NetworkDisconnectWithRetries(_channelName, " //####
-                       "_serviceChannelName, STANDARD_WAIT_TIME_, checker, checkStuff))"); //####
+                        "_serviceChannelName, STANDARD_WAIT_TIME_, checker, checkStuff))"); //####
             }
         }
     }
@@ -578,16 +578,16 @@ Common::FindMatchingServices(const YarpString & criteria,
                                                                   checkStuff))
                     {
                         ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
-                               "checkStuff))"); //####
+                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
+                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
-                           "checker, checkStuff))"); //####
+                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                            "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();

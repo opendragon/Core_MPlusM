@@ -53,25 +53,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the fillInAliases method. */
-# define DEFINE_FILLINALIASES_(class_) \
-    void\
-    class_::fillInAliases(YarpStringVector & alternateNames)
-
-/*! @brief Define the fillInDescription method. */
-# define DEFINE_FILLINDESCRIPTION_(class_) \
-    void\
-    class_::fillInDescription(const YarpString &   request,\
-                              yarp::os::Property & info)
-
-/*! @brief Define the processRequest method. */
-# define DEFINE_PROCESSREQUEST_(class_) \
-    bool\
-    class_::processRequest(const YarpString &           request,\
-                           const yarp::os::Bottle &     restOfInput,\
-                           const YarpString &           senderChannel,\
-                           yarp::os::ConnectionWriter * replyMechanism)
-
 namespace MplusM
 {
     namespace Common
@@ -102,15 +83,25 @@ namespace MplusM
 
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void
-            fillInAliases(YarpStringVector & alternateNames) = 0;
+            virtual inline void
+            fillInAliases(YarpStringVector & alternateNames)
+            {
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+            } // fillInAliases
 
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
-            virtual void
+            virtual inline void
             fillInDescription(const YarpString &   request,
-                              yarp::os::Property & info) = 0;
+                              yarp::os::Property & info)
+            {
+# if MAC_OR_LINUX_
+#  pragma unused(request,info)
+# endif // MAC_OR_LINUX_
+            } // fillInDescription
 
             /*! @brief Return the name of the request.
              @returns The name of the request. */

@@ -52,21 +52,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the run method. */
-# define DEFINE_RUN_(class_) \
-    void\
-    class_::run(void)
-
-/*! @brief Define the threadInit method. */
-# define DEFINE_THREADINIT_(class_) \
-    bool\
-    class_::threadInit(void)
-
-/*! @brief Define the threadInit method. */
-# define DEFINE_THREADRELEASE_(class_) \
-    void\
-    class_::threadRelease(void)
-
 namespace MplusM
 {
     namespace Common
@@ -107,17 +92,24 @@ namespace MplusM
             operator =(const BaseThread & other);
 
             /*! @brief The thread main body. */
-            virtual void
-            run(void);
+            virtual inline void
+            run(void)
+            {
+            } // run
             
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            virtual bool
-            threadInit(void);
-            
+            virtual inline bool
+            threadInit(void)
+            {
+                return true;
+            } // threadInit
+
             /*! @brief The thread termination method. */
-            virtual void
-            threadRelease(void);
+            virtual inline void
+            threadRelease(void)
+            {
+            } // threadRelease
             
         public :
 

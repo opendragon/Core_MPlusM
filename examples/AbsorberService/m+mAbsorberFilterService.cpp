@@ -139,7 +139,7 @@ AbsorberFilterService::AbsorberFilterService(const Utilities::DescriptorVector &
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // AbsorberFilterService::AbsorberFilterService
@@ -156,7 +156,8 @@ AbsorberFilterService::~AbsorberFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(AbsorberFilterService)
+bool
+AbsorberFilterService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -206,7 +207,8 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
     return result;
 } // AbsorberFilterService::configure
 
-DEFINE_DISABLEMETRICS_(AbsorberFilterService)
+void
+AbsorberFilterService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -217,7 +219,8 @@ DEFINE_DISABLEMETRICS_(AbsorberFilterService)
     ODL_OBJEXIT(); //####
 } // AbsorberFilterService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(AbsorberFilterService)
+void
+AbsorberFilterService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -228,7 +231,8 @@ DEFINE_ENABLEMETRICS_(AbsorberFilterService)
     ODL_OBJEXIT(); //####
 } // AbsorberFilterService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(AbsorberFilterService)
+bool
+AbsorberFilterService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -240,24 +244,8 @@ DEFINE_GETCONFIGURATION_(AbsorberFilterService)
     return result;
 } // AbsorberFilterService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(AbsorberFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // AbsorberFilterService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
+bool
+AbsorberFilterService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -278,34 +266,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
     return result;
 } // AbsorberFilterService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(AbsorberFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // AbsorberFilterService::startService
-
-DEFINE_STARTSTREAMS_(AbsorberFilterService)
+void
+AbsorberFilterService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -346,25 +308,8 @@ DEFINE_STARTSTREAMS_(AbsorberFilterService)
     ODL_OBJEXIT(); //####
 } // AbsorberFilterService::startStreams
 
-DEFINE_STOPSERVICE_(AbsorberFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // AbsorberFilterService::stopService
-
-DEFINE_STOPSTREAMS_(AbsorberFilterService)
+void
+AbsorberFilterService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

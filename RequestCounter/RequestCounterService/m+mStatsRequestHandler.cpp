@@ -103,26 +103,9 @@ StatsRequestHandler::~StatsRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(StatsRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // StatsRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_FILLINDESCRIPTION_(StatsRequestHandler)
+void
+StatsRequestHandler::fillInDescription(const YarpString &   request,
+                                       yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -132,10 +115,11 @@ DEFINE_FILLINDESCRIPTION_(StatsRequestHandler)
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_INT_ MpM_REQREP_DOUBLE_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, STATS_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
-                 "Return the number of requests and the time since last reset\n"
-                 "Input: nothing\n"
-                 "Output: the number of requests seen and the elapsed time in seconds");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Return the number of requests and the time "
+                                                  "since last reset\n"
+                                                  "Input: nothing\n"
+                                                  "Output: the number of requests seen and the "
+                                                  "elapsed time in seconds"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -154,7 +138,11 @@ DEFINE_FILLINDESCRIPTION_(StatsRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(StatsRequestHandler)
+bool
+StatsRequestHandler::processRequest(const YarpString &           request,
+                                    const yarp::os::Bottle &     restOfInput,
+                                    const YarpString &           senderChannel,
+                                    yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -163,7 +151,7 @@ DEFINE_PROCESSREQUEST_(StatsRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

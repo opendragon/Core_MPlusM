@@ -53,11 +53,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the createHandler method. */
-# define DEFINE_CREATE_(class_) \
-    yarp::os::PortReader *\
-    class_::create(void)
-
 namespace MplusM
 {
     namespace Common

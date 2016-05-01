@@ -106,26 +106,9 @@ ArgumentDescriptionsRequestHandler::~ArgumentDescriptionsRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(ArgumentDescriptionsRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // ArgumentDescriptionsRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_FILLINDESCRIPTION_(ArgumentDescriptionsRequestHandler)
+void
+ArgumentDescriptionsRequestHandler::fillInDescription(const YarpString &   request,
+                                                      yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -136,9 +119,11 @@ DEFINE_FILLINDESCRIPTION_(ArgumentDescriptionsRequestHandler)
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_STRING_
                  MpM_REQREP_0_OR_MORE_ MpM_REQREP_LIST_START_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, ARGUMENTDESCRIPTIONS_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the argument descriptions for the service\n"
-                 "Input: nothing\n"
-                 "Output: a list of argument descriptions for the service configuration");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Return the argument descriptions for the "
+                                                  "service\n"
+                                                  "Input: nothing\n"
+                                                  "Output: a list of argument descriptions for the "
+                                                  "service configuration"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -157,7 +142,11 @@ DEFINE_FILLINDESCRIPTION_(ArgumentDescriptionsRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(ArgumentDescriptionsRequestHandler)
+bool
+ArgumentDescriptionsRequestHandler::processRequest(const YarpString &           request,
+                                                   const yarp::os::Bottle &     restOfInput,
+                                                   const YarpString &           senderChannel,
+                                                   yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -166,7 +155,7 @@ DEFINE_PROCESSREQUEST_(ArgumentDescriptionsRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

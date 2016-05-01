@@ -351,7 +351,7 @@ doTestRequestUnregisterService(const char * launchPath,
                                 else
                                 {
                                     ODL_LOG("! (UnregisterLocalService(channelName, " //####
-                                           "*aService))"); //####
+                                            "*aService))"); //####
                                 }
                             }
                             else
@@ -459,17 +459,16 @@ doTestRequestSearchService(const char * launchPath,
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);
 
-                                    ODL_S3("criteria <- ", argv[1], "expected <- ", //####
-                                              argv[2], "matches <- ", //####
-                                              matches.toString().c_str()); //####
+                                    ODL_S3("criteria <- ", argv[1], "expected <- ", argv[2], //####
+                                           "matches <- ", matches.toString().c_str()); //####
                                     yarp::os::Bottle expected(argv[2]);
 
                                     if ((expected.size() == matches.size()) &&
                                         (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size()))
                                     {
                                         ODL_LOG("((expected.size() == matches.size()) && " //####
-                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
-                                               "matches.size()))"); //####
+                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
+                                                "matches.size()))"); //####
                                         bool            wasASuccess = false;
                                         yarp::os::Value matchesFirst(matches.get(0));
                                         yarp::os::Value expectedFirst(expected.get(0));
@@ -485,7 +484,7 @@ doTestRequestSearchService(const char * launchPath,
                                             if (matchesFirstAsString == expectedFirstAsString)
                                             {
                                                 ODL_LOG("(matchesFirstAsString == " //####
-                                                       "expectedFirstAsString)"); //####
+                                                        "expectedFirstAsString)"); //####
                                                 result = 0;
                                                 if (! strcmp(MpM_OK_RESPONSE_,
                                                              matchesFirstAsString.c_str()))
@@ -496,7 +495,7 @@ doTestRequestSearchService(const char * launchPath,
                                             else
                                             {
                                                 ODL_LOG("! (matchesFirstAsString == " //####
-                                                       "expectedFirstAsString)"); //####
+                                                        "expectedFirstAsString)"); //####
                                             }
                                         }
                                         else
@@ -522,13 +521,13 @@ doTestRequestSearchService(const char * launchPath,
                                                                     expectedSecondAsList->size();
 
                                                 ODL_LL2("matchesSecondCount <- ", //####
-                                                           matchesSecondCount, //####
-                                                           "expectedSecondCount <- ", //####
-                                                           expectedSecondCount); //####
+                                                        matchesSecondCount, //####
+                                                        "expectedSecondCount <- ", //####
+                                                        expectedSecondCount); //####
                                                 if (matchesSecondCount == expectedSecondCount)
                                                 {
                                                     ODL_LOG("(matchesSecondCount == " //####
-                                                           "expectedSecondCount)"); //####
+                                                            "expectedSecondCount)"); //####
                                                     // Since the lists are the same length, we can
                                                     // just look for the expected values in the
                                                     // matched values.
@@ -567,7 +566,7 @@ doTestRequestSearchService(const char * launchPath,
                                                 else
                                                 {
                                                     ODL_LOG("! (matchesSecondCount == " //####
-                                                           "expectedSecondCount)"); //####
+                                                            "expectedSecondCount)"); //####
                                                     result = 1;
                                                 }
                                             }
@@ -581,19 +580,19 @@ doTestRequestSearchService(const char * launchPath,
                                     else
                                     {
                                         ODL_LOG("! ((expected.size() == matches.size()) && " //####
-                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
-                                               "matches.size()))"); //####
+                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
+                                                "matches.size()))"); //####
                                     }
                                     if (! UnregisterLocalService(channelName, *aService))
                                     {
                                         ODL_LOG("(! UnregisterLocalService(channelName, " //####
-                                               "*aService))"); //####
+                                                "*aService))"); //####
                                     }
                                 }
                                 else
                                 {
                                     ODL_LOG("! (RegisterLocalService(channelName, " //####
-                                           "*aService))"); //####
+                                            "*aService))"); //####
                                 }
                                 aService->stopService();
                             }

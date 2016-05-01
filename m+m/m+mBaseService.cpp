@@ -100,9 +100,9 @@ using std::endl;
 
 /*! @brief Whether or not metrics are initially being gathered. */
 #if defined(MpM_MetricsInitiallyOn)
-# define MEASUREMENTS_ON_ true
+static const bool kMeasurementsOn = true;
 #else // ! defined(MpM_MetricsInitiallyOn)
-# define MEASUREMENTS_ON_ false
+static const bool kMeasurementsOn = false;
 #endif // ! defined(MpM_MetricsInitiallyOn)
 
 #if defined(__APPLE__)
@@ -138,14 +138,14 @@ BaseService::BaseService(const ServiceKind  theKind,
     _detachHandler(NULL), _extraInfoHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
     _metricsHandler(NULL), _metricsStateHandler(NULL), _nameHandler(NULL),
     _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(kMeasurementsOn),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
-               "description = ", description, "requestsDescription = ", requestsDescription); //####
+            "description = ", description, "requestsDescription = ", requestsDescription); //####
     ODL_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
-               servicePortNumber); //####
+            servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
@@ -192,7 +192,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
     _listHandler(NULL), _metricsHandler(NULL), _metricsStateHandler(NULL), _nameHandler(NULL),
     _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(kMeasurementsOn),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
@@ -202,7 +202,7 @@ BaseService::BaseService(const ServiceKind  theKind,
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
-               "description = ", description, "requestsDescription = ", requestsDescription); //####
+            "description = ", description, "requestsDescription = ", requestsDescription); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
@@ -319,9 +319,9 @@ BaseService::attachRequestHandlers(void)
         else
         {
             ODL_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
-                   "_detachHandler && _extraInfoHandler && _infoHandler && _listHandler && " //####
-                   "_metricsHandler && _metricsStateHandler && _nameHandler && " //####
-                   "_setMetricsStateHandler && _stopHandler)"); //####
+                    "_detachHandler && _extraInfoHandler && _infoHandler && _listHandler && " //####
+                    "_metricsHandler && _metricsStateHandler && _nameHandler && " //####
+                    "_setMetricsStateHandler && _stopHandler)"); //####
         }
     }
     catch (...)
@@ -459,7 +459,8 @@ BaseService::detachRequestHandlers(void)
     ODL_OBJEXIT(); //####
 } // BaseService::detachRequestHandlers
 
-DEFINE_DISABLEMETRICS_(BaseService)
+void
+BaseService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     _metricsEnabled = false;
@@ -470,7 +471,8 @@ DEFINE_DISABLEMETRICS_(BaseService)
     ODL_OBJEXIT(); //####
 } // BaseService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(BaseService)
+void
+BaseService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     if (_endpoint)
@@ -499,7 +501,8 @@ BaseService::fillInClientList(YarpStringVector & clients)
     ODL_OBJEXIT(); //####
 } // BaseService::fillInClientList
 
-DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseService)
+void
+BaseService::fillInSecondaryClientChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -507,7 +510,8 @@ DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseService)
     ODL_OBJEXIT(); //####
 } // BaseService::fillInSecondaryClientChannelsList
 
-DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseService)
+void
+BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -515,7 +519,8 @@ DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseService)
     ODL_OBJEXIT(); //####
 } // BaseService::fillInSecondaryInputChannelsList
 
-DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseService)
+void
+BaseService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -550,7 +555,8 @@ BaseService::findContext(const YarpString & key)
     return result;
 } // BaseService::findContext
 
-DEFINE_GATHERMETRICS_(BaseService)
+void
+BaseService::gatherMetrics(yarp::os::Bottle & metrics)
 {
     ODL_OBJENTER(); //####
     ODL_P1("metrics = ", &metrics); //####
@@ -582,7 +588,7 @@ BaseService::processRequest(const YarpString &           request,
 {
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 
@@ -726,7 +732,7 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                         else
                         {
                             ODL_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE_ == " //####
-                                   "response.count())"); //####
+                                    "response.count())"); //####
                             ODL_S1s("response = ", response.asString()); //####
                         }
                     }
@@ -741,16 +747,16 @@ BaseService::sendPingForChannel(const YarpString & channelName,
                                                                   checkStuff))
                     {
                         ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
-                               "checkStuff))"); //####
+                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
+                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
-                           "checker, checkStuff))"); //####
+                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                            "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -798,7 +804,8 @@ BaseService::setExtraInformation(const YarpString & extraInfo)
     ODL_OBJEXIT(); //####
 } // BaseService::setExtraInformation
 
-DEFINE_STARTSERVICE_(BaseService)
+bool
+BaseService::startService(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -818,7 +825,7 @@ DEFINE_STARTSERVICE_(BaseService)
                     else
                     {
                         ODL_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
-                               "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
+                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handlerCreator;
                         _handlerCreator = NULL;
                     }
@@ -841,7 +848,7 @@ DEFINE_STARTSERVICE_(BaseService)
                     else
                     {
                         ODL_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
-                               "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
+                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handler;
                         _handler = NULL;
                     }
@@ -879,7 +886,8 @@ BaseService::startPinger(void)
     ODL_OBJEXIT(); //####
 } // BaseService::startPinger
 
-DEFINE_STOPSERVICE_(BaseService)
+bool
+BaseService::stopService(void)
 {
     ODL_OBJENTER(); //####
     if (_pinger)
@@ -926,9 +934,8 @@ Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
                            const YarpString &       tagModifier)
 {
     ODL_ENTER(); //####
-    ODL_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
-               "tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "tagModifier = ", tagModifier); //####
+    ODL_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, "tag = ", tag, //####
+            "serviceEndpointName = ", serviceEndpointName, "tagModifier = ", tagModifier); //####
     bool       nameWasSet = false;
     YarpString trimmedModifier;
 
@@ -1118,10 +1125,10 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     ODL_ENTER(); //####
     ODL_L2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
-              "reportEndpoint = ", &reportEndpoint, "reportOnExit = ", &reportOnExit); //####
+           "reportEndpoint = ", &reportEndpoint, "reportOnExit = ", &reportOnExit); //####
     ODL_P2("modFlag = ", &modFlag, "arguments = ", arguments); //####
     ODL_S2s("serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
-               matchingCriteria); //####
+            matchingCriteria); //####
     ODL_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
@@ -1617,7 +1624,7 @@ Common::RegisterLocalService(const YarpString & channelName,
                         else
                         {
                             ODL_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
-                                   "response.count())"); //####
+                                    "response.count())"); //####
                             ODL_S1s("response = ", response.asString()); //####
                         }
                     }
@@ -1632,16 +1639,16 @@ Common::RegisterLocalService(const YarpString & channelName,
                                                                   checkStuff))
                     {
                         ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
-                               "checkStuff))"); //####
+                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
+                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
-                           "checker, checkStuff))"); //####
+                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                            "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -1735,7 +1742,7 @@ Common::UnregisterLocalService(const YarpString & channelName,
                         else
                         {
                             ODL_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == " //####
-                                   "response.count())"); //####
+                                    "response.count())"); //####
                             ODL_S1s("response = ", response.asString()); //####
                         }
                     }
@@ -1750,16 +1757,16 @@ Common::UnregisterLocalService(const YarpString & channelName,
                                                                   checkStuff))
                     {
                         ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
-                               "checkStuff))"); //####
+                                "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
+                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
-                           "checker, checkStuff))"); //####
+                            "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                            "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();

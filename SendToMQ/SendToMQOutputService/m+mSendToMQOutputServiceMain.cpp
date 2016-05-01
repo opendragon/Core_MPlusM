@@ -121,13 +121,13 @@ setUpAndGo(const YarpString &                  hostName,
 {
     ODL_ENTER(); //####
     ODL_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
-               userPassword, "progName = ", progName); //####
+            userPassword, "progName = ", progName); //####
     ODL_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+            "servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
+           reportOnExit); //####
     SendToMQOutputService * aService = new SendToMQOutputService(hostName, hostPort, userName,
                                                                  userPassword, argumentList,
                                                                  progName, argc, argv, tag,

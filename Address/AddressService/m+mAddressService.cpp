@@ -97,7 +97,7 @@ AddressService::AddressService(const YarpString & hostName,
 {
     ODL_ENTER(); //####
     ODL_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
@@ -174,54 +174,6 @@ AddressService::getAddress(YarpString & address,
     port = _port;
     ODL_OBJEXIT(); //####
 } // AddressService::getAddress
-
-DEFINE_STARTSERVICE_(AddressService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // AddressService::startService
-
-DEFINE_STOPSERVICE_(AddressService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // AddressService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

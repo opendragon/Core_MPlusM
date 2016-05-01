@@ -104,7 +104,7 @@ ViconBlobInputService::ViconBlobInputService(const Utilities::DescriptorVector &
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ViconBlobInputService::ViconBlobInputService
@@ -120,7 +120,8 @@ ViconBlobInputService::~ViconBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(ViconBlobInputService)
+bool
+ViconBlobInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -187,7 +188,8 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
     return result;
 } // ViconBlobInputService::configure
 
-DEFINE_GETCONFIGURATION_(ViconBlobInputService)
+bool
+ViconBlobInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -201,24 +203,8 @@ DEFINE_GETCONFIGURATION_(ViconBlobInputService)
     return result;
 } // ViconBlobInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(ViconBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ViconBlobInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconBlobInputService)
+bool
+ViconBlobInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -235,7 +221,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconBlobInputService)
     return result;
 } // ViconBlobInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconBlobInputService)
+bool
+ViconBlobInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -248,34 +235,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconBlobInputService)
     return result;
 } // ViconBlobInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(ViconBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ViconBlobInputService::startService
-
-DEFINE_STARTSTREAMS_(ViconBlobInputService)
+void
+ViconBlobInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -308,25 +269,8 @@ DEFINE_STARTSTREAMS_(ViconBlobInputService)
     ODL_OBJEXIT(); //####
 } // ViconBlobInputService::startStreams
 
-DEFINE_STOPSERVICE_(ViconBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ViconBlobInputService::stopService
-
-DEFINE_STOPSTREAMS_(ViconBlobInputService)
+void
+ViconBlobInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

@@ -102,7 +102,7 @@ BlobOutputService::BlobOutputService(const Utilities::DescriptorVector & argumen
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // BlobOutputService::BlobOutputService
@@ -119,7 +119,8 @@ BlobOutputService::~BlobOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(BlobOutputService)
+bool
+BlobOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -160,7 +161,8 @@ DEFINE_CONFIGURE_(BlobOutputService)
     return result;
 } // BlobOutputService::configure
 
-DEFINE_DISABLEMETRICS_(BlobOutputService)
+void
+BlobOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -171,7 +173,8 @@ DEFINE_DISABLEMETRICS_(BlobOutputService)
     ODL_OBJEXIT(); //####
 } // BlobOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(BlobOutputService)
+void
+BlobOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -182,7 +185,8 @@ DEFINE_ENABLEMETRICS_(BlobOutputService)
     ODL_OBJEXIT(); //####
 } // BlobOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(BlobOutputService)
+bool
+BlobOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -218,24 +222,8 @@ BlobOutputService::deactivateConnection(void)
     ODL_EXIT(); //####
 } // BlobOutputService::deactivateConnection
 
-DEFINE_RESTARTSTREAMS_(BlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // BlobOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(BlobOutputService)
+bool
+BlobOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -251,34 +239,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(BlobOutputService)
     return result;
 } // BlobOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(BlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // BlobOutputService::start
-
-DEFINE_STARTSTREAMS_(BlobOutputService)
+void
+BlobOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -412,25 +374,8 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
     ODL_OBJEXIT(); //####
 } // BlobOutputService::startStreams
 
-DEFINE_STOPSERVICE_(BlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // BlobOutputService::stopService
-
-DEFINE_STOPSTREAMS_(BlobOutputService)
+void
+BlobOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

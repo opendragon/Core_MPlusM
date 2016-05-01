@@ -95,7 +95,7 @@ ExemplarService::ExemplarService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
@@ -157,51 +157,6 @@ ExemplarService::detachRequestHandlers(void)
     }
     ODL_OBJEXIT(); //####
 } // ExemplarService::detachRequestHandlers
-
-DEFINE_STARTSERVICE_(ExemplarService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ExemplarService::startService
-
-DEFINE_STOPSERVICE_(ExemplarService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

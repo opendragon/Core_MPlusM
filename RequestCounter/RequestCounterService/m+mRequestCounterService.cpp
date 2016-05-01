@@ -100,7 +100,7 @@ RequestCounterService::RequestCounterService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+            "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
@@ -251,54 +251,6 @@ RequestCounterService::resetCounters(const YarpString & key)
     }
     ODL_OBJEXIT(); //####
 } // RequestCounterService::resetCounters
-
-DEFINE_STARTSERVICE_(RequestCounterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RequestCounterService::startService
-
-DEFINE_STOPSERVICE_(RequestCounterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RequestCounterService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

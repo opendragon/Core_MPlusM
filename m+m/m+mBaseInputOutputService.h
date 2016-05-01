@@ -57,71 +57,6 @@
 /*! @brief The fraction of a second to delay while idling in an input / output service. */
 # define IO_SERVICE_DELAY_FACTOR_   3.9
 
-/*! @brief Define the configure method. */
-# define DEFINE_CONFIGURE_(class_) \
-    bool\
-    class_::configure(const yarp::os::Bottle & details)
-
-/*! @brief Define the doIdle method. */
-# define DEFINE_DOIDLE_(class_) \
-    void\
-    class_::doIdle(void)
-
-/*! @brief Define the getConfiguration method. */
-# define DEFINE_GETCONFIGURATION_(class_) \
-    bool\
-    class_::getConfiguration(yarp::os::Bottle & details)
-
-/*! @brief Define the restartStreams method. */
-# define DEFINE_RESTARTSTREAMS_(class_) \
-    void\
-    class_::restartStreams(void)
-
-/*! @brief Define the setUpClientStreams method. */
-# define DEFINE_SETUPCLIENTSTREAMS_(class_) \
-    bool\
-    class_::setUpClientStreams(void)
-
-/*! @brief Define the setUpInputStreams method. */
-# define DEFINE_SETUPINPUTSTREAMS_(class_) \
-    bool\
-    class_::setUpInputStreams(void)
-
-/*! @brief Define the setUpOutputStreams method. */
-# define DEFINE_SETUPOUTPUTSTREAMS_(class_) \
-    bool\
-    class_::setUpOutputStreams(void)
-
-/*! @brief Define the setUpStreamDescriptions method. */
-# define DEFINE_SETUPSTREAMDESCRIPTIONS_(class_) \
-    bool\
-    class_::setUpStreamDescriptions(void)
-
-/*! @brief Define the shutDownClientStreams method. */
-# define DEFINE_SHUTDOWNCLIENTSTREAMS_(class_) \
-    bool\
-    class_::shutDownClientStreams(void)
-
-/*! @brief Define the shutDownInputStreams method. */
-# define DEFINE_SHUTDOWNINPUTSTREAMS_(class_) \
-    bool\
-    class_::shutDownInputStreams(void)
-
-/*! @brief Define the shutDownOutputStreams method. */
-# define DEFINE_SHUTDOWNOUTPUTSTREAMS_(class_) \
-    bool\
-    class_::shutDownOutputStreams(void)
-
-/*! @brief Define the startStreams method. */
-# define DEFINE_STARTSTREAMS_(class_) \
-    void\
-    class_::startStreams(void)
-
-/*! @brief Define the stopStreams method. */
-# define DEFINE_STOPSTREAMS_(class_) \
-    void\
-    class_::stopStreams(void)
-
 namespace MplusM
 {
     namespace Common
@@ -184,7 +119,7 @@ namespace MplusM
              @param details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
-            configure(const yarp::os::Bottle & details) = 0;
+            configure(const yarp::os::Bottle & details);
 
             /*! @brief Turn off the send / receive metrics collecting. */
             virtual void
@@ -192,8 +127,10 @@ namespace MplusM
             
             /*! @brief Declare the doIdle method, which is executed repeatedly once the service has
              been set up. */
-            virtual void
-            doIdle(void);
+            virtual inline void
+            doIdle(void)
+            {
+            } // doIdle
 
             /*! @brief Turn on the send / receive metrics collecting. */
             virtual void
@@ -231,7 +168,7 @@ namespace MplusM
              @returns @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool
-            getConfiguration(yarp::os::Bottle & details) = 0;
+            getConfiguration(yarp::os::Bottle & details);
 
             /*! @brief Returns the number of input streams.
              @returns The number of input streams. */
@@ -285,8 +222,8 @@ namespace MplusM
             requestServiceStop(void);
 
             /*! @brief Restart the input / output streams. */
-            virtual void
-            restartStreams(void) = 0;
+            void
+            restartStreams(void);
 
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */

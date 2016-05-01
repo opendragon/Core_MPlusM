@@ -149,7 +149,8 @@ ColumnNameValidator::~ColumnNameValidator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CHECKNAME_(ColumnNameValidator)
+bool
+ColumnNameValidator::checkName(const char * aString)
 {
     ODL_ENTER(); //####
     ODL_S1("aString = ", aString); //####
@@ -176,7 +177,10 @@ DEFINE_CHECKNAME_(ColumnNameValidator)
     return result;
 } // ColumnNameValidator::checkName
 
-DEFINE_GETPREFIXANDSUFFIX_(ColumnNameValidator)
+const char *
+ColumnNameValidator::getPrefixAndSuffix(const char *   aString,
+                                        const char * & prefixString,
+                                        const char * & suffixString)
 {
     ODL_ENTER(); //####
     ODL_S1("aString = ", aString); //####

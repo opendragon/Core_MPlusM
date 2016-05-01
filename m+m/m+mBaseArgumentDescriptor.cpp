@@ -455,7 +455,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
 {
     ODL_ENTER(); //####
     ODL_P3("arguments = ", &arguments, "parseResult = ", &parseResult, "badArgs = ", //####
-              &badArgs); //####
+           &badArgs); //####
     bool   result = true;
     bool   sawExtra = false;
     bool   sawOptional = false;
@@ -467,8 +467,7 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
-    ODL_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
-               numToCheck); //####
+    ODL_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", numToCheck); //####
     // Set all arguments to their default values, so that they are all defined.
     badArgs = "";
     for (size_t ii = 0; numArgs > ii; ++ii)

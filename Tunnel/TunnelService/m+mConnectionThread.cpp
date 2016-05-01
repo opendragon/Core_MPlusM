@@ -219,7 +219,8 @@ ConnectionThread::~ConnectionThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(ConnectionThread)
+void
+ConnectionThread::run(void)
 {
     ODL_OBJENTER(); //####
     SOCKET destinationSocket = accept(_listenSocket, 0, 0);
@@ -340,21 +341,6 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
     }
     ODL_OBJEXIT(); //####
 } // ConnectionThread::setSourceAddress
-
-DEFINE_THREADINIT_(ConnectionThread)
-{
-    ODL_OBJENTER(); //####
-    bool result = true;
-
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ConnectionThread::threadInit
-
-DEFINE_THREADRELEASE_(ConnectionThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // ConnectionThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

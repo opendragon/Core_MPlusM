@@ -104,7 +104,7 @@ RecordBlobOutputService::RecordBlobOutputService(const Utilities::DescriptorVect
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // RecordBlobOutputService::RecordBlobOutputService
@@ -121,7 +121,8 @@ RecordBlobOutputService::~RecordBlobOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(RecordBlobOutputService)
+bool
+RecordBlobOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -160,7 +161,8 @@ DEFINE_CONFIGURE_(RecordBlobOutputService)
     return result;
 } // RecordBlobOutputService::configure
 
-DEFINE_DISABLEMETRICS_(RecordBlobOutputService)
+void
+RecordBlobOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -171,7 +173,8 @@ DEFINE_DISABLEMETRICS_(RecordBlobOutputService)
     ODL_OBJEXIT(); //####
 } // RecordBlobOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(RecordBlobOutputService)
+void
+RecordBlobOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -182,7 +185,8 @@ DEFINE_ENABLEMETRICS_(RecordBlobOutputService)
     ODL_OBJEXIT(); //####
 } // RecordBlobOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(RecordBlobOutputService)
+bool
+RecordBlobOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -194,24 +198,8 @@ DEFINE_GETCONFIGURATION_(RecordBlobOutputService)
     return result;
 } // RecordBlobOutputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(RecordBlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // RecordBlobOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordBlobOutputService)
+bool
+RecordBlobOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -227,34 +215,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordBlobOutputService)
     return result;
 } // RecordBlobOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(RecordBlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // RecordBlobOutputService::startService
-
-DEFINE_STARTSTREAMS_(RecordBlobOutputService)
+void
+RecordBlobOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -303,25 +265,8 @@ DEFINE_STARTSTREAMS_(RecordBlobOutputService)
     ODL_OBJEXIT(); //####
 } // RecordBlobOutputService::startStreams
 
-DEFINE_STOPSERVICE_(RecordBlobOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RecordBlobOutputService::stopService
-
-DEFINE_STOPSTREAMS_(RecordBlobOutputService)
+void
+RecordBlobOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

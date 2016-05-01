@@ -103,14 +103,9 @@ InfoRequestHandler::~InfoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(InfoRequestHandler)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // InfoRequestHandler::fillInAliases
-
-DEFINE_FILLINDESCRIPTION_(InfoRequestHandler)
+void
+InfoRequestHandler::fillInDescription(const YarpString &   request,
+                                      yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -122,9 +117,9 @@ DEFINE_FILLINDESCRIPTION_(InfoRequestHandler)
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_DICT_START_
                  MpM_REQREP_DICT_END_ MpM_REQREP_0_OR_1_ MpM_REQREP_LIST_END_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, INFO_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return information on a request\n"
-                 "Input: a request to get information on\n"
-                 "Output: a request description");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Return information on a request\n"
+                                                  "Input: a request to get information on\n"
+                                                  "Output: a request description"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -143,7 +138,11 @@ DEFINE_FILLINDESCRIPTION_(InfoRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(InfoRequestHandler)
+bool
+InfoRequestHandler::processRequest(const YarpString &           request,
+                                   const yarp::os::Bottle &     restOfInput,
+                                   const YarpString &           senderChannel,
+                                   yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -152,7 +151,7 @@ DEFINE_PROCESSREQUEST_(InfoRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

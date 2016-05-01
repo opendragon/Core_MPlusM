@@ -105,9 +105,9 @@ BaseAdapterService::BaseAdapterService(const Utilities::DescriptorVector & argum
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description); //####
+            "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     ODL_EXIT_P(this); //####
@@ -132,8 +132,8 @@ BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
 {
     ODL_P1("sharedData = ", &sharedData); //####
     ODL_S1s("helpText = ", helpText); //####
-    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
+           reportOnExit); //####
     BaseClient * aClient = sharedData.getClient();
 
     startPinger();
@@ -147,7 +147,8 @@ BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
     }
 } // BaseAdapterService::performLaunch
 
-DEFINE_SETUPCLIENTSTREAMS_(BaseAdapterService)
+bool
+BaseAdapterService::setUpClientStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpClientStreams();
@@ -160,7 +161,8 @@ DEFINE_SETUPCLIENTSTREAMS_(BaseAdapterService)
     return result;
 } // BaseAdapterService::setUpClientStreams
 
-DEFINE_SETUPINPUTSTREAMS_(BaseAdapterService)
+bool
+BaseAdapterService::setUpInputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
@@ -173,7 +175,8 @@ DEFINE_SETUPINPUTSTREAMS_(BaseAdapterService)
     return result;
 } // BaseAdapterService::setUpInputStreams
 
-DEFINE_SETUPOUTPUTSTREAMS_(BaseAdapterService)
+bool
+BaseAdapterService::setUpOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -186,7 +189,8 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseAdapterService)
     return result;
 } // BaseAdapterService::setUpOutputStreams
 
-DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseAdapterService)
+bool
+BaseAdapterService::shutDownClientStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownClientStreams();
@@ -194,24 +198,6 @@ DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseAdapterService)
     ODL_EXIT_B(result); //####
     return result;
 } // BaseAdapterService::shutDownClientStreams
-
-DEFINE_SHUTDOWNINPUTSTREAMS_(BaseAdapterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = inherited::shutDownInputStreams();
-
-    ODL_EXIT_B(result); //####
-    return result;
-} // BaseAdapterService::shutDownInputStreams
-
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseAdapterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = inherited::shutDownOutputStreams();
-
-    ODL_EXIT_B(result); //####
-    return result;
-} // BaseAdapterService::shutDownOutputStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

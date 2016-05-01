@@ -99,10 +99,10 @@
 #if defined(__APPLE__)
 # include "TargetConditionals.h"
 # if (! TARGET_OS_IPHONE)
-#  define CONFIG_FILE_AVAILABLE_
+#  define CONFIG_FILE_AVAILABLE_ /* */
 # endif // ! TARGET_OS_IPHONE
 #else // ! defined(__APPLE__)
-# define CONFIG_FILE_AVAILABLE_
+# define CONFIG_FILE_AVAILABLE_ /* */
 #endif // ! defined(__APPLE__)
 
 #if MAC_OR_LINUX_
@@ -207,7 +207,7 @@ getNameServerPortList(yarp::os::Bottle & response)
         else
         {
             ODL_LOG("! (yarp::os::Network::writeToNameServer(request, response, " //####
-                   "contactInfo))"); //####
+                    "contactInfo))"); //####
         }
     }
     ODL_EXIT_B(okSoFar); //####
@@ -248,8 +248,8 @@ resolveCallback(DNSServiceRef         service,
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
-    ODL_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
-              errorCode, "port = ", port); //####
+    ODL_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
+           errorCode, "port = ", port); //####
     ODL_L1("txtLen = ", txtLen); //####
     ODL_S2("fullname = ", fullname, "hostTarget = ", hostTarget); //####
     bool okToUse = false;
@@ -345,8 +345,8 @@ browseCallBack(DNSServiceRef       service,
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
-    ODL_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
-              errorCode); //####
+    ODL_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
+           errorCode); //####
     if (kDNSServiceErr_NoError == errorCode)
     {
         if (flags & kDNSServiceFlagsAdd)
@@ -1709,14 +1709,14 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
                                                    checkStuff))
                 {
                     ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
+                            "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                        "timetoWait, false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -1904,7 +1904,7 @@ Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
                         else
                         {
                             ODL_LOG("! (MpM_EXPECTED_EXTRAINFO_RESPONSE_SIZE_ == " //####
-                                   "response1.count())"); //####
+                                    "response1.count())"); //####
                             ODL_S1s("response1 = ", response1.asString()); //####
                         }
                     }
@@ -1917,14 +1917,14 @@ Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
                                                        checker, checkStuff))
                     {
                         ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                               "timeToWait, checker, checkStuff))"); //####
+                                "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, "
-                           "timetoWait, false, checker, checkStuff))"); //####
+                            "timetoWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -2075,14 +2075,14 @@ Utilities::GetMetricsForService(const YarpString & serviceChannelName,
                                                    checkStuff))
                 {
                     ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
+                            "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                        "timetoWait, false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -2161,14 +2161,14 @@ Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
                                                    checkStuff))
                 {
                     ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
+                            "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                        "timetoWait, false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -2233,13 +2233,13 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                             yarp::os::Value theTag(response1.element(6));
 
                             ODL_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
-                                       "theDescription <- ", theDescription.toString(), //####
-                                       "theExtraInfo <- ", theExtraInfo.toString(), //####
-                                       "theKind <- ", theKind.toString()); //####
+                                    "theDescription <- ", theDescription.toString(), //####
+                                    "theExtraInfo <- ", theExtraInfo.toString(), //####
+                                    "theKind <- ", theKind.toString()); //####
                             ODL_S3s("thePath <- ", thePath.toString(), //####
-                                       "theRequestsDescription = ", //####
-                                       theRequestsDescription.toString(), "theTag = ", //####
-                                       theTag.toString()); //####
+                                    "theRequestsDescription = ", //####
+                                    theRequestsDescription.toString(), "theTag = ", //####
+                                    theTag.toString()); //####
                             if (theCanonicalName.isString() && theDescription.isString() &&
                                 theExtraInfo.isString() && theKind.isString() &&
                                 thePath.isString() && theRequestsDescription.isString() &&
@@ -2258,17 +2258,17 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                             else
                             {
                                 ODL_LOG("! (theCanonicalName.isString() && " //####
-                                       "theDescription.isString() && " //####
-                                       "theExtraInfo.isString() && theKind.isString() && " //####
-                                       "thePath.isString() && " //####
-                                       "theRequestsDescription.isString() && " //####
-                                       "theTag.isString())"); //####
+                                        "theDescription.isString() && " //####
+                                        "theExtraInfo.isString() && theKind.isString() && " //####
+                                        "thePath.isString() && " //####
+                                        "theRequestsDescription.isString() && " //####
+                                        "theTag.isString())"); //####
                             }
                         }
                         else
                         {
                             ODL_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == " //####
-                                   "response1.count())"); //####
+                                    "response1.count())"); //####
                             ODL_S1s("response1 = ", response1.asString()); //####
                         }
                     }
@@ -2292,11 +2292,11 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                 yarp::os::Value theClientChannels(response2.element(2));
 
                                 ODL_S3s("theInputChannels <- ", //####
-                                           theInputChannels.toString(), //####
-                                           "theOutputChannels <- ", //####
-                                           theOutputChannels.toString(), //####
-                                           "theClientChannels <- ", //####
-                                           theClientChannels.toString()); //####
+                                        theInputChannels.toString(), //####
+                                        "theOutputChannels <- ", //####
+                                        theOutputChannels.toString(), //####
+                                        "theClientChannels <- ", //####
+                                        theClientChannels.toString()); //####
                                 if (theInputChannels.isList() && theOutputChannels.isList() &&
                                     theClientChannels.isList())
                                 {
@@ -2342,16 +2342,16 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                 else
                                                 {
                                                     ODL_LOG("! (firstValue.isString() && " //####
-                                                           "secondValue.isString() && " //####
-                                                           "thirdValue.isString())"); //####
+                                                            "secondValue.isString() && " //####
+                                                            "thirdValue.isString())"); //####
                                                     result = false;
                                                 }
                                             }
                                             else
                                             {
                                                 ODL_LOG("! (MpM_EXPECTED_CHANNEL_DESCRIPTOR_" //####
-                                                       "SIZE_ == inputChannelAsList->" //####
-                                                       "size())"); //####
+                                                        "SIZE_ == inputChannelAsList->" //####
+                                                        "size())"); //####
                                                 result = false;
                                             }
                                         }
@@ -2396,16 +2396,16 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                 else
                                                 {
                                                     ODL_LOG("! (firstValue.isString() && " //####
-                                                           "secondValue.isString() && " //####
-                                                           "thirdValue.isString())"); //####
+                                                            "secondValue.isString() && " //####
+                                                            "thirdValue.isString())"); //####
                                                     result = false;
                                                 }
                                             }
                                             else
                                             {
                                                 ODL_LOG("! (MpM_EXPECTED_CHANNEL_DESCRIPTOR_" //####
-                                                       "SIZE_ == outputChannelAsList->" //####
-                                                       "size())"); //####
+                                                        "SIZE_ == outputChannelAsList->" //####
+                                                        "size())"); //####
                                                 result = false;
                                             }
                                         }
@@ -2450,16 +2450,16 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                 else
                                                 {
                                                     ODL_LOG("! (firstValue.isString() && " //####
-                                                           "secondValue.isString() && " //####
-                                                           "thirdValue.isString())"); //####
+                                                            "secondValue.isString() && " //####
+                                                            "thirdValue.isString())"); //####
                                                     result = false;
                                                 }
                                             }
                                             else
                                             {
                                                 ODL_LOG("! (MpM_EXPECTED_CHANNEL_DESCRIPTOR_" //####
-                                                       "SIZE_ == clientChannelAsList->" //####
-                                                       "size())"); //####
+                                                        "SIZE_ == clientChannelAsList->" //####
+                                                        "size())"); //####
                                                 result = false;
                                             }
                                         }
@@ -2473,15 +2473,15 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                 else
                                 {
                                     ODL_LOG("! (theInputChannels.isList() && " //####
-                                           "theOutputChannels.isList() && " //####
-                                           "theClientChannels.isList())");
+                                            "theOutputChannels.isList() && " //####
+                                            "theClientChannels.isList())");
                                     result = false;
                                 }
                             }
                             else
                             {
                                 ODL_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE_ == " //####
-                                       "response2.count())"); //####
+                                        "response2.count())"); //####
                                 ODL_S1s("response2 = ", response2.asString()); //####
                                 result = false;
                             }
@@ -2546,14 +2546,14 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
                                                        checker, checkStuff))
                     {
                         ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                               "timeToWait, checker, checkStuff))"); //####
+                                "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, "
-                           "timetoWait, false, checker, checkStuff))"); //####
+                            "timetoWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -2915,7 +2915,7 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
     else
     {
         ODL_LOG("! (yarp::os::Network::exists(sourceName) && " //####
-               "yarp::os::Network::exists(destinationName))"); //####
+                "yarp::os::Network::exists(destinationName))"); //####
     }
     ODL_EXIT_B(result); //####
     return result;
@@ -2998,7 +2998,7 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
     else
     {
         ODL_LOG("! (yarp::os::Network::exists(sourceName) && " //####
-               "yarp::os::exists(destinationName))"); //####
+                "yarp::os::exists(destinationName))"); //####
     }
     ODL_EXIT_B(result); //####
     return result;
@@ -3021,7 +3021,7 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     ODL_ENTER(); //####
     ODL_L2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
-              "flavour = ", &flavour, "arguments = ", arguments); //####
+           "flavour = ", &flavour, "arguments = ", arguments); //####
     ODL_S1s("clientDescription = ", clientDescription); //####
     ODL_S1("copyrightHolder = ", copyrightHolder); //####
     ODL_B1("ignoreFlavours = ", ignoreFlavours); //####
@@ -3179,7 +3179,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     ODL_ENTER(); //####
     ODL_L2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
-              "flavour = ", &flavour, "arguments = ", arguments); //####
+           "flavour = ", &flavour, "arguments = ", arguments); //####
     ODL_S1s("utilityDescription = ", utilityDescription); //####
     ODL_S1("copyrightHolder = ", copyrightHolder); //####
     ODL_B1("ignoreFlavours = ", ignoreFlavours); //####
@@ -3483,14 +3483,14 @@ Utilities::RestartAService(const YarpString & serviceChannelName,
                                                        checker, checkStuff))
                     {
                         ODL_LOG("(! NetworkDisconnectWithRetries(aName, serviceChannelName, " //####
-                               "timeToWait, checker, checkStuff))"); //####
+                                "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
-                           "timeToWait, false, checker, checkStuff))"); //####
+                            "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -3556,14 +3556,14 @@ Utilities::SetConfigurationForService(const YarpString &       serviceChannelNam
                                                    checkStuff))
                 {
                     ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
+                            "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                        "timetoWait, false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -3631,14 +3631,14 @@ Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
                                                    checkStuff))
                 {
                     ODL_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
+                            "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                        "timetoWait, false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -3729,14 +3729,14 @@ Utilities::StopAService(const YarpString & serviceChannelName,
                                                        checker, checkStuff))
                     {
                         ODL_LOG("(! NetworkDisconnectWithRetries(aName, serviceChannelName, " //####
-                               "timeToWait, checker, checkStuff))"); //####
+                                "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     ODL_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
-                           "timeToWait, false, checker, checkStuff))"); //####
+                            "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();

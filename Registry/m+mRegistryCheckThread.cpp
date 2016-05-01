@@ -99,7 +99,8 @@ RegistryCheckThread::~RegistryCheckThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(RegistryCheckThread)
+void
+RegistryCheckThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -116,7 +117,8 @@ DEFINE_RUN_(RegistryCheckThread)
     ODL_OBJEXIT(); //####
 } // RegistryCheckThread::run
 
-DEFINE_THREADINIT_(RegistryCheckThread)
+bool
+RegistryCheckThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -125,12 +127,6 @@ DEFINE_THREADINIT_(RegistryCheckThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // RegistryCheckThread::threadInit
-
-DEFINE_THREADRELEASE_(RegistryCheckThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // RegistryCheckThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

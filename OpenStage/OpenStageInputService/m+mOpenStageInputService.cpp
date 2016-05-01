@@ -103,7 +103,7 @@ OpenStageInputService::OpenStageInputService(const Utilities::DescriptorVector &
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // OpenStageInputService::OpenStageInputService
@@ -119,7 +119,8 @@ OpenStageInputService::~OpenStageInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(OpenStageInputService)
+bool
+OpenStageInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -173,7 +174,8 @@ DEFINE_CONFIGURE_(OpenStageInputService)
     return result;
 } // OpenStageInputService::configure
 
-DEFINE_GETCONFIGURATION_(OpenStageInputService)
+bool
+OpenStageInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -186,24 +188,8 @@ DEFINE_GETCONFIGURATION_(OpenStageInputService)
     return result;
 } // OpenStageInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(OpenStageInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // OpenStageInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(OpenStageInputService)
+bool
+OpenStageInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -219,7 +205,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(OpenStageInputService)
     return result;
 } // OpenStageInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageInputService)
+bool
+OpenStageInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -232,34 +219,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageInputService)
     return result;
 } // OpenStageInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(OpenStageInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // OpenStageInputService::startService
-
-DEFINE_STARTSTREAMS_(OpenStageInputService)
+void
+OpenStageInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -288,25 +249,8 @@ DEFINE_STARTSTREAMS_(OpenStageInputService)
     ODL_OBJEXIT(); //####
 } // OpenStageInputService::startStreams
 
-DEFINE_STOPSERVICE_(OpenStageInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // OpenStageInputService::stopService
-
-DEFINE_STOPSTREAMS_(OpenStageInputService)
+void
+OpenStageInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

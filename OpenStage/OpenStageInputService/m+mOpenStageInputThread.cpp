@@ -246,7 +246,8 @@ OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 } // OpenStageInputThread::processData
 #endif // ! defined(MpM_BuildDummyServices)
 
-DEFINE_RUN_(OpenStageInputThread)
+void
+OpenStageInputThread::run(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
@@ -269,7 +270,8 @@ DEFINE_RUN_(OpenStageInputThread)
     ODL_OBJEXIT(); //####
 } // OpenStageInputThread::run
 
-DEFINE_THREADINIT_(OpenStageInputThread)
+bool
+OpenStageInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -288,7 +290,8 @@ DEFINE_THREADINIT_(OpenStageInputThread)
     return result;
 } // OpenStageInputThread::threadInit
 
-DEFINE_THREADRELEASE_(OpenStageInputThread)
+void
+OpenStageInputThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))

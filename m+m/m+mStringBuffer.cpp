@@ -105,7 +105,7 @@ StringBuffer::StringBuffer(void) :
     ODL_ENTER(); //####
     ODL_P1("_buffer = ", _buffer); //####
     ODL_LL3("_currentLength = ", _currentLength, "_currentSize = ", _currentSize, //####
-               "_thresholdLength = ", _thresholdLength); //####
+            "_thresholdLength = ", _thresholdLength); //####
     setSize(kInitialBufferSize);
     ODL_EXIT_P(this); //####
 } // StringBuffer::StringBuffer

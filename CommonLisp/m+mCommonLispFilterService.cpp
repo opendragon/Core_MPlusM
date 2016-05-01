@@ -98,7 +98,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
 {
     ODL_ENTER(); //####
     ODL_P3("aBottle = ", &aBottle, "theData = ", theData, "hashMapFunction = ", //####
-              hashMapFunction); //####
+           hashMapFunction); //####
     ODL_B1("topLevel = ", topLevel); //####
     if (ECL_NIL != cl_integerp(theData))
     {
@@ -575,14 +575,14 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
 {
     ODL_ENTER(); //####
     ODL_P4("argumentList = ", &argumentList, "argv = ", argv, //####
-              "loadedInletDescriptions = ", &loadedInletDescriptions, //####
-              "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+           "loadedInletDescriptions = ", &loadedInletDescriptions, //####
+           "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
     ODL_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              loadedStartingFunction, "loadedStoppingFunction = ", loadedStoppingFunction, //####
-              "loadedThreadFunction = ", loadedThreadFunction); //####
+           loadedStartingFunction, "loadedStoppingFunction = ", loadedStoppingFunction, //####
+           "loadedThreadFunction = ", loadedThreadFunction); //####
     ODL_LL1("argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_B1("sawThread = ", sawThread); //####
     ODL_D1("loadedInterval = ", loadedInterval); //####
@@ -644,7 +644,8 @@ CommonLispFilterService::~CommonLispFilterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(CommonLispFilterService)
+bool
+CommonLispFilterService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -715,7 +716,8 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-DEFINE_DISABLEMETRICS_(CommonLispFilterService)
+void
+CommonLispFilterService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -732,7 +734,8 @@ DEFINE_DISABLEMETRICS_(CommonLispFilterService)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::disableMetrics
 
-DEFINE_DOIDLE_(CommonLispFilterService)
+void
+CommonLispFilterService::doIdle(void)
 {
     ODL_OBJENTER(); //####
     if (isActive())
@@ -811,7 +814,8 @@ DEFINE_DOIDLE_(CommonLispFilterService)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::doIdle
 
-DEFINE_ENABLEMETRICS_(CommonLispFilterService)
+void
+CommonLispFilterService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -827,17 +831,6 @@ DEFINE_ENABLEMETRICS_(CommonLispFilterService)
     }
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::enableMetrics
-
-DEFINE_GETCONFIGURATION_(CommonLispFilterService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // CommonLispFilterService::getConfiguration
 
 void
 CommonLispFilterService::releaseHandlers(void)
@@ -860,23 +853,6 @@ CommonLispFilterService::releaseHandlers(void)
     }
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::releaseHandlers
-
-DEFINE_RESTARTSTREAMS_(CommonLispFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // CommonLispFilterService::restartStreams
 
 bool
 CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
@@ -919,7 +895,8 @@ CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
     return okSoFar;
 } // CommonLispFilterService::sendToChannel
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
+bool
+CommonLispFilterService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -966,34 +943,8 @@ CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::stallUntilIdle
 
-DEFINE_STARTSERVICE_(CommonLispFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // CommonLispFilterService::startService
-
-DEFINE_STARTSTREAMS_(CommonLispFilterService)
+void
+CommonLispFilterService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -1040,25 +991,8 @@ DEFINE_STARTSTREAMS_(CommonLispFilterService)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterService::startStreams
 
-DEFINE_STOPSERVICE_(CommonLispFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // CommonLispFilterService::stopService
-
-DEFINE_STOPSTREAMS_(CommonLispFilterService)
+void
+CommonLispFilterService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

@@ -1385,7 +1385,7 @@ getLoadedDouble(JSContext *        jct,
                             else
                             {
                                 ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
-                                       "funcArgs, &funcResult))"); //####
+                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
 
                                 if (JS_GetPendingException(jct, &exc))
@@ -1510,7 +1510,7 @@ getLoadedString(JSContext *        jct,
                             else
                             {
                                 ODL_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
-                                       "funcArgs, &funcResult))"); //####
+                                        "funcArgs, &funcResult))"); //####
                                 JS::RootedValue exc(jct);
 
                                 if (JS_GetPendingException(jct, &exc))
@@ -1638,7 +1638,7 @@ processStreamDescription(JSContext *           jct,
 {
     ODL_ENTER(); //####
     ODL_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
-              "description = ", &description); //####
+           "description = ", &description); //####
     bool okSoFar = true;
 
     if (! anElement.isObject())
@@ -1704,7 +1704,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
 {
     ODL_ENTER(); //####
     ODL_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
-              "streamDescriptions = ", &streamDescriptions); //####
+           "streamDescriptions = ", &streamDescriptions); //####
     ODL_S1("arrayName = ", arrayName); //####
     bool found = false;
     bool okSoFar;
@@ -1768,7 +1768,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                     else
                     {
                         ODL_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
-                               "&funcResult))"); //####
+                                "&funcResult))"); //####
                         JS::RootedValue exc(jct);
 
                         if (JS_GetPendingException(jct, &exc))
@@ -1871,14 +1871,14 @@ validateLoadedScript(JSContext *           jct,
 {
     ODL_ENTER();
     ODL_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
-              "description = ", &description); //####
+           "description = ", &description); //####
     ODL_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
-              &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
-              &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
+           &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
+           &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
     ODL_P4("loadedStartingFunction = ", &loadedStartingFunction, //####
-              "loadedStoppingFunction = ", &loadedStoppingFunction, //####
-              "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
-              &loadedInterval); //####
+           "loadedStoppingFunction = ", &loadedStoppingFunction, //####
+           "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
+           &loadedInterval); //####
     bool okSoFar;
 
 //    PrintJavaScriptObject(cout, jct, global, 0);
@@ -1961,11 +1961,11 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     ODL_ENTER(); //####
     ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
     ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
-    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
-              "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
+    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, "reportOnExit = ", //####
+           reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString scriptSource;
 
     // Make sure that the scriptPath is valid.
@@ -2076,7 +2076,8 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     {
                         if (! loadScript(jct, options, scriptSource, scriptPath))
                         {
-                            ODL_LOG("(! loadScript(jct, options, scriptSource, scriptPath))"); //####
+                            ODL_LOG("(! loadScript(jct, options, scriptSource, " //####
+                                    "scriptPath))"); //####
                             okSoFar = false;
                             MpM_FAIL_("Script could not be loaded.");
                         }
@@ -2102,10 +2103,10 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                    loadedInterval))
                         {
                             ODL_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
-                                   "description, helpText, loadedInletDescriptions, " //####
-                                   "loadedOutletDescriptions, loadedInletHandlers, " //####
-                                   "loadedStartingFunction, loadedStoppingFunction, " //####
-                                   "loadedThreadFunction, loadedInterval))"); //####
+                                    "description, helpText, loadedInletDescriptions, " //####
+                                    "loadedOutletDescriptions, loadedInletHandlers, " //####
+                                    "loadedStartingFunction, loadedStoppingFunction, " //####
+                                    "loadedThreadFunction, loadedInterval))"); //####
                             okSoFar = false;
                             MpM_FAIL_("Script is missing one or more functions or variables.");
                         }

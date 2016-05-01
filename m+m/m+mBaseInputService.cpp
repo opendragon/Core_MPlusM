@@ -100,9 +100,9 @@ BaseInputService::BaseInputService(const Utilities::DescriptorVector & argumentL
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description); //####
+            "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     ODL_EXIT_P(this); //####
@@ -118,7 +118,8 @@ BaseInputService::~BaseInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_SETUPOUTPUTSTREAMS_(BaseInputService)
+bool
+BaseInputService::setUpOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -130,15 +131,6 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseInputService)
     ODL_EXIT_B(result); //####
     return result;
 } // BaseInputService::setUpOutputStreams
-
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result = inherited::shutDownOutputStreams();
-
-    ODL_EXIT_B(result); //####
-    return result;
-} // BaseInputService::shutDownOutputStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

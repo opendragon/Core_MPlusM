@@ -150,16 +150,6 @@ namespace MplusM
             virtual bool
             shutDownClientStreams(void);
 
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool
-            shutDownInputStreams(void);
-
-            /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool
-            shutDownOutputStreams(void);
-
         public :
 
         protected :

@@ -54,18 +54,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the checkName method. */
-# define DEFINE_CHECKNAME_(class_) \
-    bool\
-    class_::checkName(const char * aString)
-
-/*! @brief Define the getPrefixAndSuffix method. */
-# define DEFINE_GETPREFIXANDSUFFIX_(class_) \
-    const char *\
-    class_::getPrefixAndSuffix(const char *   aString,\
-                               const char * & prefixString,\
-                               const char * & suffixString)
-
 namespace MplusM
 {
     namespace Parser

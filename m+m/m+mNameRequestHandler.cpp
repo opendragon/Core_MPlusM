@@ -126,7 +126,8 @@ NameRequestHandler::~NameRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(NameRequestHandler)
+void
+NameRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
@@ -134,7 +135,9 @@ DEFINE_FILLINALIASES_(NameRequestHandler)
     ODL_OBJEXIT(); //####
 } // NameRequestHandler::fillInAliases
 
-DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
+void
+NameRequestHandler::fillInDescription(const YarpString &   request,
+                                      yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -146,12 +149,13 @@ DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
                  MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_
                  MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, NAME_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
-                 "Return the canonical name and description of the service\n"
-                 "Input: nothing\n"
-                 "Output: the canonical name, the tag, the description, extra information, the "
-                 "kind, the path to executable for the service "
-                 "and the description of the requests for the service");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Return the canonical name and description of "
+                                                  "the service\n"
+                                                  "Input: nothing\n"
+                                                  "Output: the canonical name, the tag, the "
+                                                  "description, extra information, the kind, the "
+                                                  "path to executable for the service and the "
+                                                  "description of the requests for the service"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -175,7 +179,11 @@ DEFINE_FILLINDESCRIPTION_(NameRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(NameRequestHandler)
+bool
+NameRequestHandler::processRequest(const YarpString &           request,
+                                   const yarp::os::Bottle &     restOfInput,
+                                   const YarpString &           senderChannel,
+                                   yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -184,7 +192,7 @@ DEFINE_PROCESSREQUEST_(NameRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

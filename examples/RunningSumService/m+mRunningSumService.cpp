@@ -103,7 +103,7 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
@@ -171,7 +171,7 @@ RunningSumService::attachRequestHandlers(void)
         else
         {
             ODL_LOG("! (_addToSumHandler && _resetSumHandler && _startSumHandler && " //####
-                   "_stopSumHandler)"); //####
+                    "_stopSumHandler)"); //####
         }
     }
     catch (...)
@@ -245,36 +245,6 @@ RunningSumService::resetSum(const YarpString & key)
     ODL_OBJEXIT(); //####
 } // RunningSumService::resetSum
 
-DEFINE_STARTSERVICE_(RunningSumService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RunningSumService::startService
-
 void
 RunningSumService::startSum(const YarpString & key)
 {
@@ -298,24 +268,6 @@ RunningSumService::startSum(const YarpString & key)
     }
     ODL_OBJEXIT(); //####
 } // RunningSumService::startSum
-
-DEFINE_STOPSERVICE_(RunningSumService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RunningSumService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

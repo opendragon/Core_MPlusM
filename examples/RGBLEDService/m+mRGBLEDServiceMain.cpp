@@ -104,7 +104,7 @@ setUpAndGo(const YarpString & progName,
 {
     ODL_ENTER(); //####
     ODL_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("reportOnExit = ", reportOnExit); //####
@@ -117,7 +117,7 @@ setUpAndGo(const YarpString & progName,
         {
             YarpString channelName(aService->getEndpoint().getName());
 
-            ODL_S1s("channelName = ", channelName);//####
+            ODL_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *aService))
             {
                 StartRunning();
@@ -138,20 +138,20 @@ setUpAndGo(const YarpString & progName,
             }
             else
             {
-                ODL_LOG("! (RegisterLocalService(channelName, *aService))");//####
+                ODL_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                 MpM_FAIL_(MSG_SERVICE_NOT_REGISTERED);
             }
         }
         else
         {
-            ODL_LOG("! (aService->startService())");//####
+            ODL_LOG("! (aService->startService())"); //####
             MpM_FAIL_(MSG_SERVICE_NOT_STARTED);
         }
         delete aService;
     }
     else
     {
-        ODL_LOG("! (aService)");//####
+        ODL_LOG("! (aService)"); //####
     }
     ODL_EXIT(); //####
 } // setUpAndGo
@@ -173,12 +173,12 @@ main(int      argc,
 #if defined(MpM_SERVICES_LOG_TO_STDERR)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-             kODLoggingOptionEnableThreadSupport);//####
+             kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport);//####
+             kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_SERVICES_LOG_TO_STDERR)
-    ODL_ENTER();//####
+    ODL_ENTER(); //####
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
@@ -230,10 +230,10 @@ main(int      argc,
     }
     catch (...)
     {
-        ODL_LOG("Exception caught");//####
+        ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0);//####
+    ODL_EXIT_L(0); //####
     return 0;
 } // main
 

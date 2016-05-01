@@ -98,7 +98,7 @@ addJointToBuffer(std::stringstream &      outBuffer,
 {
     ODL_ENTER(); //####
     ODL_P3("outBuffer = ", &outBuffer, "jointData = ", &jointData, "orientationData = ", //####
-              &orientationData); //####
+           &orientationData); //####
     ODL_D1("scale = ", scale); //####
     // If we can't find either of these joints, exit
     if (TrackingState_NotTracked != jointData.TrackingState)
@@ -164,7 +164,7 @@ addBodyToMessage(std::stringstream &      outBuffer,
 {
     ODL_ENTER(); //####
     ODL_P3("outBuffer = ", &outBuffer, "jointData = ", jointData, "orientationData = ", //####
-              orientationData); //####
+           orientationData); //####
     ODL_D1("scale = ", scale); //####
     // Torso
     ADD_JOINT_TO_BUFFER_("head", JointType_Head);
@@ -491,7 +491,8 @@ KinectV2BlobEventThread::processEventData(void)
     ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::processEventData
 
-DEFINE_RUN_(KinectV2BlobEventThread)
+void
+KinectV2BlobEventThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -539,7 +540,8 @@ KinectV2BlobEventThread::setScale(const double newScale)
     ODL_OBJEXIT(); //####
 } // KinectV2BlobEventThread::setScale
 
-DEFINE_THREADINIT_(KinectV2BlobEventThread)
+bool
+KinectV2BlobEventThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
 #if defined(MpM_BuildDummyServices)
@@ -552,7 +554,8 @@ DEFINE_THREADINIT_(KinectV2BlobEventThread)
     return result;
 } // KinectV2BlobEventThread::threadInit
 
-DEFINE_THREADRELEASE_(KinectV2BlobEventThread)
+void
+KinectV2BlobEventThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))

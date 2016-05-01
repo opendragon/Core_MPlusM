@@ -98,7 +98,8 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CREATE_(Test05HandlerCreator)
+yarp::os::PortReader *
+Test05HandlerCreator::create(void)
 {
     ODL_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;

@@ -152,13 +152,6 @@ namespace MplusM
             virtual void
             enableMetrics(void);
 
-            /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
-             otherwise. */
-            virtual bool
-            getConfiguration(yarp::os::Bottle & details);
-
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
             inline JSContext *
@@ -176,10 +169,6 @@ namespace MplusM
             {
                 return _global;
             } // getGlobal
-
-            /*! @brief Restart the input / output streams. */
-            virtual void
-            restartStreams(void);
 
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
@@ -200,19 +189,9 @@ namespace MplusM
             void
             stallUntilIdle(const size_t slotNumber);
 
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool
-            startService(void);
-
             /*! @brief Start the input / output streams. */
             virtual void
             startStreams(void);
-
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool
-            stopService(void);
 
             /*! @brief Stop the input / output streams. */
             virtual void

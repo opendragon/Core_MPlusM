@@ -111,7 +111,8 @@ CommonLispFilterThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::clearOutputChannel
 
-DEFINE_RUN_(CommonLispFilterThread)
+void
+CommonLispFilterThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -127,7 +128,8 @@ DEFINE_RUN_(CommonLispFilterThread)
     ODL_OBJEXIT(); //####
 } // CommonLispFilterThread::run
 
-DEFINE_THREADINIT_(CommonLispFilterThread)
+bool
+CommonLispFilterThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -136,12 +138,6 @@ DEFINE_THREADINIT_(CommonLispFilterThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterThread::threadInit
-
-DEFINE_THREADRELEASE_(CommonLispFilterThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // CommonLispFilterThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

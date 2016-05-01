@@ -101,7 +101,7 @@ ExemplarFilterService::ExemplarFilterService(const Utilities::DescriptorVector &
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ExemplarFilterService::ExemplarFilterService
@@ -118,39 +118,8 @@ ExemplarFilterService::~ExemplarFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(ExemplarFilterService)
-{
-#if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(MpM_DoExplicitDisconnect)
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = false;
-
-    try
-    {
-        // Nothing needs to be done.
-        result = true;
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(); //####
-    return result;
-} // ExemplarFilterService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_DISABLEMETRICS_(ExemplarFilterService)
+void
+ExemplarFilterService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -161,7 +130,8 @@ DEFINE_DISABLEMETRICS_(ExemplarFilterService)
     ODL_OBJEXIT(); //####
 } // ExemplarFilterService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(ExemplarFilterService)
+void
+ExemplarFilterService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -172,35 +142,8 @@ DEFINE_ENABLEMETRICS_(ExemplarFilterService)
     ODL_OBJEXIT(); //####
 } // ExemplarFilterService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(ExemplarFilterService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarFilterService::getConfiguration
-
-DEFINE_RESTARTSTREAMS_(ExemplarFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ExemplarFilterService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
+bool
+ExemplarFilterService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -221,34 +164,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
     return result;
 } // ExemplarFilterService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(ExemplarFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ExemplarFilterService::startService
-
-DEFINE_STARTSTREAMS_(ExemplarFilterService)
+void
+ExemplarFilterService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -272,25 +189,8 @@ DEFINE_STARTSTREAMS_(ExemplarFilterService)
     ODL_OBJEXIT(); //####
 } // ExemplarFilterService::startStreams
 
-DEFINE_STOPSERVICE_(ExemplarFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarFilterService::stopService
-
-DEFINE_STOPSTREAMS_(ExemplarFilterService)
+void
+ExemplarFilterService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

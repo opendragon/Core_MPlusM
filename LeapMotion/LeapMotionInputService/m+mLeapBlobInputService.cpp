@@ -101,7 +101,7 @@ LeapBlobInputService::LeapBlobInputService(const Utilities::DescriptorVector & a
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // LeapBlobInputService::LeapBlobInputService
@@ -122,7 +122,8 @@ LeapBlobInputService::~LeapBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(LeapBlobInputService)
+bool
+LeapBlobInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -170,7 +171,8 @@ DEFINE_CONFIGURE_(LeapBlobInputService)
     return result;
 } // LeapBlobInputService::configure
 
-DEFINE_GETCONFIGURATION_(LeapBlobInputService)
+bool
+LeapBlobInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -182,24 +184,8 @@ DEFINE_GETCONFIGURATION_(LeapBlobInputService)
     return result;
 } // LeapBlobInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(LeapBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // LeapBlobInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapBlobInputService)
+bool
+LeapBlobInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -216,7 +202,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapBlobInputService)
     return result;
 } // LeapBlobInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapBlobInputService)
+bool
+LeapBlobInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -229,34 +216,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapBlobInputService)
     return result;
 } // LeapBlobInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(LeapBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // LeapBlobInputService::startService
-
-DEFINE_STARTSTREAMS_(LeapBlobInputService)
+void
+LeapBlobInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -280,25 +241,8 @@ DEFINE_STARTSTREAMS_(LeapBlobInputService)
     ODL_OBJEXIT(); //####
 } // LeapBlobInputService::startStreams
 
-DEFINE_STOPSERVICE_(LeapBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // LeapBlobInputService::stopService
-
-DEFINE_STOPSTREAMS_(LeapBlobInputService)
+void
+LeapBlobInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

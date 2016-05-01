@@ -103,7 +103,7 @@ ExemplarAdapterService::ExemplarAdapterService(const Utilities::DescriptorVector
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ExemplarAdapterService::ExemplarAdapterService
@@ -120,39 +120,8 @@ ExemplarAdapterService::~ExemplarAdapterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(ExemplarAdapterService)
-{
-#if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(MpM_DoExplicitDisconnect)
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = false;
-
-    try
-    {
-        // Nothing needs to be done.
-        result = true;
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarAdapterService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_DISABLEMETRICS_(ExemplarAdapterService)
+void
+ExemplarAdapterService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -163,7 +132,8 @@ DEFINE_DISABLEMETRICS_(ExemplarAdapterService)
     ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(ExemplarAdapterService)
+void
+ExemplarAdapterService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -173,34 +143,6 @@ DEFINE_ENABLEMETRICS_(ExemplarAdapterService)
     }
     ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::enableMetrics
-
-DEFINE_GETCONFIGURATION_(ExemplarAdapterService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarAdapterService::getConfiguration
-
-DEFINE_RESTARTSTREAMS_(ExemplarAdapterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ExemplarAdapterService::restartStreams
 
 void
 ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData)
@@ -214,7 +156,8 @@ ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData)
     ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::setUpInputHandlers
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarAdapterService)
+bool
+ExemplarAdapterService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -240,34 +183,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarAdapterService)
     return result;
 } // ExemplarAdapterService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(ExemplarAdapterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ExemplarAdapterService::startService
-
-DEFINE_STARTSTREAMS_(ExemplarAdapterService)
+void
+ExemplarAdapterService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -290,25 +207,8 @@ DEFINE_STARTSTREAMS_(ExemplarAdapterService)
     ODL_OBJEXIT(); //####
 } // ExemplarAdapterService::startStreams
 
-DEFINE_STOPSERVICE_(ExemplarAdapterService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ExemplarAdapterService::stopService
-
-DEFINE_STOPSTREAMS_(ExemplarAdapterService)
+void
+ExemplarAdapterService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

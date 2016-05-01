@@ -288,7 +288,7 @@ const
         else
         {
             ODL_LOG("! ((index >= 0) && " //####
-                   "(index < static_cast<int>(_fieldsWithValues.size())))"); //####
+                    "(index < static_cast<int>(_fieldsWithValues.size())))"); //####
             result = NULL;
         }
     }

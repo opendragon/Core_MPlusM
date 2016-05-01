@@ -145,7 +145,8 @@ NameServerReportingThread::~NameServerReportingThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(NameServerReportingThread)
+void
+NameServerReportingThread::run(void)
 {
     ODL_OBJENTER(); //####
     int            dns_sd_fd = DNSServiceRefSockFD(_serviceRef);
@@ -205,7 +206,8 @@ DEFINE_RUN_(NameServerReportingThread)
     ODL_OBJEXIT(); //####
 } // NameServerReportingThread::run
 
-DEFINE_THREADINIT_(NameServerReportingThread)
+bool
+NameServerReportingThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     yarp::os::Contact   nsContact = yarp::os::Network::getNameServerContact();
@@ -240,7 +242,8 @@ DEFINE_THREADINIT_(NameServerReportingThread)
     return result;
 } // NameServerReportingThread::threadInit
 
-DEFINE_THREADRELEASE_(NameServerReportingThread)
+void
+NameServerReportingThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
     DNSServiceRefDeallocate(_serviceRef);

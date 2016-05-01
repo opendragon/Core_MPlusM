@@ -106,7 +106,7 @@ ViconDataStreamInputService::ViconDataStreamInputService(const Utilities::Descri
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ViconDataStreamInputService::ViconDataStreamInputService
@@ -122,7 +122,8 @@ ViconDataStreamInputService::~ViconDataStreamInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(ViconDataStreamInputService)
+bool
+ViconDataStreamInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -177,7 +178,8 @@ DEFINE_CONFIGURE_(ViconDataStreamInputService)
     return result;
 } // ViconDataStreamInputService::configure
 
-DEFINE_GETCONFIGURATION_(ViconDataStreamInputService)
+bool
+ViconDataStreamInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -190,24 +192,8 @@ DEFINE_GETCONFIGURATION_(ViconDataStreamInputService)
     return result;
 } // ViconDataStreamInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(ViconDataStreamInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ViconDataStreamInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconDataStreamInputService)
+bool
+ViconDataStreamInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -217,15 +203,18 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconDataStreamInputService)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "VICONDS";
-    description._protocolDescription = "A list of subjects\n"
-                    "Each subject being a list of the subject name and a dictionary of segments\n"
-                    "Each segment being a dictionary with name, translation and rotation";
+    description._protocolDescription = T_("A list of subjects\n"
+                                          "Each subject being a list of the subject name and a "
+                                          "dictionary of segments\n"
+                                          "Each segment being a dictionary with name, translation "
+                                          "and rotation");
     _outDescriptions.push_back(description);
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconDataStreamInputService)
+bool
+ViconDataStreamInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -238,34 +227,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconDataStreamInputService)
     return result;
 } // ViconDataStreamInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(ViconDataStreamInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ViconDataStreamInputService::startService
-
-DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
+void
+ViconDataStreamInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -297,25 +260,8 @@ DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
     ODL_OBJEXIT(); //####
 } // ViconDataStreamInputService::startStreams
 
-DEFINE_STOPSERVICE_(ViconDataStreamInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ViconDataStreamInputService::stopService
-
-DEFINE_STOPSTREAMS_(ViconDataStreamInputService)
+void
+ViconDataStreamInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

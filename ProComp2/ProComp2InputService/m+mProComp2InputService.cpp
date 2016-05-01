@@ -101,7 +101,7 @@ ProComp2InputService::ProComp2InputService(const Utilities::DescriptorVector & a
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ProComp2InputService::ProComp2InputService
@@ -117,66 +117,8 @@ ProComp2InputService::~ProComp2InputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(ProComp2InputService)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = false;
-
-    try
-    {
-        result = true;
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ProComp2InputService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_GETCONFIGURATION_(ProComp2InputService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ProComp2InputService::getConfiguration
-
-DEFINE_RESTARTSTREAMS_(ProComp2InputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // ProComp2InputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(ProComp2InputService)
+bool
+ProComp2InputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -192,7 +134,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(ProComp2InputService)
     return result;
 } // ProComp2InputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(ProComp2InputService)
+bool
+ProComp2InputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -205,34 +148,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ProComp2InputService)
     return result;
 } // ProComp2InputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(ProComp2InputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ProComp2InputService::startService
-
-DEFINE_STARTSTREAMS_(ProComp2InputService)
+void
+ProComp2InputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -258,25 +175,8 @@ DEFINE_STARTSTREAMS_(ProComp2InputService)
     ODL_OBJEXIT(); //####
 } // ProComp2InputService::startStreams
 
-DEFINE_STOPSERVICE_(ProComp2InputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ProComp2InputService::stopService
-
-DEFINE_STOPSTREAMS_(ProComp2InputService)
+void
+ProComp2InputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

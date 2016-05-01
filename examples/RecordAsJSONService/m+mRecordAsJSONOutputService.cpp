@@ -106,7 +106,7 @@ RecordAsJSONOutputService::RecordAsJSONOutputService(const Utilities::Descriptor
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // RecordAsJSONOutputService::RecordAsJSONOutputService
@@ -123,7 +123,8 @@ RecordAsJSONOutputService::~RecordAsJSONOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(RecordAsJSONOutputService)
+bool
+RecordAsJSONOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -162,7 +163,8 @@ DEFINE_CONFIGURE_(RecordAsJSONOutputService)
     return result;
 } // RecordAsJSONOutputService::configure
 
-DEFINE_DISABLEMETRICS_(RecordAsJSONOutputService)
+void
+RecordAsJSONOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -173,7 +175,8 @@ DEFINE_DISABLEMETRICS_(RecordAsJSONOutputService)
     ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(RecordAsJSONOutputService)
+void
+RecordAsJSONOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -184,7 +187,8 @@ DEFINE_ENABLEMETRICS_(RecordAsJSONOutputService)
     ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(RecordAsJSONOutputService)
+bool
+RecordAsJSONOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -196,24 +200,8 @@ DEFINE_GETCONFIGURATION_(RecordAsJSONOutputService)
     return result;
 } // RecordAsJSONOutputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(RecordAsJSONOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // RecordAsJSONOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordAsJSONOutputService)
+bool
+RecordAsJSONOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -229,34 +217,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordAsJSONOutputService)
     return result;
 } // RecordAsJSONOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(RecordAsJSONOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // RecordAsJSONOutputService::startService
-
-DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
+void
+RecordAsJSONOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -305,25 +267,8 @@ DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
     ODL_OBJEXIT(); //####
 } // RecordAsJSONOutputService::startStreams
 
-DEFINE_STOPSERVICE_(RecordAsJSONOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RecordAsJSONOutputService::stopService
-
-DEFINE_STOPSTREAMS_(RecordAsJSONOutputService)
+void
+RecordAsJSONOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

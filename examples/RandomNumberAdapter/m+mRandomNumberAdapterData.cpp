@@ -87,15 +87,15 @@ RandomNumberAdapterData::RandomNumberAdapterData(RandomNumberClient * client,
                                                  BaseChannel *        output) :
     inherited(client, output)
 {
-    ODL_ENTER();//####
-    ODL_P2("client = ", client, "output = ", output);//####
-    ODL_EXIT_P(this);//####
+    ODL_ENTER(); //####
+    ODL_P2("client = ", client, "output = ", output); //####
+    ODL_EXIT_P(this); //####
 } // RandomNumberAdapterData::RandomNumberAdapterData
 
 RandomNumberAdapterData::~RandomNumberAdapterData(void)
 {
-    ODL_OBJENTER();//####
-    ODL_OBJEXIT();//####
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
 } // RandomNumberAdapterData::~RandomNumberAdapterData
 
 #if defined(__APPLE__)

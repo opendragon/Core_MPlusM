@@ -103,7 +103,7 @@ RandomBurstInputService::RandomBurstInputService(const Utilities::DescriptorVect
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // RandomBurstInputService::RandomBurstInputService
@@ -119,7 +119,8 @@ RandomBurstInputService::~RandomBurstInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(RandomBurstInputService)
+bool
+RandomBurstInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -173,7 +174,8 @@ DEFINE_CONFIGURE_(RandomBurstInputService)
     return result;
 } // RandomBurstInputService::configure
 
-DEFINE_GETCONFIGURATION_(RandomBurstInputService)
+bool
+RandomBurstInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -186,24 +188,8 @@ DEFINE_GETCONFIGURATION_(RandomBurstInputService)
     return result;
 } // RandomBurstInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(RandomBurstInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // RandomBurstInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
+bool
+RandomBurstInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -219,7 +205,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
     return result;
 } // RandomBurstInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(RandomBurstInputService)
+bool
+RandomBurstInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -232,34 +219,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(RandomBurstInputService)
     return result;
 } // RandomBurstInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(RandomBurstInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // RandomBurstInputService::startService
-
-DEFINE_STARTSTREAMS_(RandomBurstInputService)
+void
+RandomBurstInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -288,25 +249,8 @@ DEFINE_STARTSTREAMS_(RandomBurstInputService)
     ODL_OBJEXIT(); //####
 } // RandomBurstInputService::startStreams
 
-DEFINE_STOPSERVICE_(RandomBurstInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RandomBurstInputService::stopService
-
-DEFINE_STOPSTREAMS_(RandomBurstInputService)
+void
+RandomBurstInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

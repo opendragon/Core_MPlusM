@@ -100,9 +100,9 @@ BaseFilterService::BaseFilterService(const Utilities::DescriptorVector & argumen
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description); //####
+            "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     ODL_EXIT_P(this); //####
@@ -118,7 +118,8 @@ BaseFilterService::~BaseFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_SETUPINPUTSTREAMS_(BaseFilterService)
+bool
+BaseFilterService::setUpInputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
@@ -131,7 +132,8 @@ DEFINE_SETUPINPUTSTREAMS_(BaseFilterService)
     return result;
 } // BaseFilterService::setUpInputStreams
 
-DEFINE_SETUPOUTPUTSTREAMS_(BaseFilterService)
+bool
+BaseFilterService::setUpOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -143,24 +145,6 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseFilterService)
     ODL_EXIT_B(result); //####
     return result;
 } // BaseFilterService::setUpOutputStreams
-
-DEFINE_SHUTDOWNINPUTSTREAMS_(BaseFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = inherited::shutDownInputStreams();
-
-    ODL_EXIT_B(result); //####
-    return result;
-} // BaseFilterService::shutDownInputStreams
-
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result = inherited::shutDownOutputStreams();
-
-    ODL_EXIT_B(result); //####
-    return result;
-} // BaseFilterService::shutDownOutputStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

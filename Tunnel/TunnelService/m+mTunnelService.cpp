@@ -103,7 +103,7 @@ TunnelService::TunnelService(const YarpString & sourceName,
 {
     ODL_ENTER(); //####
     ODL_S4s("sourceName = ", sourceName, "launchPath = ", launchPath, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_L1("sourcePort = ", sourcePort); //####
     std::stringstream buff;
@@ -185,7 +185,8 @@ TunnelService::getAddress(YarpString & address,
     ODL_OBJEXIT(); //####
 } // TunnelService::getAddress
 
-DEFINE_STARTSERVICE_(TunnelService)
+bool
+TunnelService::startService(void)
 {
     ODL_OBJENTER(); //####
     bool result = false;
@@ -236,7 +237,8 @@ DEFINE_STARTSERVICE_(TunnelService)
     return result;
 } // TunnelService::startService
 
-DEFINE_STOPSERVICE_(TunnelService)
+bool
+TunnelService::stopService(void)
 {
     ODL_OBJENTER(); //####
     bool result = false;

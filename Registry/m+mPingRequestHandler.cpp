@@ -107,26 +107,9 @@ PingRequestHandler::~PingRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(PingRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // PingRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
+void
+PingRequestHandler::fillInDescription(const YarpString &   request,
+                                      yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -137,10 +120,11 @@ DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, PING_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
-                 "Update the last-pinged time for a service or re-register it\n"
-                 "Input: the channel used by the service\n"
-                 "Output: OK or FAILED, with a description of the problem encountered");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Update the last-pinged time for a service or "
+                                                  "re-register it\n"
+                                                  "Input: the channel used by the service\n"
+                                                  "Output: OK or FAILED, with a description of the "
+                                                  "problem encountered"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -159,7 +143,11 @@ DEFINE_FILLINDESCRIPTION_(PingRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(PingRequestHandler)
+bool
+PingRequestHandler::processRequest(const YarpString &           request,
+                                   const yarp::os::Bottle &     restOfInput,
+                                   const YarpString &           senderChannel,
+                                   yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -168,7 +156,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 
@@ -238,7 +226,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                                 else
                                                 {
                                                     ODL_LOG("! (theService.processList" //####
-                                                           "Response(argAsString, reply))"); //####
+                                                            "Response(argAsString, reply))"); //####
                                                     _response.addString(MpM_FAILED_RESPONSE_);
                                                     _response.addString("Invalid response to "
                                                                         "'list' request");
@@ -246,8 +234,8 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                             }
                                             else
                                             {
-                                                ODL_LOG("! (outChannel->writeBottle(message2, " //####
-                                                       "reply))"); //####
+                                                ODL_LOG("! (outChannel->" //####
+                                                        "writeBottle(message2, reply))"); //####
                                                 _response.addString(MpM_FAILED_RESPONSE_);
                                                 _response.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
@@ -258,7 +246,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                         else
                                         {
                                             ODL_LOG("! (theService.processNameResponse(" //####
-                                                   "argAsString, reply))"); //####
+                                                    "argAsString, reply))"); //####
                                             _response.addString(MpM_FAILED_RESPONSE_);
                                             _response.addString("Invalid response to 'name' "
                                                                 "request");
@@ -266,7 +254,8 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                     }
                                     else
                                     {
-                                        ODL_LOG("! (outChannel->writeBottle(message1, reply))"); //####
+                                        ODL_LOG("! (outChannel->writeBottle(message1, " //####
+                                                "reply))"); //####
                                         _response.addString(MpM_FAILED_RESPONSE_);
                                         _response.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
@@ -279,15 +268,15 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                                                               STANDARD_WAIT_TIME_))
                                     {
                                         ODL_LOG("(! Utilities::NetworkDisconnectWith" //####
-                                               "Retries(outChannel->name(), " //####
-                                               "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                                "Retries(outChannel->name(), " //####
+                                                "argAsString, STANDARD_WAIT_TIME_))"); //####
                                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                                 }
                                 else
                                 {
                                     ODL_LOG("! (outChannel->addOutputWithRetries(" //####
-                                           "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                            "argAsString, STANDARD_WAIT_TIME_))"); //####
                                     _response.addString(MpM_FAILED_RESPONSE_);
                                     _response.addString("Could not connect to channel");
                                     _response.addString(argAsString);
@@ -299,7 +288,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                             else
                             {
                                 ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                                       "STANDARD_WAIT_TIME_))"); //####
+                                        "STANDARD_WAIT_TIME_))"); //####
                                 _response.addString(MpM_FAILED_RESPONSE_);
                                 _response.addString("Channel could not be opened");
                             }

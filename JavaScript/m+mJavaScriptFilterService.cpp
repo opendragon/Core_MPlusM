@@ -464,16 +464,16 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
 {
     ODL_ENTER(); //####
     ODL_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
-              "argv = ", argv); //####
+           "argv = ", argv); //####
     ODL_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
-              "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
-              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction); //####
+           "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+           "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+           &loadedStartingFunction); //####
     ODL_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
-              "loadedThreadFunction = ", &loadedThreadFunction); //####
+           "loadedThreadFunction = ", &loadedThreadFunction); //####
     ODL_LL1("argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_B1("sawThread = ", sawThread); //####
     ODL_D1("loadedInterval = ", loadedInterval); //####
@@ -511,7 +511,8 @@ JavaScriptFilterService::~JavaScriptFilterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(JavaScriptFilterService)
+bool
+JavaScriptFilterService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -560,7 +561,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
             else
             {
                 ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
-                       "funcArgs, &funcResult))"); //####
+                        "funcArgs, &funcResult))"); //####
                 JS::RootedValue exc(_context);
 
                 if (JS_GetPendingException(_context, &exc))
@@ -588,7 +589,8 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
+void
+JavaScriptFilterService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -605,7 +607,8 @@ DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::disableMetrics
 
-DEFINE_DOIDLE_(JavaScriptFilterService)
+void
+JavaScriptFilterService::doIdle(void)
 {
     ODL_OBJENTER(); //####
     if (isActive())
@@ -645,8 +648,8 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                         }
                         else
                         {
-                            ODL_LOG("! (JS_CallFunctionValue(_context, _global, handlerFunc, " //####
-                                   "funcArgs, &funcResult))"); //####
+                            ODL_LOG("! (JS_CallFunctionValue(_context, _global, " //####
+                                    "handlerFunc, funcArgs, &funcResult))"); //####
                             JS::RootedValue exc(_context);
 
                             if (JS_GetPendingException(_context, &exc))
@@ -679,15 +682,15 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                     if (JS_CallFunctionValue(_context, _global, _scriptThreadFunc, funcArgs,
                                              &funcResult))
                     {
-                        ODL_LOG("(JS_CallFunctionValue(_context, _global, _scriptThreadFunc, " //####
-                               "funcArgs, &funcResult))"); //####
+                        ODL_LOG("(JS_CallFunctionValue(_context, _global, " //####
+                                "_scriptThreadFunc, funcArgs, &funcResult))"); //####
                         // We don't care about the function result, as it's supposed to just perform
                         // an iteration of the thread.
                     }
                     else
                     {
                         ODL_LOG("! (JS_CallFunctionValue(_context, _global, " //####
-                               "_scriptThreadFunc, funcArgs, &funcResult))"); //####
+                                "_scriptThreadFunc, funcArgs, &funcResult))"); //####
                         JS::RootedValue exc(_context);
 
                         if (JS_GetPendingException(_context, &exc))
@@ -711,7 +714,8 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::doIdle
 
-DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
+void
+JavaScriptFilterService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -727,17 +731,6 @@ DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
     }
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::enableMetrics
-
-DEFINE_GETCONFIGURATION_(JavaScriptFilterService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // JavaScriptFilterService::getConfiguration
 
 void
 JavaScriptFilterService::releaseHandlers(void)
@@ -760,23 +753,6 @@ JavaScriptFilterService::releaseHandlers(void)
     }
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::releaseHandlers
-
-DEFINE_RESTARTSTREAMS_(JavaScriptFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // JavaScriptFilterService::restartStreams
 
 bool
 JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
@@ -817,7 +793,8 @@ JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
     return okSoFar;
 } // JavaScriptFilterService::sendToChannel
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
+bool
+JavaScriptFilterService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -864,34 +841,8 @@ JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::stallUntilIdle
 
-DEFINE_STARTSERVICE_(JavaScriptFilterService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // JavaScriptFilterService::startService
-
-DEFINE_STARTSTREAMS_(JavaScriptFilterService)
+void
+JavaScriptFilterService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -937,25 +888,8 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterService::startStreams
 
-DEFINE_STOPSERVICE_(JavaScriptFilterService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // JavaScriptFilterService::stopService
-
-DEFINE_STOPSTREAMS_(JavaScriptFilterService)
+void
+JavaScriptFilterService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -1003,8 +937,8 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                 }
                 else
                 {
-                    ODL_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
-                           "funcArgs, &funcResult))"); //####
+                    ODL_LOG("! (JS_CallFunctionValue(_context, _global, " //####
+                            "_scriptStoppingFunc, funcArgs, &funcResult))"); //####
                     JS::RootedValue exc(_context);
 
                     if (JS_GetPendingException(_context, &exc))

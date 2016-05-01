@@ -237,7 +237,8 @@ ProComp2InputThread::readChannelData(const DWORD time)
 } // ProComp2InputThread::readChannelData
 #endif // ! defined(MpM_BuildDummyServices)
 
-DEFINE_RUN_(ProComp2InputThread)
+void
+ProComp2InputThread::run(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
@@ -317,7 +318,8 @@ ProComp2InputThread::setupEncoders(void)
     return result;
 } // ProComp2InputThread::setupEncoders
 
-DEFINE_THREADINIT_(ProComp2InputThread)
+bool
+ProComp2InputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool    result = true;
@@ -379,7 +381,8 @@ DEFINE_THREADINIT_(ProComp2InputThread)
     return result;
 } // ProComp2InputThread::threadInit
 
-DEFINE_THREADRELEASE_(ProComp2InputThread)
+void
+ProComp2InputThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))

@@ -236,7 +236,8 @@ setUpAndGo(void)
                                 }
                                 else
                                 {
-                                    ODL_LOG("! (aClient->setEmailAddressForDb(inputString))"); //####
+                                    ODL_LOG("! (aClient->" //####
+                                            "setEmailAddressForDb(inputString))"); //####
                                     MpM_FAIL_("Problem setting e-mail address for database.");
                                     cout << "E-mail address not set for database." <<
                                     endl;

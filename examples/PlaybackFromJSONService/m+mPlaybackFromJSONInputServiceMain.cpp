@@ -112,13 +112,13 @@ setUpAndGo(const YarpString &                  inputPath,
            const bool                          reportOnExit)
 {
     ODL_ENTER(); //####
-    ODL_S4s("inputPath = ", inputPath, "progName = ", progName, "tag = ", tag,//####
-               "serviceEndpointName = ", serviceEndpointName); //####
+    ODL_S4s("inputPath = ", inputPath, "progName = ", progName, "tag = ", tag, //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_LL1("argc = ", argc); //####
-    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
+           reportOnExit); //####
     PlaybackFromJSONInputService * aService = new PlaybackFromJSONInputService(inputPath,
                                                                                argumentList,
                                                                                progName, argc, argv,

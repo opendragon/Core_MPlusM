@@ -92,7 +92,7 @@ ChannelArgumentDescriptor::ChannelArgumentDescriptor(const YarpString & argName,
 {
     ODL_ENTER(); //####
     ODL_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-               defaultValue); //####
+            defaultValue); //####
     ODL_EXIT_P(this); //####
 } // ChannelArgumentDescriptor::ChannelArgumentDescriptor
 

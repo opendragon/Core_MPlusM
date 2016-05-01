@@ -117,7 +117,7 @@ doTestParseValue(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -166,7 +166,7 @@ doTestParseValueList(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString("field", false)); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString("field", false)); //####
             cout << didMatch->asSQLString("field", false).c_str() << endl;
             delete didMatch;
         }
@@ -217,7 +217,7 @@ doTestParseFieldName(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -271,7 +271,7 @@ doTestParseFieldWithValues(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -323,7 +323,7 @@ doTestParseConstraintList(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -375,7 +375,7 @@ doTestParseExpression(const bool   expected,
         if (didMatch)
         {
             ODL_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString("SELECT ")); //####
+                    "didMatch->asSQLString = ", didMatch->asSQLString("SELECT ")); //####
             cout << didMatch->asSQLString("SELECT ").c_str() << endl;
             delete didMatch;
         }

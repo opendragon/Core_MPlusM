@@ -95,7 +95,7 @@ ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
@@ -158,51 +158,6 @@ ChordGeneratorService::detachRequestHandlers(void)
     }
     ODL_OBJEXIT(); //####
 } // ChordGeneratorService::detachRequestHandlers
-
-DEFINE_STARTSERVICE_(ChordGeneratorService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // ChordGeneratorService::startService
-
-DEFINE_STOPSERVICE_(ChordGeneratorService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ChordGeneratorService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

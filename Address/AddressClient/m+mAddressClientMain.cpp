@@ -99,7 +99,7 @@ processArguments(const YarpString & outputMode,
     ODL_ENTER(); //####
     ODL_S2s("outputMode = ", outputMode, "tag = ", tag); //####
     ODL_P3("namePattern = ", &namePattern, "needsAddress = ", &needsAddress, //####
-              "needsPort = ", &needsPort); //####
+           "needsPort = ", &needsPort); //####
     bool okSoFar = true;
 
     if (0 < outputMode.length())

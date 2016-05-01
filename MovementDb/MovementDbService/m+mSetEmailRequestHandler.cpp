@@ -103,26 +103,9 @@ SetEmailRequestHandler::~SetEmailRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(SetEmailRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("alternateNames = ", &alternateNames); //####
-    ODL_OBJEXIT(); //####
-} // SetEmailRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_FILLINDESCRIPTION_(SetEmailRequestHandler)
+void
+SetEmailRequestHandler::fillInDescription(const YarpString &   request,
+                                          yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -132,9 +115,10 @@ DEFINE_FILLINDESCRIPTION_(SetEmailRequestHandler)
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, SETEMAIL_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Set the e-mail address for the backend database\n"
-                 "Input: e-mail address\n"
-                 "Output: nothing");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Set the e-mail address for the backend "
+                                                  "database\n"
+                                                  "Input: e-mail address\n"
+                                                  "Output: nothing"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -153,7 +137,11 @@ DEFINE_FILLINDESCRIPTION_(SetEmailRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(SetEmailRequestHandler)
+bool
+SetEmailRequestHandler::processRequest(const YarpString &           request,
+                                       const yarp::os::Bottle &     restOfInput,
+                                       const YarpString &           senderChannel,
+                                       yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -162,7 +150,7 @@ DEFINE_PROCESSREQUEST_(SetEmailRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

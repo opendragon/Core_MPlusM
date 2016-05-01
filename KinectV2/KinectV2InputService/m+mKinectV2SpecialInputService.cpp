@@ -105,7 +105,7 @@ KinectV2SpecialInputService::KinectV2SpecialInputService(const Utilities::Descri
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // KinectV2SpecialInputService::KinectV2SpecialInputService
@@ -121,66 +121,8 @@ KinectV2SpecialInputService::~KinectV2SpecialInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(KinectV2SpecialInputService)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = false;
-
-    try
-    {
-        result = true;
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // KinectV2SpecialInputService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_GETCONFIGURATION_(KinectV2SpecialInputService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // KinectV2SpecialInputService::getConfiguration
-
-DEFINE_RESTARTSTREAMS_(KinectV2SpecialInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // KinectV2SpecialInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2SpecialInputService)
+bool
+KinectV2SpecialInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -190,15 +132,17 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2SpecialInputService)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "(d+)";
-    description._protocolDescription = "A list of bodies\n"
-                    "Each body being the hand state, a list of joints\n"
-                    "Each joint being a validity flag, position and orientation";
+    description._protocolDescription = T_("A list of bodies\n"
+                                          "Each body being the hand state, a list of joints\n"
+                                          "Each joint being a validity flag, position and "
+                                          "orientation");
     _outDescriptions.push_back(description);
     ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2SpecialInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2SpecialInputService)
+bool
+KinectV2SpecialInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -211,34 +155,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2SpecialInputService)
     return result;
 } // KinectV2SpecialInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(KinectV2SpecialInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // KinectV2SpecialInputService::startService
-
-DEFINE_STARTSTREAMS_(KinectV2SpecialInputService)
+void
+KinectV2SpecialInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -267,25 +185,8 @@ DEFINE_STARTSTREAMS_(KinectV2SpecialInputService)
     ODL_OBJEXIT(); //####
 } // KinectV2SpecialInputService::startStreams
 
-DEFINE_STOPSERVICE_(KinectV2SpecialInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // KinectV2SpecialInputService::stopService
-
-DEFINE_STOPSTREAMS_(KinectV2SpecialInputService)
+void
+KinectV2SpecialInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

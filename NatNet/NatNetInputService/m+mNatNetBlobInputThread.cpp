@@ -248,7 +248,8 @@ NatNetBlobInputThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::clearOutputChannel
 
-DEFINE_RUN_(NatNetBlobInputThread)
+void
+NatNetBlobInputThread::run(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -306,7 +307,8 @@ NatNetBlobInputThread::setScale(const double newScale)
     ODL_OBJEXIT(); //####
 } // NatNetBlobInputThread::setScale
 
-DEFINE_THREADINIT_(NatNetBlobInputThread)
+bool
+NatNetBlobInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -350,7 +352,7 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
             else
             {
                 ODL_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
-                       "_commandPort, _dataPort))"); //####
+                        "_commandPort, _dataPort))"); //####
                 std::cerr << "Initialization problem with Natural Point NatNet service: ";
                 switch (retCode)
                 {
@@ -389,12 +391,6 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // NatNetBlobInputThread::threadInit
-
-DEFINE_THREADRELEASE_(NatNetBlobInputThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // NatNetBlobInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

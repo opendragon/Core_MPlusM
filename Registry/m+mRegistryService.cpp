@@ -567,7 +567,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
     ODL_ENTER(); //####
     ODL_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
     ODL_LL2("columnOfInterest1 = ", columnOfInterest1, "columnOfInterest2 = ", //####
-               columnOfInterest2); //####
+            columnOfInterest2); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
 
@@ -1173,7 +1173,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
         else
         {
             ODL_LOG("! ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && " //####
-                   "(0 < outputIndex) && (0 < requestIndex) && (0 < versionIndex))"); //####
+                    "(0 < outputIndex) && (0 < requestIndex) && (0 < versionIndex))"); //####
         }
     }
     catch (...)
@@ -1340,8 +1340,8 @@ setupInsertIntoServices(sqlite3_stmt * statement,
         else
         {
             ODL_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && " //####
-                   "(0 < executableIndex) && (0 < extraInfoIndex) && (0 < nameIndex) && " //####
-                   "(0 < requestsDescriptionIndex) && (0 < tagIndex))"); //####
+                    "(0 < executableIndex) && (0 < extraInfoIndex) && (0 < nameIndex) && " //####
+                    "(0 < requestsDescriptionIndex) && (0 < tagIndex))"); //####
         }
     }
     catch (...)
@@ -1716,7 +1716,7 @@ RegistryService::addServiceRecord(const YarpString & channelName,
 {
     ODL_OBJENTER(); //####
     ODL_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
-               "extraInfo = ", extraInfo); //####
+            "extraInfo = ", extraInfo); //####
     ODL_S2s("executable = ", executable, "requestsDescription = ", requestsDescription); //####
     bool okSoFar = false;
 
@@ -1783,7 +1783,7 @@ RegistryService::attachRequestHandlers(void)
         else
         {
             ODL_LOG("! (_matchHandler && _pingHandler && _registerHandler && " //####
-                   "_unregisterHandler)"); //####
+                    "_unregisterHandler)"); //####
         }
     }
     catch (...)
@@ -1911,7 +1911,8 @@ RegistryService::detachRequestHandlers(void)
     ODL_OBJEXIT(); //####
 } // RegistryService::detachRequestHandlers
 
-DEFINE_DISABLEMETRICS_(RegistryService)
+void
+RegistryService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -1922,7 +1923,8 @@ DEFINE_DISABLEMETRICS_(RegistryService)
     ODL_OBJEXIT(); //####
 } // RegistryService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(RegistryService)
+void
+RegistryService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -1933,7 +1935,8 @@ DEFINE_ENABLEMETRICS_(RegistryService)
     ODL_OBJEXIT(); //####
 } // RegistryService::enableMetrics
 
-DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
+void
+RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -1951,7 +1954,8 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
     ODL_OBJEXIT(); //####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
-DEFINE_GATHERMETRICS_(RegistryService)
+void
+RegistryService::gatherMetrics(yarp::os::Bottle & metrics)
 {
     ODL_OBJENTER(); //####
     ODL_P1("metrics = ", &metrics); //####
@@ -2058,7 +2062,7 @@ RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
             else
             {
                 ODL_LOG("! (theVersion.isString() || theVersion.isInt() || " //####
-                       "theVersion.isDouble())"); //####
+                        "theVersion.isDouble())"); //####
                 // The version entry is present, but it's not a simple value
                 result = false;
             }
@@ -2243,8 +2247,8 @@ RegistryService::processNameResponse(const YarpString &      channelName,
             else
             {
                 ODL_LOG("! (theCanonicalName.isString() && theDescription.isString() && " //####
-                       "theExtraInformation.isString() && theKind.isString() && " //####
-                       "thePath.isString() && theRequestsDescription.isString())"); //####
+                        "theExtraInformation.isString() && theKind.isString() && " //####
+                        "thePath.isString() && theRequestsDescription.isString())"); //####
                 result = false;
             }
         }
@@ -2525,7 +2529,7 @@ RegistryService::setUpStatusChannel(void)
             else
             {
                 ODL_LOG("! (_statusChannel->openWithRetries(outputName, " //####
-                       "STANDARD_WAIT_TIME_))"); //####
+                        "STANDARD_WAIT_TIME_))"); //####
             }
         }
         else
@@ -2542,7 +2546,8 @@ RegistryService::setUpStatusChannel(void)
     return okSoFar;
 } // RegistryService::setUpStatusChannel
 
-DEFINE_STARTSERVICE_(RegistryService)
+bool
+RegistryService::startService(void)
 {
     ODL_OBJENTER(); //####
     bool result = false;
@@ -2599,7 +2604,7 @@ DEFINE_STARTSERVICE_(RegistryService)
                                 else
                                 {
                                     ODL_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
-                                           "response.count())"); //####
+                                            "response.count())"); //####
                                     ODL_S1s("response = ", response.asString()); //####
                                 }
                             }
@@ -2611,7 +2616,7 @@ DEFINE_STARTSERVICE_(RegistryService)
                         else
                         {
                             ODL_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                                   "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_))"); //####
+                                    "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();
@@ -2620,7 +2625,7 @@ DEFINE_STARTSERVICE_(RegistryService)
                     else
                     {
                         ODL_LOG("! (newChannel->openWithRetries(aName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(newChannel);
                 }
@@ -2667,7 +2672,8 @@ RegistryService::startChecker(void)
     ODL_OBJEXIT(); //####
 } // RegistryService::startChecker
 
-DEFINE_STOPSERVICE_(RegistryService)
+bool
+RegistryService::stopService(void)
 {
     ODL_OBJENTER(); //####
     bool result = false;

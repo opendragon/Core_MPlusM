@@ -96,20 +96,20 @@ RGBLEDService::RGBLEDService(const YarpString & launchPath,
                   "echo - send back any values given with the request", serviceEndpointName,
                   servicePortNumber), _rgbledHandler(NULL)
 {
-    ODL_ENTER();//####
+    ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber);//####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
-    ODL_EXIT_P(this);//####
+    ODL_EXIT_P(this); //####
 } // RGBLEDService::RGBLEDService
 
 RGBLEDService::~RGBLEDService(void)
 {
-    ODL_OBJENTER();//####
+    ODL_OBJENTER(); //####
     detachRequestHandlers();
-    ODL_OBJEXIT();//####
+    ODL_OBJEXIT(); //####
 } // RGBLEDService::~RGBLEDService
 
 #if defined(__APPLE__)
@@ -119,7 +119,7 @@ RGBLEDService::~RGBLEDService(void)
 void
 RGBLEDService::attachRequestHandlers(void)
 {
-    ODL_OBJENTER();//####
+    ODL_OBJENTER(); //####
     try
     {
         _rgbledHandler = new RGBLEDRequestHandler(*this);
@@ -129,21 +129,21 @@ RGBLEDService::attachRequestHandlers(void)
         }
         else
         {
-            ODL_LOG("! (_rgbledHandler)");//####
+            ODL_LOG("! (_rgbledHandler)"); //####
         }
     }
     catch (...)
     {
-        ODL_LOG("Exception caught");//####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT();//####
+    ODL_OBJEXIT(); //####
 } // RGBLEDService::attachRequestHandlers
 
 void
 RGBLEDService::detachRequestHandlers(void)
 {
-    ODL_OBJENTER();//####
+    ODL_OBJENTER(); //####
     try
     {
         if (_rgbledHandler)
@@ -155,53 +155,8 @@ RGBLEDService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        ODL_LOG("Exception caught");//####
+        ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT();//####
+    ODL_OBJEXIT(); //####
 } // RGBLEDService::detachRequestHandlers
-
-DEFINE_STARTSERVICE_(RGBLEDService)
-{
-    ODL_OBJENTER();//####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())");//####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught");//####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted());//####
-    return isStarted();
-} // RGBLEDService::startService
-
-DEFINE_STOPSERVICE_(RGBLEDService)
-{
-    ODL_OBJENTER();//####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught");//####
-        throw;
-    }
-    ODL_OBJEXIT_B(result);//####
-    return result;
-} // RGBLEDService::stopService

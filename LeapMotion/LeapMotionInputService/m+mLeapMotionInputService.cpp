@@ -101,7 +101,7 @@ LeapMotionInputService::LeapMotionInputService(const Utilities::DescriptorVector
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // LeapMotionInputService::LeapMotionInputService
@@ -122,67 +122,8 @@ LeapMotionInputService::~LeapMotionInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(LeapMotionInputService)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = false;
-
-    try
-    {
-        // Nothing needs to be done.
-        result = true;
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // LeapMotionInputService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-DEFINE_GETCONFIGURATION_(LeapMotionInputService)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("details = ", &details); //####
-    bool result = true;
-
-    details.clear();
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // LeapMotionInputService::getConfiguration
-
-DEFINE_RESTARTSTREAMS_(LeapMotionInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // LeapMotionInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapMotionInputService)
+bool
+LeapMotionInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -201,7 +142,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapMotionInputService)
     return result;
 } // LeapMotionInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapMotionInputService)
+bool
+LeapMotionInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -214,34 +156,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapMotionInputService)
     return result;
 } // LeapMotionInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(LeapMotionInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // LeapMotionInputService::startService
-
-DEFINE_STARTSTREAMS_(LeapMotionInputService)
+void
+LeapMotionInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -264,25 +180,8 @@ DEFINE_STARTSTREAMS_(LeapMotionInputService)
     ODL_OBJEXIT(); //####
 } // LeapMotionInputService::startStreams
 
-DEFINE_STOPSERVICE_(LeapMotionInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // LeapMotionInputService::stopService
-
-DEFINE_STOPSTREAMS_(LeapMotionInputService)
+void
+LeapMotionInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

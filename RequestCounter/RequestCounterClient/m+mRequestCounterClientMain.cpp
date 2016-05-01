@@ -198,7 +198,7 @@ setUpAndGo(void)
                         else
                         {
                             ODL_LOG("! (aClient->getServiceStatistics(counter, " //####
-                                   "elapsedTime))"); //####
+                                    "elapsedTime))"); //####
                             MpM_FAIL_("Problem getting statistics from the service.");
                         }
                     }

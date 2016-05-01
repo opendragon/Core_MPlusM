@@ -107,7 +107,7 @@ RecordIntegersOutputService::RecordIntegersOutputService(const Utilities::Descri
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // RecordIntegersOutputService::RecordIntegersOutputService
@@ -124,7 +124,8 @@ RecordIntegersOutputService::~RecordIntegersOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(RecordIntegersOutputService)
+bool
+RecordIntegersOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -163,7 +164,8 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
     return result;
 } // RecordIntegersOutputService::configure
 
-DEFINE_DISABLEMETRICS_(RecordIntegersOutputService)
+void
+RecordIntegersOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -174,7 +176,8 @@ DEFINE_DISABLEMETRICS_(RecordIntegersOutputService)
     ODL_OBJEXIT(); //####
 } // RecordIntegersOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(RecordIntegersOutputService)
+void
+RecordIntegersOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -185,7 +188,8 @@ DEFINE_ENABLEMETRICS_(RecordIntegersOutputService)
     ODL_OBJEXIT(); //####
 } // RecordIntegersOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(RecordIntegersOutputService)
+bool
+RecordIntegersOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -197,24 +201,8 @@ DEFINE_GETCONFIGURATION_(RecordIntegersOutputService)
     return result;
 } // RecordIntegersOutputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(RecordIntegersOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // RecordIntegersOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordIntegersOutputService)
+bool
+RecordIntegersOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -230,34 +218,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordIntegersOutputService)
     return result;
 } // RecordIntegersOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(RecordIntegersOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // RecordIntegersOutputService::startService
-
-DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
+void
+RecordIntegersOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -306,25 +268,8 @@ DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
     ODL_OBJEXIT(); //####
 } // RecordIntegersOutputService::startStreams
 
-DEFINE_STOPSERVICE_(RecordIntegersOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // RecordIntegersOutputService::stopService
-
-DEFINE_STOPSTREAMS_(RecordIntegersOutputService)
+void
+RecordIntegersOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

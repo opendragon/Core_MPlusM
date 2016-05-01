@@ -278,7 +278,8 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
 } // OpenStageBlobInputThread::processData
 #endif // ! defined(MpM_BuildDummyServices)
 
-DEFINE_RUN_(OpenStageBlobInputThread)
+void
+OpenStageBlobInputThread::run(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))
@@ -310,7 +311,8 @@ OpenStageBlobInputThread::setScale(const double newScale)
     ODL_OBJEXIT(); //####
 } // OpenStageBlobInputThread::setScale
 
-DEFINE_THREADINIT_(OpenStageBlobInputThread)
+bool
+OpenStageBlobInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -329,7 +331,8 @@ DEFINE_THREADINIT_(OpenStageBlobInputThread)
     return result;
 } // OpenStageBlobInputThread::threadInit
 
-DEFINE_THREADRELEASE_(OpenStageBlobInputThread)
+void
+OpenStageBlobInputThread::threadRelease(void)
 {
     ODL_OBJENTER(); //####
 #if (! defined(MpM_BuildDummyServices))

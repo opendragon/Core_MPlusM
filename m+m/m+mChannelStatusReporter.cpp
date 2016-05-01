@@ -121,7 +121,7 @@ ChannelStatusReporter::report(const yarp::os::PortInfo & info)
     }
     ODL_B2("incoming = ", info.incoming, "created = ", info.created); //####
     ODL_S4s("portName = ", info.portName, "sourceName = ", info.sourceName, //####
-               "targetName = ", info.targetName, "carrierName = ", info.carrierName); //####
+            "targetName = ", info.targetName, "carrierName = ", info.carrierName); //####
     ODL_S1s("message = ", info.message); //####
 } // ChannelStatusReporter::report
 

@@ -107,7 +107,8 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(RegisterRequestHandler)
+void
+RegisterRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
@@ -115,7 +116,9 @@ DEFINE_FILLINALIASES_(RegisterRequestHandler)
     ODL_OBJEXIT(); //####
 } // RegisterRequestHandler::fillInAliases
 
-DEFINE_FILLINDESCRIPTION_(RegisterRequestHandler)
+void
+RegisterRequestHandler::fillInDescription(const YarpString &   request,
+                                          yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -126,9 +129,10 @@ DEFINE_FILLINDESCRIPTION_(RegisterRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, REGISTER_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Register the service and its requests\n"
-                 "Input: the channel used by the service\n"
-                 "Output: OK or FAILED, with a description of the problem encountered");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Register the service and its requests\n"
+                                                  "Input: the channel used by the service\n"
+                                                  "Output: OK or FAILED, with a description of the "
+                                                  "problem encountered"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -148,7 +152,11 @@ DEFINE_FILLINDESCRIPTION_(RegisterRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
+bool
+RegisterRequestHandler::processRequest(const YarpString &           request,
+                                       const yarp::os::Bottle &     restOfInput,
+                                       const YarpString &           senderChannel,
+                                       yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -157,7 +165,7 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 
@@ -219,7 +227,7 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                                             else
                                             {
                                                 ODL_LOG("! (theService.processList" //####
-                                                       "Response(argAsString, reply))"); //####
+                                                        "Response(argAsString, reply))"); //####
                                                 _response.addString(MpM_FAILED_RESPONSE_);
                                                 _response.addString("Invalid response to '"
                                                                     MpM_LIST_REQUEST_ "' request");
@@ -239,7 +247,7 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                                     else
                                     {
                                         ODL_LOG("! (theService.processNameResponse(" //####
-                                               "argAsString, reply))"); //####
+                                                "argAsString, reply))"); //####
                                         _response.addString(MpM_FAILED_RESPONSE_);
                                         _response.addString("Invalid response to '"
                                                             MpM_NAME_REQUEST_ "' request");
@@ -260,15 +268,15 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                                                                               STANDARD_WAIT_TIME_))
                                 {
                                     ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(" //####
-                                           "outChannel->name(), argAsString, " //####
-                                           "STANDARD_WAIT_TIME_))"); //####
+                                            "outChannel->name(), argAsString, " //####
+                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
                             else
                             {
                                 ODL_LOG("! (outChannel->addOutputWithRetries(" //####
-                                       "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                        "argAsString, STANDARD_WAIT_TIME_))"); //####
                                 _response.addString(MpM_FAILED_RESPONSE_);
                                 _response.addString("Could not connect to channel");
                                 _response.addString(argAsString);
@@ -280,7 +288,7 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                         else
                         {
                             ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                             _response.addString(MpM_FAILED_RESPONSE_);
                             _response.addString("Channel could not be opened");
                         }

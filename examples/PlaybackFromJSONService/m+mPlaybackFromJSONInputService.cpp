@@ -419,7 +419,7 @@ PlaybackFromJSONInputService::PlaybackFromJSONInputService(const YarpString &
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "inputPath = ", inputPath, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_LL1("argc = ", argc); //####
@@ -437,7 +437,8 @@ PlaybackFromJSONInputService::~PlaybackFromJSONInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
+bool
+PlaybackFromJSONInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -465,7 +466,7 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
                     _initialDelay = secondNumber;
                     _loopPlayback = (0 != thirdNumber);
                     ODL_D2("_playbackRatio <- ", _playbackRatio, "_initialDelay <- ", //####
-                              _initialDelay); //####
+                           _initialDelay); //####
                     ODL_B1("_loopPlayback <- ", _loopPlayback); //####
                     buff << "Input file path is '" << _inPath.c_str() << "', playback ratio is " <<
                             _playbackRatio << ", initial delay is " << _initialDelay <<
@@ -497,7 +498,8 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
     return result;
 } // PlaybackFromJSONInputService::configure
 
-DEFINE_GETCONFIGURATION_(PlaybackFromJSONInputService)
+bool
+PlaybackFromJSONInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -511,24 +513,8 @@ DEFINE_GETCONFIGURATION_(PlaybackFromJSONInputService)
     return result;
 } // PlaybackFromJSONInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(PlaybackFromJSONInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // PlaybackFromJSONInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(PlaybackFromJSONInputService)
+bool
+PlaybackFromJSONInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -544,7 +530,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(PlaybackFromJSONInputService)
     return result;
 } // PlaybackFromJSONInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(PlaybackFromJSONInputService)
+bool
+PlaybackFromJSONInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -557,7 +544,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(PlaybackFromJSONInputService)
     return result;
 } // PlaybackFromJSONInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
+bool
+PlaybackFromJSONInputService::startService(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -636,7 +624,8 @@ DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
     return isStarted();
 } // PlaybackFromJSONInputService::startService
 
-DEFINE_STARTSTREAMS_(PlaybackFromJSONInputService)
+void
+PlaybackFromJSONInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -667,25 +656,8 @@ DEFINE_STARTSTREAMS_(PlaybackFromJSONInputService)
     ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputService::startStreams
 
-DEFINE_STOPSERVICE_(PlaybackFromJSONInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // PlaybackFromJSONInputService::stopService
-
-DEFINE_STOPSTREAMS_(PlaybackFromJSONInputService)
+void
+PlaybackFromJSONInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

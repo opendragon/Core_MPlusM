@@ -105,7 +105,7 @@ NatNetBlobInputService::NatNetBlobInputService(const Utilities::DescriptorVector
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // NatNetBlobInputService::NatNetBlobInputService
@@ -121,7 +121,8 @@ NatNetBlobInputService::~NatNetBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(NatNetBlobInputService)
+bool
+NatNetBlobInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -191,7 +192,8 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
     return result;
 } // NatNetBlobInputService::configure
 
-DEFINE_GETCONFIGURATION_(NatNetBlobInputService)
+bool
+NatNetBlobInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -206,24 +208,8 @@ DEFINE_GETCONFIGURATION_(NatNetBlobInputService)
     return result;
 } // NatNetBlobInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(NatNetBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // NatNetBlobInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetBlobInputService)
+bool
+NatNetBlobInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -240,7 +226,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetBlobInputService)
     return result;
 } // NatNetBlobInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetBlobInputService)
+bool
+NatNetBlobInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -253,34 +240,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetBlobInputService)
     return result;
 } // NatNetBlobInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(NatNetBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // NatNetBlobInputService::startService
-
-DEFINE_STARTSTREAMS_(NatNetBlobInputService)
+void
+NatNetBlobInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -311,25 +272,8 @@ DEFINE_STARTSTREAMS_(NatNetBlobInputService)
     ODL_OBJEXIT(); //####
 } // NatNetBlobInputService::startStreams
 
-DEFINE_STOPSERVICE_(NatNetBlobInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // NatNetBlobInputService::stopService
-
-DEFINE_STOPSTREAMS_(NatNetBlobInputService)
+void
+NatNetBlobInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

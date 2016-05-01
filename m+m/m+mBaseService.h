@@ -54,46 +54,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the disableMetrics method. */
-# define DEFINE_DISABLEMETRICS_(class_) \
-    void\
-    class_::disableMetrics(void)
-
-/*! @brief Define the enableMetrics method. */
-# define DEFINE_ENABLEMETRICS_(class_) \
-    void\
-    class_::enableMetrics(void)
-
-/*! @brief Define the fillInSecondaryClientChannelsList method. */
-# define DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(class_) \
-    void\
-    class_::fillInSecondaryClientChannelsList(ChannelVector & channels)
-
-/*! @brief Define the fillInSecondaryInputChannelsList method. */
-# define DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(class_) \
-    void\
-    class_::fillInSecondaryInputChannelsList(ChannelVector & channels)
-
-/*! @brief Define the fillInSecondaryOutputChannelsList method. */
-# define DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(class_) \
-    void\
-    class_::fillInSecondaryOutputChannelsList(ChannelVector & channels)
-
-/*! @brief Define the gatherMetrics method. */
-# define DEFINE_GATHERMETRICS_(class_) \
-    void\
-    class_::gatherMetrics(yarp::os::Bottle & metrics)
-
-/*! @brief Define the startService method. */
-# define DEFINE_STARTSERVICE_(class_) \
-    bool\
-    class_::startService(void)
-
-/*! @brief Define the stopService method. */
-# define DEFINE_STOPSERVICE_(class_) \
-    bool\
-    class_::stopService(void)
-
 namespace MplusM
 {
     namespace Common

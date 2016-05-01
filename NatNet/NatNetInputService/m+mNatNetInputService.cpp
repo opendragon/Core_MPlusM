@@ -102,7 +102,7 @@ NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argum
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // NatNetInputService::NatNetInputService
@@ -118,7 +118,8 @@ NatNetInputService::~NatNetInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(NatNetInputService)
+bool
+NatNetInputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -176,7 +177,8 @@ DEFINE_CONFIGURE_(NatNetInputService)
     return result;
 } // NatNetInputService::configure
 
-DEFINE_GETCONFIGURATION_(NatNetInputService)
+bool
+NatNetInputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -190,24 +192,8 @@ DEFINE_GETCONFIGURATION_(NatNetInputService)
     return result;
 } // NatNetInputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(NatNetInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // NatNetInputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetInputService)
+bool
+NatNetInputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -223,7 +209,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetInputService)
     return result;
 } // NatNetInputService::setUpStreamDescriptions
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetInputService)
+bool
+NatNetInputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -236,34 +223,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetInputService)
     return result;
 } // NatNetInputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(NatNetInputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // NatNetInputService::startService
-
-DEFINE_STARTSTREAMS_(NatNetInputService)
+void
+NatNetInputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -293,25 +254,8 @@ DEFINE_STARTSTREAMS_(NatNetInputService)
     ODL_OBJEXIT(); //####
 } // NatNetInputService::startStreams
 
-DEFINE_STOPSERVICE_(NatNetInputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // NatNetInputService::stopService
-
-DEFINE_STOPSTREAMS_(NatNetInputService)
+void
+NatNetInputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

@@ -104,7 +104,7 @@ MovementDbService::MovementDbService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
-               databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
+            databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
@@ -179,7 +179,7 @@ MovementDbService::attachRequestHandlers(void)
         else
         {
             ODL_LOG("! (_addFileHandler && _setDataTrackHandler && _setEmailHandler && " //####
-                   " _stopDbHandler)"); //####
+                    " _stopDbHandler)"); //####
         }
     }
     catch (...)
@@ -286,54 +286,6 @@ MovementDbService::setEmailAddress(const YarpString & key,
     ODL_OBJEXIT_B(); //####
     return okSoFar;
 } // MovementDbService::setEmailAddress
-
-DEFINE_STARTSERVICE_(MovementDbService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // MovementDbService::startService
-
-DEFINE_STOPSERVICE_(MovementDbService)
-{
-    ODL_OBJENTER(); //####
-    bool result = false;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // MovementDbService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

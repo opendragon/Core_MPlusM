@@ -156,7 +156,7 @@ FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argNam
 {
     ODL_ENTER(); //####
     ODL_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
-               pathPrefix, "pathSuffix = ", pathSuffix); //####
+            pathPrefix, "pathSuffix = ", pathSuffix); //####
     ODL_B2("forOutput = ", forOutput, "useRandomPath = ", useRandomPath); //####
     getDefaultValue();
     ODL_EXIT_P(this); //####

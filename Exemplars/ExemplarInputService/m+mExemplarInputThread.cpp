@@ -110,7 +110,8 @@ ExemplarInputThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // ExemplarInputThread::clearOutputChannel
 
-DEFINE_RUN_(ExemplarInputThread)
+void
+ExemplarInputThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -141,7 +142,8 @@ DEFINE_RUN_(ExemplarInputThread)
     ODL_OBJEXIT(); //####
 } // ExemplarInputThread::run
 
-DEFINE_THREADINIT_(ExemplarInputThread)
+bool
+ExemplarInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -150,12 +152,6 @@ DEFINE_THREADINIT_(ExemplarInputThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ExemplarInputThread::threadInit
-
-DEFINE_THREADRELEASE_(ExemplarInputThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // ExemplarInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

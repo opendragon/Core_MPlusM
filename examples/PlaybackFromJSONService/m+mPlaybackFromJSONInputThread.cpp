@@ -115,7 +115,8 @@ PlaybackFromJSONInputThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::clearOutputChannel
 
-DEFINE_RUN_(PlaybackFromJSONInputThread)
+void
+PlaybackFromJSONInputThread::run(void)
 {
     ODL_OBJENTER(); //####
     bool atEnd = false;
@@ -190,7 +191,8 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
     ODL_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::run
 
-DEFINE_THREADINIT_(PlaybackFromJSONInputThread)
+bool
+PlaybackFromJSONInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -199,12 +201,6 @@ DEFINE_THREADINIT_(PlaybackFromJSONInputThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputThread::threadInit
-
-DEFINE_THREADRELEASE_(PlaybackFromJSONInputThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // PlaybackFromJSONInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

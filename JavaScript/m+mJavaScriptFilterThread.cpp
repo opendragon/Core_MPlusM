@@ -112,7 +112,8 @@ JavaScriptFilterThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::clearOutputChannel
 
-DEFINE_RUN_(JavaScriptFilterThread)
+void
+JavaScriptFilterThread::run(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -135,7 +136,8 @@ DEFINE_RUN_(JavaScriptFilterThread)
     ODL_OBJEXIT(); //####
 } // JavaScriptFilterThread::run
 
-DEFINE_THREADINIT_(JavaScriptFilterThread)
+bool
+JavaScriptFilterThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -144,12 +146,6 @@ DEFINE_THREADINIT_(JavaScriptFilterThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptFilterThread::threadInit
-
-DEFINE_THREADRELEASE_(JavaScriptFilterThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // JavaScriptFilterThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

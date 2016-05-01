@@ -116,10 +116,6 @@ namespace MplusM
             virtual bool
             getConfiguration(yarp::os::Bottle & details);
 
-            /*! @brief Restart the input / output streams. */
-            virtual void
-            restartStreams(void);
-
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool
@@ -133,11 +129,6 @@ namespace MplusM
             /*! @brief Start the input / output streams. */
             virtual void
             startStreams(void);
-
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool
-            stopService(void);
 
             /*! @brief Stop the input / output streams. */
             virtual void

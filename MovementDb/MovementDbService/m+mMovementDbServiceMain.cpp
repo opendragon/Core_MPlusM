@@ -111,7 +111,7 @@ setUpAndGo(const YarpString & progName,
 {
     ODL_ENTER(); //####
     ODL_S4s("databaseAddress = ", databaseAddress, "progName = ", progName, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####

@@ -96,27 +96,6 @@ BaseThread::~BaseThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(BaseThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // BaseThread::run
-
-DEFINE_THREADINIT_(BaseThread)
-{
-    ODL_OBJENTER(); //####
-    bool result = true;
-
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // BaseThread::threadInit
-
-DEFINE_THREADRELEASE_(BaseThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // BaseThread::threadRelease
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)

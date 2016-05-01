@@ -113,7 +113,7 @@ setUpAndGo(YarpString &       hostName,
 {
     ODL_ENTER(); //####
     ODL_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_P1("argv = ", argv); //####

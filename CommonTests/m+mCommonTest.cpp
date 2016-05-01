@@ -166,7 +166,7 @@ doCreateTestChannel(const YarpString & destinationName,
             if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME_))
             {
                 ODL_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
-                       "STANDARD_WAIT_TIME_))"); //####
+                        "STANDARD_WAIT_TIME_))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
@@ -223,7 +223,7 @@ doDestroyTestChannel(const YarpString & destinationName,
                                                       STANDARD_WAIT_TIME_))
         {
             ODL_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
-                   "destinationName, STANDARD_WAIT_TIME_))"); //####
+                    "destinationName, STANDARD_WAIT_TIME_))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -370,15 +370,16 @@ doTestConnectToEndpoint(const char * launchPath,
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                STANDARD_WAIT_TIME_))
                             {
-                                ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
-                                       "stuff->getName(), STANDARD_WAIT_TIME_))"); //####
+                                ODL_LOG("(! NetworkDisconnectWithRetries(" //####
+                                        "outChannel->name(), stuff->getName(), "
+                                        "STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
                             ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -387,7 +388,7 @@ doTestConnectToEndpoint(const char * launchPath,
                     else
                     {
                         ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -399,7 +400,7 @@ doTestConnectToEndpoint(const char * launchPath,
             else
             {
                 ODL_LOG("! (stuff->open(STANDARD_WAIT_TIME_) && " //####
-                       "stuff->setReporter(reporter, true))"); //####
+                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
         }
@@ -490,8 +491,8 @@ doTestWriteToEndpoint(const char * launchPath,
                                                                    STANDARD_WAIT_TIME_))
                                 {
                                     ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), " //####
-                                           "STANDARD_WAIT_TIME_))"); //####
+                                            "name(), stuff->getName(), " //####
+                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -506,7 +507,7 @@ doTestWriteToEndpoint(const char * launchPath,
                         else
                         {
                             ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -515,7 +516,7 @@ doTestWriteToEndpoint(const char * launchPath,
                     else
                     {
                         ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -527,8 +528,8 @@ doTestWriteToEndpoint(const char * launchPath,
             else
             {
                 ODL_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
-                       "stuff->setReporter(reporter, true))"); //####
+                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
+                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
         }
@@ -620,8 +621,8 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                                                                    STANDARD_WAIT_TIME_))
                                 {
                                     ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), " //####
-                                           "STANDARD_WAIT_TIME_))"); //####
+                                            "name(), stuff->getName(), " //####
+                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -636,7 +637,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                         else
                         {
                             ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -645,7 +646,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                     else
                     {
                         ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -657,8 +658,8 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
             else
             {
                 ODL_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
-                       "stuff->setReporter(reporter, true))"); //####
+                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
+                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
         }
@@ -751,8 +752,8 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                                                    STANDARD_WAIT_TIME_))
                                 {
                                     ODL_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), " //####
-                                           "STANDARD_WAIT_TIME_))"); //####
+                                            "name(), stuff->getName(), " //####
+                                            "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -767,7 +768,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         else
                         {
                             ODL_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME_))"); //####
+                                    "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -776,7 +777,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     else
                     {
                         ODL_LOG("! (outChannel->openWithRetries(aName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -788,8 +789,8 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             else
             {
                 ODL_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
-                       "stuff->setReporter(&reporter, true))"); //####
+                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
+                        "stuff->setReporter(&reporter, true))"); //####
             }
             delete stuff;
         }
@@ -1000,8 +1001,8 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
             else
             {
                 ODL_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
-                       "stuff->setReporter(reporter, true))"); //####
+                        "stuff->open(STANDARD_WAIT_TIME_) && " //####
+                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
         }
@@ -1236,8 +1237,8 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                                 if (expected[ii] != response.element(ii).toString())
                                 {
                                     ODL_S2s("expected[ii] = ", expected[ii], //####
-                                               "response.element(ii).toString() = ", //####
-                                               response.element(ii).toString()); //####
+                                            "response.element(ii).toString() = ", //####
+                                            response.element(ii).toString()); //####
                                     result = 1;
                                 }
                             }
@@ -1316,11 +1317,11 @@ checkListDictionary(yarp::os::Property & asDict,
 {
     ODL_ENTER(); //####
     ODL_P4("asDict = ", &asDict, "sawArguments = ", &sawArguments, "sawChannels = ", //####
-              &sawChannels, "sawClients = ", &sawClients); //####
+           &sawChannels, "sawClients = ", &sawClients); //####
     ODL_P4("sawDetach = ", &sawDetach, "sawEcho = ", &sawEcho, "sawExtraInfo = ", //####
-              &sawExtraInfo, "sawInfo = ", &sawInfo);
+           &sawExtraInfo, "sawInfo = ", &sawInfo); //####
     ODL_P4("sawList = ", &sawList, "sawMetrics = ", &sawMetrics, "sawMetricsState = ", //####
-              &sawMetricsState, "sawName = ", &sawName);
+           &sawMetricsState, "sawName = ", &sawName); //####
     ODL_P1("sawSetMetricsState = ", &sawSetMetricsState); //####
     bool result = true;
     bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY_);
@@ -1637,7 +1638,7 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                         else
                         {
                             ODL_LOG("! (checkResponseFromEchoFromServiceWithRequestHandler" //####
-                                   "AndInfo(response))"); //####
+                                    "AndInfo(response))"); //####
                         }
                     }
                     else

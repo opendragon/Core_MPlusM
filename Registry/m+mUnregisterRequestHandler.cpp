@@ -106,7 +106,8 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(UnregisterRequestHandler)
+void
+UnregisterRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
@@ -114,7 +115,9 @@ DEFINE_FILLINALIASES_(UnregisterRequestHandler)
     ODL_OBJEXIT(); //####
 } // UnregisterRequestHandler::fillInAliases
 
-DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
+void
+UnregisterRequestHandler::fillInDescription(const YarpString &   request,
+                                            yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -125,9 +128,10 @@ DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, UNREGISTER_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Unregister the service and its requests\n"
-                 "Input: the channel used by the service\n"
-                 "Output: OK or FAILED, with a description of the problem encountered");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Unregister the service and its requests\n"
+                                                  "Input: the channel used by the service\n"
+                                                  "Output: OK or FAILED, with a description of the "
+                                                  "problem encountered"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -147,7 +151,11 @@ DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
+bool
+UnregisterRequestHandler::processRequest(const YarpString &           request,
+                                         const yarp::os::Bottle &     restOfInput,
+                                         const YarpString &           senderChannel,
+                                         yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -156,7 +164,7 @@ DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

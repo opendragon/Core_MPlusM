@@ -115,10 +115,10 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
-    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
+           reportOnExit); //####
     MovementDbClient * aClient = new MovementDbClient;
 
     if (aClient)

@@ -109,7 +109,8 @@ BailOutThread::~BailOutThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(BailOutThread)
+void
+BailOutThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -136,7 +137,8 @@ DEFINE_RUN_(BailOutThread)
     ODL_OBJEXIT(); //####
 } // BailOutThread::run
 
-DEFINE_THREADINIT_(BailOutThread)
+bool
+BailOutThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -145,12 +147,6 @@ DEFINE_THREADINIT_(BailOutThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // BailOutThread::threadInit
-
-DEFINE_THREADRELEASE_(BailOutThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // BailOutThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

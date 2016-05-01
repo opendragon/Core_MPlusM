@@ -52,14 +52,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Define the handleInput method. */
-# define DEFINE_HANDLE_INPUT_(class_) \
-    bool\
-    class_::handleInput(const yarp::os::Bottle &     input,\
-                        const YarpString &           senderChannel,\
-                        yarp::os::ConnectionWriter * replyMechanism,\
-                        const size_t                 numBytes)
-
 namespace MplusM
 {
     namespace Common

@@ -122,11 +122,6 @@ namespace MplusM
             virtual bool
             setUpInputStreams(void);
 
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool
-            shutDownInputStreams(void);
-
         public :
 
         protected :

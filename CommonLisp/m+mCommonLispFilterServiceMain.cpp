@@ -603,8 +603,8 @@ processStreamDescription(cl_object            anElement,
                          ChannelDescription & description)
 {
     ODL_ENTER(); //####
-    ODL_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
-              "description = ", &description); //####
+    ODL_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, "description = ", //####
+           &description); //####
     bool okSoFar;
 
     if (ECL_NIL == cl_hash_table_p(anElement))
@@ -737,8 +737,7 @@ getLoadedStreamDescriptions(const char *    arrayName,
                             ChannelVector & streamDescriptions)
 {
     ODL_ENTER(); //####
-    ODL_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
-              &streamDescriptions); //####
+    ODL_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", &streamDescriptions); //####
     ODL_S1("arrayName = ", arrayName); //####
     bool okSoFar = false;
 
@@ -868,12 +867,12 @@ validateLoadedScript(bool &          sawThread,
 {
     ODL_ENTER();
     ODL_P4("sawThread = ", &sawThread, "description = ", &description, "helpString = ", //####
-              &helpString, "loadedInletDescriptions = ", &loadedInletDescriptions);
+           &helpString, "loadedInletDescriptions = ", &loadedInletDescriptions); //####
     ODL_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
-              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
+           "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+           &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
     ODL_P3("loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
-              &loadedInterval, "missingStuff = ", &missingStuff); //####
+           &loadedInterval, "missingStuff = ", &missingStuff); //####
     bool okSoFar;
 
     sawThread = false;
@@ -994,11 +993,11 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     ODL_ENTER(); //####
     ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
     ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
-               "serviceEndpointName = ", serviceEndpointName); //####
+            "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
-    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
-              "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
+    ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, "reportOnExit = ", //####
+           reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     bool          sawThread;
     ChannelVector loadedInletDescriptions;
     ChannelVector loadedOutletDescriptions;
@@ -1079,9 +1078,9 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
             else
             {
                 ODL_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
-                       "loadedInletDescriptions, loadedOutletDescriptions, " //####
-                       "loadedInletHandlers, loadedStartingFunction, " //####
-                       "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
+                        "loadedInletDescriptions, loadedOutletDescriptions, " //####
+                        "loadedInletHandlers, loadedStartingFunction, " //####
+                        "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
                 YarpString message("Script is missing one or more functions or variables (");
 
                 okSoFar = false;

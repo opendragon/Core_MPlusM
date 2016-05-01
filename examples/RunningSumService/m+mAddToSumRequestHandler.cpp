@@ -103,7 +103,8 @@ AddToSumRequestHandler::~AddToSumRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(AddToSumRequestHandler)
+void
+AddToSumRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
@@ -111,7 +112,9 @@ DEFINE_FILLINALIASES_(AddToSumRequestHandler)
     ODL_OBJEXIT(); //####
 } // AddToSumRequestHandler::fillInAliases
 
-DEFINE_FILLINDESCRIPTION_(AddToSumRequestHandler)
+void
+AddToSumRequestHandler::fillInDescription(const YarpString &   request,
+                                          yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -122,9 +125,10 @@ DEFINE_FILLINDESCRIPTION_(AddToSumRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_NUMBER_ MpM_REQREP_1_OR_MORE_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_DOUBLE_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, ADD_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Add to the running sum\n"
-                 "Input: one or more numeric values\n"
-                 "Output: the current running sum, including the new values");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Add to the running sum\n"
+                                                  "Input: one or more numeric values\n"
+                                                  "Output: the current running sum, including the "
+                                                  "new values"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -143,7 +147,11 @@ DEFINE_FILLINDESCRIPTION_(AddToSumRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(AddToSumRequestHandler)
+bool
+AddToSumRequestHandler::processRequest(const YarpString &           request,
+                                       const yarp::os::Bottle &     restOfInput,
+                                       const YarpString &           senderChannel,
+                                       yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -152,7 +160,7 @@ DEFINE_PROCESSREQUEST_(AddToSumRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 

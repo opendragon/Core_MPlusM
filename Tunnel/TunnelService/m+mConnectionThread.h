@@ -106,15 +106,6 @@ namespace MplusM
             virtual void
             run(void);
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool
-            threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void
-            threadRelease(void);
-            
         public :
 
         protected :

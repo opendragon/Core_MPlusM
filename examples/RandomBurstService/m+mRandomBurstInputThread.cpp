@@ -110,7 +110,8 @@ RandomBurstInputThread::clearOutputChannel(void)
     ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::clearOutputChannel
 
-DEFINE_RUN_(RandomBurstInputThread)
+void
+RandomBurstInputThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -141,7 +142,8 @@ DEFINE_RUN_(RandomBurstInputThread)
     ODL_OBJEXIT(); //####
 } // RandomBurstInputThread::run
 
-DEFINE_THREADINIT_(RandomBurstInputThread)
+bool
+RandomBurstInputThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -150,12 +152,6 @@ DEFINE_THREADINIT_(RandomBurstInputThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstInputThread::threadInit
-
-DEFINE_THREADRELEASE_(RandomBurstInputThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // RandomBurstInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

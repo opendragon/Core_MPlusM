@@ -296,7 +296,8 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
     ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::processEventData
 
-DEFINE_RUN_(ViconDataStreamEventThread)
+void
+ViconDataStreamEventThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -321,7 +322,8 @@ DEFINE_RUN_(ViconDataStreamEventThread)
     ODL_OBJEXIT(); //####
 } // ViconDataStreamEventThread::run
 
-DEFINE_THREADINIT_(ViconDataStreamEventThread)
+bool
+ViconDataStreamEventThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = initializeConnection();
@@ -329,12 +331,6 @@ DEFINE_THREADINIT_(ViconDataStreamEventThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::threadInit
-
-DEFINE_THREADRELEASE_(ViconDataStreamEventThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // ViconDataStreamEventThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

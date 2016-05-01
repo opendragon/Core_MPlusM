@@ -105,7 +105,7 @@ UnrealOutputService::UnrealOutputService(const Utilities::DescriptorVector & arg
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // UnrealOutputService::UnrealOutputService
@@ -123,7 +123,8 @@ UnrealOutputService::~UnrealOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(UnrealOutputService)
+bool
+UnrealOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -196,7 +197,8 @@ UnrealOutputService::deactivateConnection(void)
     ODL_EXIT(); //####
 } // UnrealOutputService::deactivateConnection
 
-DEFINE_DISABLEMETRICS_(UnrealOutputService)
+void
+UnrealOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -211,7 +213,8 @@ DEFINE_DISABLEMETRICS_(UnrealOutputService)
     ODL_OBJEXIT(); //####
 } // UnrealOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(UnrealOutputService)
+void
+UnrealOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -226,7 +229,8 @@ DEFINE_ENABLEMETRICS_(UnrealOutputService)
     ODL_OBJEXIT(); //####
 } // UnrealOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(UnrealOutputService)
+bool
+UnrealOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -239,24 +243,8 @@ DEFINE_GETCONFIGURATION_(UnrealOutputService)
     return result;
 } // UnrealOutputService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(UnrealOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // UnrealOutputService::restartStreams
-
-DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
+bool
+UnrealOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -266,48 +254,25 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
     _inDescriptions.clear();
     description._portName = rootName + "leapinput";
     description._portProtocol = "LEAP";
-    description._protocolDescription = "A list of hands followed by a list of tools\n"
-                        "Each hand being a dictionary with an arm and a list of fingers\n"
-                        "Each finger being a dictionary with a list of bones";
+    description._protocolDescription = T_("A list of hands followed by a list of tools\n"
+                                          "Each hand being a dictionary with an arm and a list of "
+                                          "fingers\n"
+                                          "Each finger being a dictionary with a list of bones");
     _inDescriptions.push_back(description);
     description._portName = rootName + "viconinput";
     description._portProtocol = "VICONDS";
-    description._protocolDescription = "A list of subjects\n"
-                "Each subject being a list of the subject name and a dictionary of segments\n"
-                "Each segment being a dictionary with name, translation and rotation";
+    description._protocolDescription = T_("A list of subjects\n"
+                                          "Each subject being a list of the subject name and a "
+                                          "dictionary of segments\n"
+                                          "Each segment being a dictionary with name, translation "
+                                          "and rotation");
     _inDescriptions.push_back(description);
     ODL_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(UnrealOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // UnrealOutputService::startService
-
-DEFINE_STARTSTREAMS_(UnrealOutputService)
+void
+UnrealOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -451,25 +416,8 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
     ODL_OBJEXIT(); //####
 } // UnrealOutputService::startStreams
 
-DEFINE_STOPSERVICE_(UnrealOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // UnrealOutputService::stopService
-
-DEFINE_STOPSTREAMS_(UnrealOutputService)
+void
+UnrealOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

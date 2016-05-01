@@ -101,7 +101,8 @@ ServiceInputHandlerCreator::~ServiceInputHandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CREATE_(ServiceInputHandlerCreator)
+yarp::os::PortReader *
+ServiceInputHandlerCreator::create(void)
 {
     ODL_OBJENTER(); //####
     BaseInputHandler * result = new ServiceInputHandler(_service);

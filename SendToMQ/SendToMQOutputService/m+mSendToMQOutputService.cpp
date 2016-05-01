@@ -126,9 +126,9 @@ inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CA
 {
     ODL_ENTER(); //####
     ODL_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
-               userPassword, "launchPath = ", launchPath); //####
+            userPassword, "launchPath = ", launchPath); //####
     ODL_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+            "servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_EXIT_P(this); //####
@@ -146,7 +146,8 @@ SendToMQOutputService::~SendToMQOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(SendToMQOutputService)
+bool
+SendToMQOutputService::configure(const yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -195,7 +196,8 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     return result;
 } // SendToMQOutputService::configure
 
-DEFINE_DISABLEMETRICS_(SendToMQOutputService)
+void
+SendToMQOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -206,7 +208,8 @@ DEFINE_DISABLEMETRICS_(SendToMQOutputService)
     ODL_OBJEXIT(); //####
 } // SendToMQOutputService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(SendToMQOutputService)
+void
+SendToMQOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -217,7 +220,8 @@ DEFINE_ENABLEMETRICS_(SendToMQOutputService)
     ODL_OBJEXIT(); //####
 } // SendToMQOutputService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(SendToMQOutputService)
+bool
+SendToMQOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -266,23 +270,6 @@ SendToMQOutputService::deactivateConnection(void)
     ODL_EXIT(); //####
 } // SendToMQOutputService::deactivateConnection
 
-DEFINE_RESTARTSTREAMS_(SendToMQOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        // No special processing needed.
-        stopStreams();
-        startStreams();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT(); //####
-} // SendToMQOutputService::restartStreams
-
 void
 SendToMQOutputService::sendMessage(const std::string & aMessage,
                                    const size_t        messageLength)
@@ -314,7 +301,8 @@ SendToMQOutputService::sendMessage(const std::string & aMessage,
     ODL_OBJEXIT(); //####
 } // SendToMQOutputService::sendMessage
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
+bool
+SendToMQOutputService::setUpStreamDescriptions(void)
 {
     ODL_OBJENTER(); //####
     bool               result = true;
@@ -330,34 +318,8 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
     return result;
 } // SendToMQOutputService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(SendToMQOutputService)
-{
-    ODL_OBJENTER(); //####
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::startService();
-            if (isStarted())
-            {
-
-            }
-            else
-            {
-                ODL_LOG("! (isStarted())"); //####
-            }
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(isStarted()); //####
-    return isStarted();
-} // SendToMQOutputService::startService
-
-DEFINE_STARTSTREAMS_(SendToMQOutputService)
+void
+SendToMQOutputService::startStreams(void)
 {
     ODL_OBJENTER(); //####
     try
@@ -459,25 +421,8 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
     ODL_OBJEXIT(); //####
 } // SendToMQOutputService::startStreams
 
-DEFINE_STOPSERVICE_(SendToMQOutputService)
-{
-    ODL_OBJENTER(); //####
-    bool result;
-
-    try
-    {
-        result = inherited::stopService();
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // SendToMQOutputService::stopService
-
-DEFINE_STOPSTREAMS_(SendToMQOutputService)
+void
+SendToMQOutputService::stopStreams(void)
 {
     ODL_OBJENTER(); //####
     try

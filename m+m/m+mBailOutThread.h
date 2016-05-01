@@ -110,10 +110,6 @@ namespace MplusM
             virtual bool
             threadInit(void);
             
-            /*! @brief The thread termination method. */
-            virtual void
-            threadRelease(void);
-            
         public :
 
         protected :

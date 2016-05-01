@@ -330,9 +330,9 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description); //####
+            "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+            serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     attachRequestHandlers();
@@ -396,7 +396,7 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
                     else
                     {
                         ODL_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening input channel.");
                         result = false;
                     }
@@ -463,7 +463,7 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
                     else
                     {
                         ODL_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening input channel.");
                         result = false;
                     }
@@ -530,7 +530,7 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
                     else
                     {
                         ODL_LOG("! (newChannel->openWithRetries(newName, " //####
-                               "STANDARD_WAIT_TIME_))"); //####
+                                "STANDARD_WAIT_TIME_))"); //####
                         MpM_FAIL_("Problem opening output channel.");
                         result = false;
                     }
@@ -577,8 +577,8 @@ BaseInputOutputService::attachRequestHandlers(void)
         else
         {
             ODL_LOG("! (_argumentDescriptionsHandler && _configurationHandler && " //####
-                   "_configureHandler && _restartStreamsHandler && _startStreamsHandler && " //####
-                   "_stopStreamsHandler)"); //####
+                    "_configureHandler && _restartStreamsHandler && _startStreamsHandler && " //####
+                    "_stopStreamsHandler)"); //####
         }
     }
     catch (...)
@@ -588,6 +588,39 @@ BaseInputOutputService::attachRequestHandlers(void)
     }
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::attachRequestHandlers
+
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+bool
+BaseInputOutputService::configure(const yarp::os::Bottle & details)
+{
+#if (! defined(MpM_DoExplicitDisconnect))
+# if MAC_OR_LINUX_
+#  pragma unused(details)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(MpM_DoExplicitDisconnect)
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
+    bool result = false;
+    
+    try
+    {
+        // Nothing needs to be done.
+        result = true;
+    }
+    catch (...)
+    {
+        ODL_LOG("Exception caught"); //####
+        throw;
+    }
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // BaseInputOutputService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void
 BaseInputOutputService::detachRequestHandlers(void)
@@ -640,7 +673,8 @@ BaseInputOutputService::detachRequestHandlers(void)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::detachRequestHandlers
 
-DEFINE_DISABLEMETRICS_(BaseInputOutputService)
+void
+BaseInputOutputService::disableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::disableMetrics();
@@ -686,13 +720,8 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::disableMetrics
 
-DEFINE_DOIDLE_(BaseInputOutputService)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // BaseInputOutputService::doIdle
-
-DEFINE_ENABLEMETRICS_(BaseInputOutputService)
+void
+BaseInputOutputService::enableMetrics(void)
 {
     ODL_OBJENTER(); //####
     inherited::enableMetrics();
@@ -738,7 +767,8 @@ DEFINE_ENABLEMETRICS_(BaseInputOutputService)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::enableMetrics
 
-DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
+void
+BaseInputOutputService::fillInSecondaryClientChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -766,7 +796,8 @@ DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryClientChannelsList
 
-DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
+void
+BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -794,7 +825,8 @@ DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryInputChannelsList
 
-DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
+void
+BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
     ODL_OBJENTER(); //####
     ODL_P1("channels = ", &channels); //####
@@ -822,7 +854,8 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryOutputChannelsList
 
-DEFINE_GATHERMETRICS_(BaseInputOutputService)
+void
+BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
 {
     ODL_OBJENTER(); //####
     ODL_P1("metrics = ", &metrics); //####
@@ -888,6 +921,18 @@ const
     return result;
 } // BaseInputOutputService::getClientStream
 
+bool
+BaseInputOutputService::getConfiguration(yarp::os::Bottle & details)
+{
+    ODL_OBJENTER(); //####
+    ODL_P1("details = ", &details); //####
+    bool result = true;
+    
+    details.clear();
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // BaseInputOutputService::getConfiguration
+
 size_t
 BaseInputOutputService::getInletCount(void)
 const
@@ -942,8 +987,8 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
 {
     ODL_OBJENTER(); //####
     ODL_S1s("helpText = ", helpText); //####
-    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
+           reportOnExit); //####
     if (startService())
     {
         YarpString channelName(getEndpoint().getName());
@@ -990,6 +1035,24 @@ BaseInputOutputService::requestServiceStop(void)
 } // BaseInputOutputService::requestServiceStop
 
 void
+BaseInputOutputService::restartStreams(void)
+{
+    ODL_OBJENTER(); //####
+    try
+    {
+        // No special processing needed.
+        stopStreams();
+        startStreams();
+    }
+    catch (...)
+    {
+        ODL_LOG("Exception caught"); //####
+        throw;
+    }
+    ODL_OBJEXIT(); //####
+} // BaseInputOutputService::restartStreams
+
+void
 BaseInputOutputService::runService(const YarpString & helpText,
                                    const bool         forAdapter,
                                    const bool         goWasSet,
@@ -999,7 +1062,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
     ODL_OBJENTER(); //####
     ODL_S1s("helpText = ", helpText); //####
     ODL_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
-              stdinAvailable, "reportOnExit = ", reportOnExit); //####
+           stdinAvailable, "reportOnExit = ", reportOnExit); //####
     bool             configured = false;
     bool             firstLine = true;
     yarp::os::Bottle configureData;
@@ -1195,7 +1258,8 @@ BaseInputOutputService::runService(const YarpString & helpText,
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::runService
 
-DEFINE_SETUPCLIENTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::setUpClientStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownClientStreams(); // clear out existing streams first
@@ -1204,7 +1268,8 @@ DEFINE_SETUPCLIENTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::setUpClientStreams
 
-DEFINE_SETUPINPUTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::setUpInputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownInputStreams(); // clear out existing streams first
@@ -1213,7 +1278,8 @@ DEFINE_SETUPINPUTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::setUpInputStreams
 
-DEFINE_SETUPOUTPUTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::setUpOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = shutDownOutputStreams(); // clear out existing streams first
@@ -1222,7 +1288,8 @@ DEFINE_SETUPOUTPUTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::setUpOutputStreams
 
-DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::shutDownClientStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -1246,7 +1313,8 @@ DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::shutDownClientStreams
 
-DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::shutDownInputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -1270,7 +1338,8 @@ DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::shutDownInputStreams
 
-DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
+bool
+BaseInputOutputService::shutDownOutputStreams(void)
 {
     ODL_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -1294,7 +1363,8 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::shutDownOutputStreams
 
-DEFINE_STARTSERVICE_(BaseInputOutputService)
+bool
+BaseInputOutputService::startService(void)
 {
     ODL_OBJENTER(); //####
     bool result = false;
@@ -1312,8 +1382,8 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
             else
             {
                 ODL_LOG("! (isStarted() && setUpStreamDescriptions() && " //####
-                       "setUpClientStreams() && setUpInputStreams() && " //####
-                       "setUpOutputStreams())"); //####
+                        "setUpClientStreams() && setUpInputStreams() && " //####
+                        "setUpOutputStreams())"); //####
             }
         }
         result = isStarted();
@@ -1327,7 +1397,8 @@ DEFINE_STARTSERVICE_(BaseInputOutputService)
     return result;
 } // BaseInputOutputService::startService
 
-DEFINE_STOPSERVICE_(BaseInputOutputService)
+bool
+BaseInputOutputService::stopService(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;

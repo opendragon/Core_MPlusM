@@ -84,16 +84,6 @@ namespace MplusM
             virtual
             ~Test09Service(void);
 
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool
-            startService(void);
-
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool
-            stopService(void);
-
         protected :
 
         private :

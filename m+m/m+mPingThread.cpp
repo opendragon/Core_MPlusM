@@ -100,7 +100,8 @@ PingThread::~PingThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_RUN_(PingThread)
+void
+PingThread::run(void)
 {
     ODL_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -118,7 +119,8 @@ DEFINE_RUN_(PingThread)
     ODL_OBJEXIT(); //####
 } // PingThread::run
 
-DEFINE_THREADINIT_(PingThread)
+bool
+PingThread::threadInit(void)
 {
     ODL_OBJENTER(); //####
     bool result = true;
@@ -127,12 +129,6 @@ DEFINE_THREADINIT_(PingThread)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // PingThread::threadInit
-
-DEFINE_THREADRELEASE_(PingThread)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // PingThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

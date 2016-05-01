@@ -90,18 +90,6 @@ namespace MplusM
              @param other The object to be copied. */
             RequestCounterDefaultRequestHandler(const RequestCounterDefaultRequestHandler & other);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void
-            fillInAliases(YarpStringVector & alternateNames);
-            
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void
-            fillInDescription(const YarpString &   request,
-                              yarp::os::Property & info);
-            
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

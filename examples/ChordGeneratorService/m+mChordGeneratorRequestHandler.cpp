@@ -103,7 +103,8 @@ ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_FILLINALIASES_(ChordGeneratorRequestHandler)
+void
+ChordGeneratorRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
@@ -111,7 +112,9 @@ DEFINE_FILLINALIASES_(ChordGeneratorRequestHandler)
     ODL_OBJEXIT(); //####
 } // ChordGeneratorRequestHandler::fillInAliases
 
-DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
+void
+ChordGeneratorRequestHandler::fillInDescription(const YarpString &   request,
+                                                yarp::os::Property & info)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("request = ", request); //####
@@ -122,9 +125,10 @@ DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_INT_ MpM_REQREP_0_OR_1_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_DOUBLE_ MpM_REQREP_1_OR_MORE_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, CHORD_GENERATOR_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Generate a chord, in MIDI note values\n"
-                 "Input: the root note of chord in MIDI (int)\n"
-                 "Output: a list of MIDI note values of the chord");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, T_("Generate a chord, in MIDI note values\n"
+                                                  "Input: the root note of chord in MIDI (int)\n"
+                                                  "Output: a list of MIDI note values of the "
+                                                  "chord"));
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
 
@@ -143,7 +147,11 @@ DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(ChordGeneratorRequestHandler)
+bool
+ChordGeneratorRequestHandler::processRequest(const YarpString &           request,
+                                             const yarp::os::Bottle &     restOfInput,
+                                             const YarpString &           senderChannel,
+                                             yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -152,7 +160,7 @@ DEFINE_PROCESSREQUEST_(ChordGeneratorRequestHandler)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+            "senderChannel = ", senderChannel); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
 
