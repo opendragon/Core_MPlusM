@@ -139,14 +139,22 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            StringBuffer(const StringBuffer & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            StringBuffer &
+            operator =(const StringBuffer & other);
+
             /*! @brief Increase the size of the internal buffer, copying the current contents into
              the new buffer.
              @param newSize The size for the new internal buffer. */
             void
             setSize(const size_t newSize);
-
-            COPY_AND_ASSIGNMENT_(StringBuffer);
-
+            
         public :
 
         protected :

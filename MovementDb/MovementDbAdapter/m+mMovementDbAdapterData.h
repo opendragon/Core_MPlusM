@@ -89,7 +89,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(MovementDbAdapterData);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            MovementDbAdapterData(const MovementDbAdapterData & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            MovementDbAdapterData &
+            operator =(const MovementDbAdapterData & other);
 
         public :
 

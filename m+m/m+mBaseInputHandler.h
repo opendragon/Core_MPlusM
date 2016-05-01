@@ -52,19 +52,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Declare the handleInput method, which as four arguments - input, the partially-structured
- input data; senderChannel, the name of the channel used to send the input data; replyMechanism,
- which is @c NULL if no reply is expected and non-@c NULL otherwise; and numBytes, the number of
- bytes available on the connection.
- The method returns @c true if the input was correctly structured and successfully processed and
- @c false otherwise. */
-# define DECLARE_HANDLEINPUT_ \
-    virtual bool\
-    handleInput(const yarp::os::Bottle &     input,\
-                const YarpString &           senderChannel,\
-                yarp::os::ConnectionWriter * replyMechanism,\
-                const size_t                 numBytes)
-
 /*! @brief Define the handleInput method. */
 # define DEFINE_HANDLE_INPUT_(class_) \
     bool\
@@ -108,18 +95,17 @@ namespace MplusM
             void
             enableMetrics(void);
 
-            /*! @fn virtual bool
-                    handleInput(const yarp::os::Bottle &     input,
-                                const YarpString &           senderChannel,
-                                yarp::os::ConnectionWriter * replyMechanism,
-                                const size_t                 numBytes)
-             @brief Process partially-structured input data.
+            /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @param numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
-            DECLARE_HANDLEINPUT_ = 0;
+            virtual bool
+            handleInput(const yarp::os::Bottle &     input,
+                        const YarpString &           senderChannel,
+                        yarp::os::ConnectionWriter * replyMechanism,
+                        const size_t                 numBytes) = 0;
 
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
@@ -144,7 +130,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseInputHandler);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseInputHandler(const BaseInputHandler & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseInputHandler &
+            operator =(const BaseInputHandler & other);
 
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.

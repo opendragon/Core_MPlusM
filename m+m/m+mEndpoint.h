@@ -182,7 +182,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(Endpoint);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            Endpoint(const Endpoint & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            Endpoint &
+            operator =(const Endpoint & other);
 
         public :
 

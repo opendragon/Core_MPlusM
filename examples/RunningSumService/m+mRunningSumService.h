@@ -113,21 +113,29 @@ namespace MplusM
             void
             resetSum(const YarpString & key);
 
-            DECLARE_STARTSERVICE_;
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool
+            startService(void);
 
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
             void
             startSum(const YarpString & key);
 
-            DECLARE_STOPSERVICE_;
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool
+            stopService(void);
 
         protected :
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RunningSumService);
-
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RunningSumService(const RunningSumService & other);
+            
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -136,6 +144,12 @@ namespace MplusM
             void
             detachRequestHandlers(void);
 
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RunningSumService &
+            operator =(const RunningSumService & other);
+            
         public :
 
         protected :

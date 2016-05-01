@@ -92,14 +92,29 @@ namespace MplusM
 
         private :
 
-            DECLARE_RUN_;
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ConnectionThread(const ConnectionThread & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ConnectionThread &
+            operator =(const ConnectionThread & other);
 
-            DECLARE_THREADINIT_;
-
-            DECLARE_THREADRELEASE_;
-
-            COPY_AND_ASSIGNMENT_(ConnectionThread);
-
+            /*! @brief The thread main body. */
+            virtual void
+            run(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool
+            threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void
+            threadRelease(void);
+            
         public :
 
         protected :

@@ -97,23 +97,37 @@ namespace MplusM
             virtual
             ~RandomNumberService(void);
 
-            DECLARE_STARTSERVICE_;
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool
+            startService(void);
 
-            DECLARE_STOPSERVICE_;
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool
+            stopService(void);
 
         protected :
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RandomNumberService);
-
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RandomNumberService(const RandomNumberService & other);
+            
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-
+            
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RandomNumberService &
+            operator =(const RandomNumberService & other);
 
         public :
 

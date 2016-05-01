@@ -102,13 +102,27 @@ namespace MplusM
 
         protected :
 
-            DECLARE_SHUTDOWNOUTPUTSTREAMS_;
+            /*! @brief Shut down the output streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool
+            shutDownOutputStreams(void);
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseInputService);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseInputService(const BaseInputService & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseInputService &
+            operator =(const BaseInputService & other);
 
-            DECLARE_SETUPOUTPUTSTREAMS_;
+            /*! @brief Set up the output streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
+            virtual bool
+            setUpOutputStreams(void);
 
         public :
 

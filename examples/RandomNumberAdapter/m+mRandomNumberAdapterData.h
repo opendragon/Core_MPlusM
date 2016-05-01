@@ -90,7 +90,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RandomNumberAdapterData);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RandomNumberAdapterData(const RandomNumberAdapterData & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RandomNumberAdapterData &
+            operator =(const RandomNumberAdapterData & other);
 
         public :
 

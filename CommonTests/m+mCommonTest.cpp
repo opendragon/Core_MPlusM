@@ -481,7 +481,7 @@ doTestWriteToEndpoint(const char * launchPath,
 
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outChannel->write(message))
+                            if (outChannel->writeBottle(message))
                             {
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
@@ -497,7 +497,7 @@ doTestWriteToEndpoint(const char * launchPath,
                             }
                             else
                             {
-                                ODL_LOG("! (outChannel->write(message))"); //####
+                                ODL_LOG("! (outChannel->writeBottle(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -611,7 +611,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
 
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outChannel->write(message, response))
+                            if (outChannel->writeBottle(message, response))
                             {
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
@@ -627,7 +627,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                             }
                             else
                             {
-                                ODL_LOG("! (outChannel->write(message, response))"); //####
+                                ODL_LOG("! (outChannel->writeBottle(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -742,7 +742,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outChannel->write(message, response))
+                            if (outChannel->writeBottle(message, response))
                             {
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
@@ -758,7 +758,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                             }
                             else
                             {
-                                ODL_LOG("! (outChannel->write(message, response))"); //####
+                                ODL_LOG("! (outChannel->writeBottle(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Stall();
 #endif // defined(MpM_StallOnSendProblem)

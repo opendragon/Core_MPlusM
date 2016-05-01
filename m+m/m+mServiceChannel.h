@@ -82,7 +82,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(ServiceChannel);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ServiceChannel(const ServiceChannel & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ServiceChannel &
+            operator =(const ServiceChannel & other);
 
         public :
 

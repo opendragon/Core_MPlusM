@@ -89,6 +89,10 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            LeapTwoPalmsInputListener(const LeapTwoPalmsInputListener & other);
+            
             /*! @brief Called when the Controller object connects to the %Leap Motion software and
              the %Leap Motion hardware device is plugged in, or when this Listener object is added
              to a Controller that is already connected.
@@ -158,7 +162,11 @@ namespace MplusM
             virtual void
             onServiceDisconnect(const Leap::Controller & theController);
 
-            COPY_AND_ASSIGNMENT_(LeapTwoPalmsInputListener);
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            LeapTwoPalmsInputListener &
+            operator =(const LeapTwoPalmsInputListener & other);
 
         public :
 

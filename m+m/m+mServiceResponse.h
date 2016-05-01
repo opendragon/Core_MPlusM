@@ -119,7 +119,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(ServiceResponse);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ServiceResponse(const ServiceResponse & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ServiceResponse &
+            operator =(const ServiceResponse & other);
 
         public :
 

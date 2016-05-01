@@ -102,11 +102,21 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            AddressArgumentDescriptor(const AddressArgumentDescriptor & other);
+            
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
             clone(void);
 
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            AddressArgumentDescriptor &
+            operator =(const AddressArgumentDescriptor & other);
+            
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual YarpString
@@ -118,8 +128,6 @@ namespace MplusM
              otherwise. */
             virtual bool
             validate(const YarpString & value);
-
-            COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
 
         public :
 

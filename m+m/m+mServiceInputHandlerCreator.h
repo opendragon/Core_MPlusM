@@ -87,9 +87,20 @@ namespace MplusM
 
         private :
 
-            DECLARE_CREATE_;
-
-            COPY_AND_ASSIGNMENT_(ServiceInputHandlerCreator);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ServiceInputHandlerCreator(const ServiceInputHandlerCreator & other);
+            
+            /*! @brief Create a new BaseInputHandler object to process input data.
+             @returns A new PortReader or @c NULL if one cannot be created. */
+            virtual yarp::os::PortReader *
+            create(void);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ServiceInputHandlerCreator &
+            operator =(const ServiceInputHandlerCreator & other);
 
         public :
 

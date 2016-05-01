@@ -107,11 +107,25 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseOutputService);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseOutputService(const BaseOutputService & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseOutputService &
+            operator =(const BaseOutputService & other);
 
-            DECLARE_SETUPINPUTSTREAMS_;
+            /*! @brief Set up the input streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
+            virtual bool
+            setUpInputStreams(void);
 
-            DECLARE_SHUTDOWNINPUTSTREAMS_;
+            /*! @brief Shut down the input streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool
+            shutDownInputStreams(void);
 
         public :
 

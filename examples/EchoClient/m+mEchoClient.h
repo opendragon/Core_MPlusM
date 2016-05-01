@@ -92,7 +92,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(EchoClient);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            EchoClient(const EchoClient & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            EchoClient &
+            operator =(const EchoClient & other);
 
         public :
 

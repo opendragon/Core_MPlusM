@@ -91,7 +91,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseMatcher);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseMatcher(const BaseMatcher & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseMatcher &
+            operator =(const BaseMatcher & other);
 
         public :
 

@@ -112,7 +112,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RunningSumClient);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RunningSumClient(const RunningSumClient & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RunningSumClient &
+            operator =(const RunningSumClient & other);
 
         public :
 

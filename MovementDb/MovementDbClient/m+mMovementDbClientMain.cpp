@@ -95,6 +95,7 @@ displayCommands(void)
     ODL_EXIT(); //####
 } // displayCommands
 
+#if 0
 /*! @brief Write out a time value in a human-friendly form.
  @param measurement The time value to write out. */
 static void
@@ -141,6 +142,7 @@ reportTimeInReasonableUnits(const double measurement)
     }
     cout << newValue << tag;
 } // reportTimeInReasonableUnits
+#endif // 0
 
 /*! @brief Set up the environment and perform the operation. */
 #if defined(MpM_ReportOnConnections)

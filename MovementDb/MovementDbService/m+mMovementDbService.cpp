@@ -128,6 +128,11 @@ bool
 MovementDbService::addFileToDb(const YarpString & key,
                                const YarpString & filePath)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(filePath)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S2s("key = ", key, "filePath = ", filePath); //####
     bool okSoFar = false;

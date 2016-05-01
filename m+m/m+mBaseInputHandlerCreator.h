@@ -53,14 +53,10 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*@ @brief Declare the createHandler method, which returns a new PortReader or @c NULL if one
- cannot be created. */
-# define DECLARE_CREATE_ \
-    virtual yarp::os::PortReader * create(void)
-
 /*! @brief Define the createHandler method. */
 # define DEFINE_CREATE_(class_) \
-    yarp::os::PortReader * class_::create(void)
+    yarp::os::PortReader *\
+    class_::create(void)
 
 namespace MplusM
 {
@@ -87,11 +83,10 @@ namespace MplusM
             virtual
             ~BaseInputHandlerCreator(void);
 
-            /*! @fn virtual yarp::os::PortReader *
-                    create(void)
-             @brief Create a new BaseInputHandler object to process input data.
+            /*! @brief Create a new BaseInputHandler object to process input data.
              @returns A new PortReader or @c NULL if one cannot be created. */
-            DECLARE_CREATE_ = 0;
+            virtual yarp::os::PortReader *
+            create(void) = 0;
 
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */
@@ -105,7 +100,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseInputHandlerCreator);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseInputHandlerCreator(const BaseInputHandlerCreator & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseInputHandlerCreator &
+            operator =(const BaseInputHandlerCreator & other);
 
         public :
 

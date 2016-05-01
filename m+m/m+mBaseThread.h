@@ -52,21 +52,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Declare the run method. */
-# define DECLARE_RUN_ \
-    virtual void\
-    run(void)
-
-/*! @brief Declare the threadInit method, which returns @c true if the thread is ready to run. */
-# define DECLARE_THREADINIT_ \
-    virtual bool\
-    threadInit(void)
-
-/*! @brief Declare the threadRelease method. */
-# define DECLARE_THREADRELEASE_ \
-    virtual void\
-    threadRelease(void)
-
 /*! @brief Define the run method. */
 # define DEFINE_RUN_(class_) \
     void\
@@ -111,24 +96,29 @@ namespace MplusM
 
         private :
 
-            /*! @fn virtual void
-                    run(void)
-             @brief The thread main body. */
-            DECLARE_RUN_;
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseThread(const BaseThread & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseThread &
+            operator =(const BaseThread & other);
 
-            /*! @fn virtual bool
-                    threadInit(void)
-             @brief The thread initialization method.
+            /*! @brief The thread main body. */
+            virtual void
+            run(void);
+            
+            /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            DECLARE_THREADINIT_;
-
-            /*! @fn virtual void
-                    threadRelease(void)
-             @brief The thread termination method. */
-            DECLARE_THREADRELEASE_;
-
-            COPY_AND_ASSIGNMENT_(BaseThread);
-
+            virtual bool
+            threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void
+            threadRelease(void);
+            
         public :
 
         protected :

@@ -155,7 +155,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseClient);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseClient(const BaseClient & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseClient &
+            operator =(const BaseClient & other);
 
         public :
 

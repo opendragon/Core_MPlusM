@@ -107,7 +107,7 @@ DEFINE_HANDLE_INPUT_(ExemplarOutputInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
-#  pragma unused(senderChannel,replyMechanism)
+#  pragma unused(senderChannel,replyMechanism,numBytes)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####

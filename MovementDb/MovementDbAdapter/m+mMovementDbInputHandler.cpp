@@ -111,7 +111,7 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
-#  pragma unused(senderChannel,replyMechanism)
+#  pragma unused(senderChannel,replyMechanism,numBytes)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
@@ -128,7 +128,6 @@ DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
         {
             BaseChannel *      theOutput = _shared.getOutput();
             YarpString         command;
-            double             outValue;
             MovementDbClient * theClient = (MovementDbClient *) _shared.getClient();
 
             if (theClient && theOutput)

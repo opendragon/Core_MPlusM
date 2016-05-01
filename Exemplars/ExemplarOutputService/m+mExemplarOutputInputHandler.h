@@ -90,9 +90,27 @@ namespace MplusM
 
         private :
 
-            DECLARE_HANDLEINPUT_;
-
-            COPY_AND_ASSIGNMENT_(ExemplarOutputInputHandler);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ExemplarOutputInputHandler(const ExemplarOutputInputHandler & other);
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param numBytes The number of bytes available on the connection.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool
+            handleInput(const yarp::os::Bottle &     input,
+                        const YarpString &           senderChannel,
+                        yarp::os::ConnectionWriter * replyMechanism,
+                        const size_t                 numBytes);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ExemplarOutputInputHandler &
+            operator =(const ExemplarOutputInputHandler & other);
 
         public :
 

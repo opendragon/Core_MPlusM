@@ -95,7 +95,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RandomNumberClient);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RandomNumberClient(const RandomNumberClient & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RandomNumberClient &
+            operator =(const RandomNumberClient & other);
 
         public :
 

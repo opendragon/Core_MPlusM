@@ -104,15 +104,35 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseFilterService);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseFilterService(const BaseFilterService & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseFilterService &
+            operator =(const BaseFilterService & other);
 
-            DECLARE_SETUPINPUTSTREAMS_;
+            /*! @brief Set up the input streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
+            virtual bool
+            setUpInputStreams(void);
 
-            DECLARE_SETUPOUTPUTSTREAMS_;
+            /*! @brief Set up the output streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
+            virtual bool
+            setUpOutputStreams(void);
 
-            DECLARE_SHUTDOWNINPUTSTREAMS_;
+            /*! @brief Shut down the input streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool
+            shutDownInputStreams(void);
 
-            DECLARE_SHUTDOWNOUTPUTSTREAMS_;
+            /*! @brief Shut down the output streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool
+            shutDownOutputStreams(void);
 
         public :
 

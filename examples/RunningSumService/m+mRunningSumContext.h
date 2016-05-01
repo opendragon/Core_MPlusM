@@ -88,7 +88,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(RunningSumContext);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            RunningSumContext(const RunningSumContext & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            RunningSumContext &
+            operator =(const RunningSumContext & other);
 
         public :
 

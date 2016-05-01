@@ -219,14 +219,14 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                     yarp::os::Bottle message1(MpM_NAME_REQUEST_);
                                     yarp::os::Bottle reply;
 
-                                    if (outChannel->write(message1, reply))
+                                    if (outChannel->writeBottle(message1, reply))
                                     {
                                         if (theService.processNameResponse(argAsString,
                                                                            ServiceResponse(reply)))
                                         {
                                             yarp::os::Bottle message2(MpM_LIST_REQUEST_);
 
-                                            if (outChannel->write(message2, reply))
+                                            if (outChannel->writeBottle(message2, reply))
                                             {
                                                 if (theService.processListResponse(argAsString,
                                                                            ServiceResponse(reply)))
@@ -246,7 +246,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                             }
                                             else
                                             {
-                                                ODL_LOG("! (outChannel->write(message2, " //####
+                                                ODL_LOG("! (outChannel->writeBottle(message2, " //####
                                                        "reply))"); //####
                                                 _response.addString(MpM_FAILED_RESPONSE_);
                                                 _response.addString("Could not write to channel");
@@ -266,7 +266,7 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                     }
                                     else
                                     {
-                                        ODL_LOG("! (outChannel->write(message1, reply))"); //####
+                                        ODL_LOG("! (outChannel->writeBottle(message1, reply))"); //####
                                         _response.addString(MpM_FAILED_RESPONSE_);
                                         _response.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)

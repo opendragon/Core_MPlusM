@@ -54,21 +54,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief Declare the checkName method, which returns @c true if the argument, aString, is a valid
- field name and @c false otherwise. */
-# define DECLARE_CHECKNAME_ \
-    virtual bool\
-    checkName(const char * aString)
-
-/*! @brief Declare the getPrefixAndSuffix method, returns the actual field name to be used, given
- the string to be checked, aString, the SQL prefix to be used, prefixString, and the SQL suffix to
- be used, suffixString. */
-# define DECLARE_GETPREFIXANDSUFFIX_ \
-    virtual const char *\
-    getPrefixAndSuffix(const char *   aString,\
-                       const char * & prefixString,\
-                       const char * & suffixString)
-
 /*! @brief Define the checkName method. */
 # define DEFINE_CHECKNAME_(class_) \
     bool\
@@ -100,25 +85,23 @@ namespace MplusM
             virtual
             ~BaseNameValidator(void);
 
-            /*! @fn virtual bool
-                    checkName(const char * aString)
-             @brief Check a field name for validity.
+            /*! @brief Check a field name for validity.
              @param aString The string to be checked.
              @returns @c true if the field name was valid or @c false if the field name was
              invalid. */
-            DECLARE_CHECKNAME_ = 0;
+            virtual bool
+            checkName(const char * aString) = 0;
 
-            /*! @fn virtual const char *
-                    getPrefixAndSuffix(const char *   aString,
-                                       const char * & prefixString,
-                                       const char * & suffixString)
-             @brief Get the 'true name' matching the name and its prefix and suffix strings.
+            /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
              @param aString The string to be checked.
              @param prefixString The string to be used in the SQL prefix for this field.
              @param suffixString The string to be used in the SQL suffix for this field.
              @returns The actual field name to be used or @c NULL if the field name was
              unmatched. */
-            DECLARE_GETPREFIXANDSUFFIX_ = 0;
+            virtual const char *
+            getPrefixAndSuffix(const char *   aString,
+                               const char * & prefixString,
+                               const char * & suffixString) = 0;
 
         protected :
 
@@ -127,7 +110,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseNameValidator);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseNameValidator(const BaseNameValidator & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseNameValidator &
+            operator =(const BaseNameValidator & other);
 
         public :
 

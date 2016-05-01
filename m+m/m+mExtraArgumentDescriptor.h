@@ -101,6 +101,10 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ExtraArgumentDescriptor(const ExtraArgumentDescriptor & other);
+            
             /*! @brief Add the processed value to a bottle.
              @param container The bottle to be modified. */
             virtual void
@@ -132,6 +136,12 @@ namespace MplusM
                 return true;
             } // isExtra
 
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ExtraArgumentDescriptor &
+            operator =(const ExtraArgumentDescriptor & other);
+            
             /*! @brief Set the associated variable to the default value. */
             virtual void
             setToDefaultValue(void);
@@ -147,8 +157,6 @@ namespace MplusM
              otherwise. */
             virtual bool
             validate(const YarpString & value);
-
-            COPY_AND_ASSIGNMENT_(ExtraArgumentDescriptor);
 
         public :
 

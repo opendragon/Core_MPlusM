@@ -89,7 +89,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(AddressClient);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            AddressClient(const AddressClient & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            AddressClient &
+            operator =(const AddressClient & other);
 
         public :
 

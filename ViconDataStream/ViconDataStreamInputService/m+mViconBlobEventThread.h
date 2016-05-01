@@ -104,24 +104,39 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ViconBlobEventThread(const ViconBlobEventThread & other);
+            
             /*! @brief Initialize the connection to the Vicon device.
              @returns @c true on success and @c false otherwise. */
             bool
             initializeConnection(void);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ViconBlobEventThread &
+            operator =(const ViconBlobEventThread & other);
 
             /*! @brief Handle the sensor data associated with the current frame.
              @param subjectCount The number of subjects in the data. */
             void
             processEventData(const unsigned int subjectCount);
-
-            DECLARE_RUN_;
-
-            DECLARE_THREADINIT_;
-
-            DECLARE_THREADRELEASE_;
-
-            COPY_AND_ASSIGNMENT_(ViconBlobEventThread);
-
+            
+            /*! @brief The thread main body. */
+            virtual void
+            run(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool
+            threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void
+            threadRelease(void);
+            
         public :
 
         protected :

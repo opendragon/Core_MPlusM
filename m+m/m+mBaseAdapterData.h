@@ -147,7 +147,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseAdapterData);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseAdapterData(const BaseAdapterData & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseAdapterData &
+            operator =(const BaseAdapterData & other);
 
         public :
 

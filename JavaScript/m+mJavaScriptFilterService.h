@@ -133,15 +133,31 @@ namespace MplusM
             virtual
             ~JavaScriptFilterService(void);
 
-            DECLARE_CONFIGURE_;
+            /*! @brief Configure the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the service was successfully configured and @c false otherwise. */
+            virtual bool
+            configure(const yarp::os::Bottle & details);
 
-            DECLARE_DISABLEMETRICS_;
+            /*! @brief Turn off the send / receive metrics collecting. */
+            virtual void
+            disableMetrics(void);
 
-            DECLARE_DOIDLE_;
+            /*! @brief Declare the doIdle method, which is executed repeatedly once the service has
+             been set up. */
+            virtual void
+            doIdle(void);
 
-            DECLARE_ENABLEMETRICS_;
+            /*! @brief Turn on the send / receive metrics collecting. */
+            virtual void
+            enableMetrics(void);
 
-            DECLARE_GETCONFIGURATION_;
+            /*! @brief Get the configuration of the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the configuration was successfully retrieved and @c false
+             otherwise. */
+            virtual bool
+            getConfiguration(yarp::os::Bottle & details);
 
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
@@ -161,7 +177,9 @@ namespace MplusM
                 return _global;
             } // getGlobal
 
-            DECLARE_RESTARTSTREAMS_;
+            /*! @brief Restart the input / output streams. */
+            virtual void
+            restartStreams(void);
 
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
@@ -182,25 +200,47 @@ namespace MplusM
             void
             stallUntilIdle(const size_t slotNumber);
 
-            DECLARE_STARTSERVICE_;
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool
+            startService(void);
 
-            DECLARE_STARTSTREAMS_;
+            /*! @brief Start the input / output streams. */
+            virtual void
+            startStreams(void);
 
-            DECLARE_STOPSERVICE_;
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool
+            stopService(void);
 
-            DECLARE_STOPSTREAMS_;
+            /*! @brief Stop the input / output streams. */
+            virtual void
+            stopStreams(void);
 
         protected :
 
         private :
 
-            COPY_AND_ASSIGNMENT_(JavaScriptFilterService);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            JavaScriptFilterService(const JavaScriptFilterService & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            JavaScriptFilterService &
+            operator =(const JavaScriptFilterService & other);
 
             /*! @brief Release all the allocated handlers. */
             void
             releaseHandlers(void);
 
-            DECLARE_SETUPSTREAMDESCRIPTIONS_;
+            /*! @brief Set up the descriptions that will be used to construct the input / output
+             streams.
+             @returns @c true if the descriptions were set up and @c false otherwise. */
+            virtual bool
+            setUpStreamDescriptions(void);
 
         public :
 

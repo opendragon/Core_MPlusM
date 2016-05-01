@@ -97,16 +97,24 @@ namespace MplusM
             virtual
             ~EchoService(void);
 
-            DECLARE_STARTSERVICE_;
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool
+            startService(void);
 
-            DECLARE_STOPSERVICE_;
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool
+            stopService(void);
 
         protected :
 
         private :
 
-            COPY_AND_ASSIGNMENT_(EchoService);
-
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            EchoService(const EchoService & other);
+            
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -115,6 +123,12 @@ namespace MplusM
             void
             detachRequestHandlers(void);
 
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            EchoService &
+            operator =(const EchoService & other);
+            
         public :
 
         protected :

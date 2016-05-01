@@ -88,26 +88,41 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ProComp2InputThread(const ProComp2InputThread & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ProComp2InputThread &
+            operator =(const ProComp2InputThread & other);
+
 # if (! defined(MpM_BuildDummyServices))
-           /*! @brief Extract the data for all channels and send it.
+            /*! @brief Extract the data for all channels and send it.
              @param time The time at which the channels are processed. */
             void
             readChannelData(const DWORD time);
 # endif // ! defined(MpM_BuildDummyServices)
-
-            DECLARE_RUN_;
-
+            
+            /*! @brief The thread main body. */
+            virtual void
+            run(void);
+            
             /*! @brief Prepare any attached encoders for use.
              @returns @c true if at least one encoder was set up. */
             bool
             setupEncoders(void);
-
-            DECLARE_THREADINIT_;
-
-            DECLARE_THREADRELEASE_;
-
-            COPY_AND_ASSIGNMENT_(ProComp2InputThread);
-
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool
+            threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void
+            threadRelease(void);
+            
         public :
 
         protected :

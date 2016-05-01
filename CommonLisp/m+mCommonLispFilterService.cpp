@@ -895,13 +895,13 @@ CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
         if ((0 < outBottle.size()) && outChannel)
         {
             ODL_LOG("((0 < outBottle.size()) && outChannel)"); //####
-            if (outChannel->write(outBottle))
+            if (outChannel->writeBottle(outBottle))
             {
                 okSoFar = true;
             }
             else
             {
-                ODL_LOG("! (outChannel->write(message))"); //####
+                ODL_LOG("! (outChannel->writeBottle(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)

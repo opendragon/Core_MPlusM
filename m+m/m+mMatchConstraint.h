@@ -137,11 +137,19 @@ namespace MplusM
             /*! @brief The constructor. */
             MatchConstraint(void);
 
-            COPY_AND_ASSIGNMENT_(MatchConstraint);
-
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            MatchConstraint(const MatchConstraint & other);
+            
             /*! @brief Remove all the list elements. */
             void
             empty(void);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            MatchConstraint &
+            operator =(const MatchConstraint & other);
 
         public :
 

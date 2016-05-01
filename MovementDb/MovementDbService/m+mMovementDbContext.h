@@ -96,7 +96,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(MovementDbContext);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            MovementDbContext(const MovementDbContext & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            MovementDbContext &
+            operator =(const MovementDbContext & other);
 
         public :
 

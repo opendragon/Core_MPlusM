@@ -105,6 +105,11 @@ SimpleRequestHandler::~SimpleRequestHandler(void)
 
 DEFINE_FILLINALIASES_(SimpleRequestHandler)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("alternateNames = ", &alternateNames); //####
     ODL_OBJEXIT(); //####

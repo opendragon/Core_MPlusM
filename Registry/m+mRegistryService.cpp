@@ -2422,9 +2422,9 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 break;
 
         }
-        if (! _statusChannel->write(message))
+        if (! _statusChannel->writeBottle(message))
         {
-            ODL_LOG("(! _statusChannel->write(message))"); //####
+            ODL_LOG("(! _statusChannel->writeBottle(message))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)

@@ -90,7 +90,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(ExemplarAdapterData);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ExemplarAdapterData(const ExemplarAdapterData & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ExemplarAdapterData &
+            operator =(const ExemplarAdapterData & other);
 
         public :
 

@@ -133,13 +133,13 @@ ServiceRequest::send(ClientChannel & usingChannel)
         message.addString(_name);
         message.append(_parameters);
         ODL_S1s("message <- ", message.toString()); //####
-        if (usingChannel.write(message))
+        if (usingChannel.writeBottle(message))
         {
             result = true;
         }
         else
         {
-            ODL_LOG("(! usingChannel.write(message))"); //####
+            ODL_LOG("(! usingChannel.writeBottle(message))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -175,7 +175,7 @@ ServiceRequest::send(ClientChannel &   usingChannel,
         message.addString(_name);
         message.append(_parameters);
         ODL_S1s("message <- ", message.toString()); //####
-        if (usingChannel.write(message, holder))
+        if (usingChannel.writeBottle(message, holder))
         {
             ODL_S1s("got ", holder.toString()); //####
             response = holder;
@@ -183,7 +183,7 @@ ServiceRequest::send(ClientChannel &   usingChannel,
         }
         else
         {
-            ODL_LOG("! (usingChannel.write(message, holder))"); //####
+            ODL_LOG("! (usingChannel.writeBottle(message, holder))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)

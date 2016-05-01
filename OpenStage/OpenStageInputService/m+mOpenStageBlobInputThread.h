@@ -109,21 +109,36 @@ namespace MplusM
 
         private :
 
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            OpenStageBlobInputThread(const OpenStageBlobInputThread & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            OpenStageBlobInputThread &
+            operator =(const OpenStageBlobInputThread & other);
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Process the received data.
              @param actorData The data to be processed. */
             void
             processData(om::sdk2::ActorDataListConstPtr & actorData);
 # endif // ! defined(MpM_BuildDummyServices)
-
-            DECLARE_RUN_;
-
-            DECLARE_THREADINIT_;
-
-            DECLARE_THREADRELEASE_;
-
-            COPY_AND_ASSIGNMENT_(OpenStageBlobInputThread);
-
+            
+            /*! @brief The thread main body. */
+            virtual void
+            run(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool
+            threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void
+            threadRelease(void);
+            
         public :
 
         protected :

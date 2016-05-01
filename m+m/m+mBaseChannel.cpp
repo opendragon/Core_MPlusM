@@ -347,7 +347,7 @@ BaseChannel::updateSendCounters(const size_t numBytes)
 } // BaseChannel::updateSendCounters
 
 bool
-BaseChannel::write(yarp::os::Bottle & message)
+BaseChannel::writeBottle(yarp::os::Bottle & message)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("message = ", message.toString()); //####
@@ -365,11 +365,11 @@ BaseChannel::write(yarp::os::Bottle & message)
     }
     ODL_OBJEXIT_B(result); //####
     return result;
-} // BaseChannel::write
+} // BaseChannel::writeBottle
 
 bool
-BaseChannel::write(yarp::os::Bottle & message,
-                   yarp::os::Bottle & reply)
+BaseChannel::writeBottle(yarp::os::Bottle & message,
+                         yarp::os::Bottle & reply)
 {
     ODL_OBJENTER(); //####
     ODL_S1s("message = ", message.toString()); //####
@@ -392,7 +392,7 @@ BaseChannel::write(yarp::os::Bottle & message,
     }
     ODL_OBJEXIT_B(result); //####
     return result;
-} // BaseChannel::write
+} // BaseChannel::writeBottle
 
 #if defined(__APPLE__)
 # pragma mark Global functions

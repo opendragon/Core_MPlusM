@@ -90,7 +90,15 @@ namespace MplusM
 
         private :
 
-            COPY_AND_ASSIGNMENT_(ClientChannel);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            ClientChannel(const ClientChannel & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            ClientChannel &
+            operator =(const ClientChannel & other);
 
         public :
 

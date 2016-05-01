@@ -148,21 +148,29 @@ namespace MplusM
              @param message The message to write.
              @returns @c true if the message was successfully sent and @c false otherwise. */
             bool
-            write(yarp::os::Bottle & message);
+            writeBottle(yarp::os::Bottle & message);
 
             /*! @brief Write a message to the port, with a reply expected.
              @param message The message to write.
              @param reply Where to put the expected reply.
              @returns @c true if the message was successfully sent and @c false otherwise. */
             bool
-            write(yarp::os::Bottle & message,
-                  yarp::os::Bottle & reply);
+            writeBottle(yarp::os::Bottle & message,
+                        yarp::os::Bottle & reply);
 
         protected :
 
         private :
 
-            COPY_AND_ASSIGNMENT_(BaseChannel);
+            /*! @brief The copy constructor.
+             @param other The object to be copied. */
+            BaseChannel(const BaseChannel & other);
+            
+            /*! @brief The assignment operator.
+             @param other The object to be copied.
+             @returns The updated object. */
+            BaseChannel &
+            operator =(const BaseChannel & other);
 
         public :
 
