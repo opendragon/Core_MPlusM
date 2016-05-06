@@ -85,7 +85,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             Test09DefaultRequestHandler(const Test09DefaultRequestHandler & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -102,7 +102,7 @@ namespace MplusM
                            const yarp::os::Bottle &     restOfInput,
                            const YarpString &           senderChannel,
                            yarp::os::ConnectionWriter * replyMechanism);
-            
+
         public :
 
         protected :

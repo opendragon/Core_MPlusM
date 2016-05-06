@@ -108,7 +108,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             CommonLispFilterThread(const CommonLispFilterThread & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -118,12 +118,12 @@ namespace MplusM
             /*! @brief The thread main body. */
             virtual void
             run(void);
-            
+
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
-            
+
         public :
 
         protected :

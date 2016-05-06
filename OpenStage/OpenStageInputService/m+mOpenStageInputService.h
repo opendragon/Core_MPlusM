@@ -132,7 +132,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             OpenStageInputService(const OpenStageInputService & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

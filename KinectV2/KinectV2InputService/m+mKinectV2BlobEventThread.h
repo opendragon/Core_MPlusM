@@ -111,14 +111,14 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             KinectV2BlobEventThread(const KinectV2BlobEventThread & other);
-            
+
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
             HRESULT
             initializeDefaultSensor(void);
 # endif // ! defined(MpM_BuildDummyServices)
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -128,20 +128,20 @@ namespace MplusM
             /*! @brief Handle the sensor data associated with the event. */
             void
             processEventData(void);
-            
+
             /*! @brief The thread main body. */
             virtual void
             run(void);
-            
+
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
-            
+
             /*! @brief The thread termination method. */
             virtual void
             threadRelease(void);
-            
+
         public :
 
         protected :

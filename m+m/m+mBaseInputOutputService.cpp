@@ -604,7 +604,7 @@ BaseInputOutputService::configure(const yarp::os::Bottle & details)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = false;
-    
+
     try
     {
         // Nothing needs to be done.
@@ -927,7 +927,7 @@ BaseInputOutputService::getConfiguration(yarp::os::Bottle & details)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
     bool result = true;
-    
+
     details.clear();
     ODL_OBJEXIT_B(result); //####
     return result;

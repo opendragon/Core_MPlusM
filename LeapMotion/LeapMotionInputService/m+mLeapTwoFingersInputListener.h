@@ -92,7 +92,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             LeapTwoFingersInputListener(const LeapTwoFingersInputListener & other);
-            
+
             /*! @brief Called when the Controller object connects to the %Leap Motion software and
              the %Leap Motion hardware device is plugged in, or when this Listener object is added
              to a Controller that is already connected.

@@ -132,7 +132,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             MovementDbService(const MovementDbService & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -146,7 +146,7 @@ namespace MplusM
              @returns The updated object. */
             MovementDbService &
             operator =(const MovementDbService & other);
-            
+
         public :
 
         protected :

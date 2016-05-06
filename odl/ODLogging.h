@@ -1883,7 +1883,7 @@ extern "C"
                  const char * funcName,
                  const int    lineNumber,
                  const char * caption,
-                 const char * buffer,
+                 const void * buffer,
                  const int    size);
 
 #   if defined(__APPLE__)

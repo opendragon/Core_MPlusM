@@ -84,7 +84,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ChannelStatusReporter(const ChannelStatusReporter & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -95,7 +95,7 @@ namespace MplusM
              @param info The event / state information from the endpoint. */
             virtual void
             report(const yarp::os::PortInfo & info);
-            
+
         public :
 
         protected :

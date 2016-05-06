@@ -141,7 +141,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             PlaybackFromJSONInputService(const PlaybackFromJSONInputService & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

@@ -293,7 +293,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             RegistryService(const RegistryService & other);
-            
+
             /*! @brief Add a request to the registry.
              @param keywordList The list of keywords associated with the request.
              @param description The attributes of the request.
@@ -333,7 +333,7 @@ namespace MplusM
              @returns The updated object. */
             RegistryService &
             operator =(const RegistryService & other);
-            
+
             /*! @brief Check the dictionary entry from the 'list' response.
              @param asDict The dictionary to be checked.
              @param channelName The channel that sent the response.

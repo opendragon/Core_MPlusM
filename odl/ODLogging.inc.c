@@ -515,10 +515,10 @@ odWriteTime_(FILE * outFile)
 #  define ODL_FORMAT_X2_        " %s%d(%#x), %s%d(%#x)"
 
 /*! @brief The format string to be used with a single int64_t hexadecimal value. */
-#  define ODL_FORMAT_XL1_      " %s%" PRId64 "(%" PRIu64 ")"
+#  define ODL_FORMAT_XL1_      " %s%" PRId64 "(%" PRIx64 ")"
 
 /*! @brief The format string to be used with a pair of long long hexadecimal values. */
-#  define ODL_FORMAT_XL2_      " %s%" PRId64 "(%" PRIu64 "), %s%" PRId64 "(%" PRIu64 ")"
+#  define ODL_FORMAT_XL2_      " %s%" PRId64 "(%" PRIx64 "), %s%" PRId64 "(%" PRIx64 ")"
 
 /*! @brief The message string to be used when setting up logging for the first time. */
 #  define ODL_INIT_FORMAT_      "* %s%s" ODL_FUNC_WHERE_ " started *"
@@ -3483,7 +3483,7 @@ ODLogPacket_(const char * fileName,
              const char * funcName,
              const int    lineNumber,
              const char * caption,
-             const char * buffer,
+             const void * buffer,
              const int    size)
 {
     const char * heading = caption;
@@ -3493,6 +3493,7 @@ ODLogPacket_(const char * fileName,
     static char  hexDigits[] = "0123456789ABCDEF";
     size_t       captionLength = strlen(caption);
     char *       blankCaption = (char *) malloc(captionLength + 1);
+    const char * walker = reinterpret_cast<const char *>(buffer);
 
     ODL_CREATE_INDENT_();
     ODL_CREATE_PREFIX_();
@@ -3528,7 +3529,7 @@ ODLogPacket_(const char * fileName,
 
         for (int jj = 0; jj < ww; ++jj)
         {
-            char bb = buffer[ii + jj];
+            char bb = walker[ii + jj];
 
             lineBuffer[jj * 3] = hexDigits[(bb >> 4) & 0x0F];
             lineBuffer[(jj * 3) + 1] = hexDigits[bb & 0x0F];

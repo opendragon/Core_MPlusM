@@ -366,7 +366,7 @@ namespace MplusM
             /*! @brief Start the background 'pinging' thread. */
             void
             startPinger(void);
-            
+
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool
@@ -436,7 +436,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             BaseService(const BaseService & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -465,7 +465,7 @@ namespace MplusM
              @returns The updated object. */
             BaseService &
             operator =(const BaseService & other);
-            
+
             /*! @brief Unlock the data. */
             inline void
             unlockContexts(void)

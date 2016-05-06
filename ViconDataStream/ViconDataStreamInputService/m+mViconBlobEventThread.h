@@ -107,12 +107,12 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ViconBlobEventThread(const ViconBlobEventThread & other);
-            
+
             /*! @brief Initialize the connection to the Vicon device.
              @returns @c true on success and @c false otherwise. */
             bool
             initializeConnection(void);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -123,16 +123,16 @@ namespace MplusM
              @param subjectCount The number of subjects in the data. */
             void
             processEventData(const unsigned int subjectCount);
-            
+
             /*! @brief The thread main body. */
             virtual void
             run(void);
-            
+
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
-            
+
         public :
 
         protected :

@@ -84,14 +84,14 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             TestNameValidator(const TestNameValidator & other);
-            
+
             /*! @brief Check a field name for validity.
              @param aString The string to be checked.
              @returns @c true if the field name was valid or @c false if the field name was
              invalid. */
             virtual bool
             checkName(const char * aString);
-            
+
             /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
              @param aString The string to be checked.
              @param prefixString The string to be used in the SQL prefix for this field.
@@ -102,7 +102,7 @@ namespace MplusM
             getPrefixAndSuffix(const char *   aString,
                                const char * & prefixString,
                                const char * & suffixString);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

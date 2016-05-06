@@ -103,7 +103,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ChannelArgumentDescriptor(const ChannelArgumentDescriptor & other);
-            
+
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
@@ -114,7 +114,7 @@ namespace MplusM
              @returns The updated object. */
             ChannelArgumentDescriptor &
             operator =(const ChannelArgumentDescriptor & other);
-            
+
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual YarpString

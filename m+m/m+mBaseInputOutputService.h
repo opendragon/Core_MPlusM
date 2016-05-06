@@ -124,7 +124,7 @@ namespace MplusM
             /*! @brief Turn off the send / receive metrics collecting. */
             virtual void
             disableMetrics(void);
-            
+
             /*! @brief Declare the doIdle method, which is executed repeatedly once the service has
              been set up. */
             virtual inline void
@@ -346,15 +346,15 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             BaseInputOutputService(const BaseInputOutputService & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
-            
+
             /*! @brief Disable the standard request handlers. */
             void
             detachRequestHandlers(void);
-            
+
             /*! @brief Fill in a list of secondary client channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void
@@ -364,12 +364,12 @@ namespace MplusM
              @param channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryInputChannelsList(ChannelVector & channels);
-            
+
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

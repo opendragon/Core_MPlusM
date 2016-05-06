@@ -123,7 +123,7 @@ namespace MplusM
             /*! @brief Start the input / output streams. */
             virtual void
             startStreams(void);
-            
+
             /*! @brief Stop the input / output streams. */
             virtual void
             stopStreams(void);
@@ -135,7 +135,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ViconDataStreamInputService(const ViconDataStreamInputService & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

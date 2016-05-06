@@ -135,7 +135,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             IntArgumentDescriptor(const IntArgumentDescriptor & other);
-            
+
             /*! @brief Add the processed value to a bottle.
              @param container The bottle to be modified. */
             virtual void
@@ -156,7 +156,7 @@ namespace MplusM
              @returns The updated object. */
             IntArgumentDescriptor &
             operator =(const IntArgumentDescriptor & other);
-            
+
             /*! @brief Set the associated variable to the default value. */
             virtual void
             setToDefaultValue(void);

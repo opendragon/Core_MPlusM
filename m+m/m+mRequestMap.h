@@ -126,7 +126,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             RequestMap(const RequestMap & other);
-            
+
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool
@@ -147,7 +147,7 @@ namespace MplusM
              @returns The updated object. */
             RequestMap &
             operator =(const RequestMap & other);
-            
+
             /*! @brief Unlock the data. */
             inline void
             unlock(void)

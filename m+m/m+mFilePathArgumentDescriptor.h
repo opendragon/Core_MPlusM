@@ -118,7 +118,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             FilePathArgumentDescriptor(const FilePathArgumentDescriptor & other);
-            
+
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
@@ -146,7 +146,7 @@ namespace MplusM
              @returns The updated object. */
             FilePathArgumentDescriptor &
             operator =(const FilePathArgumentDescriptor & other);
-            
+
             /*! @brief Set the associated variable to the default value. */
             virtual void
             setToDefaultValue(void);

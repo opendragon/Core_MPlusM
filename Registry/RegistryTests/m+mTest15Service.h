@@ -91,7 +91,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             Test15Service(const Test15Service & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -105,7 +105,7 @@ namespace MplusM
              @returns The updated object. */
             Test15Service &
             operator =(const Test15Service & other);
-            
+
         public :
 
         protected :

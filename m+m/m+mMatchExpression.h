@@ -143,11 +143,11 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             MatchExpression(const MatchExpression & other);
-            
+
             /*! @brief Remove all the list elements. */
             void
             empty(void);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

@@ -108,7 +108,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             RGBLEDService(const RGBLEDService & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -122,7 +122,7 @@ namespace MplusM
              @returns The updated object. */
             RGBLEDService &
             operator =(const RGBLEDService & other);
-            
+
         public :
 
         protected :

@@ -90,20 +90,20 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             WhereRequestHandler(const WhereRequestHandler & other);
-            
+
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void
             fillInDescription(const YarpString &   request,
                               yarp::os::Property & info);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
             WhereRequestHandler &
             operator =(const WhereRequestHandler & other);
-            
+
             /*! @brief Process a request.
              @param request The actual request name.
              @param restOfInput The arguments to the operation.

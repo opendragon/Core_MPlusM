@@ -204,7 +204,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             JavaScriptFilterService(const JavaScriptFilterService & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */

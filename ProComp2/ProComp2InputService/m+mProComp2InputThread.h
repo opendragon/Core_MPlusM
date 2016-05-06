@@ -91,7 +91,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ProComp2InputThread(const ProComp2InputThread & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -104,25 +104,25 @@ namespace MplusM
             void
             readChannelData(const DWORD time);
 # endif // ! defined(MpM_BuildDummyServices)
-            
+
             /*! @brief The thread main body. */
             virtual void
             run(void);
-            
+
             /*! @brief Prepare any attached encoders for use.
              @returns @c true if at least one encoder was set up. */
             bool
             setupEncoders(void);
-            
+
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
-            
+
             /*! @brief The thread termination method. */
             virtual void
             threadRelease(void);
-            
+
         public :
 
         protected :

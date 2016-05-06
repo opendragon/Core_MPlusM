@@ -104,7 +104,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ExemplarService(const ExemplarService & other);
-            
+
             /*! @brief Enable the standard request handlers. */
             void
             attachRequestHandlers(void);
@@ -118,7 +118,7 @@ namespace MplusM
              @returns The updated object. */
             ExemplarService &
             operator =(const ExemplarService & other);
-            
+
         public :
 
         protected :

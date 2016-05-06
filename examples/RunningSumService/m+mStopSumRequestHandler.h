@@ -90,14 +90,14 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             StopSumRequestHandler(const StopSumRequestHandler & other);
-            
+
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void
             fillInDescription(const YarpString &   request,
                               yarp::os::Property & info);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -114,7 +114,7 @@ namespace MplusM
                            const yarp::os::Bottle &     restOfInput,
                            const YarpString &           senderChannel,
                            yarp::os::ConnectionWriter * replyMechanism);
-            
+
         public :
 
         protected :

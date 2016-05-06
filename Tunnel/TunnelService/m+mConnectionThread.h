@@ -95,7 +95,7 @@ namespace MplusM
             /*! @brief The copy constructor.
              @param other The object to be copied. */
             ConnectionThread(const ConnectionThread & other);
-            
+
             /*! @brief The assignment operator.
              @param other The object to be copied.
              @returns The updated object. */
@@ -105,7 +105,7 @@ namespace MplusM
             /*! @brief The thread main body. */
             virtual void
             run(void);
-            
+
         public :
 
         protected :
