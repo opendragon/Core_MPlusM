@@ -40,9 +40,9 @@
 #if (! defined(MpMOpenStageBlobInputThread_H_))
 # define MpMOpenStageBlobInputThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseThread.h>
-# include <m+m/m+mGeneralChannel.h>
-# include <m+m/m+mStringBuffer.h>
+# include <m+m/m+mBaseThread.hpp>
+# include <m+m/m+mGeneralChannel.hpp>
+# include <m+m/m+mStringBuffer.hpp>
 
 # if (! defined(MpM_BuildDummyServices))
 #  include <om/sdk2/client.h>

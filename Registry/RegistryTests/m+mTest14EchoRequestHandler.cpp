@@ -38,7 +38,7 @@
 
 #include "m+mTest14EchoRequestHandler.h"
 
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

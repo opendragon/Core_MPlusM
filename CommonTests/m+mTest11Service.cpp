@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest11Service.h"
+#include "m+mTest11Service.hpp"
 
-#include "m+mTest11EchoRequestHandler.h"
+#include "m+mTest11EchoRequestHandler.hpp"
 
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapMotionInputService.h"
+#include "m+mLeapMotionInputService.hpp"
 
-#include "m+mLeapMotionInputListener.h"
-#include "m+mLeapMotionInputRequests.h"
+#include "m+mLeapMotionInputListener.hpp"
+#include "m+mLeapMotionInputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

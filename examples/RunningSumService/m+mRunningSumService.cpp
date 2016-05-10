@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumService.h"
-#include "m+mAddToSumRequestHandler.h"
-#include "m+mResetSumRequestHandler.h"
-#include "m+mRunningSumContext.h"
-#include "m+mRunningSumRequests.h"
-#include "m+mStartSumRequestHandler.h"
-#include "m+mStopSumRequestHandler.h"
+#include "m+mRunningSumService.hpp"
+#include "m+mAddToSumRequestHandler.hpp"
+#include "m+mResetSumRequestHandler.hpp"
+#include "m+mRunningSumContext.hpp"
+#include "m+mRunningSumRequests.hpp"
+#include "m+mStartSumRequestHandler.hpp"
+#include "m+mStopSumRequestHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

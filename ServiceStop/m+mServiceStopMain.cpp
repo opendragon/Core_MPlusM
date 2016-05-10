@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <m+m/m+mChannelArgumentDescriptor.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mChannelArgumentDescriptor.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

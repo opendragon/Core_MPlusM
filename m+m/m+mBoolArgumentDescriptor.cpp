@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBoolArgumentDescriptor.h"
+#include "m+mBoolArgumentDescriptor.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

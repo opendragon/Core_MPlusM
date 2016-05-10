@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mKinectV2BlobInputService.h"
+#include "m+mKinectV2BlobInputService.hpp"
 
-#include "m+mKinectV2BlobEventThread.h"
-#include "m+mKinectV2BlobInputRequests.h"
+#include "m+mKinectV2BlobEventThread.hpp"
+#include "m+mKinectV2BlobInputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

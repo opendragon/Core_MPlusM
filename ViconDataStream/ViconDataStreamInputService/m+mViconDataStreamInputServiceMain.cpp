@@ -39,10 +39,10 @@
 #include "m+mViconDataStreamInputRequests.h"
 #include "m+mViconDataStreamInputService.h"
 
-#include <m+m/m+mAddressArgumentDescriptor.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mAddressArgumentDescriptor.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mPortArgumentDescriptor.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

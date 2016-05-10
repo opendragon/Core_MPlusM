@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseChannel.h"
+#include "m+mBaseChannel.hpp"
 
-#include <m+m/m+mBailOut.h>
+#include <m+m/m+mBailOut.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

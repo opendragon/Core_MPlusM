@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMatchConstraint.h"
+#include "m+mMatchConstraint.hpp"
 
-#include <m+m/m+mMatchExpression.h>
-#include <m+m/m+mMatchFieldWithValues.h>
+#include <m+m/m+mMatchExpression.hpp>
+#include <m+m/m+mMatchFieldWithValues.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

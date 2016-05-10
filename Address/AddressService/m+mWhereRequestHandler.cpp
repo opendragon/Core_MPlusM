@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mWhereRequestHandler.h"
-#include "m+mAddressRequests.h"
-#include "m+mAddressService.h"
+#include "m+mWhereRequestHandler.hpp"
+#include "m+mAddressRequests.hpp"
+#include "m+mAddressService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

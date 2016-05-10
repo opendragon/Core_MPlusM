@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarFilterInputHandler.h"
+#include "m+mExemplarFilterInputHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

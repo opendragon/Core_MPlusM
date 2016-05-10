@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapBlobInputService.h"
+#include "m+mLeapBlobInputService.hpp"
 
-#include "m+mLeapBlobInputListener.h"
-#include "m+mLeapBlobInputRequests.h"
+#include "m+mLeapBlobInputListener.hpp"
+#include "m+mLeapBlobInputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

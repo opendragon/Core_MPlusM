@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseThread.h"
+#include "m+mBaseThread.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

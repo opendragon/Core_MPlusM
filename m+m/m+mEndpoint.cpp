@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mEndpoint.h"
+#include "m+mEndpoint.hpp"
 
-#include <m+m/m+mBaseInputHandlerCreator.h>
-#include <m+m/m+mChannelStatusReporter.h>
-#include <m+m/m+mException.h>
-#include <m+m/m+mServiceChannel.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mBaseInputHandlerCreator.hpp>
+#include <m+m/m+mChannelStatusReporter.hpp>
+#include <m+m/m+mException.hpp>
+#include <m+m/m+mServiceChannel.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

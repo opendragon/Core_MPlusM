@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseInputService.h"
+#include "m+mBaseInputService.hpp"
 
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

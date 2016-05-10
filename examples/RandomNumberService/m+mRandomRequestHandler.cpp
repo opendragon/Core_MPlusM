@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomRequestHandler.h"
-#include "m+mRandomNumberRequests.h"
-#include "m+mRandomNumberService.h"
+#include "m+mRandomRequestHandler.hpp"
+#include "m+mRandomNumberRequests.hpp"
+#include "m+mRandomNumberService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

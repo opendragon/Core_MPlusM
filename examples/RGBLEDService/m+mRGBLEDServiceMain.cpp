@@ -39,10 +39,10 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "m+mRGBLEDService.h"
+#include "m+mRGBLEDService.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

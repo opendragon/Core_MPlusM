@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRecordBlobOutputInputHandler.h"
+#include "m+mRecordBlobOutputInputHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

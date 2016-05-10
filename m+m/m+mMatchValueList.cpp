@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMatchValueList.h"
+#include "m+mMatchValueList.hpp"
 
-#include <m+m/m+mMatchValue.h>
+#include <m+m/m+mMatchValue.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

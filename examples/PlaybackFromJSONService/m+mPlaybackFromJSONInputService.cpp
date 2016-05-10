@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mPlaybackFromJSONInputService.h"
+#include "m+mPlaybackFromJSONInputService.hpp"
 
-#include "m+mPlaybackFromJSONInputRequests.h"
-#include "m+mPlaybackFromJSONInputThread.h"
+#include "m+mPlaybackFromJSONInputRequests.hpp"
+#include "m+mPlaybackFromJSONInputThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

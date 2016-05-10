@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mPlaybackFromJSONInputThread.h"
+#include "m+mPlaybackFromJSONInputThread.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

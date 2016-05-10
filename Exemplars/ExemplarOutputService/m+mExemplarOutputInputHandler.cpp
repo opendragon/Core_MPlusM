@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarOutputInputHandler.h"
+#include "m+mExemplarOutputInputHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

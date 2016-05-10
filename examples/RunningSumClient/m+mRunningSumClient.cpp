@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumClient.h"
+#include "m+mRunningSumClient.hpp"
 
-#include "m+mRunningSumRequests.h"
+#include "m+mRunningSumRequests.hpp"
 
-#include <m+m/m+mServiceResponse.h>
+#include <m+m/m+mServiceResponse.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

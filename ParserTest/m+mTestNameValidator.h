@@ -39,7 +39,7 @@
 #if (! defined(MpMTestNameValidator_H_))
 # define MpMTestNameValidator_H_ /* Header guard */
 
-# include <m+m/m+mBaseNameValidator.h>
+# include <m+m/m+mBaseNameValidator.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

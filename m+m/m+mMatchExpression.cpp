@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMatchExpression.h"
+#include "m+mMatchExpression.hpp"
 
-#include <m+m/m+mMatchConstraint.h>
+#include <m+m/m+mMatchConstraint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

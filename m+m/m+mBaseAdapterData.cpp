@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseAdapterData.h"
+#include "m+mBaseAdapterData.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

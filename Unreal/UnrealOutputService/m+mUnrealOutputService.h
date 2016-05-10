@@ -39,8 +39,8 @@
 #if (! defined(MpMUnrealOutputService_H_))
 # define MpMUnrealOutputService_H_ /* Header guard */
 
-# include <m+m/m+mBaseOutputService.h>
-# include <m+m/m+mUtilities.h>
+# include <m+m/m+mBaseOutputService.hpp>
+# include <m+m/m+mUtilities.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

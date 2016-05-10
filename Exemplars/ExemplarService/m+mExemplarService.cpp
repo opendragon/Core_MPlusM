@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarService.h"
-#include "m+mExemplarRequests.h"
-#include "m+mSimpleRequestHandler.h"
+#include "m+mExemplarService.hpp"
+#include "m+mExemplarRequests.hpp"
+#include "m+mSimpleRequestHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

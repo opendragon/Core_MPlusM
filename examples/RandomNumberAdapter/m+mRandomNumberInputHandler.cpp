@@ -37,12 +37,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomNumberInputHandler.h"
+#include "m+mRandomNumberInputHandler.hpp"
 
-#include "m+mRandomNumberAdapterData.h"
-#include "m+mRandomNumberClient.h"
+#include "m+mRandomNumberAdapterData.hpp"
+#include "m+mRandomNumberClient.hpp"
 
-#include <m+m/m+mBaseChannel.h>
+#include <m+m/m+mBaseChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

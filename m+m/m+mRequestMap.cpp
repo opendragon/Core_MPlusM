@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestMap.h"
+#include "m+mRequestMap.hpp"
 
-#include <m+m/m+mBaseRequestHandler.h>
+#include <m+m/m+mBaseRequestHandler.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

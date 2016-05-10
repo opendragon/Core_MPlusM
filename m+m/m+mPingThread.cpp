@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mPingThread.h"
+#include "m+mPingThread.hpp"
 
-#include <m+m/m+mBaseService.h>
+#include <m+m/m+mBaseService.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -87,6 +87,7 @@ PingThread::PingThread(const YarpString & channelName,
 {
     ODL_ENTER(); //####
     ODL_S1s("channelName = ", channelName); //####
+    ODL_P1("service = ", &service); //####
     ODL_EXIT_P(this); //####
 } // PingThread::PingThread
 

@@ -39,8 +39,8 @@
 #if (! defined(MpMMatchRequestHandler_H_))
 # define MpMMatchRequestHandler_H_ /* Header guard */
 
-# include <m+m/m+mBaseNameValidator.h>
-# include <m+m/m+mBaseRequestHandler.h>
+# include <m+m/m+mBaseNameValidator.hpp>
+# include <m+m/m+mBaseRequestHandler.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

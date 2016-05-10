@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest09Service.h"
-#include "m+mTest09DefaultRequestHandler.h"
+#include "m+mTest09Service.hpp"
+#include "m+mTest09DefaultRequestHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

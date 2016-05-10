@@ -39,10 +39,10 @@
 #include "m+mSendToMQOutputService.h"
 #include "m+mSendToMQOutputRequests.h"
 
-#include <m+m/m+mAddressArgumentDescriptor.h>
-#include <m+m/m+mBoolArgumentDescriptor.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
+#include <m+m/m+mAddressArgumentDescriptor.hpp>
+#include <m+m/m+mBoolArgumentDescriptor.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mPortArgumentDescriptor.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

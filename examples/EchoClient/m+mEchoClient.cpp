@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mEchoClient.h"
+#include "m+mEchoClient.hpp"
 
-#include "m+mEchoRequests.h"
+#include "m+mEchoRequests.hpp"
 
-#include <m+m/m+mServiceResponse.h>
+#include <m+m/m+mServiceResponse.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

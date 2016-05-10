@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mPortArgumentDescriptor.h"
+#include "m+mPortArgumentDescriptor.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

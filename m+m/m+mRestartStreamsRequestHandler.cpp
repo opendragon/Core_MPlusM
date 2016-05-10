@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRestartStreamsRequestHandler.h"
+#include "m+mRestartStreamsRequestHandler.hpp"
 
-#include <m+m/m+mBaseInputOutputService.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mBaseInputOutputService.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

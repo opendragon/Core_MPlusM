@@ -38,12 +38,12 @@
 
 #include "m+mTestNameValidator.h"
 
-#include <m+m/m+mMatchConstraint.h>
-#include <m+m/m+mMatchExpression.h>
-#include <m+m/m+mMatchFieldName.h>
-#include <m+m/m+mMatchFieldWithValues.h>
-#include <m+m/m+mMatchValue.h>
-#include <m+m/m+mMatchValueList.h>
+#include <m+m/m+mMatchConstraint.hpp>
+#include <m+m/m+mMatchExpression.hpp>
+#include <m+m/m+mMatchFieldName.hpp>
+#include <m+m/m+mMatchFieldWithValues.hpp>
+#include <m+m/m+mMatchValue.hpp>
+#include <m+m/m+mMatchValueList.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

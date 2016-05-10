@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mStringArgumentDescriptor.h"
+#include "m+mStringArgumentDescriptor.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

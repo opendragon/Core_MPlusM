@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomNumberAdapterData.h"
-#include "m+mRandomNumberClient.h"
+#include "m+mRandomNumberAdapterData.hpp"
+#include "m+mRandomNumberClient.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

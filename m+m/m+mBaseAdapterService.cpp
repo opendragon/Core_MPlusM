@@ -37,12 +37,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseAdapterService.h"
+#include "m+mBaseAdapterService.hpp"
 
-#include <m+m/m+mBaseAdapterData.h>
-#include <m+m/m+mBaseClient.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mBaseAdapterData.hpp>
+#include <m+m/m+mBaseClient.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

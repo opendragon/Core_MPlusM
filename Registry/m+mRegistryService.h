@@ -39,10 +39,10 @@
 #if (! defined(MpMRegistryService_H_))
 # define MpMRegistryService_H_ /* Header guard */
 
-# include <m+m/m+mBaseService.h>
-# include <m+m/m+mGeneralChannel.h>
-# include <m+m/m+mMatchExpression.h>
-# include <m+m/m+mServiceResponse.h>
+# include <m+m/m+mBaseService.hpp>
+# include <m+m/m+mGeneralChannel.hpp>
+# include <m+m/m+mMatchExpression.hpp>
+# include <m+m/m+mServiceResponse.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

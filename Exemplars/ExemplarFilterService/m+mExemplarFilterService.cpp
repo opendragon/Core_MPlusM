@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarFilterService.h"
+#include "m+mExemplarFilterService.hpp"
 
-#include "m+mExemplarFilterInputHandler.h"
-#include "m+mExemplarFilterRequests.h"
+#include "m+mExemplarFilterInputHandler.hpp"
+#include "m+mExemplarFilterRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

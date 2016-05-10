@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptFilterService.h"
+#include "m+mJavaScriptFilterService.hpp"
 
-#include "m+mJavaScriptFilterInputHandler.h"
-#include "m+mJavaScriptFilterRequests.h"
-#include "m+mJavaScriptFilterThread.h"
+#include "m+mJavaScriptFilterInputHandler.hpp"
+#include "m+mJavaScriptFilterRequests.hpp"
+#include "m+mJavaScriptFilterThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

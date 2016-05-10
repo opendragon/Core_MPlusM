@@ -36,21 +36,21 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest03Handler.h"
-#include "m+mTest04Handler.h"
-#include "m+mTest05HandlerCreator.h"
-#include "m+mTest08Handler.h"
-#include "m+mTest09Service.h"
-#include "m+mTest10Service.h"
-#include "m+mTest11Service.h"
-#include "m+mTest12Service.h"
+#include "m+mTest03Handler.hpp"
+#include "m+mTest04Handler.hpp"
+#include "m+mTest05HandlerCreator.hpp"
+#include "m+mTest08Handler.hpp"
+#include "m+mTest09Service.hpp"
+#include "m+mTest10Service.hpp"
+#include "m+mTest11Service.hpp"
+#include "m+mTest12Service.hpp"
 
-#include <m+m/m+mClientChannel.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mServiceRequest.h>
-#include <m+m/m+mServiceResponse.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mClientChannel.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mServiceRequest.hpp>
+#include <m+m/m+mServiceResponse.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

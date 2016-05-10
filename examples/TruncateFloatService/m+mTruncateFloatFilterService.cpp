@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTruncateFloatFilterService.h"
+#include "m+mTruncateFloatFilterService.hpp"
 
-#include "m+mTruncateFloatFilterInputHandler.h"
-#include "m+mTruncateFloatFilterRequests.h"
+#include "m+mTruncateFloatFilterInputHandler.hpp"
+#include "m+mTruncateFloatFilterRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

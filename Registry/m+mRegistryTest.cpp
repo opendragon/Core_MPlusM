@@ -41,12 +41,12 @@
 #include "RegistryTests/m+mTest15Service.h"
 #include "RegistryTests/m+mTest16Service.h"
 
-#include <m+m/m+mBaseClient.h>
-#include <m+m/m+mBaseRequestHandler.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mServiceRequest.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mBaseClient.hpp>
+#include <m+m/m+mBaseRequestHandler.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mServiceRequest.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

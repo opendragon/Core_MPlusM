@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mServiceInputHandler.h"
+#include "m+mServiceInputHandler.hpp"
 
-#include <m+m/m+mBaseService.h>
+#include <m+m/m+mBaseService.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

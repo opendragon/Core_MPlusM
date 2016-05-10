@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mListRequestHandler.h"
+#include "m+mListRequestHandler.hpp"
 
-#include <m+m/m+mRequestMap.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mRequestMap.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

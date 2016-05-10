@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAddressClient.h"
+#include "m+mAddressClient.hpp"
 
-#include "m+mAddressRequests.h"
+#include "m+mAddressRequests.hpp"
 
-#include <m+m/m+mServiceResponse.h>
+#include <m+m/m+mServiceResponse.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

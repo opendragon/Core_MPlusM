@@ -39,8 +39,8 @@
 #if (! defined(MpMSendToMQOutputInputHandler_H_))
 # define MpMSendToMQOutputInputHandler_H_ /* Header guard */
 
-# include <m+m/m+mBaseInputHandler.h>
-# include <m+m/m+mStringBuffer.h>
+# include <m+m/m+mBaseInputHandler.hpp>
+# include <m+m/m+mStringBuffer.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -38,9 +38,9 @@
 
 #include "m+mUnrealOutputService.h"
 
-#include <m+m/m+mDoubleArgumentDescriptor.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
+#include <m+m/m+mDoubleArgumentDescriptor.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mPortArgumentDescriptor.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

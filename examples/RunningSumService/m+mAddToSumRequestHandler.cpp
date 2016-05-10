@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAddToSumRequestHandler.h"
-#include "m+mRunningSumRequests.h"
-#include "m+mRunningSumService.h"
+#include "m+mAddToSumRequestHandler.hpp"
+#include "m+mRunningSumRequests.hpp"
+#include "m+mRunningSumService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

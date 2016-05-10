@@ -52,6 +52,7 @@ endif(APPLE)
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/m+m/optionparser.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mAdapterServiceThread.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mAddressArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mArgumentDescriptionsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mArgumentsRequestHandler.cpp"
@@ -92,6 +93,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mInfoRequestHandler.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mInputOutputServiceThread.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mListRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.cpp"
@@ -156,112 +158,116 @@ install(TARGETS ${THIS_TARGET}
         COMPONENT libraries)
 
 install(FILES
-        "${MpM_SOURCE_DIR}/m+m/optionparser.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mAddressArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBailOut.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBailOutThread.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseAdapterData.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseAdapterService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseChannel.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseClient.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseContext.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseFilterService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputHandler.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputHandlerCreator.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputOutputService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseMatcher.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseNameValidator.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseOutputService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseRequestHandler.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseService.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBaseThread.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mBoolArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mChannelArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mChannelStatusReporter.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mClientChannel.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mCommon.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mConfig.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mDoubleArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mEndpoint.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mException.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mExtraArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchExpression.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchFieldName.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchFieldWithValues.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchValue.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mMatchValueList.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mPortArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mRequestMap.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mRequests.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mSendReceiveCounters.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mServiceChannel.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mServiceInputHandler.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mServiceInputHandlerCreator.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mServiceRequest.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mServiceResponse.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mStringArgumentDescriptor.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mUtilities.h"
+        "${MpM_SOURCE_DIR}/m+m/optionparser.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mAdapterServiceThread.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mAddressArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBailOut.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBailOutThread.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseAdapterData.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseAdapterService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseChannel.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseClient.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseContext.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseFilterService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputHandler.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputHandlerCreator.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputOutputService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseInputService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseMatcher.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseNameValidator.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseOutputService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseRequestHandler.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseService.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseThread.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mBoolArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mChannelArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mChannelStatusReporter.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mClientChannel.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mCommon.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mConfig.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mDoubleArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mEndpoint.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mException.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mExtraArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mInputOutputServiceThread.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchExpression.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchFieldName.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchFieldWithValues.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchValue.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mMatchValueList.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mPortArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mRequestMap.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mRequests.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mSendReceiveCounters.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mServiceChannel.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mServiceInputHandler.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mServiceInputHandlerCreator.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mServiceRequest.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mServiceResponse.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mStringArgumentDescriptor.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.hpp"
+        "${MpM_SOURCE_DIR}/m+m/m+mUtilities.hpp"
         DESTINATION include/m+m
 		COMPONENT headers)
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_m+m_in/m+mCommon.i
-        m+mAddressArgumentDescriptor.h m+mAddressArgumentDescriptor.cpp
-        m+mBaseArgumentDescriptor.h m+mBaseArgumentDescriptor.cpp
-        m+mBailOut.h m+mBailOut.cpp
-        m+mBailOutThread.h m+mBailOutThread.cpp
-        m+mBaseAdapterData.h m+mBaseAdapterData.cpp
-        m+mBaseAdapterService.h m+mBaseAdapterService.cpp
-        m+mBaseChannel.h m+mBaseChannel.cpp
-        m+mBaseClient.h m+mBaseClient.cpp
-        m+mBaseContext.h m+mBaseContext.cpp
-        m+mBaseFilterService.h m+mBaseFilterService.cpp
-        m+mBaseInputHandler.h m+mBaseInputHandler.cpp
-        m+mBaseInputHandlerCreator.h m+mBaseInputHandlerCreator.cpp
-        m+mBaseInputOutputService.h m+mBaseInputOutputService.cpp
-        m+mBaseInputService.h m+mBaseInputService.cpp
-        m+mBaseMatcher.h m+mBaseMatcher.cpp
-        m+mBaseNameValidator.h m+mBaseNameValidator.cpp
-        m+mBaseOutputService.h m+mBaseOutputService.cpp
-        m+mBaseRequestHandler.h m+mBaseRequestHandler.cpp
-        m+mBaseService.h m+mBaseService.cpp
-        m+mBaseThread.h m+mBaseThread.cpp
-        m+mBoolArgumentDescriptor.h m+mBoolArgumentDescriptor.cpp
-        m+mChannelArgumentDescriptor.h m+mChannelArgumentDescriptor.cpp
-        m+mChannelStatusReporter.h m+mChannelStatusReporter.cpp
-        m+mClientChannel.h m+mClientChannel.cpp
-        m+mCommon.h m+mCommon.cpp
-        m+mDoubleArgumentDescriptor.h m+mDoubleArgumentDescriptor.cpp
-        m+mEndpoint.h m+mEndpoint.cpp
-        m+mException.h m+mException.cpp
-        m+mExtraArgumentDescriptor.h m+mExtraArgumentDescriptor.cpp
-        m+mFilePathArgumentDescriptor.h m+mFilePathArgumentDescriptor.cpp
-        m+mGeneralChannel.h m+mGeneralChannel.cpp
-        m+mIntArgumentDescriptor.h m+mIntArgumentDescriptor.cpp
-        m+mMatchConstraint.h m+mMatchConstraint.cpp
-        m+mMatchExpression.h m+mMatchExpression.cpp
-        m+mMatchFieldName.h m+mMatchFieldName.cpp
-        m+mMatchFieldWithValues.h m+mMatchFieldWithValues.cpp
-        m+mMatchValue.h m+mMatchValue.cpp
-        m+mMatchValueList.h m+mMatchValueList.cpp
-        m+mPortArgumentDescriptor.h m+mPortArgumentDescriptor.cpp
-        m+mRequestMap.h m+mRequestMap.cpp
-        m+mSendReceiveCounters.h m+mSendReceiveCounters.cpp
-        m+mServiceChannel.h m+mServiceChannel.cpp
+        m+mAdapterServiceThread.hpp m+mAdapterServiceThread.cpp
+        m+mAddressArgumentDescriptor.hpp m+mAddressArgumentDescriptor.cpp
+        m+mBaseArgumentDescriptor.hpp m+mBaseArgumentDescriptor.cpp
+        m+mBailOut.hpp m+mBailOut.cpp
+        m+mBailOutThread.hpp m+mBailOutThread.cpp
+        m+mBaseAdapterData.hpp m+mBaseAdapterData.cpp
+        m+mBaseAdapterService.hpp m+mBaseAdapterService.cpp
+        m+mBaseChannel.hpp m+mBaseChannel.cpp
+        m+mBaseClient.hpp m+mBaseClient.cpp
+        m+mBaseContext.hpp m+mBaseContext.cpp
+        m+mBaseFilterService.hpp m+mBaseFilterService.cpp
+        m+mBaseInputHandler.hpp m+mBaseInputHandler.cpp
+        m+mBaseInputHandlerCreator.hpp m+mBaseInputHandlerCreator.cpp
+        m+mBaseInputOutputService.hpp m+mBaseInputOutputService.cpp
+        m+mBaseInputService.hpp m+mBaseInputService.cpp
+        m+mBaseMatcher.hpp m+mBaseMatcher.cpp
+        m+mBaseNameValidator.hpp m+mBaseNameValidator.cpp
+        m+mBaseOutputService.hpp m+mBaseOutputService.cpp
+        m+mBaseRequestHandler.hpp m+mBaseRequestHandler.cpp
+        m+mBaseService.hpp m+mBaseService.cpp
+        m+mBaseThread.hpp m+mBaseThread.cpp
+        m+mBoolArgumentDescriptor.hpp m+mBoolArgumentDescriptor.cpp
+        m+mChannelArgumentDescriptor.hpp m+mChannelArgumentDescriptor.cpp
+        m+mChannelStatusReporter.hpp m+mChannelStatusReporter.cpp
+        m+mClientChannel.hpp m+mClientChannel.cpp
+        m+mCommon.hpp m+mCommon.cpp
+        m+mDoubleArgumentDescriptor.hpp m+mDoubleArgumentDescriptor.cpp
+        m+mEndpoint.hpp m+mEndpoint.cpp
+        m+mException.hpp m+mException.cpp
+        m+mExtraArgumentDescriptor.hpp m+mExtraArgumentDescriptor.cpp
+        m+mFilePathArgumentDescriptor.hpp m+mFilePathArgumentDescriptor.cpp
+        m+mGeneralChannel.hpp m+mGeneralChannel.cpp
+        m+mInputOutputServiceThread.hpp m+mInputOutputServiceThread.cpp
+        m+mIntArgumentDescriptor.hpp m+mIntArgumentDescriptor.cpp
+        m+mMatchConstraint.hpp m+mMatchConstraint.cpp
+        m+mMatchExpression.hpp m+mMatchExpression.cpp
+        m+mMatchFieldName.hpp m+mMatchFieldName.cpp
+        m+mMatchFieldWithValues.hpp m+mMatchFieldWithValues.cpp
+        m+mMatchValue.hpp m+mMatchValue.cpp
+        m+mMatchValueList.hpp m+mMatchValueList.cpp
+        m+mPortArgumentDescriptor.hpp m+mPortArgumentDescriptor.cpp
+        m+mRequestMap.hpp m+mRequestMap.cpp
+        m+mSendReceiveCounters.hpp m+mSendReceiveCounters.cpp
+        m+mServiceChannel.hpp m+mServiceChannel.cpp
         m+mServiceInputHandler.h m+mServiceInputHandler.cpp
-        m+mServiceInputHandlerCreator.h m+mServiceInputHandlerCreator.cpp
-        m+mServiceRequest.h m+mServiceRequest.cpp
-        m+mServiceResponse.h m+mServiceResponse.cpp
-        m+mStringArgumentDescriptor.h m+mStringArgumentDescriptor.cpp
-        m+mStringBuffer.h m+mStringBuffer.cpp
-        m+mUtilities.h m+mUtilities.cpp)
+        m+mServiceInputHandlerCreator.hpp m+mServiceInputHandlerCreator.cpp
+        m+mServiceRequest.hpp m+mServiceRequest.cpp
+        m+mServiceResponse.hpp m+mServiceResponse.cpp
+        m+mStringArgumentDescriptor.hpp m+mStringArgumentDescriptor.cpp
+        m+mStringBuffer.hpp m+mStringBuffer.cpp
+        m+mUtilities.hpp m+mUtilities.cpp)
 
     include_directories("${MpM_SOURCE_DIR}/m+m")
     set_source_files_properties(swig_m+m_in/m+mCommon.i PROPERTIES CPLUSPLUS ON)

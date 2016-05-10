@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomBurstInputThread.h"
+#include "m+mRandomBurstInputThread.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

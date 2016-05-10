@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptFilterInputHandler.h"
-#include "m+mJavaScriptFilterService.h"
+#include "m+mJavaScriptFilterInputHandler.hpp"
+#include "m+mJavaScriptFilterService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mStringBuffer.h"
+#include "m+mStringBuffer.hpp"
 
-#include <m+m/m+mClientChannel.h>
-#include <m+m/m+mServiceResponse.h>
+#include <m+m/m+mClientChannel.hpp>
+#include <m+m/m+mServiceResponse.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

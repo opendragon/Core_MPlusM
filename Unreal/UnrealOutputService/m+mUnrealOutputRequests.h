@@ -40,7 +40,7 @@
 #if (! defined(MpMUnrealOutputRequests_H_))
 # define MpMUnrealOutputRequests_H_ /* Header guard */
 
-# include <m+m/m+mRequests.h>
+# include <m+m/m+mRequests.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

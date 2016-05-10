@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMatchFieldName.h"
+#include "m+mMatchFieldName.hpp"
 
-#include <m+m/m+mBaseNameValidator.h>
-#include <m+m/m+mMatchValueList.h>
+#include <m+m/m+mBaseNameValidator.hpp>
+#include <m+m/m+mMatchValueList.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

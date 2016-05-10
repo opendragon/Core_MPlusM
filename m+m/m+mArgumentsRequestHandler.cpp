@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mArgumentsRequestHandler.h"
+#include "m+mArgumentsRequestHandler.hpp"
 
-#include <m+m/m+mBaseService.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mBaseService.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mKinectV2SpecialEventThread.h"
+#include "m+mKinectV2SpecialEventThread.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

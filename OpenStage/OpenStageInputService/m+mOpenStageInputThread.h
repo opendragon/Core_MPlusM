@@ -40,8 +40,8 @@
 #if (! defined(MpMOpenStageInputThread_H_))
 # define MpMOpenStageInputThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseThread.h>
-# include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mBaseThread.hpp>
+# include <m+m/m+mGeneralChannel.hpp>
 
 # if (! defined(MpM_BuildDummyServices))
 #  include <om/sdk2/client.h>

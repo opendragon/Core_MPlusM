@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomNumberAdapterData.h"
-#include "m+mRandomNumberAdapterService.h"
-#include "m+mRandomNumberClient.h"
+#include "m+mRandomNumberAdapterData.hpp"
+#include "m+mRandomNumberAdapterService.hpp"
+#include "m+mRandomNumberClient.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

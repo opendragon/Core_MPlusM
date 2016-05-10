@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <m+m/m+mCommon.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mCommon.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

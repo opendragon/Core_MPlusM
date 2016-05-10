@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommon.h"
+#include "m+mCommon.hpp"
 
-#include <m+m/m+mBailOut.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mBailOut.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

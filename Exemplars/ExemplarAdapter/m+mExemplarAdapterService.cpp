@@ -36,14 +36,14 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarAdapterService.h"
+#include "m+mExemplarAdapterService.hpp"
 
-#include "m+mExemplarAdapterData.h"
-#include "m+mExemplarAdapterRequests.h"
-#include "m+mExemplarInputHandler.h"
+#include "m+mExemplarAdapterData.hpp"
+#include "m+mExemplarAdapterRequests.hpp"
+#include "m+mExemplarInputHandler.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

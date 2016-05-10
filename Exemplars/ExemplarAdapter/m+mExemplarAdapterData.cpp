@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarAdapterData.h"
-#include "m+mExemplarClient.h"
+#include "m+mExemplarAdapterData.hpp"
+#include "m+mExemplarClient.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

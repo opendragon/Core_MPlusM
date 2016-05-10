@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mServiceResponse.h"
+#include "m+mServiceResponse.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

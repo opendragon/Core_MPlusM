@@ -41,7 +41,7 @@
 #include "m+mOpenStageInputRequests.h"
 #include "m+mOpenStageInputThread.h"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

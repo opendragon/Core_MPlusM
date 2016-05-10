@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumAdapterData.h"
-#include "m+mRunningSumAdapterService.h"
-#include "m+mRunningSumClient.h"
+#include "m+mRunningSumAdapterData.hpp"
+#include "m+mRunningSumAdapterService.hpp"
+#include "m+mRunningSumClient.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispFilterInputHandler.h"
-#include "m+mCommonLispFilterService.h"
+#include "m+mCommonLispFilterInputHandler.hpp"
+#include "m+mCommonLispFilterService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

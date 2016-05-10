@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapBlobInputListener.h"
+#include "m+mLeapBlobInputListener.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

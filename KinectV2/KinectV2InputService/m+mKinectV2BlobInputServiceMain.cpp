@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mKinectV2BlobInputService.h"
+#include "m+mKinectV2BlobInputService.hpp"
 
-#include <m+m/m+mDoubleArgumentDescriptor.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mDoubleArgumentDescriptor.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

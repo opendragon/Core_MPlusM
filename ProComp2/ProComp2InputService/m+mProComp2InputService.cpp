@@ -41,7 +41,7 @@
 #include "m+mProComp2InputRequests.h"
 #include "m+mProComp2InputThread.h"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

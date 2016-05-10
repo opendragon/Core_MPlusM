@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseInputHandlerCreator.h"
+#include "m+mBaseInputHandlerCreator.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

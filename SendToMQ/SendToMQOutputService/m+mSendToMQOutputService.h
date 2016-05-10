@@ -39,8 +39,8 @@
 #if (! defined(MpMSendToMQOutputService_H_))
 # define MpMSendToMQOutputService_H_ /* Header guard */
 
-# include <m+m/m+mBaseOutputService.h>
-# include <m+m/m+mUtilities.h>
+# include <m+m/m+mBaseOutputService.hpp>
+# include <m+m/m+mUtilities.hpp>
 
 /* Note that the following macro names are used for static integer class variables! */
 # undef MIN_PRIORITY

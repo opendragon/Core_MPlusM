@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberFilterThread.h"
+#include "m+mAbsorberFilterThread.hpp"
 
-#include "m+mAbsorberFilterService.h"
+#include "m+mAbsorberFilterService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

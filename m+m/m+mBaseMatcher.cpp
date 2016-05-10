@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseMatcher.h"
+#include "m+mBaseMatcher.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

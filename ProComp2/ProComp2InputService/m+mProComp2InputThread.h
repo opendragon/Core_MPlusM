@@ -39,8 +39,8 @@
 #if (! defined(MpMProComp2InputThread_H_))
 # define MpMProComp2InputThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseThread.h>
-# include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mBaseThread.hpp>
+# include <m+m/m+mGeneralChannel.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

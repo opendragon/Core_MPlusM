@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumAdapterData.h"
-#include "m+mRunningSumClient.h"
+#include "m+mRunningSumAdapterData.hpp"
+#include "m+mRunningSumClient.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarOutputService.h"
+#include "m+mExemplarOutputService.hpp"
 
-#include "m+mExemplarOutputInputHandler.h"
-#include "m+mExemplarOutputRequests.h"
+#include "m+mExemplarOutputInputHandler.hpp"
+#include "m+mExemplarOutputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

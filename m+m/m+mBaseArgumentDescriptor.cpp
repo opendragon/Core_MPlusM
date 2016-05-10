@@ -37,17 +37,17 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseArgumentDescriptor.h"
+#include "m+mBaseArgumentDescriptor.hpp"
 
-#include <m+m/m+mAddressArgumentDescriptor.h>
-#include <m+m/m+mBoolArgumentDescriptor.h>
-#include <m+m/m+mChannelArgumentDescriptor.h>
-#include <m+m/m+mDoubleArgumentDescriptor.h>
-#include <m+m/m+mExtraArgumentDescriptor.h>
-#include <m+m/m+mFilePathArgumentDescriptor.h>
-#include <m+m/m+mIntArgumentDescriptor.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
-#include <m+m/m+mStringArgumentDescriptor.h>
+#include <m+m/m+mAddressArgumentDescriptor.hpp>
+#include <m+m/m+mBoolArgumentDescriptor.hpp>
+#include <m+m/m+mChannelArgumentDescriptor.hpp>
+#include <m+m/m+mDoubleArgumentDescriptor.hpp>
+#include <m+m/m+mExtraArgumentDescriptor.hpp>
+#include <m+m/m+mFilePathArgumentDescriptor.hpp>
+#include <m+m/m+mIntArgumentDescriptor.hpp>
+#include <m+m/m+mPortArgumentDescriptor.hpp>
+#include <m+m/m+mStringArgumentDescriptor.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

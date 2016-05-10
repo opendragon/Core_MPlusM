@@ -40,7 +40,7 @@
 #if (! defined(MpMOpenStageBlobInputRequests_H_))
 # define MpMOpenStageBlobInputRequests_H_ /* Header guard */
 
-# include <m+m/m+mRequests.h>
+# include <m+m/m+mRequests.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

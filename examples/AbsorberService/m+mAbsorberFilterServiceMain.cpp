@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberFilterService.h"
+#include "m+mAbsorberFilterService.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mIntArgumentDescriptor.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mIntArgumentDescriptor.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

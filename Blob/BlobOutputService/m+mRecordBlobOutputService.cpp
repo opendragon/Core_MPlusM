@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRecordBlobOutputService.h"
+#include "m+mRecordBlobOutputService.hpp"
 
-#include "m+mRecordBlobOutputInputHandler.h"
-#include "m+mRecordBlobOutputRequests.h"
+#include "m+mRecordBlobOutputInputHandler.hpp"
+#include "m+mRecordBlobOutputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

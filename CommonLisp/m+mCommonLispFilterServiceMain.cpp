@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispFilterService.h"
+#include "m+mCommonLispFilterService.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mExtraArgumentDescriptor.h>
-#include <m+m/m+mFilePathArgumentDescriptor.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mExtraArgumentDescriptor.hpp>
+#include <m+m/m+mFilePathArgumentDescriptor.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

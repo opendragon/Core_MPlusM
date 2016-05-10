@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mKinectV2InputService.h"
+#include "m+mKinectV2InputService.hpp"
 
-#include "m+mKinectV2EventThread.h"
-#include "m+mKinectV2InputRequests.h"
+#include "m+mKinectV2EventThread.hpp"
+#include "m+mKinectV2InputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

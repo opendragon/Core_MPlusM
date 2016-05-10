@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumContext.h"
+#include "m+mRunningSumContext.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

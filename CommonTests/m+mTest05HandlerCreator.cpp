@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest05HandlerCreator.h"
-#include "m+mTest05Handler.h"
+#include "m+mTest05HandlerCreator.hpp"
+#include "m+mTest05Handler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

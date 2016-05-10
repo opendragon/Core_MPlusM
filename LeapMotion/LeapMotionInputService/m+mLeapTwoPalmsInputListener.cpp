@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapTwoPalmsInputListener.h"
+#include "m+mLeapTwoPalmsInputListener.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

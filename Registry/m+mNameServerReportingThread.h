@@ -39,7 +39,7 @@
 #if (! defined(MpMNameServerReportingThread_H_))
 # define MpMNameServerReportingThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseThread.h>
+# include <m+m/m+mBaseThread.hpp>
 
 # include <dns_sd.h>
 

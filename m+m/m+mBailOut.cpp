@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBailOut.h"
+#include "m+mBailOut.hpp"
 
-#include <m+m/m+mBailOutThread.h>
+#include <m+m/m+mBailOutThread.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

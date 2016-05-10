@@ -39,7 +39,7 @@
 #if (! defined(MpMMovementDbAdapterService_H_))
 # define MpMMovementDbAdapterService_H_ /* Header guard */
 
-# include <m+m/m+mBaseAdapterService.h>
+# include <m+m/m+mBaseAdapterService.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

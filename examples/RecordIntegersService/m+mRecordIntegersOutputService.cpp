@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRecordIntegersOutputService.h"
+#include "m+mRecordIntegersOutputService.hpp"
 
-#include "m+mRecordIntegersOutputInputHandler.h"
-#include "m+mRecordIntegersOutputRequests.h"
+#include "m+mRecordIntegersOutputInputHandler.hpp"
+#include "m+mRecordIntegersOutputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

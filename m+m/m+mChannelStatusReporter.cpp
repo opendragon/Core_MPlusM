@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <m+m/m+mChannelStatusReporter.h>
+#include <m+m/m+mChannelStatusReporter.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

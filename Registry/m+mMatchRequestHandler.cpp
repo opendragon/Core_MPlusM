@@ -40,8 +40,8 @@
 
 #include "m+mRegistryService.h"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,14 +36,14 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberFilterService.h"
+#include "m+mAbsorberFilterService.hpp"
 
-#include "m+mAbsorberFilterInputHandler.h"
-#include "m+mAbsorberFilterRequests.h"
-#include "m+mAbsorberFilterThread.h"
+#include "m+mAbsorberFilterInputHandler.hpp"
+#include "m+mAbsorberFilterRequests.hpp"
+#include "m+mAbsorberFilterThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispFilterService.h"
+#include "m+mCommonLispFilterService.hpp"
 
-#include "m+mCommonLispFilterInputHandler.h"
-#include "m+mCommonLispFilterRequests.h"
-#include "m+mCommonLispFilterThread.h"
+#include "m+mCommonLispFilterInputHandler.hpp"
+#include "m+mCommonLispFilterRequests.hpp"
+#include "m+mCommonLispFilterThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

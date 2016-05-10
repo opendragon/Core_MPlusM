@@ -36,15 +36,15 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumAdapterService.h"
+#include "m+mRunningSumAdapterService.hpp"
 
-#include "m+mRunningSumAdapterData.h"
-#include "m+mRunningSumAdapterRequests.h"
-#include "m+mRunningSumControlInputHandler.h"
-#include "m+mRunningSumDataInputHandler.h"
+#include "m+mRunningSumAdapterData.hpp"
+#include "m+mRunningSumAdapterRequests.hpp"
+#include "m+mRunningSumControlInputHandler.hpp"
+#include "m+mRunningSumDataInputHandler.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

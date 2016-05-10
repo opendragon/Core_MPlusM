@@ -36,37 +36,37 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseService.h"
+#include "m+mBaseService.hpp"
 
-#include "m+mArgumentsRequestHandler.h"
-#include "m+mChannelsRequestHandler.h"
-#include "m+mClientsRequestHandler.h"
-#include "m+mDetachRequestHandler.h"
-#include "m+mExtraInfoRequestHandler.h"
-#include "m+mInfoRequestHandler.h"
-#include "m+mListRequestHandler.h"
-#include "m+mMetricsRequestHandler.h"
-#include "m+mMetricsStateRequestHandler.h"
-#include "m+mNameRequestHandler.h"
-#include "m+mPingThread.h"
-#include "m+mSetMetricsStateRequestHandler.h"
-#include "m+mStopRequestHandler.h"
+#include "m+mArgumentsRequestHandler.hpp"
+#include "m+mChannelsRequestHandler.hpp"
+#include "m+mClientsRequestHandler.hpp"
+#include "m+mDetachRequestHandler.hpp"
+#include "m+mExtraInfoRequestHandler.hpp"
+#include "m+mInfoRequestHandler.hpp"
+#include "m+mListRequestHandler.hpp"
+#include "m+mMetricsRequestHandler.hpp"
+#include "m+mMetricsStateRequestHandler.hpp"
+#include "m+mNameRequestHandler.hpp"
+#include "m+mPingThread.hpp"
+#include "m+mSetMetricsStateRequestHandler.hpp"
+#include "m+mStopRequestHandler.hpp"
 
-#include <m+m/m+mBaseContext.h>
-#include <m+m/m+mClientChannel.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mException.h>
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mServiceInputHandler.h>
-#include <m+m/m+mServiceInputHandlerCreator.h>
-#include <m+m/m+mServiceRequest.h>
-#include <m+m/m+mServiceResponse.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mBaseContext.hpp>
+#include <m+m/m+mClientChannel.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mException.hpp>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mServiceInputHandler.hpp>
+#include <m+m/m+mServiceInputHandlerCreator.hpp>
+#include <m+m/m+mServiceRequest.hpp>
+#include <m+m/m+mServiceResponse.hpp>
+#include <m+m/m+mUtilities.hpp>
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4512)
 #endif // ! MAC_OR_LINUX_
-#include <m+m/optionparser.h>
+#include <m+m/optionparser.hpp>
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

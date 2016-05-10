@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRandomBurstInputService.h"
+#include "m+mRandomBurstInputService.hpp"
 
-#include "m+mRandomBurstInputRequests.h"
-#include "m+mRandomBurstInputThread.h"
+#include "m+mRandomBurstInputRequests.hpp"
+#include "m+mRandomBurstInputThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

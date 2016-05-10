@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mEchoRequestHandler.h"
-#include "m+mEchoRequests.h"
-#include "m+mEchoService.h"
+#include "m+mEchoRequestHandler.hpp"
+#include "m+mEchoRequests.hpp"
+#include "m+mEchoService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

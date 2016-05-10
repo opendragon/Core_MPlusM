@@ -37,20 +37,20 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseInputOutputService.h"
+#include "m+mBaseInputOutputService.hpp"
 
-#include "m+mArgumentDescriptionsRequestHandler.h"
-#include "m+mConfigurationRequestHandler.h"
-#include "m+mConfigureRequestHandler.h"
-#include "m+mRestartStreamsRequestHandler.h"
-#include "m+mStartStreamsRequestHandler.h"
-#include "m+mStopStreamsRequestHandler.h"
+#include "m+mArgumentDescriptionsRequestHandler.hpp"
+#include "m+mConfigurationRequestHandler.hpp"
+#include "m+mConfigureRequestHandler.hpp"
+#include "m+mRestartStreamsRequestHandler.hpp"
+#include "m+mStartStreamsRequestHandler.hpp"
+#include "m+mStopStreamsRequestHandler.hpp"
 
-#include <m+m/m+mChannelStatusReporter.h>
-#include <m+m/m+mClientChannel.h>
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mChannelStatusReporter.hpp>
+#include <m+m/m+mClientChannel.hpp>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

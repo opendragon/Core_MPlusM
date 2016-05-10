@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapTwoPalmsInputService.h"
+#include "m+mLeapTwoPalmsInputService.hpp"
 
-#include "m+mLeapTwoPalmsInputListener.h"
-#include "m+mLeapTwoPalmsInputRequests.h"
+#include "m+mLeapTwoPalmsInputListener.hpp"
+#include "m+mLeapTwoPalmsInputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

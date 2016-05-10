@@ -40,7 +40,7 @@
 #if (! defined(MpMViconBlobInputRequests_H_))
 # define MpMViconBlobInputRequests_H_ /* Header guard */
 
-# include <m+m/m+mRequests.h>
+# include <m+m/m+mRequests.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

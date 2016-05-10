@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRunningSumControlInputHandler.h"
-#include "m+mRunningSumAdapterData.h"
-#include "m+mRunningSumClient.h"
-#include "m+mRunningSumRequests.h"
+#include "m+mRunningSumControlInputHandler.hpp"
+#include "m+mRunningSumAdapterData.hpp"
+#include "m+mRunningSumClient.hpp"
+#include "m+mRunningSumRequests.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

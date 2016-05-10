@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseInputHandler.h"
+#include "m+mBaseInputHandler.hpp"
 
-#include <m+m/m+mBaseChannel.h>
+#include <m+m/m+mBaseChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

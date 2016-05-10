@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mChordGeneratorRequestHandler.h"
-#include "m+mChordGeneratorRequests.h"
-#include "m+mChordGeneratorService.h"
+#include "m+mChordGeneratorRequestHandler.hpp"
+#include "m+mChordGeneratorRequests.hpp"
+#include "m+mChordGeneratorService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

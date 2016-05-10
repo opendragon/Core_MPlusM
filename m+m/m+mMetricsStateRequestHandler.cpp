@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMetricsStateRequestHandler.h"
+#include "m+mMetricsStateRequestHandler.hpp"
 
-#include <m+m/m+mBaseService.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mBaseService.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

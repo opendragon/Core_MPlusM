@@ -37,12 +37,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarInputHandler.h"
+#include "m+mExemplarInputHandler.hpp"
 
-#include "m+mExemplarAdapterData.h"
-#include "m+mExemplarClient.h"
+#include "m+mExemplarAdapterData.hpp"
+#include "m+mExemplarClient.hpp"
 
-#include <m+m/m+mBaseChannel.h>
+#include <m+m/m+mBaseChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

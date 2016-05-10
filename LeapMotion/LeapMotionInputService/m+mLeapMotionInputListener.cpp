@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mLeapMotionInputListener.h"
+#include "m+mLeapMotionInputListener.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

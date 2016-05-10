@@ -39,8 +39,8 @@
 #include "m+mNameServerReportingThread.h"
 #include "m+mRegistryService.h"
 
-#include <m+m/m+mRequests.h>
-#include <m+m/m+mUtilities.h>
+#include <m+m/m+mRequests.hpp>
+#include <m+m/m+mUtilities.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

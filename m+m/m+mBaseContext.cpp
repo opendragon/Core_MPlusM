@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseContext.h"
+#include "m+mBaseContext.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

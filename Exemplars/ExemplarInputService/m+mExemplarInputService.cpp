@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mExemplarInputService.h"
+#include "m+mExemplarInputService.hpp"
 
-#include "m+mExemplarInputRequests.h"
-#include "m+mExemplarInputThread.h"
+#include "m+mExemplarInputRequests.hpp"
+#include "m+mExemplarInputThread.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

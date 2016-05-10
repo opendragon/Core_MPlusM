@@ -36,13 +36,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRecordAsJSONOutputService.h"
+#include "m+mRecordAsJSONOutputService.hpp"
 
-#include "m+mRecordAsJSONOutputInputHandler.h"
-#include "m+mRecordAsJSONOutputRequests.h"
+#include "m+mRecordAsJSONOutputInputHandler.hpp"
+#include "m+mRecordAsJSONOutputRequests.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mGeneralChannel.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mGeneralChannel.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

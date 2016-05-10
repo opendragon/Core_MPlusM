@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBlobOutputService.h"
+#include "m+mBlobOutputService.hpp"
 
-#include <m+m/m+mEndpoint.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
+#include <m+m/m+mEndpoint.hpp>
+#include <m+m/m+mPortArgumentDescriptor.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

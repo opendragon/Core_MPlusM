@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispFilterThread.h"
+#include "m+mCommonLispFilterThread.hpp"
 
-#include "m+mCommonLispFilterService.h"
+#include "m+mCommonLispFilterService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

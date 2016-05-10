@@ -40,9 +40,9 @@
 
 #include "m+mConnectionThread.h"
 #include "m+mTunnelRequests.h"
-#include "m+mWhereRequestHandler.h"
+#include "m+mWhereRequestHandler.hpp"
 
-#include <m+m/m+mEndpoint.h>
+#include <m+m/m+mEndpoint.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

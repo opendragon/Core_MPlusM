@@ -253,7 +253,7 @@ set(MpM_SERVICE_BASE_NAME "${MpM_BASE_NAME_PREFIX}_service_")
 
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MpM_SOURCE_DIR}/m+m/m+mConfig.h.in" "${MpM_SOURCE_DIR}/m+m/m+mConfig.h")
+configure_file("${MpM_SOURCE_DIR}/m+m/m+mConfig.hpp.in" "${MpM_SOURCE_DIR}/m+m/m+mConfig.hpp")
 
 include_directories("${MpM_SOURCE_DIR}")
 

@@ -40,7 +40,7 @@
 #if (! defined(MpMMovementDbInputHandler_H_))
 # define MpMMovementDbInputHandler_H_ /* Header guard */
 
-# include <m+m/m+mBaseInputHandler.h>
+# include <m+m/m+mBaseInputHandler.hpp>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

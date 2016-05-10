@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBaseFilterService.h"
+#include "m+mBaseFilterService.hpp"
 
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

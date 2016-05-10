@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBlobOutputInputHandler.h"
-#include "m+mBlobOutputService.h"
+#include "m+mBlobOutputInputHandler.hpp"
+#include "m+mBlobOutputService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

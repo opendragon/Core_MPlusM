@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mConfigurationRequestHandler.h"
+#include "m+mConfigurationRequestHandler.hpp"
 
-#include <m+m/m+mBaseInputOutputService.h>
-#include <m+m/m+mRequests.h>
+#include <m+m/m+mBaseInputOutputService.hpp>
+#include <m+m/m+mRequests.hpp>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
