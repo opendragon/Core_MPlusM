@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMatchRequestHandler.h"
+#include "m+mMatchRequestHandler.hpp"
 
-#include "m+mRegistryService.h"
+#include "m+mRegistryService.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mRequests.hpp>

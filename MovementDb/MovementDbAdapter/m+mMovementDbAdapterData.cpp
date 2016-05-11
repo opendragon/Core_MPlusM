@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMovementDbAdapterData.h"
-#include "m+mMovementDbClient.h"
+#include "m+mMovementDbAdapterData.hpp"
+#include "m+mMovementDbClient.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

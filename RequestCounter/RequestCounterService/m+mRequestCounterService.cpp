@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestCounterService.h"
-#include "m+mRequestCounterContext.h"
-#include "m+mRequestCounterDefaultRequestHandler.h"
-#include "m+mRequestCounterRequests.h"
-#include "m+mResetCounterRequestHandler.h"
-#include "m+mStatsRequestHandler.h"
+#include "m+mRequestCounterService.hpp"
+#include "m+mRequestCounterContext.hpp"
+#include "m+mRequestCounterDefaultRequestHandler.hpp"
+#include "m+mRequestCounterRequests.hpp"
+#include "m+mResetCounterRequestHandler.hpp"
+#include "m+mStatsRequestHandler.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

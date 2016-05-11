@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageInputService.h"
+#include "m+mOpenStageInputService.hpp"
 
-#include "m+mOpenStageInputRequests.h"
-#include "m+mOpenStageInputThread.h"
+#include "m+mOpenStageInputRequests.hpp"
+#include "m+mOpenStageInputThread.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

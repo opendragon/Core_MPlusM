@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestCounterDefaultRequestHandler.h"
-#include "m+mRequestCounterRequests.h"
-#include "m+mRequestCounterService.h"
+#include "m+mRequestCounterDefaultRequestHandler.hpp"
+#include "m+mRequestCounterRequests.hpp"
+#include "m+mRequestCounterService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

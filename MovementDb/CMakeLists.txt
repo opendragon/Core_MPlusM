@@ -55,8 +55,10 @@ if(APPLE)
     set(E_PATH "@executable_path")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
-    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -stdlib=libstdc++" CACHE STRING
-        "Fixes linking error for m+m/ACE" FORCE)
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING "Fixes linking error for m+m/ACE"
+        FORCE)
+#    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -stdlib=libstdc++" CACHE STRING
+#        "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names -L${CMAKE_INSTALL_PREFIX}/lib" CACHE
         STRING "Increases link limit" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)

@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageBlobInputRequests.h"
-#include "m+mOpenStageBlobInputService.h"
+#include "m+mOpenStageBlobInputRequests.hpp"
+#include "m+mOpenStageBlobInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mDoubleArgumentDescriptor.hpp>

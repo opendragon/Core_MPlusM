@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mUnrealOutputService.h"
+#include "m+mUnrealOutputService.hpp"
 
-#include "m+mUnrealOutputLeapInputHandler.h"
-#include "m+mUnrealOutputRequests.h"
-#include "m+mUnrealOutputViconInputHandler.h"
+#include "m+mUnrealOutputLeapInputHandler.hpp"
+#include "m+mUnrealOutputRequests.hpp"
+#include "m+mUnrealOutputViconInputHandler.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mGeneralChannel.hpp>

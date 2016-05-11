@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMovementDbInputHandler.h"
-#include "m+mMovementDbAdapterData.h"
-#include "m+mMovementDbClient.h"
-#include "m+mMovementDbRequests.h"
+#include "m+mMovementDbInputHandler.hpp"
+#include "m+mMovementDbAdapterData.hpp"
+#include "m+mMovementDbClient.hpp"
+#include "m+mMovementDbRequests.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

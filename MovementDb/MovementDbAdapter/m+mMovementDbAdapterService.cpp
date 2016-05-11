@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMovementDbAdapterService.h"
+#include "m+mMovementDbAdapterService.hpp"
 
-#include "m+mMovementDbAdapterData.h"
-#include "m+mMovementDbAdapterRequests.h"
-#include "m+mMovementDbInputHandler.h"
+#include "m+mMovementDbAdapterData.hpp"
+#include "m+mMovementDbAdapterRequests.hpp"
+#include "m+mMovementDbInputHandler.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mGeneralChannel.hpp>

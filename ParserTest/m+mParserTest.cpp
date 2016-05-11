@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTestNameValidator.h"
+#include "m+mTestNameValidator.hpp"
 
 #include <m+m/m+mMatchConstraint.hpp>
 #include <m+m/m+mMatchExpression.hpp>

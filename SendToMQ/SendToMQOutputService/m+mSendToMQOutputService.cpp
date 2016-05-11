@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mSendToMQOutputService.h"
+#include "m+mSendToMQOutputService.hpp"
 
-#include "m+mSendToMQOutputInputHandler.h"
-#include "m+mSendToMQOutputRequests.h"
+#include "m+mSendToMQOutputInputHandler.hpp"
+#include "m+mSendToMQOutputRequests.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mGeneralChannel.hpp>

@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAddFileRequestHandler.h"
-#include "m+mMovementDbRequests.h"
-#include "m+mMovementDbService.h"
+#include "m+mAddFileRequestHandler.hpp"
+#include "m+mMovementDbRequests.hpp"
+#include "m+mMovementDbService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

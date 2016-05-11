@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mUnrealOutputLeapInputHandler.h"
-#include "m+mUnrealOutputService.h"
+#include "m+mUnrealOutputLeapInputHandler.hpp"
+#include "m+mUnrealOutputService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

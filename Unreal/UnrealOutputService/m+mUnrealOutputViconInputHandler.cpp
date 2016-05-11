@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mUnrealOutputViconInputHandler.h"
-#include "m+mUnrealOutputService.h"
+#include "m+mUnrealOutputViconInputHandler.hpp"
+#include "m+mUnrealOutputService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

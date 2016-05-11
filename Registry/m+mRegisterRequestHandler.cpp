@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRegisterRequestHandler.h"
+#include "m+mRegisterRequestHandler.hpp"
 
-#include "m+mRegistryService.h"
+#include "m+mRegistryService.hpp"
 
 #include <m+m/m+mClientChannel.hpp>
 #include <m+m/m+mEndpoint.hpp>

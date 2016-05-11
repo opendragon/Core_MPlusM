@@ -37,8 +37,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mWhereRequestHandler.hpp"
-#include "m+mTunnelRequests.h"
-#include "m+mTunnelService.h"
+#include "m+mTunnelRequests.hpp"
+#include "m+mTunnelService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

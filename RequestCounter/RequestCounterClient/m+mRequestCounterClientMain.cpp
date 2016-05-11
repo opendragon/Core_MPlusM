@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestCounterClient.h"
+#include "m+mRequestCounterClient.hpp"
 
 #include <m+m/m+mUtilities.hpp>
 

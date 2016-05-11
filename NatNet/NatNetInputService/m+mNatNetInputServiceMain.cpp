@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mNatNetInputRequests.h"
-#include "m+mNatNetInputService.h"
+#include "m+mNatNetInputRequests.hpp"
+#include "m+mNatNetInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mPortArgumentDescriptor.hpp>

@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconDataStreamInputRequests.h"
-#include "m+mViconDataStreamInputService.h"
+#include "m+mViconDataStreamInputRequests.hpp"
+#include "m+mViconDataStreamInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mEndpoint.hpp>

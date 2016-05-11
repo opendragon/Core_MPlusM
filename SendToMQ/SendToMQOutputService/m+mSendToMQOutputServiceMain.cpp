@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mSendToMQOutputService.h"
-#include "m+mSendToMQOutputRequests.h"
+#include "m+mSendToMQOutputService.hpp"
+#include "m+mSendToMQOutputRequests.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mBoolArgumentDescriptor.hpp>

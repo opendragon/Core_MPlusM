@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTunnelClient.h"
-#include "m+mTunnelRequests.h"
+#include "m+mTunnelClient.hpp"
+#include "m+mTunnelRequests.hpp"
 
 #include <m+m/m+mPortArgumentDescriptor.hpp>
 #include <m+m/m+mStringArgumentDescriptor.hpp>

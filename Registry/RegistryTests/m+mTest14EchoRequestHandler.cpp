@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest14EchoRequestHandler.h"
+#include "m+mTest14EchoRequestHandler.hpp"
 
 #include <m+m/m+mRequests.hpp>
 

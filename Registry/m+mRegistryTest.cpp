@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRegistryService.h"
-#include "RegistryTests/m+mTest14Service.h"
-#include "RegistryTests/m+mTest15Service.h"
-#include "RegistryTests/m+mTest16Service.h"
+#include "m+mRegistryService.hpp"
+#include "RegistryTests/m+mTest14Service.hpp"
+#include "RegistryTests/m+mTest15Service.hpp"
+#include "RegistryTests/m+mTest16Service.hpp"
 
 #include <m+m/m+mBaseClient.hpp>
 #include <m+m/m+mBaseRequestHandler.hpp>

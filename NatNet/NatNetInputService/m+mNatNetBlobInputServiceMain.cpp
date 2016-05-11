@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mNatNetBlobInputRequests.h"
-#include "m+mNatNetBlobInputService.h"
+#include "m+mNatNetBlobInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mDoubleArgumentDescriptor.hpp>

@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconDataStreamInputService.h"
+#include "m+mViconDataStreamInputService.hpp"
 
-#include "m+mViconDataStreamEventThread.h"
-#include "m+mViconDataStreamInputRequests.h"
+#include "m+mViconDataStreamEventThread.hpp"
+#include "m+mViconDataStreamInputRequests.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

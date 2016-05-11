@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconDataStreamEventThread.h"
+#include "m+mViconDataStreamEventThread.hpp"
 
 #include <m+m/m+mUtilities.hpp>
 

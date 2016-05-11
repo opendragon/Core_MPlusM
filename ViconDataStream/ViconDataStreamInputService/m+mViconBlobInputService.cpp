@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconBlobInputService.h"
+#include "m+mViconBlobInputService.hpp"
 
-#include "m+mViconBlobEventThread.h"
-#include "m+mViconBlobInputRequests.h"
+#include "m+mViconBlobEventThread.hpp"
+#include "m+mViconBlobInputRequests.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

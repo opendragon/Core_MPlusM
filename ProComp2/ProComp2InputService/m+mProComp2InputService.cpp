@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mProComp2InputService.h"
+#include "m+mProComp2InputService.hpp"
 
-#include "m+mProComp2InputRequests.h"
-#include "m+mProComp2InputThread.h"
+#include "m+mProComp2InputRequests.hpp"
+#include "m+mProComp2InputThread.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

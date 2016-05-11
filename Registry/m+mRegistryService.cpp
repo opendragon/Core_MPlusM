@@ -36,14 +36,14 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRegistryService.h"
+#include "m+mRegistryService.hpp"
 
-#include "m+mColumnNameValidator.h"
-#include "m+mMatchRequestHandler.h"
-#include "m+mPingRequestHandler.h"
-#include "m+mRegisterRequestHandler.h"
-#include "m+mRegistryCheckThread.h"
-#include "m+mUnregisterRequestHandler.h"
+#include "m+mColumnNameValidator.hpp"
+#include "m+mMatchRequestHandler.hpp"
+#include "m+mPingRequestHandler.hpp"
+#include "m+mRegisterRequestHandler.hpp"
+#include "m+mRegistryCheckThread.hpp"
+#include "m+mUnregisterRequestHandler.hpp"
 
 #include <m+m/m+mClientChannel.hpp>
 #include <m+m/m+mRequests.hpp>

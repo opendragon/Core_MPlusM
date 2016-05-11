@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mUnrealOutputService.h"
+#include "m+mUnrealOutputService.hpp"
 
 #include <m+m/m+mDoubleArgumentDescriptor.hpp>
 #include <m+m/m+mEndpoint.hpp>

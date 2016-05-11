@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mConnectionThread.h"
-#include "m+mTunnelService.h"
+#include "m+mConnectionThread.hpp"
+#include "m+mTunnelService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

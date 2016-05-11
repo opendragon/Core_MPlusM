@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRegistryCheckThread.h"
-#include "m+mRegistryService.h"
+#include "m+mRegistryCheckThread.hpp"
+#include "m+mRegistryService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

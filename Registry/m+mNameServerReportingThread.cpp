@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mNameServerReportingThread.h"
+#include "m+mNameServerReportingThread.hpp"
 
 #include <m+m/m+mRequests.hpp>
 

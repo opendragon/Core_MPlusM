@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTestNameValidator.h"
+#include "m+mTestNameValidator.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageBlobInputService.h"
+#include "m+mOpenStageBlobInputService.hpp"
 
-#include "m+mOpenStageBlobInputRequests.h"
-#include "m+mOpenStageBlobInputThread.h"
+#include "m+mOpenStageBlobInputRequests.hpp"
+#include "m+mOpenStageBlobInputThread.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest14Service.h"
+#include "m+mTest14Service.hpp"
 
-#include "m+mTest14EchoRequestHandler.h"
+#include "m+mTest14EchoRequestHandler.hpp"
 
 #include <m+m/m+mRequests.hpp>
 

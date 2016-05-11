@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconBlobInputRequests.h"
-#include "m+mViconBlobInputService.h"
+#include "m+mViconBlobInputRequests.hpp"
+#include "m+mViconBlobInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mDoubleArgumentDescriptor.hpp>

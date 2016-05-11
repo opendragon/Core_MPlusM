@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mProComp2InputService.h"
+#include "m+mProComp2InputService.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mUtilities.hpp>

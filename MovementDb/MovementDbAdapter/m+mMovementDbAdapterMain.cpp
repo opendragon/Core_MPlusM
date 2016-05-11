@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mMovementDbAdapterData.h"
-#include "m+mMovementDbAdapterService.h"
-#include "m+mMovementDbClient.h"
+#include "m+mMovementDbAdapterData.hpp"
+#include "m+mMovementDbAdapterService.hpp"
+#include "m+mMovementDbClient.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mGeneralChannel.hpp>

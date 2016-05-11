@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestCounterService.h"
+#include "m+mRequestCounterService.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mUtilities.hpp>

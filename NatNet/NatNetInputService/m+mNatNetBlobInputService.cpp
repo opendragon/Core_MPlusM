@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mNatNetBlobInputService.h"
+#include "m+mNatNetBlobInputService.hpp"
 
 #include "m+mNatNetBlobInputRequests.h"
-#include "m+mNatNetBlobInputThread.h"
+#include "m+mNatNetBlobInputThread.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 

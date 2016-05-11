@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTunnelService.h"
+#include "m+mTunnelService.hpp"
 
-#include "m+mConnectionThread.h"
-#include "m+mTunnelRequests.h"
+#include "m+mConnectionThread.hpp"
+#include "m+mTunnelRequests.hpp"
 #include "m+mWhereRequestHandler.hpp"
 
 #include <m+m/m+mEndpoint.hpp>

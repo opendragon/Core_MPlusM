@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mSendToMQOutputInputHandler.h"
-#include "m+mSendToMQOutputService.h"
+#include "m+mSendToMQOutputInputHandler.hpp"
+#include "m+mSendToMQOutputService.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

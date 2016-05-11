@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mNameServerReportingThread.h"
-#include "m+mRegistryService.h"
+#include "m+mNameServerReportingThread.hpp"
+#include "m+mRegistryService.hpp"
 
 #include <m+m/m+mRequests.hpp>
 #include <m+m/m+mUtilities.hpp>

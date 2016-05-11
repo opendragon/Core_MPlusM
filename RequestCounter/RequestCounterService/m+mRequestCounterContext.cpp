@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mRequestCounterContext.h"
+#include "m+mRequestCounterContext.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

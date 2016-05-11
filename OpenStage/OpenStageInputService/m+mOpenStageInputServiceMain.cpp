@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageInputRequests.h"
-#include "m+mOpenStageInputService.h"
+#include "m+mOpenStageInputRequests.hpp"
+#include "m+mOpenStageInputService.hpp"
 
 #include <m+m/m+mAddressArgumentDescriptor.hpp>
 #include <m+m/m+mEndpoint.hpp>

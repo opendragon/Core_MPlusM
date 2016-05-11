@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mViconBlobEventThread.h"
+#include "m+mViconBlobEventThread.hpp"
 
 #include <m+m/m+mUtilities.hpp>
 
