@@ -471,3 +471,5 @@ odl/Debug/odLogging.lib
 odl/Release/odLogging.lib
 _m+mCommon_swig_python.so
 libm+mCommon_swig_csharp.so
+LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Debug
+LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Release

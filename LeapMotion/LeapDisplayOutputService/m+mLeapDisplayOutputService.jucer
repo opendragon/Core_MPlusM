@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="NMAvRH" name="m+mLeapDisplayOutputService" projectType="guiapp" version="1.4.25"
+              bundleIdentifier="com.yourcompany.ChannelManager" includeBinaryInAppConfig="0"
+              jucerVersion="4.1.0" companyName="OpenDragon">
+  <MAINGROUP id="OL479e" name="m+mLeapDisplayOutputService">
+    <FILE id="TOzeLE" name="m+mmicon.ico" compile="0" resource="1" file="Builds/m+mmicon.ico"/>
+    <FILE id="Mjwbjg" name="m+mmResources.rc" compile="0" resource="1"
+          file="Builds/m+mmResources.rc"/>
+    <GROUP id="{A78E9CC6-F073-D9D4-035B-BA5785A3D3C6}" name="Source">
+      <FILE id="PIBIUb" name="m+mCaptionedTextField.cpp" compile="1" resource="0"
+            file="Source/m+mCaptionedTextField.cpp"/>
+      <FILE id="QtMnYK" name="m+mCaptionedTextField.h" compile="0" resource="0"
+            file="Source/m+mCaptionedTextField.h"/>
+      <FILE id="cHB6bL" name="m+mChannelContainer.cpp" compile="1" resource="0"
+            file="Source/m+mChannelContainer.cpp"/>
+      <FILE id="s4tkDx" name="m+mChannelContainer.h" compile="0" resource="0"
+            file="Source/m+mChannelContainer.h"/>
+      <FILE id="anzxX5" name="m+mChannelEntry.cpp" compile="1" resource="0"
+            file="Source/m+mChannelEntry.cpp"/>
+      <FILE id="DM3pE9" name="m+mChannelEntry.h" compile="0" resource="0"
+            file="Source/m+mChannelEntry.h"/>
+      <FILE id="yBj1mP" name="m+mCheckboxField.cpp" compile="1" resource="0"
+            file="Source/m+mCheckboxField.cpp"/>
+      <FILE id="SoQDSP" name="m+mCheckboxField.h" compile="0" resource="0"
+            file="Source/m+mCheckboxField.h"/>
+      <FILE id="hAaB9S" name="m+mConfigurationWindow.cpp" compile="1" resource="0"
+            file="Source/m+mConfigurationWindow.cpp"/>
+      <FILE id="v4axL0" name="m+mConfigurationWindow.h" compile="0" resource="0"
+            file="Source/m+mConfigurationWindow.h"/>
+      <FILE id="JD3MaG" name="m+mContentPanel.cpp" compile="1" resource="0"
+            file="Source/m+mContentPanel.cpp"/>
+      <FILE id="pPhZ6J" name="m+mContentPanel.h" compile="0" resource="0"
+            file="Source/m+mContentPanel.h"/>
+      <FILE id="usCsbx" name="m+mEntitiesData.cpp" compile="1" resource="0"
+            file="Source/m+mEntitiesData.cpp"/>
+      <FILE id="dzFwNi" name="m+mEntitiesData.h" compile="0" resource="0"
+            file="Source/m+mEntitiesData.h"/>
+      <FILE id="DyHxQe" name="m+mEntitiesPanel.cpp" compile="1" resource="0"
+            file="Source/m+mEntitiesPanel.cpp"/>
+      <FILE id="Es5LrF" name="m+mEntitiesPanel.h" compile="0" resource="0"
+            file="Source/m+mEntitiesPanel.h"/>
+      <FILE id="ii8jfD" name="m+mEntityData.cpp" compile="1" resource="0"
+            file="Source/m+mEntityData.cpp"/>
+      <FILE id="tDxn7m" name="m+mEntityData.h" compile="0" resource="0" file="Source/m+mEntityData.h"/>
+      <FILE id="L3rN55" name="m+mFormField.cpp" compile="1" resource="0"
+            file="Source/m+mFormField.cpp"/>
+      <FILE id="NR2BWP" name="m+mFormField.h" compile="0" resource="0" file="Source/m+mFormField.h"/>
+      <FILE id="dW2iN1" name="m+mFormFieldErrorResponder.cpp" compile="1"
+            resource="0" file="Source/m+mFormFieldErrorResponder.cpp"/>
+      <FILE id="gD1eYH" name="m+mFormFieldErrorResponder.h" compile="0" resource="0"
+            file="Source/m+mFormFieldErrorResponder.h"/>
+      <FILE id="aavgMA" name="m+mManagerApplication.cpp" compile="1" resource="0"
+            file="Source/m+mManagerApplication.cpp"/>
+      <FILE id="jCGGDR" name="m+mManagerApplication.h" compile="0" resource="0"
+            file="Source/m+mManagerApplication.h"/>
+      <FILE id="ht7hv7" name="m+mManagerDataTypes.h" compile="0" resource="0"
+            file="Source/m+mManagerDataTypes.h"/>
+      <FILE id="Zi9MbI" name="m+mManagerMain.cpp" compile="1" resource="0"
+            file="Source/m+mManagerMain.cpp"/>
+      <FILE id="gxXcCp" name="m+mManagerWindow.cpp" compile="1" resource="0"
+            file="Source/m+mManagerWindow.cpp"/>
+      <FILE id="WUwfZu" name="m+mManagerWindow.h" compile="0" resource="0"
+            file="Source/m+mManagerWindow.h"/>
+      <FILE id="d1Vwj1" name="m+mPeekInputHandler.cpp" compile="1" resource="0"
+            file="Source/m+mPeekInputHandler.cpp"/>
+      <FILE id="uNgY2b" name="m+mPeekInputHandler.h" compile="0" resource="0"
+            file="Source/m+mPeekInputHandler.h"/>
+      <FILE id="Z2oJEC" name="m+mPortData.cpp" compile="1" resource="0" file="Source/m+mPortData.cpp"/>
+      <FILE id="lC0pZW" name="m+mPortData.h" compile="0" resource="0" file="Source/m+mPortData.h"/>
+      <FILE id="jWBpJe" name="m+mRegistryLaunchThread.cpp" compile="1" resource="0"
+            file="Source/m+mRegistryLaunchThread.cpp"/>
+      <FILE id="Z8fRYA" name="m+mRegistryLaunchThread.h" compile="0" resource="0"
+            file="Source/m+mRegistryLaunchThread.h"/>
+      <FILE id="ldwrug" name="m+mScannerThread.cpp" compile="1" resource="0"
+            file="Source/m+mScannerThread.cpp"/>
+      <FILE id="frWaAN" name="m+mScannerThread.h" compile="0" resource="0"
+            file="Source/m+mScannerThread.h"/>
+      <FILE id="h3MHgh" name="m+mServiceLaunchThread.cpp" compile="1" resource="0"
+            file="Source/m+mServiceLaunchThread.cpp"/>
+      <FILE id="I60jox" name="m+mServiceLaunchThread.h" compile="0" resource="0"
+            file="Source/m+mServiceLaunchThread.h"/>
+      <FILE id="PuXyr7" name="m+mSettingsWindow.cpp" compile="1" resource="0"
+            file="Source/m+mSettingsWindow.cpp"/>
+      <FILE id="kK1mnv" name="m+mSettingsWindow.h" compile="0" resource="0"
+            file="Source/m+mSettingsWindow.h"/>
+      <FILE id="eXNe4G" name="m+mTextValidator.cpp" compile="1" resource="0"
+            file="Source/m+mTextValidator.cpp"/>
+      <FILE id="GgDgOO" name="m+mTextValidator.h" compile="0" resource="0"
+            file="Source/m+mTextValidator.h"/>
+      <FILE id="L92yer" name="m+mValidatingTextEditor.cpp" compile="1" resource="0"
+            file="Source/m+mValidatingTextEditor.cpp"/>
+      <FILE id="Ft0e1k" name="m+mValidatingTextEditor.h" compile="0" resource="0"
+            file="Source/m+mValidatingTextEditor.h"/>
+      <FILE id="aivi8s" name="m+mYarpLaunchThread.cpp" compile="1" resource="0"
+            file="Source/m+mYarpLaunchThread.cpp"/>
+      <FILE id="PsoxLE" name="m+mYarpLaunchThread.h" compile="0" resource="0"
+            file="Source/m+mYarpLaunchThread.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" externalLibraries="YARP_OS&#10;YARP_init&#10;m+mCommon&#10;odLogging&#10;OGDF">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="m+mLeapDisplayOutputService" headerPath="/Users/johnty/yarp/src/libYARP_OS/include&#10;/Users/johnty/yarp/generated_include&#10;/Users/johnty/Downloads/OGDF&#10;/Users/johnty/Documents/MPlusM&#10;/Users/johnty/Documents/ACE_wrappers"
+                       libraryPath="/Users/johnty/Downloads/OGDF/_release&#10;/Users/johnty/yarp/lib&#10;/Users/johnty/Documents/MPlusM/mpm&#10;/Users/johnty/Documents/MPlusM/odl"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="m+mLeapDisplayOutputService" libraryPath="/Users/johnty/Downloads/OGDF/_release&#10;/Users/johnty/yarp/lib&#10;/Users/johnty/Documents/MPlusM/mpm&#10;/Users/johnty/Documents/MPlusM/odl"
+                       headerPath="/Users/johnty/yarp/src/libYARP_OS/include&#10;/Users/johnty/yarp/generated_include&#10;/Users/johnty/Downloads/OGDF&#10;/Users/johnty/Documents/MPlusM&#10;/Users/johnty/Documents/ACE_wrappers"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUCE/modules/juce_core"/>
+        <MODULEPATH id="juce_events" path="/Users/M_M/Documents/git.repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="/Users/M_M/Documents/git.repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="/Users/M_M/Documents/git.repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="/Users/M_M/Documents/git.repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="/Users/M_M/Documents/git.repositories/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2012 targetFolder="Builds/VisualStudio2012" externalLibraries="ACE.lib&#10;YARP_OS.lib&#10;YARP_init.lib&#10;odLogging.lib&#10;m+mCommon.lib&#10;ogdf.lib&#10;Psapi.lib&#10;dnssd.lib"
+            extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mLeapDisplayOutputService" headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"
+                       useRuntimeLibDLL="1"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mLeapDisplayOutputService" libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       useRuntimeLibDLL="1"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2012>
+    <VS2013 targetFolder="Builds/VisualStudio2013" externalLibraries="ACE.lib&#10;YARP_OS.lib&#10;YARP_init.lib&#10;odLogging.lib&#10;m+mCommon.lib&#10;ogdf.lib&#10;Psapi.lib&#10;dnssd.lib"
+            extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mLeapDisplayOutputService" headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mLeapDisplayOutputService" headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2013>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" externalLibraries="YARP_OS&#10;YARP_init&#10;m+mCommon&#10;odLogging&#10;OGDF&#10;ACE&#10;dns_sd">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;/opt/m+m/lib"
+                       isDebug="1" optimisation="1" targetName="m+mLeapDisplayOutputService" headerPath="/opt/m+m/include"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;/opt/m+m/lib"
+                       isDebug="0" optimisation="3" targetName="m+mLeapDisplayOutputService" headerPath="/opt/m+m/include"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules/juce_gui_extra"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules/juce_gui_basics"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules/juce_graphics"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules/juce_events"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules/juce_core"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

@@ -968,6 +968,7 @@ setupCheckService(sqlite3_stmt * statement,
     return result;
 } // setupCheckService
 
+#if 0
 /*! @brief Bind the values that are to be gathered from the Associates table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -1010,6 +1011,7 @@ setupCollectAssociates(sqlite3_stmt * statement,
     ODL_EXIT_LL(result);
     return result;
 } // setupCollectAssociates
+#endif//0
 
 /*! @brief Bind the values that are to be inserted into the Channels table.
  @param statement The prepared statement that is to be updated.
@@ -1394,6 +1396,7 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
     return result;
 } // setupRemoveFromChannels
 
+#if 0
 /*! @brief Bind the values that are to be removed from the ChannelsAssociates table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -1434,6 +1437,7 @@ setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
     ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromChannelsAssociates
+#endif//0
 
 /*! @brief Bind the values that are to be removed from the Requests table.
  @param statement The prepared statement that is to be updated.
@@ -2359,11 +2363,13 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 message.addString(details);
                 break;
 
+#if 0
             case kRegistryNotAnExistingAssociation :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);
                 break;
-
+#endif//0
+                
             case kRegistryNotAnExistingService :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);

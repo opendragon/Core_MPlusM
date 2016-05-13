@@ -120,8 +120,10 @@ namespace MplusM
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
 
+#if 0
                 /*! @brief An association was not recognized. */
                 kRegistryNotAnExistingAssociation,
+#endif//0
 
                 /*! @brief A service was not recognized. */
                 kRegistryNotAnExistingService,
