@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-31
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mCaptionedTextField.hpp"
 
 #include "m+mFormFieldErrorResponder.hpp"
-#include "m+mManagerApplication.hpp"
+#include "m+mLeapDisplayApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -67,8 +67,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
+using namespace LeapDisplay;
 using namespace MplusM;
-using namespace MPlusM_Manager;
 using namespace std;
 
 #if defined(__APPLE__)
@@ -137,7 +137,7 @@ CaptionedTextField::CaptionedTextField(FormFieldErrorResponder & responder,
     _textEditor->setFont(_regularFont);
     _textEditor->setEscapeAndReturnKeysConsumed(false);
     _textEditor->setSelectAllWhenFocused(true);
-    MPlusM_Manager::CalculateTextArea(dimensions, _regularFont, _caption->getText());
+    LeapDisplay::CalculateTextArea(dimensions, _regularFont, _caption->getText());
     _caption->setBounds(kLabelInset, top, dimensions.getX() + kLabelInset, dimensions.getY());
     if (forFilePath)
     {
@@ -146,7 +146,7 @@ CaptionedTextField::CaptionedTextField(FormFieldErrorResponder & responder,
         _button->setMouseClickGrabsKeyboardFocus(false);
         _button->setCommandToTrigger(NULL, kConfigurationFileRequest, false);
         _button->addListener(buttonHandler);
-        _button->changeWidthToFitText(ManagerApplication::getButtonHeight());
+        _button->changeWidthToFitText(LeapDisplayApplication::getButtonHeight());
     }
     if (boundsSetLater)
     {
@@ -199,7 +199,7 @@ CaptionedTextField::getFileButtonWidth(void)
     {
         ScopedPointer<TextButton> fileButton(new TextButton(kFileButtonText));
 
-        fileButton->changeWidthToFitText(ManagerApplication::getButtonHeight());
+        fileButton->changeWidthToFitText(LeapDisplayApplication::getButtonHeight());
         lFileButtonWidth = fileButton->getWidth();
     }
     ODL_EXIT_LL(lFileButtonWidth); //####

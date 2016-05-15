@@ -10,10 +10,10 @@ BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "CompanyName",  "OpenDragon\0"
-      VALUE "FileDescription",  "m+mLeapDisplayOutputService\0"
+      VALUE "FileDescription",  "Leap Motion display output service\0"
       VALUE "FileVersion",  "1.6.8\0"
-      VALUE "LegalCopyright", "(c) 2015 by OpenDragon\0"
-      VALUE "ProductName",  "m+mLeapDisplayOutputService\0"
+      VALUE "LegalCopyright", "(c) 2016 by OpenDragon\0"
+      VALUE "ProductName",  "Leap Motion display output service\0"
       VALUE "ProductVersion",  "1.6.8\0"
     END
   END

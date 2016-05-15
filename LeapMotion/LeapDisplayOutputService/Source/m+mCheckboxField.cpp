@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-09-02
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mCheckboxField.hpp"
 
 #include "m+mFormFieldErrorResponder.hpp"
-#include "m+mManagerApplication.hpp"
+#include "m+mLeapDisplayApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -67,8 +67,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
+using namespace LeapDisplay;
 using namespace MplusM;
-using namespace MPlusM_Manager;
 using namespace std;
 
 #if defined(__APPLE__)
@@ -115,7 +115,7 @@ CheckboxField::CheckboxField(Font &         regularLabelFont,
                                                        kCheckboxHeightAdjustment);
 
     _checkbox->setBounds(kFieldInset, top, adjustedEditorHeight, adjustedEditorHeight);
-    MPlusM_Manager::CalculateTextArea(dimensions, _regularFont, captionTitle);
+    LeapDisplay::CalculateTextArea(dimensions, _regularFont, captionTitle);
     _caption->setBounds(_checkbox->getX() + _checkbox->getWidth() + kCheckboxToLabelGap,
                         _checkbox->getY(), dimensions.getX(), adjustedEditorHeight);
     _caption->setFont(_regularFont);

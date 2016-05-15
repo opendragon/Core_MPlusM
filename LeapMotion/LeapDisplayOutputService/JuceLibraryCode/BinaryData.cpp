@@ -3556,18 +3556,18 @@ static const unsigned char temp_binary_data_1[] =
 "#include <windows.h>\n"
 "\n"
 "VS_VERSION_INFO VERSIONINFO\n"
-"FILEVERSION  1,6,6,0\n"
+"FILEVERSION  1,6,8,0\n"
 "BEGIN\n"
 "  BLOCK \"StringFileInfo\"\n"
 "  BEGIN\n"
 "    BLOCK \"040904E4\"\n"
 "    BEGIN\n"
-"      VALUE \"CompanyName\",  \"H Plus Technologies Ltd. and Simon Fraser University\\0\"\n"
-"      VALUE \"FileDescription\",  \"m+m manager\\0\"\n"
-"      VALUE \"FileVersion\",  \"1.6.6\\0\"\n"
-"      VALUE \"LegalCopyright\", \"(c) 2015 by H Plus Technologies Ltd. and Simon Fraser University\\0\"\n"
-"      VALUE \"ProductName\",  \"m+m manager\\0\"\n"
-"      VALUE \"ProductVersion\",  \"1.6.6\\0\"\n"
+"      VALUE \"CompanyName\",  \"OpenDragon\\0\"\n"
+"      VALUE \"FileDescription\",  \"Leap Motion display output service\\0\"\n"
+"      VALUE \"FileVersion\",  \"1.6.8\\0\"\n"
+"      VALUE \"LegalCopyright\", \"(c) 2015 by OpenDragon\\0\"\n"
+"      VALUE \"ProductName\",  \"Leap Motion display output service\\0\"\n"
+"      VALUE \"ProductVersion\",  \"1.6.8\\0\"\n"
 "    END\n"
 "  END\n"
 "\n"
@@ -3578,8 +3578,8 @@ static const unsigned char temp_binary_data_1[] =
 "END\n"
 "\n"
 "/* Add the application icon */\n"
-"IDI_ICON1 ICON DISCARDABLE \"..\\m+mmicon.ico\"\n"
-"IDI_ICON2 ICON DISCARDABLE \"..\\m+mmicon.ico\"\n";
+"IDI_ICON1 ICON DISCARDABLE \"m+mmicon.ico\"\n"
+"IDI_ICON2 ICON DISCARDABLE \"m+mmicon.ico\"\n";
 
 const char* mmmResources_rc = (const char*) temp_binary_data_1;
 
@@ -3595,7 +3595,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     switch (hash)
     {
         case 0x5dd1a79c:  numBytes = 377152; return mmmicon_ico;
-        case 0xee94f5f8:  numBytes = 767; return mmmResources_rc;
+        case 0xee94f5f8:  numBytes = 709; return mmmResources_rc;
         default: break;
     }
 

@@ -4,12 +4,12 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the content area of the primary window of the m+mLeapDisplayOutputService
-//              application.
+//  Contains:   The class declaration for the content area of the primary window of the Leap Motion
+//              display output service application.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by OpenDragon.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-07-21
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(mpmContentPanel_HPP_))
 # define mpmContentPanel_HPP_ /* Header guard */
 
-# include "m+mManagerDataTypes.hpp"
+# include "m+mLeapDisplayDataTypes.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -49,8 +49,8 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The class declaration for the content area of the primary window of the m+mLeapDisplayOutputService
- application. */
+ @brief The class declaration for the content area of the primary window of the %Leap Motion display
+ output service application. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,14 +59,14 @@
  @c FALSE for normal behaviour. */
 # define SETTINGS_FOR_MANUAL_ FALSE
 
-namespace MPlusM_Manager
+namespace LeapDisplay
 {
-    class EntitiesPanel;
-    class ManagerWindow;
-    class ScannerThread;
+    class GraphicsPanel;
+    class LeapDisplayWindow;
 
     /*! @brief The content area of the main window of the application. */
-    class ContentPanel : public ApplicationCommandTarget, public MenuBarModel,
+    class ContentPanel : public ApplicationCommandTarget,
+                         public MenuBarModel,
                          public Viewport
     {
     public :
@@ -89,7 +89,7 @@ namespace MPlusM_Manager
         /*! @brief The constructor.
          @param containingWindow The window in which the panel is embedded. */
         explicit
-        ContentPanel(ManagerWindow * containingWindow);
+        ContentPanel(LeapDisplayWindow * containingWindow);
 
         /*! @brief The destructor. */
         virtual
@@ -127,61 +127,9 @@ namespace MPlusM_Manager
             _invertBackground = ! _invertBackground;
         } // flipBackground
 
-        /*! @brief Returns the entities panel.
-         @returns The entities panel. */
-        inline EntitiesPanel &
-        getEntitiesPanel(void)
-        const
-        {
-            return *_entitiesPanel;
-        } // getEntitiesPanel
-
-        /*! @brief Restore the positions of all the entities in the panel. */
-        void
-        recallEntityPositions(void);
-
-        /*! @brief Record the position of an entity before it is removed from the panel. */
-        void
-        rememberPositionOfEntity(ChannelContainer * anEntity);
-
         /*! @brief Ask the containing window to do a repaint. */
         void
         requestWindowRepaint(void);
-
-        /*! @brief Record the positions of all the entities in the panel. */
-        void
-        saveEntityPositions(void);
-
-        /*! @brief Record the ChannelEntry that is selected. */
-        void
-        setChannelOfInterest(ChannelEntry * aChannel);
-
-        /*! @brief Record the ChannelContainer that is selected. */
-        void
-        setContainerOfInterest(ChannelContainer * aContainer);
-
-        /*! @brief Prepare the channel menu for use.
-         @param aMenu The popup menu to be configured.
-         @param aChannel The selected channel. */
-        void
-        setUpChannelMenu(PopupMenu &    aMenu,
-                         ChannelEntry & aChannel);
-
-        /*! @brief Prepare the container menu for use.
-         @param aMenu The popup menu to be configured.
-         @param aContainer The selected container. */
-        void
-        setUpContainerMenu(PopupMenu &        aMenu,
-                           ChannelContainer & aContainer);
-
-        /*! @brief Prepare the view menu for use.
-         @param aMenu The popup menu to be configured. */
-        void
-        setUpViewMenu(PopupMenu & aMenu);
-
-        /*! @brief Ignore the result of the next scan. */
-        void
-        skipScan(void);
 
     protected :
 
@@ -225,11 +173,21 @@ namespace MPlusM_Manager
         menuItemSelected(int menuItemID,
                          int topLevelMenuIndex);
 
-        /*! @brief Draw the content of the component.
-         @param gg The graphics context in which to draw. */
+        /*! @brief Called when a mouse button is pressed.
+         @param ee Details about the position and status of the mouse event. */
         virtual void
-        paint(Graphics & gg);
-
+        mouseDown(const MouseEvent & ee);
+        
+        /*! @brief Called when the mouse is moved while a button is held down.
+         @param ee Details about the position and status of the mouse event. */
+        virtual void
+        mouseDrag(const MouseEvent & ee);
+        
+        /*! @brief Called when a mouse button is released.
+         @param ee Details about the position and status of the mouse event. */
+        virtual void
+        mouseUp(const MouseEvent& ee);
+                
         /*! @brief Perform the specified command.
          @param info The details for the command.
          @returns @c true if the command was handled and @c false if it was not. */
@@ -240,20 +198,16 @@ namespace MPlusM_Manager
         virtual void
         resized(void);
 
-        /*! @brief Set the entity positions, based on the scanned entities. */
-        void
-        setEntityPositions(void);
-
-        /*! @brief Prepare the main menu for use.
+        /*! @brief Prepare the operation menu for use.
          @param aMenu The popup menu to be configured. */
         void
-        setUpMainMenu(PopupMenu & aMenu);
+        setUpOperationMenu(PopupMenu & aMenu);
 
-        /*! @brief Refresh the displayed entities and connections, based on the scanned entities.
-         @param scanner The background scanning thread. */
+        /*! @brief Prepare the view menu for use.
+         @param aMenu The popup menu to be configured. */
         void
-        updatePanels(ScannerThread & scanner);
-
+        setUpViewMenu(PopupMenu & aMenu);
+        
         /*! @brief Called when the visible area changes.
          @param newVisibleArea The new visible area. */
         virtual void
@@ -265,39 +219,17 @@ namespace MPlusM_Manager
 
     private :
 
-        /*! @brief The positions that entities were last seen at. */
-        PositionMap _rememberedPositions;
-
         /*! @brief The entities panel. */
-        ScopedPointer<EntitiesPanel> _entitiesPanel;
-
+        ScopedPointer<GraphicsPanel> _graphicsPanel;
+        
         /*! @brief The menubar for the panel. */
         ScopedPointer<MenuBarComponent> _menuBar;
 
         /*! @brief The window in which the panel is embedded. */
-        ManagerWindow * _containingWindow;
-
-        /*! @brief The selected channel. */
-        ChannelEntry * _selectedChannel;
-
-        /*! @brief The selected container. */
-        ChannelContainer * _selectedContainer;
-
-        /*! @brief @c true if a channel was clicked and @c false otherwise. */
-        bool _channelClicked;
-
-        /*! @brief @c true if a container was clicked and @c false otherwise. */
-        bool _containerClicked;
-
-# if (defined(USE_OGDF_POSITIONING_) && defined(USE_OGDF_FOR_FIRST_POSITIONING_ONLY_))
-        bool _initialPositioningDone;
-# endif // defined(USE_OGDF_POSITIONING_) && defined(USE_OGDF_FOR_FIRST_POSITIONING_ONLY_)
+        LeapDisplayWindow * _containingWindow;
 
         /*! @brief @c true if the background is inverted and @c false otherwise. */
         bool _invertBackground;
-
-        /*! @brief @c true if the next scan result is to be ignored and @c false otherwise. */
-        bool _skipNextScan;
 
         /*! @brief @c true if the background is white and @c false otherwise. */
         bool _whiteBackground;
@@ -306,14 +238,6 @@ namespace MPlusM_Manager
 
     }; // ContentPanel
 
-    /*! @brief Create and display an information panel.
-     @param above The visible component that will be below the panel.
-     @param bodyText The text to display in the panel.
-     @param title The title of the panel. */
-    void DisplayInformationPanel(Component *    above,
-                                 const String & bodyText,
-                                 const String & title);
-
-} // MPlusM_Manager
+} // LeapDisplay
 
 #endif // ! defined(mpmContentPanel_HPP_)

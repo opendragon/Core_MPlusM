@@ -4,12 +4,12 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the application settings window of the m+mLeapDisplayOutputService
-//              application.
+//  Contains:   The class definition for the application settings window of the
+//              m+mDisplayOutputService application.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by  OpenDragon.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-10
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mSettingsWindow.hpp"
 
 #include "m+mCheckboxField.hpp"
-#include "m+mManagerApplication.hpp"
+#include "m+mLeapDisplayApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -58,7 +58,8 @@
 #endif // defined(__APPLE__)
 /*! @file
 
- @brief The class definition for the application settings window of the m+mLeapDisplayOutputService application. */
+ @brief The class definition for the application settings window of the m+mDisplayOutputService
+application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -67,8 +68,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
+using namespace LeapDisplay;
 using namespace MplusM;
-using namespace MPlusM_Manager;
 using namespace std;
 
 #if defined(__APPLE__)
@@ -167,7 +168,7 @@ SettingsWindow::SettingsWindow(const String &          title,
     setOpaque(true);
     setResizable(false, false);
     setVisible(true);
-    addKeyListener(ManagerWindow::getApplicationCommandManager().getKeyMappings());
+    addKeyListener(LeapDisplayWindow::getApplicationCommandManager().getKeyMappings());
     triggerAsyncUpdate();
     ODL_EXIT_P(this); //####
 } // SettingsWindow::SettingsWindow
@@ -433,32 +434,6 @@ SettingsWindow::fieldsAreValid(void)
                                     "\n" + String("Please correct the ") + message2 + " to the " +
                                     _execType + " and try again.", String::empty, this);
     }
-    else
-    {
-        ManagerApplication * ourApp = ManagerApplication::getApp();
-
-        if (ourApp->getPrimaryChannelForService(_appInfo, _endpointToUse, _tagToUse, _portToUse,
-                                                _argsToUse, _tagModifierCount, primaryChannel))
-        {
-            if (Utilities::CheckForChannel(primaryChannel.toStdString()))
-            {
-                AlertWindow::showMessageBox(AlertWindow::WarningIcon, getName(),
-                                            String("The primary channel\n") + primaryChannel +
-                                            "\nof the " + _execType + " is in use.\n"
-                                            "Please correct the arguments to the " + _execType +
-                                            " and try again.", String::empty, this);
-                badCount = -1; // Flag this as bad.
-            }
-        }
-        else
-        {
-            AlertWindow::showMessageBox(AlertWindow::WarningIcon, getName(),
-                                        "There was a problem retrieving the primary channel for "
-                                        "the " + _execType + ".\n"
-                                        "Please try again.", String::empty, this);
-            badCount = -1; // Flag this as bad.
-        }
-    }
     ODL_EXIT_B(0 == badCount); //####
     return (0 == badCount);
 } // SettingsWindow::fieldsAreValid
@@ -501,7 +476,7 @@ void
 SettingsWindow::handleAsyncUpdate(void)
 {
     ODL_OBJENTER(); //####
-    ApplicationCommandManager & commandManager = ManagerWindow::getApplicationCommandManager();
+    ApplicationCommandManager & commandManager = LeapDisplayWindow::getApplicationCommandManager();
 
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());
     ODL_OBJEXIT(); //####
@@ -709,7 +684,7 @@ SettingsWindow::setUpStandardFields(int & widthSoFar,
     ODL_OBJENTER(); //####
     ODL_P2("widthSoFar = ", &widthSoFar, "heightSoFar = ", &heightSoFar); //####
     Component * content = getContentComponent();
-    int         buttonHeight = ManagerApplication::getButtonHeight();
+    int         buttonHeight = LeapDisplayApplication::getButtonHeight();
     Point<int>  dimensions;
     size_t      numDescriptors = _descriptors.size();
 
@@ -725,7 +700,7 @@ SettingsWindow::setUpStandardFields(int & widthSoFar,
         _topText.setText(String("The ") + _execType + " has no arguments or options, so it can be "
                          "launched right now.", dontSendNotification);
     }
-    MPlusM_Manager::CalculateTextArea(dimensions, _regularFont, _topText.getText());
+    LeapDisplay::CalculateTextArea(dimensions, _regularFont, _topText.getText());
     _topText.setBounds(FormField::kButtonGap, FormField::kButtonGap + getTitleBarHeight(),
                        dimensions.getX() + FormField::kButtonGap, dimensions.getY());
     content->addAndMakeVisible(&_topText, 0);

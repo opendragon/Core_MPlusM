@@ -159,6 +159,8 @@ m+mKinectV2SpecialInputService
 m+mKinectV2SpecialInputService.rc
 m+mLeapBlobInputService
 m+mLeapBlobInputService.rc
+m+mLeapFingerTipsInputService
+m+mLeapFingerTipsInputService.rc
 m+mLeapMotionInputService
 m+mLeapMotionInputService.rc
 m+mLeapTwoFingersInputService
@@ -473,3 +475,4 @@ _m+mCommon_swig_python.so
 libm+mCommon_swig_csharp.so
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Debug
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Release
+LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/m+mLeapDisplayOutputService.build/Debug

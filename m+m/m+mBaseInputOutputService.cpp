@@ -102,9 +102,6 @@ enum TtyMode
 
 }; // TtyMode
 
-/*! @brief Set to @c true to simulate a request to stop the service. */
-static bool lStopTheService = false;
-
 #if MAC_OR_LINUX_
 /*! @brief The active terminal attributes. */
 static struct termios lTermattr;
@@ -322,10 +319,10 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
                                                const YarpString &
                                                                                servicePortNumber) :
     inherited(theKind, launchPath, argc, argv, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, serviceEndpointName, servicePortNumber),
-    _argumentList(argumentList), _argumentDescriptionsHandler(NULL), _configurationHandler(NULL),
-    _configureHandler(NULL), _restartStreamsHandler(NULL), _startStreamsHandler(NULL),
-    _stopStreamsHandler(NULL), _active(false), _needsIdle(false)
+              requestsDescription, serviceEndpointName, servicePortNumber), _argumentList(),
+    _argumentDescriptionsHandler(NULL), _configurationHandler(NULL), _configureHandler(NULL),
+    _restartStreamsHandler(NULL), _startStreamsHandler(NULL), _stopStreamsHandler(NULL),
+    _active(false), _needsIdle(false), _stopTheService(false)
 {
     ODL_ENTER(); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -335,6 +332,8 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     ODL_LL1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    // Note that the provided arguments may be inaccessible later!
+    _argumentList = argumentList;
     attachRequestHandlers();
     ODL_EXIT_P(this); //####
 } // BaseInputOutputService::BaseInputOutputService
@@ -1029,9 +1028,10 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
 void
 BaseInputOutputService::requestServiceStop(void)
 {
-    ODL_ENTER(); //####
-    lStopTheService = true;
-    ODL_EXIT(); //####
+    ODL_OBJENTER(); //####
+    _stopTheService = true;
+    ODL_B1("_stopTheService <- ", _stopTheService); //####
+    ODL_OBJEXIT(); //####
 } // BaseInputOutputService::requestServiceStop
 
 void
@@ -1069,13 +1069,15 @@ BaseInputOutputService::runService(const YarpString & helpText,
 
     if (goWasSet || (! stdinAvailable))
     {
+        ODL_LOG("(goWasSet || (! stdinAvailable))"); //####
         Utilities::CopyArgumentsToBottle(_argumentList, configureData);
         if (configure(configureData))
         {
+            ODL_LOG("(configure(configureData))"); //####
             startStreams();
         }
     }
-    for ( ; IsRunning() && (! lStopTheService); )
+    for ( ; IsRunning() && (! _stopTheService); )
     {
         if ((! goWasSet) && stdinAvailable)
         {
@@ -1083,7 +1085,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
 
             cout << "Operation: [? b c e q r]? ";
             cout.flush();
-            for (set_tty_cbreak(); ! lStopTheService; )
+            for (set_tty_cbreak(); ! _stopTheService; )
             {
                 inChar = kb_getc();
                 if (inChar)
@@ -1111,7 +1113,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
             // Watch for a newline here!
             if (IsRunning() && (! firstLine))
             {
-                for ( ; ! lStopTheService; )
+                for ( ; ! _stopTheService; )
                 {
                     char peekChar = kb_getc();
 
@@ -1147,7 +1149,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                 cout << endl;
                 cout.flush();
             }
-            if (! lStopTheService)
+            if (! _stopTheService)
             {
                 switch (inChar)
                 {
@@ -1377,7 +1379,7 @@ BaseInputOutputService::startService(void)
             if (isStarted() && setUpStreamDescriptions() && setUpClientStreams() &&
                 setUpInputStreams() && setUpOutputStreams())
             {
-
+                _stopTheService = false;
             }
             else
             {

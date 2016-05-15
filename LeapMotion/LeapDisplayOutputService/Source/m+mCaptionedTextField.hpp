@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-31
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
@@ -56,7 +56,7 @@
 /*! @brief The character to use when displaying a 'password' field. */
 # define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
 
-namespace MPlusM_Manager
+namespace LeapDisplay
 {
     class TextValidator;
     class ValidatingTextEditor;
@@ -258,6 +258,6 @@ namespace MPlusM_Manager
 
     }; // CaptionedTextField
 
-} // MPlusM_Manager
+} // LeapDisplay
 
 #endif // ! defined(mpmCaptionedTextField_HPP_)

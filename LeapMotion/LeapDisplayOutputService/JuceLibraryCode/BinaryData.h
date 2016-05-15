@@ -13,7 +13,7 @@ namespace BinaryData
     const int            mmmicon_icoSize = 377152;
 
     extern const char*   mmmResources_rc;
-    const int            mmmResources_rcSize = 767;
+    const int            mmmResources_rcSize = 709;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

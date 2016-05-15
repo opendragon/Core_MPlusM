@@ -9,6 +9,7 @@ m+mKinectV2BlobInputService
 m+mKinectV2InputService
 m+mKinectV2SpecialInputService
 m+mLeapBlobInputService
+m+mLeapFingerTipsInputService
 m+mLeapMotionInputService
 m+mLeapTwoFingersInputService
 m+mLeapTwoPalmsInputService

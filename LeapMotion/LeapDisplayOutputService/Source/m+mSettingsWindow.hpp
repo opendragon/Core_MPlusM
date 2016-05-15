@@ -4,12 +4,12 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the application settings window of the m+mLeapDisplayOutputService
-//              application.
+//  Contains:   The class declaration for the application settings window of the
+//              m+mDisplayOutputService application.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by OpenDragon.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-10
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
@@ -50,12 +50,13 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The class declaration for the application settings window of the m+mLeapDisplayOutputService application. */
+ @brief The class declaration for the application settings window of the m+mDisplayOutputService
+application. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MPlusM_Manager
+namespace LeapDisplay
 {
     /*! @brief The application settings window of the application. */
     class SettingsWindow : private AsyncUpdater,
@@ -292,6 +293,6 @@ namespace MPlusM_Manager
 
     }; // SettingsWindow
 
-} // MPlusM_Manager
+} // LeapDisplay
 
 #endif // ! defined(mpmSettingsWindow_HPP_)

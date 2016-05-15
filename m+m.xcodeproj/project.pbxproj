@@ -720,6 +720,13 @@
 		DFFFC1E41B73DF1800DA3C4D /* m+mAbsorberFilterThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mAbsorberFilterThread.cpp"; path = "examples/AbsorberService/m+mAbsorberFilterThread.cpp"; sourceTree = "<group>"; };
 		DFFFC1E51B73DF1800DA3C4D /* m+mAbsorberFilterThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mAbsorberFilterThread.hpp"; path = "examples/AbsorberService/m+mAbsorberFilterThread.hpp"; sourceTree = "<group>"; };
 		F60648EB1C8C16E7002A74D2 /* replace-links.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "replace-links.sh"; sourceTree = "<group>"; };
+		F622334E1CE8D53900117D84 /* m+mLeapFingerTipsInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapFingerTipsInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputListener.cpp"; sourceTree = "<group>"; };
+		F622334F1CE8D53900117D84 /* m+mLeapFingerTipsInputListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapFingerTipsInputListener.hpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputListener.hpp"; sourceTree = "<group>"; };
+		F62233501CE8D53900117D84 /* m+mLeapFingerTipsInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapFingerTipsInputRequests.hpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputRequests.hpp"; sourceTree = "<group>"; };
+		F62233511CE8D53900117D84 /* m+mLeapFingerTipsInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapFingerTipsInputService.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputService.cpp"; sourceTree = "<group>"; };
+		F62233521CE8D53900117D84 /* m+mLeapFingerTipsInputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapFingerTipsInputService.hpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputService.hpp"; sourceTree = "<group>"; };
+		F62233531CE8D53900117D84 /* m+mLeapFingerTipsInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mLeapFingerTipsInputService.rc.in"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputService.rc.in"; sourceTree = "<group>"; };
+		F62233541CE8D53900117D84 /* m+mLeapFingerTipsInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapFingerTipsInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapFingerTipsInputServiceMain.cpp"; sourceTree = "<group>"; };
 		F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.cpp"; sourceTree = "<group>"; };
 		F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mKinectV2BlobEventThread.hpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.hpp"; sourceTree = "<group>"; };
 		F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mKinectV2BlobInputRequests.hpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputRequests.hpp"; sourceTree = "<group>"; };
@@ -752,11 +759,7 @@
 		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
 		F66A9CDD1C4C4B4D00263E24 /* m+mBaseThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mBaseThread.cpp"; path = "m+m/m+mBaseThread.cpp"; sourceTree = "<group>"; };
 		F66A9CDE1C4C4B4D00263E24 /* m+mBaseThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mBaseThread.hpp"; path = "m+m/m+mBaseThread.hpp"; sourceTree = "<group>"; };
-		F6714CA91CE1657F000227E3 /* m+mAdapterServiceThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mAdapterServiceThread.cpp"; path = "m+m/m+mAdapterServiceThread.cpp"; sourceTree = "<group>"; };
-		F6714CAA1CE1657F000227E3 /* m+mAdapterServiceThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mAdapterServiceThread.hpp"; path = "m+m/m+mAdapterServiceThread.hpp"; sourceTree = "<group>"; };
 		F6714CAB1CE1657F000227E3 /* m+mConfig.hpp.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mConfig.hpp.in"; path = "m+m/m+mConfig.hpp.in"; sourceTree = "<group>"; };
-		F6714CAC1CE1657F000227E3 /* m+mInputOutputServiceThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mInputOutputServiceThread.cpp"; path = "m+m/m+mInputOutputServiceThread.cpp"; sourceTree = "<group>"; };
-		F6714CAD1CE1657F000227E3 /* m+mInputOutputServiceThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mInputOutputServiceThread.hpp"; path = "m+m/m+mInputOutputServiceThread.hpp"; sourceTree = "<group>"; };
 		F6714CAE1CE1657F000227E3 /* m+mStringBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mStringBuffer.hpp"; path = "m+m/m+mStringBuffer.hpp"; sourceTree = "<group>"; };
 		F6714CAF1CE1657F000227E3 /* m+mUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mUtilities.hpp"; path = "m+m/m+mUtilities.hpp"; sourceTree = "<group>"; };
 		F6714CB01CE165D0000227E3 /* optionparser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = optionparser.hpp; path = "m+m/optionparser.hpp"; sourceTree = "<group>"; };
@@ -1635,6 +1638,13 @@
 				F655C6101B3B27DC00933D40 /* m+mLeapBlobInputService.hpp */,
 				F655C6121B3B282000933D40 /* m+mLeapBlobInputService.rc.in */,
 				F655C6111B3B27DC00933D40 /* m+mLeapBlobInputServiceMain.cpp */,
+				F622334E1CE8D53900117D84 /* m+mLeapFingerTipsInputListener.cpp */,
+				F622334F1CE8D53900117D84 /* m+mLeapFingerTipsInputListener.hpp */,
+				F62233501CE8D53900117D84 /* m+mLeapFingerTipsInputRequests.hpp */,
+				F62233511CE8D53900117D84 /* m+mLeapFingerTipsInputService.cpp */,
+				F62233521CE8D53900117D84 /* m+mLeapFingerTipsInputService.hpp */,
+				F62233531CE8D53900117D84 /* m+mLeapFingerTipsInputService.rc.in */,
+				F62233541CE8D53900117D84 /* m+mLeapFingerTipsInputServiceMain.cpp */,
 				DF824BCE19C8E4C5004D13AC /* m+mLeapMotionInputListener.cpp */,
 				DF824BCF19C8E4C5004D13AC /* m+mLeapMotionInputListener.hpp */,
 				DF824BD019C8E4C5004D13AC /* m+mLeapMotionInputRequests.hpp */,
@@ -1812,8 +1822,6 @@
 			isa = PBXGroup;
 			children = (
 				DFEDC9E21B46E0CD0034C881 /* CMakeLists.txt */,
-				F6714CA91CE1657F000227E3 /* m+mAdapterServiceThread.cpp */,
-				F6714CAA1CE1657F000227E3 /* m+mAdapterServiceThread.hpp */,
 				DFEDC9E31B46E0CD0034C881 /* m+mAddressArgumentDescriptor.cpp */,
 				DFEDC9E41B46E0CD0034C881 /* m+mAddressArgumentDescriptor.hpp */,
 				DFEDC9E71B46E0CD0034C881 /* m+mBailOut.cpp */,
@@ -1877,8 +1885,6 @@
 				DFEDCA251B46E0CD0034C881 /* m+mFilePathArgumentDescriptor.hpp */,
 				DFEDCA261B46E0CD0034C881 /* m+mGeneralChannel.cpp */,
 				DFEDCA271B46E0CD0034C881 /* m+mGeneralChannel.hpp */,
-				F6714CAC1CE1657F000227E3 /* m+mInputOutputServiceThread.cpp */,
-				F6714CAD1CE1657F000227E3 /* m+mInputOutputServiceThread.hpp */,
 				DFEDCA2E1B46E0CD0034C881 /* m+mIntArgumentDescriptor.cpp */,
 				DFEDCA2F1B46E0CD0034C881 /* m+mIntArgumentDescriptor.hpp */,
 				DFEDCA321B46E0CD0034C881 /* m+mMatchConstraint.cpp */,

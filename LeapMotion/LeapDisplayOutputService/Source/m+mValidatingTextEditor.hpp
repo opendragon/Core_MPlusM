@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-31
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(mpmValidatingTextEditor_HPP_))
 # define mpmValidatingTextEditor_HPP_ /* Header guard */
 
-# include "m+mManagerDataTypes.hpp"
+# include "m+mLeapDisplayDataTypes.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,7 +56,7 @@
 /*! @brief The character to use when displaying a 'password' field. */
 # define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
 
-namespace MPlusM_Manager
+namespace LeapDisplay
 {
     class CaptionedTextField;
     class TextValidator;
@@ -79,7 +79,7 @@ namespace MPlusM_Manager
             /*! @brief Select an output file. */
             kPopupSelectFileToSave
 
-        }; // EntityPopupMenuSelection
+        }; // TextEditorPopupMenuSelection
 
         /*! @brief The class that this class is derived from. */
         typedef TextEditor inherited;
@@ -171,6 +171,6 @@ namespace MPlusM_Manager
 
     }; // ValidatingTextEditor
 
-} // MPlusM_Manager
+} // LeapDisplay
 
 #endif // ! defined(mpmValidatingTextEditor_HPP_)

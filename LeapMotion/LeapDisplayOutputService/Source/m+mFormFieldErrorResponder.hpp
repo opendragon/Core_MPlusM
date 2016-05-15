@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-31
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(mpmFormFieldErrorResponder_HPP_))
 # define mpmFormFieldErrorResponder_HPP_ /* Header guard */
 
-# include "m+mManagerDataTypes.hpp"
+# include "m+mLeapDisplayDataTypes.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -53,7 +53,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MPlusM_Manager
+namespace LeapDisplay
 {
     class FormField;
 
@@ -94,6 +94,6 @@ namespace MPlusM_Manager
 
     }; // FormFieldErrorResponder
 
-} // MPlusM_Manager
+} // LeapDisplay
 
 #endif // ! defined(mpmFormFieldErrorResponder_HPP_)

@@ -1,6 +1,5 @@
 %module MplusM
 %{
-#include "m+mAdapterServiceThread.hpp"
 #include "m+mAddressArgumentDescriptor.hpp"
 #include "m+mBailOut.hpp"
 #include "m+mBailOutThread.hpp"
@@ -32,7 +31,6 @@
 #include "m+mExtraArgumentDescriptor.hpp"
 #include "m+mFilePathArgumentDescriptor.hpp"
 #include "m+mGeneralChannel.hpp"
-#include "m+mInputOutputServiceThread.hpp"
 #include "m+mIntArgumentDescriptor.hpp"
 #include "m+mMatchConstraint.hpp"
 #include "m+mMatchExpression.hpp"

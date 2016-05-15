@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/M_M/Documents/git.repositories/Core_MPlusM/LeapMotion/LeapsDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

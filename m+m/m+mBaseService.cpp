@@ -142,11 +142,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     ODL_ENTER(); //####
+    ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
             "description = ", description, "requestsDescription = ", requestsDescription); //####
     ODL_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
             servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     if (0 < _tag.length())
@@ -157,6 +157,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     {
         _serviceName = canonicalName;
     }
+    ODL_S1s("_serviceName <- ", _serviceName); //####
     _endpoint = new Endpoint(serviceEndpointName, servicePortNumber);
     if (_metricsEnabled)
     {
@@ -201,9 +202,9 @@ BaseService::BaseService(const ServiceKind  theKind,
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_ENTER(); //####
+    ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
             "description = ", description, "requestsDescription = ", requestsDescription); //####
-    ODL_LL1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     switch (argc)
@@ -892,6 +893,7 @@ BaseService::stopService(void)
     ODL_OBJENTER(); //####
     if (_pinger)
     {
+        ODL_LOG("(_pinger)"); //####
         _pinger->stop();
         delete _pinger;
         _pinger = NULL;
@@ -1032,7 +1034,7 @@ bool
 Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
 {
     ODL_ENTER(); //####
-    ODL_P1("convertedAddress = ", &convertedAddress); //####
+    ODL_P1("ourAddress = ", &ourAddress); //####
     bool okSoFar = false;
 
     try
@@ -1100,7 +1102,7 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT_B(okSoFar); //####
+    ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Common::GetOurEffectiveAddress
 

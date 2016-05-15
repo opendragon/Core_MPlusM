@@ -52,7 +52,6 @@ endif(APPLE)
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/m+m/optionparser.cpp"
-            "${MpM_SOURCE_DIR}/m+m/m+mAdapterServiceThread.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mAddressArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mArgumentDescriptionsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mArgumentsRequestHandler.cpp"
@@ -93,7 +92,6 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mInfoRequestHandler.cpp"
-            "${MpM_SOURCE_DIR}/m+m/m+mInputOutputServiceThread.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mListRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.cpp"
@@ -159,7 +157,6 @@ install(TARGETS ${THIS_TARGET}
 
 install(FILES
         "${MpM_SOURCE_DIR}/m+m/optionparser.hpp"
-        "${MpM_SOURCE_DIR}/m+m/m+mAdapterServiceThread.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mAddressArgumentDescriptor.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mBailOut.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mBailOutThread.hpp"
@@ -192,7 +189,6 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mExtraArgumentDescriptor.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.hpp"
-        "${MpM_SOURCE_DIR}/m+m/m+mInputOutputServiceThread.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mMatchExpression.hpp"
@@ -217,7 +213,6 @@ install(FILES
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_m+m_in/m+mCommon.i
-        m+mAdapterServiceThread.hpp m+mAdapterServiceThread.cpp
         m+mAddressArgumentDescriptor.hpp m+mAddressArgumentDescriptor.cpp
         m+mBaseArgumentDescriptor.hpp m+mBaseArgumentDescriptor.cpp
         m+mBailOut.hpp m+mBailOut.cpp
@@ -249,7 +244,6 @@ if(MpM_DO_SWIG)
         m+mExtraArgumentDescriptor.hpp m+mExtraArgumentDescriptor.cpp
         m+mFilePathArgumentDescriptor.hpp m+mFilePathArgumentDescriptor.cpp
         m+mGeneralChannel.hpp m+mGeneralChannel.cpp
-        m+mInputOutputServiceThread.hpp m+mInputOutputServiceThread.cpp
         m+mIntArgumentDescriptor.hpp m+mIntArgumentDescriptor.cpp
         m+mMatchConstraint.hpp m+mMatchConstraint.cpp
         m+mMatchExpression.hpp m+mMatchExpression.cpp

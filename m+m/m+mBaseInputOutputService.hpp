@@ -393,7 +393,7 @@ namespace MplusM
 
             /*! @brief The descriptions of the arguments to be filled in by a calling application.
              */
-            const Utilities::DescriptorVector & _argumentList;
+            Utilities::DescriptorVector _argumentList;
 
             /*! @brief The request handler for the 'argumentDescriptions' request. */
             ArgumentDescriptionsRequestHandler * _argumentDescriptionsHandler;
@@ -420,12 +420,15 @@ namespace MplusM
              otherwise. */
             bool _needsIdle;
 
+            /*! @brief Set to @c true to simulate a request to stop the service. */
+            bool _stopTheService;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[6];
+            char _filler[5];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

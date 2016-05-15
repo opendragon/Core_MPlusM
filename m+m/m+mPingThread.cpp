@@ -111,11 +111,15 @@ PingThread::run(void)
 
         if (_pingTime <= now)
         {
+            ODL_LOG("(_pingTime <= now)"); //####
             // Send a ping!
             _service.sendPingForChannel(_channelName);
             _pingTime = now + PING_INTERVAL_;
         }
-        yarp::os::Time::delay(PING_INTERVAL_ / 10.0);
+        if (! isStopping())
+        {
+            yarp::os::Time::delay(PING_INTERVAL_ / 50.0);
+        }
     }
     ODL_OBJEXIT(); //####
 } // PingThread::run

@@ -2308,7 +2308,7 @@ public:
 
         // if we have opengl contexts then just repaint them all
         // regardless if this is really necessary
-        repaintOpenGLContexts ();
+        repaintOpenGLContexts();
 
         if (exposeEvent.window != windowH)
         {
@@ -2497,7 +2497,7 @@ public:
         return currentScaleFactor;
     }
 
-    //===============================================================================
+    //==============================================================================
     void addOpenGLRepaintListener (Component* dummy)
     {
         if (dummy != nullptr)
@@ -2568,7 +2568,7 @@ private:
             else if (Time::getApproximateMillisecondCounter() > lastTimeImageUsed + 3000)
             {
                 stopTimer();
-                image = Image::null;
+                image = Image();
             }
         }
 
@@ -2824,6 +2824,14 @@ private:
             ScopedXLock xlock;
             xchangeProperty (wndH, hints, hints, 32, &kwmHints, 1);
         }
+
+        hints = Atoms::getIfExists ("_KDE_NET_WM_WINDOW_TYPE_OVERRIDE");
+
+        if (hints != None)
+        {
+            ScopedXLock xlock;
+            xchangeProperty (wndH, atoms.windowType, XA_ATOM, 32, &hints, 1);
+        }
     }
 
     void addWindowButtons (Window wndH)
@@ -2898,9 +2906,7 @@ private:
         else
             netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_NORMAL");
 
-        netHints[1] = Atoms::getIfExists ("_KDE_NET_WM_WINDOW_TYPE_OVERRIDE");
-
-        xchangeProperty (windowH, atoms.windowType, XA_ATOM, 32, &netHints, 2);
+        xchangeProperty (windowH, atoms.windowType, XA_ATOM, 32, &netHints, 1);
 
         int numHints = 0;
 
@@ -4074,7 +4080,7 @@ void MouseCursor::showInAllWindows() const
 //==============================================================================
 Image juce_createIconForFile (const File& /* file */)
 {
-    return Image::null;
+    return Image();
 }
 
 //==============================================================================
