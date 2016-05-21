@@ -4,8 +4,8 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the primary window of the Leap Motion display output service
-//              application.
+//  Contains:   The class declaration for the primary window of the Leap Motion display output
+//              service application.
 //
 //  Written by: Norman Jaffe
 //
@@ -105,7 +105,7 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param title The window title. */
+         @param[in] title The window title. */
         explicit
         LeapDisplayWindow(const YarpString & title);
 

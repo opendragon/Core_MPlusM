@@ -89,7 +89,7 @@ static LARGE_INTEGER lFrequency;
 #endif // defined(__APPLE__)
 
 /*! @brief Write out a time value in a human-friendly form.
- @param measurement The time value to write out. */
+ @param[in] measurement The time value to write out. */
 static void
 reportTimeInReasonableUnits(const double measurement)
 {
@@ -167,7 +167,7 @@ double getTimeNow(void)
 } // getTimeNow
 
 /*! @brief Send and receive a random byte sequence.
- @param talkSocket The socket to use for communication. */
+ @param[in] talkSocket The socket to use for communication. */
 static void
 sendAndReceiveRandom(SOCKET talkSocket)
 {
@@ -240,8 +240,8 @@ sendAndReceiveRandom(SOCKET talkSocket)
 } // sendAndReceiveRandom
 
 /*! @brief Send and receive a text sequence.
- @param talkSocket The socket to use for communication.
- @param inputLine The text to be used. */
+ @param[in] talkSocket The socket to use for communication.
+ @param[in] inputLine The text to be used. */
 static void
 sendAndReceiveText(SOCKET              talkSocket,
                    const std::string & inputLine)
@@ -315,8 +315,8 @@ sendAndReceiveText(SOCKET              talkSocket,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Test Loopback Control application.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Test Loopback Control application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the Test Loopback Control application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

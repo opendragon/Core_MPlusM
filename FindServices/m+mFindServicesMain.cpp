@@ -92,8 +92,8 @@ displayCommands(void)
 } // displayCommands
 
 /*! @brief Produce a list of matching channel names from the given criteria.
- @param criteria The matching criteria to use.
- @param flavour The output format to be used. */
+ @param[in] criteria The matching criteria to use.
+ @param[in] flavour The output format to be used. */
 static void
 getMatchingChannels(const YarpString &  criteria,
                     const OutputFlavour flavour)
@@ -205,8 +205,8 @@ getMatchingChannels(const YarpString &  criteria,
 } // getMatchingChannels
 
 /*! @brief Set up the environment and perform the operation.
- @param criteria The matching criteria for the service.
- @param flavour The format for the output. */
+ @param[in] criteria The matching criteria for the service.
+ @param[in] flavour The format for the output. */
 static void
 setUpAndGo(const YarpString &  criteria,
            const OutputFlavour flavour)
@@ -278,8 +278,8 @@ setUpAndGo(const YarpString &  criteria,
  The first, optional, argument is the search criteria to be used. If the search criteria is not
  specified, all service channels will be reported. Standard output will receive a list of the
  matching services.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

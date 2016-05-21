@@ -90,16 +90,16 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the %Tunnel service.
- @param hostName The host name for the network data source.
- @param hostPort The port for the network data source.
- @param progName The path to the executable.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Tunnel service.
- @param tag The modifier for the service name and port names.
- @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param[in] hostName The host name for the network data source.
+ @param[in] hostPort The port for the network data source.
+ @param[in] progName The path to the executable.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %Tunnel service.
+ @param[in] tag The modifier for the service name and port names.
+ @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+ @param[in] servicePortNumber The port being used by the service.
+ @param[in] reportOnExit @c true if service metrics are to be reported on exit and @c false
+ otherwise. */
 static void
 setUpAndGo(const YarpString & hostName,
            const int          hostPort,
@@ -171,8 +171,8 @@ setUpAndGo(const YarpString & hostName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the %Tunnel service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Tunnel service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %Tunnel service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

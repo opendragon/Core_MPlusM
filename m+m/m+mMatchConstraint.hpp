@@ -107,11 +107,11 @@ namespace MplusM
             const;
 
             /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
-             @param validator A function that returns @c true if the field name is valid and @c
+             @param[in] inString The string being scanned.
+             @param[in] inLength The length of the string being scanned.
+             @param[in] startPos Where in the string to start scanning.
+             @param[in,out] endPos Where the scan terminated, if successful.
+             @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
@@ -123,7 +123,7 @@ namespace MplusM
                           BaseNameValidator * validator = NULL);
 
             /*! @brief Return an element from the constraint list.
-             @param index The zero-origin index of the element.
+             @param[in] index The zero-origin index of the element.
              @returns An element of the constraint list or @c NULL if the index is outside the range
              of the constraint list. */
             const MatchFieldWithValues *
@@ -138,7 +138,7 @@ namespace MplusM
             MatchConstraint(void);
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             MatchConstraint(const MatchConstraint & other);
 
             /*! @brief Remove all the list elements. */
@@ -146,7 +146,7 @@ namespace MplusM
             empty(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             MatchConstraint &
             operator =(const MatchConstraint & other);

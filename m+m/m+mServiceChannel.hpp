@@ -83,11 +83,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ServiceChannel(const ServiceChannel & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ServiceChannel &
             operator =(const ServiceChannel & other);

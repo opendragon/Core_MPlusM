@@ -195,8 +195,8 @@ setUpAndGo(void)
 
  Integers read from standard input will be sent to the service as the number of random numbers to
  generate. Entering a zero will exit the program.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

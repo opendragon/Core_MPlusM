@@ -68,7 +68,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param reason A description of the exception being reported. */
+             @param[in] reason A description of the exception being reported. */
             explicit
             Exception(const YarpString & reason);
 
@@ -81,11 +81,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             Exception(const Exception & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             Exception &
             operator =(const Exception & other);

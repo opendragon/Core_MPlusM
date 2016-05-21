@@ -89,11 +89,11 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param progName The path to the executable.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Registry service.
- @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+ @param[in] progName The path to the executable.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %Registry service.
+ @param[in] servicePortNumber The port being used by the service.
+ @param[in] reportOnExit @c true if service metrics are to be reported on exit and @c false
  otherwise. */
 static void
 setUpAndGo(const YarpString & progName,
@@ -171,8 +171,8 @@ setUpAndGo(const YarpString & progName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the %Registry Service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Registry Service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

@@ -144,20 +144,20 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ColumnNameValidator(const ColumnNameValidator & other);
 
             /*! @brief Check a field name for validity.
-             @param aString The string to be checked.
+             @param[in] aString The string to be checked.
              @returns @c true if the field name was valid or @c false if the field name was
              invalid. */
             virtual bool
             checkName(const char * aString);
 
             /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
-             @param aString The string to be checked.
-             @param prefixString The string to be used in the SQL prefix for this field.
-             @param suffixString The string to be used in the SQL suffix for this field.
+             @param[in] aString The string to be checked.
+             @param[in,out] prefixString The string to be used in the SQL prefix for this field.
+             @param[in,out] suffixString The string to be used in the SQL suffix for this field.
              @returns The actual field name to be used or @c NULL if the field name was
              unmatched. */
             virtual const char *
@@ -166,7 +166,7 @@ namespace MplusM
                                const char * & suffixString);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ColumnNameValidator &
             operator =(const ColumnNameValidator & other);

@@ -87,7 +87,7 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param containingWindow The window in which the panel is embedded. */
+         @param[in] containingWindow The window in which the panel is embedded. */
         explicit
         ContentPanel(LeapDisplayWindow * containingWindow);
 
@@ -136,13 +136,13 @@ namespace LeapDisplay
     private :
 
         /*! @brief Return a list of commands that this target can handle.
-         @param commands The list of commands to be added to. */
+         @param[out] commands The list of commands to be added to. */
         virtual void
         getAllCommands(Array<CommandID> & commands);
 
         /*! @brief Provide details about one of the commands that this target can perform.
-         @param commandID The identifier for the command.
-         @param result The details about the command. */
+         @param[in] commandID The identifier for the command.
+         @param[out] result The details about the command. */
         virtual void
         getCommandInfo(CommandID                commandID,
                        ApplicationCommandInfo & result);
@@ -153,8 +153,8 @@ namespace LeapDisplay
         getMenuBarNames(void);
 
         /*! @brief Return the popup menu to display for a given top-level menu.
-         @param menuIndex The index of the top-level menu to show.
-         @param menuName The name of the top-level menu item to show.
+         @param[in] menuIndex The index of the top-level menu to show.
+         @param[in] menuName The name of the top-level menu item to show.
          @returns The popup menu corresponding to the given index and name. */
         virtual PopupMenu
         getMenuForIndex(int            menuIndex,
@@ -166,30 +166,30 @@ namespace LeapDisplay
         getNextCommandTarget(void);
 
         /*! @brief Perform the selected menu item action.
-         @param menuItemID The item ID of the menu item that was selected.
-         @param topLevelMenuIndex The index of the top-level menu from which the item was
+         @param[in] menuItemID The item ID of the menu item that was selected.
+         @param[in] topLevelMenuIndex The index of the top-level menu from which the item was
          selected. */
         virtual void
         menuItemSelected(int menuItemID,
                          int topLevelMenuIndex);
 
         /*! @brief Called when a mouse button is pressed.
-         @param ee Details about the position and status of the mouse event. */
+         @param[in] ee Details about the position and status of the mouse event. */
         virtual void
         mouseDown(const MouseEvent & ee);
         
         /*! @brief Called when the mouse is moved while a button is held down.
-         @param ee Details about the position and status of the mouse event. */
+         @param[in] ee Details about the position and status of the mouse event. */
         virtual void
         mouseDrag(const MouseEvent & ee);
         
         /*! @brief Called when a mouse button is released.
-         @param ee Details about the position and status of the mouse event. */
+         @param[in] ee Details about the position and status of the mouse event. */
         virtual void
         mouseUp(const MouseEvent& ee);
                 
         /*! @brief Perform the specified command.
-         @param info The details for the command.
+         @param[in] info The details for the command.
          @returns @c true if the command was handled and @c false if it was not. */
         virtual bool
         perform(const InvocationInfo & info);
@@ -199,17 +199,17 @@ namespace LeapDisplay
         resized(void);
 
         /*! @brief Prepare the operation menu for use.
-         @param aMenu The popup menu to be configured. */
+         @param[in,out] aMenu The popup menu to be configured. */
         void
         setUpOperationMenu(PopupMenu & aMenu);
 
         /*! @brief Prepare the view menu for use.
-         @param aMenu The popup menu to be configured. */
+         @param[in,out] aMenu The popup menu to be configured. */
         void
         setUpViewMenu(PopupMenu & aMenu);
         
         /*! @brief Called when the visible area changes.
-         @param newVisibleArea The new visible area. */
+         @param[in] newVisibleArea The new visible area. */
         virtual void
         visibleAreaChanged(const juce::Rectangle<int> & newVisibleArea);
 

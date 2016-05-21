@@ -85,11 +85,11 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Fill a bottle with the contents of an object.
- @param aBottle The bottle to be filled.
- @param theData The value to be sent.
- @param hashMapFunction The function to be applied to hash tables to get values that can be placed
- in a bottle.
- @param topLevel @c true if this is the outermost list of an object. */
+ @param[in,out] aBottle The bottle to be filled.
+ @param[in] theData The value to be sent.
+ @param[in] hashMapFunction The function to be applied to hash tables to get values that can be
+ placed in a bottle.
+ @param[in] topLevel @c true if this is the outermost list of an object. */
 static void
 fillBottleFromValue(yarp::os::Bottle & aBottle,
                     cl_object          theData,
@@ -347,16 +347,16 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
 } // fillBottleFromValue
 
 /*! @brief Convert a YARP value into a Common Lisp object.
- @param setHashFunction The function object to use when setting a hash table entry.
- @param inputValue The value to be processed.
+ @param[in] setHashFunction The function object to use when setting a hash table entry.
+ @param[in] inputValue The value to be processed.
  @returns The output object. */
 static cl_object
 convertValue(cl_object               setHashFunction,
              const yarp::os::Value & inputValue);
 
 /*! @brief Convert a YARP dictionary into a Common Lisp object.
- @param setHashFunction The function object to use when setting a hash table entry.
- @param inputAsList The input dictionary as a list.
+ @param[in] setHashFunction The function object to use when setting a hash table entry.
+ @param[in] inputAsList The input dictionary as a list.
  @returns The output object. */
 static cl_object
 convertDictionary(cl_object                setHashFunction,
@@ -407,8 +407,8 @@ convertDictionary(cl_object                setHashFunction,
 } // convertDictionary
 
 /*! @brief Convert a YARP list into a Common Lisp object.
- @param setHashFunction The function object to use when setting a hash table entry.
- @param inputValue The value to be processed.
+ @param[in] setHashFunction The function object to use when setting a hash table entry.
+ @param[in] inputValue The value to be processed.
  @returns The result object. */
 static cl_object
 convertList(cl_object                setHashFunction,
@@ -515,8 +515,8 @@ convertValue(cl_object               setHashFunction,
 } // convertValue
 
 /*! @brief Create a Common Lisp structure with the contents of a bottle.
- @param setHashFunction The function object to use when setting a hash table entry.
- @param aBottle The bottle to be used.
+ @param[in] setHashFunction The function object to use when setting a hash table entry.
+ @param[in] aBottle The bottle to be used.
  @returns The bottle as a Common Lisp structure. */
 static cl_object
 createObjectFromBottle(cl_object                setHashFunction,

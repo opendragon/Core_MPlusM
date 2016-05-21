@@ -83,13 +83,13 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] argumentList Descriptions of the arguments to the executable.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             KinectV2BlobInputService(const Utilities::DescriptorVector & argumentList,
                                      const YarpString &                  launchPath,
                                      const int                           argc,
@@ -103,13 +103,13 @@ namespace MplusM
             ~KinectV2BlobInputService(void);
 
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[in] details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
 
             /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[in,out] details The configuration information for the input/output streams.
              @returns @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool
@@ -133,11 +133,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             KinectV2BlobInputService(const KinectV2BlobInputService & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             KinectV2BlobInputService &
             operator =(const KinectV2BlobInputService & other);

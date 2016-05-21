@@ -82,18 +82,18 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Convert a YARP value into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputValue The value to be processed. */
+ @param[in] jct The %JavaScript engine context.
+ @param[in,out] theData The output object.
+ @param[in] inputValue The value to be processed. */
 static void
 convertValue(JSContext *             jct,
              JS::MutableHandleValue  theData,
              const yarp::os::Value & inputValue);
 
 /*! @brief Convert a YARP dictionary into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputAsList The input dictionary as a list. */
+ @param[in] jct The %JavaScript engine context.
+ @param[in,out] theData The output object.
+ @param[in] inputAsList The input dictionary as a list. */
 static void
 convertDictionary(JSContext *              jct,
                   JS::MutableHandleValue   theData,
@@ -134,9 +134,9 @@ convertDictionary(JSContext *              jct,
 } // convertDictionary
 
 /*! @brief Convert a YARP list into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputValue The value to be processed. */
+ @param[in] jct The %JavaScript engine context.
+ @param[in,out] theData The output object.
+ @param[in] inputValue The value to be processed. */
 static void
 convertList(JSContext *              jct,
             JS::MutableHandleValue   theData,
@@ -235,9 +235,9 @@ convertValue(JSContext *             jct,
 } // convertValue
 
 /*! @brief Fill an object with the contents of a bottle.
- @param jct The %JavaScript engine context.
- @param aBottle The bottle to be used.
- @param theData The value to be filled. */
+ @param[in] jct The %JavaScript engine context.
+ @param[in] aBottle The bottle to be used.
+ @param[in,out] theData The value to be filled. */
 static void
 createValueFromBottle(JSContext *              jct,
                       const yarp::os::Bottle & aBottle,
@@ -251,10 +251,10 @@ createValueFromBottle(JSContext *              jct,
 } // createValueFromBottle
 
 /*! @brief Fill a bottle with the contents of an object.
- @param jct The %JavaScript engine context.
- @param aBottle The bottle to be filled.
- @param theData The value to be sent.
- @param topLevel @c true if this is the outermost list of an object. */
+ @param[in] jct The %JavaScript engine context.
+ @param[in,out] aBottle The bottle to be filled.
+ @param[in] theData The value to be sent.
+ @param[in] topLevel @c true if this is the outermost list of an object. */
 static void
 fillBottleFromValue(JSContext *        jct,
                     yarp::os::Bottle & aBottle,

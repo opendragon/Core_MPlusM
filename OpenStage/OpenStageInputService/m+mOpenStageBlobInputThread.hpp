@@ -85,9 +85,9 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param name The host name to connect to the Organic Motion %OpenStage  server.
-             @param port The host port to connect to the Organic Motion %OpenStage server. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] name The host name to connect to the Organic Motion %OpenStage  server.
+             @param[in] port The host port to connect to the Organic Motion %OpenStage server. */
             OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
                                      const YarpString &       name,
                                      const int                port);
@@ -101,7 +101,7 @@ namespace MplusM
             clearOutputChannel(void);
 
             /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
+             @param[in] newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
 
@@ -110,18 +110,18 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             OpenStageBlobInputThread(const OpenStageBlobInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             OpenStageBlobInputThread &
             operator =(const OpenStageBlobInputThread & other);
 
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Process the received data.
-             @param actorData The data to be processed. */
+             @param[in] actorData The data to be processed. */
             void
             processData(om::sdk2::ActorDataListConstPtr & actorData);
 # endif // ! defined(MpM_BuildDummyServices)

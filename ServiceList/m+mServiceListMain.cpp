@@ -78,7 +78,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param flavour The format for the output. */
+ @param[in] flavour The format for the output. */
 static void
 setUpAndGo(const OutputFlavour flavour)
 {
@@ -406,8 +406,8 @@ setUpAndGo(const OutputFlavour flavour)
 /*! @brief The entry point for listing the available services.
 
  There are no input arguments and standard output will receive a list of the available services.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

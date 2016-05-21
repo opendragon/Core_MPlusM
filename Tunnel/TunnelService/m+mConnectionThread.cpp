@@ -135,8 +135,8 @@ createListener(void)
 } // createListener
 
 /*! @brief Connect to the %Tunnel service 'raw' network port.
- @param dataAddress The IP address to connect to.
- @param dataPort The port number to connect to.
+ @param[in] dataAddress The IP address to connect to.
+ @param[in] dataPort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 connectToSource(const YarpString & dataAddress,

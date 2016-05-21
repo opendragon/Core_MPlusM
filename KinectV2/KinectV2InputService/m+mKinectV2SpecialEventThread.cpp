@@ -75,8 +75,8 @@ using std::endl;
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a three-dimensional floating-point vector to a list.
- @param listToUpdate The list to be added to.
- @param position The vector to be added. */
+ @param[in,out] listToUpdate The list to be added to.
+ @param[in] position The vector to be added. */
 static void
 add3VectorToList(yarp::os::Bottle &       listToUpdate,
                  const CameraSpacePoint & position)
@@ -88,7 +88,7 @@ add3VectorToList(yarp::os::Bottle &       listToUpdate,
 #endif // ! defined(MpM_BuildDummyServices)
 
 /*! @brief Add a three-dimensional floating-point zero vector to a list.
- @param listToUpdate The list to be added to. */
+ @param[in,out] listToUpdate The list to be added to. */
 static void
 add3ZeroesToList(yarp::os::Bottle & listToUpdate)
 {
@@ -99,8 +99,8 @@ add3ZeroesToList(yarp::os::Bottle & listToUpdate)
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a four-dimensional floating-point vector to a list.
- @param listToUpdate The list to be added to.
- @param orientation The vector to be added. */
+ @param[in,out] listToUpdate The list to be added to.
+ @param[in] orientation The vector to be added. */
 static void
 add4VectorToList(yarp::os::Bottle & listToUpdate,
                  const Vector4 &    orientation)
@@ -113,7 +113,7 @@ add4VectorToList(yarp::os::Bottle & listToUpdate,
 #endif // ! defined(MpM_BuildDummyServices)
 
 /*! @brief Add a four-dimensional floating-point zero vector to a list.
- @param listToUpdate The list to be added to. */
+ @param[in,out] listToUpdate The list to be added to. */
 static void
 add4ZeroesToList(yarp::os::Bottle & listToUpdate)
 {
@@ -125,9 +125,9 @@ add4ZeroesToList(yarp::os::Bottle & listToUpdate)
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the description of a joint to a list.
- @param listToUpdate The list to be added to.
- @param jointData The joint position.
- @param orientationData The orientation of the joint. */
+ @param[in,out] listToUpdate The list to be added to.
+ @param[in] jointData The joint position.
+ @param[in] orientationData The orientation of the joint. */
 static void
 addJointToList(yarp::os::Bottle &       listToUpdate,
                const Joint &            jointData,
@@ -158,20 +158,20 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a joint to the list that's being built.
- @param index_ The joint index. */
+ @param[in] index_ The joint index. */
 # define ADD_JOINT_TO_LIST_(index_) \
         addJointToList(message, jointData[index_], orientationData[index_])
 #endif // ! defined(MpM_BuildDummyServices)
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
- @param message The message to be updated with the body data.
- @param jointData The set of joints for the body.
- @param orientationData The orientations of the joints.
- @param leftHandState The state of the left hand.
- @param leftHandConfidence The confidence in the value of the state of the left hand.
- @param rightHandState The state of the right hand.
- @param rightHandConfidence The confidence in the value of the state of the right hand. */
+ @param[in,out] message The message to be updated with the body data.
+ @param[in] jointData The set of joints for the body.
+ @param[in] orientationData The orientations of the joints.
+ @param[in] leftHandState The state of the left hand.
+ @param[in] leftHandConfidence The confidence in the value of the state of the left hand.
+ @param[in] rightHandState The state of the right hand.
+ @param[in] rightHandConfidence The confidence in the value of the state of the right hand. */
 static void
 addBodyToMessage(yarp::os::Bottle &       message,
                  const int                index,
@@ -232,9 +232,9 @@ addBodyToMessage(yarp::os::Bottle &       message,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
- @param message The message to be updated with the sensor data.
- @param nBodyCount The number of 'bodies' in the sensor data.
- @param ppBodies The sensor data.
+ @param[in,out] message The message to be updated with the sensor data.
+ @param[in] nBodyCount The number of 'bodies' in the sensor data.
+ @param[in] ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 static bool

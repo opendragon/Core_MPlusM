@@ -77,7 +77,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param owner The service that owns the mapping. */
+             @param[in] owner The service that owns the mapping. */
             explicit
             RequestMap(BaseService & owner);
 
@@ -86,36 +86,36 @@ namespace MplusM
             ~RequestMap(void);
 
             /*! @brief Construct the response to a 'list' request.
-             @param reply The package to hold the reply. */
+             @param[in,out] reply The package to hold the reply. */
             void
             fillInListReply(yarp::os::Bottle & reply);
 
             /*! @brief Construct the response to an 'info' request.
-             @param reply The package to hold the reply.
-             @param requestName The name of the request that is being looked at. */
+             @param[in,out] reply The package to hold the reply.
+             @param[in] requestName The name of the request that is being looked at. */
             void
             fillInRequestInfo(yarp::os::Bottle & reply,
                               const YarpString & requestName);
 
             /*! @brief Return the function corresponding to a particular request.
-             @param request The requested operation.
+             @param[in] request The requested operation.
              @returns A pointer to the function to be invoked for the request, or @c NULL if it is
              not recognized. */
             BaseRequestHandler *
             lookupRequestHandler(const YarpString & request);
 
             /*! @brief Remember the function to be used to handle a particular request.
-             @param handler The function to be called for the request. */
+             @param[in] handler The function to be called for the request. */
             void
             registerRequestHandler(BaseRequestHandler * handler);
 
             /*! @brief Remember the function to be used to handle unrecognized requests.
-             @param handler The function to be called by default. */
+             @param[in] handler The function to be called by default. */
             void
             setDefaultRequestHandler(BaseRequestHandler * handler);
 
             /*! @brief Forget the function to be used to handle a particular request.
-             @param handler The function that was called for the request. */
+             @param[in] handler The function that was called for the request. */
             void
             unregisterRequestHandler(BaseRequestHandler * handler);
 
@@ -124,7 +124,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RequestMap(const RequestMap & other);
 
             /*! @brief Lock the data unless the lock would block.
@@ -143,7 +143,7 @@ namespace MplusM
             } // lock
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RequestMap &
             operator =(const RequestMap & other);

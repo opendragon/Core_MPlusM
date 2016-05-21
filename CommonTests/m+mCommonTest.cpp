@@ -92,8 +92,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Create an endpoint for a test.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the endpoint constructor.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
 static Endpoint *
 doCreateEndpointForTest(const int argc,
@@ -139,8 +139,8 @@ doCreateEndpointForTest(const int argc,
 } // doCreateEndpointForTest
 
 /*! @brief Create a temporary channel for a test.
- @param destinationName The name of the channel to be connected to.
- @param channelPath The root path for the new temporary channel.
+ @param[in] destinationName The name of the channel to be connected to.
+ @param[in] channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
 static ClientChannel *
 doCreateTestChannel(const YarpString & destinationName,
@@ -188,8 +188,8 @@ doCreateTestChannel(const YarpString & destinationName,
 } // doCreateTestChannel
 
 /*! @brief Create a temporary channel for a test.
- @param anEndpoint The endpoint to be connected to.
- @param channelPath The root path for the new temporary channel.
+ @param[in] anEndpoint The endpoint to be connected to.
+ @param[in] channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
 static ClientChannel *
 doCreateTestChannel(Endpoint &   anEndpoint,
@@ -203,8 +203,8 @@ doCreateTestChannel(Endpoint &   anEndpoint,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Destroy a temporary channel that was used with a test.
- @param destinationName The name of the channel that the temporary channel was connected to.
- @param theChannel A pointer to the temporary channel. */
+ @param[in] destinationName The name of the channel that the temporary channel was connected to.
+ @param[in] theChannel A pointer to the temporary channel. */
 static void
 doDestroyTestChannel(const YarpString & destinationName,
                      ClientChannel *    theChannel)
@@ -238,8 +238,8 @@ doDestroyTestChannel(const YarpString & destinationName,
 #endif // ! MAC_OR_LINUX_
 
 /*! @brief Destroy a temporary channel that was used with a test.
- @param anEndpoint The endpoint to be connected to.
- @param theChannel A pointer to the temporary channel. */
+ @param[in] anEndpoint The endpoint to be connected to.
+ @param[in] theChannel A pointer to the temporary channel. */
 static void
 doDestroyTestChannel(Endpoint &      anEndpoint,
                      ClientChannel * theChannel)
@@ -256,9 +256,9 @@ doDestroyTestChannel(Endpoint &      anEndpoint,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateEndpoint(const char * launchPath,
@@ -319,9 +319,9 @@ doTestCreateEndpoint(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestConnectToEndpoint(const char * launchPath,
@@ -430,9 +430,9 @@ doTestConnectToEndpoint(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestWriteToEndpoint(const char * launchPath,
@@ -559,9 +559,9 @@ doTestWriteToEndpoint(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestEchoFromEndpointWithReader(const char * launchPath,
@@ -689,9 +689,9 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
@@ -820,9 +820,9 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateRequest(const char * launchPath,
@@ -881,9 +881,9 @@ doTestCreateRequest(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateResponse(const char * launchPath,
@@ -935,9 +935,9 @@ doTestCreateResponse(const char * launchPath,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromEndpoint(const char * launchPath,
@@ -1028,9 +1028,9 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
@@ -1108,9 +1108,9 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
@@ -1189,9 +1189,9 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
@@ -1286,19 +1286,19 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Check the response from the 'list' request for this test.
- @param asDict The dictionary to be checked.
- @param sawArguments Set to @c true if a valid 'arguments' entry appears.
- @param sawChannels Set to @c true if a valid 'channels' entry appears.
- @param sawClients Set to @c true if a valid 'clients' entry appears.
- @param sawDetach Set to @c true if a valid 'detach' entry appears.
- @param sawEcho Set to @c true if a valid 'echo' entry appears.
- @param sawExtraInfo Set to @c true if a valid 'extraInfo' entry appears.
- @param sawInfo Set to @c true if a valid 'info' entry appears.
- @param sawList Set to @c true if a valid 'list' entry appears.
- @param sawMetrics Set to @c true if a valid 'getMetrics' entry appears.
- @param sawMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
- @param sawName Set to @c true if a valid 'name' entry appears.
- @param sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
+ @param[in,out] asDict The dictionary to be checked.
+ @param[out] sawArguments Set to @c true if a valid 'arguments' entry appears.
+ @param[out] sawChannels Set to @c true if a valid 'channels' entry appears.
+ @param[out] sawClients Set to @c true if a valid 'clients' entry appears.
+ @param[out] sawDetach Set to @c true if a valid 'detach' entry appears.
+ @param[out] sawEcho Set to @c true if a valid 'echo' entry appears.
+ @param[out] sawExtraInfo Set to @c true if a valid 'extraInfo' entry appears.
+ @param[out] sawInfo Set to @c true if a valid 'info' entry appears.
+ @param[out] sawList Set to @c true if a valid 'list' entry appears.
+ @param[out] sawMetrics Set to @c true if a valid 'getMetrics' entry appears.
+ @param[out] sawMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
+ @param[out] sawName Set to @c true if a valid 'name' entry appears.
+ @param[out] sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
  @returns @c false if an unexpected value appears and @c true otherwise. */
 static bool
 checkListDictionary(yarp::os::Property & asDict,
@@ -1497,7 +1497,7 @@ checkListDictionary(yarp::os::Property & asDict,
 } // checkListDictionary
 
 /*! @brief Check the response from the 'list' request for this test.
- @param response The response to be analyzed.
+ @param[in] response The response to be analyzed.
  @returns @c true if the expected values are all present and @c false if they are not or if
  unexpected values appear. */
 static bool
@@ -1592,9 +1592,9 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
 } // checkResponseFromEchoFromServiceWithRequestHandlerAndInfo
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
@@ -1675,7 +1675,7 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
 /*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
+ @param[in] signal The signal being handled. */
 static void
 catchSignal(int signal)
 {
@@ -1702,8 +1702,8 @@ catchSignal(int signal)
  The first argument is the test number, the second argument is the name of the channel to be used
  with the test, the optional third argument is the machine to connect to and the optional fourth
  argument is the port number to be used. Output depends on the test being run.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the unit tests.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

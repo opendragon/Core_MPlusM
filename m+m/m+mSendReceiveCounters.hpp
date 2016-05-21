@@ -89,10 +89,10 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param initialInBytes The initial number of bytes received.
-             @param initialInMessages The initial number of messages received.
-             @param initialOutBytes The initial number of bytes sent.
-             @param initialOutMessages The initial number of messages sent. */
+             @param[in] initialInBytes The initial number of bytes received.
+             @param[in] initialInMessages The initial number of messages received.
+             @param[in] initialOutBytes The initial number of bytes sent.
+             @param[in] initialOutMessages The initial number of messages sent. */
             explicit
             SendReceiveCounters(const int64_t initialInBytes = 0,
                                 const size_t  initialInMessages = 0,
@@ -100,8 +100,8 @@ namespace MplusM
                                 const size_t  initialOutMessages = 0);
 
             /*! @brief Add a dictionary to a list from the send / receive counters.
-             @param counterList The list to be modified.
-             @param channel The channel associated with the counters. */
+             @param[in,out] counterList The list to be modified.
+             @param[in] channel The channel associated with the counters. */
             void
             addToList(yarp::os::Bottle & counterList,
                       const YarpString & channel);
@@ -111,25 +111,25 @@ namespace MplusM
             clearCounters(void);
 
             /*! @brief Update the received data.
-             @param moreInBytes The number of bytes received.
+             @param[in] moreInBytes The number of bytes received.
              @returns The modified values. */
             SendReceiveCounters &
             incrementInCounters(const int64_t moreInBytes);
 
             /*! @brief Update the sent data.
-             @param moreOutBytes The number of bytes sent.
+             @param[in] moreOutBytes The number of bytes sent.
              @returns The modified values. */
             SendReceiveCounters &
             incrementOutCounters(const int64_t moreOutBytes);
 
             /*! @brief The assignment operator.
-             @param other The values to be assigned to the send / receive counters.
+             @param[in] other The values to be assigned to the send / receive counters.
              @returns The modified values. */
             SendReceiveCounters &
             operator =(const SendReceiveCounters & other);
 
             /*! @brief The additive assignment operator.
-             @param other The values to be added to the send / receive counters.
+             @param[in] other The values to be added to the send / receive counters.
              @returns The modified values. */
             SendReceiveCounters &
             operator +=(const SendReceiveCounters & other);

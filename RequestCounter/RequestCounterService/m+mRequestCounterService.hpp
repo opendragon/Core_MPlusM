@@ -81,11 +81,11 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             RequestCounterService(const YarpString & launchPath,
                                   const int          argc,
                                   char * *           argv,
@@ -97,21 +97,21 @@ namespace MplusM
             ~RequestCounterService(void);
 
             /*! @brief Record a request.
-             @param key The client-provided key. */
+             @param[in] key The client-provided key. */
             void
             countRequest(const YarpString & key);
 
             /*! @brief Return the request statistics.
-             @param key The client-provided key.
-             @param counter The number of requests since the last reset.
-             @param elapsedTime The number of seconds since the last reset. */
+             @param[in] key The client-provided key.
+             @param[out] counter The number of requests since the last reset.
+             @param[out] elapsedTime The number of seconds since the last reset. */
             void
             getStatistics(const YarpString & key,
                           long &             counter,
                           double &           elapsedTime);
 
             /*! @brief Reset the request statistics counters.
-             @param key The client-provided key. */
+             @param[in] key The client-provided key. */
             void
             resetCounters(const YarpString & key);
 
@@ -120,7 +120,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RequestCounterService(const RequestCounterService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -132,7 +132,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RequestCounterService &
             operator =(const RequestCounterService & other);

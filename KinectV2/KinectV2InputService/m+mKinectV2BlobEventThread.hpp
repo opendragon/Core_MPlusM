@@ -78,7 +78,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to. */
+             @param[in] outChannel The channel to send data bursts to. */
             explicit
             KinectV2BlobEventThread(Common::GeneralChannel * outChannel);
 
@@ -91,7 +91,7 @@ namespace MplusM
             clearOutputChannel(void);
 
             /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
+             @param[in] newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
 
@@ -109,7 +109,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             KinectV2BlobEventThread(const KinectV2BlobEventThread & other);
 
 # if (! defined(MpM_BuildDummyServices))
@@ -120,7 +120,7 @@ namespace MplusM
 # endif // ! defined(MpM_BuildDummyServices)
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             KinectV2BlobEventThread &
             operator =(const KinectV2BlobEventThread & other);

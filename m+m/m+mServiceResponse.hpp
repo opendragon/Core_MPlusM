@@ -71,7 +71,7 @@ namespace MplusM
             ServiceResponse(void);
 
             /*! @brief The constructor.
-             @param values The (optional) values for the response. */
+             @param[in] values The (optional) values for the response. */
             explicit
             ServiceResponse(const yarp::os::Bottle & values);
 
@@ -80,7 +80,7 @@ namespace MplusM
             ~ServiceResponse(void);
 
             /*! @brief The assignment operator.
-             @param values The (optional) values for the response. */
+             @param[in] values The (optional) values for the response. */
             ServiceResponse &
             operator =(const yarp::os::Bottle & values);
 
@@ -100,7 +100,7 @@ namespace MplusM
             } // count
 
             /*! @brief Fetch an element from the values.
-             @param index The @c 0-based index of the desired element.
+             @param[in] index The @c 0-based index of the desired element.
              @returns The element corresponding to the provided index. */
             yarp::os::Value
             element(const int index)
@@ -120,11 +120,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ServiceResponse(const ServiceResponse & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ServiceResponse &
             operator =(const ServiceResponse & other);

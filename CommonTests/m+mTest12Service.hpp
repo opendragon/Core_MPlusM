@@ -73,9 +73,9 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments to be used to specify the new service. */
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments to be used to specify the new service. */
             Test12Service(const YarpString & launchPath,
                           const int          argc,
                           char * *           argv);
@@ -89,7 +89,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             Test12Service(const Test12Service & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -101,7 +101,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             Test12Service &
             operator =(const Test12Service & other);

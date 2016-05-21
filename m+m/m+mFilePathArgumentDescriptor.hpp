@@ -85,14 +85,15 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argName The name of the command-line argument.
-             @param argDescription A description of the command-line argument.
-             @param argMode The mode of the command-line argument.
-             @param pathPrefix The prefix to the default value for the command-line argument.
-             @param pathSuffix The suffix to the default value for the command-line argument.
-             @param forOutput @c true if the file will be used for output and @c false otherwise.
-             @param useRandomPath @c true if the file path will be constructed with a random number
-             and @c false if the file path is fixed. */
+             @param[in] argName The name of the command-line argument.
+             @param[in] argDescription A description of the command-line argument.
+             @param[in] argMode The mode of the command-line argument.
+             @param[in] pathPrefix The prefix to the default value for the command-line argument.
+             @param[in] pathSuffix The suffix to the default value for the command-line argument.
+             @param[in] forOutput @c true if the file will be used for output and @c false
+             otherwise.
+             @param[in] useRandomPath @c true if the file path will be constructed with a random
+             number and @c false if the file path is fixed. */
             FilePathArgumentDescriptor(const YarpString & argName,
                                        const YarpString & argDescription,
                                        const ArgumentMode argMode,
@@ -106,7 +107,7 @@ namespace MplusM
             ~FilePathArgumentDescriptor(void);
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
-             @param inString The input string in 'arguments' format.
+             @param[in] inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor *
             parseArgString(const YarpString & inString);
@@ -116,7 +117,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             FilePathArgumentDescriptor(const FilePathArgumentDescriptor & other);
 
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
@@ -130,7 +131,7 @@ namespace MplusM
             getDefaultValue(void);
 
             /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
-             @param isForOutput Set to @c true if the argument is for output files and @c false
+             @param[out] isForOutput Set to @c true if the argument is for output files and @c false
              otherwise.
              @returns @c true if the argument is for file paths and @c false otherwise. */
             virtual bool
@@ -142,7 +143,7 @@ namespace MplusM
             } // isForFiles
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             FilePathArgumentDescriptor &
             operator =(const FilePathArgumentDescriptor & other);
@@ -157,7 +158,7 @@ namespace MplusM
             toString(void);
 
             /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
+             @param[in] value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
             virtual bool

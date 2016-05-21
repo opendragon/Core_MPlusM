@@ -81,13 +81,13 @@ using std::endl;
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The mDNS registration callback.
- @param service The DNSServiceRef initialized by DNSServiceRegister.
- @param flags The flags for the registration.
- @param errorCode @c kDNSServiceErr_NoError on success.
- @param name The service name that was registered.
- @param type The type of service that was registered.
- @param domain The domain on which the service was registered.
- @param context The context pointer that was passed by DSNServiceRegister. */
+ @param[in] service The DNSServiceRef initialized by DNSServiceRegister.
+ @param[in] flags The flags for the registration.
+ @param[in] errorCode @c kDNSServiceErr_NoError on success.
+ @param[in] name The service name that was registered.
+ @param[in] type The type of service that was registered.
+ @param[in] domain The domain on which the service was registered.
+ @param[in] context The context pointer that was passed by DSNServiceRegister. */
 static void DNSSD_API
 registrationCallback(DNSServiceRef       service,
                      DNSServiceFlags     flags,

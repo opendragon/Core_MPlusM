@@ -102,7 +102,7 @@ static ITTLLive2Ptr lTTLLive;
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Display an error.
- @param ee The error to be displayed. */
+ @param[in] ee The error to be displayed. */
 static void
 show_error(_com_error & ee)
 {

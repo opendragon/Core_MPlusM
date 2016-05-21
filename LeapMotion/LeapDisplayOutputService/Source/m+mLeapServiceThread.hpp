@@ -73,9 +73,9 @@ namespace LeapDisplay
     public :
         
         /*! @brief The constructor.
-         @param service The service associated with the request.
-         @param helpText The help text to be displayed.
-         @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
+         @param[in] service The service associated with the request.
+         @param[in] helpText The help text to be displayed.
+         @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise. */
         LeapServiceThread(LeapDisplayOutputService * service,
                           const YarpString &         helpText);
         
@@ -93,7 +93,7 @@ namespace LeapDisplay
         } // getService
 
         /*! @brief Set the associated service.
-         @param aService The service to associate with the thread. */
+         @param[in] aService The service to associate with the thread. */
         void
         setService(LeapDisplayOutputService * aService);
         
@@ -102,11 +102,11 @@ namespace LeapDisplay
     private :
         
         /*! @brief The copy constructor.
-         @param other The object to be copied. */
+         @param[in] other The object to be copied. */
         LeapServiceThread(const LeapServiceThread & other);
         
         /*! @brief The assignment operator.
-         @param other The object to be copied.
+         @param[in] other The object to be copied.
          @returns The updated object. */
         LeapServiceThread &
         operator =(const LeapServiceThread & other);

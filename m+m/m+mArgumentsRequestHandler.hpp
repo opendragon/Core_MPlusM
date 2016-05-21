@@ -74,7 +74,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param service The service that has registered this request. */
+             @param[in] service The service that has registered this request. */
             explicit
             ArgumentsRequestHandler(BaseService & service);
 
@@ -87,32 +87,32 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ArgumentsRequestHandler(const ArgumentsRequestHandler & other);
 
             /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
+             @param[in,out] alternateNames Aliases for the request. */
             virtual void
             fillInAliases(YarpStringVector & alternateNames);
 
             /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
+             @param[in] request The actual request name.
+             @param[in,out] info The dictionary to be filled in. */
             virtual void
             fillInDescription(const YarpString &   request,
                               yarp::os::Property & info);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ArgumentsRequestHandler &
             operator =(const ArgumentsRequestHandler & other);
 
             /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+             @param[in] request The actual request name.
+             @param[in] restOfInput The arguments to the operation.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool
             processRequest(const YarpString &           request,
                            const yarp::os::Bottle &     restOfInput,

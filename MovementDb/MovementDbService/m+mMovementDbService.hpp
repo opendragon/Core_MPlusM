@@ -82,13 +82,13 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param databaseServerAddress The IP address of the database server.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] databaseServerAddress The IP address of the database server.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             MovementDbService(const YarpString & launchPath,
                               const int          argc,
                               char * *           argv,
@@ -102,24 +102,24 @@ namespace MplusM
             ~MovementDbService(void);
 
             /*! @brief Add a file entry to the backend database.
-             @param key The client-provided key.
-             @param filePath The filesystem path to the file.
+             @param[in] key The client-provided key.
+             @param[in] filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
             bool
             addFileToDb(const YarpString & key,
                         const YarpString & filePath);
 
             /*! @brief Set the active data track.
-             @param key The client-provided key.
-             @param dataTrack The data track to use with subsequent files.
+             @param[in] key The client-provided key.
+             @param[in] dataTrack The data track to use with subsequent files.
              @returns @c true if the data track was successfully set and @c false otherwise. */
             bool
             setDataTrack(const YarpString & key,
                          const YarpString & dataTrack);
 
             /*! @brief Set the active e-mail address.
-             @param key The client-provided key.
-             @param emailAddress The e-mail address of the user that will own subsequent files.
+             @param[in] key The client-provided key.
+             @param[in] emailAddress The e-mail address of the user that will own subsequent files.
              @returns @c true if the e-mail address was successfully set and @c false otherwise. */
             bool
             setEmailAddress(const YarpString & key,
@@ -130,7 +130,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             MovementDbService(const MovementDbService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -142,7 +142,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             MovementDbService &
             operator =(const MovementDbService & other);

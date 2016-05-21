@@ -81,10 +81,10 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param name The IP address of the Natural Point %NatNet device.
-             @param commandPort The command port for the Natural Point %NatNet device.
-             @param dataPort The data port for the Natural Point %NatNet device. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] name The IP address of the Natural Point %NatNet device.
+             @param[in] commandPort The command port for the Natural Point %NatNet device.
+             @param[in] dataPort The data port for the Natural Point %NatNet device. */
             NatNetBlobInputThread(Common::GeneralChannel * outChannel,
                                   const YarpString &       name,
                                   const int                commandPort,
@@ -110,14 +110,14 @@ namespace MplusM
 # endif // defined(MpM_UseCustomStringBuffer)
 
             /*! @brief Send a message via the output channel.
-             @param message The message to send.
-             @param length The length of the message. */
+             @param[in] message The message to send.
+             @param[in] length The length of the message. */
             void
             sendMessage(const char * message,
                         const size_t length);
 
             /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
+             @param[in] newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
 
@@ -135,11 +135,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             NatNetBlobInputThread(const NatNetBlobInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             NatNetBlobInputThread &
             operator =(const NatNetBlobInputThread & other);

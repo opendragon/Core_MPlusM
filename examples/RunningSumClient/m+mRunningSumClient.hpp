@@ -78,16 +78,16 @@ namespace MplusM
             ~RunningSumClient(void);
 
             /*! @brief Update the running sum for this client.
-             @param value The value to add to the running sum.
-             @param newSum The new running sum.
+             @param[in] value The value to add to the running sum.
+             @param[in,out] newSum The new running sum.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             addToSum(const double value,
                      double &     newSum);
 
             /*! @brief Update the running sum for this client.
-             @param values The set of values to add to the running sum.
-             @param newSum The new running sum.
+             @param[in] values The set of values to add to the running sum.
+             @param[in,out] newSum The new running sum.
              @returns @c true if the service handled the request and @c false otherwise. */
             bool
             addToSum(const Common::DoubleVector & values,
@@ -113,11 +113,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RunningSumClient(const RunningSumClient & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RunningSumClient &
             operator =(const RunningSumClient & other);

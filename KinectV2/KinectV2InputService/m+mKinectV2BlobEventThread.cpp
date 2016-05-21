@@ -75,11 +75,11 @@ using std::endl;
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the description of a joint to the output.
- @param outBuffer The output buffer to be updated with the body data.
- @param scale The translation scale to be applied.
- @param jointTag The name of the bone.
- @param jointData The joint position.
- @param orientationData The orientation of the joint. */
+ @param[in,out] outBuffer The output buffer to be updated with the body data.
+ @param[in] scale The translation scale to be applied.
+ @param[in] jointTag The name of the bone.
+ @param[in] jointData The joint position.
+ @param[in] orientationData The orientation of the joint. */
 # if defined(MpM_UseCustomStringBuffer)
 static void
 addJointToBuffer(Common::StringBuffer &   outBuffer,
@@ -131,8 +131,8 @@ addJointToBuffer(std::stringstream &      outBuffer,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a joint to the output that's being built.
- @param str_ The name for the joint.
- @param index_ The joint index. */
+ @param[in] str_ The name for the joint.
+ @param[in] index_ The joint index. */
 # if defined(MpM_UseCustomStringBuffer)
 #  define ADD_JOINT_TO_BUFFER_(str_, index_) \
     addJointToBuffer(outBuffer, scale, str_, jointData[index_], orientationData[index_])
@@ -144,10 +144,10 @@ addJointToBuffer(std::stringstream &      outBuffer,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
- @param outBuffer The output buffer to be updated with the body data.
- @param scale The translation scale to be applied.
- @param jointData The set of joints for the body.
- @param orientationData The orientations of the joints. */
+ @param[in,out] outBuffer The output buffer to be updated with the body data.
+ @param[in] scale The translation scale to be applied.
+ @param[in] jointData The set of joints for the body.
+ @param[in] orientationData The orientations of the joints. */
 # if defined(MpM_UseCustomStringBuffer)
 static void
 addBodyToMessage(Common::StringBuffer &   outBuffer,
@@ -207,10 +207,10 @@ addBodyToMessage(std::stringstream &      outBuffer,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
- @param outBuffer The output buffer to be updated with the body data.
- @param scale The translation scale to be applied.
- @param nBodyCount The number of 'bodies' in the sensor data.
- @param ppBodies The sensor data.
+ @param[in,out] outBuffer The output buffer to be updated with the body data.
+ @param[in] scale The translation scale to be applied.
+ @param[in] nBodyCount The number of 'bodies' in the sensor data.
+ @param[in] ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 # if defined(MpM_UseCustomStringBuffer)

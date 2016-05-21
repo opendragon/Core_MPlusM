@@ -83,8 +83,8 @@ namespace MplusM
             ~MatchValueList(void);
 
             /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @param fieldName The name to be used in the SQL matching expression.
-             @param negated @c true if the matching is negated and @c false otherwise.
+             @param[in] fieldName The name to be used in the SQL matching expression.
+             @param[in] negated @c true if the matching is negated and @c false otherwise.
              @returns A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(const char * fieldName,
@@ -104,10 +104,10 @@ namespace MplusM
             const;
 
             /*! @brief Create a pattern matcher if the next substring would be a valid value list.
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
+             @param[in] inString The string being scanned.
+             @param[in] inLength The length of the string being scanned.
+             @param[in] startPos Where in the string to start scanning.
+             @param[in,out] endPos Where the scan terminated, if successful.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchValueList *
@@ -117,7 +117,7 @@ namespace MplusM
                           size_t &           endPos);
 
             /*! @brief Return an element from the value list.
-             @param index The zero-origin index of the element.
+             @param[in] index The zero-origin index of the element.
              @returns An element of the value list or @c NULL if the index is outside the range of
              the value list. */
             const MatchValue *
@@ -147,7 +147,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             MatchValueList(const MatchValueList & other);
 
             /*! @brief Remove all the list elements. */
@@ -155,7 +155,7 @@ namespace MplusM
             empty(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             MatchValueList &
             operator =(const MatchValueList & other);

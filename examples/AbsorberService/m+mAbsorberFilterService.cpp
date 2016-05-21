@@ -83,9 +83,10 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Convert a positive numeric value into a comma-separated string.
- @param aNumber The number to convert.
+ @param[in] aNumber The number to convert.
  @returns A string representation of the number with commas between each triple digit group. */
-static YarpString convertToCommaSplitNumber(const size_t aNumber)
+static YarpString
+convertToCommaSplitNumber(const size_t aNumber)
 {
     // Note that the function 'convertToCommaSplitNumber' was used because the locale
     // mechanism in C++ for OS X is very, very broken - so we can't use 'std::imbue'!

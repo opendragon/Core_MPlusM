@@ -131,8 +131,8 @@ static TtyMode lTtyState = TTY_RESET_;
 #endif // defined(__APPLE__)
 
 /*! @brief Display the available commands.
- @param helpText The help text to be displayed.
- @param forAdapter @c true if for an adapter and @c false for a service. */
+ @param[in] helpText The help text to be displayed.
+ @param[in] forAdapter @c true if for an adapter and @c false for a service. */
 static void
 displayCommands(const YarpString & helpText,
                 const bool         forAdapter)

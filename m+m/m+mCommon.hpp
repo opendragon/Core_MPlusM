@@ -446,15 +446,15 @@ namespace MplusM
         typedef std::vector<double> DoubleVector;
 
         /*! @brief A function that checks for early exit from loops.
-         @param stuff Private data for the function.
+         @param[in] stuff Private data for the function.
          @returns @c true if the caller should exit any loops and @c false otherwise. */
         typedef bool
         (*CheckFunction)
             (void * stuff);
 
         /*! @brief Dump out a description of the provided connection information to the log.
-         @param tag A unique string used to identify the call point for the output.
-         @param aContact The connection information to be reported. */
+         @param[in] tag A unique string used to identify the call point for the output.
+         @param[in] aContact The connection information to be reported. */
         void
         DumpContactToLog(const char *              tag,
                          const yarp::os::Contact & aContact);
@@ -477,14 +477,14 @@ namespace MplusM
         GetRandomChannelName(const YarpString & channelRoot);
 
         /*! @brief Perform initialization of internal resources.
-         @param progName The name of the executing program.
+         @param[in] progName The name of the executing program.
 
          Should be called in the main() function of each application or service. */
         void
         Initialize(const YarpString & progName);
 
         /*! @brief Connect the standard signals to a handler.
-         @param theHandler The new handler for the signals. */
+         @param[in] theHandler The new handler for the signals. */
         void
         SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
 
@@ -495,7 +495,7 @@ namespace MplusM
 
 # if MAC_OR_LINUX_
         /*! @brief Set up the error logger.
-         @param progName The name of the executing program.
+         @param[in] progName The name of the executing program.
 
          Should be called in the main() function of each application or service before anything
          else. */
@@ -524,7 +524,7 @@ namespace MplusM
     CanReadFromStandardInput(void);
 
     /*! @brief Introduce some delay in processing.
-     @param factor The fraction of a second to delay. */
+     @param[in] factor The fraction of a second to delay. */
     void
     ConsumeSomeTime(const double factor = 200.0);
 
@@ -542,38 +542,39 @@ namespace MplusM
 
      Note that the output dictionary will be modified, regardless of whether or not the list is, in
      fact, a dictionary.
-     @param aList The list of interest.
-     @param aDictionary The corresponding dictionary.
+     @param[in] aList The list of interest.
+     @param[in,out] aDictionary The corresponding dictionary.
      @returns @c true if the list can be converted into a dictionary and @c false otherwise. */
     bool
     ListIsReallyDictionary(const yarp::os::Bottle & aList,
                            yarp::os::Property &     aDictionary);
 
     /*! @brief Return the name of a signal.
-     @param theSignal The signal of interest.
+     @param[in] theSignal The signal of interest.
      @returns A string description of the signal. */
     const char *
     NameOfSignal(const int theSignal);
 
     /*! @brief Write out a (possibly multi-line) description.
-     @param outStream The stream to write to.
-     @param heading The text to appear on the first line before the beginning of the description.
-     @param description The description, which may contain multiple newlines. */
+     @param[in] outStream The stream to write to.
+     @param[in] heading The text to appear on the first line before the beginning of the
+     description.
+     @param[in] description The description, which may contain multiple newlines. */
     void
-    OutputDescription(std::ostream &             outStream,
-                      const char *               heading,
+    OutputDescription(std::ostream &     outStream,
+                      const char *       heading,
                       const YarpString & description);
 
     /*! @brief Return a string with special characters escaped.
-     @param inString The string to be processed.
-     @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
+     @param[in] inString The string to be processed.
+     @param[in] allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
      @returns A string with special characters escaped. */
     YarpString
     SanitizeString(const YarpString & inString,
                    const bool         allowDoubleQuotes = false);
 
     /*! @brief The signal handler to catch requests to stop the service.
-     @param signal The signal being handled. */
+     @param[in] signal The signal being handled. */
     void
     SignalRunningStop(const int signal);
 

@@ -72,9 +72,9 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param numValues The number of values to send in each burst. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] timeToWait The number of seconds to delay before triggering.
+             @param[in] numValues The number of values to send in each burst. */
             RandomBurstInputThread(Common::GeneralChannel * outChannel,
                                    const double             timeToWait,
                                    const int                numValues);
@@ -92,11 +92,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RandomBurstInputThread(const RandomBurstInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RandomBurstInputThread &
             operator =(const RandomBurstInputThread & other);

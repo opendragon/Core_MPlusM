@@ -72,8 +72,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param request The name of the request.
-             @param service The service associated with the request. */
+             @param[in] request The name of the request.
+             @param[in] service The service associated with the request. */
             BaseRequestHandler(const YarpString & request,
                                BaseService &      service);
 
@@ -82,7 +82,7 @@ namespace MplusM
             ~BaseRequestHandler(void);
 
             /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
+             @param[in,out] alternateNames Aliases for the request. */
             virtual inline void
             fillInAliases(YarpStringVector & alternateNames)
             {
@@ -92,8 +92,8 @@ namespace MplusM
             } // fillInAliases
 
             /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
+             @param[in] request The actual request name.
+             @param[in,out] info The dictionary to be filled in. */
             virtual inline void
             fillInDescription(const YarpString &   request,
                               yarp::os::Property & info)
@@ -113,10 +113,10 @@ namespace MplusM
             } // name
 
             /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+             @param[in] request The actual request name.
+             @param[in] restOfInput The arguments to the operation.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool
             processRequest(const YarpString &           request,
                            const yarp::os::Bottle &     restOfInput,
@@ -124,17 +124,17 @@ namespace MplusM
                            yarp::os::ConnectionWriter * replyMechanism) = 0;
 
             /*! @brief Send a simple OK response to a request.
-             @param replyMechanism The destination for the response. */
+             @param[in] replyMechanism The destination for the response. */
             void
             sendOKResponse(yarp::os::ConnectionWriter * replyMechanism);
 
             /*! @brief Send a response to a request.
-             @param replyMechanism The destination for the response. */
+             @param[in] replyMechanism The destination for the response. */
             void
             sendResponse(yarp::os::ConnectionWriter * replyMechanism);
 
             /*! @brief Connect the handler to a map.
-             @param owner The map that contains this handler. */
+             @param[in] owner The map that contains this handler. */
             void
             setOwner(RequestMap & owner);
 
@@ -152,11 +152,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseRequestHandler(const BaseRequestHandler & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseRequestHandler &
             operator =(const BaseRequestHandler & other);

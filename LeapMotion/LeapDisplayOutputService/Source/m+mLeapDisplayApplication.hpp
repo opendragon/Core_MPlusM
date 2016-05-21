@@ -123,7 +123,7 @@ namespace LeapDisplay
         getButtonHeight(void);
 
         /*! @brief Return the value of a system environment variable.
-         @param varName The name of the system environment variable.
+         @param[in] varName The name of the system environment variable.
          @returns The value of the system environment variable, or an empty value. */
         static String
         getEnvironmentVar(const char * varName);
@@ -133,8 +133,8 @@ namespace LeapDisplay
          Note that the generated code for a std::map of String, String includes illegal instructions
          when end() is referenced, so we are using a pair of simple vectors - performance is not
          critical, since the environment variables are only used once.
-         @param keys The list of environment variable names.
-         @param values The list of environment variable values. */
+         @param[out] keys The list of environment variable names.
+         @param[out] values The list of environment variable values. */
         static void
         getEnvironmentVars(YarpStringVector & keys,
                            YarpStringVector & values);
@@ -170,7 +170,7 @@ namespace LeapDisplay
         const;
         
         /*! @brief Records the address of the graphics panel.
-         @param A pointer to the graphics panel. */
+         @param[in] A pointer to the graphics panel. */
         void
         setGraphicsPanel(GraphicsPanel * thePanel)
         {
@@ -190,16 +190,16 @@ namespace LeapDisplay
     private :
 
         /*! @brief The copy constructor.
-         @param other The object to be copied. */
+         @param[in] other The object to be copied. */
         LeapDisplayApplication(const LeapDisplayApplication & other);
 
         /*! @brief Called when an attempt was made to launch another instance of the application.
-         @param commandLine The arguments passed to the new instance. */
+         @param[in] commandLine The arguments passed to the new instance. */
         virtual void
         anotherInstanceStarted(const String & commandLine);
 
         /*! @brief Determine the path to an executable, using the system PATH environment variable.
-         @param execName The short name of the executable.
+         @param[in] execName The short name of the executable.
          @returns The full path to the first executable found in the system PATH environment
          variable. */
         static String
@@ -225,7 +225,7 @@ namespace LeapDisplay
         } // getServiceThread
         
         /*! @brief Called when the application starts.
-         @param commandLine The parameters passed to the application. */
+         @param[in] commandLine The parameters passed to the application. */
         virtual void
         initialise(const String & commandLine);
 
@@ -237,7 +237,7 @@ namespace LeapDisplay
         moreThanOneInstanceAllowed(void);
 
         /*! @brief The assignment operator.
-         @param other The object to be copied.
+         @param[in] other The object to be copied.
          @returns The updated object. */
         LeapDisplayApplication &
         operator =(const LeapDisplayApplication & other);
@@ -256,12 +256,12 @@ namespace LeapDisplay
         systemRequestedQuit(void);
 
         /*! @brief Check if the Registry Service can be launched.
-         @param registryServicePath The file system path to the Registry Service executable. */
+         @param[in] registryServicePath The file system path to the Registry Service executable. */
         void
         validateRegistryService(const String & registryServicePath);
 
         /*! @brief Check if YARP can be launched.
-         @param yarpPath The file system path to the YARP executable. */
+         @param[in] yarpPath The file system path to the YARP executable. */
         void
         validateYarp(const String & yarpPath);
         
@@ -289,9 +289,9 @@ namespace LeapDisplay
     }; // LeapDisplayApplication
 
     /*! @brief Determine the maximum dimensions of a text string.
-     @param dimensions The calculated maximum width and height.
-     @param aFont The font to use for the calculations.
-     @param aString The string to be analyzed. */
+     @param[out] dimensions The calculated maximum width and height.
+     @param[in] aFont The font to use for the calculations.
+     @param[in] aString The string to be analyzed. */
     void
     CalculateTextArea(Point<int> &   dimensions,
                       const Font &   aFont,

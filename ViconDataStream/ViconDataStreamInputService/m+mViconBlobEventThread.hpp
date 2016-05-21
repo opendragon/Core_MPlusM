@@ -82,8 +82,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param nameAndPort The host name and port to connect to the Vicon server. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] nameAndPort The host name and port to connect to the Vicon server. */
             ViconBlobEventThread(Common::GeneralChannel * outChannel,
                                  const YarpString &       nameAndPort);
 
@@ -96,7 +96,7 @@ namespace MplusM
             clearOutputChannel(void);
 
             /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
+             @param[in] newScale The scale factor for translation values. */
             void
             setScale(const double newScale);
 
@@ -105,7 +105,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ViconBlobEventThread(const ViconBlobEventThread & other);
 
             /*! @brief Initialize the connection to the Vicon device.
@@ -114,13 +114,13 @@ namespace MplusM
             initializeConnection(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ViconBlobEventThread &
             operator =(const ViconBlobEventThread & other);
 
             /*! @brief Handle the sensor data associated with the current frame.
-             @param subjectCount The number of subjects in the data. */
+             @param[in] subjectCount The number of subjects in the data. */
             void
             processEventData(const unsigned int subjectCount);
 

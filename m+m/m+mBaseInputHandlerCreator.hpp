@@ -84,7 +84,7 @@ namespace MplusM
             create(void) = 0;
 
             /*! @brief Remember the channel that is feeding the input handler.
-             @param theChannel The channel that is feeding the input handler. */
+             @param[in] theChannel The channel that is feeding the input handler. */
             void
             setChannel(BaseChannel * theChannel);
 
@@ -96,11 +96,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseInputHandlerCreator(const BaseInputHandlerCreator & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseInputHandlerCreator &
             operator =(const BaseInputHandlerCreator & other);

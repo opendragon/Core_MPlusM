@@ -73,13 +73,13 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering. */
+             @param[in] timeToWait The number of seconds to delay before triggering. */
             explicit
             BailOutThread(const double timeToWait);
 
             /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
+             @param[in] channelOfInterest The channel that we are waiting for.
+             @param[in] timeToWait The number of seconds to delay before triggering. */
             BailOutThread(BaseChannel & channelOfInterest,
                           const double  timeToWait);
 
@@ -92,11 +92,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BailOutThread(const BailOutThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BailOutThread &
             operator =(const BailOutThread & other);

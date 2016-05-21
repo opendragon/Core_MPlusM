@@ -74,9 +74,9 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief Add a large value to a dictionary.
- @param dictionary The dictionary to be updated.
- @param tag The tag to associate with the value.
- @param bigValue The value to be added. */
+ @param[in,out] dictionary The dictionary to be updated.
+ @param[in] tag The tag to associate with the value.
+ @param[in] bigValue The value to be added. */
 static void
 addLargeValueToDictionary(yarp::os::Property & dictionary,
                           const YarpString &   tag,

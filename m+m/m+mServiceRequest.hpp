@@ -72,13 +72,13 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param requestName The request to be processed. */
+             @param[in] requestName The request to be processed. */
             explicit
             ServiceRequest(const YarpString & requestName);
 
             /*! @brief The constructor.
-             @param requestName The request to be processed.
-             @param parameters The (optional) parameters for the request. */
+             @param[in] requestName The request to be processed.
+             @param[in] parameters The (optional) parameters for the request. */
             ServiceRequest(const YarpString &       requestName,
                            const yarp::os::Bottle & parameters);
 
@@ -87,16 +87,14 @@ namespace MplusM
             ~ServiceRequest(void);
 
             /*! @brief Send the request to an endpoint for processing.
-             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
-             channel is to be used.
+             @param[in] usingChannel The channel that is to send the request.
              @returns @c true if the request was successfully transmitted. */
             bool
             send(ClientChannel & usingChannel);
 
             /*! @brief Send the request to an endpoint for processing.
-             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
-             channel is to be used.
-             @param response The response from the request.
+             @param[in] usingChannel The channel that is to send the request.
+             @param[in,out] response The response from the request.
              @returns @c true if the request was successfully transmitted. */
             bool
             send(ClientChannel &   usingChannel,
@@ -107,11 +105,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ServiceRequest(const ServiceRequest & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ServiceRequest &
             operator =(const ServiceRequest & other);

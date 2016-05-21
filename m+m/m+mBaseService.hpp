@@ -153,18 +153,18 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param theKind The behavioural model for the service.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
-             one handler is used.
-             @param canonicalName The channel-independent name of the service.
-             @param description The description of the service.
-             @param requestsDescription The description of the requests for the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The channel being used by the service. */
+             @param[in] theKind The behavioural model for the service.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] useMultipleHandlers @c true if simultaneous handlers are allowed, @c false
+             if one handler is used.
+             @param[in] canonicalName The channel-independent name of the service.
+             @param[in] description The description of the service.
+             @param[in] requestsDescription The description of the requests for the service.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The channel being used by the service. */
             BaseService(const ServiceKind  theKind,
                         const YarpString & launchPath,
                         const int          argc,
@@ -181,15 +181,15 @@ namespace MplusM
 
              Note that this is a special constructor for the test code, which does not support the
              service name modifier.
-             @param theKind The behavioural model for the service.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
-             one handler is used.
-             @param canonicalName The channel-independent name of the service.
-             @param description The description of the service.
-             @param requestsDescription The description of the requests for the service. */
+             @param[in] theKind The behavioural model for the service.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] useMultipleHandlers @c true if simultaneous handlers are allowed, @c false
+             if one handler is used.
+             @param[in] canonicalName The channel-independent name of the service.
+             @param[in] description The description of the service.
+             @param[in] requestsDescription The description of the requests for the service. */
             BaseService(const ServiceKind  theKind,
                         const YarpString & launchPath,
                         const int          argc,
@@ -213,7 +213,7 @@ namespace MplusM
             } // description
 
             /*! @brief Forget the specified client.
-             @param key The client-provided key. */
+             @param[in] key The client-provided key. */
             void
             detachClient(const YarpString & key);
 
@@ -235,27 +235,27 @@ namespace MplusM
             } // extraInformation
 
             /*! @brief Fill in a list of clients for the service.
-             @param clients The list to be filled in. */
+             @param[in,out] clients The list to be filled in. */
             void
             fillInClientList(YarpStringVector & clients);
 
             /*! @brief Fill in a list of secondary client channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryClientChannelsList(ChannelVector & channels);
 
             /*! @brief Fill in a list of secondary input channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryInputChannelsList(ChannelVector & channels);
 
             /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
-            fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
+            fillInSecondaryOutputChannelsList(ChannelVector & channels);
 
             /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
+             @param[in,out] metrics The gathered metrics. */
             virtual void
             gatherMetrics(yarp::os::Bottle & metrics);
 
@@ -278,7 +278,7 @@ namespace MplusM
             } // getEndpoint
 
             /*! @brief Update the auxiliary send / receive counters.
-             @param additionalCounters The counters to add. */
+             @param[in] additionalCounters The counters to add. */
             void
             incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
 
@@ -320,10 +320,10 @@ namespace MplusM
             } // metricsAreEnabled
 
             /*! @brief Process partially-structured input data.
-             @param request The requested operation.
-             @param restOfInput The arguments for the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param[in] request The requested operation.
+             @param[in] restOfInput The arguments for the operation.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             bool
             processRequest(const YarpString &           request,
@@ -341,9 +341,9 @@ namespace MplusM
             } // requestsDescription
 
             /*! @brief Send a 'ping' on behalf of a service.
-             @param channelName The service channel to report with the ping.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function. */
+             @param[in] channelName The service channel to report with the ping.
+             @param[in] checker A function that provides for early exit from loops.
+             @param[in] checkStuff The private data for the early exit function. */
             bool
             sendPingForChannel(const YarpString & channelName,
                                CheckFunction      checker = NULL,
@@ -359,7 +359,7 @@ namespace MplusM
             } // serviceName
 
             /*! @brief Set the extra information for the service.
-             @param extraInfo The extra information for the service. */
+             @param[in] extraInfo The extra information for the service. */
             void
             setExtraInformation(const YarpString & extraInfo);
 
@@ -387,15 +387,15 @@ namespace MplusM
             } // tag
 
             /*! @brief Update the response counters for the service port.
-             @param numBytes The number of bytes sent. */
+             @param[in] numBytes The number of bytes sent. */
             void
             updateResponseCounters(const size_t numBytes);
 
         protected :
 
             /*! @brief Add a context for a persistent connection.
-             @param key The name for the context.
-             @param context The context to be remembered. */
+             @param[in] key The name for the context.
+             @param[in] context The context to be remembered. */
             void
             addContext(const YarpString & key,
                        BaseContext *      context);
@@ -405,36 +405,36 @@ namespace MplusM
             clearContexts(void);
 
             /*! @brief Locate the context corresponding to a name.
-             @param key The name of the context.
+             @param[in] key The name of the context.
              @returns @c NULL if the named context could not be found or a pointer to the context if
              found. */
             BaseContext *
             findContext(const YarpString & key);
 
             /*! @brief Remember the function to be used to handle a particular request.
-             @param handler The function to be called for the request. */
+             @param[in] handler The function to be called for the request. */
             void
             registerRequestHandler(BaseRequestHandler * handler);
 
             /*! @brief Remove a context.
-             @param key The name of the context. */
+             @param[in] key The name of the context. */
             void
             removeContext(const YarpString & key);
 
             /*! @brief Remember the function to be used to handle unrecognized requests.
-             @param handler The function to be called by default. */
+             @param[in] handler The function to be called by default. */
             void
             setDefaultRequestHandler(BaseRequestHandler * handler);
 
             /*! @brief Forget the function to be used to handle a particular request.
-             @param handler The function that was called for the request. */
+             @param[in] handler The function that was called for the request. */
             void
             unregisterRequestHandler(BaseRequestHandler * handler);
 
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseService(const BaseService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -461,7 +461,7 @@ namespace MplusM
             } // lockContexts
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseService &
             operator =(const BaseService & other);
@@ -588,12 +588,12 @@ namespace MplusM
         }; // BaseService
 
         /*! @brief Update the endpoint name based on the provided arguments to the service.
-         @param defaultEndpointNameRoot The default endpoint root name.
-         @param modFlag The address-based modifier to apply to the tag value.
-         @param tag Set to the argument of the last -t option seen.
-         @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
-         options.
-         @param tagModifier The string to be applied to the tag and endpoint for customization.
+         @param[in] defaultEndpointNameRoot The default endpoint root name.
+         @param[in] modFlag The address-based modifier to apply to the tag value.
+         @param[in,out] tag Set to the argument of the last -t option seen.
+         @param[in,out] serviceEndpointName Set to the endpoint name to be used, based on the last
+         -e and -t options.
+         @param[in] tagModifier The string to be applied to the tag and endpoint for customization.
          @returns @c true if the endpoint name was set in the arguments and @c false if it was
          not. */
         bool
@@ -604,7 +604,7 @@ namespace MplusM
                            const YarpString &       tagModifier = "");
 
         /*! @brief Determine the address that the Registry Service will use to connect to us.
-         @param ourAddress The IP address that we are using.
+         @param[in,out] ourAddress The IP address that we are using.
          @returns @c true if the address was determined and @c false otherwise. */
         bool
         GetOurEffectiveAddress(NetworkAddress & ourAddress);
@@ -627,24 +627,24 @@ namespace MplusM
          channel, if the name was not specified. It is also applied to the service name as a suffix.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the service.
-         @param argumentDescriptions Descriptions of the arguments to the service.
-         @param serviceDescription A description of the service.
-         @param matchingCriteria The criteria used to locate the service that the service requires
-         to be running.
-         @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the utility.
-         @param goWasSet Set to @c true if the service is to be started immediately.
-         @param reportEndpoint Set to @c true if the service endpoint is to be reported.
-         @param reportOnExit Set to @c true if the -r option is seen.
-         @param tag Set to the argument of the last -t option seen.
-         @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
-         options.
-         @param servicePortNumber Set to the argument of the last -p option seen.
-         @param modFlag The address-based modifier to apply to the tag value.
-         @param skipOptions The command-line options to be skipped.
-         @param arguments If non-@c NULL, returns the arguments for the service.
+         @param[in] argc The number of arguments in 'argv'.
+         @param[in] argv The arguments to be used with the service.
+         @param[in] argumentDescriptions Descriptions of the arguments to the service.
+         @param[in] serviceDescription A description of the service.
+         @param[in] matchingCriteria The criteria used to locate the service that the service
+         requires to be running.
+         @param[in] year The copyright year for the calling application.
+         @param[in] copyrightHolder The name of the entity holding the copyright to the utility.
+         @param[out] goWasSet Set to @c true if the service is to be started immediately.
+         @param[out] reportEndpoint Set to @c true if the service endpoint is to be reported.
+         @param[out] reportOnExit Set to @c true if the -r option is seen.
+         @param[out] tag Set to the argument of the last -t option seen.
+         @param[out] serviceEndpointName Set to the endpoint name to be used, based on the last -e
+         and -t options.
+         @param[out] servicePortNumber Set to the argument of the last -p option seen.
+         @param[out] modFlag The address-based modifier to apply to the tag value.
+         @param[in] skipOptions The command-line options to be skipped.
+         @param[in] arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
         bool
         ProcessStandardServiceOptions(const int                     argc,
@@ -665,10 +665,10 @@ namespace MplusM
                                       YarpStringVector *            arguments = NULL);
 
         /*! @brief Register a local service with a running %Registry Service.
-         @param channelName The channel provided by the service.
-         @param service The actual service being registered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] channelName The channel provided by the service.
+         @param[in] service The actual service being registered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
         bool
         RegisterLocalService(const YarpString & channelName,
@@ -677,10 +677,10 @@ namespace MplusM
                              void *             checkStuff = NULL);
 
         /*! @brief Unregister a local service with a running %Registry Service.
-         @param channelName The channel provided by the service.
-         @param service The actual service being unregistered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] channelName The channel provided by the service.
+         @param[in] service The actual service being unregistered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
         bool
         UnregisterLocalService(const YarpString & channelName,

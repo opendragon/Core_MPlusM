@@ -80,12 +80,12 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             EchoService(const YarpString & launchPath,
                         const int          argc,
                         char * *           argv,
@@ -102,7 +102,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             EchoService(const EchoService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -114,7 +114,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             EchoService &
             operator =(const EchoService & other);

@@ -239,8 +239,8 @@ setUpAndGo(void)
 
  @c x Ask the service to stop calculating the running sum and exit from the program.
 
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

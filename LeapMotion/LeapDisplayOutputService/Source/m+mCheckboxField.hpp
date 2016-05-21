@@ -76,11 +76,12 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param regularLabelFont The font to use with the label when the text editor data is valid.
-         @param index The order of the text editor.
-         @param captionTitle The text of the caption.
-         @param top The top coordinate of the field.
-         @param componentName The name to pass to the component for it to use as its name. */
+         @param[in] regularLabelFont The font to use with the label when the text editor data is
+         valid.
+         @param[in] index The order of the text editor.
+         @param[in] captionTitle The text of the caption.
+         @param[in] top The top coordinate of the field.
+         @param[in] componentName The name to pass to the component for it to use as its name. */
         CheckboxField(Font &         regularLabelFont,
                       const size_t   index,
                       const String & captionTitle,
@@ -93,7 +94,7 @@ namespace LeapDisplay
 
         /*! @brief Add the components of this field to the specified component and make them
          visible.
-         @param whereToAdd The component to be added to. */
+         @param[in] whereToAdd The component to be added to. */
         virtual void
         addToComponent(Component * whereToAdd);
 
@@ -134,27 +135,27 @@ namespace LeapDisplay
         const;
 
         /*! @brief Remove the components of this field from the specified component.
-         @param whereToRemove The component to be removed from. */
+         @param[in] whereToRemove The component to be removed from. */
         virtual void
         removeFromComponent(Component * whereToRemove);
 
         /*! @brief Set the text value associated with the field.
-         @param newText The text to be used. */
+         @param[in] newText The text to be used. */
         virtual void
         setText(const String & newText);
 
         /*! @brief Set the width of the field.
-         @param ww The new width of the field. */
+         @param[in] ww The new width of the field. */
         virtual void
         setWidth(const int ww);
 
         /*! @brief Set the top coordinate of the field.
-         @param yy The new top coordinate of the field. */
+         @param[in] yy The new top coordinate of the field. */
         virtual void
         setY(const int yy);
 
         /*! @brief Check the field for validity.
-         @param argsToUse A set of valid arguments.
+         @param[in,out] argsToUse A set of valid arguments.
          @returns @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool

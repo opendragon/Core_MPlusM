@@ -193,7 +193,12 @@ namespace LeapDisplay
         Location _where;
         
         /*! @brief @c true if the location is known. */
-        bool     _valid;
+        bool _valid;
+        
+        inline FingerTip(void) :
+            _valid(false)
+        {
+        } // FingerTip
         
     }; // FingerTip
     
@@ -217,17 +222,35 @@ namespace LeapDisplay
         
     }; // HandData
 
+    /*! @brief The data associated with a vertex. */
+    struct Vertex
+    {
+        /*! @brief The location of the vertex. */
+        float _position[3];
+        
+        /*! @brief The surface normal at the vertex. */
+        float _normal[3];
+        
+        /*! @brief The colour at the vertex. */
+        float _colour[4];
+        
+        /*! @brief The texture coordinates for the vertex. */
+        float _texCoord[2];
+        
+    }; // Vertex
+    
 } // LeapDisplay
 
 /*! @brief Return @c true if exit is requested.
- @param stuff Dummy argument to satisfy caller.
+ @param[in] stuff Dummy argument to satisfy caller.
  @returns @c true if exit has been requested. */
 bool
 CheckForExit(void * stuff);
 
 /*! @brief Launch a process, checking periodically for completion.
- @param aProcess The process to execute.
- @param timeout The number of milliseconds allowed for the process to complete (<= 0 == forever).
+ @param[in] aProcess The process to execute.
+ @param[in] timeout The number of milliseconds allowed for the process to complete
+ (<= 0 == forever).
  @returns @c true if the process completed in the time provided. */
 bool
 LazyLaunchProcess(ChildProcess & aProcess,

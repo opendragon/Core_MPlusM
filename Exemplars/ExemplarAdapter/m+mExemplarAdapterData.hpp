@@ -76,8 +76,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param client The client connection that is used to communicate with the service.
-             @param output The output channel that will receive the service responses. */
+             @param[in] client The client connection that is used to communicate with the service.
+             @param[in] output The output channel that will receive the service responses. */
             explicit
             ExemplarAdapterData(ExemplarClient *      client = NULL,
                                 Common::BaseChannel * output = NULL);
@@ -91,11 +91,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ExemplarAdapterData(const ExemplarAdapterData & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ExemplarAdapterData &
             operator =(const ExemplarAdapterData & other);

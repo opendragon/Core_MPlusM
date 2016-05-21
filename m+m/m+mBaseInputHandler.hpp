@@ -88,10 +88,10 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
+             @param[in] input The partially-structured input data.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param[in] numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool
             handleInput(const yarp::os::Bottle &     input,
@@ -110,7 +110,7 @@ namespace MplusM
             } // metricsAreEnabled
 
             /*! @brief Remember the channel that is feeding the input handler.
-             @param theChannel The channel that is feeding the input handler. */
+             @param[in] theChannel The channel that is feeding the input handler. */
             void
             setChannel(BaseChannel * theChannel);
 
@@ -123,17 +123,17 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseInputHandler(const BaseInputHandler & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseInputHandler &
             operator =(const BaseInputHandler & other);
 
             /*! @brief Read an object from the input stream.
-             @param connection The input stream that is to be read from.
+             @param[in] connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */
             virtual bool
             read(yarp::os::ConnectionReader & connection);

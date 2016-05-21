@@ -79,8 +79,8 @@ using namespace MplusM::NatNet;
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Process a received frame of data.
-@param aFrame The data to be processed.
-@param userData The initially supplied data for this callback. */
+@param[in] aFrame The data to be processed.
+@param[in] userData The initially supplied data for this callback. */
 static void __cdecl
 dataReceived(sFrameOfMocapData * aFrame,
              void *              userData)

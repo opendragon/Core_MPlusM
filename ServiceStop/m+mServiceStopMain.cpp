@@ -79,7 +79,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param channelName The primary channel of the service. */
+ @param[in] channelName The primary channel of the service. */
 static void
 setUpAndGo(const YarpString & channelName)
 {
@@ -100,8 +100,8 @@ setUpAndGo(const YarpString & channelName)
 
  The first argument is the name of the primary channel for the service.
  Nothing is written to standard output.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

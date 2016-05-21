@@ -131,7 +131,7 @@ const YarpString MplusM::kDirectorySeparator = "\\";
 
 #if MAC_OR_LINUX_
 /*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
+ @param[in] signal The signal being handled. */
 static void
 localCatcher(int signal)
 {

@@ -450,7 +450,15 @@ ContentPanel::resized(void)
     juce::Rectangle<int> area(getLocalBounds());
     int                  offset = LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight();
 
+    _graphicsPanel->setBounds(area);
+#if JUCE_MAC
+    if (NULL != MenuBarModel::getMacMainMenu())
+    {
+        _menuBar->setBounds(area.removeFromTop(offset));
+    }
+#else // ! JUCE_MAC
     _menuBar->setBounds(area.removeFromTop(offset));
+#endif // ! JUCE_MAC
     ODL_OBJEXIT(); //####
 } // ContentPanel::resized
 

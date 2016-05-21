@@ -73,7 +73,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param service The service that manages the network connection. */
+             @param[in] service The service that manages the network connection. */
             explicit
             ConnectionThread(TunnelService & service);
 
@@ -82,8 +82,8 @@ namespace MplusM
             ~ConnectionThread(void);
 
             /*! @brief Set the address of the data source.
-             @param sourceName The data source address to be connected to.
-             @param sourcePort The data source port to be connected to. */
+             @param[in] sourceName The data source address to be connected to.
+             @param[in] sourcePort The data source port to be connected to. */
             void
             setSourceAddress(const YarpString & sourceName,
                              const int          sourcePort);
@@ -93,11 +93,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ConnectionThread(const ConnectionThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ConnectionThread &
             operator =(const ConnectionThread & other);

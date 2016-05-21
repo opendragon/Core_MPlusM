@@ -76,19 +76,23 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param responder The entity that will report errors in this field.
-         @param regularLabelFont The font to use with the label when the text editor data is valid.
-         @param errorLabelFont The font to use with the label when the text editor data is invalid.
-         @param index The order of the text editor.
-         @param captionTitle The text of the caption.
-         @param top The top coordinate of the field.
-         @param boundsSetLater @c true if the bounds will be properly set up later and @c false if
-         they are to be set now.
-         @param forFilePath @c true if the field is for entering a file path and @c false otherwise.
-         @param buttonHandler The object to handle the file button events.
-         @param validator The function to use when checking the field on completion of text entry.
-         @param componentName The name to pass to the component for it to use as its name.
-         @param passwordCharacter The visual replacement to use for password fields. */
+         @param[in] responder The entity that will report errors in this field.
+         @param[in] regularLabelFont The font to use with the label when the text editor data is
+         valid.
+         @param[in] errorLabelFont The font to use with the label when the text editor data is
+         invalid.
+         @param[in] index The order of the text editor.
+         @param[in] captionTitle The text of the caption.
+         @param[in] top The top coordinate of the field.
+         @param[in] boundsSetLater @c true if the bounds will be properly set up later and @c false
+         if they are to be set now.
+         @param[in] forFilePath @c true if the field is for entering a file path and @c false
+         otherwise.
+         @param[in] buttonHandler The object to handle the file button events.
+         @param[in] validator The function to use when checking the field on completion of text
+         entry.
+         @param[in] componentName The name to pass to the component for it to use as its name.
+         @param[in] passwordCharacter The visual replacement to use for password fields. */
         CaptionedTextField(FormFieldErrorResponder & responder,
                            Font &                    regularLabelFont,
                            Font &                    errorLabelFont,
@@ -108,7 +112,7 @@ namespace LeapDisplay
 
         /*! @brief Add the components of this field to the specified component and make them
          visible.
-         @param whereToAdd The component to be added to. */
+         @param[in] whereToAdd The component to be added to. */
         virtual void
         addToComponent(Component * whereToAdd);
 
@@ -171,7 +175,7 @@ namespace LeapDisplay
         performButtonAction(void);
 
         /*! @brief Remove the components of this field from the specified component.
-         @param whereToRemove The component to be removed from. */
+         @param[in] whereToRemove The component to be removed from. */
         virtual void
         removeFromComponent(Component * whereToRemove);
 
@@ -180,22 +184,22 @@ namespace LeapDisplay
         reportErrorInField(void);
 
         /*! @brief Sets the associated button.
-         @param newButton The associated button. */
+         @param[in] newButton The associated button. */
         virtual void
         setButton(TextButton * newButton = NULL);
 
         /*! @brief Set the text value associated with the field.
-         @param newText The text to be used. */
+         @param[in] newText The text to be used. */
         virtual void
         setText(const String & newText);
 
         /*! @brief Set the width of the field.
-         @param ww The new width of the field. */
+         @param[in] ww The new width of the field. */
         virtual void
         setWidth(const int ww);
 
         /*! @brief Set the top coordinate of the field.
-         @param yy The new top coordinate of the field. */
+         @param[in] yy The new top coordinate of the field. */
         virtual void
         setY(const int yy);
 
@@ -206,7 +210,7 @@ namespace LeapDisplay
         validateField(void);
 
         /*! @brief Check the field for validity.
-         @param argsToUse A set of valid arguments.
+         @param[in,out] argsToUse A set of valid arguments.
          @returns @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool

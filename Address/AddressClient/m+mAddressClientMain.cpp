@@ -83,11 +83,11 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Process the arguments for the application.
- @param outputMode The mode ('both', 'address', 'port') of the output.
- @param tag The tag for the service to be connected to.
- @param namePattern The generated search value.
- @param needsAddress @c true if the IP address is requested and @c false otherwise.
- @param needsPort @c true if the port is requested and @c false otherwise.
+ @param[in] outputMode The mode ('both', 'address', 'port') of the output.
+ @param[in] tag The tag for the service to be connected to.
+ @param[in,out] namePattern The generated search value.
+ @param[out] needsAddress @c true if the IP address is requested and @c false otherwise.
+ @param[out] needsPort @c true if the port is requested and @c false otherwise.
  @returns @c true if the mode was recognized and @c false otherwise. */
 static bool
 processArguments(const YarpString & outputMode,
@@ -138,9 +138,9 @@ processArguments(const YarpString & outputMode,
 } // processArguments
 
 /*! @brief Set up the environment and perform the operation.
- @param outputMode The mode ('both', 'address', 'port') of the output.
- @param tag The tag for the service to be connected to.
- @param flavour The format for the output. */
+ @param[in] outputMode The mode ('both', 'address', 'port') of the output.
+ @param[in] tag The tag for the service to be connected to.
+ @param[in] flavour The format for the output. */
 #if defined(MpM_ReportOnConnections)
 static void
 setUpAndGo(const YarpString &      outputMode,
@@ -284,8 +284,8 @@ setUpAndGo(const YarpString &  outputMode,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Address service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Address client.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the Address client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

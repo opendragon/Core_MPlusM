@@ -72,7 +72,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param baseChannelName The name to be used as the root for the client channel. */
+             @param[in] baseChannelName The name to be used as the root for the client channel. */
             explicit
             BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
 
@@ -81,16 +81,16 @@ namespace MplusM
             ~BaseClient(void);
 
             /*! @brief Create a connection with the service.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function.
+             @param[in] checker A function that provides for early exit from loops.
+             @param[in] checkStuff The private data for the early exit function.
              @returns @c true if the client is connected to the service and @c false otherwise. */
             bool
             connectToService(CheckFunction checker = NULL,
                              void *        checkStuff = NULL);
 
             /*! @brief Disconnect from the service.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function.
+             @param[in] checker A function that provides for early exit from loops.
+             @param[in] checkStuff The private data for the early exit function.
              @returns @c true if the client is no longer connected to the service and @ false
              otherwise. */
             bool
@@ -98,11 +98,11 @@ namespace MplusM
                                   void *        checkStuff = NULL);
 
             /*! @brief Find a matching service and prepare to send requests to it.
-             @param criteria The criteria to use to locate the service.
-             @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first
-             match will be used.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function.
+             @param[in] criteria The criteria to use to locate the service.
+             @param[in] allowOnlyOneMatch @c true if only one match is allowed and @c false if the
+             first match will be used.
+             @param[in] checker A function that provides for early exit from loops.
+             @param[in] checkStuff The private data for the early exit function.
              @returns @c true if a matching service was found and @c false if no matching service or
              too many services were found. */
             bool
@@ -112,13 +112,13 @@ namespace MplusM
                         void *        checkStuff = NULL);
 
             /*! @brief Set the channel for the client to use.
-             @param newChannel The channel to be used. */
+             @param[in] newChannel The channel to be used. */
             void
             setChannel(ClientChannel * newChannel = NULL);
 
             /*! @brief Set the channel status reporter for the private channel.
-             @param reporter The channel status reporter to be used by the private channel.
-             @param andReportNow @c true if the channel status reporter is to be activated
+             @param[in] reporter The channel status reporter to be used by the private channel.
+             @param[in] andReportNow @c true if the channel status reporter is to be activated
              immediately on open. */
             void
             setReporter(ChannelStatusReporter & reporter,
@@ -127,15 +127,15 @@ namespace MplusM
         protected :
 
             /*! @brief Re-establish the service connection if it has dropped.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function. */
+             @param[in] checker A function that provides for early exit from loops.
+             @param[in] checkStuff The private data for the early exit function. */
             void
             reconnectIfDisconnected(CheckFunction checker = NULL,
                                     void *        checkStuff = NULL);
 
             /*! @brief Send a request to the service associated with the client.
-             @param request The name of the request.
-             @param parameters The required parameters for the request.
+             @param[in] request The name of the request.
+             @param[in] parameters The required parameters for the request.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
             bool
@@ -143,9 +143,9 @@ namespace MplusM
                  const yarp::os::Bottle & parameters);
 
             /*! @brief Send a request to the service associated with the client.
-             @param request The name of the request.
-             @param parameters The required parameters for the request.
-             @param response The response from the request.
+             @param[in] request The name of the request.
+             @param[in] parameters The required parameters for the request.
+             @param[in,out] response The response from the request.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
             bool
@@ -156,11 +156,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseClient(const BaseClient & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseClient &
             operator =(const BaseClient & other);
@@ -210,11 +210,11 @@ namespace MplusM
 
         /*! @brief Find one or more matching services that are registered with a running %Registry
          service.
-         @param criteria The matching conditions.
-         @param getNames @c true if service names are to be returned and @c false if service ports
-         are to be returned.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] criteria The matching conditions.
+         @param[in] getNames @c true if service names are to be returned and @c false if service
+         ports are to be returned.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns A (possibly empty) list of matching service ports or service names. */
         yarp::os::Bottle
         FindMatchingServices(const YarpString & criteria,

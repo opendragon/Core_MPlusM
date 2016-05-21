@@ -80,10 +80,10 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param name The IP address of the Natural Point %NatNet device.
-             @param commandPort The command port for the Natural Point %NatNet device.
-             @param dataPort The data port for the Natural Point %NatNet device. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] name The IP address of the Natural Point %NatNet device.
+             @param[in] commandPort The command port for the Natural Point %NatNet device.
+             @param[in] dataPort The data port for the Natural Point %NatNet device. */
             NatNetInputThread(Common::GeneralChannel * outChannel,
                               const YarpString &       name,
                               const int                commandPort,
@@ -98,7 +98,7 @@ namespace MplusM
             clearOutputChannel(void);
 
             /*! @brief Send a message via the output channel.
-             @param message The message to send. */
+             @param[in] message The message to send. */
             void
             sendMessage(yarp::os::Bottle & message);
 
@@ -107,11 +107,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             NatNetInputThread(const NatNetInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             NatNetInputThread &
             operator =(const NatNetInputThread & other);

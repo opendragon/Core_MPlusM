@@ -73,9 +73,9 @@ using namespace MplusM::LeapMotion;
 #endif // defined(__APPLE__)
 
 /*! @brief Put the three coordinates of a %Vector in a dictionary with the given tag.
- @param dictionary The dictionary to be added to.
- @param tag The name to be associated with the value.
- @param vectorToUse The %Vector containing the data to be added. */
+ @param[in,out] dictionary The dictionary to be added to.
+ @param[in] tag The name to be associated with the value.
+ @param[in] vectorToUse The %Vector containing the data to be added. */
 static void
 putVectorInDictionary(yarp::os::Property & dictionary,
                       const YarpString &   tag,

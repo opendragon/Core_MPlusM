@@ -78,9 +78,9 @@ namespace MplusM
             BaseMatcher(void);
 
             /*! @brief Scan a string for the next non-whitespace character.
-             @param inString The string to be scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to begin scanning.
+             @param[in] inString The string to be scanned.
+             @param[in] inLength The length of the string being scanned.
+             @param[in] startPos Where in the string to begin scanning.
              @returns The position in the string where the next non-whitespace character appears, or
              the length of the string - which is past the end of the string - if the remainder of
              the string is whitespace. */
@@ -92,11 +92,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseMatcher(const BaseMatcher & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseMatcher &
             operator =(const BaseMatcher & other);

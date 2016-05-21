@@ -78,8 +78,8 @@ namespace MplusM
             ~RequestCounterClient(void);
 
             /*! @brief Get the statistics from the service.
-             @param counter The number of requests since the last reset.
-             @param elapsedTime The number of seconds since the last reset.
+             @param[out] counter The number of requests since the last reset.
+             @param[out] elapsedTime The number of seconds since the last reset.
              @returns @c true if the statistics were retrieved successfully and @c false
              otherwise. */
             bool
@@ -101,11 +101,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RequestCounterClient(const RequestCounterClient & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RequestCounterClient &
             operator =(const RequestCounterClient & other);

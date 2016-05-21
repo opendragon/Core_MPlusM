@@ -101,9 +101,6 @@ MovementDbClient::~MovementDbClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-/*! @brief Add a file entry to the backend database.
- @param filePath The filesystem path to the file.
- @returns @c true if the file entry was added successfully and @c false otherwise. */
 bool
 MovementDbClient::addFileToDb(const YarpString & filePath)
 {

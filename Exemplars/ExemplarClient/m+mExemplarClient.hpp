@@ -78,14 +78,14 @@ namespace MplusM
             ~ExemplarClient(void);
 
             /*! @brief Get one random number from the service.
-             @param result Where to return the number.
+             @param[out] result Where to return the number.
              @returns @c true if the number was retrieved successfully and @c false otherwise. */
             bool
             getOneRandomNumber(double & result);
 
             /*! @brief Get a sequence of random numbers from the service.
-             @param howMany The number of random numbers to retrieve.
-             @param result Where to return the numbers.
+             @param[in] howMany The number of random numbers to retrieve.
+             @param[out] result Where to return the numbers.
              @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
             bool
             getRandomNumbers(const int              howMany,
@@ -96,11 +96,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ExemplarClient(const ExemplarClient & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ExemplarClient &
             operator =(const ExemplarClient & other);

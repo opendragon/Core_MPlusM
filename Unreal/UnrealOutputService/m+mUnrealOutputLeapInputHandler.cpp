@@ -81,10 +81,10 @@ static const double kLeapScale = 1.0;
 #endif // defined(__APPLE__)
 
 /*! @brief Check the dictionary entry from the finger data.
- @param outBuffer The destination character stream.
- @param fingerProps The dictionary to be checked.
- @param scale The translation scale to use.
- @param okSoFar Set to @c false if an unexpected value appears. */
+ @param[in,out] outBuffer The destination character stream.
+ @param[in] fingerProps The dictionary to be checked.
+ @param[in] scale The translation scale to use.
+ @param[out] okSoFar Set to @c false if an unexpected value appears. */
 #if defined(MpM_UseCustomStringBuffer)
 static void
 dumpFingerProps(Common::StringBuffer & outBuffer,
@@ -202,9 +202,9 @@ dumpFingerProps(std::stringstream &  outBuffer,
 } // dumpFingerProps
 
 /*! @brief Convert hand data into a character stream.
- @param outBuffer The destination character stream.
- @param handData The hand data to write out.
- @param scale The translation scale to use.
+ @param[in,out] outBuffer The destination character stream.
+ @param[in] handData The hand data to write out.
+ @param[in] scale The translation scale to use.
  @returns @c true if the had data was properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
 static bool

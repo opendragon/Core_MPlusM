@@ -93,11 +93,11 @@ namespace MplusM
 
             /*! @brief Create a pattern matcher if the next substring would be a valid field with
              value(s).
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
-             @param validator A function that returns @c true if the field name is valid and @c
+             @param[in] inString The string being scanned.
+             @param[in] inLength The length of the string being scanned.
+             @param[in] startPos Where in the string to start scanning.
+             @param[in,out] endPos Where the scan terminated, if successful.
+             @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
@@ -113,29 +113,29 @@ namespace MplusM
         private :
 
             /*! @brief The constructor.
-             @param validator A function that returns @c true if the field name is valid and @c
+             @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @param fieldName The name of the field.
-             @param asSingle The value for the field. */
+             @param[in] fieldName The name of the field.
+             @param[in] asSingle The value for the field. */
             MatchFieldWithValues(BaseNameValidator * validator,
                                  MatchFieldName *    fieldName,
                                  MatchValue *        asSingle);
 
             /*! @brief The constructor.
-             @param validator A function that returns @c true if the field name is valid and @c
+             @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @param fieldName The name of the field.
-             @param asList The list of values for the field. */
+             @param[in] fieldName The name of the field.
+             @param[in] asList The list of values for the field. */
             MatchFieldWithValues(BaseNameValidator * validator,
                                  MatchFieldName *    fieldName,
                                  MatchValueList *    asList);
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             MatchFieldWithValues(const MatchFieldWithValues & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             MatchFieldWithValues &
             operator =(const MatchFieldWithValues & other);

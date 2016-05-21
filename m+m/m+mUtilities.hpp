@@ -168,12 +168,12 @@ namespace MplusM
         typedef std::vector<PortDescriptor> PortVector;
 
         /*! @brief Add a connection between two ports.
-         @param fromPortName The name of the source port.
-         @param toPortName The name of the destination port.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param isUDP @c true if the connection is to be UDP and @c false otherwise.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] fromPortName The name of the source port.
+         @param[in] toPortName The name of the destination port.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] isUDP @c true if the connection is to be UDP and @c false otherwise.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if successful and @c false otherwise. */
         bool
         AddConnection(const YarpString &    fromPortName,
@@ -184,15 +184,15 @@ namespace MplusM
                       void *                checkStuff = NULL);
 
         /*! @brief Check if a connection exists between two ports.
-         @param fromPortName The name of the source port.
-         @param toPortName The name of the destination port.
+         @param[in] fromPortName The name of the source port.
+         @param[in] toPortName The name of the destination port.
          @returns @c true if a connection exists and @c false otherwise. */
         bool
         CheckConnection(const YarpString & fromPortName,
                         const YarpString & toPortName);
 
         /*! @brief Check if a channel is in use.
-         @param channelName The name of the channel to check.
+         @param[in] channelName The name of the channel to check.
          @returns @c true if the channel is known to YARP and @c false otherwise. */
         bool
         CheckForChannel(const YarpString & channelName);
@@ -208,20 +208,20 @@ namespace MplusM
         CheckForRegistryService(void);
 
         /*! @brief Check if the YARP network is available.
-         @param quiet @c true if nothing should be reported on failure and @c false otherwise.
+         @param[in] quiet @c true if nothing should be reported on failure and @c false otherwise.
          @returns @c true if the YARP network is available and @c false otherwise. */
         bool
         CheckForValidNetwork(const bool quiet = false);
 
         /*! @brief Check if the %Registry Service is present in a list.
-         @param ports The set of detected ports.
+         @param[in] ports The set of detected ports.
          @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool
         CheckListForRegistryService(const PortVector & ports);
 
         /*! @brief Convert a YARP message into a JSON record.
-         @param outBuffer The buffer to be written to.
-         @param input The message to be processed. */
+         @param[in,out] outBuffer The buffer to be written to.
+         @param[in] input The message to be processed. */
 # if defined(MpM_UseCustomStringBuffer)
         void
         ConvertMessageToJSON(Common::StringBuffer &   outBuffer,
@@ -233,21 +233,21 @@ namespace MplusM
 # endif // ! defined(MpM_UseCustomStringBuffer)
 
         /*! @brief Convert the service metrics into a string.
-         @param metrics The metrics to convert.
-         @param flavour The output format to be used.
+         @param[in] metrics The metrics to convert.
+         @param[in] flavour The output format to be used.
          @returns A string representation of the service metrics. */
         YarpString
         ConvertMetricsToString(const yarp::os::Bottle &    metrics,
                                const Common::OutputFlavour flavour = Common::kOutputFlavourNormal);
 
         /*! @brief Collect the input and output connections for a port.
-         @param portName The port to be inspected.
-         @param inputs The collected inputs for the port.
-         @param outputs The collected outputs for the port.
-         @param which A flag to specify what is to be gathered.
-         @param quiet @c true if status output is to be suppressed and @c false otherwise.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function. */
+         @param[in] portName The port to be inspected.
+         @param[out] inputs The collected inputs for the port.
+         @param[out] outputs The collected outputs for the port.
+         @param[in] which A flag to specify what is to be gathered.
+         @param[in] quiet @c true if status output is to be suppressed and @c false otherwise.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function. */
         void
         GatherPortConnections(const YarpString &      portName,
                               Common::ChannelVector & inputs,
@@ -258,11 +258,11 @@ namespace MplusM
                               void *                  checkStuff = NULL);
 
         /*! @brief Retrieve the configuration values for a service.
-         @param serviceChannelName The channel for the service.
-         @param values The configuration values for a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[out] values The configuration values for a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         GetConfigurationForService(const YarpString &    serviceChannelName,
@@ -277,18 +277,18 @@ namespace MplusM
         GetCurrentTimeInMilliseconds(void);
 
         /*! @brief Get the configured server address and port.
-         @param serverAddress The configured server address.
-         @param serverPort The configured server port.
+         @param[out] serverAddress The configured server address.
+         @param[out] serverPort The configured server port.
          @returns @c true if the returned values are valid and @c false otherwise. */
         bool
         GetCurrentYarpConfiguration(struct in_addr & serverAddress,
                                     int &            serverPort);
 
         /*! @brief Fill buffers with the current date and time as strings.
-         @param dateBuffer The buffer to fill with the date.
-         @param dateBufferSize The size of the buffer for the date.
-         @param timeBuffer The buffer to fill with the time.
-         @param timeBufferSize The size of the buffer for the time. */
+         @param[in] dateBuffer The buffer to fill with the date.
+         @param[in] dateBufferSize The size of the buffer for the date.
+         @param[in] timeBuffer The buffer to fill with the time.
+         @param[in] timeBufferSize The size of the buffer for the time. */
         void
         GetDateAndTime(char *       dateBuffer,
                        const size_t dateBufferSize,
@@ -296,20 +296,20 @@ namespace MplusM
                        const size_t timeBufferSize);
 
         /*! @brief Get the set of detected ports.
-         @param ports The set of detected ports.
-         @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports
-         are ignored.
+         @param[out] ports The set of detected ports.
+         @param[in] includeHiddenPorts @c true if all ports are returned and @c false is 'hidden'
+         ports are ignored.
          @returns @c true if the list of ports is valid and @c false otherwise. */
         bool
         GetDetectedPortList(PortVector & ports,
                             const bool   includeHiddenPorts = false);
 
         /*! @brief Retrieve the extra information string for a service.
-         @param serviceChannelName The channel for the service.
-         @param extraInfo The extra information for a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[out] extraInfo The extra information for a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         GetExtraInformationForService(const YarpString &    serviceChannelName,
@@ -319,13 +319,13 @@ namespace MplusM
                                       void *                checkStuff = NULL);
 
         /*! @brief Return the base name of a file name.
-         @param inFileName The file name to be processed.
+         @param[in] inFileName The file name to be processed.
          @returns The base name of a file name. */
         YarpString
         GetFileNameBase(const YarpString & inFileName);
 
         /*! @brief Return the file name part of a path.
-         @param inFileName The file path to be processed.
+         @param[in] inFileName The file path to be processed.
          @returns The file name part of a path. */
         YarpString
         GetFileNamePart(const YarpString & inFileName);
@@ -336,16 +336,16 @@ namespace MplusM
         GetGlobalStatusReporter(void);
 
         /*! @brief Retrieve the list of available IP addresses for the machine.
-         @param result The list of available IP addresses. */
+         @param[out] result The list of available IP addresses. */
         void
         GetMachineIPs(YarpStringVector & result);
 
         /*! @brief Retrieve the channel metrics for a service.
-         @param serviceChannelName The channel for the service.
-         @param metrics The metrics for the channels of a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[out] metrics The metrics for the channels of a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         GetMetricsForService(const YarpString &    serviceChannelName,
@@ -355,11 +355,11 @@ namespace MplusM
                              void *                checkStuff = NULL);
 
         /*! @brief Retrieve the state of the channel metrics for a service.
-         @param serviceChannelName The channel for the service.
-         @param metricsState The state of metrics collection for the channels of a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[out] metricsState The state of metrics collection for the channels of a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         GetMetricsStateForService(const YarpString &    serviceChannelName,
@@ -369,11 +369,11 @@ namespace MplusM
                                   void *                checkStuff = NULL);
 
         /*! @brief Retrieve the details for a service.
-         @param serviceChannelName The channel for the service.
-         @param descriptor The details for a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[out] descriptor The details for a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         GetNameAndDescriptionForService(const YarpString &    serviceChannelName,
@@ -383,13 +383,13 @@ namespace MplusM
                                         void *                checkStuff = NULL);
 
         /*! @brief Map a port name to the port kind.
-         @param portName The name of the port.
+         @param[in] portName The name of the port.
          @returns The kind of the port. */
         PortKind
         GetPortKind(const YarpString & portName);
 
         /*! @brief Return the IP address and port number for a port.
-         @param portName The port to be located.
+         @param[in] portName The port to be located.
          @returns The IP address and port number of the port. */
         YarpString
         GetPortLocation(const YarpString & portName);
@@ -400,10 +400,10 @@ namespace MplusM
         GetRandomHexString(void);
 
         /*! @brief Retrieve the set of known services.
-         @param services The set of registered services.
-         @param quiet @c true if status output is to be suppressed and @c false otherwise.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[out] services The set of registered services.
+         @param[in] quiet @c true if status output is to be suppressed and @c false otherwise.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the set of known services was updated successfully and @c false
          otherwise.*/
         bool
@@ -413,11 +413,11 @@ namespace MplusM
                         void *                checkStuff = NULL);
 
         /*! @brief Retrieve the set of known services.
-         @param criteria The matching criteria to be used.
-         @param services The set of registered services.
-         @param quiet @c true if status output is to be suppressed and @c false otherwise.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] criteria The matching criteria to be used.
+         @param[out] services The set of registered services.
+         @param[in] quiet @c true if status output is to be suppressed and @c false otherwise.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the set of known services was updated successfully and @c false
          otherwise.*/
         bool
@@ -428,29 +428,29 @@ namespace MplusM
                                     void *                checkStuff = NULL);
 
         /*! @brief Put the active thread to sleep for a number of milliseconds.
-         @param milliseconds The number of milliseconds to sleep. */
+         @param[in] milliseconds The number of milliseconds to sleep. */
         void
         GoToSleep(const int milliseconds);
 
         /*! @brief Return a string representation of a service kind.
-         @param kind The value to be converted.
+         @param[in] kind The value to be converted.
          @returns A string representation of the service kind. */
         const char *
         MapServiceKindToString(const Common::ServiceKind kind);
 
         /*! @brief Return the service kind corresponding to a string.
-         @param kindString The value to be converted.
+         @param[in] kindString The value to be converted.
          @returns The service kind corresponding to a string. */
         Common::ServiceKind
         MapStringToServiceKind(const YarpString & kindString);
 
         /*! @brief Connect two channels, using a backoff strategy with retries.
-         @param sourceName The name of the source channel.
-         @param destinationName The name of the destination channel.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param isUDP @c true if the connection is to be UDP and @c false otherwise.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] sourceName The name of the source channel.
+         @param[in] destinationName The name of the destination channel.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] isUDP @c true if the connection is to be UDP and @c false otherwise.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the connection was established and @ false otherwise. */
         bool
         NetworkConnectWithRetries(const YarpString &    sourceName,
@@ -461,11 +461,11 @@ namespace MplusM
                                   void *                checkStuff = NULL);
 
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
-         @param sourceName The name of the source channel.
-         @param destinationName The name of the destination channel.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] sourceName The name of the source channel.
+         @param[in] destinationName The name of the destination channel.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the connection was removed and @ false otherwise. */
         bool
         NetworkDisconnectWithRetries(const YarpString &    sourceName,
@@ -475,7 +475,7 @@ namespace MplusM
                                      void *                checkStuff = NULL);
 
         /*! @brief Return @c true if the port name is for the %Registry Service.
-         @param portName the name of the port.
+         @param[in] portName the name of the port.
          @returns @c true if the port name is for the %Registry Service main port. */
         inline bool
         PortIsRegistryService(const YarpString & portName)
@@ -492,15 +492,16 @@ namespace MplusM
          The option '-t' / '--tabs' specifies that output is to be in tab-delimited format.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the utility.
-         @param argumentDescriptions Descriptions of the arguments to the adapter.
-         @param clientDescription A description of the client application.
-         @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the utility.
-         @param flavour Set if the -j or -t options are seen.
-         @param ignoreFlavours @c true if the flavour options are ignored and @c false otherwise.
-         @param arguments If non-@c NULL, returns the arguments for the utility.
+         @param[in] argc The number of arguments in 'argv'.
+         @param[in] argv The arguments to be used with the utility.
+         @param[in,out] argumentDescriptions Descriptions of the arguments to the adapter.
+         @param[in] clientDescription A description of the client application.
+         @param[in] year The copyright year for the calling application.
+         @param[in] copyrightHolder The name of the entity holding the copyright to the utility.
+         @param[out] flavour Set if the -j or -t options are seen.
+         @param[in] ignoreFlavours @c true if the flavour options are ignored and @c false
+         otherwise.
+         @param[in] arguments If non-@c NULL, returns the arguments for the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool
         ProcessStandardClientOptions(const int               argc,
@@ -522,15 +523,16 @@ namespace MplusM
          The option '-t' / '--tabs' specifies that output is to be in tab-delimited format.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the utility.
-         @param argumentDescriptions Descriptions of the arguments to the adapter.
-         @param utilityDescription A description of the utility.
-         @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the utility.
-         @param flavour Set if the -j or -t options are seen.
-         @param ignoreFlavours @c true if the flavour options are ignored and @c false otherwise.
-         @param arguments If non-@c NULL, returns the arguments for the utility.
+         @param[in] argc The number of arguments in 'argv'.
+         @param[in] argv The arguments to be used with the utility.
+         @param[in,out] argumentDescriptions Descriptions of the arguments to the adapter.
+         @param[in] utilityDescription A description of the utility.
+         @param[in] year The copyright year for the calling application.
+         @param[in] copyrightHolder The name of the entity holding the copyright to the utility.
+         @param[out] flavour Set if the -j or -t options are seen.
+         @param[in] ignoreFlavours @c true if the flavour options are ignored and @c false
+         otherwise.
+         @param[in] arguments If non-@c NULL, returns the arguments for the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool
         ProcessStandardUtilitiesOptions(const int               argc,
@@ -544,10 +546,10 @@ namespace MplusM
                                         YarpStringVector *      arguments = NULL);
 
         /*! @brief Remove a connection between two ports.
-         @param fromPortName The name of the source port.
-         @param toPortName The name of the destination port.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] fromPortName The name of the source port.
+         @param[in] toPortName The name of the destination port.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the connection was removed and @c false otherwise. */
         bool
         RemoveConnection(const YarpString &    fromPortName,
@@ -556,15 +558,15 @@ namespace MplusM
                          void *                checkStuff = NULL);
 
         /*! @brief Remove any ports that YARP considers to be stale.
-         @param timeout The number of seconds to allow YARP to check a port. */
+         @param[in] timeout The number of seconds to allow YARP to check a port. */
         void
         RemoveStalePorts(const float timeout = 5);
 
         /*! @brief Restart a service.
-         @param serviceChannelName The channel for the service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service was restarted and @c false otherwise. */
         bool
         RestartAService(const YarpString &    serviceChannelName,
@@ -573,11 +575,11 @@ namespace MplusM
                         void *                checkStuff = NULL);
 
         /*! @brief Send new configuration values to a service.
-         @param serviceChannelName The channel for the service.
-         @param newValues The new configuration values for a service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[in] newValues The new configuration values for a service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         SetConfigurationForService(const YarpString &       serviceChannelName,
@@ -587,12 +589,12 @@ namespace MplusM
                                    void *                   checkStuff = NULL);
 
         /*! @brief Set the state of the channel metrics for a service.
-         @param serviceChannelName The channel for the service.
-         @param newMetricsState The desired state of metrics collection for the channels of a
+         @param[in] serviceChannelName The channel for the service.
+         @param[in] newMetricsState The desired state of metrics collection for the channels of a
          service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool
         SetMetricsStateForService(const YarpString &    serviceChannelName,
@@ -610,10 +612,10 @@ namespace MplusM
         ShutDownGlobalStatusReporter(void);
 
         /*! @brief Shut down a service.
-         @param serviceChannelName The channel for the service.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
+         @param[in] serviceChannelName The channel for the service.
+         @param[in] timeToWait The number of seconds allowed before a failure is considered.
+         @param[in] checker A function that provides for early exit from loops.
+         @param[in] checkStuff The private data for the early exit function.
          @returns @c true if the service was stopped and @c false otherwise. */
         bool
         StopAService(const YarpString &    serviceChannelName,
@@ -622,8 +624,8 @@ namespace MplusM
                      void *                checkStuff = NULL);
 
         /*! @brief Checks a network port number for validity.
-         @param aPort The port number to be checked.
-         @param systemAllowed @c true if system port numbers are valid and @c false otherwise.
+         @param[in] aPort The port number to be checked.
+         @param[in] systemAllowed @c true if system port numbers are valid and @c false otherwise.
          @returns @c true if the port number is valid and @c false otherwise. */
         inline bool
         ValidPortNumber(const int  aPort,

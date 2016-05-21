@@ -199,9 +199,9 @@ LeapDisplayInputHandler::~LeapDisplayInputHandler(void)
 #endif // defined(__APPLE__)
 
 /*! @brief Scaled and constrain an input value.
- @param inValue The value to be scaled.
- @param minValue The lowest expected value.
- @param maxValue The highest expected value.
+ @param[in] inValue The value to be scaled.
+ @param[in] minValue The lowest expected value.
+ @param[in] maxValue The highest expected value.
  @returns A value in the range zero to one, inclusive. */
 static double
 clampedValue(const double inValue,
@@ -236,10 +236,10 @@ clampedValue(const double inValue,
 /*! @brief Extract the information for a finger from the input.
  
  Note that missing data for a finger is not considered an error.
- @param flag The flag identifying if the finger data is present.
- @param position The index of the finger data in the input.
- @param input The input data to be processed.
- @param finger The output finger information.
+ @param[in] flag The flag identifying if the finger data is present.
+ @param[in] position The index of the finger data in the input.
+ @param[in] input The input data to be processed.
+ @param[out] finger The output finger information.
  @returns @c true if the finger data was correct and @c false if the data in the message was not
  correct for a finger. */
 static bool

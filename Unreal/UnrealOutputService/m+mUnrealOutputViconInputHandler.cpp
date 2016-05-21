@@ -78,9 +78,9 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Convert list of segments into a character stream.
- @param outBuffer The destination character stream.
- @param segmentsAsBottle The segments to write out.
- @param scale The translation scale to use.
+ @param[in,out] outBuffer The destination character stream.
+ @param[in] segmentsAsBottle The segments to write out.
+ @param[in] scale The translation scale to use.
  @returns @c true if the segments were properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
 static bool

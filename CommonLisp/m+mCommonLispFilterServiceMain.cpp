@@ -88,9 +88,9 @@ using std::cerr;
 /*! @brief A macro to create a DEFUN abstraction in C++.
 
  Credit: https://gist.github.com/vwood/662109
- @param name The string name for the function.
- @param fun A pointer to the implementing C++ function.
- @param args The number of arguments to the function. */
+ @param[in] name The string name for the function.
+ @param[in] fun A pointer to the implementing C++ function.
+ @param[in] args The number of arguments to the function. */
 #define DEFUN_(name,fun,args) \
     cl_def_c_function(c_string_to_object(name), (cl_objectfn_fixed) fun, args)
 
@@ -148,8 +148,8 @@ requestStopForCl(void)
 } // requestStopForCl
 
 /*! @brief A C-callback function for Common Lisp to send an object to a channel.
- @param channelIndex The number of the channel to be used.
- @param message The message to send to the channel. */
+ @param[in] channelIndex The number of the channel to be used.
+ @param[in] message The message to send to the channel. */
 static cl_object
 sendToChannelForCl(cl_object channelIndex,
                    cl_object message)
@@ -204,7 +204,7 @@ addCustomFunctions(void)
 } // addCustomFunctions
 
 /*! @brief Add custom classes to the Common Lisp environment.
- @param ourPackage The package to be used with the new classes.
+ @param[in] ourPackage The package to be used with the new classes.
  @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
 static bool
 addCustomClasses(cl_object ourPackage)
@@ -218,8 +218,8 @@ addCustomClasses(cl_object ourPackage)
 } // addCustomClasses
 
 /*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
- @param ourPackage The package to be used with the new object.
- @param argv The arguments to be used with the %CommonLisp filter service. */
+ @param[in] ourPackage The package to be used with the new object.
+ @param[in] argv The arguments to be used with the %CommonLisp filter service. */
 static void
 addArgvObject(cl_object                ourPackage,
               const YarpStringVector & argv)
@@ -241,8 +241,8 @@ addArgvObject(cl_object                ourPackage,
 } // addArgvObject
 
 /*! @brief Add a custom string object to the Common Lisp environment.
- @param ourPackage The package to be used with the new object.
- @param tag The modifier for the service name and port names. */
+ @param[in] ourPackage The package to be used with the new object.
+ @param[in] tag The modifier for the service name and port names. */
 static void
 addScriptTagObject(cl_object          ourPackage,
                    const YarpString & tag)
@@ -261,8 +261,8 @@ addScriptTagObject(cl_object          ourPackage,
 } // addScriptTagObject
 
 /*! @brief Add custom classes, functions and variables to the Common Lisp environment.
- @param tag The modifier for the service name and port names.
- @param argv The arguments to be used with the %CommonLisp filter service. */
+ @param[in] tag The modifier for the service name and port names.
+ @param[in] argv The arguments to be used with the %CommonLisp filter service. */
 static cl_object
 addCustomObjects(const YarpString &       tag,
                  const YarpStringVector & argv)
@@ -286,8 +286,8 @@ addCustomObjects(const YarpString &       tag,
 } // addCustomObjects
 
 /*! @brief Check the arity of a function.
- @param objectFunction The function to be checked.
- @param arityRequired The required arity for the function.
+ @param[in] objectFunction The function to be checked.
+ @param[in] arityRequired The required arity for the function.
  @returns @c true if the function has the required arity or @c false otherwise. */
 static bool
 checkArity(cl_object      objectFunction,
@@ -323,11 +323,11 @@ checkArity(cl_object      objectFunction,
 } // checkArity
 
 /*! @brief Check an object for a specific numeric property.
- @param propertyName The name of the property being searched for.
- @param canBeFunction @c true if the property can be a function rather than a string and @c false if
- the property must be a string.
- @param isOptional @c true if the property does not have to be present.
- @param result The value of the number, if located.
+ @param[in] propertyName The name of the property being searched for.
+ @param[in] canBeFunction @c true if the property can be a function rather than a string and
+ @c false if the property must be a string.
+ @param[in] isOptional @c true if the property does not have to be present.
+ @param[in,out] result The value of the number, if located.
  @returns @c true on success and @c false otherwise. */
 static bool
 getLoadedDouble(const char * propertyName,
@@ -420,11 +420,11 @@ getLoadedDouble(const char * propertyName,
 } // getLoadedDouble
 
 /*! @brief Check  script for a specific string property.
- @param propertyName The name of the property being searched for.
- @param canBeFunction @c true if the property can be a function rather than a string and @c false if
- the property must be a string.
- @param isOptional @c true if the property does not have to be present.
- @param result The value of the string, if located.
+ @param[in] propertyName The name of the property being searched for.
+ @param[in] canBeFunction @c true if the property can be a function rather than a string and
+ @c false if the property must be a string.
+ @param[in] isOptional @c true if the property does not have to be present.
+ @param[in,out] result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
 static bool
 getLoadedString(const char * propertyName,
@@ -535,10 +535,10 @@ getLoadedString(const char * propertyName,
 } // getLoadedString
 
 /*! @brief Check a script for a specific function property.
- @param propertyName The name of the property being searched for.
- @param arity The expected number of arguments for the function.
- @param isOptional @c true if the property does not have to be present.
- @param result The value of the string, if located.
+ @param[in] propertyName The name of the property being searched for.
+ @param[in] arity The expected number of arguments for the function.
+ @param[in] isOptional @c true if the property does not have to be present.
+ @param[in,out] result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
 static bool
 getLoadedFunctionRef(const char *   propertyName,
@@ -593,9 +593,9 @@ getLoadedFunctionRef(const char *   propertyName,
 } // getLoadedFunctionRef
 
 /*! @brief Check a stream description.
- @param anElement The stream description object to be checked.
- @param inletHandlers non-@c NULL if there must be a handler for the stream description.
- @param description The validated stream description.
+ @param[in] anElement The stream description object to be checked.
+ @param[in] inletHandlers non-@c NULL if there must be a handler for the stream description.
+ @param[out] description The validated stream description.
  @returns @c true on success and @c false otherwise. */
 static bool
 processStreamDescription(cl_object            anElement,
@@ -727,9 +727,9 @@ processStreamDescription(cl_object            anElement,
 
 /*! @brief Check the Common Lisp environment for a specific array variable containing stream
  descriptions.
- @param arrayName The name of the array variable being searched for.
- @param inletHandlers non-@c NULL if there must be a handler for each stream description.
- @param streamDescriptions The list of loaded stream descriptions.
+ @param[in] arrayName The name of the array variable being searched for.
+ @param[in] inletHandlers non-@c NULL if there must be a handler for each stream description.
+ @param[out] streamDescriptions The list of loaded stream descriptions.
  @returns @c true on success and @c false otherwise. */
 static bool
 getLoadedStreamDescriptions(const char *    arrayName,
@@ -840,18 +840,19 @@ getLoadedStreamDescriptions(const char *    arrayName,
 } // getLoadedStreamDescriptions
 
 /*! @brief Check the Common Lisp environment after loading a script.
- @param sawThread @c true if a thread function was defined.
- @param description The descriptive text from the script.
- @param helpString The help text from the script.
- @param loadedInletDescriptions The list of loaded inlet stream descriptions.
- @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
- @param loadedInletHandlers The list of loaded inlet handlers.
- @param loadedStartingFunction The function to execute on starting the service streams.
- @param loadedStoppingFunction The function to execute on stopping the service streams.
- @param loadedThreadFunction The function to execute on an output-generating thread.
- @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
+ @param[out] sawThread @c true if a thread function was defined.
+ @param[out] description The descriptive text from the script.
+ @param[out] helpString The help text from the script.
+ @param[out] loadedInletDescriptions The list of loaded inlet stream descriptions.
+ @param[out] loadedOutletDescriptions The list of loaded outlet stream descriptions.
+ @param[out] loadedInletHandlers The list of loaded inlet handlers.
+ @param[out] loadedStartingFunction The function to execute on starting the service streams.
+ @param[out] loadedStoppingFunction The function to execute on stopping the service streams.
+ @param[out] loadedThreadFunction The function to execute on an output-generating thread.
+ @param[out] loadedInterval The interval (in seconds) between executions of the output-generating
+ thread.
  @returns @c true on success and @c false otherwise.
- @param missingStuff A list of the missing functions or variables. */
+ @param[out] missingStuff A list of the missing functions or variables. */
 static bool
 validateLoadedScript(bool &          sawThread,
                      YarpString &    description,
@@ -962,19 +963,20 @@ validateLoadedScript(bool &          sawThread,
 } // validateLoadedScript
 
 /*! @brief Set up the environment and start the %CommonLisp filter service.
- @param argumentList Descriptions of the arguments to the executable.
- @param scriptPath The script file to be processed.
- @param arguments The arguments for the service.
- @param progName The path to the executable.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %CommonLisp filter service.
- @param tag The modifier for the service name and port names.
- @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service.
- @param goWasSet @c true if the service is to be started immediately.
- @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
+ @param[in] argumentList Descriptions of the arguments to the executable.
+ @param[in,out] scriptPath The script file to be processed.
+ @param[in] arguments The arguments for the service.
+ @param[in] progName The path to the executable.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %CommonLisp filter service.
+ @param[in,out] tag The modifier for the service name and port names.
+ @param[in,out] serviceEndpointName The YARP name to be assigned to the new service.
+ @param[in] servicePortNumber The port being used by the service.
+ @param[in] goWasSet @c true if the service is to be started immediately.
+ @param[in] nameWasSet @c true if the endpoint name was set and @c false otherwise.
+ @param[in] reportOnExit @c true if service metrics are to be reported on exit and @c false
+ otherwise.
+ @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise. */
 static void
 setUpAndGo(const Utilities::DescriptorVector & argumentList,
            YarpString &                        scriptPath,
@@ -1104,8 +1106,8 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
 /*! @brief The entry point for running the %CommonLisp filter service.
 
  The first argument is the path of the script to be run by the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %CommonLisp filter service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %CommonLisp filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

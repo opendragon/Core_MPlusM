@@ -78,7 +78,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param shared The data shared between the input handlers and the main thread. */
+             @param[in] shared The data shared between the input handlers and the main thread. */
             explicit
             RandomNumberInputHandler(RandomNumberAdapterData & shared);
 
@@ -91,14 +91,14 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RandomNumberInputHandler(const RandomNumberInputHandler & other);
 
             /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
+             @param[in] input The partially-structured input data.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param[in] numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool
             handleInput(const yarp::os::Bottle &     input,
@@ -107,7 +107,7 @@ namespace MplusM
                         const size_t                 numBytes);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RandomNumberInputHandler &
             operator =(const RandomNumberInputHandler & other);

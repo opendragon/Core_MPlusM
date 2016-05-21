@@ -95,11 +95,11 @@ namespace MplusM
             } // asString
 
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
-             @param validator A function that returns @c true if the field name is valid and @c
+             @param[in] inString The string being scanned.
+             @param[in] inLength The length of the string being scanned.
+             @param[in] startPos Where in the string to start scanning.
+             @param[in,out] endPos Where the scan terminated, if successful.
+             @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
@@ -125,18 +125,18 @@ namespace MplusM
         private :
 
             /*! @brief The constructor.
-             @param inString The matching segment of the original string.
-             @param negationSeen @c true if the field name was followed by the negation character
-             and @c false otherwise. */
+             @param[in] inString The matching segment of the original string.
+             @param[in] negationSeen @c true if the field name was followed by the negation
+             character and @c false otherwise. */
             MatchFieldName(const YarpString & inString,
                            const bool         negationSeen);
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             MatchFieldName(const MatchFieldName & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             MatchFieldName &
             operator =(const MatchFieldName & other);

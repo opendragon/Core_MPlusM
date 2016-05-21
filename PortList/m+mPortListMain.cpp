@@ -80,10 +80,10 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Report the connections for a given port.
- @param flavour The format for the output.
- @param portName The port to be inspected.
- @param checker A function that provides for early exit from loops.
- @param checkStuff The private data for the early exit function. */
+ @param[in] flavour The format for the output.
+ @param[in] portName The port to be inspected.
+ @param[in] checker A function that provides for early exit from loops.
+ @param[in] checkStuff The private data for the early exit function. */
 static void
 reportConnections(const OutputFlavour flavour,
                   const YarpString &  portName,
@@ -330,10 +330,10 @@ reportConnections(const OutputFlavour flavour,
 } // reportConnections
 
 /*! @brief Print out connection information for a port.
- @param flavour The format for the output.
- @param aDescriptor The attributes of the port of interest.
- @param checkWithRegistry @c true if the %Registry Service is available for requests and @c false
- otherwise.
+ @param[in] flavour The format for the output.
+ @param[in] aDescriptor The attributes of the port of interest.
+ @param[in] checkWithRegistry @c true if the %Registry Service is available for requests and
+ @c false otherwise.
  @returns @c true if information was written out and @c false otherwise. */
 static bool
 reportPortStatus(const OutputFlavour               flavour,
@@ -606,8 +606,8 @@ reportPortStatus(const OutputFlavour               flavour,
 
  There is no input and the output consists of a list of ports and what, if anything, is connected to
  them.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

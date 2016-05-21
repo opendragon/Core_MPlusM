@@ -173,7 +173,7 @@ static tOdThreadData lOdThreadData_ =
 };
 
 /*! @brief Return a string corresponding to each @c bool value.
- @param val The input value.
+ @param[in] val The input value.
  @returns Either "true" or "false", depending on the input value. */
 inline static const char *
 odBoolToString_(const bool val)
@@ -183,7 +183,7 @@ odBoolToString_(const bool val)
 
 #  if defined(__OBJC__)
 /*! @brief Return either the @c description string for an object or a fixed string.
- @param value The input object.
+ @param[in] value The input object.
  @returns The description of the object or "<>". */
 static const char *
 odNullOrDescription(id value)
@@ -203,7 +203,7 @@ odNullOrDescription(id value)
 #  endif // defined(__OBJC__)
 
 /*! @brief Return either the input string or a fixed string, if the input is @c NULL.
- @param aString The input string.
+ @param[in] aString The input string.
  @returns The input string or "<>". */
 static const char *
 odNullOrString(const char * aString)
@@ -223,7 +223,7 @@ odNullOrString(const char * aString)
 
 #  if MAC_OR_LINUX_
 /*! @brief Release the data associated with a thread.
- @param data A pointer to the data to be released. */
+ @param[in] data A pointer to the data to be released. */
 static void
 odReleaseThreadSpecificData_(void * data)
 {
@@ -281,7 +281,7 @@ odGetThreadData_(void)
 } // odGetThreadData_
 
 /*! @brief Return the portion of a file name that does not include the path to the file.
- @param fileName The input file path.
+ @param[in] fileName The input file path.
  @returns The file name part of a file path. */
 static const char *
 odFileNameRoot_(const char * fileName)
@@ -302,7 +302,7 @@ odGetIndent_(void)
 } // odGetIndent_
 
 /*! @brief Set the current indentation level for the active thread.
- @param value The new indentation level. */
+ @param[in] value The new indentation level. */
 inline static void
 odSetIndent_(const int value)
 {

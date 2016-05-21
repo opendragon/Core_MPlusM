@@ -91,25 +91,27 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param context The %JavaScript engine context.
-             @param global The %JavaScript global object.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param description The description from the active script.
-             @param loadedInletDescriptions The list of loaded inlet stream descriptions.
-             @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
-             @param loadedInletHandlers The list of loaded inlet handlers.
-             @param loadedStartingFunction The function to execute on starting the service streams.
-             @param loadedStoppingFunction The function to execute on stopping the service streams.
-             @param sawThread @c true if a thread function was defined.
-             @param loadedThreadFunction The function to execute on an output-generating thread.
-             @param loadedInterval The interval (in seconds) between executions of the
+             @param[in] argumentList Descriptions of the arguments to the executable.
+             @param[in] context The %JavaScript engine context.
+             @param[in,out] global The %JavaScript global object.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] description The description from the active script.
+             @param[in] loadedInletDescriptions The list of loaded inlet stream descriptions.
+             @param[in] loadedOutletDescriptions The list of loaded outlet stream descriptions.
+             @param[in] loadedInletHandlers The list of loaded inlet handlers.
+             @param[in] loadedStartingFunction The function to execute on starting the service
+             streams.
+             @param[in] loadedStoppingFunction The function to execute on stopping the service
+             streams.
+             @param[in] sawThread @c true if a thread function was defined.
+             @param[in] loadedThreadFunction The function to execute on an output-generating thread.
+             @param[in] loadedInterval The interval (in seconds) between executions of the
              output-generating thread.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             JavaScriptFilterService(const Utilities::DescriptorVector & argumentList,
                                     JSContext *                         context,
                                     JS::RootedObject &                  global,
@@ -134,7 +136,7 @@ namespace MplusM
             ~JavaScriptFilterService(void);
 
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[in] details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
@@ -171,8 +173,8 @@ namespace MplusM
             } // getGlobal
 
             /*! @brief Send a value out a specified channel.
-             @param channelSlot The output channel to be used.
-             @param theData The value to be sent.
+             @param[in] channelSlot The output channel to be used.
+             @param[in] theData The value to be sent.
              @returns @c true if the data was successfully sent and @c false otherwise. */
             bool
             sendToChannel(const int32_t channelSlot,
@@ -185,7 +187,7 @@ namespace MplusM
 
             /*! @brief Stall a thread until the main thread can process the request and then process
              the request.
-             @param slotNumber The slot number of the input handler making the request. */
+             @param[in] slotNumber The slot number of the input handler making the request. */
             void
             stallUntilIdle(const size_t slotNumber);
 
@@ -202,11 +204,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             JavaScriptFilterService(const JavaScriptFilterService & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             JavaScriptFilterService &
             operator =(const JavaScriptFilterService & other);
@@ -285,10 +287,10 @@ namespace MplusM
         }; // JavaScriptFilterService
 
         /*! @brief Print out a %JavaScript object.
-         @param outStream Where to write the object.
-         @param jct The %JavaScript engine context.
-         @param anObject The object to be printed.
-         @param depth The indentation level to be used.
+         @param[in] outStream Where to write the object.
+         @param[in] jct The %JavaScript engine context.
+         @param[in] anObject The object to be printed.
+         @param[in] depth The indentation level to be used.
          @returns The stream that was written to. */
         std::ostream &
         PrintJavaScriptObject(std::ostream &     outStream,
@@ -297,11 +299,11 @@ namespace MplusM
                               const int          depth);
 
         /*! @brief Print out a value.
-         @param outStream Where to write the value.
-         @param jct The %JavaScript engine context.
-         @param caption A title for the output.
-         @param value The value to be printed.
-         @param depth The indentation level to be used.
+         @param[in] outStream Where to write the value.
+         @param[in] jct The %JavaScript engine context.
+         @param[in] caption A title for the output.
+         @param[in] value The value to be printed.
+         @param[in] depth The indentation level to be used.
          @returns The stream that was written to. */
         std::ostream &
         PrintJavaScriptValue(std::ostream &    outStream,

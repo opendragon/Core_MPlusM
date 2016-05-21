@@ -74,8 +74,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param service The service that manages the reporting.
-             @param timeToWait The number of seconds to delay before triggering. */
+             @param[in] service The service that manages the reporting.
+             @param[in] timeToWait The number of seconds to delay before triggering. */
             AbsorberFilterThread(AbsorberFilterService & service,
                                  const double            timeToWait);
 
@@ -88,11 +88,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             AbsorberFilterThread(const AbsorberFilterThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             AbsorberFilterThread &
             operator =(const AbsorberFilterThread & other);

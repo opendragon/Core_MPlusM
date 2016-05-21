@@ -82,7 +82,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Write out a time value in a human-friendly form.
- @param measurement The time value to write out. */
+ @param[in] measurement The time value to write out. */
 static void
 reportTimeInReasonableUnits(const double measurement)
 {
@@ -246,8 +246,8 @@ setUpAndGo(void)
 
  Integers read from standard input will be sent to the service as the number of requests to
  simulate. Entering a zero will exit the program.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

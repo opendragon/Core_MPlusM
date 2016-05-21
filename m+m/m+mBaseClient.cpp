@@ -79,7 +79,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief Check the response to the 'match' request for validity.
- @param response The response to be checked.
+ @param[in] response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
 static yarp::os::Bottle
 validateMatchResponse(const yarp::os::Bottle & response)

@@ -82,7 +82,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             Test05HandlerCreator(const Test05HandlerCreator & other);
 
             /*! @brief Create a new BaseInputHandler object to process input data.
@@ -91,7 +91,7 @@ namespace MplusM
             create(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             Test05HandlerCreator &
             operator =(const Test05HandlerCreator & other);

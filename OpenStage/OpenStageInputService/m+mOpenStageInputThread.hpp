@@ -84,9 +84,9 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param name The host name to connect to the Organic Motion %OpenStage server.
-             @param port The host port to connect to the Organic Motion %OpenStage server. */
+             @param[in] outChannel The channel to send data bursts to.
+             @param[in] name The host name to connect to the Organic Motion %OpenStage server.
+             @param[in] port The host port to connect to the Organic Motion %OpenStage server. */
             OpenStageInputThread(Common::GeneralChannel * outChannel,
                                  const YarpString &       name,
                                  const int                port);
@@ -104,11 +104,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             OpenStageInputThread(const OpenStageInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             OpenStageInputThread &
             operator =(const OpenStageInputThread & other);
@@ -116,7 +116,7 @@ namespace MplusM
 
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Process the received data.
-             @param actorData The data to be processed. */
+             @param[in] actorData The data to be processed. */
             void
             processData(om::sdk2::ActorDataListConstPtr & actorData);
 # endif // ! defined(MpM_BuildDummyServices)

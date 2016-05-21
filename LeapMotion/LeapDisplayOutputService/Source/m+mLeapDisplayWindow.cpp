@@ -4,8 +4,8 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the primary window of the Leap Motion display output service
-//              application.
+//  Contains:   The class definition for the primary window of the Leap Motion display output
+//              service application.
 //
 //  Written by: Norman Jaffe
 //

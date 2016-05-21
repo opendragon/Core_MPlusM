@@ -84,11 +84,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             NameServerReportingThread(const NameServerReportingThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             NameServerReportingThread &
             operator =(const NameServerReportingThread & other);

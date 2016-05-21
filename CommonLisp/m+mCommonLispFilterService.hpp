@@ -102,23 +102,25 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param description The description from the active script.
-             @param loadedInletDescriptions The list of loaded inlet stream descriptions.
-             @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
-             @param loadedInletHandlers The list of loaded inlet handlers.
-             @param loadedStartingFunction The function to execute on starting the service streams.
-             @param loadedStoppingFunction The function to execute on stopping the service streams.
-             @param sawThread @c true if a thread function was defined.
-             @param loadedThreadFunction The function to execute on an output-generating thread.
-             @param loadedInterval The interval (in seconds) between executions of the
+             @param[in] argumentList Descriptions of the arguments to the executable.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] description The description from the active script.
+             @param[in] loadedInletDescriptions The list of loaded inlet stream descriptions.
+             @param[in] loadedOutletDescriptions The list of loaded outlet stream descriptions.
+             @param[in] loadedInletHandlers The list of loaded inlet handlers.
+             @param[in] loadedStartingFunction The function to execute on starting the service
+             streams.
+             @param[in] loadedStoppingFunction The function to execute on stopping the service
+             streams.
+             @param[in] sawThread @c true if a thread function was defined.
+             @param[in] loadedThreadFunction The function to execute on an output-generating thread.
+             @param[in] loadedInterval The interval (in seconds) between executions of the
              output-generating thread.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             CommonLispFilterService(const Utilities::DescriptorVector & argumentList,
                                     const YarpString &                  launchPath,
                                     const int                           argc,
@@ -141,7 +143,7 @@ namespace MplusM
             ~CommonLispFilterService(void);
 
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[in] details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
@@ -160,8 +162,8 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Send a value out a specified channel.
-             @param channelSlot The output channel to be used.
-             @param theData The value to be sent.
+             @param[in] channelSlot The output channel to be used.
+             @param[in] theData The value to be sent.
              @returns @c true if the data was successfully sent and @c false otherwise. */
             bool
             sendToChannel(const cl_fixnum channelSlot,
@@ -173,7 +175,7 @@ namespace MplusM
 
             /*! @brief Stall a thread until the main thread can process the request and then process
              the request.
-             @param slotNumber The slot number of the input handler making the request. */
+             @param[in] slotNumber The slot number of the input handler making the request. */
             void
             stallUntilIdle(const size_t slotNumber);
 
@@ -190,11 +192,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             CommonLispFilterService(const CommonLispFilterService & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             CommonLispFilterService &
             operator =(const CommonLispFilterService & other);
@@ -277,8 +279,8 @@ namespace MplusM
          Note that there is a bug in the ecl_make_simple_base_string where, instead of freshly
          allocating storage, the input character pointer is shared, resulting in garbage data being
          retained.
-         @param inString The string contents to be used.
-         @param inLength The string length to be used.
+         @param[in] inString The string contents to be used.
+         @param[in] inLength The string length to be used.
          @returns A new base-string with the given contents and length. */
         cl_object
         CreateBaseString(const char * inString,

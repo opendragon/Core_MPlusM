@@ -78,8 +78,8 @@ namespace MplusM
             ~TunnelClient(void);
 
             /*! @brief Get the address from the service.
-             @param address The remembered address.
-             @param port The remembered port.
+             @param[out] address The remembered address.
+             @param[out] port The remembered port.
              @returns @c true if the address was retrieved successfully and @c false otherwise. */
             bool
             getAddress(YarpString & address,
@@ -90,11 +90,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             TunnelClient(const TunnelClient & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             TunnelClient &
             operator =(const TunnelClient & other);

@@ -85,19 +85,19 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param theKind The behavioural model for the service.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
-             one handler is used.
-             @param canonicalName The channel-independent name of the service.
-             @param description The description of the service.
-             @param requestsDescription The description of the requests for the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The channel being used by the service. */
+             @param[in] argumentList Descriptions of the arguments to the executable.
+             @param[in] theKind The behavioural model for the service.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name.
+             @param[in] useMultipleHandlers @c true if simultaneous handlers are allowed, @c false
+             if one handler is used.
+             @param[in] canonicalName The channel-independent name of the service.
+             @param[in] description The description of the service.
+             @param[in] requestsDescription The description of the requests for the service.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The channel being used by the service. */
             BaseInputOutputService(const Utilities::DescriptorVector & argumentList,
                                    const ServiceKind                   theKind,
                                    const YarpString &                  launchPath,
@@ -116,7 +116,7 @@ namespace MplusM
             ~BaseInputOutputService(void);
 
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[in] details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
@@ -137,7 +137,7 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
+             @param[in,out] metrics The gathered metrics. */
             virtual void
             gatherMetrics(yarp::os::Bottle & metrics);
 
@@ -157,14 +157,14 @@ namespace MplusM
             const;
 
             /*! @brief Returns a specific client stream.
-             @param index The zero-origin index of the client stream.
+             @param[in] index The zero-origin index of the client stream.
              @returns The client stream at the specified index. */
             ClientChannel *
             getClientStream(const size_t index)
             const;
 
             /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
+             @param[out] details The configuration information for the input/output streams.
              @returns @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool
@@ -177,7 +177,7 @@ namespace MplusM
             const;
 
             /*! @brief Returns a specific input stream.
-             @param index The zero-origin index of the input stream.
+             @param[in] index The zero-origin index of the input stream.
              @returns The input stream at the specified index. */
             GeneralChannel *
             getInletStream(const size_t index)
@@ -190,7 +190,7 @@ namespace MplusM
             const;
 
             /*! @brief Returns a specific output stream.
-             @param index The zero-origin index of the output stream.
+             @param[in] index The zero-origin index of the output stream.
              @returns The output stream at the specified index. */
             GeneralChannel *
             getOutletStream(const size_t index)
@@ -206,11 +206,11 @@ namespace MplusM
             } // isActive
 
             /*! @brief Start the service and set up its configuration.
-             @param helpText The help text to be displayed.
-             @param goWasSet @c true if the service is to be started immediately.
-             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
-             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
-             otherwise. */
+             @param[in] helpText The help text to be displayed.
+             @param[in] goWasSet @c true if the service is to be started immediately.
+             @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param[in] reportOnExit @c true if service metrics are to be reported on exit and
+             @c false otherwise. */
             void
             performLaunch(const YarpString & helpText,
                           const bool         goWasSet,
@@ -252,19 +252,19 @@ namespace MplusM
             typedef std::vector<GeneralChannel *> GeneralChannelVector;
 
             /*! @brief Add a set of client channels from a set of descriptions.
-             @param descriptions The descriptions of the channels.
+             @param[in] descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addClientStreamsFromDescriptions(const ChannelVector & descriptions);
 
             /*! @brief Add a set of input channels from a set of descriptions.
-             @param descriptions The descriptions of the channels.
+             @param[in] descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addInStreamsFromDescriptions(const ChannelVector & descriptions);
 
             /*! @brief Add a set of output channels from a set of descriptions.
-             @param descriptions The descriptions of the channels.
+             @param[in] descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool
             addOutStreamsFromDescriptions(const ChannelVector & descriptions);
@@ -278,12 +278,12 @@ namespace MplusM
 
             /*! @brief If interactive, prompt for commands and then start the service. Otherwise,
              start the service immediately.
-             @param helpText The help text to be displayed.
-             @param forAdapter @c true if for an adapter and @c false for a service.
-             @param goWasSet @c true if the service is to be started immediately.
-             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
-             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
-             otherwise. */
+             @param[in] helpText The help text to be displayed.
+             @param[in] forAdapter @c true if for an adapter and @c false for a service.
+             @param[in] goWasSet @c true if the service is to be started immediately.
+             @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param[in] reportOnExit @c true if service metrics are to be reported on exit and
+             @c false otherwise. */
             void
             runService(const YarpString & helpText,
                        const bool         forAdapter,
@@ -344,7 +344,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseInputOutputService(const BaseInputOutputService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -356,22 +356,22 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief Fill in a list of secondary client channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryClientChannelsList(ChannelVector & channels);
 
             /*! @brief Fill in a list of secondary input channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryInputChannelsList(ChannelVector & channels);
 
             /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
-            fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
+            fillInSecondaryOutputChannelsList(ChannelVector & channels);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseInputOutputService &
             operator =(const BaseInputOutputService & other);

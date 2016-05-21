@@ -82,15 +82,15 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Convert a JSON element into a YARP entity and add it to a message.
- @param outMessage The message to be added to.
- @param aValue The value to be processed. */
+ @param[in,out] outMessage The message to be added to.
+ @param[in] aValue The value to be processed. */
 static void
 addJSONValueToMessage(yarp::os::Bottle &       outMessage,
                       const rapidjson::Value & aValue);
 
 /*! @brief Convert a JSON array into a list of YARP entities and add it to a message.
- @param outMessage The message to be added to.
- @param inValue The value to be processed. */
+ @param[in,out] outMessage The message to be added to.
+ @param[in] inValue The value to be processed. */
 static void
 addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
                       const rapidjson::Value & inValue)
@@ -199,8 +199,8 @@ convertJSONValueToValue(yarp::os::Value &        outValue,
 } // convertJSONValueToValue
 
 /*! @brief Convert a JSON object into a dictionary of YARP entities and add it to a message.
- @param outMessage The message to be added to.
- @param inValue The value to be processed. */
+ @param[in,out] outMessage The message to be added to.
+ @param[in] inValue The value to be processed. */
 static void
 addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
                        const rapidjson::Value & inValue)
@@ -288,8 +288,8 @@ addJSONValueToMessage(yarp::os::Bottle &       outMessage,
 } // addJSONValueToMessage
 
 /*! @brief Convert JSON-formatted input into the expected message format.
- @param outMessage The output message buffer to be used.
- @param inData The input JSON-formatted data.
+ @param[in,out] outMessage The output message buffer to be used.
+ @param[in] inData The input JSON-formatted data.
  @returns @c true if the input data is recognized as the correct format for JSON-formatted message
  data and @c false otherwise. */
 static bool

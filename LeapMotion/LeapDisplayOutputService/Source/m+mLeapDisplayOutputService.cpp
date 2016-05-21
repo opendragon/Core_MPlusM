@@ -44,7 +44,7 @@
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mGeneralChannel.hpp>
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)

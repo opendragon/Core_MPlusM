@@ -84,7 +84,7 @@ namespace MplusM
             ~TruncateFloatFilterInputHandler(void);
 
             /*! @brief Set the channel to be written to.
-             @param output The channel to be written to. */
+             @param[in] output The channel to be written to. */
             void
             setOutput(Common::GeneralChannel * output);
 
@@ -93,14 +93,14 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             TruncateFloatFilterInputHandler(const TruncateFloatFilterInputHandler & other);
 
             /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
+             @param[in] input The partially-structured input data.
+             @param[in] senderChannel The name of the channel used to send the input data.
+             @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param[in] numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool
             handleInput(const yarp::os::Bottle &     input,
@@ -109,7 +109,7 @@ namespace MplusM
                         const size_t                 numBytes);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             TruncateFloatFilterInputHandler &
             operator =(const TruncateFloatFilterInputHandler & other);

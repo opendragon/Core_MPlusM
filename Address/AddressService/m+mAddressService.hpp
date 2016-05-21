@@ -79,14 +79,14 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param hostName The host address to be returned.
-             @param hostPort The port to be returned.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] hostName The host address to be returned.
+             @param[in] hostPort The port to be returned.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             AddressService(const YarpString & hostName,
                            const int          hostPort,
                            const YarpString & launchPath,
@@ -101,8 +101,8 @@ namespace MplusM
             ~AddressService(void);
 
             /*! @brief Return the remembered address.
-             @param address The remembered address.
-             @param port The remembered port. */
+             @param[out] address The remembered address.
+             @param[out] port The remembered port. */
             void
             getAddress(YarpString & address,
                        int &        port);
@@ -112,7 +112,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             AddressService(const AddressService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -124,7 +124,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             AddressService &
             operator =(const AddressService & other);

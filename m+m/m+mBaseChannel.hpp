@@ -90,7 +90,7 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Return the send / receive counters.
-             @param counters The send / receive counters. */
+             @param[out] counters The send / receive counters. */
             void
             getSendReceiveCounters(SendReceiveCounters & counters);
 
@@ -114,45 +114,46 @@ namespace MplusM
             } // name
 
             /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theChannelName The name to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
+             @param[in] theChannelName The name to be associated with the channel.
+             @param[in] timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
             bool
             openWithRetries(const YarpString & theChannelName,
                             const double       timeToWait);
 
             /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theContactInfo The connection information to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
+             @param[in,out] theContactInfo The connection information to be associated with the
+             channel.
+             @param[in] timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
             bool
             openWithRetries(yarp::os::Contact & theContactInfo,
                             const double        timeToWait);
 
             /*! @brief Release an allocated adapter channel.
-             @param theChannel A pointer to the channel to be released. */
+             @param[in] theChannel A pointer to the channel to be released. */
             static void
             RelinquishChannel(BaseChannel * theChannel);
 
             /*! @brief Update the receive counters for the channel.
-             @param numBytes The number of bytes received. */
+             @param[in] numBytes The number of bytes received. */
             void
             updateReceiveCounters(const size_t numBytes);
 
             /*! @brief Update the send counters for the channel.
-             @param numBytes The number of bytes sent. */
+             @param[in] numBytes The number of bytes sent. */
             void
             updateSendCounters(const size_t numBytes);
 
             /*! @brief Write a message to the port.
-             @param message The message to write.
+             @param[in] message The message to write.
              @returns @c true if the message was successfully sent and @c false otherwise. */
             bool
             writeBottle(yarp::os::Bottle & message);
 
             /*! @brief Write a message to the port, with a reply expected.
-             @param message The message to write.
-             @param reply Where to put the expected reply.
+             @param[in] message The message to write.
+             @param[in,out] reply Where to put the expected reply.
              @returns @c true if the message was successfully sent and @c false otherwise. */
             bool
             writeBottle(yarp::os::Bottle & message,
@@ -163,11 +164,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseChannel(const BaseChannel & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseChannel &
             operator =(const BaseChannel & other);

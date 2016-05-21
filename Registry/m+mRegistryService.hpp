@@ -161,12 +161,12 @@ namespace MplusM
             }; // ServiceStatus
 
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary
-             disk file is to be used.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] useInMemoryDb @c true if the database is in-memory and @c false if a
+             temporary disk file is to be used.
+             @param[in] servicePortNumber The port being used by the service. */
             RegistryService(const YarpString & launchPath,
                             const int          argc,
                             char * *           argv,
@@ -178,7 +178,7 @@ namespace MplusM
             ~RegistryService(void);
 
             /*! @brief Check if a service is already in the registry.
-             @param channelName The service channel for the service.
+             @param[in] channelName The service channel for the service.
              @returns @c true if the service is present and @c false otherwise. */
             bool
             checkForExistingService(const YarpString & channelName);
@@ -196,12 +196,12 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
+             @param[in,out] channels The list of channels to be filled in. */
             virtual void
             fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
 
             /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
+             @param[in,out] metrics The gathered metrics. */
             virtual void
             gatherMetrics(yarp::os::Bottle & metrics);
 
@@ -215,8 +215,8 @@ namespace MplusM
             } // isActive
 
             /*! @brief Check the response from the 'list' request.
-             @param channelName The channel that sent the response.
-             @param response The response to be analyzed.
+             @param[in] channelName The channel that sent the response.
+             @param[in] response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
             bool
@@ -224,10 +224,11 @@ namespace MplusM
                                 const Common::ServiceResponse & response);
 
             /*! @brief Convert a match expression into SQL and process it.
-             @param matcher The match expression to be processed.
-             @param getNames @c true if service names are to be returned and @c false if service
+             @param[in] matcher The match expression to be processed.
+             @param[in] getNames @c true if service names are to be returned and @c false if service
              ports are to be returned.
-             @param reply The result from performing a SELECT with the converted match expression.
+             @param[in,out] reply The result from performing a SELECT with the converted match
+             expression.
              @returns @c true if the match request was successfully performed and @c false
              otherwise. */
             bool
@@ -236,8 +237,8 @@ namespace MplusM
                                 yarp::os::Bottle &        reply);
 
             /*! @brief Check the response from the 'name' request.
-             @param channelName The channel that sent the response.
-             @param response The response to be analyzed.
+             @param[in] channelName The channel that sent the response.
+             @param[in] response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
             bool
@@ -245,20 +246,20 @@ namespace MplusM
                                 const Common::ServiceResponse & response);
 
             /*! @brief Remove the last checked time for a service channel.
-             @param serviceChannelName The service channel that is being removed. */
+             @param[in] serviceChannelName The service channel that is being removed. */
             void
             removeCheckedTimeForChannel(const YarpString & serviceChannelName);
 
             /*! @brief Remove a service entry from the registry.
-             @param serviceChannelName The service channel that is being removed.
+             @param[in] serviceChannelName The service channel that is being removed.
              @returns @c true if the service was successfully removed and @c false otherwise. */
             bool
             removeServiceRecord(const YarpString & serviceChannelName);
 
             /*! @brief Report a change to a service.
-             @param channelName The service channel for the service.
-             @param newStatus The updated state of the service.
-             @param details Details on the change. */
+             @param[in] channelName The service channel for the service.
+             @param[in] newStatus The updated state of the service.
+             @param[in] details Details on the change. */
             void
             reportStatusChange(const YarpString &  channelName,
                                const ServiceStatus newStatus,
@@ -278,7 +279,7 @@ namespace MplusM
             stopService(void);
 
             /*! @brief Update the last checked time for a service channel.
-             @param serviceChannelName The service channel that is being updated. */
+             @param[in] serviceChannelName The service channel that is being updated. */
             void
             updateCheckedTimeForChannel(const YarpString & serviceChannelName);
 
@@ -287,31 +288,31 @@ namespace MplusM
         private :
 
             /*! @brief The constructor.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments to be used to specify the new service. */
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments to be used to specify the new service. */
             RegistryService(const int argc,
                             char * *  argv);
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RegistryService(const RegistryService & other);
 
             /*! @brief Add a request to the registry.
-             @param keywordList The list of keywords associated with the request.
-             @param description The attributes of the request.
+             @param[in] keywordList The list of keywords associated with the request.
+             @param[in] description The attributes of the request.
              @returns @c true if the request was successfully added and @c false otherwise. */
             bool
             addRequestRecord(const yarp::os::Bottle &   keywordList,
                              const RequestDescription & description);
 
             /*! @brief Add a service to the registry.
-             @param channelName The service channel for the service.
-             @param name The canonical name for the service.
-             @param tag The modifier tag for the service.
-             @param description The description of the service.
-             @param extraInfo The extra information for the service.
-             @param executable The path to the executable for the service.
-             @param requestsDescription The description of the requests for the service.
+             @param[in] channelName The service channel for the service.
+             @param[in] name The canonical name for the service.
+             @param[in] tag The modifier tag for the service.
+             @param[in] description The description of the service.
+             @param[in] extraInfo The extra information for the service.
+             @param[in] executable The path to the executable for the service.
+             @param[in] requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
             bool
             addServiceRecord(const YarpString & channelName,
@@ -331,14 +332,14 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RegistryService &
             operator =(const RegistryService & other);
 
             /*! @brief Check the dictionary entry from the 'list' response.
-             @param asDict The dictionary to be checked.
-             @param channelName The channel that sent the response.
+             @param[in] asDict The dictionary to be checked.
+             @param[in] channelName The channel that sent the response.
              @returns @c false if an unexpected value appears and @c true otherwise. */
             bool
             processDictionaryEntry(yarp::os::Property & asDict,

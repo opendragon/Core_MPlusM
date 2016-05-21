@@ -77,9 +77,9 @@ using std::endl;
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a three-dimensional floating-point vector to a dictionary.
- @param dictionary The dictionary to be updated.
- @param tag The tag to associate with the vector.
- @param position The vector to be added. */
+ @param[in,out] dictionary The dictionary to be updated.
+ @param[in] tag The tag to associate with the vector.
+ @param[in] position The vector to be added. */
 static void
 add3VectorToDictionary(yarp::os::Property &     dictionary,
                        const YarpString &       tag,
@@ -100,9 +100,9 @@ add3VectorToDictionary(yarp::os::Property &     dictionary,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a four-dimensional floating-point vector to a dictionary.
- @param dictionary The dictionary to be updated.
- @param tag The tag to associate with the vector.
- @param orientation The vector to be added. */
+ @param[in,out] dictionary The dictionary to be updated.
+ @param[in] tag The tag to associate with the vector.
+ @param[in] orientation The vector to be added. */
 static void
 add4VectorToDictionary(yarp::os::Property & dictionary,
                        const YarpString &   tag,
@@ -125,12 +125,12 @@ add4VectorToDictionary(yarp::os::Property & dictionary,
 #if (! defined(MpM_BuildDummyServices))
 # if defined(GENERATE_BONES_)
 /*! @brief Add the description of a bone to a list.
- @param listToUpdate The list to be added to.
- @param jointTag The name of the bone.
- @param startJoint The beginning joint of the bone.
- @param endJoint The ending joint of the bone.
- @param startOrientation The orientation of the beginning joint of the bone.
- @param endOrientation The orientation of the ending joint of the bone. */
+ @param[in,out] listToUpdate The list to be added to.
+ @param[in] jointTag The name of the bone.
+ @param[in] startJoint The beginning joint of the bone.
+ @param[in] endJoint The ending joint of the bone.
+ @param[in] startOrientation The orientation of the beginning joint of the bone.
+ @param[in] endOrientation The orientation of the ending joint of the bone. */
 static void
 addBoneToList(yarp::os::Bottle &       listToUpdate,
               const YarpString &       jointTag,
@@ -159,10 +159,10 @@ addBoneToList(yarp::os::Bottle &       listToUpdate,
 } // addBoneToList
 # else // ! defined(GENERATE_BONES_)
 /*! @brief Add the description of a joint to a list.
- @param listToUpdate The list to be added to.
- @param jointTag The name of the bone.
- @param jointData The joint position.
- @param orientationData The orientation of the joint. */
+ @param[in,out] listToUpdate The list to be added to.
+ @param[in] jointTag The name of the bone.
+ @param[in] jointData The joint position.
+ @param[in] orientationData The orientation of the joint. */
 static void
 addJointToList(yarp::os::Bottle &       listToUpdate,
                const YarpString &       jointTag,
@@ -188,7 +188,7 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state into a string.
- @param theHandState The state of the hand.
+ @param[in] theHandState The state of the hand.
  @returns The state of the hand as a string. */
 static const char *
 handStateToString(const HandState theHandState)
@@ -220,7 +220,7 @@ handStateToString(const HandState theHandState)
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state confidence into a string.
- @param theHandConfidence The confidence in the state of the hand.
+ @param[in] theHandConfidence The confidence in the state of the hand.
  @returns The confidence of the hand state as a string. */
 static const char *
 handConfidenceToString(const TrackingConfidence theHandConfidence)
@@ -249,17 +249,17 @@ handConfidenceToString(const TrackingConfidence theHandConfidence)
 #if (! defined(MpM_BuildDummyServices))
 # if defined(GENERATE_BONES_)
 /*! @brief Add a bone to the list that's being built.
- @param str_ The name for the bone.
- @param start_ The starting joint for the bone.
- @param end_ The ending joint for the bone. */
+ @param[in] str_ The name for the bone.
+ @param[in] start_ The starting joint for the bone.
+ @param[in] end_ The ending joint for the bone. */
 #  define ADD_BONE_TO_LIST_(str_, start_, end_) \
         addBoneToList(*bonesList, str_, jointData[start_], jointData[end_],\
                         orientationData[start_], orientationData[end_])
 
 # else // ! defined(GENERATE_BONES_)
 /*! @brief Add a joint to the list that's being built.
- @param str_ The name for the joint.
- @param index_ The joint index. */
+ @param[in] str_ The name for the joint.
+ @param[in] index_ The joint index. */
 #  define ADD_JOINT_TO_LIST_(str_, index_) \
         addJointToList(*jointsList, str_, jointData[index_], orientationData[index_])
 # endif // ! defined(GENERATE_BONES_)
@@ -267,13 +267,13 @@ handConfidenceToString(const TrackingConfidence theHandConfidence)
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
- @param message The message to be updated with the body data.
- @param jointData The set of joints for the body.
- @param orientationData The orientations of the joints.
- @param leftHandState The state of the left hand.
- @param leftHandConfidence The confidence in the value of the state of the left hand.
- @param rightHandState The state of the right hand.
- @param rightHandConfidence The confidence in the value of the state of the right hand. */
+ @param[in,out] message The message to be updated with the body data.
+ @param[in] jointData The set of joints for the body.
+ @param[in] orientationData The orientations of the joints.
+ @param[in] leftHandState The state of the left hand.
+ @param[in] leftHandConfidence The confidence in the value of the state of the left hand.
+ @param[in] rightHandState The state of the right hand.
+ @param[in] rightHandConfidence The confidence in the value of the state of the right hand. */
 static void
 addBodyToMessage(yarp::os::Bottle &       message,
                  const Joint *            jointData,
@@ -391,9 +391,9 @@ addBodyToMessage(yarp::os::Bottle &       message,
 
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
- @param message The message to be updated with the sensor data.
- @param nBodyCount The number of 'bodies' in the sensor data.
- @param ppBodies The sensor data.
+ @param[in,out] message The message to be updated with the sensor data.
+ @param[in] nBodyCount The number of 'bodies' in the sensor data.
+ @param[in] ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 static bool

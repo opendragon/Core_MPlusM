@@ -86,10 +86,10 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Check the dictionary entry from the 'list' or 'info' response.
- @param asDict The dictionary to be checked.
- @param cleanServiceName The 'sanitized' version of the service name.
- @param flavour The format for the output.
- @param sawResponse @c true if there was already a response output and @c false if this is the
+ @param[in] asDict The dictionary to be checked.
+ @param[in] cleanServiceName The 'sanitized' version of the service name.
+ @param[in] flavour The format for the output.
+ @param[in] sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c false if an unexpected value appears and @c true otherwise. */
 static bool
@@ -241,10 +241,10 @@ processDictionaryEntry(yarp::os::Property & asDict,
 } // processDictionary
 
 /*! @brief Process the response to the 'list' or 'info' request sent to a service.
- @param flavour The format for the output.
- @param serviceName The name of the service that generated the response.
- @param response The response to be processed.
- @param sawResponse @c true if there was already a response output and @c false if this is the
+ @param[in] flavour The format for the output.
+ @param[in] serviceName The name of the service that generated the response.
+ @param[in] response The response to be processed.
+ @param[in] sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool
@@ -293,9 +293,9 @@ processResponse(const OutputFlavour     flavour,
 } // processResponse
 
 /*! @brief Set up the environment and perform the operation.
- @param channelName The name of the primary channel of the service.
- @param requestName The name of the request being reported.
- @param flavour The format for the output. */
+ @param[in] channelName The name of the primary channel of the service.
+ @param[in] requestName The name of the request being reported.
+ @param[in] flavour The format for the output. */
 static void
 setUpAndGo(const YarpString &  channelName,
            const YarpString &  requestName,
@@ -491,8 +491,8 @@ setUpAndGo(const YarpString &  channelName,
  argument is the name of the channel for the service. If the request is not specified, all requests
  will be listed and if the channel is not specified, all service channels will be reported. Standard
  output will receive a list of the specified requests.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

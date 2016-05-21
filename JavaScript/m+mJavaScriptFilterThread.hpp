@@ -78,8 +78,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param owner The service that owns this thread.
-             @param timeToWait The number of seconds to delay before triggering. */
+             @param[in] owner The service that owns this thread.
+             @param[in] timeToWait The number of seconds to delay before triggering. */
             JavaScriptFilterThread(JavaScriptFilterService & owner,
                                    const double              timeToWait);
 
@@ -96,11 +96,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             JavaScriptFilterThread(const JavaScriptFilterThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             JavaScriptFilterThread &
             operator =(const JavaScriptFilterThread & other);

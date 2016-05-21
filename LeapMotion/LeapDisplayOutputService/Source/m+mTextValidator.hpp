@@ -67,7 +67,7 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param fieldDescriptor A description of the attributes of the field being validated. */
+         @param[in] fieldDescriptor A description of the attributes of the field being validated. */
         explicit
         TextValidator(MplusM::Utilities::BaseArgumentDescriptor & fieldDescriptor);
 
@@ -76,7 +76,7 @@ namespace LeapDisplay
         ~TextValidator(void);
 
         /*! @brief Check if the provided value is valid according to the field description.
-         @param toBeChecked The value to be checked.
+         @param[in] toBeChecked The value to be checked.
          @returns @c true if the value is accepted by the field description and @c false
          otherwise. */
         bool
@@ -84,8 +84,8 @@ namespace LeapDisplay
         const;
 
         /*! @brief Check if the provided value is valid according to the field description.
-         @param toBeChecked The value to be checked.
-         @param argsToUse A set of valid arguments.
+         @param[in] toBeChecked The value to be checked.
+         @param[in,out] argsToUse A set of valid arguments.
          @returns @c true if the value is accepted by the field description and @c false
          otherwise. */
         bool
@@ -94,7 +94,7 @@ namespace LeapDisplay
         const;
 
         /*! @brief Return @c true if the validator is for file paths and @c false otherwise.
-         @param isForOutput Set to @c true if the validator is for output files and @c false
+         @param[out] isForOutput Set to @c true if the validator is for output files and @c false
          otherwise.
          @returns @c true if the validator is for file paths and @c false otherwise. */
         bool

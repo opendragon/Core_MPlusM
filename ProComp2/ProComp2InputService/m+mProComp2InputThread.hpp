@@ -72,7 +72,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to. */
+             @param[in] outChannel The channel to send data bursts to. */
             explicit
             ProComp2InputThread(Common::GeneralChannel * outChannel);
 
@@ -89,18 +89,18 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ProComp2InputThread(const ProComp2InputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ProComp2InputThread &
             operator =(const ProComp2InputThread & other);
 
 # if (! defined(MpM_BuildDummyServices))
             /*! @brief Extract the data for all channels and send it.
-             @param time The time at which the channels are processed. */
+             @param[in] time The time at which the channels are processed. */
             void
             readChannelData(const DWORD time);
 # endif // ! defined(MpM_BuildDummyServices)

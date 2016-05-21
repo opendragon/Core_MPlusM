@@ -73,7 +73,7 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param service The service that has owns this thread. */
+             @param[in] service The service that has owns this thread. */
             explicit
             RegistryCheckThread(RegistryService & service);
 
@@ -86,11 +86,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             RegistryCheckThread(const RegistryCheckThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             RegistryCheckThread &
             operator =(const RegistryCheckThread & other);

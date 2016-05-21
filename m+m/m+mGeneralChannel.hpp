@@ -71,7 +71,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param isOutput @c true if the channel is used for output and @c false otherwise. */
+             @param[in] isOutput @c true if the channel is used for output and @c false
+             otherwise. */
             explicit
             GeneralChannel(const bool isOutput);
 
@@ -107,8 +108,8 @@ namespace MplusM
             } // protocolDescription
 
             /*! @brief Sets the protocol associated with the channel.
-             @param newProtocol The new protocol associated with the channel.
-             @param description The description of the new protocol. */
+             @param[in] newProtocol The new protocol associated with the channel.
+             @param[in] description The description of the new protocol. */
             void
             setProtocol(const YarpString & newProtocol,
                         const YarpString & description);
@@ -118,11 +119,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             GeneralChannel(const GeneralChannel & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             GeneralChannel &
             operator =(const GeneralChannel & other);

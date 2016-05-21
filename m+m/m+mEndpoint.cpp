@@ -78,8 +78,8 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief Check if the given port number is valid.
- @param realPort The numeric value of 'portNumber'.
- @param portNumber The port number as a string to be checked.
+ @param[in,out] realPort The numeric value of 'portNumber'.
+ @param[in] portNumber The port number as a string to be checked.
  @returns @c true if the port number string is numeric or empty. */
 static bool
 checkHostPort(int &              realPort,
@@ -125,9 +125,9 @@ checkHostPort(int &              realPort,
 } // checkHostPort
 
 /*! @brief Set the IP address for the endpoint.
- @param workingContact The connection information that is to be filled in.
- @param endpointName The desired endpoint name.
- @param portNumber The port number to be applied to the connection.
+ @param[in,out] workingContact The connection information that is to be filled in.
+ @param[in] endpointName The desired endpoint name.
+ @param[in] portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
 static bool
 setEndpointIPAddress(yarp::os::Contact & workingContact,

@@ -171,7 +171,7 @@ static const char * kMagicName = "<$probe>";
 #endif // defined(__APPLE__)
 
 /*@ brief Get the port names from the YARP name server.
- @param response The list returned from the YARP name server.
+ @param[out] response The list returned from the YARP name server.
  @returns @c true if the list was successfully retrieved and @c false otherwise. */
 static bool
 getNameServerPortList(yarp::os::Bottle & response)
@@ -219,16 +219,17 @@ getNameServerPortList(yarp::os::Bottle & response)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /* @brief The mDNS resolve callback.
- @param service The DNSServiceRef initialized by DNSServiceResolve.
- @param flags The resolve result - @c kDNSServiceFlagsMoreComing.
- @param interfaceIndex The interface on which the service was resolved.
- @param errorCode @c kDNSServiceErr_NoError on success.
- @param fullname The full service domain name.
- @param hostTarget The target hostname of the machine providing the service.
- @param port The port, in network byte order, on which connections are accepted for this service.
- @param txtLen The length of the txt record, in bytes.
- @param txtRecord The service's primary txt record, in standard txt record format.
- @param context The context pointer that was passed by DNSServiceResolve. */
+ @param[in] service The DNSServiceRef initialized by DNSServiceResolve.
+ @param[in] flags The resolve result - @c kDNSServiceFlagsMoreComing.
+ @param[in] interfaceIndex The interface on which the service was resolved.
+ @param[in] errorCode @c kDNSServiceErr_NoError on success.
+ @param[in] fullname The full service domain name.
+ @param[in] hostTarget The target hostname of the machine providing the service.
+ @param[in] port The port, in network byte order, on which connections are accepted for this
+ service.
+ @param[in] txtLen The length of the txt record, in bytes.
+ @param[in] txtRecord The service's primary txt record, in standard txt record format.
+ @param[in] context The context pointer that was passed by DNSServiceResolve. */
 static void DNSSD_API
 resolveCallback(DNSServiceRef         service,
                 DNSServiceFlags       flags,
@@ -320,14 +321,14 @@ resolveCallback(DNSServiceRef         service,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /* @brief The mDNS browse callback.
- @param service The DNSServiceRef initialized by DNSServiceBrowse.
- @param flags The browse result - @c kDNSServiceFlagsAdd or @c kDNSServiceFlagsMoreComing.
- @param interfaceIndex The interface on which the service is advertised.
- @param errorCode @c kDNSServiceErr_NoError on success.
- @param name The service name that was registered.
- @param type The type of service that was registered.
- @param domain The domain on which the service was registered.
- @param context The context pointer that was passed by DNSServiceBrowse. */
+ @param[in] service The DNSServiceRef initialized by DNSServiceBrowse.
+ @param[in] flags The browse result - @c kDNSServiceFlagsAdd or @c kDNSServiceFlagsMoreComing.
+ @param[in] interfaceIndex The interface on which the service is advertised.
+ @param[in] errorCode @c kDNSServiceErr_NoError on success.
+ @param[in] name The service name that was registered.
+ @param[in] type The type of service that was registered.
+ @param[in] domain The domain on which the service was registered.
+ @param[in] context The context pointer that was passed by DNSServiceBrowse. */
 static void DNSSD_API
 browseCallBack(DNSServiceRef       service,
                DNSServiceFlags     flags,
@@ -440,8 +441,8 @@ browseCallBack(DNSServiceRef       service,
 #endif // ! MAC_OR_LINUX_
 
 /*! @brief Check if the response is for an input connection.
- @param response The response from the port that is being checked.
- @param inputs The collected inputs for the port. */
+ @param[in] response The response from the port that is being checked.
+ @param[in,out] inputs The collected inputs for the port. */
 static void
 checkForInputConnection(const yarp::os::Bottle & response,
                         ChannelVector &          inputs)
@@ -503,8 +504,8 @@ checkForInputConnection(const yarp::os::Bottle & response,
 } // checkForInputConnection
 
 /*! @brief Check if the response is for an output connection.
- @param response The response from the port that is being checked.
- @param outputs The collected outputs for the port. */
+ @param[in] response The response from the port that is being checked.
+ @param[in,out] outputs The collected outputs for the port. */
 static void
 checkForOutputConnection(const yarp::os::Bottle & response,
                          ChannelVector &          outputs)
@@ -567,11 +568,11 @@ checkForOutputConnection(const yarp::os::Bottle & response,
 } // checkForOutputConnection
 
 /*! @brief Add a service metrics property to a string.
- @param propList The dictionary to process.
- @param flavour The output format to be used.
- @param channelWidth The width used for output alignment.
- @param sawSome @c true if some output has been generated and @c false otherwise.
- @param result The string to be added to. */
+ @param[in] propList The dictionary to process.
+ @param[in] flavour The output format to be used.
+ @param[in] channelWidth The width used for output alignment.
+ @param[out] sawSome @c true if some output has been generated and @c false otherwise.
+ @param[in,out] result The string to be added to. */
 static void
 convertMetricPropertyToString(yarp::os::Property & propList,
                               const OutputFlavour  flavour,
@@ -761,10 +762,10 @@ convertMetricPropertyToString(yarp::os::Property & propList,
 
  Note that each line of the response, except the last, is started with 'registration name'. This is
  followed by the port name, 'ip', the IP address, 'port' and the port number.
- @param received The response to be processed.
- @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are
+ @param[in] received The response to be processed.
+ @param[in] includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are
  ignored.
- @param ports The list of non-default ports/ipaddress/portnumber found. */
+ @param[out] ports The list of non-default ports/ipaddress/portnumber found. */
 static void
 processNameServerResponse(const YarpString & received,
                           const bool         includeHiddenPorts,
@@ -875,8 +876,8 @@ processNameServerResponse(const YarpString & received,
 } // processNameServerResponse
 
 /*! @brief Convert a YARP value into a JSON element.
- @param outBuffer The buffer to be written to.
- @param inputValue The value to be processed. */
+ @param[in,out] outBuffer The buffer to be written to.
+ @param[in] inputValue The value to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
 static void
 processValue(Common::StringBuffer &  outBuffer,
@@ -888,8 +889,8 @@ processValue(std::stringstream &     outBuffer,
 #endif // ! defined(MpM_UseCustomStringBuffer)
 
 /*! @brief Convert a YARP string into a JSON string.
- @param outBuffer The buffer to be written to.
- @param inputString The string to be processed. */
+ @param[in,out] outBuffer The buffer to be written to.
+ @param[in] inputString The string to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
 static void
 processString(Common::StringBuffer & outBuffer,
@@ -982,8 +983,8 @@ processString(std::stringstream & outBuffer,
 } // processString
 
 /*! @brief Convert a YARP dictionary into a JSON object.
- @param outBuffer The buffer to be written to.
- @param inputDictionary The dictionary to be processed. */
+ @param[in,out] outBuffer The buffer to be written to.
+ @param[in] inputDictionary The dictionary to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
 static void
 processDictionary(Common::StringBuffer &     outBuffer,
@@ -1042,8 +1043,8 @@ processDictionary(std::stringstream &        outBuffer,
 } // processDictionary
 
 /*! @brief Convert a YARP list into a JSON array.
- @param outBuffer The buffer to be written to.
- @param inputList The list to be processed. */
+ @param[in,out] outBuffer The buffer to be written to.
+ @param[in] inputList The list to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
 static void
 processList(Common::StringBuffer &   outBuffer,

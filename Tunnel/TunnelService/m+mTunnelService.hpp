@@ -80,14 +80,14 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param sourceName The data source address to be connected to.
-             @param sourcePort The data source port to be connected to.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name and port names.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
+             @param[in] sourceName The data source address to be connected to.
+             @param[in] sourcePort The data source port to be connected to.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name and port names.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The port being used by the service. */
             TunnelService(const YarpString & sourceName,
                           const int          sourcePort,
                           const YarpString & launchPath,
@@ -102,14 +102,14 @@ namespace MplusM
             ~TunnelService(void);
 
             /*! @brief Return the remembered address.
-             @param address The remembered address.
-             @param port The remembered port. */
+             @param[out] address The remembered address.
+             @param[out] port The remembered port. */
             void
             getAddress(YarpString & address,
                        int &        port);
 
             /*! @brief Set the port that will be remembered.
-             @param port The port to be remembered. */
+             @param[in] port The port to be remembered. */
             inline void
             setPort(const int port)
             {
@@ -131,7 +131,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             TunnelService(const TunnelService & other);
 
             /*! @brief Enable the standard request handlers. */
@@ -143,7 +143,7 @@ namespace MplusM
             detachRequestHandlers(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             TunnelService &
             operator =(const TunnelService & other);

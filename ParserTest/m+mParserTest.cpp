@@ -88,8 +88,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseValue(const bool   expected,
@@ -136,8 +136,8 @@ doTestParseValue(const bool   expected,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseValueList(const bool   expected,
@@ -185,8 +185,8 @@ doTestParseValueList(const bool   expected,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseFieldName(const bool   expected,
@@ -237,8 +237,8 @@ doTestParseFieldName(const bool   expected,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseFieldWithValues(const bool   expected,
@@ -291,8 +291,8 @@ doTestParseFieldWithValues(const bool   expected,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseConstraintList(const bool   expected,
@@ -343,8 +343,8 @@ doTestParseConstraintList(const bool   expected,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param expected @c true if the test is expected to succeed, and @c false otherwise.
- @param inString The string to be used for the test.
+ @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param[in] inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestParseExpression(const bool   expected,
@@ -391,7 +391,7 @@ doTestParseExpression(const bool   expected,
 } // doTestParseExpression
 
 /*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
+ @param[in] signal The signal being handled. */
 static void
 catchSignal(int signal)
 {
@@ -418,8 +418,8 @@ catchSignal(int signal)
  The first argument is the test number, the second argument is either 't' or 'f', to indicate if the
  test is expected to succeed or fail, respectivelly, and the third argument is the string to be
  parsed. Output depends on the test being run.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the unit tests.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

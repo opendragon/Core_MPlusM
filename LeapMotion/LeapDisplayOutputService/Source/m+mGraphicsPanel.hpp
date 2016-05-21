@@ -58,6 +58,7 @@
 namespace LeapDisplay
 {
     class ContentPanel;
+    class VertexBuffer;
 
     /*! @brief The entities layer of the main window of the application. */
     class GraphicsPanel : public Component,
@@ -75,9 +76,9 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param container The container in which the panel is embedded.
-         @param startingWidth The initial width to use, or zero to use a default width.
-         @param startingHeight The initial height to use, or zero to uase a default height. */
+         @param[in] container The container in which the panel is embedded.
+         @param[in] startingWidth The initial width to use, or zero to use a default width.
+         @param[in] startingHeight The initial height to use, or zero to uase a default height. */
         explicit
         GraphicsPanel(ContentPanel * container,
                       const int      startingWidth = 0,
@@ -86,10 +87,6 @@ namespace LeapDisplay
         /*! @brief The destructor. */
         virtual
         ~GraphicsPanel(void);
-
-        /*! @brief Clear any active dragging information. */
-        void
-        clearDragInfo(void);
 
         /*! @brief Release all data held by the panel. */
         void
@@ -104,15 +101,6 @@ namespace LeapDisplay
             return _container;
         } // getContent
 
-        /*! @brief Return @c true if dragging a connection and @c false otherwise.
-         @returns @c true if dragging a connection and @c false otherwise. */
-        inline bool
-        isDragActive(void)
-        const
-        {
-            return _dragConnectionActive;
-        } // isDragActive
-
         /*! @brief Called when a new OpenGL context has been created. */
         virtual void
         newOpenGLContextCreated(void);
@@ -125,20 +113,12 @@ namespace LeapDisplay
         virtual void
         renderOpenGL(void);
 
-        /*! @brief Update the dragging information.
-         @param position The location of the dragging connection.
-         @param isForced @c true if the drag line should show a forced connection and @c false
-         otherwise. */
-        void
-        setDragInfo(const Position position,
-                    const bool     isForced);
-
         /*! @brief Update the finger data for each hand.
          
          Note that the access to the data is guarded by a critical section, so this is meant to be
          called from the input handler thread.
-         @param leftHand The new data for the left hand.
-         @param rightHand The new data for the right hand. */
+         @param[in] leftHand The new data for the left hand.
+         @param[in] rightHand The new data for the right hand. */
         void
         updateFingerData(const HandData & leftHand,
                          const HandData & rightHand);
@@ -147,29 +127,84 @@ namespace LeapDisplay
 
     private :
         
-        /*! @brief Draw the background.
-         @param desktopScale The drawing scale to be used. */
+        /*! @brief Disable the active vertex attributes. */
         void
-        drawBackground2DStuff(const float desktopScale);
+        disableVertexAttributes(void);
+        
+        /*! @brief Draw the background.
+         @param[in] desktopScale The drawing scale to be used. */
+        void
+        drawBackground(const float desktopScale);
+
+        /*! @brief Draw the finger tips for a hand.
+         @param[in] where The position of the shape to draw at the finger tip.
+         @param[in] order The position of the finger in the finger order. */
+        void
+        drawFingertip(const Location & where,
+                      const int        order);
+        
+        /*! @brief Draw the fingers of a hand.
+         @param[in] aHand The hand to be drawn. */
+        void
+        drawHand(const HandData & aHand);
+        
+        /*! @brief Enable the active vertex attributes. */
+        void
+        enableVertexAttributes(void);
         
         /*! @brief Release the objects attached to the current OpenGL context. */
         void
         freeContextObjects(void);
 
+        /*! @brief Return the current projection matrix.
+         @returns The current projection matrix. */
+        Matrix3D<float>
+        getProjectionMatrix(void)
+        const;
+        
+        /*! @brief Return the current view matrix.
+         @returns The current view matrix. */
+        Matrix3D<float>
+        getViewMatrix(void)
+        const;
+        
         /*! @brief Called when a mouse button is pressed.
-         @param ee Details about the position and status of the mouse event. */
+         @param[in] ee Details about the position and status of the mouse event. */
         virtual void
         mouseDown(const MouseEvent & ee);
 
-        /*! @brief Called when a mouse button is released.
-         @param ee Details about the position and status of the mouse event. */
+        /*! @brief Called when the mouse is moved while a button is held down.
+         @param[in] ee Details about the position and status of the mouse event. */
         virtual void
-        mouseUp(const MouseEvent& ee);
+        mouseDrag(const MouseEvent & ee);
 
         /*! @brief Called when the component size has been changed. */
         virtual void
         resized(void);
 
+        /*! @brief Set the shader program source strings.
+         @param[in] vertexShader The source for the vertex shader.
+         @param[in] fragmentShader The source for the fragment shader. */
+        void
+        setShaderProgram(const String & vertexShader,
+                         const String & fragmentShader);
+        
+        /*! @brief Set up the cube data. */
+        void
+        setUpCube(void);
+        
+        /*! @brief Set up the octahedron data. */
+        void
+        setUpOctahedron(void);
+        
+        /*! @brief Set up the tetrahedron data. */
+        void
+        setUpTetrahedron(void);
+        
+        /*! @brief Set up the texture for use. */
+        void
+        setUpTexture(void);
+        
         /*! @brief Refresh the shader program. */
         void
         updateShader(void);
@@ -186,8 +221,59 @@ namespace LeapDisplay
         /*! @brief The OpenGL rendering context. */
         OpenGLContext _context;
 
+        /*! @brief The texture to be used for rendering. */
+        OpenGLTexture _texture;
+        
+        /*! @brief Support for changing the visual orientation with the mouse. */
+        Draggable3DOrientation _draggableOrientation;
+ 
+        /*! @brief The vertex data for a cube. */
+        Array<Vertex> _cubeVertices;
+        
+        /*! @brief The vertex data for an octahedron. */
+        Array<Vertex> _octahedronVertices;
+        
+        /*! @brief The vertex data for a tetrahedron. */
+        Array<Vertex> _tetrahedronVertices;
+        
         /*! @brief The shader program to use for rendering. */
         ScopedPointer<OpenGLShaderProgram> _shaderProgram;
+        
+        /*! @brief The uniform for the offset. */
+        ScopedPointer<OpenGLShaderProgram::Uniform> _offsetUniform;
+
+        /*! @brief The uniform for the projection matrix. */
+        ScopedPointer<OpenGLShaderProgram::Uniform> _projectionMatrixUniform;
+
+        /*! @brief The uniform for the view matrix. */
+        ScopedPointer<OpenGLShaderProgram::Uniform> _viewMatrixUniform;
+        
+        /*! @brief The uniform for the texture. */
+        ScopedPointer<OpenGLShaderProgram::Uniform> _textureUniform;
+        
+        /*! @brief The uniform for the light position. */
+        ScopedPointer<OpenGLShaderProgram::Uniform> _lightPositionUniform;
+        
+        /*! @brief The vertex attribute for its position. */
+        ScopedPointer<OpenGLShaderProgram::Attribute> _positionAttribute;
+        
+        /*! @brief The vertex attribute for its surface normal. */
+        ScopedPointer<OpenGLShaderProgram::Attribute> _normalAttribute;
+        
+        /*! @brief The vertex attribute for its colour. */
+        ScopedPointer<OpenGLShaderProgram::Attribute> _sourceColourAttribute;
+        
+        /*! @brief The vertex attribute for its texture coordinate. */
+        ScopedPointer<OpenGLShaderProgram::Attribute> _textureCoordInAttribute;
+        
+        /*! @brief The vertices, normals, colour and texture coordinates for a cube. */
+        ScopedPointer<VertexBuffer> _cubeData;
+        
+        /*! @brief The vertices, normals, colour and texture coordinates for an octahedron. */
+        ScopedPointer<VertexBuffer> _octahedronData;
+        
+        /*! @brief The vertices, normals, colour and texture coordinates for a tetrahedron. */
+        ScopedPointer<VertexBuffer> _tetrahedronData;
         
         /*! @brief The most recent data for the left hand. */
         HandData _leftHand;
@@ -201,28 +287,15 @@ namespace LeapDisplay
         /*! @brief The source code for the vertex shader. */
         String _vertexShaderSource;
         
-        /*! @brief The coordinates of the drag-connection operation. */
-        Position _dragPosition;
-
         /*! @brief The container in which the panel is embedded. */
         ContentPanel * _container;
 
-        /*! @brief @c true if a drag-connection operation is active. */
-        bool _dragConnectionActive;
-
-        /*! @brief @c true if the drag operation is for a forced connection. */
-        bool _dragIsForced;
-
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char _filler[6];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-
+        /*! @brief The rotation angle to apply to the image. */
+        float _rotation;
+        
+        /*! @brief The scaling factor to apply to the image. */
+        float _scale;
+        
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GraphicsPanel)
 
     }; // GraphicsPanel

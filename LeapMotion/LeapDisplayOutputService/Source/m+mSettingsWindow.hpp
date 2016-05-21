@@ -85,14 +85,15 @@ namespace LeapDisplay
     public :
 
         /*! @brief The constructor.
-         @param title The title for the window.
-         @param execType The kind of application being configured.
-         @param appInfo The options for the settings.
-         @param endpointToUse The resulting endpoint for the application.
-         @param tagToUse The resulting tag for the application.
-         @param portToUse The resulting port for the application.
-         @param tagModifierCount The number of bytes of the IP address to use as a tag modifier.
-         @param argsToUse The resulting arguments for the application. */
+         @param[in] title The title for the window.
+         @param[in] execType The kind of application being configured.
+         @param[in] appInfo The options for the settings.
+         @param[in,out] endpointToUse The resulting endpoint for the application.
+         @param[in,out] tagToUse The resulting tag for the application.
+         @param[in,out] portToUse The resulting port for the application.
+         @param[in,out] tagModifierCount The number of bytes of the IP address to use as a tag
+         modifier.
+         @param[in,out] argsToUse The resulting arguments for the application. */
         SettingsWindow(const String &          title,
                        const String &          execType,
                        const ApplicationInfo & appInfo,
@@ -119,7 +120,7 @@ namespace LeapDisplay
         adjustFields(void);
 
         /*! @brief Called when a button is clicked.
-         @param aButton The button that was clicked. */
+         @param[in] aButton The button that was clicked. */
         virtual void
         buttonClicked(Button * aButton);
 
@@ -129,12 +130,12 @@ namespace LeapDisplay
         fieldsAreValid(void);
 
         /*! @brief Called when this component has just acquired the keyboard focus.
-         @param cause The type of event that caused the change in focus. */
+         @param[in] cause The type of event that caused the change in focus. */
         virtual void
         focusGained(FocusChangeType cause);
 
         /*! @brief Called when this component has just lost the keyboard focus.
-         @param cause The type of event that caused the change in focus. */
+         @param[in] cause The type of event that caused the change in focus. */
         virtual void
         focusLost(FocusChangeType cause);
 
@@ -143,7 +144,7 @@ namespace LeapDisplay
         handleAsyncUpdate(void);
 
         /*! @brief Called when a key is pressed.
-         @param key The key that was pressed.
+         @param[in] key The key that was pressed.
          @returns @c true if the key was consumed and @c false otherwise. */
         virtual bool
         keyPressed(const KeyPress & key);
@@ -157,12 +158,12 @@ namespace LeapDisplay
         removeMostRecentlyAddedExtraField(void);
 
         /*! @brief Report an error in a field.
-         @param fieldOfInterest The field to be reported. */
+         @param[in] fieldOfInterest The field to be reported. */
         virtual void
         reportErrorInField(FormField & fieldOfInterest);
 
         /*! @brief Report an error in a field.
-         @param fieldOfInterest The field to be reported. */
+         @param[in] fieldOfInterest The field to be reported. */
         virtual void
         reportErrorInField(ValidatingTextEditor & fieldOfInterest);
 
@@ -171,8 +172,8 @@ namespace LeapDisplay
         resized(void);
 
         /*! @brief Set up the standard fields.
-         @param widthSoFar The minimum width to show the fields.
-         @param heightSoFar The minimum height to show the fields. */
+         @param[out] widthSoFar The minimum width to show the fields.
+         @param[out] heightSoFar The minimum height to show the fields. */
         void
         setUpStandardFields(int & widthSoFar,
                             int & heightSoFar);

@@ -83,8 +83,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Process the argument list for the application.
- @param arguments The arguments to analyze.
- @param namePattern The generated search value. */
+ @param[in] arguments The arguments to analyze.
+ @param[out] namePattern The generated search value. */
 static void
 processArguments(const YarpStringVector & arguments,
                  YarpString &             namePattern)
@@ -107,7 +107,7 @@ processArguments(const YarpStringVector & arguments,
 } // processArguments
 
 /*! @brief Create a 'listen' socket.
- @param listenPort The network port to attach the new socket to.
+ @param[in] listenPort The network port to attach the new socket to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 setUpListeningPost(const int listenPort)
@@ -174,8 +174,8 @@ setUpListeningPost(const int listenPort)
 } // setUpListeningPost
 
 /*! @brief Connect to the %Tunnel service 'raw' network port.
- @param serviceAddress The IP address to connect to.
- @param servicePort The port number to connect to.
+ @param[in] serviceAddress The IP address to connect to.
+ @param[in] servicePort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 connectToTunnel(const YarpString & serviceAddress,
@@ -236,9 +236,9 @@ connectToTunnel(const YarpString & serviceAddress,
 } // connectToTunnel
 
 /*! @brief Handle the network connections.
- @param listenSocket The 'listen' socket to use.
- @param serviceAddress The IP address to connect to.
- @param servicePort The port number to connect to. */
+ @param[in] listenSocket The 'listen' socket to use.
+ @param[in] serviceAddress The IP address to connect to.
+ @param[in] servicePort The port number to connect to. */
 static void
 handleConnections(SOCKET             listenSocket,
                   const YarpString & serviceAddress,
@@ -302,8 +302,8 @@ handleConnections(SOCKET             listenSocket,
 } // handleConnections
 
 /*! @brief Set up the environment and connect to the port.
- @param listenPort The outgoing port.
- @param tag The tag for the service to be connected to. */
+ @param[in] listenPort The outgoing port.
+ @param[in] tag The tag for the service to be connected to. */
 #if defined(MpM_ReportOnConnections)
 static void
 setUpAndGo(const int               listenPort,
@@ -397,8 +397,8 @@ setUpAndGo(const int          listenPort,
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the %Tunnel service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Tunnel client.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %Tunnel client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

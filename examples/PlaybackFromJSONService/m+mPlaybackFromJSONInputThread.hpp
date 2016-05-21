@@ -72,11 +72,11 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param outChannel The channel to send the data to.
-             @param outMessage The data to be used.
-             @param playbackRatio The speed at which to send data.
-             @param initialDelay The number of seconds to delay before the first message send.
-             @param loopPlayback @c true if the data is to be repeated indefinitely and @c false
+             @param[in] outChannel The channel to send the data to.
+             @param[in] outMessage The data to be used.
+             @param[in] playbackRatio The speed at which to send data.
+             @param[in] initialDelay The number of seconds to delay before the first message send.
+             @param[in] loopPlayback @c true if the data is to be repeated indefinitely and @c false
              otherwise. */
             PlaybackFromJSONInputThread(Common::GeneralChannel * outChannel,
                                         yarp::os::Bottle &       outMessage,
@@ -97,11 +97,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             PlaybackFromJSONInputThread(const PlaybackFromJSONInputThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             PlaybackFromJSONInputThread &
             operator =(const PlaybackFromJSONInputThread & other);

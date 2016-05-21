@@ -89,13 +89,13 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the Request Counter service.
- @param progName The path to the executable.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Request Counter service.
- @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param[in] progName The path to the executable.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the Request Counter service.
+ @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+ @param[in] servicePortNumber The port being used by the service.
+ @param[in] reportOnExit @c true if service metrics are to be reported on exit and @c false
+ otherwise. */
 static void
 setUpAndGo(const YarpString & progName,
            const int          argc,
@@ -164,8 +164,8 @@ setUpAndGo(const YarpString & progName,
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Request Counter service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Request Counter service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the Request Counter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

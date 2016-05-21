@@ -91,8 +91,8 @@ using std::endl;
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Test Loopback Control utility.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Test Loopback Responder utility.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the Test Loopback Responder utility.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

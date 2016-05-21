@@ -73,8 +73,8 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param channelName The channel that we are acting on the behalf of.
-             @param service The service associated with the request. */
+             @param[in] channelName The channel that we are acting on the behalf of.
+             @param[in] service The service associated with the request. */
             PingThread(const YarpString & channelName,
                        BaseService &      service);
 
@@ -87,11 +87,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             PingThread(const PingThread & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             PingThread &
             operator =(const PingThread & other);

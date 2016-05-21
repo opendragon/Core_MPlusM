@@ -79,11 +79,11 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argName The name of the command-line argument.
-             @param argDescription A description of the command-line argument.
-             @param argMode The mode of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
-             @param isSystemPort @c true if the value can be a system port and @c false
+             @param[in] argName The name of the command-line argument.
+             @param[in] argDescription A description of the command-line argument.
+             @param[in] argMode The mode of the command-line argument.
+             @param[in] defaultValue The default value for the command-line argument.
+             @param[in] isSystemPort @c true if the value can be a system port and @c false
              otherwise. */
             PortArgumentDescriptor(const YarpString & argName,
                                    const YarpString & argDescription,
@@ -96,7 +96,7 @@ namespace MplusM
             ~PortArgumentDescriptor(void);
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
-             @param inString The input string in 'arguments' format.
+             @param[in] inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor *
             parseArgString(const YarpString & inString);
@@ -106,7 +106,7 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             PortArgumentDescriptor(const PortArgumentDescriptor & other);
 
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
@@ -115,7 +115,7 @@ namespace MplusM
             clone(void);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             PortArgumentDescriptor &
             operator =(const PortArgumentDescriptor & other);

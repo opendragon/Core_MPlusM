@@ -153,9 +153,9 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argName The name of the command-line argument.
-             @param argDescription A description of the command-line argument.
-             @param argMode The mode of the command-line argument. */
+             @param[in] argName The name of the command-line argument.
+             @param[in] argDescription A description of the command-line argument.
+             @param[in] argMode The mode of the command-line argument. */
             BaseArgumentDescriptor(const YarpString & argName,
                                    const YarpString & argDescription,
                                    const ArgumentMode argMode);
@@ -165,7 +165,7 @@ namespace MplusM
             ~BaseArgumentDescriptor(void);
 
             /*! @brief Add the processed value to a bottle.
-             @param container The bottle to be modified. */
+             @param[in,out] container The bottle to be modified. */
             virtual void
             addValueToBottle(yarp::os::Bottle & container) = 0;
 
@@ -232,7 +232,7 @@ namespace MplusM
             } // isExtra
 
             /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
-             @param isForOutput Set to @c true if the argument is for output files and @c false
+             @param[out] isForOutput Set to @c true if the argument is for output files and @c false
              otherwise.
              @returns @c true if the argument is for file paths and @c false otherwise. */
             virtual bool
@@ -298,7 +298,7 @@ namespace MplusM
             toString(void) = 0;
 
             /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
+             @param[in] value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
             virtual bool
@@ -307,10 +307,10 @@ namespace MplusM
         protected :
 
             /*! @brief Partition a string that is in 'arguments' format into a sequence of strings.
-             @param inString The string to be partitioned.
-             @param indexOfDefaultValue The position in the input string where the default value
+             @param[in] inString The string to be partitioned.
+             @param[in] indexOfDefaultValue The position in the input string where the default value
              will appear.
-             @param result The partitioned string.
+             @param[out] result The partitioned string.
              @returns @c true if the correct number of fields appear within the input string and
              @c false otherwise. */
             static bool
@@ -320,7 +320,7 @@ namespace MplusM
 
             /*! @brief Returns a string that contains a printable representation of the standard
              prefix fields for a command-line argument.
-             @param tagForField The tag value to use for the field.
+             @param[in] tagForField The tag value to use for the field.
              @returns A string that contains a printable representation of the standard prefix
              fields for a command-line argument. */
             YarpString
@@ -329,8 +329,8 @@ namespace MplusM
 
             /*! @brief Returns a string that contains a printable representation of the standard
              fields for a command-line argument.
-             @param defaultToUse The string to put in the printable representation for the default
-             value.
+             @param[in] defaultToUse The string to put in the printable representation for the
+             default value.
              @returns A string that contains a printable representation of the standard fields for
              a command-line argument. */
             YarpString
@@ -339,11 +339,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseArgumentDescriptor(const BaseArgumentDescriptor & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseArgumentDescriptor &
             operator =(const BaseArgumentDescriptor & other);
@@ -385,16 +385,16 @@ namespace MplusM
         typedef std::vector<BaseArgumentDescriptor *> DescriptorVector;
 
         /*! @brief Generate the standard 'argument list' description from an argument sequence.
-         @param arguments The argument sequence.
+         @param[in] arguments The argument sequence.
          @returns A string containing the standard 'argument list' representation of the argument
          sequence. */
         YarpString
         ArgumentsToArgString(const DescriptorVector & arguments);
 
         /*! @brief Generate the standard 'argument description' from an argument sequence.
-         @param arguments The argument sequence.
-         @param output The generated argument descriptions.
-         @param minSpace The number of characters between the argument names and their
+         @param[in] arguments The argument sequence.
+         @param[out] output The generated argument descriptions.
+         @param[in] minSpace The number of characters between the argument names and their
          descriptions. */
         void
         ArgumentsToDescriptionArray(const DescriptorVector & arguments,
@@ -402,36 +402,36 @@ namespace MplusM
                                     const size_t             minSpace);
 
         /*! @brief Return the resulting argument values.
-         @param arguments The argument sequence.
-         @param sep The separator string between the argument values.
+         @param[in] arguments The argument sequence.
+         @param[in] sep The separator string between the argument values.
          @returns The argument values, separated by 'sep'. */
         YarpString
         CombineArguments(const DescriptorVector & arguments,
                          const YarpString &       sep);
 
         /*! @brief Convert a string in '--args' format into an argument description.
-         @param inString The string to be analyzed.
+         @param[in] inString The string to be analyzed.
          @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
         BaseArgumentDescriptor *
         ConvertStringToArgument(const YarpString & inString);
 
         /*! @brief Copy the argument values to a bottle.
-         @param arguments The argument sequence.
-         @param container The bottle to be modified. */
+         @param[in] arguments The argument sequence.
+         @param[in,out] container The bottle to be modified. */
         void
         CopyArgumentsToBottle(const DescriptorVector & arguments,
                               yarp::os::Bottle &       container);
 
         /*! @brief Return the mode corresponding to a string.
-         @param modeString The mode value as a string.
+         @param[in] modeString The mode value as a string.
          @returns The mode corresponding to a string. */
         ArgumentMode
         ModeFromString(const YarpString & modeString);
 
         /*! @brief Update the arguments data from the parsed argument list.
-         @param arguments The argument sequence.
-         @param parseResult The parsed argument list.
-         @param badArgs The list of invalid or missing arguments.
+         @param[in] arguments The argument sequence.
+         @param[out] parseResult The parsed argument list.
+         @param[out] badArgs The list of invalid or missing arguments.
          @returns @c true if the parsed argument list matches the argument sequence and @c false
          otherwise. */
         bool
@@ -440,7 +440,7 @@ namespace MplusM
                          YarpString &             badArgs);
 
         /*! @brief Prompt the user for the value of each of the arguments.
-         @param arguments The argument sequence.
+         @param[in] arguments The argument sequence.
          @returns @c true if all arguments are valid and @c false otherwise. */
         bool
         PromptForValues(const DescriptorVector & arguments);

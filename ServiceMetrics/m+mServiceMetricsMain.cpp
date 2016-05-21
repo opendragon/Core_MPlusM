@@ -85,8 +85,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param channelName The primary channel for the service.
- @param flavour The format for the output. */
+ @param[in] channelName The primary channel for the service.
+ @param[in] flavour The format for the output. */
 static void
 setUpAndGo(const YarpString &  channelName,
            const OutputFlavour flavour)
@@ -211,8 +211,8 @@ setUpAndGo(const YarpString &  channelName,
  The first, optional, argument is the name of the channel for the service. If the channel is not
  specified, all service channels will be reported. Standard output will receive a list of the
  specified metrics.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

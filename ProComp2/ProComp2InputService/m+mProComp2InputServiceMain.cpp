@@ -86,17 +86,17 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the %ProComp2 input service.
- @param argumentList Descriptions of the arguments to the executable.
- @param progName The path to the executable.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %ProComp2 input service.
- @param tag The modifier for the service name and port names.
- @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service.
- @param goWasSet @c true if the service is to be started immediately.
- @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param[in] argumentList Descriptions of the arguments to the executable.
+ @param[in] progName The path to the executable.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %ProComp2 input service.
+ @param[in] tag The modifier for the service name and port names.
+ @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+ @param[in] servicePortNumber The port being used by the service.
+ @param[in] goWasSet @c true if the service is to be started immediately.
+ @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise.
+ @param[in] reportOnExit @c true if service metrics are to be reported on exit and @c false
+ otherwise. */
 static void
 setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const YarpString &                  progName,
@@ -145,8 +145,8 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
  The option 'r' indicates that the service metrics are to be reported on exit.
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %ProComp2 input service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the %ProComp2 input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,

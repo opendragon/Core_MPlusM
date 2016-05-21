@@ -72,18 +72,18 @@ namespace MplusM
         public :
 
             /*! @brief The constructor.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param launchPath The command-line name used to launch the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments passed to the executable used to launch the service.
-             @param tag The modifier for the service name.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
-             one handler is used.
-             @param canonicalName The channel-independent name of the service.
-             @param description The description of the service.
-             @param requestsDescription The description of the requests for the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The channel being used by the service. */
+             @param[in] argumentList Descriptions of the arguments to the executable.
+             @param[in] launchPath The command-line name used to launch the service.
+             @param[in] argc The number of arguments in 'argv'.
+             @param[in] argv The arguments passed to the executable used to launch the service.
+             @param[in] tag The modifier for the service name.
+             @param[in] useMultipleHandlers @c true if simultaneous handlers are allowed, @c false
+             if one handler is used.
+             @param[in] canonicalName The channel-independent name of the service.
+             @param[in] description The description of the service.
+             @param[in] requestsDescription The description of the requests for the service.
+             @param[in] serviceEndpointName The YARP name to be assigned to the new service.
+             @param[in] servicePortNumber The channel being used by the service. */
             BaseOutputService(const Utilities::DescriptorVector & argumentList,
                               const YarpString &                  launchPath,
                               const int                           argc,
@@ -108,11 +108,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             BaseOutputService(const BaseOutputService & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             BaseOutputService &
             operator =(const BaseOutputService & other);

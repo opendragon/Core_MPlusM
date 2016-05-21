@@ -48,7 +48,7 @@
 # include <io.h>
 #endif // ! MAC_OR_LINUX_
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -126,8 +126,8 @@ static const int kThreadKillTime = 3000;
 #endif // defined(__APPLE__)
 
 /*! @brief DO a case-insensitive match.
- @param string1 The first string to compare.
- @param string2 The second string to compare.
+ @param[in] string1 The first string to compare.
+ @param[in] string2 The second string to compare.
  @returns @c true if both strings are identical, ignoring case and @c false if the strings are of
  different length or contain at least one character that is different. */
 static bool
@@ -690,7 +690,8 @@ LeapDisplayApplication::startAssociatedService(void)
         LeapServiceThread *        aThread = NULL;
         LeapDisplayOutputService * aService;
         
-        aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag, serviceEndpointName, servicePortNumber);
+        aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag,
+                                                serviceEndpointName, servicePortNumber);
         
         ODL_P1("aService <- ", aService); //####
         if (NULL == aService)
@@ -722,7 +723,8 @@ LeapDisplayApplication::startAssociatedService(void)
         if (NULL == aService)
         {
             ODL_LOG("(NULL == aService)"); //####
-            aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag, serviceEndpointName, servicePortNumber);
+            aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag,
+                                                    serviceEndpointName, servicePortNumber);
             
             ODL_P1("aService <- ", aService); //####
             if (NULL == aService)

@@ -79,8 +79,8 @@ namespace MplusM
             ~ClientChannel(void);
 
             /*! @brief Add an output to the channel, using a backoff strategy with retries.
-             @param theChannelToBeAdded The output to be added to the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
+             @param[in] theChannelToBeAdded The output to be added to the channel.
+             @param[in] timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
             bool
             addOutputWithRetries(const YarpString & theChannelToBeAdded,
@@ -91,11 +91,11 @@ namespace MplusM
         private :
 
             /*! @brief The copy constructor.
-             @param other The object to be copied. */
+             @param[in] other The object to be copied. */
             ClientChannel(const ClientChannel & other);
 
             /*! @brief The assignment operator.
-             @param other The object to be copied.
+             @param[in] other The object to be copied.
              @returns The updated object. */
             ClientChannel &
             operator =(const ClientChannel & other);

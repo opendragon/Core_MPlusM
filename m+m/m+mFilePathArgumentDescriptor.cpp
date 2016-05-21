@@ -81,9 +81,9 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 /*! @brief Check if a file path is acceptable.
- @param thePath The file path to be checked.
- @param forOutput @c true if the file is to be written to and @c false otherwise.
- @param emptyIsOK @c true if the file path can be empty and @c false otherwise.
+ @param[in] thePath The file path to be checked.
+ @param[in] forOutput @c true if the file is to be written to and @c false otherwise.
+ @param[in] emptyIsOK @c true if the file path can be empty and @c false otherwise.
  @returns @c true if the file path is acceptable and @c false otherwise. */
 static bool
 checkFilePath(const char * thePath,

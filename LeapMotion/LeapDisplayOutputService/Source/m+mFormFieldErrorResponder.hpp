@@ -76,7 +76,7 @@ namespace LeapDisplay
         ~FormFieldErrorResponder(void);
 
         /*! @brief Report an error in a field.
-         @param fieldOfInterest The field to be reported. */
+         @param[in] fieldOfInterest The field to be reported. */
         virtual void
         reportErrorInField(FormField & fieldOfInterest) = 0;
 

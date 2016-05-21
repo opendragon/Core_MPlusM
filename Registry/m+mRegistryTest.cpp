@@ -95,9 +95,9 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateRegistryService(const char * launchPath,
@@ -166,9 +166,9 @@ doTestCreateRegistryService(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestRegistryService(const char * launchPath,
@@ -280,9 +280,9 @@ doTestRequestRegistryService(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestUnregisterService(const char * launchPath,
@@ -402,9 +402,9 @@ doTestRequestUnregisterService(const char * launchPath,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
- @param launchPath The command-line name used to launch the service.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used for the test.
+ @param[in] launchPath The command-line name used to launch the service.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestSearchService(const char * launchPath,
@@ -639,7 +639,7 @@ doTestRequestSearchService(const char * launchPath,
 } // doTestRequestSearchService
 
 /*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
+ @param[in] signal The signal being handled. */
 static void
 catchSignal(int signal)
 {
@@ -667,8 +667,8 @@ catchSignal(int signal)
  with the test, the optional third argument is the machine to connect to and the optional fourth
  argument is the port number to be used.
  Output depends on the test being run.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the unit tests.
+ @param[in] argc The number of arguments in 'argv'.
+ @param[in] argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
