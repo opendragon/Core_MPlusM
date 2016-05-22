@@ -81,8 +81,8 @@ using namespace LeapDisplay;
 VertexBuffer::VertexBuffer(OpenGLContext &      context,
                            Array<Vertex> &      vertexList,
                            const juce::uint32 * indices,
-                           const size_t         numIndices) :
-    _context(context)
+                           const GLsizei        numIndices) :
+    _numIndices(numIndices), _context(context)
 {
     ODL_ENTER(); //####
     ODL_P3("context = ", &_context, "vertexList = ", &vertexList, "indices = ", indices); //####

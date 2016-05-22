@@ -68,23 +68,26 @@ using namespace MplusM;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The scale factor to apply to coordinates after clamping. */
+static const double kScaler = 3.1;
+
 /*! @brief The maximum observed value for X. */
-static const double kMaxXValue = 500;
+static const double kMaxXValue = 300;
 
 /*! @brief The maximum observed value for Y. */
-static const double kMaxYValue = 1000;
+static const double kMaxYValue = 800;
 
 /*! @brief The maximum observed value for Z. */
-static const double kMaxZValue = 500;
+static const double kMaxZValue = 300;
 
 /*! @brief The minimum observed value for X. */
-static const double kMinXValue = -500;
+static const double kMinXValue = -300;
 
 /*! @brief The minimum observed value for Y. */
 static const double kMinYValue = 0;
 
 /*! @brief The minimum observed value for Z. */
-static const double kMinZValue = -500;
+static const double kMinZValue = -300;
 
 /*! @brief The number of values for each finger. */
 static const int kValuesPerFinger = 3; // 3D positions
@@ -198,7 +201,7 @@ LeapDisplayInputHandler::~LeapDisplayInputHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-/*! @brief Scaled and constrain an input value.
+/*! @brief Scale and constrain an input value.
  @param[in] inValue The value to be scaled.
  @param[in] minValue The lowest expected value.
  @param[in] maxValue The highest expected value.
@@ -211,12 +214,12 @@ clampedValue(const double inValue,
     ODL_ENTER(); //####
     ODL_D3("inValue = ", inValue, "minValue = ", minValue, "maxValue = ", maxValue); //####
     double range = maxValue - minValue;
-    double scaled = ((inValue - minValue) / range);
+    double scaled = (2.0 * ((inValue - minValue) / range)) - 1.0;
     double result;
     
-    if (0 <= scaled)
+    if (-1.0 <= scaled)
     {
-        if (1 >= scaled)
+        if (1.0 >= scaled)
         {
             result = scaled;
         }
@@ -227,7 +230,7 @@ clampedValue(const double inValue,
     }
     else
     {
-        result = 0.0;
+        result = -1.0;
     }
     ODL_EXIT_D(result); //####
     return result;
@@ -265,7 +268,7 @@ checkFinger(const int                flag,
         
         if (aValue.isDouble())
         {
-            finger._where.x = clampedValue(aValue.asDouble(), kMinXValue, kMaxXValue);
+            finger._where.x = (clampedValue(aValue.asDouble(), kMinXValue, kMaxXValue) * kScaler);
             ODL_D1("finger._where.x <- ", finger._where.x); //####
         }
         else
@@ -277,7 +280,8 @@ checkFinger(const int                flag,
             aValue = input.get(offset + 1);
             if (aValue.isDouble())
             {
-                finger._where.y = clampedValue(aValue.asDouble(), kMinYValue, kMaxYValue);
+                finger._where.y = (clampedValue(aValue.asDouble(), kMinYValue, kMaxYValue) *
+                                   kScaler);
                 ODL_D1("finger._where.y <- ", finger._where.y); //####
             }
             else
@@ -290,7 +294,8 @@ checkFinger(const int                flag,
             aValue = input.get(offset + 2);
             if (aValue.isDouble())
             {
-                finger._where.z = clampedValue(aValue.asDouble(), kMinZValue, kMaxZValue);
+                finger._where.z = (clampedValue(aValue.asDouble(), kMinZValue, kMaxZValue) *
+                                   kScaler);
                 ODL_D1("finger._where.z <- ", finger._where.z); //####
             }
             else
@@ -337,7 +342,11 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
             {
                 int flags = aValue.asInt();
                 
-                if (0 != flags)
+                if (0 == flags)
+                {
+                    ODL_LOG("(0 == flags)"); //####
+                }
+                else
                 {
                     bool     okSoFar =  true;
                     HandData leftHand;
@@ -376,6 +385,10 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
                                 aPanel->updateFingerData(leftHand, rightHand);
                             }
                         }
+                    }
+                    else
+                    {
+                        ODL_LOG("! (okSoFar)"); //####
                     }
                 }
             }

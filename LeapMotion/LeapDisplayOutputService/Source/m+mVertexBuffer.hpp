@@ -77,7 +77,7 @@ namespace LeapDisplay
         VertexBuffer(OpenGLContext &      context,
                      Array<Vertex> &      vertexList,
                      const juce::uint32 * indices,
-                     const size_t         numIndices);
+                     const GLsizei        numIndices);
         
         /*! @brief The destructor. */
         virtual
@@ -89,7 +89,7 @@ namespace LeapDisplay
 
         /*! @brief Return the number of indices.
          @returns The number of indices. */
-        int
+        GLsizei
         numberOfIndices(void)
         const
         {
@@ -113,7 +113,7 @@ namespace LeapDisplay
         GLuint _indexBuffer;
 
         /*! @brief The number of indices. */
-        int _numIndices;
+        GLsizei _numIndices;
 
         /*! @brief The OpenGL context that is being used. */
         OpenGLContext & _context;

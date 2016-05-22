@@ -70,6 +70,10 @@ using namespace std;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+//#define DO_AUTOROTATE /* set for autorotation */
+
+//#define DO_DRAWCENTRE /* set for centre of fingers */
+
 /*! @brief The first colour to be used for the panel background. */
 static const Colour & kFirstBackgroundColour(Colours::darkgrey);
 
@@ -78,6 +82,11 @@ static const Colour & kSecondBackgroundColour(Colours::lightgrey);
 
 /*! @brief The scale to be applied to the finger tip shapes. */
 static const double kTipScale = 0.25;
+
+#if defined(DO_AUTOROTATE)
+/*! @brief The rotation rate. */
+static const float kRotationSpeed = 0.01f;
+#endif // defined(DO_AUTOROTATE)
 
 /*! @brief The initial height of the displayed region. */
 static const int kInitialPanelHeight = 512;
@@ -123,7 +132,7 @@ static const String kFragmentShaderSource =
     "\n"
     "void main()\n"
     "{\n"
-    "   float ll = max(0.3, lightIntensity * 0.3);\n"
+    "   float ll = max(0.5, lightIntensity * 0.5);\n"
     "\n"
     "   vec4 colour = vec4(ll, ll, ll, 1.0);\n"
     "\n"
@@ -421,39 +430,53 @@ GraphicsPanel::drawHand(const HandData & aHand)
     ODL_OBJENTER(); //####
     ODL_P1("aHand = ", &aHand); //####
     int      numFingers = 0;
+#if defined(DO_DRAWCENTRE)
     Location centre;
-    
+#endif // defined(DO_DRAWCENTRE)
+
     if (aHand._thumb._valid)
     {
+#if defined(DO_DRAWCENTRE)
         centre += aHand._thumb._where;
+#endif // defined(DO_DRAWCENTRE)
         drawFingertip(aHand._thumb._where, numFingers++);
     }
     if (aHand._index._valid)
     {
+#if defined(DO_DRAWCENTRE)
         centre += aHand._index._where;
+#endif // defined(DO_DRAWCENTRE)
         drawFingertip(aHand._index._where, numFingers++);
     }
     if (aHand._middle._valid)
     {
+#if defined(DO_DRAWCENTRE)
         centre += aHand._middle._where;
+#endif // defined(DO_DRAWCENTRE)
         drawFingertip(aHand._middle._where, numFingers++);
     }
     if (aHand._ring._valid)
     {
+#if defined(DO_DRAWCENTRE)
         centre += aHand._ring._where;
+#endif // defined(DO_DRAWCENTRE)
         drawFingertip(aHand._ring._where, numFingers++);
     }
     if (aHand._pinky._valid)
     {
+#if defined(DO_DRAWCENTRE)
         centre += aHand._pinky._where;
+#endif // defined(DO_DRAWCENTRE)
         drawFingertip(aHand._pinky._where, numFingers++);
     }
+#if defined(DO_DRAWCENTRE)
     if (0 < numFingers)
     {
         ODL_LOG("(0 < numFingers)"); //####
         centre /= numFingers;
         drawFingertip(centre, numFingers);
     }
+#endif // defined(DO_DRAWCENTRE)
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::drawHand
 
@@ -630,10 +653,12 @@ GraphicsPanel::renderOpenGL(void)
             // Reset the element buffers so child Components draw correctly
             _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
             _context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-#if 0
-            if (! controlsOverlay->isMouseButtonDown())
-                rotation += (float) rotationSpeed;
-#endif//0
+#if defined(DO_AUTOROTATE)
+            if (! isMouseButtonDown())
+            {
+                _rotation += kRotationSpeed;
+            }
+#endif // defined(DO_AUTOROTATE)
         }
     }
     else
@@ -743,12 +768,12 @@ GraphicsPanel::setUpTetrahedron(void)
     };
     const size_t numIndices = (sizeof(indices) / sizeof(*indices));
     
-    setVertexData(_tetrahedronVertices, 0, 0, 1, Colours::green, 0.5, 1.0); // P0
+    setVertexData(_tetrahedronVertices, 0, 0, 1, Colours::aqua /*green*/, 0.5, 1.0); // P0
     setVertexData(_tetrahedronVertices, - (root2 * root3inv), - (root2 / 3.0), - 1.0 / 3.0,
-                  Colours::brown, 0.0, 0.0); // P1
+                  Colours::lightblue /*brown*/, 0.0, 0.0); // P1
     setVertexData(_tetrahedronVertices, root2 * root3inv, - (root2  / 3.0), - 1.0 / 3.0,
-                  Colours::orange, 0.5, 0.0); // P2
-    setVertexData(_tetrahedronVertices, 0, 2.0 * root2 * root3inv, - 1.0 / 3.0, Colours::purple,
+                  Colours::skyblue /*orange*/, 0.5, 0.0); // P2
+    setVertexData(_tetrahedronVertices, 0, 2.0 * root2 * root3inv, - 1.0 / 3.0, Colours::aliceblue /*purple*/,
                   1.0, 0.0); // P3
     _tetrahedronData = new VertexBuffer(_context, _tetrahedronVertices, indices, numIndices);
     ODL_P1("_tetrahedronData <- ", _tetrahedronData); //####
@@ -763,9 +788,9 @@ GraphicsPanel::setUpTexture(void)
     Image     image(Image::ARGB, size, size, true);
     Graphics  gg(image);
     
-    gg.fillAll(Colours::lightcyan);
+    gg.fillAll(Colours::white);
     
-    gg.setColour(Colours::darkgreen);
+    gg.setColour(Colours::hotpink);
     gg.drawRect(0, 0, size, size, 2);
     
     gg.setColour(Colours::black);
