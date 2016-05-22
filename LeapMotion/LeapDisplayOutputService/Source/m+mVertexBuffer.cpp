@@ -90,7 +90,7 @@ VertexBuffer::VertexBuffer(OpenGLContext &      context,
     _context.extensions.glGenBuffers(1, &_vertexBuffer);
     _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     _context.extensions.glBufferData(GL_ARRAY_BUFFER, vertexList.size() * sizeof(Vertex),
-                                     vertexList.getRawDataPointer(), GL_DYNAMIC_DRAW);
+                                     vertexList.getRawDataPointer(), GL_STATIC_DRAW);
     _context.extensions.glGenBuffers(1, &_indexBuffer);
     _context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     _context.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(*indices),
