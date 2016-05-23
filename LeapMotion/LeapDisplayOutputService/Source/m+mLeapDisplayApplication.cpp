@@ -40,6 +40,7 @@
 #include "m+mLeapDisplayApplication.hpp"
 #include "m+mLeapDisplayOutputService.hpp"
 #include "m+mLeapServiceThread.hpp"
+#include "m+mSettingsWindow.hpp"
 
 #include <m+m/m+mEndpoint.hpp>
 #include <m+m/m+mRequests.hpp>
@@ -244,12 +245,86 @@ LeapDisplayApplication::anotherInstanceStarted(const String & commandLine)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+LeapDisplayOutputService *
+LeapDisplayApplication::configureAndCreateService(void)
+{
+    ODL_OBJENTER(); //####
+    LeapDisplayOutputService * result = NULL;
+    ApplicationInfo            appInfo;
+    int                        tagModifierCount;
+    String                     endpointToUse;
+    String                     portToUse;
+    String                     tagToUse;
+    StringArray                argsToUse;
+    
+    // There are no arguments to the service, so the '_argDescriptions' field need not be filled in.
+    // Fill in the remaining fields:
+    appInfo._applicationPath = findPathToExecutable(getApplicationName());
+    appInfo._criteria = "";
+    appInfo._description = LEAPMOTIONDISPLAY_SERVICE_DESCRIPTION_;
+    appInfo._options = ALL_OPTIONS_STRING_;
+    appInfo._kind = kApplicationService;
+    appInfo._shortName = getApplicationName();
+    ScopedPointer<SettingsWindow> settings(new SettingsWindow(String("Launching the ") +
+                                                              appInfo._description, "service",
+                                                              appInfo, endpointToUse, tagToUse,
+                                                              portToUse, tagModifierCount,
+                                                              argsToUse));
+    
+    if (kConfigurationOK == settings->runModalLoop())
+    {
+        Common::AddressTagModifier  modFlag = Common::kModificationNone;
+        Utilities::DescriptorVector argumentList;
+        int                         argc = 0;
+        char * *                    argv = NULL;
+        YarpString                  progName(appInfo._shortName.toStdString());
+        YarpString                  tag(tagToUse.toStdString());
+        YarpString                  serviceEndpointName(endpointToUse.toStdString());
+        YarpString                  servicePortNumber(portToUse.toStdString());
+        
+        switch (tagModifierCount)
+        {
+            case 0 :
+                modFlag = Common::kModificationNone;
+                break;
+                
+            case 1 :
+                modFlag = Common::kModificationBottomByte;
+                break;
+                
+            case 2 :
+                modFlag = Common::kModificationBottomTwoBytes;
+                break;
+                
+            case 3 :
+                modFlag = Common::kModificationBottomThreeBytes;
+                break;
+                
+            case 4 :
+                modFlag = Common::kModificationAllBytes;
+                break;
+                
+            default :
+                break;
+                
+        }
+        AdjustEndpointName(DEFAULT_LEAPMOTIONDISPLAY_SERVICE_NAME_, modFlag, tag,
+                           serviceEndpointName);
+        result = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag,
+                                              serviceEndpointName, servicePortNumber);
+    }
+    ODL_OBJEXIT_P(result); //####
+    return result;
+} // LeapDisplayApplication::configureAndCreateService
+
+#if 0
 void
 LeapDisplayApplication::configureAssociatedService(void)
 {
     ODL_OBJENTER(); //####
     ODL_OBJEXIT(); //####
 } // LeapDisplayApplication::configureAssociatedService
+#endif//0
 
 String
 LeapDisplayApplication::findPathToExecutable(const String & execName)
@@ -670,29 +745,12 @@ void
 LeapDisplayApplication::startAssociatedService(void)
 {
     ODL_OBJENTER(); //####
-    
-                    Common::AddressTagModifier          modFlag = Common::kModificationNone;
-                    Utilities::DescriptorVector argumentList;
-                    int argc = 0;
-                    char * * argv = NULL;
-                    YarpString progName("blort");
-                    YarpString tag;
-                    YarpString serviceEndpointName;
-                    YarpString servicePortNumber;
-    
-    AdjustEndpointName(DEFAULT_LEAPMOTIONDISPLAY_SERVICE_NAME_, modFlag, tag,
-                       serviceEndpointName);
-    
-    
+    LeapDisplayOutputService * aService;
+
     if (NULL == _serviceThread)
     {
         ODL_LOG("(NULL == _serviceThread)"); //####
-        LeapServiceThread *        aThread = NULL;
-        LeapDisplayOutputService * aService;
-        
-        aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag,
-                                                serviceEndpointName, servicePortNumber);
-        
+        aService = configureAndCreateService();
         ODL_P1("aService <- ", aService); //####
         if (NULL == aService)
         {
@@ -700,7 +758,8 @@ LeapDisplayApplication::startAssociatedService(void)
         }
         else
         {
-            aThread = new LeapServiceThread(aService, "");
+            LeapServiceThread * aThread = new LeapServiceThread(aService, "");
+
             ODL_P1("aThread <- ", aThread); //####
             if (NULL == aThread)
             {
@@ -718,14 +777,11 @@ LeapDisplayApplication::startAssociatedService(void)
     else
     {
         ODL_LOG("! (NULL == _serviceThread)"); //####
-        LeapDisplayOutputService * aService = _serviceThread->getService();
-        
+        aService = _serviceThread->getService();
         if (NULL == aService)
         {
             ODL_LOG("(NULL == aService)"); //####
-            aService = new LeapDisplayOutputService(argumentList, progName, argc, argv, tag,
-                                                    serviceEndpointName, servicePortNumber);
-            
+            aService = configureAndCreateService();
             ODL_P1("aService <- ", aService); //####
             if (NULL == aService)
             {

@@ -1165,40 +1165,49 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     infoPartText += " and description and exit";
     reportPartText += serviceKindName + " metrics when the application exits";
     tagPartText += serviceKindName + " name";
-    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
-                                         T_("  --args, -a        Report the argument formats"));
-    Option_::Descriptor   channelDescriptor(kOptionCHANNEL, 0, "c", "channel", Option_::Arg::None,
-                                            T_("  --channel, -c     Report the actual endpoint "
-                                               "name"));
-    Option_::Descriptor   endpointDescriptor(kOptionENDPOINT, 0, "e", "endpoint",
-                                             Option_::Arg::Required,
-                                             T_("  --endpoint, -e    Specify an alternative "
-                                                "endpoint name to be used"));
-    Option_::Descriptor   goDescriptor(kOptionGO, 0, "g", "go", Option_::Arg::None,
-                                       goPartText.c_str());
-    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
-                                         T_("  --help, -h        Print usage and exit"));
-    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         infoPartText.c_str());
-    Option_::Descriptor   modDescriptor(kOptionMOD, 0, "m", "mod", Option_::Arg::Required,
-                                        "  --mod, -m         Use the IP address as a modifier for "
-                                        "the tag");
-    Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
-                                         T_("  --port, -p        Specify a non-default port to be "
-                                            "used"));
-    Option_::Descriptor   reportDescriptor(kOptionREPORT, 0, "r", "report", Option_::Arg::None,
-                                           reportPartText.c_str());
-    Option_::Descriptor   tagDescriptor(kOptionTAG, 0, "t", "tag", Option_::Arg::Required,
-                                        tagPartText.c_str());
-    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
-                                            T_("  --vers, -v        Print version information and "
-                                               "exit"));
-    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    int                   argcWork = argc;
-    char * *              argvWork = argv;
-    YarpString            usageString("USAGE: ");
-    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
+    Option_::Descriptor firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor argsDescriptor(kOptionARGS, 0, ARGS_OPTION_STRING_, "args",
+                                       Option_::Arg::None,
+                                       T_("  --args, -" ARGS_OPTION_STRING_
+                                          "        Report the argument formats"));
+    Option_::Descriptor channelDescriptor(kOptionCHANNEL, 0, CHANNEL_OPTION_STRING_, "channel",
+                                          Option_::Arg::None,
+                                          T_("  --channel, -" CHANNEL_OPTION_STRING_
+                                             "     Report the actual endpoint name"));
+    Option_::Descriptor endpointDescriptor(kOptionENDPOINT, 0, ENDPOINT_OPTION_STRING_,
+                                           "endpoint", Option_::Arg::Required,
+                                           T_("  --endpoint, -" ENDPOINT_OPTION_STRING_
+                                              "    Specify an alternative endpoint name to be "
+                                              "used"));
+    Option_::Descriptor goDescriptor(kOptionGO, 0, GO_OPTION_STRING_, "go", Option_::Arg::None,
+                                     goPartText.c_str());
+    Option_::Descriptor helpDescriptor(kOptionHELP, 0, HELP_OPTION_STRING_, "help",
+                                       Option_::Arg::None,
+                                       T_("  --help, -" HELP_OPTION_STRING_
+                                          "        Print usage and exit"));
+    Option_::Descriptor infoDescriptor(kOptionINFO, 0, INFO_OPTION_STRING_, "info",
+                                       Option_::Arg::None, infoPartText.c_str());
+    Option_::Descriptor modDescriptor(kOptionMOD, 0, MOD_OPTION_STRING_, "mod",
+                                      Option_::Arg::Required,
+                                      T_("  --mod, -" MOD_OPTION_STRING_
+                                         "         Use the IP address as a modifier for the tag"));
+    Option_::Descriptor portDescriptor(kOptionPORT, 0, PORT_OPTION_STRING_, "port",
+                                       Option_::Arg::Required,
+                                       T_("  --port, -" PORT_OPTION_STRING_
+                                          "        Specify a non-default port to be used"));
+    Option_::Descriptor reportDescriptor(kOptionREPORT, 0, REPORT_OPTION_STRING_, "report",
+                                         Option_::Arg::None, reportPartText.c_str());
+    Option_::Descriptor tagDescriptor(kOptionTAG, 0, TAG_OPTION_STRING_, "tag",
+                                      Option_::Arg::Required, tagPartText.c_str());
+    Option_::Descriptor versionDescriptor(kOptionVERSION, 0, VERSION_OPTION_STRING_, "vers",
+                                          Option_::Arg::None,
+                                          T_("  --vers, -" VERSION_OPTION_STRING_
+                                             "        Print version information and exit"));
+    Option_::Descriptor lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    int                 argcWork = argc;
+    char * *            argvWork = argv;
+    YarpString          usageString("USAGE: ");
+    YarpString          argList(ArgumentsToArgString(argumentDescriptions));
 
     reportEndpoint = reportOnExit = goWasSet = false;
     tag = serviceEndpointName = serviceEndpointName = "";
@@ -1376,7 +1385,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "a";
+            cout << ARGS_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipChannelOption))
         {
@@ -1385,7 +1394,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "c";
+            cout << CHANNEL_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipEndpointOption))
         {
@@ -1394,7 +1403,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "e";
+            cout << ENDPOINT_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipGoOption))
         {
@@ -1403,7 +1412,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "g";
+            cout << GO_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipInfoOption))
         {
@@ -1412,7 +1421,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "i";
+            cout << INFO_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipModOption))
         {
@@ -1421,7 +1430,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "m";
+            cout << MOD_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipPortOption))
         {
@@ -1430,7 +1439,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "p";
+            cout << PORT_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipReportOption))
         {
@@ -1439,7 +1448,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "r";
+            cout << REPORT_OPTION_STRING_;
         }
         if (! (skipOptions & kSkipTagOption))
         {
@@ -1448,7 +1457,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                 cout << "\t";
                 needTab = false;
             }
-            cout << "t";
+            cout << TAG_OPTION_STRING_;
         }
         if (needTab)
         {

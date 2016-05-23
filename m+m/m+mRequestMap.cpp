@@ -129,7 +129,7 @@ RequestMap::fillInListReply(yarp::os::Bottle & reply)
 
 void
 RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
-                                   const YarpString & requestName)
+                              const YarpString & requestName)
 {
     ODL_OBJENTER(); //####
     try

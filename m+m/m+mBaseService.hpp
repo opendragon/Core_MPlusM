@@ -54,6 +54,44 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The option character for the 'args' option. */
+# define ARGS_OPTION_STRING_ "a"
+
+/*! @brief The option character for the 'channel' option. */
+# define CHANNEL_OPTION_STRING_ "c"
+
+/*! @brief The option character for the 'endpoint' option. */
+# define ENDPOINT_OPTION_STRING_ "e"
+
+/*! @brief The option character for the 'go' option. */
+# define GO_OPTION_STRING_ "g"
+
+/*! @brief The option character for the 'help' option. */
+# define HELP_OPTION_STRING_ "h"
+
+/*! @brief The option character for the 'info' option. */
+# define INFO_OPTION_STRING_ "i"
+
+/*! @brief The option character for the 'mod' option. */
+# define MOD_OPTION_STRING_ "m"
+
+/*! @brief The option character for the 'port' option. */
+# define PORT_OPTION_STRING_ "p"
+
+/*! @brief The option character for the 'report' option. */
+# define REPORT_OPTION_STRING_ "r"
+
+/*! @brief The option character for the 'tag' option. */
+# define TAG_OPTION_STRING_ "t"
+
+/*! @brief The option character for the 'version' option. */
+# define VERSION_OPTION_STRING_ "v"
+
+/*! @brief The full set of options, except for 'help' and 'version', which are always present. */
+# define ALL_OPTIONS_STRING_ T_(ARGS_OPTION_STRING_ CHANNEL_OPTION_STRING_ ENDPOINT_OPTION_STRING_ \
+                                GO_OPTION_STRING_ INFO_OPTION_STRING_ MOD_OPTION_STRING_ \
+                                PORT_OPTION_STRING_ REPORT_OPTION_STRING_ TAG_OPTION_STRING_)
+
 namespace MplusM
 {
     namespace Common
@@ -102,37 +140,37 @@ namespace MplusM
         enum OptionsMask
         {
             /*! @brief Skip no options. */
-            kSkipNone            = 0x0000,
+            kSkipNone           = 0x0000,
 
             /*! @brief Skip the 'args' option. */
-            kSkipArgsOption      = 0x0001,
+            kSkipArgsOption     = 0x0001,
 
             /*! @brief Skip the 'channel' option. */
-            kSkipChannelOption   = 0x0002,
+            kSkipChannelOption  = 0x0002,
 
             /*! @brief Skip the 'endpoint' option. */
-            kSkipEndpointOption  = 0x0004,
+            kSkipEndpointOption = 0x0004,
 
-            /*! @brief Skip the 'autostart' option. */
-            kSkipGoOption        = 0x0008,
+            /*! @brief Skip the 'go' / 'autostart' option. */
+            kSkipGoOption       = 0x0008,
 
             /*! @brief Skip the 'info' option. */
-            kSkipInfoOption      = 0x0010,
+            kSkipInfoOption     = 0x0010,
 
             /*! @brief Skip the 'mod' option. */
-            kSkipModOption       = 0x0020,
+            kSkipModOption      = 0x0020,
 
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption      = 0x0040,
+            kSkipPortOption     = 0x0040,
 
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption    = 0x0080,
+            kSkipReportOption   = 0x0080,
 
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption       = 0x0100,
+            kSkipTagOption      = 0x0100,
 
             /*! @brief Skip all the options. */
-            kSkipAllOptions      = 0xFFFF
+            kSkipAllOptions     = 0xFFFF
         }; // OptionsMask
 
         /*! @brief The minimal functionality required for an m+m service. */

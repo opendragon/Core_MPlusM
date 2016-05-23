@@ -85,6 +85,7 @@
 namespace LeapDisplay
 {
     class GraphicsPanel;
+    class LeapDisplayOutputService;
     class LeapServiceThread;
     
     /*! @brief The application object of the application. */
@@ -108,10 +109,12 @@ namespace LeapDisplay
         virtual
         ~LeapDisplayApplication(void);
 
+#if 0
         /*! @brief Configure the associated service. */
         void
         configureAssociatedService(void);
-        
+#endif//0
+
         /*! @brief Return the application object.
          @returns The application object. */
         static LeapDisplayApplication *
@@ -198,6 +201,11 @@ namespace LeapDisplay
         virtual void
         anotherInstanceStarted(const String & commandLine);
 
+        /*! @brief Collect the launch details for the service and create the service.
+         @returns The newly created service. */
+        LeapDisplayOutputService *
+        configureAndCreateService(void);
+        
         /*! @brief Determine the path to an executable, using the system PATH environment variable.
          @param[in] execName The short name of the executable.
          @returns The full path to the first executable found in the system PATH environment

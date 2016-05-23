@@ -191,9 +191,7 @@ ContentPanel::getCommandInfo(CommandID                commandID,
         case LeapDisplayWindow::kCommandConfigureService :
             result.setInfo("Configure service", "Configure the service", "View", 0);
             result.addDefaultKeypress('K', ModifierKeys::commandModifier);
-#if 0
-            result.setActive(0 < _entitiesPanel->getNumberOfHiddenEntities());
-#endif//0
+            result.setActive(false); // This service has no configurable settings...
             break;
 
         case LeapDisplayWindow::kCommandRestartService :
@@ -306,9 +304,11 @@ ContentPanel::menuItemSelected(int menuItemID,
             break;
 
         case kPopupRestartService :
+            // TBD
             break;
 
         case kPopupStopService :
+            // TBD
             break;
 
         default :
@@ -404,8 +404,10 @@ ContentPanel::perform(const InvocationInfo & info)
             break;
 
         case LeapDisplayWindow::kCommandConfigureService :
+#if 0
             ODL_LOG("LeapDisplayWindow::kCommandConfigureService"); //####
             ourApp->configureAssociatedService();
+#endif//0
             wasProcessed = true;
             break;
             

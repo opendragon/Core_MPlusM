@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   The class definition for the application settings window of the
-//              m+mDisplayOutputService application.
+//              m+mLeapDisplayOutputService application.
 //
 //  Written by: Norman Jaffe
 //
@@ -58,7 +58,7 @@
 #endif // defined(__APPLE__)
 /*! @file
 
- @brief The class definition for the application settings window of the m+mDisplayOutputService
+ @brief The class definition for the application settings window of the m+mLeapDisplayOutputService
 application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
