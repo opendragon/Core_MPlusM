@@ -811,41 +811,81 @@ GraphicsPanel::updateFingerData(const HandData & leftHand,
     {
         memcpy(&_leftHand._thumb, &leftHand._thumb, sizeof(_leftHand._thumb));
     }
+    else
+    {
+        _leftHand._thumb._valid = false;
+    }
     if (leftHand._index._valid)
     {
         memcpy(&_leftHand._index, &leftHand._index, sizeof(_leftHand._index));
+    }
+    else
+    {
+        _leftHand._index._valid = false;
     }
     if (leftHand._middle._valid)
     {
         memcpy(&_leftHand._middle, &leftHand._middle, sizeof(_leftHand._middle));
     }
+    else
+    {
+        _leftHand._middle._valid = false;
+    }
     if (leftHand._ring._valid)
     {
         memcpy(&_leftHand._ring, &leftHand._ring, sizeof(_leftHand._ring));
+    }
+    else
+    {
+        _leftHand._ring._valid = false;
     }
     if (leftHand._pinky._valid)
     {
         memcpy(&_leftHand._pinky, &leftHand._pinky, sizeof(_leftHand._pinky));
     }
+    else
+    {
+        _leftHand._pinky._valid = false;
+    }
     if (rightHand._thumb._valid)
     {
         memcpy(&_rightHand._thumb, &rightHand._thumb, sizeof(_rightHand._thumb));
+    }
+    else
+    {
+        _rightHand._thumb._valid = false;
     }
     if (rightHand._index._valid)
     {
         memcpy(&_rightHand._index, &rightHand._index, sizeof(_rightHand._index));
     }
+    else
+    {
+        _rightHand._index._valid = false;
+    }
     if (rightHand._middle._valid)
     {
         memcpy(&_rightHand._middle, &rightHand._middle, sizeof(_rightHand._middle));
+    }
+    else
+    {
+        _rightHand._middle._valid = false;
     }
     if (rightHand._ring._valid)
     {
         memcpy(&_rightHand._ring, &rightHand._ring, sizeof(_rightHand._ring));
     }
+    else
+    {
+        _rightHand._ring._valid = false;
+    }
     if (rightHand._pinky._valid)
     {
         memcpy(&_rightHand._pinky, &rightHand._pinky, sizeof(_rightHand._pinky));
+    }
+    else
+    {
+        _rightHand._pinky._valid = false;
     }
     _csect.exit();
     ODL_OBJEXIT(); //####
