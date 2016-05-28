@@ -37,8 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mNatNetBlobInputService.hpp"
-
-#include "m+mNatNetBlobInputRequests.h"
+#include "m+mNatNetBlobInputRequests.hpp"
 #include "m+mNatNetBlobInputThread.hpp"
 
 #include <m+m/m+mEndpoint.hpp>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="NMAvRH" name="m+mLeapDisplayOutputService" projectType="guiapp"
-              version="1.6.8" bundleIdentifier="com.yourcompany.leapdisplay"
+              version="1.6.8" bundleIdentifier="com.opendragon.leapdisplay"
               includeBinaryInAppConfig="0" jucerVersion="4.2.1" companyName="OpenDragon">
   <MAINGROUP id="OL479e" name="m+mLeapDisplayOutputService">
-    <FILE id="TOzeLE" name="m+mmicon.ico" compile="0" resource="1" file="Builds/m+mmicon.ico"/>
-    <FILE id="Mjwbjg" name="m+mmResources.rc" compile="0" resource="1"
-          file="Builds/m+mmResources.rc"/>
+    <FILE id="rIFkb6" name="LDOicon.ico" compile="0" resource="1" file="Builds/LDOicon.ico"/>
+    <FILE id="rdS5PH" name="LDOResources.rc" compile="0" resource="1" file="Builds/LDOResources.rc"/>
     <GROUP id="{A78E9CC6-F073-D9D4-035B-BA5785A3D3C6}" name="Source">
       <FILE id="PIBIUb" name="m+mCaptionedTextField.cpp" compile="1" resource="0"
             file="Source/m+mCaptionedTextField.cpp"/>
@@ -148,6 +147,28 @@
         <MODULEPATH id="juce_box2d" path="../JUCE/modules/juce_data_structures"/>
       </MODULEPATHS>
     </LINUX_MAKE>
+    <VS2015 targetFolder="Builds/VisualStudio2015">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mLeapDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mLeapDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_box2d" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2015>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_box2d" showAllCode="1" useLocalCopy="1"/>
@@ -160,4 +181,7 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>
