@@ -2851,7 +2851,7 @@
 					"-lodLogging",
 					"-headerpad_max_install_names",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.mpm-leapdisplayoutputservice";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.opendragon.mpm-leapdisplayoutputservice";
 			};
 			name = Release;
 		};
@@ -2938,7 +2938,7 @@
 					"-lodLogging",
 					"-headerpad_max_install_names",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.mpm-leapdisplayoutputservice";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.opendragon.mpm-leapdisplayoutputservice";
 			};
 			name = Debug;
 		};
