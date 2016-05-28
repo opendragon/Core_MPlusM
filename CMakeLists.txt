@@ -50,7 +50,7 @@ set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 6)
 set(MpM_VERSION_PATCH 8)
 set(MpM_VERSION_STRING "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}")
-set(MpM_COMPANY "H Plus Technologies Ltd. and Simon Fraser University")
+set(MpM_COMPANY "OpenDragon")
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
