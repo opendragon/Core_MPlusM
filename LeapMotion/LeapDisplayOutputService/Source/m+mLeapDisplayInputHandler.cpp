@@ -348,7 +348,7 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
                 }
                 else
                 {
-                    bool     okSoFar =  true;
+                    bool     okSoFar = true;
                     HandData leftHand;
                     HandData rightHand;
 

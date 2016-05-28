@@ -167,7 +167,7 @@ namespace LeapDisplay
         Matrix3D<float>
         getViewMatrix(void)
         const;
-        
+
         /*! @brief Called when a mouse button is pressed.
          @param[in] ee Details about the position and status of the mouse event. */
         virtual void

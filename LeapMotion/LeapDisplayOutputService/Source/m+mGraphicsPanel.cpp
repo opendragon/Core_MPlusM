@@ -261,6 +261,7 @@ GraphicsPanel::GraphicsPanel(ContentPanel * theContainer,
     _context.setRenderer(this);
     _context.attachTo(*this);
     _context.setContinuousRepainting(true);
+    _context.setComponentPaintingEnabled(false);
     setShaderProgram(kVertexShaderSource, kFragmentShaderSource);
     ODL_EXIT_P(this); //####
 } // GraphicsPanel::GraphicsPanel
@@ -768,12 +769,12 @@ GraphicsPanel::setUpTetrahedron(void)
     };
     const size_t numIndices = (sizeof(indices) / sizeof(*indices));
     
-    setVertexData(_tetrahedronVertices, 0, 0, 1, Colours::aqua /*green*/, 0.5, 1.0); // P0
+    setVertexData(_tetrahedronVertices, 0, 0, 1, Colours::aqua, 0.5, 1.0); // P0
     setVertexData(_tetrahedronVertices, - (root2 * root3inv), - (root2 / 3.0), - 1.0 / 3.0,
-                  Colours::lightblue /*brown*/, 0.0, 0.0); // P1
+                  Colours::lightblue, 0.0, 0.0); // P1
     setVertexData(_tetrahedronVertices, root2 * root3inv, - (root2  / 3.0), - 1.0 / 3.0,
-                  Colours::skyblue /*orange*/, 0.5, 0.0); // P2
-    setVertexData(_tetrahedronVertices, 0, 2.0 * root2 * root3inv, - 1.0 / 3.0, Colours::aliceblue /*purple*/,
+                  Colours::skyblue, 0.5, 0.0); // P2
+    setVertexData(_tetrahedronVertices, 0, 2.0 * root2 * root3inv, - 1.0 / 3.0, Colours::aliceblue,
                   1.0, 0.0); // P3
     _tetrahedronData = new VertexBuffer(_context, _tetrahedronVertices, indices, numIndices);
     ODL_P1("_tetrahedronData <- ", _tetrahedronData); //####
@@ -789,10 +790,8 @@ GraphicsPanel::setUpTexture(void)
     Graphics  gg(image);
     
     gg.fillAll(Colours::white);
-    
     gg.setColour(Colours::hotpink);
     gg.drawRect(0, 0, size, size, 2);
-    
     gg.setColour(Colours::black);
     gg.setFont(40);
     gg.drawFittedText("m+m", image.getBounds(), Justification::centred, 1);
@@ -807,86 +806,8 @@ GraphicsPanel::updateFingerData(const HandData & leftHand,
     ODL_OBJENTER(); //####
     ODL_P2("leftHand = ", &leftHand, "rightHand = ", &rightHand); //####
     _csect.enter();
-    if (leftHand._thumb._valid)
-    {
-        memcpy(&_leftHand._thumb, &leftHand._thumb, sizeof(_leftHand._thumb));
-    }
-    else
-    {
-        _leftHand._thumb._valid = false;
-    }
-    if (leftHand._index._valid)
-    {
-        memcpy(&_leftHand._index, &leftHand._index, sizeof(_leftHand._index));
-    }
-    else
-    {
-        _leftHand._index._valid = false;
-    }
-    if (leftHand._middle._valid)
-    {
-        memcpy(&_leftHand._middle, &leftHand._middle, sizeof(_leftHand._middle));
-    }
-    else
-    {
-        _leftHand._middle._valid = false;
-    }
-    if (leftHand._ring._valid)
-    {
-        memcpy(&_leftHand._ring, &leftHand._ring, sizeof(_leftHand._ring));
-    }
-    else
-    {
-        _leftHand._ring._valid = false;
-    }
-    if (leftHand._pinky._valid)
-    {
-        memcpy(&_leftHand._pinky, &leftHand._pinky, sizeof(_leftHand._pinky));
-    }
-    else
-    {
-        _leftHand._pinky._valid = false;
-    }
-    if (rightHand._thumb._valid)
-    {
-        memcpy(&_rightHand._thumb, &rightHand._thumb, sizeof(_rightHand._thumb));
-    }
-    else
-    {
-        _rightHand._thumb._valid = false;
-    }
-    if (rightHand._index._valid)
-    {
-        memcpy(&_rightHand._index, &rightHand._index, sizeof(_rightHand._index));
-    }
-    else
-    {
-        _rightHand._index._valid = false;
-    }
-    if (rightHand._middle._valid)
-    {
-        memcpy(&_rightHand._middle, &rightHand._middle, sizeof(_rightHand._middle));
-    }
-    else
-    {
-        _rightHand._middle._valid = false;
-    }
-    if (rightHand._ring._valid)
-    {
-        memcpy(&_rightHand._ring, &rightHand._ring, sizeof(_rightHand._ring));
-    }
-    else
-    {
-        _rightHand._ring._valid = false;
-    }
-    if (rightHand._pinky._valid)
-    {
-        memcpy(&_rightHand._pinky, &rightHand._pinky, sizeof(_rightHand._pinky));
-    }
-    else
-    {
-        _rightHand._pinky._valid = false;
-    }
+    memcpy(&_leftHand, &leftHand, sizeof(_leftHand));
+    memcpy(&_rightHand, &rightHand, sizeof(_rightHand));
     _csect.exit();
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::updateFingerData
