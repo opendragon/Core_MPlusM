@@ -890,7 +890,7 @@
 				<key>FOLLOW_SYMBOLIC_LINKS</key>
 				<true/>
 				<key>IDENTIFIER</key>
-				<string>com.hplustechnologies.pkg.mm-core</string>
+				<string>com.opendragon.pkg.mm-core</string>
 				<key>NAME</key>
 				<string>Core</string>
 				<key>OVERWRITE_PERMISSIONS</key>
@@ -921,7 +921,7 @@
 			<key>TYPE</key>
 			<integer>1</integer>
 			<key>UUID</key>
-			<string>59E6ED7C-82A5-4350-8B00-0B5388B9D52C</string>
+			<string>3EBA61CE-7F67-4BEA-8059-CF60AEDFE526</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
@@ -938,7 +938,7 @@
 			ZW50LVN0eWxlLVR5cGUiIGNvbnRlbnQ9InRleHQvY3NzIj4KPHRp
 			dGxlPjwvdGl0bGU+CjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29u
 			dGVudD0iQ29jb2EgSFRNTCBXcml0ZXIiPgo8bWV0YSBuYW1lPSJD
-			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjEzNDQuNzIiPgo8c3R5bGUg
+			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjE0MDQuNDciPgo8c3R5bGUg
 			dHlwZT0idGV4dC9jc3MiPgo8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5
 			Pgo8L2JvZHk+CjwvaHRtbD4K
 			</data>
@@ -996,25 +996,16 @@
 							</dict>
 							<dict>
 								<key>DESCRIPTION</key>
-								<array>
-									<dict>
-										<key>LANGUAGE</key>
-										<string>English</string>
-										<key>VALUE</key>
-										<string>The source files for an m+m installation, required for extending or modifying the Core applications or libraries.</string>
-									</dict>
-								</array>
+								<array/>
 								<key>OPTIONS</key>
 								<dict>
 									<key>HIDDEN</key>
 									<false/>
 									<key>STATE</key>
-									<integer>2</integer>
+									<integer>1</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
-								<string>59E6ED7C-82A5-4350-8B00-0B5388B9D52C</string>
-								<key>REQUIREMENTS</key>
-								<array/>
+								<string>3EBA61CE-7F67-4BEA-8059-CF60AEDFE526</string>
 								<key>TITLE</key>
 								<array/>
 								<key>TOOLTIP</key>
@@ -1022,7 +1013,7 @@
 								<key>TYPE</key>
 								<integer>0</integer>
 								<key>UUID</key>
-								<string>0EF1BD11-64B4-4936-931C-034C942E8D28</string>
+								<string>18C1B4F7-F4A4-4CEF-A784-5A400B41AD72</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>

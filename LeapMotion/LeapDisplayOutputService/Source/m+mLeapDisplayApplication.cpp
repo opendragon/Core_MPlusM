@@ -470,7 +470,7 @@ LeapDisplayApplication::getButtonHeight(void)
 {
     ODL_ENTER(); //####
     LeapDisplayApplication * ourApp = getApp();
-    int                  result;
+    int                      result;
 
     if (ourApp)
     {

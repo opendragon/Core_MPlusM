@@ -38,8 +38,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mContentPanel.hpp"
-
-#include "m+mGraphicsPanel.hpp"
+#include "m+mGraphicsFrame.hpp"
+//#include "m+mGraphicsPanel.hpp"
 #include "m+mLeapDisplayApplication.hpp"
 
 //#include <odl/ODEnableLogging.h>
@@ -97,39 +97,20 @@ static const int kDefaultSingleStepSize = 10;
 #endif // defined(__APPLE__)
 
 ContentPanel::ContentPanel(LeapDisplayWindow * containingWindow) :
-    inherited1(), inherited2(), inherited3(), _graphicsPanel(new GraphicsPanel(this)),
-    _containingWindow(containingWindow), _invertBackground(false), _whiteBackground(false)
+    inherited1(), inherited2(), inherited3(), _graphicsFrame(new GraphicsFrame(this)),//_graphicsPanel(new GraphicsPanel(this)),
+    _menuBar(new MenuBarComponent(this)), _containingWindow(containingWindow),
+    _invertBackground(false), _whiteBackground(false)
 {
     ODL_ENTER(); //####
     ODL_P1("containingWindow = ", containingWindow); //####
-    LeapDisplayApplication * ourApp = LeapDisplayApplication::getApp();
-    
-    if (ourApp)
-    {
-        ourApp->setGraphicsPanel(_graphicsPanel);
-    }
-#if JUCE_MAC
-    if (NULL == MenuBarModel::getMacMainMenu())
-    {
-        _menuBar = new MenuBarComponent(NULL);
-        MenuBarModel::setMacMainMenu(this);
-    }
-    else
-    {
-        MenuBarModel::setMacMainMenu(NULL);
-        _menuBar = new MenuBarComponent(this);
-    }
-#else // ! JUCE_MAC
-    _menuBar = new MenuBarComponent(this);
-#endif // ! JUCE_MAC
     addAndMakeVisible(_menuBar);
-    _graphicsPanel->setSize(_graphicsPanel->getWidth(),
-                            _graphicsPanel->getHeight() - _containingWindow->getTitleBarHeight());
-    setSize(_graphicsPanel->getWidth(), _graphicsPanel->getHeight());
+    _graphicsFrame->setSize(_graphicsFrame->getWidth(), _graphicsFrame->getHeight() -
+                            _containingWindow->getTitleBarHeight());
+    setSize(_graphicsFrame->getWidth(), _graphicsFrame->getHeight());
     setScrollBarsShown(true, true);
     setScrollBarThickness(kDefaultScrollbarThickness);
     setSingleStepSizes(kDefaultSingleStepSize, kDefaultSingleStepSize);
-    setViewedComponent(_graphicsPanel);
+    setViewedComponent(_graphicsFrame);
     setApplicationCommandManagerToWatch(&containingWindow->getApplicationCommandManager());
     ODL_EXIT_P(this); //####
 } // ContentPanel::ContentPanel
@@ -138,9 +119,6 @@ ContentPanel::~ContentPanel(void)
 {
     ODL_OBJENTER(); //####
     setApplicationCommandManagerToWatch(NULL);
-#if JUCE_MAC
-    MenuBarModel::setMacMainMenu(NULL);
-#endif // JUCE_MAC
     PopupMenu::dismissAllActiveMenus();
     ODL_OBJEXIT(); //####
 } // ContentPanel::~ContentPanel
@@ -223,7 +201,7 @@ StringArray
 ContentPanel::getMenuBarNames(void)
 {
     ODL_OBJENTER(); //####
-    const char * const names[] = { "View", "Operation", NULL };
+    const char * const names[] = { "m+mLeapDisplayOutputService", "View", "Operation", NULL };
 
     ODL_OBJEXIT(); //####
     return StringArray(names);
@@ -251,11 +229,16 @@ ContentPanel::getMenuForIndex(int            menuIndex,
     switch (menuIndex)
     {
         case 0 :
+            // Main
+            setUpMainMenu(menu);
+            break;
+            
+        case 1 :
             // View
             setUpViewMenu(menu);
             break;
 
-        case 1 :
+        case 2 :
             // Operation
             setUpOperationMenu(menu);
             break;
@@ -335,31 +318,31 @@ ContentPanel::mouseDown(const MouseEvent & ee)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
-
     ODL_OBJEXIT(); //####
 } // EntitiesPanel::mouseDown
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 ContentPanel::mouseDrag(const MouseEvent & ee)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(ee)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
-    bool doDrag = true;
-    
-    // Moves this Component according to the mouse drag event and applies our constraints to it
-    if (ee.mods.isAltDown() || ee.mods.isCommandDown() || ee.mods.isPopupMenu())
-    {
-        doDrag = false;
-    }
-    if (doDrag)
-    {
-//TBD
-    }
     ODL_OBJEXIT(); //####
 } // ChannelContainer::mouseDrag
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -375,7 +358,6 @@ ContentPanel::mouseUp(const MouseEvent & ee)
 #endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
-
     ODL_OBJEXIT(); //####
 } // ContentPanel::mouseUp
 #if (! MAC_OR_LINUX_)
@@ -452,17 +434,21 @@ ContentPanel::resized(void)
     juce::Rectangle<int> area(getLocalBounds());
     int                  offset = LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight();
 
-    _graphicsPanel->setBounds(area);
-#if JUCE_MAC
-    if (NULL != MenuBarModel::getMacMainMenu())
-    {
-        _menuBar->setBounds(area.removeFromTop(offset));
-    }
-#else // ! JUCE_MAC
     _menuBar->setBounds(area.removeFromTop(offset));
-#endif // ! JUCE_MAC
+    _graphicsFrame->setBounds(area);
     ODL_OBJEXIT(); //####
 } // ContentPanel::resized
+
+void
+ContentPanel::setUpMainMenu(PopupMenu & aMenu)
+{
+    ODL_OBJENTER(); //####
+    ODL_P1("aMenu = ", &aMenu); //####
+    ApplicationCommandManager * commandManager = &LeapDisplayWindow::getApplicationCommandManager();
+    
+    aMenu.addCommandItem(commandManager, StandardApplicationCommandIDs::quit);
+    ODL_OBJEXIT(); //####
+} // ContentPanel::setUpMainMenu
 
 void
 ContentPanel::setUpOperationMenu(PopupMenu & aMenu)

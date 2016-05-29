@@ -61,7 +61,8 @@
 
 namespace LeapDisplay
 {
-    class GraphicsPanel;
+    class GraphicsFrame;
+//    class GraphicsPanel;
     class LeapDisplayWindow;
 
     /*! @brief The content area of the main window of the application. */
@@ -198,6 +199,11 @@ namespace LeapDisplay
         virtual void
         resized(void);
 
+        /*! @brief Prepare the main menu for use.
+         @param[in,out] aMenu The popup menu to be configured. */
+        void
+        setUpMainMenu(PopupMenu & aMenu);
+        
         /*! @brief Prepare the operation menu for use.
          @param[in,out] aMenu The popup menu to be configured. */
         void
@@ -219,8 +225,9 @@ namespace LeapDisplay
 
     private :
 
-        /*! @brief The entities panel. */
-        ScopedPointer<GraphicsPanel> _graphicsPanel;
+        /*! @brief The drawing region. */
+        ScopedPointer<GraphicsFrame> _graphicsFrame;
+//        ScopedPointer<GraphicsPanel> _graphicsPanel;
         
         /*! @brief The menubar for the panel. */
         ScopedPointer<MenuBarComponent> _menuBar;

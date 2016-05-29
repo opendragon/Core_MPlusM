@@ -257,7 +257,6 @@ GraphicsPanel::GraphicsPanel(ContentPanel * theContainer,
     ODL_LL2("startingWidth = ", startingWidth, "startingHeight = ", startingHeight); //####
     setSize((0 < startingWidth) ? startingWidth : kInitialPanelWidth,
             (0 < startingHeight) ? startingHeight : kInitialPanelHeight);
-    setVisible(true);
     _context.setRenderer(this);
     _context.attachTo(*this);
     _context.setContinuousRepainting(true);
@@ -314,8 +313,8 @@ GraphicsPanel::drawBackground(const float desktopScale)
 {
     ODL_OBJENTER(); //####
     ODL_D1("desktopScale = ", desktopScale); //####
-    int   hh = getHeight();
-    int   ww = getWidth();
+    int hh = getHeight();
+    int ww = getWidth();
     ODL_LL2("hh <- ", hh, "ww <- ", ww); //####
     ScopedPointer<LowLevelGraphicsContext>
                             glRenderer(createOpenGLGraphicsContext(_context,
@@ -614,7 +613,6 @@ GraphicsPanel::renderOpenGL(void)
         memcpy(&leftCopy, &_leftHand, sizeof(leftCopy));
         memcpy(&rightCopy, &_rightHand, sizeof(rightCopy));
         _csect.exit();
-        OpenGLHelpers::clear(Colours::lightblue); // FOR NOW
         setUpTexture();
         drawBackground(desktopScale);
         updateShader();

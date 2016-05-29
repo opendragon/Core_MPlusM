@@ -60,7 +60,7 @@ namespace LeapDisplay
     class ContentPanel;
     class VertexBuffer;
 
-    /*! @brief The entities layer of the main window of the application. */
+    /*! @brief The graphics layer of the main window of the application. */
     class GraphicsPanel : public Component,
                           private OpenGLRenderer
     {
