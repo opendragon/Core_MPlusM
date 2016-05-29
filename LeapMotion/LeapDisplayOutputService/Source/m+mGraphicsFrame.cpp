@@ -129,8 +129,8 @@ GraphicsFrame::resized(void)
     ODL_OBJENTER(); //####
     if (NULL != _graphicsPanel)
     {
-        int            offset = LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight();
-        Rectangle<int> area(getLocalBounds());
+        int                  offset = LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight();
+        juce::Rectangle<int> area(getLocalBounds());
         
         _graphicsPanel->setBounds(area);
         _graphicsPanel->setTopLeftPosition(0, offset);
