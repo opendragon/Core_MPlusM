@@ -613,6 +613,7 @@ GraphicsPanel::renderOpenGL(void)
         memcpy(&leftCopy, &_leftHand, sizeof(leftCopy));
         memcpy(&rightCopy, &_rightHand, sizeof(rightCopy));
         _csect.exit();
+        OpenGLHelpers::clear(Colours::lightblue); // FOR NOW
         setUpTexture();
         drawBackground(desktopScale);
         updateShader();
