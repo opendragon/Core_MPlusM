@@ -70,6 +70,20 @@ namespace LeapDisplay
 
     private :
 
+        /*! @brief The shape to use when drawing the finger tips. */
+        enum Shape
+        {
+            /*! @brief Draw a cube. */
+            kShapeCube,
+
+            /*! @brief Draw a tetrahedron. */
+            kShapeTetrahedron,
+
+            /*! @brief Draw an octahedron. */
+            kShapeOctahedron
+
+        }; // Shape
+
         /*! @brief The class that this class is derived from. */
         typedef Component inherited;
 
@@ -137,11 +151,11 @@ namespace LeapDisplay
         drawBackground(const float desktopScale);
 
         /*! @brief Draw the finger tips for a hand.
-         @param[in] where The position of the shape to draw at the finger tip.
-         @param[in] order The position of the finger in the finger order. */
+         @param[in] stuff The finger tip information.
+         @param[in] theShape The shape to use when drawing. */
         void
-        drawFingertip(const Location & where,
-                      const int        order);
+        drawFingertip(const FingerTip & stuff,
+                      const Shape       theShape);
         
         /*! @brief Draw the fingers of a hand.
          @param[in] aHand The hand to be drawn. */

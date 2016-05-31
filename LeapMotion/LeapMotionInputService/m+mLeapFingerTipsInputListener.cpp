@@ -71,31 +71,34 @@ enum FingerMask
     kNoFingers = 0x0000,
     
     /*! @brief The mask for the left hand values. */
-    kLeftMask = 0x001F,
+    kLeftMask = 0x003F,
     
     /*! @brief The mask for the right hand values. */
-    kRightMask = 0x03E0,
+    kRightMask = 0x0FC0,
     
     /*! @brief The number of positions to shift the finger values to the left for the left hand. */
     kLeftShift = 0,
     
     /*! @brief The number of positions to shift the finger values to the left for the right hand. */
-    kRightShift = 5,
-    
+    kRightShift = 6,
+
+    /*! @brief Data for the palm is present. */
+    kPalm = 0x0001,
+
     /*! @brief Data for the thumb is present. */
-    kThumb = 0x0001,
+    kThumb = 0x0002,
 
     /*! @brief Data for the index finger is present. */
-    kIndex = 0x0002,
+    kIndex = 0x0004,
     
     /*! @brief Data for the middle finger is present. */
-    kMiddle = 0x0004,
+    kMiddle = 0x0008,
     
     /*! @brief Data for the ring finger is present. */
-    kRing = 0x0008,
+    kRing = 0x0010,
     
     /*! @brief Data for the pinky is present. */
-    kPinky = 0x0010
+    kPinky = 0x0020
     
 }; // FingerMask
 
@@ -103,7 +106,7 @@ enum FingerMask
 static const int kValuesPerFinger = 3; // 3D positions
 
 /*! @brief The number of values per hand. */
-static const int kValuesPerHand = (kValuesPerFinger * 5);
+static const int kValuesPerHand = (kValuesPerFinger * 6);
 
 /*! @brief The total number of values. */
 static const int kTotalValues = (kValuesPerHand * 2);
@@ -247,6 +250,11 @@ LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
                         // fingers
                         Leap::FingerList fingers(aHand.fingers());
 
+                        fingerPositions[baseOffset] = aHand.palmPosition().x;
+                        fingerPositions[baseOffset + 1] = aHand.palmPosition().y;
+                        fingerPositions[baseOffset + 2] = aHand.palmPosition().z;
+                        fingersPresent = static_cast<FingerMask>(fingersPresent |
+                                                                 (kPalm << bitShift));
                         for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
                              fingers.end() != fingerWalker; ++fingerWalker)
                         {
@@ -261,27 +269,27 @@ LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
                                 switch (aFinger.type())
                                 {
                                     case Leap::Finger::TYPE_THUMB :
-                                        fingerOffset = (0 * kValuesPerFinger);
+                                        fingerOffset = (1 * kValuesPerFinger);
                                         fingerBit = kThumb;
                                         break;
                                         
                                     case Leap::Finger::TYPE_INDEX :
-                                        fingerOffset = (1 * kValuesPerFinger);
+                                        fingerOffset = (2 * kValuesPerFinger);
                                         fingerBit = kIndex;
                                         break;
                                         
                                     case Leap::Finger::TYPE_MIDDLE :
-                                        fingerOffset = (2 * kValuesPerFinger);
+                                        fingerOffset = (3 * kValuesPerFinger);
                                         fingerBit = kMiddle;
                                         break;
                                         
                                     case Leap::Finger::TYPE_RING :
-                                        fingerOffset = (3 * kValuesPerFinger);
+                                        fingerOffset = (4 * kValuesPerFinger);
                                         fingerBit = kRing;
                                         break;
                                         
                                     case Leap::Finger::TYPE_PINKY :
-                                        fingerOffset = (4 * kValuesPerFinger);
+                                        fingerOffset = (5 * kValuesPerFinger);
                                         fingerBit = kPinky;
                                         break;
 

@@ -93,7 +93,7 @@ static const double kMinZValue = -300;
 static const int kValuesPerFinger = 3; // 3D positions
 
 /*! @brief The number of values per hand. */
-static const int kValuesPerHand = (kValuesPerFinger * 5);
+static const int kValuesPerHand = (kValuesPerFinger * 6);
 
 /*! @brief The total number of values. */
 static const int kTotalValues = (kValuesPerHand * 2);
@@ -101,43 +101,52 @@ static const int kTotalValues = (kValuesPerHand * 2);
 /*! @brief The mask bits for the fingers. */
 enum TipValueBits
 {
+    /*! @brief The flag bit for the left palm. */
+    kLeftPalmBit =    0x0001,
+
     /*! @brief The flag bit for the left thumb. */
-    kLeftThumbBit =   0x0001,
+    kLeftThumbBit =   0x0002,
     
     /*! @brief The flag bit for the left index finger. */
-    kLeftIndexBit =   0x0002,
+    kLeftIndexBit =   0x0004,
     
     /*! @brief The flag bit for the left middle finger. */
-    kLeftMiddleBit =  0x0004,
+    kLeftMiddleBit =  0x0008,
     
     /*! @brief The flag bit for the left ring finger. */
-    kLeftRingBit =    0x0008,
+    kLeftRingBit =    0x0010,
     
     /*! @brief The flag bit for the left pinky. */
-    kLeftPinkyBit =   0x0010,
-    
-    /*! @brief The flag bit for the left thumb. */
-    kRightThumbBit =  0x0020,
+    kLeftPinkyBit =   0x0020,
+
+    /*! @brief The flag bit for the right palm. */
+    kRightPalmBit =   0x0040,
+
+    /*! @brief The flag bit for the right thumb. */
+    kRightThumbBit =  0x0080,
     
     /*! @brief The flag bit for the right index finger. */
-    kRightIndexBit =  0x0040,
+    kRightIndexBit =  0x0100,
     
     /*! @brief The flag bit for the right middle finger. */
-    kRightMiddleBit = 0x0080,
+    kRightMiddleBit = 0x0200,
     
     /*! @brief The flag bit for the right ring finger. */
-    kRightRingBit =   0x0100,
+    kRightRingBit =   0x0400,
     
     /*! @brief The flag bit for the right pinky. */
-    kRightPinkyBit =  0x0200
+    kRightPinkyBit =  0x0800
     
 }; // TipValueBits
 
 /*! @brief The positions of the data for the fingers. */
 enum TipValuePosition
 {
+    /*! @brief The position of the values for the left palm. */
+    kLeftPalmPosition = 0,
+
     /*! @brief The position of the values for the left thumb. */
-    kLeftThumbPosition = 0,
+    kLeftThumbPosition,
     
     /*! @brief The position of the values for the left index finger. */
     kLeftIndexPosition,
@@ -151,6 +160,9 @@ enum TipValuePosition
     /*! @brief The position of the values for the left pinky. */
     kLeftPinkyPosition,
     
+    /*! @brief The position of the values for the right palm. */
+    kRightPalmPosition,
+
     /*! @brief The position of the values for the right thumb. */
     kRightThumbPosition,
     
@@ -352,6 +364,8 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
                     HandData leftHand;
                     HandData rightHand;
 
+                    okSoFar &= checkFinger(flags & kLeftPalmBit, kLeftPalmPosition, input,
+                                           leftHand._palm);
                     okSoFar &= checkFinger(flags & kLeftThumbBit, kLeftThumbPosition, input,
                                            leftHand._thumb);
                     okSoFar &= checkFinger(flags & kLeftIndexBit, kLeftIndexPosition, input,
@@ -362,6 +376,8 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
                                            leftHand._ring);
                     okSoFar &= checkFinger(flags & kLeftPinkyBit, kLeftPinkyPosition, input,
                                            leftHand._pinky);
+                    okSoFar &= checkFinger(flags & kRightPalmBit, kRightPalmPosition, input,
+                                           rightHand._palm);
                     okSoFar &= checkFinger(flags & kRightThumbBit, kRightThumbPosition, input,
                                            rightHand._thumb);
                     okSoFar &= checkFinger(flags & kRightIndexBit, kRightIndexPosition, input,

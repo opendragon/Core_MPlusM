@@ -205,6 +205,9 @@ namespace LeapDisplay
     /*! @brief The information for a hand. */
     struct HandData
     {
+        /*! @brief The information for the palm. */
+        FingerTip _palm;
+
         /*! @brief The information for the thumb. */
         FingerTip _thumb;
         

@@ -72,8 +72,6 @@ using namespace std;
 
 //#define DO_AUTOROTATE /* set for autorotation */
 
-//#define DO_DRAWCENTRE /* set for centre of fingers */
-
 /*! @brief The first colour to be used for the panel background. */
 static const Colour & kFirstBackgroundColour(Colours::darkgrey);
 
@@ -369,57 +367,61 @@ GraphicsPanel::drawBackground(const float desktopScale)
 } // GraphicsPanel::drawBackground
 
 void
-GraphicsPanel::drawFingertip(const Location & where,
-                             const int        order)
+GraphicsPanel::drawFingertip(const FingerTip & stuff,
+                             const Shape       theShape)
 {
     ODL_OBJENTER(); //####
-    ODL_P1("where = ", &where); //####
-    ODL_LL1("order = ", order); //####
-    VertexBuffer * selected;
-    
-    switch (order % 3)
+    ODL_P1("stuff = ", &stuff); //####
+    ODL_LL1("theShape = ", theShape); //####
+    if (stuff._valid)
     {
-        case 0 :
-            if (! _cubeData)
-            {
-                setUpCube();
-            }
-            selected = _cubeData;
-            break;
-            
-        case 1 :
-            if (! _tetrahedronData)
-            {
-                setUpTetrahedron();
-            }
-            selected = _tetrahedronData;
-            break;
-            
-        case 2 :
-            if (! _octahedronData)
-            {
-                setUpOctahedron();
-            }
-            selected = _octahedronData;
-            break;
-            
-        default :
-            selected = NULL;
-            break;
-    
-    }
-    if (selected)
-    {
-        ODL_LOG("(selected)"); //####
-        if (NULL != _offsetUniform)
+        const Location & where = stuff._where;
+        VertexBuffer *           selected;
+
+        switch (theShape)
         {
-            _offsetUniform->set(static_cast<float>(where.x), static_cast<float>(where.y),
-                                static_cast<float>(where.z), 0.0f);
+            case kShapeCube :
+                if (! _cubeData)
+                {
+                    setUpCube();
+                }
+                selected = _cubeData;
+                break;
+
+            case kShapeTetrahedron :
+                if (! _tetrahedronData)
+                {
+                    setUpTetrahedron();
+                }
+                selected = _tetrahedronData;
+                break;
+
+            case kShapeOctahedron :
+                if (! _octahedronData)
+                {
+                    setUpOctahedron();
+                }
+                selected = _octahedronData;
+                break;
+
+            default :
+                selected = NULL;
+                break;
+
         }
-        selected->bind();
-        enableVertexAttributes();
-        glDrawElements(GL_TRIANGLES, selected->numberOfIndices(), GL_UNSIGNED_INT, 0);
-        disableVertexAttributes();
+        if (selected)
+        {
+            ODL_LOG("(selected)"); //####
+            if (NULL != _offsetUniform)
+            {
+                _offsetUniform->set(static_cast<float>(where.x), static_cast<float>(where.y),
+                                    static_cast<float>(where.z), 0.0f);
+            }
+            selected->bind();
+            enableVertexAttributes();
+            glDrawElements(GL_TRIANGLES, selected->numberOfIndices(), GL_UNSIGNED_INT, 0);
+            disableVertexAttributes();
+        }
     }
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::drawFingertip
@@ -429,54 +431,12 @@ GraphicsPanel::drawHand(const HandData & aHand)
 {
     ODL_OBJENTER(); //####
     ODL_P1("aHand = ", &aHand); //####
-    int      numFingers = 0;
-#if defined(DO_DRAWCENTRE)
-    Location centre;
-#endif // defined(DO_DRAWCENTRE)
-
-    if (aHand._thumb._valid)
-    {
-#if defined(DO_DRAWCENTRE)
-        centre += aHand._thumb._where;
-#endif // defined(DO_DRAWCENTRE)
-        drawFingertip(aHand._thumb._where, numFingers++);
-    }
-    if (aHand._index._valid)
-    {
-#if defined(DO_DRAWCENTRE)
-        centre += aHand._index._where;
-#endif // defined(DO_DRAWCENTRE)
-        drawFingertip(aHand._index._where, numFingers++);
-    }
-    if (aHand._middle._valid)
-    {
-#if defined(DO_DRAWCENTRE)
-        centre += aHand._middle._where;
-#endif // defined(DO_DRAWCENTRE)
-        drawFingertip(aHand._middle._where, numFingers++);
-    }
-    if (aHand._ring._valid)
-    {
-#if defined(DO_DRAWCENTRE)
-        centre += aHand._ring._where;
-#endif // defined(DO_DRAWCENTRE)
-        drawFingertip(aHand._ring._where, numFingers++);
-    }
-    if (aHand._pinky._valid)
-    {
-#if defined(DO_DRAWCENTRE)
-        centre += aHand._pinky._where;
-#endif // defined(DO_DRAWCENTRE)
-        drawFingertip(aHand._pinky._where, numFingers++);
-    }
-#if defined(DO_DRAWCENTRE)
-    if (0 < numFingers)
-    {
-        ODL_LOG("(0 < numFingers)"); //####
-        centre /= numFingers;
-        drawFingertip(centre, numFingers);
-    }
-#endif // defined(DO_DRAWCENTRE)
+    drawFingertip(aHand._palm, kShapeCube);
+    drawFingertip(aHand._thumb, kShapeTetrahedron);
+    drawFingertip(aHand._index, kShapeOctahedron);
+    drawFingertip(aHand._middle, kShapeCube);
+    drawFingertip(aHand._ring, kShapeOctahedron);
+    drawFingertip(aHand._pinky, kShapeTetrahedron);
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::drawHand
 
