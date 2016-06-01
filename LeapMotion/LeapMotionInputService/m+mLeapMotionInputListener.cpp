@@ -246,14 +246,14 @@ LeapMotionInputListener::onFrame(const Leap::Controller & theController)
 
     if (latestFrame.isValid())
     {
-        Leap::HandList hands(latestFrame.hands());
-        Leap::ToolList tools(latestFrame.tools());
-        int            handCount = hands.count();
-        int            toolCount = tools.count();
+        Leap::HandList   hands(latestFrame.hands());
+        Leap::ToolList   tools(latestFrame.tools());
+        yarp::os::Bottle message;
+        int              handCount = hands.count();
+        int              toolCount = tools.count();
 
         if (0 < (handCount + toolCount))
         {
-            yarp::os::Bottle   message;
             yarp::os::Bottle & handStuff = message.addList();
 
             for (Leap::HandList::const_iterator handWalker(hands.begin());
@@ -423,20 +423,20 @@ LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     toolProps.put("length", aTool.length());
                 }
             }
-            if (_outChannel)
-            {
-                if (! _outChannel->write(message))
-                {
-                    ODL_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                    Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                }
-            }
         }
         else
         {
             ODL_LOG("! (0 < (handCount + toolCount))"); //####
+        }
+        if (_outChannel)
+        {
+            if (! _outChannel->write(message))
+            {
+                ODL_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
         }
     }
     else

@@ -239,19 +239,19 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
 
     if (latestFrame.isValid())
     {
-        Leap::HandList hands(latestFrame.hands());
-        int            handCount = hands.count();
-
+        Leap::HandList   hands(latestFrame.hands());
+        HandMask         handsPresent = kNoHands;
+        int              handCount = hands.count();
+        yarp::os::Bottle message;
+        double           palmNormals[6];
+        double           palmPositions[6];
+        double           palmVelocities[6];
+        
+        memset(palmNormals, 0, sizeof(palmNormals));
+        memset(palmPositions, 0, sizeof(palmPositions));
+        memset(palmVelocities, 0, sizeof(palmVelocities));
         if (0 < handCount)
         {
-            HandMask handsPresent = kNoHands;
-            double   palmNormals[6];
-            double   palmPositions[6];
-            double   palmVelocities[6];
-
-            memset(palmNormals, 0, sizeof(palmNormals));
-            memset(palmPositions, 0, sizeof(palmPositions));
-            memset(palmVelocities, 0, sizeof(palmVelocities));
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
             {
@@ -293,38 +293,6 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                         palmVelocities[offset + 1] = velocities.y;
                         palmVelocities[offset + 2] = velocities.z;
                         handsPresent = static_cast<HandMask>(handsPresent | thisHand);
-                    }
-                }
-            }
-            if (kNoHands == handsPresent)
-            {
-                ODL_LOG("(kNoHands == handsPresent)"); //####
-            }
-            else
-            {
-                yarp::os::Bottle message;
-
-                message.addInt(handsPresent);
-                for (int ii = 0; ii < (sizeof(palmPositions) / sizeof(*palmPositions)); ++ii)
-                {
-                    message.addDouble(palmPositions[ii]);
-                }
-                for (int ii = 0; ii < (sizeof(palmNormals) / sizeof(*palmNormals)); ++ii)
-                {
-                    message.addDouble(palmNormals[ii]);
-                }
-                for (int ii = 0; ii < (sizeof(palmVelocities) / sizeof(*palmVelocities)); ++ii)
-                {
-                    message.addDouble(palmVelocities[ii]);
-                }
-                if (_outChannel)
-                {
-                    if (! _outChannel->write(message))
-                    {
-                        ODL_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                        Stall();
-#endif // defined(MpM_StallOnSendProblem)
                     }
                 }
             }

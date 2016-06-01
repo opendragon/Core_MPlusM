@@ -225,13 +225,15 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
 
     if (latestFrame.isValid())
     {
-        Leap::HandList hands(latestFrame.hands());
-        int            handCount = hands.count();
+        Leap::HandList    hands(latestFrame.hands());
+        int               handCount = hands.count();
+        int               realHandCount = 0;
+#if (! defined(MpM_UseCustomStringBuffer))
+        std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 
         if (0 < handCount)
         {
-            int realHandCount = 0;
-
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
             {
@@ -260,10 +262,6 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
             }
             if (0 < realHandCount)
             {
-#if (! defined(MpM_UseCustomStringBuffer))
-                std::stringstream outBuffer;
-#endif // ! defined(MpM_UseCustomStringBuffer)
-
                 // Write out the number of hands == bodies.
 #if defined(MpM_UseCustomStringBuffer)
                 _outBuffer.reset().addLong(realHandCount).addString(LINE_END_);
@@ -372,51 +370,62 @@ LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                         }
                     }
                 }
-#if defined(MpM_UseCustomStringBuffer)
-                _outBuffer.addString("END" LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
-                outBuffer << "END" LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
-                if (_outChannel)
-                {
-                    const char * outString;
-                    size_t       outLength;
-#if (! defined(MpM_UseCustomStringBuffer))
-                    std::string  buffAsString(outBuffer.str());
-#endif // ! defined(MpM_UseCustomStringBuffer)
-
-#if defined(MpM_UseCustomStringBuffer)
-                    outString = _outBuffer.getString(outLength);
-#else // ! defined(MpM_UseCustomStringBuffer)
-                    outString = buffAsString.c_str();
-                    outLength = buffAsString.length();
-#endif // ! defined(MpM_UseCustomStringBuffer)
-                    if (outString && outLength)
-                    {
-                        void *          rawString =
-                                                static_cast<void *>(const_cast<char *>(outString));
-                        yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
-
-                        _messageBottle.clear();
-                        _messageBottle.add(blobValue);
-                        if (! _outChannel->write(_messageBottle))
-                        {
-                            ODL_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                            Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                        }
-                    }
-                }
             }
             else
             {
                 ODL_LOG("! (0 < realHandCount)"); //####
+                // Write out the number of hands == bodies.
+#if defined(MpM_UseCustomStringBuffer)
+                _outBuffer.reset().addLong(realHandCount).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << realHandCount << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
             }
         }
         else
         {
             ODL_LOG("! (0 < handCount)"); //####
+#if defined(MpM_UseCustomStringBuffer)
+            _outBuffer.reset().addLong(realHandCount).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outBuffer << realHandCount << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+        }
+        if (_outChannel)
+        {
+            const char * outString;
+            size_t       outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
+            std::string  buffAsString(outBuffer.str());
+#endif // ! defined(MpM_UseCustomStringBuffer)
+            
+#if defined(MpM_UseCustomStringBuffer)
+            _outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+#if defined(MpM_UseCustomStringBuffer)
+            outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outString = buffAsString.c_str();
+            outLength = buffAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+            if (outString && outLength)
+            {
+                void *          rawString =
+                static_cast<void *>(const_cast<char *>(outString));
+                yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
+                
+                _messageBottle.clear();
+                _messageBottle.add(blobValue);
+                if (! _outChannel->write(_messageBottle))
+                {
+                    ODL_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                    Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                }
+            }
         }
     }
     else

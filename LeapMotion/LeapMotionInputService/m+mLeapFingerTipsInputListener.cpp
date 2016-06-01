@@ -272,15 +272,15 @@ LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
 
     if (latestFrame.isValid())
     {
-        Leap::HandList hands(latestFrame.hands());
-        double         fingerPositions[kTotalValues];
-        int            handCount = hands.count();
+        Leap::HandList   hands(latestFrame.hands());
+        double           fingerPositions[kTotalValues];
+        FingerMask       fingersPresent = kNoFingers;
+        int              handCount = hands.count();
+        yarp::os::Bottle message;
 
         memset(fingerPositions, 0, sizeof(fingerPositions));
         if (0 < handCount)
         {
-            FingerMask fingersPresent = kNoFingers;
-
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
             {
@@ -372,50 +372,24 @@ LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
                     }
                 }
             }
-            if (kNoFingers == fingersPresent)
-            {
-                ODL_LOG("(kNoFingers == fingersPresent)"); //####
-            }
-            else
-            {
-                yarp::os::Bottle message;
-
-                message.addInt(fingersPresent);
-                for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
-                {
-                    message.addDouble(fingerPositions[ii]);
-                }
-                if (_outChannel)
-                {
-                    if (! _outChannel->write(message))
-                    {
-                        ODL_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                        Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                    }
-                }
-            }
         }
         else
         {
             ODL_LOG("! (0 < handCount)"); //####
-            yarp::os::Bottle message;
-
-            message.addInt(0); // fingersPresent
-            for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
+        }
+        message.addInt(fingersPresent);
+        for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
+        {
+            message.addDouble(fingerPositions[ii]);
+        }
+        if (_outChannel)
+        {
+            if (! _outChannel->write(message))
             {
-                message.addDouble(fingerPositions[ii]);
-            }
-            if (_outChannel)
-            {
-                if (! _outChannel->write(message))
-                {
-                    ODL_LOG("(! _outChannel->write(message))"); //####
+                ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
-                }
             }
         }
     }

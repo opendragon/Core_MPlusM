@@ -244,9 +244,10 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
 
         if (0 < handCount)
         {
-            HandMask handsPresent = kNoHands;
-            double   fingerPositions[6];
-
+            HandMask         handsPresent = kNoHands;
+            double           fingerPositions[6];
+            yarp::os::Bottle message;
+            
             memset(fingerPositions, 0, sizeof(fingerPositions));
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
@@ -298,28 +299,19 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                     }
                 }
             }
-            if (kNoHands == handsPresent)
+            message.addInt(handsPresent);
+            for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
             {
-                ODL_LOG("(kNoHands == handsPresent)"); //####
+                message.addDouble(fingerPositions[ii]);
             }
-            else
+            if (_outChannel)
             {
-                yarp::os::Bottle message;
-
-                message.addInt(handsPresent);
-                for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
+                if (! _outChannel->write(message))
                 {
-                    message.addDouble(fingerPositions[ii]);
-                }
-                if (_outChannel)
-                {
-                    if (! _outChannel->write(message))
-                    {
-                        ODL_LOG("(! _outChannel->write(message))"); //####
+                    ODL_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                        Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
-                    }
                 }
             }
         }
