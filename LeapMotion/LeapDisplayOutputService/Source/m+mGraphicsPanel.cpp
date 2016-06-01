@@ -156,7 +156,8 @@ createAttribute(OpenGLContext &       context,
                 const char *          attributeName)
 {
     ODL_ENTER(); //####
-    ODL_P2("context = ", &context, "shader = ", &shader);
+    ODL_P2("context = ", &context, "shader = ", &shader); //####
+    ODL_S1("attributeName = ", attributeName); //####
     OpenGLShaderProgram::Attribute * result;
     
     if (0 > context.extensions.glGetAttribLocation(shader.getProgramID(), attributeName))

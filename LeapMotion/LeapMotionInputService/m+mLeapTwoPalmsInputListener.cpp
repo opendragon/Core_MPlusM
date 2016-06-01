@@ -125,49 +125,110 @@ LeapTwoPalmsInputListener::onConnect(const Leap::Controller & theController)
 {
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
-    theController.setPolicyFlags(Leap::Controller::POLICY_DEFAULT);
+    //theController.setPolicyFlags(Leap::Controller::POLICY_DEFAULT);
+    theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onConnect
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onDeviceChange(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onDeviceChange
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onDisconnect(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onDisconnect
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onExit(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onExit
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onFocusGained(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFocusGained
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onFocusLost(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFocusLost
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void
 LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
@@ -219,7 +280,7 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                     if (0 <= offset)
                     {
                         const Leap::Vector & normal = aHand.palmNormal();
-                        const Leap::Vector & position = aHand.palmPosition();
+                        const Leap::Vector & position = aHand.stabilizedPalmPosition();
                         const Leap::Vector & velocities = aHand.palmVelocity();
 
                         palmNormals[offset] = normal.x;
@@ -235,7 +296,11 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                     }
                 }
             }
-            if (kNoHands != handsPresent)
+            if (kNoHands == handsPresent)
+            {
+                ODL_LOG("(kNoHands == handsPresent)"); //####
+            }
+            else
             {
                 yarp::os::Bottle message;
 
@@ -264,6 +329,14 @@ LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                 }
             }
         }
+        else
+        {
+            ODL_LOG("! (0 < handCount)"); //####
+        }
+    }
+    else
+    {
+        ODL_LOG("! (latestFrame.isValid())"); //####
     }
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFrame
@@ -277,21 +350,45 @@ LeapTwoPalmsInputListener::onInit(const Leap::Controller & theController)
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onInit
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onServiceConnect(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onServiceConnect
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void
 LeapTwoPalmsInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(theController)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onServiceDisconnect
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

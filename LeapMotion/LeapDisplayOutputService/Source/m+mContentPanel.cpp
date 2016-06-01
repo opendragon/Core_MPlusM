@@ -97,7 +97,7 @@ static const int kDefaultSingleStepSize = 10;
 #endif // defined(__APPLE__)
 
 ContentPanel::ContentPanel(LeapDisplayWindow * containingWindow) :
-    inherited1(), inherited2(), inherited3(), _graphicsFrame(new GraphicsFrame(this)),//_graphicsPanel(new GraphicsPanel(this)),
+    inherited1(), inherited2(), inherited3(), _graphicsFrame(new GraphicsFrame(this)),
     _menuBar(new MenuBarComponent(this)), _containingWindow(containingWindow),
     _invertBackground(false), _whiteBackground(false)
 {

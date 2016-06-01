@@ -188,31 +188,6 @@ enum TipValuePosition
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if defined(__APPLE__)
-# pragma mark Class methods
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Constructors and Destructors
-#endif // defined(__APPLE__)
-
-LeapDisplayInputHandler::LeapDisplayInputHandler(void) :
-    inherited()
-{
-    ODL_ENTER(); //####
-    ODL_EXIT_P(this); //####
-} // LeapDisplayInputHandler::LeapDisplayInputHandler
-
-LeapDisplayInputHandler::~LeapDisplayInputHandler(void)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // LeapDisplayInputHandler::~LeapDisplayInputHandler
-
-#if defined(__APPLE__)
-# pragma mark Actions and Accessors
-#endif // defined(__APPLE__)
-
 /*! @brief Scale and constrain an input value.
  @param[in] inValue The value to be scaled.
  @param[in] minValue The lowest expected value.
@@ -228,7 +203,7 @@ clampedValue(const double inValue,
     double range = maxValue - minValue;
     double scaled = (2.0 * ((inValue - minValue) / range)) - 1.0;
     double result;
-    
+
     if (-1.0 <= scaled)
     {
         if (1.0 >= scaled)
@@ -249,7 +224,7 @@ clampedValue(const double inValue,
 } // clampedValue
 
 /*! @brief Extract the information for a finger from the input.
- 
+
  Note that missing data for a finger is not considered an error.
  @param[in] flag The flag identifying if the finger data is present.
  @param[in] position The index of the finger data in the input.
@@ -267,7 +242,7 @@ checkFinger(const int                flag,
     ODL_LL2("flag = ", flag, "position = ", position); //####
     ODL_P2("input = ", &input, "finger = ", &finger); //####
     bool okSoFar = true;
-    
+
     if (0 == flag)
     {
         finger._valid = false;
@@ -277,7 +252,7 @@ checkFinger(const int                flag,
     {
         int             offset = (position * kValuesPerFinger) + 1;
         yarp::os::Value aValue(input.get(offset));
-        
+
         if (aValue.isDouble())
         {
             finger._where.x = (clampedValue(aValue.asDouble(), kMinXValue, kMaxXValue) * kScaler);
@@ -322,6 +297,43 @@ checkFinger(const int                flag,
     return okSoFar;
 } // checkFinger
 
+/*! @brief Mark all the fingers as not present.
+ @param[in,out] aHand The hand to be invalidated. */
+static void
+invalidateFingerData(HandData & aHand)
+{
+    ODL_ENTER(); //####
+    ODL_P1("aHand = ", &aHand); //####
+    aHand._palm._valid = aHand._thumb._valid = aHand._index._valid = aHand._middle._valid =
+        aHand._ring._valid = aHand._pinky._valid = false;
+    ODL_EXIT(); //####
+} // invalidateFingerData
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and Destructors
+#endif // defined(__APPLE__)
+
+LeapDisplayInputHandler::LeapDisplayInputHandler(void) :
+    inherited()
+{
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
+} // LeapDisplayInputHandler::LeapDisplayInputHandler
+
+LeapDisplayInputHandler::~LeapDisplayInputHandler(void)
+{
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
+} // LeapDisplayInputHandler::~LeapDisplayInputHandler
+
+#if defined(__APPLE__)
+# pragma mark Actions and Accessors
+#endif // defined(__APPLE__)
+
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
@@ -352,17 +364,30 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
             
             if (aValue.isInt())
             {
-                int flags = aValue.asInt();
-                
+                HandData leftHand;
+                HandData rightHand;
+                int      flags = aValue.asInt();
+
                 if (0 == flags)
                 {
                     ODL_LOG("(0 == flags)"); //####
+                    LeapDisplayApplication * ourApp = LeapDisplayApplication::getApp();
+
+                    if (ourApp)
+                    {
+                        GraphicsPanel * aPanel = ourApp->getGraphicsPanel();
+
+                        if (aPanel)
+                        {
+                            invalidateFingerData(leftHand);
+                            invalidateFingerData(rightHand);
+                            aPanel->updateFingerData(leftHand, rightHand);
+                        }
+                    }
                 }
                 else
                 {
-                    bool     okSoFar = true;
-                    HandData leftHand;
-                    HandData rightHand;
+                    bool okSoFar = true;
 
                     okSoFar &= checkFinger(flags & kLeftPalmBit, kLeftPalmPosition, input,
                                            leftHand._palm);
