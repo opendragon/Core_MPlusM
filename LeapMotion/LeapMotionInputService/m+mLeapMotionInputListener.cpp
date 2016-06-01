@@ -246,16 +246,16 @@ LeapMotionInputListener::onFrame(const Leap::Controller & theController)
 
     if (latestFrame.isValid())
     {
-        Leap::HandList   hands(latestFrame.hands());
-        Leap::ToolList   tools(latestFrame.tools());
-        yarp::os::Bottle message;
-        int              handCount = hands.count();
-        int              toolCount = tools.count();
+        Leap::HandList     hands(latestFrame.hands());
+        Leap::ToolList     tools(latestFrame.tools());
+        yarp::os::Bottle   message;
+        int                handCount = hands.count();
+        int                toolCount = tools.count();
+        yarp::os::Bottle & handStuff = message.addList();
+        yarp::os::Bottle & toolStuff = message.addList();
 
         if (0 < (handCount + toolCount))
         {
-            yarp::os::Bottle & handStuff = message.addList();
-
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
             {
@@ -405,8 +405,6 @@ LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     }
                 }
             }
-            yarp::os::Bottle & toolStuff = message.addList();
-
             for (Leap::ToolList::const_iterator toolWalker(tools.begin());
                  tools.end() != toolWalker; ++toolWalker)
             {
