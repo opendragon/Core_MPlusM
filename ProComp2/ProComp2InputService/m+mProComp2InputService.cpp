@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mProComp2InputService.hpp"
-
 #include "m+mProComp2InputRequests.hpp"
 #include "m+mProComp2InputThread.hpp"
 

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRunningSumClient.hpp"
-
 #include "m+mRunningSumRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

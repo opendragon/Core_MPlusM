@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRecordIntegersOutputService.hpp"
-
 #include "m+mRecordIntegersOutputInputHandler.hpp"
 #include "m+mRecordIntegersOutputRequests.hpp"
 

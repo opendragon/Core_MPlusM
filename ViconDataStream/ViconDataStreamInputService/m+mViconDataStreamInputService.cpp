@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mViconDataStreamInputService.hpp"
-
 #include "m+mViconDataStreamEventThread.hpp"
 #include "m+mViconDataStreamInputRequests.hpp"
 

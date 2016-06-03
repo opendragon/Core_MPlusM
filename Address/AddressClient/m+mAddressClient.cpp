@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mAddressClient.hpp"
-
 #include "m+mAddressRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

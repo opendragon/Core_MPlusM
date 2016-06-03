@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mEchoClient.hpp"
-
 #include "m+mEchoRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

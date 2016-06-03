@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mKinectV2BlobInputService.hpp"
-
 #include "m+mKinectV2BlobEventThread.hpp"
 #include "m+mKinectV2BlobInputRequests.hpp"
 

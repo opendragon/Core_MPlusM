@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRunningSumDataInputHandler.hpp"
-
 #include "m+mRunningSumAdapterData.hpp"
 #include "m+mRunningSumClient.hpp"
 #include "m+mRunningSumRequests.hpp"

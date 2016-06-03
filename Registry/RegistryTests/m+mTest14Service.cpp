@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mTest14Service.hpp"
-
 #include "m+mTest14EchoRequestHandler.hpp"
 
 #include <m+m/m+mRequests.hpp>

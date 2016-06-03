@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mNatNetInputService.hpp"
-
 #include "m+mNatNetInputRequests.hpp"
 #include "m+mNatNetInputThread.hpp"
 

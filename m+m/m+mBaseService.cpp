@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mBaseService.hpp"
-
 #include "m+mArgumentsRequestHandler.hpp"
 #include "m+mChannelsRequestHandler.hpp"
 #include "m+mClientsRequestHandler.hpp"

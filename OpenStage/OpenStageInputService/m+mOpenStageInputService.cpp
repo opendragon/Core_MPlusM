@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mOpenStageInputService.hpp"
-
 #include "m+mOpenStageInputRequests.hpp"
 #include "m+mOpenStageInputThread.hpp"
 

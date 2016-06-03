@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRequestCounterClient.hpp"
-
 #include "m+mRequestCounterRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

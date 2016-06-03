@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mAbsorberFilterService.hpp"
-
 #include "m+mAbsorberFilterInputHandler.hpp"
 #include "m+mAbsorberFilterRequests.hpp"
 #include "m+mAbsorberFilterThread.hpp"

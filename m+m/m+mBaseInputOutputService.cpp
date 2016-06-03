@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mBaseInputOutputService.hpp"
-
 #include "m+mArgumentDescriptionsRequestHandler.hpp"
 #include "m+mConfigurationRequestHandler.hpp"
 #include "m+mConfigureRequestHandler.hpp"

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRecordAsJSONOutputService.hpp"
-
 #include "m+mRecordAsJSONOutputInputHandler.hpp"
 #include "m+mRecordAsJSONOutputRequests.hpp"
 

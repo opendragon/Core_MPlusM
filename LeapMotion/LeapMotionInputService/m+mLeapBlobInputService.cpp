@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapBlobInputService.hpp"
-
 #include "m+mLeapBlobInputListener.hpp"
 #include "m+mLeapBlobInputRequests.hpp"
 

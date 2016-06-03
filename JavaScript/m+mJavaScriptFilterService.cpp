@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mJavaScriptFilterService.hpp"
-
 #include "m+mJavaScriptFilterInputHandler.hpp"
 #include "m+mJavaScriptFilterRequests.hpp"
 #include "m+mJavaScriptFilterThread.hpp"

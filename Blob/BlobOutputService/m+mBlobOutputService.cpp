@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mBlobOutputService.hpp"
-
 #include "m+mBlobOutputInputHandler.hpp"
 #include "m+mBlobOutputRequests.hpp"
 

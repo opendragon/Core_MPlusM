@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mTruncateFloatFilterService.hpp"
-
 #include "m+mTruncateFloatFilterInputHandler.hpp"
 #include "m+mTruncateFloatFilterRequests.hpp"
 

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRegistryService.hpp"
-
 #include "m+mColumnNameValidator.hpp"
 #include "m+mMatchRequestHandler.hpp"
 #include "m+mPingRequestHandler.hpp"

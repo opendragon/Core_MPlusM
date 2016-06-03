@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapTwoPalmsInputService.hpp"
-
 #include "m+mLeapTwoPalmsInputListener.hpp"
 #include "m+mLeapTwoPalmsInputRequests.hpp"
 

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mUnrealOutputService.hpp"
-
 #include "m+mUnrealOutputLeapInputHandler.hpp"
 #include "m+mUnrealOutputRequests.hpp"
 #include "m+mUnrealOutputViconInputHandler.hpp"

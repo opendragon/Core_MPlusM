@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mCommonLispFilterService.hpp"
-
 #include "m+mCommonLispFilterInputHandler.hpp"
 #include "m+mCommonLispFilterRequests.hpp"
 #include "m+mCommonLispFilterThread.hpp"

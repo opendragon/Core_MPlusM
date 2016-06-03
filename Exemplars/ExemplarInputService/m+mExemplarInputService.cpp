@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarInputService.hpp"
-
 #include "m+mExemplarInputRequests.hpp"
 #include "m+mExemplarInputThread.hpp"
 

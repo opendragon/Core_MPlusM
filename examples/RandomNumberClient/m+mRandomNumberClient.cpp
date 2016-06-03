@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRandomNumberClient.hpp"
-
 #include "m+mRandomNumberRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

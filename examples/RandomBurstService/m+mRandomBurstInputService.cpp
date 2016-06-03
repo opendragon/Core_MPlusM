@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRandomBurstInputService.hpp"
-
 #include "m+mRandomBurstInputRequests.hpp"
 #include "m+mRandomBurstInputThread.hpp"
 

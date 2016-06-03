@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarClient.hpp"
-
 #include "m+mExemplarRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

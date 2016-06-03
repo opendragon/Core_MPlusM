@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mSendToMQOutputService.hpp"
-
 #include "m+mSendToMQOutputInputHandler.hpp"
 #include "m+mSendToMQOutputRequests.hpp"
 

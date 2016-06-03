@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarOutputService.hpp"
-
 #include "m+mExemplarOutputInputHandler.hpp"
 #include "m+mExemplarOutputRequests.hpp"
 

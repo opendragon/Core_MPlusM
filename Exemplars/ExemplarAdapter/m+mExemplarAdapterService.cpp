@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarAdapterService.hpp"
-
 #include "m+mExemplarAdapterData.hpp"
 #include "m+mExemplarAdapterRequests.hpp"
 #include "m+mExemplarInputHandler.hpp"

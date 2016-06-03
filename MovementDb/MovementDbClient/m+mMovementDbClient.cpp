@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mMovementDbClient.hpp"
-
 #include "m+mMovementDbRequests.hpp"
 
 #include <m+m/m+mServiceResponse.hpp>

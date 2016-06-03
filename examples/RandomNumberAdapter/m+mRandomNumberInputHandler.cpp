@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mRandomNumberInputHandler.hpp"
-
 #include "m+mRandomNumberAdapterData.hpp"
 #include "m+mRandomNumberClient.hpp"
 

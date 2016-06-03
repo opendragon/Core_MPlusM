@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapFingerTipsInputService.hpp"
-
 #include "m+mLeapFingerTipsInputListener.hpp"
 #include "m+mLeapFingerTipsInputRequests.hpp"
 

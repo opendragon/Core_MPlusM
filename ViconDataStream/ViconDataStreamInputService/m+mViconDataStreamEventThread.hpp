@@ -40,6 +40,7 @@
 # define MpMViconDataStreamEventThread_HPP_ /* Header guard */
 
 # include <m+m/m+mConfig.hpp>
+
 # if (! defined(MpM_BuildDummyServices))
 #  include "stdafx.h"
 # endif // ! defined(MpM_BuildDummyServices)

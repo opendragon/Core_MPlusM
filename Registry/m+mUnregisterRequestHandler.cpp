@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mUnregisterRequestHandler.hpp"
-
 #include "m+mRegistryService.hpp"
 
 #include <m+m/m+mEndpoint.hpp>

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mTunnelService.hpp"
-
 #include "m+mConnectionThread.hpp"
 #include "m+mTunnelRequests.hpp"
 #include "m+mWhereRequestHandler.hpp"

@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarInputHandler.hpp"
-
 #include "m+mExemplarAdapterData.hpp"
 #include "m+mExemplarClient.hpp"
 

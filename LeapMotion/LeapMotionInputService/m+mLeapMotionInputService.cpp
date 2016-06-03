@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapMotionInputService.hpp"
-
 #include "m+mLeapMotionInputListener.hpp"
 #include "m+mLeapMotionInputRequests.hpp"
 

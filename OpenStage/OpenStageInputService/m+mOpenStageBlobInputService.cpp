@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mOpenStageBlobInputService.hpp"
-
 #include "m+mOpenStageBlobInputRequests.hpp"
 #include "m+mOpenStageBlobInputThread.hpp"
 

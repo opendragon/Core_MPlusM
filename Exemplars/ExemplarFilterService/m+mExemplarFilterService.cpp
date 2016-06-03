@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mExemplarFilterService.hpp"
-
 #include "m+mExemplarFilterInputHandler.hpp"
 #include "m+mExemplarFilterRequests.hpp"
 

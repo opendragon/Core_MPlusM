@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mViconBlobInputService.hpp"
-
 #include "m+mViconBlobEventThread.hpp"
 #include "m+mViconBlobInputRequests.hpp"
 

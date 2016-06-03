@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mPlaybackFromJSONInputService.hpp"
-
 #include "m+mPlaybackFromJSONInputRequests.hpp"
 #include "m+mPlaybackFromJSONInputThread.hpp"
 

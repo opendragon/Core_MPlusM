@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mKinectV2SpecialInputService.hpp"
-
 #include "m+mKinectV2SpecialEventThread.hpp"
 #include "m+mKinectV2SpecialInputRequests.hpp"
 
