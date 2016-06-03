@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03F3FFBB1BE66A71A22A9A5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4CB27A1ECE8D4D6F45DDCC0 /* QuartzCore.framework */; };
-		1195127362258B8DD1C81BC5 /* m+mGraphicsPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9C563AC4E7E108B2F460C8E /* m+mGraphicsPanel.cpp */; };
+		1195127362258B8DD1C81BC5 /* m+mLeapDisplayGraphicsPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9C563AC4E7E108B2F460C8E /* m+mLeapDisplayGraphicsPanel.cpp */; };
 		123E8BC48034BD01036EACFF /* m+mValidatingTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C648CDC53F502703A090DF0F /* m+mValidatingTextEditor.cpp */; };
 		17F0D37026A273A9D1672105 /* m+mTextValidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86615DFEE5221BCDF0CE7DAF /* m+mTextValidator.cpp */; };
 		191270EDA1ECBC5E974DF5A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29F5A6308C4D96470A771316 /* Cocoa.framework */; };
@@ -33,7 +33,7 @@
 		D4AD3280A64DD4962387A2FD /* m+mFormFieldErrorResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EDAB49D514B866A689497F /* m+mFormFieldErrorResponder.cpp */; };
 		D95D4A1A15A1FB9ABAB85286 /* juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A4820A1DE5E27601376EB1F /* juce_events.mm */; };
 		E08275E8FC68C0349073B2E7 /* m+mCaptionedTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D2BAD9AA6732497B4B8163A /* m+mCaptionedTextField.cpp */; };
-		E5D6D99658B6AF10A66FDC02 /* m+mContentPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5C0CCA7C563FDD02144A712 /* m+mContentPanel.cpp */; };
+		E5D6D99658B6AF10A66FDC02 /* m+mLeapDisplayContentPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5C0CCA7C563FDD02144A712 /* m+mLeapDisplayContentPanel.cpp */; };
 		F33B431E9BA660F6B5034872 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA72840EFF14AF9F39FB65E /* Carbon.framework */; };
 		F619BDCA1CFB5FA7009D9E20 /* m+mLeapDisplayInputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC11CFB5FA7009D9E20 /* m+mLeapDisplayInputHandler.cpp */; };
 		F619BDCB1CFB5FA7009D9E20 /* m+mLeapDisplayOutputService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC31CFB5FA7009D9E20 /* m+mLeapDisplayOutputService.cpp */; };
@@ -47,7 +47,7 @@
 		F619BDE31CFB61E3009D9E20 /* libYARP_name.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */; };
 		F619BDE51CFB61EA009D9E20 /* libYARP_sig.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */; };
 		F619BDE91CFB65BB009D9E20 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F619BDE81CFB65BB009D9E20 /* Images.xcassets */; };
-		F619BDEC1CFB7D44009D9E20 /* m+mGraphicsFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDEA1CFB7D44009D9E20 /* m+mGraphicsFrame.cpp */; };
+		F619BDEC1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,7 +124,7 @@
 		1294901DDDB7B4C127D34AE8 /* jerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = jerror.h; path = ../../JuceLibraryCode/modules/juce_graphics/image_formats/jpglib/jerror.h; sourceTree = SOURCE_ROOT; };
 		13253909DD072F766BDB3AF8 /* juce_DropShadowEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DropShadowEffect.h; path = ../../JuceLibraryCode/modules/juce_graphics/effects/juce_DropShadowEffect.h; sourceTree = SOURCE_ROOT; };
 		1367290B9C6116472285451A /* juce_mac_NSViewComponent.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_mac_NSViewComponent.mm; path = ../../JuceLibraryCode/modules/juce_gui_extra/native/juce_mac_NSViewComponent.mm; sourceTree = SOURCE_ROOT; };
-		1376DC8B5BD610AB30339498 /* m+mGraphicsPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mGraphicsPanel.hpp"; path = "../../Source/m+mGraphicsPanel.hpp"; sourceTree = SOURCE_ROOT; };
+		1376DC8B5BD610AB30339498 /* m+mLeapDisplayGraphicsPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapDisplayGraphicsPanel.hpp"; path = "../../Source/m+mLeapDisplayGraphicsPanel.hpp"; sourceTree = SOURCE_ROOT; };
 		13A4419F8D2F9FE0E7B0CED5 /* juce_android_FileChooser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_FileChooser.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/native/juce_android_FileChooser.cpp; sourceTree = SOURCE_ROOT; };
 		1431648DE114D75FD24486DF /* juce_OpenGLShaderProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_OpenGLShaderProgram.cpp; path = ../../JuceLibraryCode/modules/juce_opengl/opengl/juce_OpenGLShaderProgram.cpp; sourceTree = SOURCE_ROOT; };
 		14F2B23279F6AF231ECE391B /* juce_FileSearchPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileSearchPath.h; path = ../../JuceLibraryCode/modules/juce_core/files/juce_FileSearchPath.h; sourceTree = SOURCE_ROOT; };
@@ -395,7 +395,7 @@
 		5D4236E4F1FC69CE4389BC54 /* juce_Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Base64.h; path = ../../JuceLibraryCode/modules/juce_core/text/juce_Base64.h; sourceTree = SOURCE_ROOT; };
 		5D619D459DF1649AD136D3F0 /* juce_ResizableCornerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ResizableCornerComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_ResizableCornerComponent.h; sourceTree = SOURCE_ROOT; };
 		5E5E21AC042C840B2314D247 /* b2PrismaticJoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = b2PrismaticJoint.h; path = ../../JuceLibraryCode/modules/juce_box2d/box2d/Dynamics/Joints/b2PrismaticJoint.h; sourceTree = SOURCE_ROOT; };
-		5E6E401888B52007792FE12A /* m+mContentPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mContentPanel.hpp"; path = "../../Source/m+mContentPanel.hpp"; sourceTree = SOURCE_ROOT; };
+		5E6E401888B52007792FE12A /* m+mLeapDisplayContentPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapDisplayContentPanel.hpp"; path = "../../Source/m+mLeapDisplayContentPanel.hpp"; sourceTree = SOURCE_ROOT; };
 		5E97A87D3FE4134EFEAD924D /* juce_TooltipClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_TooltipClient.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/mouse/juce_TooltipClient.h; sourceTree = SOURCE_ROOT; };
 		5F317A532144CE34F7850E1C /* juce_Value.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Value.cpp; path = ../../JuceLibraryCode/modules/juce_data_structures/values/juce_Value.cpp; sourceTree = SOURCE_ROOT; };
 		600E3A7A06DA51FEA84F5A2C /* juce_DrawableRectangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_DrawableRectangle.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/drawables/juce_DrawableRectangle.cpp; sourceTree = SOURCE_ROOT; };
@@ -668,7 +668,7 @@
 		A4891572C138825296BF3558 /* juce_PropertySet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_PropertySet.cpp; path = ../../JuceLibraryCode/modules/juce_core/containers/juce_PropertySet.cpp; sourceTree = SOURCE_ROOT; };
 		A4F2A1A509F76B58DC94F6BB /* zutil.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = zutil.c; path = ../../JuceLibraryCode/modules/juce_core/zip/zlib/zutil.c; sourceTree = SOURCE_ROOT; };
 		A5872FD9797B34E9D4B711CC /* juce_ImageComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ImageComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_ImageComponent.h; sourceTree = SOURCE_ROOT; };
-		A5C0CCA7C563FDD02144A712 /* m+mContentPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mContentPanel.cpp"; path = "../../Source/m+mContentPanel.cpp"; sourceTree = SOURCE_ROOT; };
+		A5C0CCA7C563FDD02144A712 /* m+mLeapDisplayContentPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapDisplayContentPanel.cpp"; path = "../../Source/m+mLeapDisplayContentPanel.cpp"; sourceTree = SOURCE_ROOT; };
 		A5DA610F9DEE14E8EA4A634C /* juce_ComponentAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ComponentAnimator.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_ComponentAnimator.h; sourceTree = SOURCE_ROOT; };
 		A635E7980E2B848F47E606B2 /* juce_RelativeTime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_RelativeTime.cpp; path = ../../JuceLibraryCode/modules/juce_core/time/juce_RelativeTime.cpp; sourceTree = SOURCE_ROOT; };
 		A74019663A8B86DAB2DB33BE /* b2Shape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = b2Shape.h; path = ../../JuceLibraryCode/modules/juce_box2d/box2d/Collision/Shapes/b2Shape.h; sourceTree = SOURCE_ROOT; };
@@ -685,7 +685,7 @@
 		A90BFFD133D5EE201B65A6BE /* juce_ApplicationBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ApplicationBase.cpp; path = ../../JuceLibraryCode/modules/juce_events/messages/juce_ApplicationBase.cpp; sourceTree = SOURCE_ROOT; };
 		A94A03C3E46F3DEBC1DE921E /* juce_ImageEffectFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ImageEffectFilter.h; path = ../../JuceLibraryCode/modules/juce_graphics/effects/juce_ImageEffectFilter.h; sourceTree = SOURCE_ROOT; };
 		A9B0C8F53AB268B0728E5521 /* juce_TextDragAndDropTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_TextDragAndDropTarget.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/mouse/juce_TextDragAndDropTarget.h; sourceTree = SOURCE_ROOT; };
-		A9C563AC4E7E108B2F460C8E /* m+mGraphicsPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mGraphicsPanel.cpp"; path = "../../Source/m+mGraphicsPanel.cpp"; sourceTree = SOURCE_ROOT; };
+		A9C563AC4E7E108B2F460C8E /* m+mLeapDisplayGraphicsPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapDisplayGraphicsPanel.cpp"; path = "../../Source/m+mLeapDisplayGraphicsPanel.cpp"; sourceTree = SOURCE_ROOT; };
 		AA1AA8B1CC286421816235C9 /* juce_DrawableRectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DrawableRectangle.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/drawables/juce_DrawableRectangle.h; sourceTree = SOURCE_ROOT; };
 		AA28DCC923EEC4575B92AC8B /* juce_ImagePreviewComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ImagePreviewComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/filebrowser/juce_ImagePreviewComponent.h; sourceTree = SOURCE_ROOT; };
 		AA2F89FF79BE6BC4D789F742 /* jcinit.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = jcinit.c; path = ../../JuceLibraryCode/modules/juce_graphics/image_formats/jpglib/jcinit.c; sourceTree = SOURCE_ROOT; };
@@ -978,8 +978,8 @@
 		F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_name.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_name.1.dylib"; sourceTree = "<group>"; };
 		F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_sig.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_sig.1.dylib"; sourceTree = "<group>"; };
 		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mLeapDisplayOutputService (App)/Images.xcassets"; sourceTree = "<group>"; };
-		F619BDEA1CFB7D44009D9E20 /* m+mGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mGraphicsFrame.cpp"; path = "../../Source/m+mGraphicsFrame.cpp"; sourceTree = "<group>"; };
-		F619BDEB1CFB7D44009D9E20 /* m+mGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mGraphicsFrame.hpp"; path = "../../Source/m+mGraphicsFrame.hpp"; sourceTree = "<group>"; };
+		F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapDisplayGraphicsFrame.cpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.cpp"; sourceTree = "<group>"; };
+		F619BDEB1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapDisplayGraphicsFrame.hpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.hpp"; sourceTree = "<group>"; };
 		F6468F9D5E354679B5C24AE5 /* juce_linux_FileChooser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_FileChooser.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/native/juce_linux_FileChooser.cpp; sourceTree = SOURCE_ROOT; };
 		F6EBDB9D3464012E87CCB8FB /* juce_win32_Network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_win32_Network.cpp; path = ../../JuceLibraryCode/modules/juce_core/native/juce_win32_Network.cpp; sourceTree = SOURCE_ROOT; };
 		F71401CA44C7B4AE4806B730 /* jutils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = jutils.c; path = ../../JuceLibraryCode/modules/juce_graphics/image_formats/jpglib/jutils.c; sourceTree = SOURCE_ROOT; };
@@ -1138,19 +1138,19 @@
 				D710388537827F377B777083 /* m+mCaptionedTextField.hpp */,
 				DB4C343E64785F7F4E4A3F18 /* m+mCheckboxField.cpp */,
 				5CFE9EE6CF18CD831081843D /* m+mCheckboxField.hpp */,
-				A5C0CCA7C563FDD02144A712 /* m+mContentPanel.cpp */,
-				5E6E401888B52007792FE12A /* m+mContentPanel.hpp */,
 				615EB08D2BA796B82E93F2A2 /* m+mFormField.cpp */,
 				3F0E1D10042567D0081AD7BC /* m+mFormField.hpp */,
 				04EDAB49D514B866A689497F /* m+mFormFieldErrorResponder.cpp */,
 				C90B57D048D75006D0E102D2 /* m+mFormFieldErrorResponder.hpp */,
-				F619BDEA1CFB7D44009D9E20 /* m+mGraphicsFrame.cpp */,
-				F619BDEB1CFB7D44009D9E20 /* m+mGraphicsFrame.hpp */,
-				A9C563AC4E7E108B2F460C8E /* m+mGraphicsPanel.cpp */,
-				1376DC8B5BD610AB30339498 /* m+mGraphicsPanel.hpp */,
 				EBC880EDD0B1E8005C864E39 /* m+mLeapDisplayApplication.cpp */,
 				8866E4635A9C3ED7F6980483 /* m+mLeapDisplayApplication.hpp */,
+				A5C0CCA7C563FDD02144A712 /* m+mLeapDisplayContentPanel.cpp */,
+				5E6E401888B52007792FE12A /* m+mLeapDisplayContentPanel.hpp */,
 				900E127DF986D540B654CC66 /* m+mLeapDisplayDataTypes.hpp */,
+				F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */,
+				F619BDEB1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.hpp */,
+				A9C563AC4E7E108B2F460C8E /* m+mLeapDisplayGraphicsPanel.cpp */,
+				1376DC8B5BD610AB30339498 /* m+mLeapDisplayGraphicsPanel.hpp */,
 				F619BDC11CFB5FA7009D9E20 /* m+mLeapDisplayInputHandler.cpp */,
 				F619BDC21CFB5FA7009D9E20 /* m+mLeapDisplayInputHandler.hpp */,
 				ACFD9F82F95E0A33DCF450CD /* m+mLeapDisplayMain.cpp */,
@@ -2791,10 +2791,10 @@
 				E08275E8FC68C0349073B2E7 /* m+mCaptionedTextField.cpp in Sources */,
 				F619BDCC1CFB5FA7009D9E20 /* m+mLeapServiceThread.cpp in Sources */,
 				65FED02EDADB0021194806E4 /* m+mCheckboxField.cpp in Sources */,
-				E5D6D99658B6AF10A66FDC02 /* m+mContentPanel.cpp in Sources */,
+				E5D6D99658B6AF10A66FDC02 /* m+mLeapDisplayContentPanel.cpp in Sources */,
 				AA199B22ABE624F4B9B55654 /* m+mFormField.cpp in Sources */,
 				D4AD3280A64DD4962387A2FD /* m+mFormFieldErrorResponder.cpp in Sources */,
-				1195127362258B8DD1C81BC5 /* m+mGraphicsPanel.cpp in Sources */,
+				1195127362258B8DD1C81BC5 /* m+mLeapDisplayGraphicsPanel.cpp in Sources */,
 				200ECA3F4BC6BC36070C2830 /* m+mLeapDisplayApplication.cpp in Sources */,
 				BFE03708E622C9A567618D58 /* m+mLeapDisplayMain.cpp in Sources */,
 				C87EFAE17BFEFE333A80FCC7 /* m+mLeapDisplayWindow.cpp in Sources */,
@@ -2802,7 +2802,7 @@
 				F619BDCA1CFB5FA7009D9E20 /* m+mLeapDisplayInputHandler.cpp in Sources */,
 				F619BDCD1CFB5FA7009D9E20 /* m+mVertexBuffer.cpp in Sources */,
 				17F0D37026A273A9D1672105 /* m+mTextValidator.cpp in Sources */,
-				F619BDEC1CFB7D44009D9E20 /* m+mGraphicsFrame.cpp in Sources */,
+				F619BDEC1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp in Sources */,
 				123E8BC48034BD01036EACFF /* m+mValidatingTextEditor.cpp in Sources */,
 				8297A068F1243E87325AB43B /* BinaryData.cpp in Sources */,
 				5D720A7D32E3DE962FDB0DEC /* juce_box2d.cpp in Sources */,

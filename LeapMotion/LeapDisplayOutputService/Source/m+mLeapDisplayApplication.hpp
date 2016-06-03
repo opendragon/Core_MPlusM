@@ -188,6 +188,14 @@ namespace LeapDisplay
         void
         stopAssociatedService(void);
         
+        /*! @brief Move closer to the images. */
+        void
+        zoomIn(void);
+        
+        /*! @brief Move away from the images. */
+        void
+        zoomOut(void);
+
     protected :
 
     private :

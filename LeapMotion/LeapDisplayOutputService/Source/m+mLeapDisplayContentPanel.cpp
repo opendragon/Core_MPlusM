@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mContentPanel.cpp
+//  File:       m+mLeapDisplayContentPanel.cpp
 //
 //  Project:    m+m
 //
@@ -37,10 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mContentPanel.hpp"
-#include "m+mGraphicsFrame.hpp"
-//#include "m+mGraphicsPanel.hpp"
+#include "m+mLeapDisplayContentPanel.hpp"
 #include "m+mLeapDisplayApplication.hpp"
+#include "m+mLeapDisplayGraphicsFrame.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -138,7 +137,9 @@ ContentPanel::getAllCommands(Array<CommandID> & commands)
         LeapDisplayWindow::kCommandConfigureService,
         LeapDisplayWindow::kCommandRestartService,
         LeapDisplayWindow::kCommandStartService,
-        LeapDisplayWindow::kCommandStopService
+        LeapDisplayWindow::kCommandStopService,
+        LeapDisplayWindow::kCommandZoomIn,
+        LeapDisplayWindow::kCommandZoomOut
     };
 
     commands.addArray(ids, numElementsInArray(ids));
@@ -190,6 +191,18 @@ ContentPanel::getCommandInfo(CommandID                commandID,
             result.setActive(ourApp->serviceIsRunning());
             break;
 
+        case LeapDisplayWindow::kCommandZoomIn :
+            result.setInfo("Zoom in", "Zoom in", "View", 0);
+            result.addDefaultKeypress('+', ModifierKeys::noModifiers);
+            result.setActive(true);
+            break;
+            
+        case LeapDisplayWindow::kCommandZoomOut :
+            result.setInfo("Zoom out", "Zoom out", "View", 0);
+            result.addDefaultKeypress('-', ModifierKeys::noModifiers);
+            result.setActive(true);
+            break;
+            
         default :
             break;
 
@@ -263,6 +276,34 @@ ContentPanel::getNextCommandTarget(void)
     ODL_OBJEXIT_P(nextOne); //####
     return nextOne;
 } // ContentPanel::getNextCommandTarget
+
+#if 0
+bool
+ContentPanel::keyPressed(const KeyPress & key)
+{
+    ODL_OBJENTER(); //####
+    ODL_P1("key = ", &key); //####
+    bool result = inherited3::keyPressed(key);
+    
+    if (! result)
+    {
+        int code = key.getKeyCode();
+        
+        if ((KeyPress::numberPadAdd == code) || ('+' == code))
+        {
+            _graphicsFrame->zoomIn();
+            result = true;
+        }
+        else if ((KeyPress::numberPadSubtract == code) || ('-' == code))
+        {
+            _graphicsFrame->zoomOut();
+            result = true;
+        }
+    }
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // ContentPanel::keyPressed
+#endif//0
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -411,6 +452,18 @@ ContentPanel::perform(const InvocationInfo & info)
             wasProcessed = true;
             break;
             
+        case LeapDisplayWindow::kCommandZoomIn :
+            ODL_LOG("LeapDisplayWindow::kCommandZoomIn"); //####
+            ourApp->zoomIn();
+            wasProcessed = true;
+            break;
+            
+        case LeapDisplayWindow::kCommandZoomOut :
+            ODL_LOG("LeapDisplayWindow::kCommandZoomOut"); //####
+            ourApp->zoomOut();
+            wasProcessed = true;
+            break;
+            
         default :
             break;
 
@@ -474,6 +527,9 @@ ContentPanel::setUpViewMenu(PopupMenu & aMenu)
 
     aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandInvertBackground);
     aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandWhiteBackground);
+    aMenu.addSeparator();
+    aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandZoomIn);
+    aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandZoomOut);
     ODL_OBJEXIT(); //####
 } // ContentPanel::setUpViewMenu
 

@@ -88,7 +88,13 @@ namespace LeapDisplay
             kCommandStartService,
             
             /*! @brief The command to stop the service. */
-            kCommandStopService
+            kCommandStopService,
+            
+            /*! @brief The command to zoom in to the images. */
+            kCommandZoomIn,
+            
+            /*! @brief The command to zoom out from the images. */
+            kCommandZoomOut
 
         }; // CommandIDs
 

@@ -38,8 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapDisplayWindow.hpp"
-
-#include "m+mContentPanel.hpp"
+#include "m+mLeapDisplayContentPanel.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

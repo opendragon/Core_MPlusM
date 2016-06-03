@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mGraphicsPanel.cpp
+//  File:       m+mLeapDisplayGraphicsPanel.cpp
 //
 //  Project:    m+m
 //
@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mGraphicsPanel.hpp"
-#include "m+mContentPanel.hpp"
+#include "m+mLeapDisplayGraphicsPanel.hpp"
 #include "m+mLeapDisplayApplication.hpp"
+#include "m+mLeapDisplayContentPanel.hpp"
 #include "m+mVertexBUffer.hpp"
 
 //#include <odl/ODEnableLogging.h>
@@ -818,6 +818,22 @@ GraphicsPanel::updateShader(void)
     }
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::updateShader
+
+void
+GraphicsPanel::zoomIn(void)
+{
+    ODL_OBJENTER(); //####
+    _scale *= 1.1;
+    ODL_OBJEXIT(); //####
+} // GraphicsPanel::zoomIn
+
+void
+GraphicsPanel::zoomOut(void)
+{
+    ODL_OBJENTER(); //####
+    _scale *= 0.9;
+    ODL_OBJEXIT(); //####
+} // GraphicsPanel::zoomOut
 
 #if defined(__APPLE__)
 # pragma mark Global functions

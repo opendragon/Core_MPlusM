@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mGraphicsPanel.hpp
+//  File:       m+mLeapDisplayGraphicsPanel.hpp
 //
 //  Project:    m+m
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmGraphicsPanel_HPP_))
-# define mpmGraphicsPanel_HPP_ /* Header guard */
+#if (! defined(mpmLeapDisplayGraphicsPanel_HPP_))
+# define mpmLeapDisplayGraphicsPanel_HPP_ /* Header guard */
 
 # include "m+mLeapDisplayDataTypes.hpp"
 
@@ -137,6 +137,14 @@ namespace LeapDisplay
         updateFingerData(const HandData & leftHand,
                          const HandData & rightHand);
 
+        /*! @brief Move closer to the images. */
+        void
+        zoomIn(void);
+        
+        /*! @brief Move away from the images. */
+        void
+        zoomOut(void);
+        
     protected :
 
     private :
@@ -316,4 +324,4 @@ namespace LeapDisplay
 
 } // LeapDisplay
 
-#endif // ! defined(mpmGraphicsPanel_HPP_)
+#endif // ! defined(mpmLeapDisplayGraphicsPanel_HPP_)

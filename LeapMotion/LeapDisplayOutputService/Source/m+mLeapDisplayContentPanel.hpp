@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mContentPanel.hpp
+//  File:       m+mLeapDisplayContentPanel.hpp
 //
 //  Project:    m+m
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmContentPanel_HPP_))
-# define mpmContentPanel_HPP_ /* Header guard */
+#if (! defined(mpmLeapDisplayContentPanel_HPP_))
+# define mpmLeapDisplayContentPanel_HPP_ /* Header guard */
 
 # include "m+mLeapDisplayDataTypes.hpp"
 
@@ -166,6 +166,13 @@ namespace LeapDisplay
         virtual ApplicationCommandTarget *
         getNextCommandTarget(void);
 
+#if 0
+        /*! @brief Called when a key is pressed.
+         @param[in] key The pressed key.
+         @returns @c true if the key is 'consumed' and @c false otherwise. */
+        virtual bool
+        keyPressed(const KeyPress & key);
+#endif//0
         /*! @brief Perform the selected menu item action.
          @param[in] menuItemID The item ID of the menu item that was selected.
          @param[in] topLevelMenuIndex The index of the top-level menu from which the item was
@@ -227,7 +234,6 @@ namespace LeapDisplay
 
         /*! @brief The drawing region. */
         ScopedPointer<GraphicsFrame> _graphicsFrame;
-//        ScopedPointer<GraphicsPanel> _graphicsPanel;
         
         /*! @brief The menubar for the panel. */
         ScopedPointer<MenuBarComponent> _menuBar;
@@ -247,4 +253,4 @@ namespace LeapDisplay
 
 } // LeapDisplay
 
-#endif // ! defined(mpmContentPanel_HPP_)
+#endif // ! defined(mpmLeapDisplayContentPanel_HPP_)

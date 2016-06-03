@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapDisplayOutputService.hpp"
-
 #include "m+mLeapDisplayInputHandler.hpp"
 #include "m+mLeapDisplayRequests.hpp"
 

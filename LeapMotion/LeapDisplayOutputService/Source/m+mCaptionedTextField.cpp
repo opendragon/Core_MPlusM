@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mCaptionedTextField.hpp"
-
 #include "m+mFormFieldErrorResponder.hpp"
 #include "m+mLeapDisplayApplication.hpp"
 #include "m+mTextValidator.hpp"

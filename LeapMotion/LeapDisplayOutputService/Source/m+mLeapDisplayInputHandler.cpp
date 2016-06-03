@@ -38,9 +38,9 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapDisplayInputHandler.hpp"
-#include "m+mGraphicsPanel.hpp"
 #include "m+mLeapDisplayApplication.hpp"
 #include "m+mLeapDisplayDataTypes.hpp"
+#include "m+mLeapDisplayGraphicsPanel.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mValidatingTextEditor.hpp"
-
 #include "m+mCaptionedTextField.hpp"
 #include "m+mTextValidator.hpp"
 

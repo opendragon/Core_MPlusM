@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mGraphicsFrame.cpp
+//  File:       m+mLeapDisplayGraphicsFrame.cpp
 //
 //  Project:    m+m
 //
@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mGraphicsFrame.hpp"
-#include "m+mGraphicsPanel.hpp"
+#include "m+mLeapDisplayGraphicsFrame.hpp"
 #include "m+mLeapDisplayApplication.hpp"
+#include "m+mLeapDisplayGraphicsPanel.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mGraphicsFrame.hpp
+//  File:       m+mLeapDisplayGraphicsFrame.hpp
 //
 //  Project:    m+m
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmGraphicsFrame_HPP_))
-# define mpmGraphicsFrame_HPP_ /* Header guard */
+#if (! defined(mpmLeapDisplayGraphicsFrame_HPP_))
+# define mpmLeapDisplayGraphicsFrame_HPP_ /* Header guard */
 
 # include "m+mLeapDisplayDataTypes.hpp"
 
@@ -113,4 +113,4 @@ namespace LeapDisplay
     
 } // LeapDisplay
 
-#endif // ! defined(mpmGraphicsFrame_HPP_)
+#endif // ! defined(mpmLeapDisplayGraphicsFrame_HPP_)

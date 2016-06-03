@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mLeapDisplayApplication.hpp"
+#include "m+mLeapDisplayGraphicsPanel.hpp"
 #include "m+mLeapDisplayOutputService.hpp"
 #include "m+mLeapServiceThread.hpp"
 #include "m+mSettingsWindow.hpp"
@@ -945,6 +946,28 @@ LeapDisplayApplication::validateYarp(const String & yarpPath)
     systemRequestedQuit();
     ODL_OBJEXIT(); //####
 } // validateYarp
+
+void
+LeapDisplayApplication::zoomIn(void)
+{
+    ODL_OBJENTER(); //####
+    if (_graphicsPanel)
+    {
+        _graphicsPanel->zoomIn();
+    }
+    ODL_OBJEXIT(); //####
+} // LeapDisplayApplication::zoomIn
+
+void
+LeapDisplayApplication::zoomOut(void)
+{
+    ODL_OBJENTER(); //####
+    if (_graphicsPanel)
+    {
+        _graphicsPanel->zoomOut();
+    }
+    ODL_OBJEXIT(); //####
+} // LeapDisplayApplication::zoomOut
 
 #if defined(__APPLE__)
 # pragma mark Global functions
