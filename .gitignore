@@ -473,9 +473,7 @@ odl/Debug/odLogging.lib
 odl/Release/odLogging.lib
 _m+mCommon_swig_python.so
 libm+mCommon_swig_csharp.so
-LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Debug
-LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/Release
-LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/m+mLeapDisplayOutputService.build/Debug
-LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build/m+mLeapDisplayOutputService.build/Release/m+mLeapDisplayOutputService (App).build
+LeapMotion/LeapDisplayOutputService/Builds/MacOSX/build
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xcodeproj/project.xcworkspace/xcshareddata/m+mLeapDisplayOutputService.xcscmblueprint
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
+Visualization/LeapDisplayOutputService/Builds/MacOSX/build
