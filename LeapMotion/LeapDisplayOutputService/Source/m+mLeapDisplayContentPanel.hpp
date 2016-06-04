@@ -166,13 +166,6 @@ namespace LeapDisplay
         virtual ApplicationCommandTarget *
         getNextCommandTarget(void);
 
-#if 0
-        /*! @brief Called when a key is pressed.
-         @param[in] key The pressed key.
-         @returns @c true if the key is 'consumed' and @c false otherwise. */
-        virtual bool
-        keyPressed(const KeyPress & key);
-#endif//0
         /*! @brief Perform the selected menu item action.
          @param[in] menuItemID The item ID of the menu item that was selected.
          @param[in] topLevelMenuIndex The index of the top-level menu from which the item was

@@ -193,13 +193,13 @@ ContentPanel::getCommandInfo(CommandID                commandID,
 
         case LeapDisplayWindow::kCommandZoomIn :
             result.setInfo("Zoom in", "Zoom in", "View", 0);
-            result.addDefaultKeypress('+', ModifierKeys::noModifiers);
+            result.addDefaultKeypress(KeyPress::upKey, ModifierKeys::noModifiers);
             result.setActive(true);
             break;
             
         case LeapDisplayWindow::kCommandZoomOut :
             result.setInfo("Zoom out", "Zoom out", "View", 0);
-            result.addDefaultKeypress('-', ModifierKeys::noModifiers);
+            result.addDefaultKeypress(KeyPress::downKey, ModifierKeys::noModifiers);
             result.setActive(true);
             break;
             
@@ -276,34 +276,6 @@ ContentPanel::getNextCommandTarget(void)
     ODL_OBJEXIT_P(nextOne); //####
     return nextOne;
 } // ContentPanel::getNextCommandTarget
-
-#if 0
-bool
-ContentPanel::keyPressed(const KeyPress & key)
-{
-    ODL_OBJENTER(); //####
-    ODL_P1("key = ", &key); //####
-    bool result = inherited3::keyPressed(key);
-    
-    if (! result)
-    {
-        int code = key.getKeyCode();
-        
-        if ((KeyPress::numberPadAdd == code) || ('+' == code))
-        {
-            _graphicsFrame->zoomIn();
-            result = true;
-        }
-        else if ((KeyPress::numberPadSubtract == code) || ('-' == code))
-        {
-            _graphicsFrame->zoomOut();
-            result = true;
-        }
-    }
-    ODL_OBJEXIT_B(result); //####
-    return result;
-} // ContentPanel::keyPressed
-#endif//0
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
