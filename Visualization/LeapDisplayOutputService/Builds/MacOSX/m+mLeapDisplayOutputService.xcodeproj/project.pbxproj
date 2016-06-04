@@ -997,7 +997,7 @@
 		F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_init.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_init.1.dylib"; sourceTree = "<group>"; };
 		F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_name.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_name.1.dylib"; sourceTree = "<group>"; };
 		F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_sig.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_sig.1.dylib"; sourceTree = "<group>"; };
-		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mLeapDisplayOutputService (App)/Images.xcassets"; sourceTree = SOURCE_ROOT; };
+		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mLeapDisplayOutputService/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapDisplayGraphicsFrame.cpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.cpp"; sourceTree = SOURCE_ROOT; };
 		F619BDEB1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapDisplayGraphicsFrame.hpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.hpp"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1280,7 +1280,7 @@
 				295631B272BFFCD49E8CF0DB /* Source */,
 			);
 			name = "m+mLeapDisplayOutputService";
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		42D582D969583F8E9D16F645 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -2459,7 +2459,7 @@
 				7A9A7921175D2E89D0783CFE /* RecentFilesMenuTemplate.nib */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		EAF34A53D03A8611D0A0C95F /* fonts */ = {
 			isa = PBXGroup;
@@ -2683,9 +2683,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E3627E799BF9CA25637F908B /* m+mLeapDisplayOutputService (App) */ = {
+		E3627E799BF9CA25637F908B /* m+mLeapDisplayOutputService */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2305E41EE5B14300070305F5 /* Build configuration list for PBXNativeTarget "m+mLeapDisplayOutputService (App)" */;
+			buildConfigurationList = 2305E41EE5B14300070305F5 /* Build configuration list for PBXNativeTarget "m+mLeapDisplayOutputService" */;
 			buildPhases = (
 				64E164E065BEE1B8F91D3F25 /* Resources */,
 				4D22DA2BF5D3AAA3FDA0768B /* Sources */,
@@ -2696,7 +2696,7 @@
 			);
 			dependencies = (
 			);
-			name = "m+mLeapDisplayOutputService (App)";
+			name = "m+mLeapDisplayOutputService";
 			productName = "m+mLeapDisplayOutputService";
 			productReference = 9EDE24D175E10A766FADE6A8 /* m+mLeapDisplayOutputService.app */;
 			productType = "com.apple.product-type.application";
@@ -2732,7 +2732,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E3627E799BF9CA25637F908B /* m+mLeapDisplayOutputService (App) */,
+				E3627E799BF9CA25637F908B /* m+mLeapDisplayOutputService */,
 			);
 		};
 /* End PBXProject section */
@@ -2968,7 +2968,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2305E41EE5B14300070305F5 /* Build configuration list for PBXNativeTarget "m+mLeapDisplayOutputService (App)" */ = {
+		2305E41EE5B14300070305F5 /* Build configuration list for PBXNativeTarget "m+mLeapDisplayOutputService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C10B77040C5D8F308F2FEDC3 /* Debug */,

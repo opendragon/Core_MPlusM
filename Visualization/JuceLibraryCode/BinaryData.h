@@ -9,11 +9,11 @@
 
 namespace BinaryData
 {
-    extern const char*   LDOicon_ico;
-    const int            LDOicon_icoSize = 25624;
+    extern const char*   PDOicon_ico;
+    const int            PDOicon_icoSize = 25624;
 
-    extern const char*   LDOResources_rc;
-    const int            LDOResources_rcSize = 750;
+    extern const char*   PDOResources_rc;
+    const int            PDOResources_rcSize = 750;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

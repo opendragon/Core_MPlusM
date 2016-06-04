@@ -7,7 +7,7 @@
 namespace BinaryData
 {
 
-//================== LDOicon.ico ==================
+//================== PDOicon.ico ==================
 static const unsigned char temp_binary_data_0[] =
 { 0,0,1,0,4,0,16,16,0,0,1,0,32,0,40,5,0,0,70,0,0,0,32,32,0,0,1,0,32,0,40,20,0,0,110,5,0,0,48,48,0,0,1,0,32,0,40,45,0,0,150,25,0,0,0,0,0,0,1,0,32,0,90,29,0,0,190,70,0,0,40,0,0,0,16,0,0,0,32,0,0,0,1,0,32,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -268,9 +268,9 @@ static const unsigned char temp_binary_data_0[] =
 128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,
 32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,0,2,16,128,0,4,32,0,1,8,64,224,239,85,224,255,0,196,61,49,167,17,160,232,27,0,0,0,0,73,69,78,68,174,66,96,130,0,0 };
 
-const char* LDOicon_ico = (const char*) temp_binary_data_0;
+const char* PDOicon_ico = (const char*) temp_binary_data_0;
 
-//================== LDOResources.rc ==================
+//================== PDOResources.rc ==================
 static const unsigned char temp_binary_data_1[] =
 "#undef  WIN32_LEAN_AND_MEAN\r\n"
 "#define WIN32_LEAN_AND_MEAN\r\n"
@@ -284,10 +284,10 @@ static const unsigned char temp_binary_data_1[] =
 "    BLOCK \"040904E4\"\r\n"
 "    BEGIN\r\n"
 "      VALUE \"CompanyName\",  \"OpenDragon\\0\"\r\n"
-"      VALUE \"FileDescription\",  \"Leap Motion display output service\\0\"\r\n"
+"      VALUE \"FileDescription\",  \"Platonic display output service\\0\"\r\n"
 "      VALUE \"FileVersion\",  \"1.6.8\\0\"\r\n"
 "      VALUE \"LegalCopyright\", \"(c) 2016 by OpenDragon\\0\"\r\n"
-"      VALUE \"ProductName\",  \"Leap Motion display output service\\0\"\r\n"
+"      VALUE \"ProductName\",  \"Platonic display output service\\0\"\r\n"
 "      VALUE \"ProductVersion\",  \"1.6.8\\0\"\r\n"
 "    END\r\n"
 "  END\r\n"
@@ -299,10 +299,10 @@ static const unsigned char temp_binary_data_1[] =
 "END\r\n"
 "\r\n"
 "/* Add the application icon */\r\n"
-"IDI_ICON1 ICON DISCARDABLE \"LDOicon.ico\"\r\n"
-"IDI_ICON2 ICON DISCARDABLE \"LDOicon.ico\"\r\n";
+"IDI_ICON1 ICON DISCARDABLE \"PDOicon.ico\"\r\n"
+"IDI_ICON2 ICON DISCARDABLE \"PDOicon.ico\"\r\n";
 
-const char* LDOResources_rc = (const char*) temp_binary_data_1;
+const char* PDOResources_rc = (const char*) temp_binary_data_1;
 
 
 const char* getNamedResource (const char*, int&) throw();
@@ -315,8 +315,8 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
 
     switch (hash)
     {
-        case 0xac8e7ca6:  numBytes = 25624; return LDOicon_ico;
-        case 0x396c3602:  numBytes = 750; return LDOResources_rc;
+        case 0xac8e7ca6:  numBytes = 25624; return PDOicon_ico;
+        case 0x396c3602:  numBytes = 750; return PDOResources_rc;
         default: break;
     }
 
@@ -326,8 +326,8 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
 
 const char* namedResourceList[] =
 {
-    "LDOicon_ico",
-    "LDOResources_rc"
+    "PDOicon_ico",
+    "PDOResources_rc"
 };
 
 }

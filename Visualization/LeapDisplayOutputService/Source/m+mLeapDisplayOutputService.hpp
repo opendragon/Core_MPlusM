@@ -64,7 +64,7 @@ namespace LeapDisplay
 {
     class LeapDisplayInputHandler;
 
-    /*! @brief The exemplar output service. */
+    /*! @brief The %Leap Motion display output service. */
     class LeapDisplayOutputService : public MplusM::Common::BaseOutputService
     {
         public :

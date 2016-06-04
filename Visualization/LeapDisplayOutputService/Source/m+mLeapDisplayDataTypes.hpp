@@ -67,7 +67,7 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The common data types for the Leap Motion display output service application. */
+ @brief The common data types for the %Leap Motion display output service application. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

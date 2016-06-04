@@ -49,7 +49,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for an output service thread for the Leap Motion display output
+ @brief The class definition for an output service thread for the %Leap Motion display output
  service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

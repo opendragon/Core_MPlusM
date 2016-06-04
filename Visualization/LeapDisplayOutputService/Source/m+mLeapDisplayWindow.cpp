@@ -50,7 +50,7 @@
 #endif // defined(__APPLE__)
 /*! @file
 
- @brief The class definition for the primary window of the Leap Motion display output service
+ @brief The class definition for the primary window of the %Leap Motion display output service
  application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

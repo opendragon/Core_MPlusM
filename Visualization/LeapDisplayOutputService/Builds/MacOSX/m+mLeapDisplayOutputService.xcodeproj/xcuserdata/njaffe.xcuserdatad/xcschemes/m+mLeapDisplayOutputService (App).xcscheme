@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E3627E799BF9CA25637F908B"
                BuildableName = "m+mLeapDisplayOutputService.app"
-               BlueprintName = "m+mLeapDisplayOutputService (App)"
+               BlueprintName = "m+mLeapDisplayOutputService"
                ReferencedContainer = "container:m+mLeapDisplayOutputService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E3627E799BF9CA25637F908B"
             BuildableName = "m+mLeapDisplayOutputService.app"
-            BlueprintName = "m+mLeapDisplayOutputService (App)"
+            BlueprintName = "m+mLeapDisplayOutputService"
             ReferencedContainer = "container:m+mLeapDisplayOutputService.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E3627E799BF9CA25637F908B"
             BuildableName = "m+mLeapDisplayOutputService.app"
-            BlueprintName = "m+mLeapDisplayOutputService (App)"
+            BlueprintName = "m+mLeapDisplayOutputService"
             ReferencedContainer = "container:m+mLeapDisplayOutputService.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,7 +80,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E3627E799BF9CA25637F908B"
             BuildableName = "m+mLeapDisplayOutputService.app"
-            BlueprintName = "m+mLeapDisplayOutputService (App)"
+            BlueprintName = "m+mLeapDisplayOutputService"
             ReferencedContainer = "container:m+mLeapDisplayOutputService.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

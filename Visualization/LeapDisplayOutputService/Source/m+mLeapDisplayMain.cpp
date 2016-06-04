@@ -48,7 +48,7 @@
 #endif // defined(__APPLE__)
 /*! @file
 
- @brief A display application for Leap Motion data. */
+ @brief A display application for %Leap Motion data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

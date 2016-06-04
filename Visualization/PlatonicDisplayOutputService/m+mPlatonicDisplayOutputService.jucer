@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="NMAvRH" name="m+mPlatonicDisplayOutputService" projectType="guiapp"
+              version="1.6.8" bundleIdentifier="com.opendragon.platonicdisplay"
+              includeBinaryInAppConfig="0" jucerVersion="4.2.1" companyName="OpenDragon">
+  <MAINGROUP id="OL479e" name="m+mPlatonicDisplayOutputService">
+    <FILE id="rIFkb6" name="LDOicon.ico" compile="0" resource="1" file="Builds/PDOicon.ico"/>
+    <FILE id="rdS5PH" name="LDOResources.rc" compile="0" resource="1" file="Builds/PDOResources.rc"/>
+    <GROUP id="{A78E9CC6-F073-D9D4-035B-BA5785A3D3C6}" name="Source">
+      <FILE id="PIBIUb" name="m+mCaptionedTextField.cpp" compile="1" resource="0"
+            file="Source/m+mCaptionedTextField.cpp"/>
+      <FILE id="mn6Y0D" name="m+mCaptionedTextField.hpp" compile="0" resource="0"
+            file="Source/m+mCaptionedTextField.hpp"/>
+      <FILE id="yBj1mP" name="m+mCheckboxField.cpp" compile="1" resource="0"
+            file="Source/m+mCheckboxField.cpp"/>
+      <FILE id="gObpTd" name="m+mCheckboxField.hpp" compile="0" resource="0"
+            file="Source/m+mCheckboxField.hpp"/>
+      <FILE id="JD3MaG" name="m+mContentPanel.cpp" compile="1" resource="0"
+            file="Source/m+mContentPanel.cpp"/>
+      <FILE id="sxp6pX" name="m+mContentPanel.hpp" compile="0" resource="0"
+            file="Source/m+mContentPanel.hpp"/>
+      <FILE id="L3rN55" name="m+mFormField.cpp" compile="1" resource="0"
+            file="Source/m+mFormField.cpp"/>
+      <FILE id="SpFUYt" name="m+mFormField.hpp" compile="0" resource="0"
+            file="Source/m+mFormField.hpp"/>
+      <FILE id="dW2iN1" name="m+mFormFieldErrorResponder.cpp" compile="1"
+            resource="0" file="Source/m+mFormFieldErrorResponder.cpp"/>
+      <FILE id="i8BffR" name="m+mFormFieldErrorResponder.hpp" compile="0"
+            resource="0" file="Source/m+mFormFieldErrorResponder.hpp"/>
+      <FILE id="RkWevQ" name="m+mGraphicsPanel.cpp" compile="1" resource="0"
+            file="Source/m+mGraphicsPanel.cpp"/>
+      <FILE id="Iyxh0c" name="m+mGraphicsPanel.hpp" compile="0" resource="0"
+            file="Source/m+mGraphicsPanel.hpp"/>
+      <FILE id="NqF8hi" name="m+mPlatonicDisplayApplication.cpp" compile="1"
+            resource="0" file="Source/m+mPlatonicDisplayApplication.cpp"/>
+      <FILE id="ihZt2a" name="m+mPlatonicDisplayApplication.hpp" compile="0"
+            resource="0" file="Source/m+mPlatonicDisplayApplication.hpp"/>
+      <FILE id="TOnKT2" name="m+mPlatonicDisplayDataTypes.hpp" compile="0" resource="0"
+            file="Source/m+mPlatonicDisplayDataTypes.hpp"/>
+      <FILE id="ccgUhE" name="m+mPlatonicDisplayMain.cpp" compile="1" resource="0"
+            file="Source/m+mPlatonicDisplayMain.cpp"/>
+      <FILE id="duiaz1" name="m+mPlatonicDisplayWindow.cpp" compile="1" resource="0"
+            file="Source/m+mPlatonicDisplayWindow.cpp"/>
+      <FILE id="Qms7u3" name="m+mPlatonicDisplayWindow.hpp" compile="0" resource="0"
+            file="Source/m+mPlatonicDisplayWindow.hpp"/>
+      <FILE id="PuXyr7" name="m+mSettingsWindow.cpp" compile="1" resource="0"
+            file="Source/m+mSettingsWindow.cpp"/>
+      <FILE id="VWGfJk" name="m+mSettingsWindow.hpp" compile="0" resource="0"
+            file="Source/m+mSettingsWindow.hpp"/>
+      <FILE id="eXNe4G" name="m+mTextValidator.cpp" compile="1" resource="0"
+            file="Source/m+mTextValidator.cpp"/>
+      <FILE id="Es553X" name="m+mTextValidator.hpp" compile="0" resource="0"
+            file="Source/m+mTextValidator.hpp"/>
+      <FILE id="L92yer" name="m+mValidatingTextEditor.cpp" compile="1" resource="0"
+            file="Source/m+mValidatingTextEditor.cpp"/>
+      <FILE id="QGzhl1" name="m+mValidatingTextEditor.hpp" compile="0" resource="0"
+            file="Source/m+mValidatingTextEditor.hpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" externalLibraries="YARP_OS&#10;YARP_init&#10;m+mCommon&#10;odLogging&#10;OGDF">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="/Users/johnty/yarp/src/libYARP_OS/include&#10;/Users/johnty/yarp/generated_include&#10;/Users/johnty/Downloads/OGDF&#10;/Users/johnty/Documents/MPlusM&#10;/Users/johnty/Documents/ACE_wrappers"
+                       libraryPath="/Users/johnty/Downloads/OGDF/_release&#10;/Users/johnty/yarp/lib&#10;/Users/johnty/Documents/MPlusM/mpm&#10;/Users/johnty/Documents/MPlusM/odl"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="m+mPlatonicDisplayOutputService"
+                       libraryPath="/Users/johnty/Downloads/OGDF/_release&#10;/Users/johnty/yarp/lib&#10;/Users/johnty/Documents/MPlusM/mpm&#10;/Users/johnty/Documents/MPlusM/odl"
+                       headerPath="/Users/johnty/yarp/src/libYARP_OS/include&#10;/Users/johnty/yarp/generated_include&#10;/Users/johnty/Downloads/OGDF&#10;/Users/johnty/Documents/MPlusM&#10;/Users/johnty/Documents/ACE_wrappers"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_box2d" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2012 targetFolder="Builds/VisualStudio2012" externalLibraries="ACE.lib&#10;YARP_OS.lib&#10;YARP_init.lib&#10;odLogging.lib&#10;m+mCommon.lib&#10;ogdf.lib&#10;Psapi.lib&#10;dnssd.lib"
+            extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"
+                       useRuntimeLibDLL="1"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mPlatonicDisplayOutputService"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       useRuntimeLibDLL="1"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_opengl" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_box2d" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2012>
+    <VS2013 targetFolder="Builds/VisualStudio2013" externalLibraries="ACE.lib&#10;YARP_OS.lib&#10;YARP_init.lib&#10;odLogging.lib&#10;m+mCommon.lib&#10;ogdf.lib&#10;Psapi.lib&#10;dnssd.lib"
+            extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_opengl" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_box2d" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2013>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" externalLibraries="YARP_OS&#10;YARP_init&#10;m+mCommon&#10;odLogging&#10;OGDF&#10;ACE&#10;dns_sd">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;/opt/m+m/lib" isDebug="1"
+                       optimisation="1" targetName="m+mPlatonicDisplayOutputService" headerPath="/opt/m+m/include"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;/opt/m+m/lib"
+                       isDebug="0" optimisation="3" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="/opt/m+m/include"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_opengl" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_box2d" path="../JUCE/modules/juce_data_structures"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <VS2015 targetFolder="Builds/VisualStudio2015">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Debug&#10;$(MPlusM_ROOT)\odl\Debug&#10;$(OGDF)\Win32\Debug&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Debug&#10;c:\program files\bonjour sdk\lib\win32"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="m+mPlatonicDisplayOutputService"
+                       headerPath="$(MPlusM_ROOT)&#10;$(ACE_ROOT)&#10;$(YARP_DIR)\generated_include&#10;$(YARP_DIR)\src\libYARP_OS\include&#10;$(OGDF)"
+                       libraryPath="$(MPlusM_ROOT)\mpm\Release&#10;$(MPlusM_ROOT)\odl\Release&#10;$(OGDF)\Win32\Release&#10;$(ACE_ROOT)\lib&#10;$(YARP_DIR)\lib\Release&#10;c:\program files\bonjour sdk\lib\win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="D:\dev\JUCE\modules"/>
+        <MODULEPATH id="juce_box2d" path="D:\dev\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2015>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_box2d" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
