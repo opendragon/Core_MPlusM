@@ -79,7 +79,7 @@ static const Colour & kFirstBackgroundColour(Colours::darkgrey);
 static const Colour & kSecondBackgroundColour(Colours::lightgrey);
 
 /*! @brief The scale to be applied to the finger tip shapes. */
-static const double kTipScale = 0.25;
+static const double kTipScale = 0.125;
 
 #if defined(DO_AUTOROTATE)
 /*! @brief The rotation rate. */
