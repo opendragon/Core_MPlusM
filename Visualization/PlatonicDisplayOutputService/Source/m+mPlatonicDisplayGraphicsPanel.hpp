@@ -41,6 +41,7 @@
 # define mpmPlatonicDisplayGraphicsPanel_HPP_ /* Header guard */
 
 # include "m+mPlatonicDisplayDataTypes.hpp"
+# include "m+mVertexBuffer.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,7 +59,6 @@
 namespace PlatonicDisplay
 {
     class ContentPanel;
-    class VertexBuffer;
 
     /*! @brief The graphics layer of the main window of the application. */
     class GraphicsPanel : public Component,
@@ -70,7 +70,7 @@ namespace PlatonicDisplay
 
     private :
 
-        /*! @brief The shape to use when drawing the finger tips. */
+        /*! @brief The shape to use when drawing the pixies. */
         enum Shape
         {
             /*! @brief Draw a cube. */
@@ -127,15 +127,17 @@ namespace PlatonicDisplay
         virtual void
         renderOpenGL(void);
 
-        /*! @brief Update the finger data for each hand.
+        /*! @brief Update the pixie data.
          
          Note that the access to the data is guarded by a critical section, so this is meant to be
          called from the input handler thread.
-         @param[in] leftHand The new data for the left hand.
-         @param[in] rightHand The new data for the right hand. */
+         @param[in] newX The new X coordinate.
+         @param[in] newY The new Y coordinate.
+         @param[in] newZ The new Z coordinate. */
         void
-        updateFingerData(const HandData & leftHand,
-                         const HandData & rightHand);
+        updatePixieData(const double newX,
+                        const double newY,
+                        const double newZ);
 
         /*! @brief Move closer to the images. */
         void
@@ -158,18 +160,18 @@ namespace PlatonicDisplay
         void
         drawBackground(const float desktopScale);
 
-        /*! @brief Draw the finger tips for a hand.
-         @param[in] stuff The finger tip information.
+        /*! @brief Draw a pixie.
+         @param[in] stuff The pixie information.
          @param[in] theShape The shape to use when drawing. */
         void
-        drawFingertip(const FingerTip & stuff,
-                      const Shape       theShape);
-        
-        /*! @brief Draw the fingers of a hand.
-         @param[in] aHand The hand to be drawn. */
+        drawPixie(const Pixie & stuff,
+                  const Shape   theShape);
+
+        /*! @brief Draw some pixies.
+         @param[in] toBeDrawn The pixies to draw. */
         void
-        drawHand(const HandData & aHand);
-        
+        drawPixies(const Array<Pixie> & toBeDrawn);
+
         /*! @brief Enable the active vertex attributes. */
         void
         enableVertexAttributes(void);
@@ -250,13 +252,16 @@ namespace PlatonicDisplay
         Draggable3DOrientation _draggableOrientation;
  
         /*! @brief The vertex data for a cube. */
-        Array<Vertex> _cubeVertices;
+        Array<CommonVisuals::Vertex> _cubeVertices;
         
         /*! @brief The vertex data for an octahedron. */
-        Array<Vertex> _octahedronVertices;
+        Array<CommonVisuals::Vertex> _octahedronVertices;
         
         /*! @brief The vertex data for a tetrahedron. */
-        Array<Vertex> _tetrahedronVertices;
+        Array<CommonVisuals::Vertex> _tetrahedronVertices;
+
+        /*! @brief The pixies to be drawn. */
+        Array<Pixie> _pixies;
         
         /*! @brief The shader program to use for rendering. */
         ScopedPointer<OpenGLShaderProgram> _shaderProgram;
@@ -289,19 +294,13 @@ namespace PlatonicDisplay
         ScopedPointer<OpenGLShaderProgram::Attribute> _textureCoordInAttribute;
         
         /*! @brief The vertices, normals, colour and texture coordinates for a cube. */
-        ScopedPointer<VertexBuffer> _cubeData;
+        ScopedPointer<CommonVisuals::VertexBuffer> _cubeData;
         
         /*! @brief The vertices, normals, colour and texture coordinates for an octahedron. */
-        ScopedPointer<VertexBuffer> _octahedronData;
+        ScopedPointer<CommonVisuals::VertexBuffer> _octahedronData;
         
         /*! @brief The vertices, normals, colour and texture coordinates for a tetrahedron. */
-        ScopedPointer<VertexBuffer> _tetrahedronData;
-        
-        /*! @brief The most recent data for the left hand. */
-        HandData _leftHand;
-        
-        /*! @brief The most recent data for the right hand. */
-        HandData _rightHand;
+        ScopedPointer<CommonVisuals::VertexBuffer> _tetrahedronData;
         
         /*! @brief The source code for the fragment shader. */
         String _fragmentShaderSource;
@@ -317,6 +316,9 @@ namespace PlatonicDisplay
         
         /*! @brief The scaling factor to apply to the image. */
         float _scale;
+
+        /*! @brief The next pixie to be updated. */
+        int _nextPixie;
         
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GraphicsPanel)
 

@@ -123,7 +123,7 @@ RandomBurstInputThread::run(void)
 
             for (int ii = 0; ii < _numValues; ++ii)
             {
-                message.addDouble(10000 * yarp::os::Random::uniform());
+                message.addDouble(10000.0 * yarp::os::Random::uniform());
             }
             if (_outChannel)
             {

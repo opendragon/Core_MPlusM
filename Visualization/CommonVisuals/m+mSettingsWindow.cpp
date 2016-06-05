@@ -4,8 +4,8 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the application settings window of the
-//              m+mPlatonicDisplayOutputService application.
+//  Contains:   The class definition for the application settings window of a visualization
+//              application.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,7 +39,7 @@
 
 #include "m+mSettingsWindow.hpp"
 #include "m+mCheckboxField.hpp"
-#include "m+mPlatonicDisplayApplication.hpp"
+//#include "m+mCommonVisualsApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -57,8 +57,7 @@
 #endif // defined(__APPLE__)
 /*! @file
 
- @brief The class definition for the application settings window of the m+mPlatonicDisplayOutputService
-application. */
+ @brief The class definition for the application settings window of a visualization application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -67,7 +66,7 @@ application. */
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
 using namespace std;
 
@@ -167,7 +166,7 @@ SettingsWindow::SettingsWindow(const String &          title,
     setOpaque(true);
     setResizable(false, false);
     setVisible(true);
-    addKeyListener(PlatonicDisplayWindow::getApplicationCommandManager().getKeyMappings());
+    addKeyListener(CommonVisuals::GetApplicationCommandManager().getKeyMappings());
     triggerAsyncUpdate();
     ODL_EXIT_P(this); //####
 } // SettingsWindow::SettingsWindow
@@ -475,7 +474,7 @@ void
 SettingsWindow::handleAsyncUpdate(void)
 {
     ODL_OBJENTER(); //####
-    ApplicationCommandManager & commandManager = PlatonicDisplayWindow::getApplicationCommandManager();
+    ApplicationCommandManager & commandManager = CommonVisuals::GetApplicationCommandManager();
 
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());
     ODL_OBJEXIT(); //####
@@ -683,7 +682,7 @@ SettingsWindow::setUpStandardFields(int & widthSoFar,
     ODL_OBJENTER(); //####
     ODL_P2("widthSoFar = ", &widthSoFar, "heightSoFar = ", &heightSoFar); //####
     Component * content = getContentComponent();
-    int         buttonHeight = PlatonicDisplayApplication::getButtonHeight();
+    int         buttonHeight = GetButtonHeight();
     Point<int>  dimensions;
     size_t      numDescriptors = _descriptors.size();
 
@@ -699,7 +698,7 @@ SettingsWindow::setUpStandardFields(int & widthSoFar,
         _topText.setText(String("The ") + _execType + " has no arguments or options, so it can be "
                          "launched right now.", dontSendNotification);
     }
-    PlatonicDisplay::CalculateTextArea(dimensions, _regularFont, _topText.getText());
+    CommonVisuals::CalculateTextArea(dimensions, _regularFont, _topText.getText());
     _topText.setBounds(FormField::kButtonGap, FormField::kButtonGap + getTitleBarHeight(),
                        dimensions.getX() + FormField::kButtonGap, dimensions.getY());
     content->addAndMakeVisible(&_topText, 0);

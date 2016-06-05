@@ -9,27 +9,19 @@
 /* Begin PBXBuildFile section */
 		03F3FFBB1BE66A71A22A9A5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4CB27A1ECE8D4D6F45DDCC0 /* QuartzCore.framework */; };
 		1195127362258B8DD1C81BC5 /* m+mPlatonicDisplayGraphicsPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9C563AC4E7E108B2F460C8E /* m+mPlatonicDisplayGraphicsPanel.cpp */; };
-		123E8BC48034BD01036EACFF /* m+mValidatingTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C648CDC53F502703A090DF0F /* m+mValidatingTextEditor.cpp */; };
-		17F0D37026A273A9D1672105 /* m+mTextValidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86615DFEE5221BCDF0CE7DAF /* m+mTextValidator.cpp */; };
 		191270EDA1ECBC5E974DF5A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29F5A6308C4D96470A771316 /* Cocoa.framework */; };
 		200ECA3F4BC6BC36070C2830 /* m+mPlatonicDisplayApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBC880EDD0B1E8005C864E39 /* m+mPlatonicDisplayApplication.cpp */; };
-		29CCA53BEA73DA153FA63251 /* m+mSettingsWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE624D53F2993067ED7FB358 /* m+mSettingsWindow.cpp */; };
 		427446365ACD6B5CB41E7527 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F020B3B5B3B3C33A43337FDB /* WebKit.framework */; };
 		56550CBDD43FD1CF751304FE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0BF39C5A26CFC654CC7FD4 /* IOKit.framework */; };
-		65FED02EDADB0021194806E4 /* m+mCheckboxField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB4C343E64785F7F4E4A3F18 /* m+mCheckboxField.cpp */; };
 		8C60B5DE1234394A1166E6D8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A176FBDE54D68D804E8D64DA /* OpenGL.framework */; };
-		AA199B22ABE624F4B9B55654 /* m+mFormField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 615EB08D2BA796B82E93F2A2 /* m+mFormField.cpp */; };
 		AC0B31A7568CF7F7DB722904 /* RecentFilesMenuTemplate.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7A9A7921175D2E89D0783CFE /* RecentFilesMenuTemplate.nib */; };
 		BFE03708E622C9A567618D58 /* m+mPlatonicDisplayMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACFD9F82F95E0A33DCF450CD /* m+mPlatonicDisplayMain.cpp */; };
 		C87EFAE17BFEFE333A80FCC7 /* m+mPlatonicDisplayWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A8198464ABEB377F1C05DE2 /* m+mPlatonicDisplayWindow.cpp */; };
-		D4AD3280A64DD4962387A2FD /* m+mFormFieldErrorResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04EDAB49D514B866A689497F /* m+mFormFieldErrorResponder.cpp */; };
-		E08275E8FC68C0349073B2E7 /* m+mCaptionedTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D2BAD9AA6732497B4B8163A /* m+mCaptionedTextField.cpp */; };
 		E5D6D99658B6AF10A66FDC02 /* m+mPlatonicDisplayContentPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5C0CCA7C563FDD02144A712 /* m+mPlatonicDisplayContentPanel.cpp */; };
 		F33B431E9BA660F6B5034872 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA72840EFF14AF9F39FB65E /* Carbon.framework */; };
 		F619BDCA1CFB5FA7009D9E20 /* m+mPlatonicDisplayInputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC11CFB5FA7009D9E20 /* m+mPlatonicDisplayInputHandler.cpp */; };
 		F619BDCB1CFB5FA7009D9E20 /* m+mPlatonicDisplayOutputService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC31CFB5FA7009D9E20 /* m+mPlatonicDisplayOutputService.cpp */; };
 		F619BDCC1CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC61CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp */; };
-		F619BDCD1CFB5FA7009D9E20 /* m+mVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC81CFB5FA7009D9E20 /* m+mVertexBuffer.cpp */; };
 		F619BDD01CFB6168009D9E20 /* libACE.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDCF1CFB6168009D9E20 /* libACE.dylib */; };
 		F619BDDC1CFB61AE009D9E20 /* libodLogging.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDDB1CFB61AE009D9E20 /* libodLogging.dylib */; };
 		F619BDDE1CFB61B1009D9E20 /* libm+mCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDDD1CFB61B1009D9E20 /* libm+mCommon.dylib */; };
@@ -39,6 +31,15 @@
 		F619BDE51CFB61EA009D9E20 /* libYARP_sig.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */; };
 		F619BDE91CFB65BB009D9E20 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F619BDE81CFB65BB009D9E20 /* Images.xcassets */; };
 		F619BDEC1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDEA1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp */; };
+		F65CD38D1D0490A80043D5AD /* m+mCaptionedTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD37C1D0490A80043D5AD /* m+mCaptionedTextField.cpp */; };
+		F65CD38E1D0490A80043D5AD /* m+mCheckboxField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD37E1D0490A80043D5AD /* m+mCheckboxField.cpp */; };
+		F65CD38F1D0490A80043D5AD /* m+mCommonVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3801D0490A80043D5AD /* m+mCommonVisuals.cpp */; };
+		F65CD3901D0490A80043D5AD /* m+mFormField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3811D0490A80043D5AD /* m+mFormField.cpp */; };
+		F65CD3911D0490A80043D5AD /* m+mFormFieldErrorResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3831D0490A80043D5AD /* m+mFormFieldErrorResponder.cpp */; };
+		F65CD3921D0490A80043D5AD /* m+mSettingsWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3851D0490A80043D5AD /* m+mSettingsWindow.cpp */; };
+		F65CD3931D0490A80043D5AD /* m+mTextValidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3871D0490A80043D5AD /* m+mTextValidator.cpp */; };
+		F65CD3941D0490A80043D5AD /* m+mValidatingTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3891D0490A80043D5AD /* m+mValidatingTextEditor.cpp */; };
+		F65CD3951D0490A80043D5AD /* m+mVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD38B1D0490A80043D5AD /* m+mVertexBuffer.cpp */; };
 		F67885A01D035077000463FC /* juce_core.mm in Sources */ = {isa = PBXBuildFile; fileRef = F60FA4CF1D0323590087EF12 /* juce_core.mm */; };
 		F67885A11D035097000463FC /* juce_data_structures.mm in Sources */ = {isa = PBXBuildFile; fileRef = F60FA4EA1D03311B0087EF12 /* juce_data_structures.mm */; };
 		F67885A21D0350B1000463FC /* juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = F60FA5271D0331C40087EF12 /* juce_events.mm */; };
@@ -51,20 +52,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04EDAB49D514B866A689497F /* m+mFormFieldErrorResponder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mFormFieldErrorResponder.cpp"; path = "../../Source/m+mFormFieldErrorResponder.cpp"; sourceTree = SOURCE_ROOT; };
-		127E3C5EA856AE9F6D69B8ED /* m+mTextValidator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mTextValidator.hpp"; path = "../../Source/m+mTextValidator.hpp"; sourceTree = SOURCE_ROOT; };
 		1376DC8B5BD610AB30339498 /* m+mPlatonicDisplayGraphicsPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayGraphicsPanel.hpp"; path = "../../Source/m+mPlatonicDisplayGraphicsPanel.hpp"; sourceTree = SOURCE_ROOT; };
 		1A0BF39C5A26CFC654CC7FD4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		2724F298F1FD7D0362737255 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		29F5A6308C4D96470A771316 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		3D2BAD9AA6732497B4B8163A /* m+mCaptionedTextField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCaptionedTextField.cpp"; path = "../../Source/m+mCaptionedTextField.cpp"; sourceTree = SOURCE_ROOT; };
-		3F0E1D10042567D0081AD7BC /* m+mFormField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mFormField.hpp"; path = "../../Source/m+mFormField.hpp"; sourceTree = SOURCE_ROOT; };
-		5CFE9EE6CF18CD831081843D /* m+mCheckboxField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mCheckboxField.hpp"; path = "../../Source/m+mCheckboxField.hpp"; sourceTree = SOURCE_ROOT; };
 		5E6E401888B52007792FE12A /* m+mPlatonicDisplayContentPanel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayContentPanel.hpp"; path = "../../Source/m+mPlatonicDisplayContentPanel.hpp"; sourceTree = SOURCE_ROOT; };
-		615EB08D2BA796B82E93F2A2 /* m+mFormField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mFormField.cpp"; path = "../../Source/m+mFormField.cpp"; sourceTree = SOURCE_ROOT; };
 		7A8198464ABEB377F1C05DE2 /* m+mPlatonicDisplayWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayWindow.cpp"; path = "../../Source/m+mPlatonicDisplayWindow.cpp"; sourceTree = SOURCE_ROOT; };
 		7A9A7921175D2E89D0783CFE /* RecentFilesMenuTemplate.nib */ = {isa = PBXFileReference; lastKnownFileType = file.nib; path = RecentFilesMenuTemplate.nib; sourceTree = SOURCE_ROOT; };
-		86615DFEE5221BCDF0CE7DAF /* m+mTextValidator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mTextValidator.cpp"; path = "../../Source/m+mTextValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		8866E4635A9C3ED7F6980483 /* m+mPlatonicDisplayApplication.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayApplication.hpp"; path = "../../Source/m+mPlatonicDisplayApplication.hpp"; sourceTree = SOURCE_ROOT; };
 		8BA72840EFF14AF9F39FB65E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		900E127DF986D540B654CC66 /* m+mPlatonicDisplayDataTypes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayDataTypes.hpp"; path = "../../Source/m+mPlatonicDisplayDataTypes.hpp"; sourceTree = SOURCE_ROOT; };
@@ -73,15 +67,8 @@
 		A5C0CCA7C563FDD02144A712 /* m+mPlatonicDisplayContentPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayContentPanel.cpp"; path = "../../Source/m+mPlatonicDisplayContentPanel.cpp"; sourceTree = SOURCE_ROOT; };
 		A9C563AC4E7E108B2F460C8E /* m+mPlatonicDisplayGraphicsPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayGraphicsPanel.cpp"; path = "../../Source/m+mPlatonicDisplayGraphicsPanel.cpp"; sourceTree = SOURCE_ROOT; };
 		ACFD9F82F95E0A33DCF450CD /* m+mPlatonicDisplayMain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayMain.cpp"; path = "../../Source/m+mPlatonicDisplayMain.cpp"; sourceTree = SOURCE_ROOT; };
-		B73E978B7D125960B1E88B07 /* m+mSettingsWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mSettingsWindow.hpp"; path = "../../Source/m+mSettingsWindow.hpp"; sourceTree = SOURCE_ROOT; };
-		BE624D53F2993067ED7FB358 /* m+mSettingsWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mSettingsWindow.cpp"; path = "../../Source/m+mSettingsWindow.cpp"; sourceTree = SOURCE_ROOT; };
-		C2D49E1BB1D04020A6347690 /* m+mValidatingTextEditor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mValidatingTextEditor.hpp"; path = "../../Source/m+mValidatingTextEditor.hpp"; sourceTree = SOURCE_ROOT; };
 		C4CB27A1ECE8D4D6F45DDCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		C648CDC53F502703A090DF0F /* m+mValidatingTextEditor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mValidatingTextEditor.cpp"; path = "../../Source/m+mValidatingTextEditor.cpp"; sourceTree = SOURCE_ROOT; };
-		C90B57D048D75006D0E102D2 /* m+mFormFieldErrorResponder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mFormFieldErrorResponder.hpp"; path = "../../Source/m+mFormFieldErrorResponder.hpp"; sourceTree = SOURCE_ROOT; };
 		CDB2A6363D553836E49F4562 /* m+mPlatonicDisplayWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayWindow.hpp"; path = "../../Source/m+mPlatonicDisplayWindow.hpp"; sourceTree = SOURCE_ROOT; };
-		D710388537827F377B777083 /* m+mCaptionedTextField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "m+mCaptionedTextField.hpp"; path = "../../Source/m+mCaptionedTextField.hpp"; sourceTree = SOURCE_ROOT; };
-		DB4C343E64785F7F4E4A3F18 /* m+mCheckboxField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCheckboxField.cpp"; path = "../../Source/m+mCheckboxField.cpp"; sourceTree = SOURCE_ROOT; };
 		EBC880EDD0B1E8005C864E39 /* m+mPlatonicDisplayApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayApplication.cpp"; path = "../../Source/m+mPlatonicDisplayApplication.cpp"; sourceTree = SOURCE_ROOT; };
 		F020B3B5B3B3C33A43337FDB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		F60FA2FD1D031E6D0087EF12 /* b2ChainShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = b2ChainShape.cpp; path = ../../../JuceLibraryCode/modules/juce_box2d/box2d/Collision/Shapes/b2ChainShape.cpp; sourceTree = SOURCE_ROOT; };
@@ -988,8 +975,6 @@
 		F619BDC51CFB5FA7009D9E20 /* m+mPlatonicDisplayRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayRequests.hpp"; path = "../../Source/m+mPlatonicDisplayRequests.hpp"; sourceTree = SOURCE_ROOT; };
 		F619BDC61CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicServiceThread.cpp"; path = "../../Source/m+mPlatonicServiceThread.cpp"; sourceTree = SOURCE_ROOT; };
 		F619BDC71CFB5FA7009D9E20 /* m+mPlatonicServiceThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicServiceThread.hpp"; path = "../../Source/m+mPlatonicServiceThread.hpp"; sourceTree = SOURCE_ROOT; };
-		F619BDC81CFB5FA7009D9E20 /* m+mVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mVertexBuffer.cpp"; path = "../../Source/m+mVertexBuffer.cpp"; sourceTree = SOURCE_ROOT; };
-		F619BDC91CFB5FA7009D9E20 /* m+mVertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mVertexBuffer.hpp"; path = "../../Source/m+mVertexBuffer.hpp"; sourceTree = SOURCE_ROOT; };
 		F619BDCF1CFB6168009D9E20 /* libACE.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libACE.dylib; path = "../../../../../../../../opt/m+m/lib/libACE.dylib"; sourceTree = "<group>"; };
 		F619BDD11CFB617C009D9E20 /* libYARP_OS.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_OS.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_OS.1.dylib"; sourceTree = "<group>"; };
 		F619BDDB1CFB61AE009D9E20 /* libodLogging.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libodLogging.dylib; path = "../../../../../../../../opt/m+m/lib/libodLogging.dylib"; sourceTree = "<group>"; };
@@ -1000,6 +985,24 @@
 		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mPlatonicDisplayOutputService/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		F619BDEA1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayGraphicsFrame.cpp"; path = "../../Source/m+mPlatonicDisplayGraphicsFrame.cpp"; sourceTree = SOURCE_ROOT; };
 		F619BDEB1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayGraphicsFrame.hpp"; path = "../../Source/m+mPlatonicDisplayGraphicsFrame.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD37C1D0490A80043D5AD /* m+mCaptionedTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCaptionedTextField.cpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD37D1D0490A80043D5AD /* m+mCaptionedTextField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCaptionedTextField.hpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD37E1D0490A80043D5AD /* m+mCheckboxField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCheckboxField.cpp"; path = "../../../CommonVisuals/m+mCheckboxField.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD37F1D0490A80043D5AD /* m+mCheckboxField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCheckboxField.hpp"; path = "../../../CommonVisuals/m+mCheckboxField.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3801D0490A80043D5AD /* m+mCommonVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonVisuals.cpp"; path = "../../../CommonVisuals/m+mCommonVisuals.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3811D0490A80043D5AD /* m+mFormField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mFormField.cpp"; path = "../../../CommonVisuals/m+mFormField.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3821D0490A80043D5AD /* m+mFormField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mFormField.hpp"; path = "../../../CommonVisuals/m+mFormField.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3831D0490A80043D5AD /* m+mFormFieldErrorResponder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mFormFieldErrorResponder.cpp"; path = "../../../CommonVisuals/m+mFormFieldErrorResponder.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3841D0490A80043D5AD /* m+mFormFieldErrorResponder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mFormFieldErrorResponder.hpp"; path = "../../../CommonVisuals/m+mFormFieldErrorResponder.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3851D0490A80043D5AD /* m+mSettingsWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mSettingsWindow.cpp"; path = "../../../CommonVisuals/m+mSettingsWindow.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3861D0490A80043D5AD /* m+mSettingsWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mSettingsWindow.hpp"; path = "../../../CommonVisuals/m+mSettingsWindow.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3871D0490A80043D5AD /* m+mTextValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mTextValidator.cpp"; path = "../../../CommonVisuals/m+mTextValidator.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3881D0490A80043D5AD /* m+mTextValidator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mTextValidator.hpp"; path = "../../../CommonVisuals/m+mTextValidator.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3891D0490A80043D5AD /* m+mValidatingTextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mValidatingTextEditor.cpp"; path = "../../../CommonVisuals/m+mValidatingTextEditor.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD38A1D0490A80043D5AD /* m+mValidatingTextEditor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mValidatingTextEditor.hpp"; path = "../../../CommonVisuals/m+mValidatingTextEditor.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD38B1D0490A80043D5AD /* m+mVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mVertexBuffer.cpp"; path = "../../../CommonVisuals/m+mVertexBuffer.cpp"; sourceTree = SOURCE_ROOT; };
+		F65CD38C1D0490A80043D5AD /* m+mVertexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mVertexBuffer.hpp"; path = "../../../CommonVisuals/m+mVertexBuffer.hpp"; sourceTree = SOURCE_ROOT; };
+		F65CD3961D049A200043D5AD /* m+mCommonVisuals.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCommonVisuals.hpp"; path = "../../../CommonVisuals/m+mCommonVisuals.hpp"; sourceTree = SOURCE_ROOT; };
 		F69004261D0362FC009A4C31 /* PDOicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = PDOicon.ico; path = ../PDOicon.ico; sourceTree = SOURCE_ROOT; };
 		F69004271D0362FC009A4C31 /* PDOResources.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = PDOResources.rc; path = ../PDOResources.rc; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1125,14 +1128,6 @@
 		295631B272BFFCD49E8CF0DB /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				3D2BAD9AA6732497B4B8163A /* m+mCaptionedTextField.cpp */,
-				D710388537827F377B777083 /* m+mCaptionedTextField.hpp */,
-				DB4C343E64785F7F4E4A3F18 /* m+mCheckboxField.cpp */,
-				5CFE9EE6CF18CD831081843D /* m+mCheckboxField.hpp */,
-				615EB08D2BA796B82E93F2A2 /* m+mFormField.cpp */,
-				3F0E1D10042567D0081AD7BC /* m+mFormField.hpp */,
-				04EDAB49D514B866A689497F /* m+mFormFieldErrorResponder.cpp */,
-				C90B57D048D75006D0E102D2 /* m+mFormFieldErrorResponder.hpp */,
 				EBC880EDD0B1E8005C864E39 /* m+mPlatonicDisplayApplication.cpp */,
 				8866E4635A9C3ED7F6980483 /* m+mPlatonicDisplayApplication.hpp */,
 				A5C0CCA7C563FDD02144A712 /* m+mPlatonicDisplayContentPanel.cpp */,
@@ -1152,14 +1147,6 @@
 				CDB2A6363D553836E49F4562 /* m+mPlatonicDisplayWindow.hpp */,
 				F619BDC61CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp */,
 				F619BDC71CFB5FA7009D9E20 /* m+mPlatonicServiceThread.hpp */,
-				BE624D53F2993067ED7FB358 /* m+mSettingsWindow.cpp */,
-				B73E978B7D125960B1E88B07 /* m+mSettingsWindow.hpp */,
-				86615DFEE5221BCDF0CE7DAF /* m+mTextValidator.cpp */,
-				127E3C5EA856AE9F6D69B8ED /* m+mTextValidator.hpp */,
-				C648CDC53F502703A090DF0F /* m+mValidatingTextEditor.cpp */,
-				C2D49E1BB1D04020A6347690 /* m+mValidatingTextEditor.hpp */,
-				F619BDC81CFB5FA7009D9E20 /* m+mVertexBuffer.cpp */,
-				F619BDC91CFB5FA7009D9E20 /* m+mVertexBuffer.hpp */,
 			);
 			name = Source;
 			sourceTree = SOURCE_ROOT;
@@ -1277,6 +1264,7 @@
 		406F9C4D3322628042D7E62E /* m+mPlatonicDisplayOutputService */ = {
 			isa = PBXGroup;
 			children = (
+				F65CD37B1D0490940043D5AD /* CommonVisuals */,
 				F69004261D0362FC009A4C31 /* PDOicon.ico */,
 				F69004271D0362FC009A4C31 /* PDOResources.rc */,
 				295631B272BFFCD49E8CF0DB /* Source */,
@@ -2542,6 +2530,31 @@
 			name = maths;
 			sourceTree = SOURCE_ROOT;
 		};
+		F65CD37B1D0490940043D5AD /* CommonVisuals */ = {
+			isa = PBXGroup;
+			children = (
+				F65CD37C1D0490A80043D5AD /* m+mCaptionedTextField.cpp */,
+				F65CD37D1D0490A80043D5AD /* m+mCaptionedTextField.hpp */,
+				F65CD37E1D0490A80043D5AD /* m+mCheckboxField.cpp */,
+				F65CD37F1D0490A80043D5AD /* m+mCheckboxField.hpp */,
+				F65CD3801D0490A80043D5AD /* m+mCommonVisuals.cpp */,
+				F65CD3961D049A200043D5AD /* m+mCommonVisuals.hpp */,
+				F65CD3811D0490A80043D5AD /* m+mFormField.cpp */,
+				F65CD3821D0490A80043D5AD /* m+mFormField.hpp */,
+				F65CD3831D0490A80043D5AD /* m+mFormFieldErrorResponder.cpp */,
+				F65CD3841D0490A80043D5AD /* m+mFormFieldErrorResponder.hpp */,
+				F65CD3851D0490A80043D5AD /* m+mSettingsWindow.cpp */,
+				F65CD3861D0490A80043D5AD /* m+mSettingsWindow.hpp */,
+				F65CD3871D0490A80043D5AD /* m+mTextValidator.cpp */,
+				F65CD3881D0490A80043D5AD /* m+mTextValidator.hpp */,
+				F65CD3891D0490A80043D5AD /* m+mValidatingTextEditor.cpp */,
+				F65CD38A1D0490A80043D5AD /* m+mValidatingTextEditor.hpp */,
+				F65CD38B1D0490A80043D5AD /* m+mVertexBuffer.cpp */,
+				F65CD38C1D0490A80043D5AD /* m+mVertexBuffer.hpp */,
+			);
+			name = CommonVisuals;
+			sourceTree = SOURCE_ROOT;
+		};
 		F8F064BAF583936A293F33D0 /* juce_graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -2774,27 +2787,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E08275E8FC68C0349073B2E7 /* m+mCaptionedTextField.cpp in Sources */,
-				65FED02EDADB0021194806E4 /* m+mCheckboxField.cpp in Sources */,
-				AA199B22ABE624F4B9B55654 /* m+mFormField.cpp in Sources */,
-				D4AD3280A64DD4962387A2FD /* m+mFormFieldErrorResponder.cpp in Sources */,
+				F65CD3941D0490A80043D5AD /* m+mValidatingTextEditor.cpp in Sources */,
+				F65CD3931D0490A80043D5AD /* m+mTextValidator.cpp in Sources */,
 				200ECA3F4BC6BC36070C2830 /* m+mPlatonicDisplayApplication.cpp in Sources */,
+				F65CD38F1D0490A80043D5AD /* m+mCommonVisuals.cpp in Sources */,
 				E5D6D99658B6AF10A66FDC02 /* m+mPlatonicDisplayContentPanel.cpp in Sources */,
+				F65CD3951D0490A80043D5AD /* m+mVertexBuffer.cpp in Sources */,
 				F619BDEC1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp in Sources */,
+				F65CD38D1D0490A80043D5AD /* m+mCaptionedTextField.cpp in Sources */,
 				1195127362258B8DD1C81BC5 /* m+mPlatonicDisplayGraphicsPanel.cpp in Sources */,
 				F619BDCA1CFB5FA7009D9E20 /* m+mPlatonicDisplayInputHandler.cpp in Sources */,
 				BFE03708E622C9A567618D58 /* m+mPlatonicDisplayMain.cpp in Sources */,
+				F65CD38E1D0490A80043D5AD /* m+mCheckboxField.cpp in Sources */,
 				F619BDCB1CFB5FA7009D9E20 /* m+mPlatonicDisplayOutputService.cpp in Sources */,
 				C87EFAE17BFEFE333A80FCC7 /* m+mPlatonicDisplayWindow.cpp in Sources */,
 				F619BDCC1CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp in Sources */,
-				29CCA53BEA73DA153FA63251 /* m+mSettingsWindow.cpp in Sources */,
-				17F0D37026A273A9D1672105 /* m+mTextValidator.cpp in Sources */,
-				123E8BC48034BD01036EACFF /* m+mValidatingTextEditor.cpp in Sources */,
-				F619BDCD1CFB5FA7009D9E20 /* m+mVertexBuffer.cpp in Sources */,
+				F65CD3921D0490A80043D5AD /* m+mSettingsWindow.cpp in Sources */,
+				F65CD3901D0490A80043D5AD /* m+mFormField.cpp in Sources */,
 				F67885A01D035077000463FC /* juce_core.mm in Sources */,
 				F67885A11D035097000463FC /* juce_data_structures.mm in Sources */,
 				F67885A21D0350B1000463FC /* juce_events.mm in Sources */,
 				F67885A31D0350C2000463FC /* juce_graphics.mm in Sources */,
+				F65CD3911D0490A80043D5AD /* m+mFormFieldErrorResponder.cpp in Sources */,
 				F67885A41D035101000463FC /* juce_gui_basics.mm in Sources */,
 				F67885A51D035119000463FC /* juce_gui_extra.mm in Sources */,
 				F67885A61D03512C000463FC /* juce_opengl.mm in Sources */,

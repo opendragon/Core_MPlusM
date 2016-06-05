@@ -1,21 +1,21 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mVertexBuffer.hpp
+//  File:       m+mTextValidator.hpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for vertex buffers for the platonic display output service.
+//  Contains:   The class declaration for a text validating object.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2016 by OpenDragon.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and / or
+//                  list of conditions and the following disclaimer in the documentation and/or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2016-05-20
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMVertexBuffer_HPP_))
-# define MpMVertexBuffer_HPP_ /* Header guard */
+#if (! defined(mpmTextValidator_HPP_))
+# define mpmTextValidator_HPP_ /* Header guard */
 
-# include "m+mPlatonicDisplayDataTypes.hpp"
+# include "m+mCommonVisuals.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,83 +47,77 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for vertex buffers for the platonic display output service */
+
+ @brief The class declaration for a text validating object. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace PlatonicDisplay
+namespace CommonVisuals
 {
-    
-    /*! @brief A convenience class to hold vertices and their indices. */
-    class VertexBuffer
+    /*! @brief A text validating object. */
+    class TextValidator
     {
     public :
-    
+
     protected :
-    
+
     private :
-        
-        /*! @brief The class that this class is derived from. */
-        typedef Thread inherited;
-        
+
     public :
-        
+
         /*! @brief The constructor.
-         @param[in] context The OpenGL context to be used.
-         @param[in] vertexList The vertex data to be loaded into the buffer.
-         @param[in] indices The vertex indices.
-         @param[in] numIndices The number of indices. */
-        VertexBuffer(OpenGLContext &      context,
-                     Array<Vertex> &      vertexList,
-                     const juce::uint32 * indices,
-                     const GLsizei        numIndices);
-        
+         @param[in] fieldDescriptor A description of the attributes of the field being validated. */
+        explicit
+        TextValidator(MplusM::Utilities::BaseArgumentDescriptor & fieldDescriptor);
+
         /*! @brief The destructor. */
         virtual
-        ~VertexBuffer(void);
+        ~TextValidator(void);
 
-        /*! @brief Bind the vertex buffers to the context. */        
-        void
-        bind(void);
+        /*! @brief Check if the provided value is valid according to the field description.
+         @param[in] toBeChecked The value to be checked.
+         @returns @c true if the value is accepted by the field description and @c false
+         otherwise. */
+        bool
+        checkValidity(const String & toBeChecked)
+        const;
 
-        /*! @brief Return the number of indices.
-         @returns The number of indices. */
-        GLsizei
-        numberOfIndices(void)
-        const
-        {
-            return _numIndices;
-        } // numberOfIndices
-        
+        /*! @brief Check if the provided value is valid according to the field description.
+         @param[in] toBeChecked The value to be checked.
+         @param[in,out] argsToUse A set of valid arguments.
+         @returns @c true if the value is accepted by the field description and @c false
+         otherwise. */
+        bool
+        checkValidity(const String & toBeChecked,
+                      StringArray &  argsToUse)
+        const;
+
+        /*! @brief Return @c true if the validator is for file paths and @c false otherwise.
+         @param[out] isForOutput Set to @c true if the validator is for output files and @c false
+         otherwise.
+         @returns @c true if the validator is for file paths and @c false otherwise. */
+        bool
+        isForFiles(bool & isForOutput)
+        const;
+
     protected :
-    
+
     private :
-        
+
     public :
-    
+
     protected :
-    
+
     private :
-        
-        /*! @brief The OpenGL index for the vertices. */       
-        GLuint _vertexBuffer;
 
-        /*! @brief The OpenGL index for the vertex indices. */
-        GLuint _indexBuffer;
+        /*! @brief A description of the attributes of the field being validated. */
+        MplusM::Utilities::BaseArgumentDescriptor & _fieldDescriptor;
 
-        /*! @brief The number of indices. */
-        GLsizei _numIndices;
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextValidator)
 
-        /*! @brief The OpenGL context that is being used. */
-        OpenGLContext & _context;
+    }; // TextValidator
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VertexBuffer)
+} // CommonVisuals
 
-    }; // VertexBuffer
-    
-} // PlatonicDisplay
-
-#endif // ! defined(MpMVertexBuffer_HPP_)
-
-//OwnedArray<VertexBuffer> vertexBuffers;
+#endif // ! defined(mpmTextValidator_HPP_)

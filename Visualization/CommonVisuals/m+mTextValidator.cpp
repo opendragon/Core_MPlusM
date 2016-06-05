@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mFormField.cpp
+//  File:       m+mTextValidator.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a generalized input field.
+//  Contains:   The class declaration for a text validating object.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mFormField.hpp"
+#include "m+mTextValidator.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -53,7 +53,7 @@
 
 /*! @file
 
- @brief The class declaration for a generalized input field. */
+ @brief The class declaration for a text validating object. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
 using namespace std;
 
@@ -73,18 +73,6 @@ using namespace std;
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The font size for text. */
-const float FormField::kFontSize = 16;
-
-/*! @brief The horizontal gap between buttons. */
-const int FormField::kButtonGap = 10;
-
-/*! @brief The amount to inset text entry fields. */
-const int FormField::kFieldInset = (2 * kButtonGap);
-
-/*! @brief The amount to inset labels. */
-const int FormField::kLabelInset = (3 * kButtonGap);
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -98,76 +86,100 @@ const int FormField::kLabelInset = (3 * kButtonGap);
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-FormField::FormField(Font &       regularLabelFont,
-                     const size_t index) :
-    _regularFont(regularLabelFont), _index(index)
+TextValidator::TextValidator(Utilities::BaseArgumentDescriptor & fieldDescriptor) :
+    _fieldDescriptor(fieldDescriptor)
 {
     ODL_ENTER(); //####
-    ODL_P1("regularLabelFont = ", &regularLabelFont); //####
-    ODL_LL1("index = ", index); //####
+    ODL_P1("fieldDescriptor = ", &fieldDescriptor); //####
     ODL_EXIT_P(this); //####
-} // FormField::FormField
+} // TextValidator::TextValidator
 
-FormField::~FormField(void)
+TextValidator::~TextValidator(void)
 {
     ODL_OBJENTER(); //####
     ODL_OBJEXIT(); //####
-} // FormField::~FormField
+} // TextValidator::~TextValidator
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-TextButton *
-FormField::getButton(void)
+bool
+TextValidator::checkValidity(const String & toBeChecked)
 const
 {
     ODL_OBJENTER(); //####
-    ODL_OBJEXIT_P(NULL); //####
-    return NULL;
-} // FormField::getButton
+    ODL_S1s("toBeChecked = ", toBeChecked.toStdString()); //####
+    bool result;
 
-void
-FormField::ignoreNextFocusLoss(void)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // FormField::ignoreNextFocusLoss
-
-void
-FormField::performButtonAction(void)
-{
-    ODL_OBJENTER(); //####
-    ODL_OBJEXIT(); //####
-} // FormField::performButtonAction
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-void
-FormField::setButton(TextButton * newButton)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(newButton)
-# endif // MAC_OR_LINUX_
-#endif // (! defined(OD_ENABLE_LOGGING_)
-    ODL_OBJENTER(); //####
-    ODL_P1("newButton = ", newButton); //####
-    ODL_OBJEXIT(); //####
-} // FormField::setButton
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+    if (0 == toBeChecked.length())
+    {
+        if (_fieldDescriptor.isOptional())
+        {
+            result = true;
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    else if (_fieldDescriptor.validate(toBeChecked.toStdString()))
+    {
+        result = true;
+    }
+    else
+    {
+        result = false;
+    }
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // TextValidator::checkValidity
 
 bool
-FormField::validateField(void)
+TextValidator::checkValidity(const String & toBeChecked,
+                             StringArray &  argsToUse)
+const
 {
     ODL_OBJENTER(); //####
-    ODL_OBJEXIT_B(true); //####
-    return true;
-} // FormField::validateField
+    ODL_S1s("toBeChecked = ", toBeChecked.toStdString()); //####
+    ODL_P1("argsToUse = ", &argsToUse); //####
+    bool result;
+
+    if (0 == toBeChecked.length())
+    {
+        if (_fieldDescriptor.isOptional())
+        {
+            result = true;
+            argsToUse.add(_fieldDescriptor.getDefaultValue().c_str());
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    else if (_fieldDescriptor.validate(toBeChecked.toStdString()))
+    {
+        result = true;
+        argsToUse.add(toBeChecked);
+    }
+    else
+    {
+        result = false;
+    }
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // TextValidator::checkValidity
+
+bool
+TextValidator::isForFiles(bool & isForOutput)
+const
+{
+    ODL_OBJENTER(); //####
+    bool result = _fieldDescriptor.isForFiles(isForOutput);
+
+    ODL_OBJEXIT_B(result); //####
+    return result;
+} // TextValidator::isForFiles
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -81,9 +81,6 @@ static const int kWindowHeightForManual = 360;
 static const int kWindowWidthForManual = 640;
 #endif // SETTINGS_FOR_MANUAL_
 
-/*! @brief The command manager object used to dispatch command events. */
-static ScopedPointer<ApplicationCommandManager> lApplicationCommandManager;
-
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -116,7 +113,7 @@ LeapDisplayWindow::LeapDisplayWindow(const YarpString & title)  :
     centreWithSize(getWidth(), getHeight());
 #endif // ! SETTINGS_FOR_MANUAL_
     setVisible(true);
-    addKeyListener(getApplicationCommandManager().getKeyMappings());
+    addKeyListener(CommonVisuals::GetApplicationCommandManager().getKeyMappings());
     triggerAsyncUpdate();
     ODL_EXIT_P(this); //####
 } // LeapDisplayWindow::LeapDisplayWindow
@@ -124,7 +121,7 @@ LeapDisplayWindow::LeapDisplayWindow(const YarpString & title)  :
 LeapDisplayWindow::~LeapDisplayWindow(void)
 {
     ODL_OBJENTER(); //####
-    lApplicationCommandManager = NULL;
+    CommonVisuals::ReleaseApplicationCommandManager();
     ODL_OBJEXIT(); //####
 } // LeapDisplayWindow::~LeapDisplayWindow
 
@@ -142,23 +139,11 @@ LeapDisplayWindow::closeButtonPressed(void)
     ODL_OBJEXIT(); //####
 } // LeapDisplayWindow::closeButtonPressed
 
-ApplicationCommandManager &
-LeapDisplayWindow::getApplicationCommandManager(void)
-{
-    ODL_ENTER(); //####
-    if (! lApplicationCommandManager)
-    {
-        lApplicationCommandManager = new ApplicationCommandManager;
-    }
-    ODL_EXIT_P(lApplicationCommandManager); //####
-    return *lApplicationCommandManager;
-} // LeapDisplayWindow::getApplicationCommandManager
-
 void
 LeapDisplayWindow::handleAsyncUpdate(void)
 {
     ODL_OBJENTER(); //####
-    ApplicationCommandManager & commandManager = getApplicationCommandManager();
+    ApplicationCommandManager & commandManager = CommonVisuals::GetApplicationCommandManager();
 
     commandManager.registerAllCommandsForTarget(_contentPanel);
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());

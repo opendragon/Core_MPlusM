@@ -1,21 +1,21 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mFormFieldErrorResponder.hpp
+//  File:       m+mVertexBuffer.hpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for an error reporting abstraction.
+//  Contains:   The class declaration for vertex buffers for the platonic display output service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by OpenDragon.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and/or
+//                  list of conditions and the following disclaimer in the documentation and / or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2016-05-12
+//  Created:    2016-05-20
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmFormFieldErrorResponder_HPP_))
-# define mpmFormFieldErrorResponder_HPP_ /* Header guard */
+#if (! defined(MpMVertexBuffer_HPP_))
+# define MpMVertexBuffer_HPP_ /* Header guard */
 
-# include "m+mPlatonicDisplayDataTypes.hpp"
+# include "m+mCommonVisuals.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,53 +47,83 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
-
- @brief The class declaration for an error reporting abstraction. */
+ @brief The class declaration for vertex buffers for the platonic display output service */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace PlatonicDisplay
+namespace CommonVisuals
 {
-    class FormField;
-
-    /*! @brief An error reporting abstraction. */
-    class FormFieldErrorResponder
+    
+    /*! @brief A convenience class to hold vertices and their indices. */
+    class VertexBuffer
     {
     public :
-
+    
     protected :
-
+    
     private :
-
+        
+        /*! @brief The class that this class is derived from. */
+        typedef Thread inherited;
+        
     public :
-
-        /*! @brief The constructor. */
-        FormFieldErrorResponder(void);
-
+        
+        /*! @brief The constructor.
+         @param[in] context The OpenGL context to be used.
+         @param[in] vertexList The vertex data to be loaded into the buffer.
+         @param[in] indices The vertex indices.
+         @param[in] numIndices The number of indices. */
+        VertexBuffer(OpenGLContext &      context,
+                     Array<Vertex> &      vertexList,
+                     const juce::uint32 * indices,
+                     const GLsizei        numIndices);
+        
         /*! @brief The destructor. */
         virtual
-        ~FormFieldErrorResponder(void);
+        ~VertexBuffer(void);
 
-        /*! @brief Report an error in a field.
-         @param[in] fieldOfInterest The field to be reported. */
-        virtual void
-        reportErrorInField(FormField & fieldOfInterest) = 0;
+        /*! @brief Bind the vertex buffers to the context. */        
+        void
+        bind(void);
 
+        /*! @brief Return the number of indices.
+         @returns The number of indices. */
+        GLsizei
+        numberOfIndices(void)
+        const
+        {
+            return _numIndices;
+        } // numberOfIndices
+        
     protected :
-
+    
     private :
-
+        
     public :
-
+    
     protected :
-
+    
     private :
+        
+        /*! @brief The OpenGL index for the vertices. */       
+        GLuint _vertexBuffer;
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FormFieldErrorResponder)
+        /*! @brief The OpenGL index for the vertex indices. */
+        GLuint _indexBuffer;
 
-    }; // FormFieldErrorResponder
+        /*! @brief The number of indices. */
+        GLsizei _numIndices;
 
-} // PlatonicDisplay
+        /*! @brief The OpenGL context that is being used. */
+        OpenGLContext & _context;
 
-#endif // ! defined(mpmFormFieldErrorResponder_HPP_)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VertexBuffer)
+
+    }; // VertexBuffer
+    
+} // CommonVisuals
+
+#endif // ! defined(MpMVertexBuffer_HPP_)
+
+//OwnedArray<VertexBuffer> vertexBuffers;

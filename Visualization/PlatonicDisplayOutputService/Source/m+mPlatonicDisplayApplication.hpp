@@ -120,11 +120,6 @@ namespace PlatonicDisplay
         static PlatonicDisplayApplication *
         getApp(void);
 
-        /*! @brief Return the button height to use.
-         @returns The button height to use. */
-        static int
-        getButtonHeight(void);
-
         /*! @brief Return the value of a system environment variable.
          @param[in] varName The name of the system environment variable.
          @returns The value of the system environment variable, or an empty value. */
@@ -299,19 +294,7 @@ namespace PlatonicDisplay
         /*! @brief The graphics panel that will perform rendering. */
         GraphicsPanel * _graphicsPanel;
         
-        /*! @brief The height of a standard button. */
-        int _buttonHeight;
-
     }; // PlatonicDisplayApplication
-
-    /*! @brief Determine the maximum dimensions of a text string.
-     @param[out] dimensions The calculated maximum width and height.
-     @param[in] aFont The font to use for the calculations.
-     @param[in] aString The string to be analyzed. */
-    void
-    CalculateTextArea(Point<int> &   dimensions,
-                      const Font &   aFont,
-                      const String & aString);
 
 } // PlatonicDisplay
 

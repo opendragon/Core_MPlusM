@@ -110,7 +110,7 @@ ContentPanel::ContentPanel(LeapDisplayWindow * containingWindow) :
     setScrollBarThickness(kDefaultScrollbarThickness);
     setSingleStepSizes(kDefaultSingleStepSize, kDefaultSingleStepSize);
     setViewedComponent(_graphicsFrame);
-    setApplicationCommandManagerToWatch(&containingWindow->getApplicationCommandManager());
+    setApplicationCommandManagerToWatch(&CommonVisuals::GetApplicationCommandManager());
     ODL_EXIT_P(this); //####
 } // ContentPanel::ContentPanel
 
@@ -469,7 +469,7 @@ ContentPanel::setUpMainMenu(PopupMenu & aMenu)
 {
     ODL_OBJENTER(); //####
     ODL_P1("aMenu = ", &aMenu); //####
-    ApplicationCommandManager * commandManager = &LeapDisplayWindow::getApplicationCommandManager();
+    ApplicationCommandManager * commandManager = &CommonVisuals::GetApplicationCommandManager();
     
     aMenu.addCommandItem(commandManager, StandardApplicationCommandIDs::quit);
     ODL_OBJEXIT(); //####
@@ -480,7 +480,7 @@ ContentPanel::setUpOperationMenu(PopupMenu & aMenu)
 {
     ODL_OBJENTER(); //####
     ODL_P1("aMenu = ", &aMenu); //####
-    ApplicationCommandManager * commandManager = &LeapDisplayWindow::getApplicationCommandManager();
+    ApplicationCommandManager * commandManager = &CommonVisuals::GetApplicationCommandManager();
     
     aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandConfigureService);
     aMenu.addSeparator();
@@ -495,7 +495,7 @@ ContentPanel::setUpViewMenu(PopupMenu & aMenu)
 {
     ODL_OBJENTER(); //####
     ODL_P1("aMenu = ", &aMenu); //####
-    ApplicationCommandManager * commandManager = &LeapDisplayWindow::getApplicationCommandManager();
+    ApplicationCommandManager * commandManager = &CommonVisuals::GetApplicationCommandManager();
 
     aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandInvertBackground);
     aMenu.addCommandItem(commandManager, LeapDisplayWindow::kCommandWhiteBackground);

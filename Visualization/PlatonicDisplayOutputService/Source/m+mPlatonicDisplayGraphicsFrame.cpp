@@ -61,8 +61,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
 using namespace MplusM;
+using namespace PlatonicDisplay;
 using namespace std;
 
 #if defined(__APPLE__)

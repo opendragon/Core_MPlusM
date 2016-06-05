@@ -41,6 +41,7 @@
 # define mpmLeapDisplayGraphicsPanel_HPP_ /* Header guard */
 
 # include "m+mLeapDisplayDataTypes.hpp"
+# include "m+mVertexBuffer.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,7 +59,6 @@
 namespace LeapDisplay
 {
     class ContentPanel;
-    class VertexBuffer;
 
     /*! @brief The graphics layer of the main window of the application. */
     class GraphicsPanel : public Component,
@@ -250,13 +250,13 @@ namespace LeapDisplay
         Draggable3DOrientation _draggableOrientation;
  
         /*! @brief The vertex data for a cube. */
-        Array<Vertex> _cubeVertices;
+        Array<CommonVisuals::Vertex> _cubeVertices;
         
         /*! @brief The vertex data for an octahedron. */
-        Array<Vertex> _octahedronVertices;
+        Array<CommonVisuals::Vertex> _octahedronVertices;
         
         /*! @brief The vertex data for a tetrahedron. */
-        Array<Vertex> _tetrahedronVertices;
+        Array<CommonVisuals::Vertex> _tetrahedronVertices;
         
         /*! @brief The shader program to use for rendering. */
         ScopedPointer<OpenGLShaderProgram> _shaderProgram;
@@ -289,13 +289,13 @@ namespace LeapDisplay
         ScopedPointer<OpenGLShaderProgram::Attribute> _textureCoordInAttribute;
         
         /*! @brief The vertices, normals, colour and texture coordinates for a cube. */
-        ScopedPointer<VertexBuffer> _cubeData;
+        ScopedPointer<CommonVisuals::VertexBuffer> _cubeData;
         
         /*! @brief The vertices, normals, colour and texture coordinates for an octahedron. */
-        ScopedPointer<VertexBuffer> _octahedronData;
+        ScopedPointer<CommonVisuals::VertexBuffer> _octahedronData;
         
         /*! @brief The vertices, normals, colour and texture coordinates for a tetrahedron. */
-        ScopedPointer<VertexBuffer> _tetrahedronData;
+        ScopedPointer<CommonVisuals::VertexBuffer> _tetrahedronData;
         
         /*! @brief The most recent data for the left hand. */
         HandData _leftHand;

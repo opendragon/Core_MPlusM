@@ -39,7 +39,7 @@
 #if (! defined(mpmValidatingTextEditor_HPP_))
 # define mpmValidatingTextEditor_HPP_ /* Header guard */
 
-# include "m+mLeapDisplayDataTypes.hpp"
+# include "m+mCommonVisuals.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,7 +56,7 @@
 /*! @brief The character to use when displaying a 'password' field. */
 # define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
 
-namespace LeapDisplay
+namespace CommonVisuals
 {
     class CaptionedTextField;
     class TextValidator;
@@ -172,6 +172,6 @@ namespace LeapDisplay
 
     }; // ValidatingTextEditor
 
-} // LeapDisplay
+} // CommonVisuals
 
 #endif // ! defined(mpmValidatingTextEditor_HPP_)

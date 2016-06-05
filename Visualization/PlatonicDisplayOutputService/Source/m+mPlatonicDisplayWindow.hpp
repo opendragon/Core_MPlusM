@@ -119,11 +119,6 @@ namespace PlatonicDisplay
         virtual
         ~PlatonicDisplayWindow(void);
 
-        /*! @brief Returns the command manager object used to dispatch command events.
-         @returns The command manager object used to dispatch command events. */
-        static ApplicationCommandManager &
-        getApplicationCommandManager(void);
-
     protected :
 
     private :

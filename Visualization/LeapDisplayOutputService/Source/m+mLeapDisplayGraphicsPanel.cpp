@@ -62,6 +62,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
+using namespace CommonVisuals;
 using namespace LeapDisplay;
 using namespace MplusM;
 using namespace std;
@@ -377,7 +378,7 @@ GraphicsPanel::drawFingertip(const FingerTip & stuff,
     if (stuff._valid)
     {
         const Location & where = stuff._where;
-        VertexBuffer *           selected;
+        VertexBuffer *   selected;
 
         switch (theShape)
         {

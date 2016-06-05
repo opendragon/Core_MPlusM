@@ -62,8 +62,9 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
+using namespace PlatonicDisplay;
 using namespace std;
 
 #if defined(__APPLE__)
@@ -91,6 +92,9 @@ static const int kInitialPanelHeight = 512;
 
 /*! @brief The initial width of the displayed region. */
 static const int kInitialPanelWidth = 512;
+
+/*! @brief The number of pixies to draw. */
+static const int kNumPixies = 1000;
 
 /*! @brief The vertex shader source code. */
 static const String kVertexShaderSource =
@@ -249,7 +253,7 @@ setVertexData(Array<Vertex> & vertexList,
 GraphicsPanel::GraphicsPanel(ContentPanel * theContainer,
                              const int      startingWidth,
                              const int      startingHeight) :
-    inherited(), _container(theContainer), _rotation(0.0f), _scale(0.5f)
+    inherited(), _container(theContainer), _rotation(0.0f), _scale(0.5f), _nextPixie(0)
 {
     ODL_ENTER(); //####
     ODL_P1("theContainer = ", theContainer); //####
@@ -368,8 +372,8 @@ GraphicsPanel::drawBackground(const float desktopScale)
 } // GraphicsPanel::drawBackground
 
 void
-GraphicsPanel::drawFingertip(const FingerTip & stuff,
-                             const Shape       theShape)
+GraphicsPanel::drawPixie(const Pixie & stuff,
+                         const Shape   theShape)
 {
     ODL_OBJENTER(); //####
     ODL_P1("stuff = ", &stuff); //####
@@ -377,7 +381,7 @@ GraphicsPanel::drawFingertip(const FingerTip & stuff,
     if (stuff._valid)
     {
         const Location & where = stuff._where;
-        VertexBuffer *           selected;
+        VertexBuffer *   selected;
 
         switch (theShape)
         {
@@ -425,21 +429,44 @@ GraphicsPanel::drawFingertip(const FingerTip & stuff,
         }
     }
     ODL_OBJEXIT(); //####
-} // GraphicsPanel::drawFingertip
+} // GraphicsPanel::drawPixie
 
 void
-GraphicsPanel::drawHand(const HandData & aHand)
+GraphicsPanel::drawPixies(const Array<Pixie> & toBeDrawn)
 {
     ODL_OBJENTER(); //####
-    ODL_P1("aHand = ", &aHand); //####
-    drawFingertip(aHand._palm, kShapeCube);
-    drawFingertip(aHand._thumb, kShapeTetrahedron);
-    drawFingertip(aHand._index, kShapeOctahedron);
-    drawFingertip(aHand._middle, kShapeCube);
-    drawFingertip(aHand._ring, kShapeOctahedron);
-    drawFingertip(aHand._pinky, kShapeTetrahedron);
+    ODL_P1("toBeDrawn = ", &toBeDrawn);
+    for (int ii = 0, mm = toBeDrawn.size(); mm > ii; ++ii)
+    {
+        const Pixie & aPixie = _pixies.getReference(ii);
+
+        if (aPixie._valid)
+        {
+            Shape whichShape = kShapeCube;
+
+            switch (ii % 3)
+            {
+                case 0 :
+                    whichShape = kShapeCube;
+                    break;
+
+                case 1 :
+                    whichShape = kShapeTetrahedron;
+                    break;
+
+                case 2 :
+                    whichShape = kShapeOctahedron;
+                    break;
+
+                default :
+                    break;
+
+            }
+            drawPixie(aPixie, whichShape);
+        }
+    }
     ODL_OBJEXIT(); //####
-} // GraphicsPanel::drawHand
+} // GraphicsPanel::drawPixies
 
 void
 GraphicsPanel::enableVertexAttributes(void)
@@ -567,12 +594,10 @@ GraphicsPanel::renderOpenGL(void)
     if (OpenGLHelpers::isContextActive())
     {
         const float desktopScale = static_cast<float>(_context.getRenderingScale());
-        HandData    leftCopy;
-        HandData    rightCopy;
-        
+        Array<Pixie> toBeDrawn;
+
         _csect.enter();
-        memcpy(&leftCopy, &_leftHand, sizeof(leftCopy));
-        memcpy(&rightCopy, &_rightHand, sizeof(rightCopy));
+        toBeDrawn = _pixies;
         _csect.exit();
         OpenGLHelpers::clear(Colours::lightblue); // FOR NOW
         setUpTexture();
@@ -609,8 +634,7 @@ GraphicsPanel::renderOpenGL(void)
             {
                 _lightPositionUniform->set(-15.0f, 10.0f, 15.0f, 0.0f);
             }
-            drawHand(leftCopy);
-            drawHand(rightCopy);
+            drawPixies(toBeDrawn);
             // Reset the element buffers so child Components draw correctly
             _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
             _context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -760,17 +784,28 @@ GraphicsPanel::setUpTexture(void)
 } // GraphicsPanel::setUpTexture
 
 void
-GraphicsPanel::updateFingerData(const HandData & leftHand,
-                                const HandData & rightHand)
+GraphicsPanel::updatePixieData(const double newX,
+                               const double newY,
+                               const double newZ)
 {
     ODL_OBJENTER(); //####
-    ODL_P2("leftHand = ", &leftHand, "rightHand = ", &rightHand); //####
+    ODL_D3("newX = ", newX, "newY = ", newY, "newZ = ", newZ); //####
+    Pixie newValue(newX, newY, newZ);
+
     _csect.enter();
-    memcpy(&_leftHand, &leftHand, sizeof(_leftHand));
-    memcpy(&_rightHand, &rightHand, sizeof(_rightHand));
+    if (kNumPixies > _pixies.size())
+    {
+        _pixies.add(newValue);
+    }
+    else
+    {
+        _pixies.setUnchecked(_nextPixie++, newValue);
+        _nextPixie %= kNumPixies;
+        ODL_LL1("_nextPixies <- ", _nextPixie); //####
+    }
     _csect.exit();
     ODL_OBJEXIT(); //####
-} // GraphicsPanel::updateFingerData
+} // GraphicsPanel::updatePixieData
 
 void
 GraphicsPanel::updateShader(void)

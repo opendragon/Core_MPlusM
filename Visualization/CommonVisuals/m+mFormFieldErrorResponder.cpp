@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mFormFieldErrorResponder.hpp
+//  File:       m+mFormFieldErrorResponder.cpp
 //
 //  Project:    m+m
 //
@@ -36,64 +36,72 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmFormFieldErrorResponder_HPP_))
-# define mpmFormFieldErrorResponder_HPP_ /* Header guard */
+#include "m+mFormFieldErrorResponder.hpp"
 
-# include "m+mLeapDisplayDataTypes.hpp"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunknown-pragmas"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# endif // defined(__APPLE__)
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+
+#if (! MAC_OR_LINUX_)
+# include <Windows.h>
+#endif //! MAC_OR_LINUX_
+
 /*! @file
 
  @brief The class declaration for an error reporting abstraction. */
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
-namespace LeapDisplay
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
+using namespace CommonVisuals;
+using namespace MplusM;
+using namespace std;
+
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and Destructors
+#endif // defined(__APPLE__)
+
+FormFieldErrorResponder::FormFieldErrorResponder(void)
 {
-    class FormField;
+    ODL_ENTER(); //####
+    ODL_EXIT_P(this); //####
+} // FormFieldErrorResponder::FormFieldErrorResponder
 
-    /*! @brief An error reporting abstraction. */
-    class FormFieldErrorResponder
-    {
-    public :
+FormFieldErrorResponder::~FormFieldErrorResponder(void)
+{
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
+} // FormFieldErrorResponder::~FormFieldErrorResponder
 
-    protected :
+#if defined(__APPLE__)
+# pragma mark Actions and Accessors
+#endif // defined(__APPLE__)
 
-    private :
-
-    public :
-
-        /*! @brief The constructor. */
-        FormFieldErrorResponder(void);
-
-        /*! @brief The destructor. */
-        virtual
-        ~FormFieldErrorResponder(void);
-
-        /*! @brief Report an error in a field.
-         @param[in] fieldOfInterest The field to be reported. */
-        virtual void
-        reportErrorInField(FormField & fieldOfInterest) = 0;
-
-    protected :
-
-    private :
-
-    public :
-
-    protected :
-
-    private :
-
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FormFieldErrorResponder)
-
-    }; // FormFieldErrorResponder
-
-} // LeapDisplay
-
-#endif // ! defined(mpmFormFieldErrorResponder_HPP_)
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

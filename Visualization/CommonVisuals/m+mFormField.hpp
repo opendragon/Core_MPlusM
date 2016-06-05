@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCheckboxField.hpp
+//  File:       m+mFormField.hpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a checkbox paired with a caption.
+//  Contains:   The class declaration for a generalized input field.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmCheckboxField_HPP_))
-# define mpmCheckboxField_HPP_ /* Header guard */
+#if (! defined(mpmFormField_HPP_))
+# define mpmFormField_HPP_ /* Header guard */
 
-# include "m+mFormField.hpp"
+# include "m+mCommonVisuals.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,21 +48,17 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The class declaration for a field consisting of a checkbox paired with a caption. */
+ @brief The class declaration for a generalized input field. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The character to use when displaying a 'password' field. */
-# define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
-
-namespace LeapDisplay
+namespace CommonVisuals
 {
-    class TextValidator;
-    class ValidatingTextEditor;
+    class FormFieldErrorResponder;
 
-    /*! @brief A field consisting of a checkbox paired with a caption. */
-    class CheckboxField : public FormField
+    /*! @brief A generalized input field. */
+    class FormField
     {
     public :
 
@@ -70,123 +66,160 @@ namespace LeapDisplay
 
     private :
 
-        /*! @brief The class that this class is derived from. */
-        typedef FormField inherited;
-
     public :
 
         /*! @brief The constructor.
          @param[in] regularLabelFont The font to use with the label when the text editor data is
          valid.
-         @param[in] index The order of the text editor.
-         @param[in] captionTitle The text of the caption.
-         @param[in] top The top coordinate of the field.
-         @param[in] componentName The name to pass to the component for it to use as its name. */
-        CheckboxField(Font &         regularLabelFont,
-                      const size_t   index,
-                      const String & captionTitle,
-                      const int      top,
-                      const String & componentName = String::empty);
+         @param[in] index The order of the text editor. */
+        FormField(Font &       regularLabelFont,
+                  const size_t index);
 
         /*! @brief The destructor. */
         virtual
-        ~CheckboxField(void);
+        ~FormField(void);
 
         /*! @brief Add the components of this field to the specified component and make them
          visible.
          @param[in] whereToAdd The component to be added to. */
         virtual void
-        addToComponent(Component * whereToAdd);
+        addToComponent(Component * whereToAdd) = 0;
+
+        /*! @brief Return the associated button.
+         @returns The associated button. */
+        virtual TextButton *
+        getButton(void)
+        const;
 
         /*! @brief Return the height of the field in pixels.
          @return The height of the field in pixels. */
         virtual int
         getHeight(void)
-        const;
+        const = 0;
+
+        /*! @brief Return the order of the text editor.
+         @returns The order of the text editor. */
+        inline size_t
+        getIndex(void)
+        const
+        {
+            return _index;
+        } // getIndex
 
         /*! @brief Return the minimum width of the field in pixels.
          @return The minimum width of the field in pixels. */
         virtual int
         getMinimumWidth(void)
-        const;
+        const = 0;
+
+        /*! @brief Returns the name of the field.
+         @returns The name of the field. */
+        virtual const String &
+        getName(void)
+        const = 0;
 
         /*! @brief Returns the text value associated with the field.
          @returns The text value associated with the field. */
         virtual String
         getText(void)
-        const;
+        const = 0;
 
         /*! @brief Return the width of the field in pixels.
          @return The width of the field in pixels. */
         virtual int
         getWidth(void)
-        const;
+        const = 0;
 
         /*! @brief Return the left coordinate of the field.
          @return The left coordinate of the field. */
         virtual int
         getX(void)
-        const;
+        const = 0;
 
         /*! @brief Return the top coordinate of the field.
          @return The top coordinate of the field. */
         virtual int
         getY(void)
-        const;
+        const = 0;
+
+        /*! @brief Do not perform validation on next loss of focus. */
+        virtual void
+        ignoreNextFocusLoss(void);
+
+        /*! @brief Perform the action triggered by the button. */
+        virtual void
+        performButtonAction(void);
 
         /*! @brief Remove the components of this field from the specified component.
          @param[in] whereToRemove The component to be removed from. */
         virtual void
-        removeFromComponent(Component * whereToRemove);
+        removeFromComponent(Component * whereToRemove) = 0;
+
+        /*! @brief Sets the associated button.
+         @param[in] newButton The associated button. */
+        virtual void
+        setButton(TextButton * newButton = NULL);
 
         /*! @brief Set the text value associated with the field.
          @param[in] newText The text to be used. */
         virtual void
-        setText(const String & newText);
+        setText(const String & newText) = 0;
 
         /*! @brief Set the width of the field.
          @param[in] ww The new width of the field. */
         virtual void
-        setWidth(const int ww);
+        setWidth(const int ww) = 0;
 
         /*! @brief Set the top coordinate of the field.
          @param[in] yy The new top coordinate of the field. */
         virtual void
-        setY(const int yy);
+        setY(const int yy) = 0;
+
+        /*! @brief Check the field for validity.
+         @returns @c true if the validator accepts the field or there's no validation required or
+         @c false if the validator rejects the field. */
+        virtual bool
+        validateField(void);
 
         /*! @brief Check the field for validity.
          @param[in,out] argsToUse A set of valid arguments.
          @returns @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool
-        validateField(StringArray & argsToUse);
+        validateField(StringArray & argsToUse) = 0;
 
     protected :
 
     private :
-
-        /*! @brief Returns the name of the field.
-         @returns The name of the field. */
-        virtual const String &
-        getName(void)
-        const;
 
     public :
 
+        /*! @brief The font size for text. */
+        static const float kFontSize;
+
+        /*! @brief The horizontal gap between buttons. */
+        static const int kButtonGap;
+
+        /*! @brief The amount to inset text entry fields. */
+        static const int kFieldInset;
+
+        /*! @brief The amount to inset labels. */
+        static const int kLabelInset;
+
     protected :
+
+        /*! @brief The font to use with the label when the text editor data is valid. */
+        Font & _regularFont;
+
+        /*! @brief The order of the field. */
+        size_t _index;
 
     private :
 
-        /*! @brief The text editor within the field. */
-        ScopedPointer<ToggleButton> _checkbox;
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FormField)
 
-        /*! @brief The caption for the field. */
-        ScopedPointer<Label> _caption;
+    }; // FormField
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CheckboxField)
+} // CommonVisuals
 
-    }; // CheckboxField
-
-} // LeapDisplay
-
-#endif // ! defined(mpmCheckboxField_HPP_)
+#endif // ! defined(mpmFormField_HPP_)

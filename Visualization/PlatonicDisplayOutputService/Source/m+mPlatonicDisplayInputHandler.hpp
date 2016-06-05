@@ -69,6 +69,20 @@ namespace PlatonicDisplay
 
     private :
 
+        /*! @brief What the next value is to be used for. */
+        enum NextValueState
+        {
+            /*! @brief The next value is an X coordinate. */
+            kNextValueX,
+
+            /*! @brief The next value is a Y coordinate. */
+            kNextValueY,
+
+            /*! @brief The next value is a Z coordinate. */
+            kNextValueZ
+            
+        }; // NextValueState
+        
         /*! @brief The class that this class is derived from. */
         typedef BaseInputHandler inherited;
 
@@ -112,6 +126,15 @@ namespace PlatonicDisplay
     protected :
 
     private :
+
+        /*! @brief The X value that is ready to be used. */
+        double _pendingX;
+
+        /*! @brief The Y value that is ready to be used. */
+        double _pendingY;
+
+        /*! @brief What the next value is to be used for. */
+        NextValueState _state;
 
     }; // PlatonicDisplayInputHandler
 

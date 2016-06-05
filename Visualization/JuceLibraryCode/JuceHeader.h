@@ -34,7 +34,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "m+mPlatonicDisplayOutputService";
+    const char* const  projectName    = "m+mLeapDisplayOutputService";
     const char* const  versionString  = "1.6.8";
     const int          versionNumber  = 0x10608;
 }

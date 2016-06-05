@@ -59,8 +59,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
 using namespace MplusM;
+using namespace PlatonicDisplay;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

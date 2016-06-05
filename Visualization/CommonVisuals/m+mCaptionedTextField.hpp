@@ -56,7 +56,7 @@
 /*! @brief The character to use when displaying a 'password' field. */
 # define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
 
-namespace LeapDisplay
+namespace CommonVisuals
 {
     class TextValidator;
     class ValidatingTextEditor;
@@ -262,6 +262,6 @@ namespace LeapDisplay
 
     }; // CaptionedTextField
 
-} // LeapDisplay
+} // CommonVisuals
 
 #endif // ! defined(mpmCaptionedTextField_HPP_)

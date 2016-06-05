@@ -64,7 +64,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
 using namespace std;
 

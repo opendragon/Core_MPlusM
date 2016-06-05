@@ -102,6 +102,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
+using namespace CommonVisuals;
 using namespace LeapDisplay;
 using namespace MplusM;
 using namespace std;
@@ -110,11 +111,8 @@ using namespace std;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief @c true if an exit has been requested and @c false otherwise. */
-static bool lExitRequested = false;
-
-/*! @brief The number of milliseconds to sleep while waiting for a process to finish. */
-static const int kProcessSleepSlice = 5;
+/*! @brief The name to be used for logging and display purposes. */
+static const char * kApplicationName = "m+mLeapDisplayOutputService";
 
 /*! @brief The number of milliseconds before a thread is force-killed. */
 static const int kThreadKillTime = 3000;
@@ -201,11 +199,11 @@ LeapDisplayApplication::LeapDisplayApplication(void) :
     inherited(), _mainWindow(NULL), _yarp(NULL)
 {
 #if defined(MpM_ServicesLogToStandardError)
-    ODL_INIT(ProjectInfo::projectName, kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(kApplicationName, kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
              kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    ODL_INIT(ProjectInfo::projectName, kODLoggingOptionIncludeProcessID | //####
+    ODL_INIT(kApplicationName, kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
@@ -272,7 +270,7 @@ LeapDisplayApplication::configureAndCreateService(void)
                                                               portToUse, tagModifierCount,
                                                               argsToUse));
     
-    if (kConfigurationOK == settings->runModalLoop())
+    if (CommonVisuals::kConfigurationOK == settings->runModalLoop())
     {
         Common::AddressTagModifier  modFlag = Common::kModificationNone;
         Utilities::DescriptorVector argumentList;
@@ -454,8 +452,8 @@ const String
 LeapDisplayApplication::getApplicationName(void)
 {
     ODL_OBJENTER(); //####
-    ODL_OBJEXIT_S(ProjectInfo::projectName); //####
-    return ProjectInfo::projectName;
+    ODL_OBJEXIT_S(kApplicationName); //####
+    return kApplicationName;
 } // LeapDisplayApplication::getApplicationName
 
 const String
@@ -465,25 +463,6 @@ LeapDisplayApplication::getApplicationVersion(void)
     ODL_OBJEXIT_S(ProjectInfo::versionString); //####
     return ProjectInfo::versionString;
 } // LeapDisplayApplication::getApplicationVersion
-
-int
-LeapDisplayApplication::getButtonHeight(void)
-{
-    ODL_ENTER(); //####
-    LeapDisplayApplication * ourApp = getApp();
-    int                      result;
-
-    if (ourApp)
-    {
-        result = ourApp->_buttonHeight;
-    }
-    else
-    {
-        result = 32; // Arbitrary, should never reach here!
-    }
-    ODL_EXIT_LL(result);
-    return result;
-} // LeapDisplayApplication::getButtonHeight
 
 String
 LeapDisplayApplication::getEnvironmentVar(const char * varName)
@@ -626,13 +605,12 @@ LeapDisplayApplication::initialise(const String & commandLine)
     ODL_OBJENTER(); //####
     ODL_S1s("commandLine = ", commandLine.toStdString()); //####
 #if MAC_OR_LINUX_
-    Common::SetUpLogger(ProjectInfo::projectName);
+    Common::SetUpLogger(kApplicationName);
 #endif // MAC_OR_LINUX_
-    Common::Initialize(ProjectInfo::projectName);
+    Common::Initialize(kApplicationName);
     Utilities::SetUpGlobalStatusReporter();
     Utilities::CheckForNameServerReporter();
-    _buttonHeight = LookAndFeel::getDefaultLookAndFeel().getAlertWindowButtonHeight();
-    _mainWindow = new LeapDisplayWindow(ProjectInfo::projectName);
+    _mainWindow = new LeapDisplayWindow(kApplicationName);
     if (Utilities::CheckForValidNetwork(true))
     {
         _yarp = new yarp::os::Network; // This is necessary to establish any connections to the YARP
@@ -972,106 +950,3 @@ LeapDisplayApplication::zoomOut(void)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-
-void
-LeapDisplay::CalculateTextArea(Point<int> &   dimensions,
-                               const Font &   aFont,
-                               const String & aString)
-{
-    ODL_ENTER(); //####
-    ODL_P2("dimensions = ", &dimensions, "aFont = ", &aFont); //####
-    ODL_S1s("aString = ", aString.toStdString()); //####
-    float       maxWidth = 0;
-    StringArray asLines;
-
-    asLines.addLines(aString);
-    int numRows = asLines.size();
-
-    for (int ii = 0; ii < numRows; ++ii)
-    {
-        const String & aRow = asLines[ii];
-        float          aWidth = aFont.getStringWidthFloat(aRow);
-
-        if (maxWidth < aWidth)
-        {
-            maxWidth = aWidth;
-        }
-    }
-    dimensions = Point<int>(static_cast<int>(maxWidth + 0.5),
-                            static_cast<int>((numRows * aFont.getHeight()) + 0.5));
-    ODL_EXIT(); //####
-} // LeapDisplay::CalculateTextArea
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-bool
-CheckForExit(void * stuff)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(stuff)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    ODL_ENTER(); //####
-    ODL_P1("stuff = ", stuff); //####
-    ODL_EXIT_B(lExitRequested); //####
-    return lExitRequested;
-} // CheckForExit
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
-
-bool
-LazyLaunchProcess(ChildProcess & aProcess,
-                  const int      timeout)
-{
-    ODL_ENTER(); //####
-    ODL_P1("aProcess = ", &aProcess); //####
-    ODL_LL1("timeout = ", timeout); //####
-    bool result = false;
-
-    if (0 < timeout)
-    {
-        uint32_t       now = Time::getMillisecondCounter();
-        const uint32_t timeoutTime = now + static_cast<uint32_t>(timeout);
-
-        for ( ; (! result) && (now < timeoutTime); )
-        {
-            if (aProcess.isRunning())
-            {
-                Thread::sleep(kProcessSleepSlice);
-                now = Time::getMillisecondCounter();
-            }
-            else
-            {
-                result = true;
-            }
-        }
-    }
-    else
-    {
-        for ( ; ! result; )
-        {
-            if (aProcess.isRunning())
-            {
-                Thread::sleep(kProcessSleepSlice);
-            }
-            else
-            {
-                result = true;
-            }
-        }
-    }
-    ODL_EXIT_B(result); //####
-    return result;
-} // LazyLaunchProcess
-
-void
-SetExitRequest(void)
-{
-    ODL_ENTER(); //####
-    lExitRequested = true;
-    ODL_EXIT(); //####
-} // SetExitRequest

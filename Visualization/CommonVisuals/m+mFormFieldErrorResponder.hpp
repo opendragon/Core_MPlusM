@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mTextValidator.hpp
+//  File:       m+mFormFieldErrorResponder.hpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a text validating object.
+//  Contains:   The class declaration for an error reporting abstraction.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(mpmTextValidator_HPP_))
-# define mpmTextValidator_HPP_ /* Header guard */
+#if (! defined(mpmFormFieldErrorResponder_HPP_))
+# define mpmFormFieldErrorResponder_HPP_ /* Header guard */
 
-# include "m+mPlatonicDisplayDataTypes.hpp"
+# include "m+mCommonVisuals.hpp"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,15 +48,17 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The class declaration for a text validating object. */
+ @brief The class declaration for an error reporting abstraction. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace PlatonicDisplay
+namespace CommonVisuals
 {
-    /*! @brief A text validating object. */
-    class TextValidator
+    class FormField;
+
+    /*! @brief An error reporting abstraction. */
+    class FormFieldErrorResponder
     {
     public :
 
@@ -66,40 +68,17 @@ namespace PlatonicDisplay
 
     public :
 
-        /*! @brief The constructor.
-         @param[in] fieldDescriptor A description of the attributes of the field being validated. */
-        explicit
-        TextValidator(MplusM::Utilities::BaseArgumentDescriptor & fieldDescriptor);
+        /*! @brief The constructor. */
+        FormFieldErrorResponder(void);
 
         /*! @brief The destructor. */
         virtual
-        ~TextValidator(void);
+        ~FormFieldErrorResponder(void);
 
-        /*! @brief Check if the provided value is valid according to the field description.
-         @param[in] toBeChecked The value to be checked.
-         @returns @c true if the value is accepted by the field description and @c false
-         otherwise. */
-        bool
-        checkValidity(const String & toBeChecked)
-        const;
-
-        /*! @brief Check if the provided value is valid according to the field description.
-         @param[in] toBeChecked The value to be checked.
-         @param[in,out] argsToUse A set of valid arguments.
-         @returns @c true if the value is accepted by the field description and @c false
-         otherwise. */
-        bool
-        checkValidity(const String & toBeChecked,
-                      StringArray &  argsToUse)
-        const;
-
-        /*! @brief Return @c true if the validator is for file paths and @c false otherwise.
-         @param[out] isForOutput Set to @c true if the validator is for output files and @c false
-         otherwise.
-         @returns @c true if the validator is for file paths and @c false otherwise. */
-        bool
-        isForFiles(bool & isForOutput)
-        const;
+        /*! @brief Report an error in a field.
+         @param[in] fieldOfInterest The field to be reported. */
+        virtual void
+        reportErrorInField(FormField & fieldOfInterest) = 0;
 
     protected :
 
@@ -111,13 +90,10 @@ namespace PlatonicDisplay
 
     private :
 
-        /*! @brief A description of the attributes of the field being validated. */
-        MplusM::Utilities::BaseArgumentDescriptor & _fieldDescriptor;
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FormFieldErrorResponder)
 
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextValidator)
+    }; // FormFieldErrorResponder
 
-    }; // TextValidator
+} // CommonVisuals
 
-} // PlatonicDisplay
-
-#endif // ! defined(mpmTextValidator_HPP_)
+#endif // ! defined(mpmFormFieldErrorResponder_HPP_)

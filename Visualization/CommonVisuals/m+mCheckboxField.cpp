@@ -4,7 +4,7 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a field consisting of a checkbox paired with a caption.
+//  Contains:   The class definition for a field consisting of a checkbox paired with a caption.
 //
 //  Written by: Norman Jaffe
 //
@@ -38,7 +38,7 @@
 
 #include "m+mCheckboxField.hpp"
 #include "m+mFormFieldErrorResponder.hpp"
-#include "m+mLeapDisplayApplication.hpp"
+//#include "m+mCommonVisualsApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -57,7 +57,7 @@
 
 /*! @file
 
- @brief The class declaration for a field consisting of a checkbox paired with a caption. */
+ @brief The class definition for a field consisting of a checkbox paired with a caption. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,7 +66,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace LeapDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
 using namespace std;
 
@@ -114,7 +114,7 @@ CheckboxField::CheckboxField(Font &         regularLabelFont,
                                                        kCheckboxHeightAdjustment);
 
     _checkbox->setBounds(kFieldInset, top, adjustedEditorHeight, adjustedEditorHeight);
-    LeapDisplay::CalculateTextArea(dimensions, _regularFont, captionTitle);
+    CommonVisuals::CalculateTextArea(dimensions, _regularFont, captionTitle);
     _caption->setBounds(_checkbox->getX() + _checkbox->getWidth() + kCheckboxToLabelGap,
                         _checkbox->getY(), dimensions.getX(), adjustedEditorHeight);
     _caption->setFont(_regularFont);

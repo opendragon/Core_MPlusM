@@ -4,8 +4,8 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the application settings window of the
-//              m+mLeapDisplayOutputService application.
+//  Contains:   The class declaration for the application settings window of a visualization
+//              application.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,13 +50,12 @@
 # endif // defined(__APPLE__)
 /*! @file
 
- @brief The class declaration for the application settings window of the m+mLeapDisplayOutputService
-application. */
+ @brief The class declaration for the application settings window of a visualization application. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace LeapDisplay
+namespace CommonVisuals
 {
     /*! @brief The application settings window of the application. */
     class SettingsWindow : private AsyncUpdater,
@@ -294,6 +293,6 @@ namespace LeapDisplay
 
     }; // SettingsWindow
 
-} // LeapDisplay
+} // CommonVisuals
 
 #endif // ! defined(mpmSettingsWindow_HPP_)

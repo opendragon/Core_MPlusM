@@ -38,7 +38,7 @@
 
 #include "m+mCaptionedTextField.hpp"
 #include "m+mFormFieldErrorResponder.hpp"
-#include "m+mLeapDisplayApplication.hpp"
+//#include "m+mCommonVisualsApplication.hpp"
 #include "m+mTextValidator.hpp"
 #include "m+mValidatingTextEditor.hpp"
 
@@ -66,7 +66,7 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace LeapDisplay;
+using namespace CommonVisuals;
 using namespace MplusM;
 using namespace std;
 
@@ -136,7 +136,7 @@ CaptionedTextField::CaptionedTextField(FormFieldErrorResponder & responder,
     _textEditor->setFont(_regularFont);
     _textEditor->setEscapeAndReturnKeysConsumed(false);
     _textEditor->setSelectAllWhenFocused(true);
-    LeapDisplay::CalculateTextArea(dimensions, _regularFont, _caption->getText());
+    CommonVisuals::CalculateTextArea(dimensions, _regularFont, _caption->getText());
     _caption->setBounds(kLabelInset, top, dimensions.getX() + kLabelInset, dimensions.getY());
     if (forFilePath)
     {
@@ -145,7 +145,7 @@ CaptionedTextField::CaptionedTextField(FormFieldErrorResponder & responder,
         _button->setMouseClickGrabsKeyboardFocus(false);
         _button->setCommandToTrigger(NULL, kConfigurationFileRequest, false);
         _button->addListener(buttonHandler);
-        _button->changeWidthToFitText(LeapDisplayApplication::getButtonHeight());
+        _button->changeWidthToFitText(GetButtonHeight());
     }
     if (boundsSetLater)
     {
@@ -198,7 +198,7 @@ CaptionedTextField::getFileButtonWidth(void)
     {
         ScopedPointer<TextButton> fileButton(new TextButton(kFileButtonText));
 
-        fileButton->changeWidthToFitText(LeapDisplayApplication::getButtonHeight());
+        fileButton->changeWidthToFitText(GetButtonHeight());
         lFileButtonWidth = fileButton->getWidth();
     }
     ODL_EXIT_LL(lFileButtonWidth); //####

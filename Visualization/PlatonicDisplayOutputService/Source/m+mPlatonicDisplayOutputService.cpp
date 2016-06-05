@@ -61,8 +61,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
 using namespace MplusM;
+using namespace PlatonicDisplay;
 using std::cerr;
 using std::endl;
 
@@ -86,14 +86,16 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-PlatonicDisplayOutputService::PlatonicDisplayOutputService(const Utilities::DescriptorVector & argumentList,
-                                                   const YarpString &                  launchPath,
-                                                   const int                           argc,
-                                                   char * *                            argv,
-                                                   const YarpString &                  tag,
-                                                   const YarpString &
+PlatonicDisplayOutputService::PlatonicDisplayOutputService(const Utilities::DescriptorVector &
+                                                                               argumentList,
+                                                           const YarpString &
+                                                                               launchPath,
+                                                           const int                           argc,
+                                                           char * *                            argv,
+                                                           const YarpString &                  tag,
+                                                           const YarpString &
                                                                                serviceEndpointName,
-                                                   const YarpString &
+                                                           const YarpString &
                                                                                servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true,
               MpM_PLATONICDISPLAY_CANONICAL_NAME_, PLATONICDISPLAY_SERVICE_DESCRIPTION_, "",
@@ -153,10 +155,8 @@ PlatonicDisplayOutputService::setUpStreamDescriptions(void)
 
     _inDescriptions.clear();
     description._portName = rootName + "input";
-    description._portProtocol = "FINGERTIPS";
-    description._protocolDescription = T_("A flag for which fingers have data followed by the tip "
-                                          "positions\nof the each finger of each hand, if "
-                                          "present");
+    description._portProtocol = "d+";
+    description._protocolDescription = T_("One or more numeric values");
     _inDescriptions.push_back(description);
     ODL_OBJEXIT_B(result); //####
     return result;

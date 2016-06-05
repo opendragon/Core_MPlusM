@@ -4,7 +4,7 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a checkbox paired with a caption.
+//  Contains:   The class declaration for a field consisting of a checkbox paired with a caption.
 //
 //  Written by: Norman Jaffe
 //
@@ -56,7 +56,7 @@
 /*! @brief The character to use when displaying a 'password' field. */
 # define CHAR_TO_USE_FOR_PASSWORD_ 0x02022
 
-namespace PlatonicDisplay
+namespace CommonVisuals
 {
     class TextValidator;
     class ValidatingTextEditor;
@@ -187,6 +187,6 @@ namespace PlatonicDisplay
 
     }; // CheckboxField
 
-} // PlatonicDisplay
+} // CommonVisuals
 
 #endif // ! defined(mpmCheckboxField_HPP_)

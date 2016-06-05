@@ -60,8 +60,8 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
 using namespace MplusM;
+using namespace PlatonicDisplay;
 using namespace std;
 
 #if defined(__APPLE__)
@@ -80,9 +80,6 @@ static const int kWindowHeightForManual = 360;
 /*! @brief The width of the fixed, small window used when doing screen captures for the manual. */
 static const int kWindowWidthForManual = 640;
 #endif // SETTINGS_FOR_MANUAL_
-
-/*! @brief The command manager object used to dispatch command events. */
-static ScopedPointer<ApplicationCommandManager> lApplicationCommandManager;
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -116,7 +113,7 @@ PlatonicDisplayWindow::PlatonicDisplayWindow(const YarpString & title)  :
     centreWithSize(getWidth(), getHeight());
 #endif // ! SETTINGS_FOR_MANUAL_
     setVisible(true);
-    addKeyListener(getApplicationCommandManager().getKeyMappings());
+    addKeyListener(CommonVisuals::GetApplicationCommandManager().getKeyMappings());
     triggerAsyncUpdate();
     ODL_EXIT_P(this); //####
 } // PlatonicDisplayWindow::PlatonicDisplayWindow
@@ -124,7 +121,7 @@ PlatonicDisplayWindow::PlatonicDisplayWindow(const YarpString & title)  :
 PlatonicDisplayWindow::~PlatonicDisplayWindow(void)
 {
     ODL_OBJENTER(); //####
-    lApplicationCommandManager = NULL;
+    CommonVisuals::ReleaseApplicationCommandManager();
     ODL_OBJEXIT(); //####
 } // PlatonicDisplayWindow::~PlatonicDisplayWindow
 
@@ -142,23 +139,11 @@ PlatonicDisplayWindow::closeButtonPressed(void)
     ODL_OBJEXIT(); //####
 } // PlatonicDisplayWindow::closeButtonPressed
 
-ApplicationCommandManager &
-PlatonicDisplayWindow::getApplicationCommandManager(void)
-{
-    ODL_ENTER(); //####
-    if (! lApplicationCommandManager)
-    {
-        lApplicationCommandManager = new ApplicationCommandManager;
-    }
-    ODL_EXIT_P(lApplicationCommandManager); //####
-    return *lApplicationCommandManager;
-} // PlatonicDisplayWindow::getApplicationCommandManager
-
 void
 PlatonicDisplayWindow::handleAsyncUpdate(void)
 {
     ODL_OBJENTER(); //####
-    ApplicationCommandManager & commandManager = getApplicationCommandManager();
+    ApplicationCommandManager & commandManager = CommonVisuals::GetApplicationCommandManager();
 
     commandManager.registerAllCommandsForTarget(_contentPanel);
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());

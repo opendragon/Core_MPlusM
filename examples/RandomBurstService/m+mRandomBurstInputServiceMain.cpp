@@ -170,7 +170,7 @@ main(int      argc,
         YarpString                          servicePortNumber;
         YarpString                          tag;
         Utilities::DoubleArgumentDescriptor firstArg("period", T_("Interval between bursts"),
-                                                     Utilities::kArgModeOptionalModifiable, 1,
+                                                     Utilities::kArgModeOptionalModifiable, 0.1,
                                                      true, 0, false, 0);
         Utilities::IntArgumentDescriptor    secondArg("size", T_("Burst size"),
                                                       Utilities::kArgModeOptionalModifiable, 1,

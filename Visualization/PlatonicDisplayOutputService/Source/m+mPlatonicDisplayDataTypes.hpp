@@ -39,26 +39,9 @@
 #if (! defined(mpmPlatonicDisplayDataTypes_HPP_))
 # define mpmPlatonicDisplayDataTypes_HPP_ /* Header guard */
 
-# include <m+m/m+mBaseArgumentDescriptor.hpp>
-# include <m+m/m+mGeneralChannel.hpp>
+# include "m+mCommonVisuals.hpp"
+
 # include <m+m/m+mUtilities.hpp>
-
-# if (! defined(DOXYGEN))
-#  if (! MAC_OR_LINUX_)
-#   pragma warning(push)
-#   pragma warning(disable: 4458)
-#   pragma warning(disable: 4459)
-#  endif // ! MAC_OR_LINUX_
-#  include "../JuceLibraryCode/JuceHeader.h"
-#  if (! MAC_OR_LINUX_)
-#   pragma warning(pop)
-#  endif // ! MAC_OR_LINUX_
-# endif // ! defined(DOXYGEN)
-
-# include <list>
-# include <map>
-# include <set>
-# include <vector>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -72,71 +55,8 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief A longer sleep, in milliseconds. */
-# define LONG_SLEEP_ (VERY_SHORT_SLEEP_ * 100)
-
-/*! @brief A slightly longer sleep, in milliseconds. */
-# define MIDDLE_SLEEP_ (VERY_SHORT_SLEEP_ * 7)
-
-/*! @brief The minimum time for a thread to sleep, in milliseconds. */
-# define SHORT_SLEEP_ (VERY_SHORT_SLEEP_ * 4)
-
-/*! @brief A very short sleep, in milliseconds. */
-# define VERY_SHORT_SLEEP_ 5
-
 namespace PlatonicDisplay
 {
-    /*! @brief The kind of application. */
-    enum ApplicationKind
-    {
-        /*! @brief The application is an Adapter. */
-        kApplicationAdapter,
-
-        /*! @brief The application is a Service. */
-        kApplicationService,
-
-        /*! @brief The application is not recognized. */
-        kApplicationUnknown
-
-    }; // ApplicationKind
-
-    /*! @brief The values to be returned by a configuration or settings window. */
-    enum ConfigurationRequest
-    {
-        /*! @brief 'Cancel' was requested. */
-        kConfigurationCancel,
-
-        /*! @brief 'OK' was requested. */
-        kConfigurationOK,
-
-        /*! @brief '+ argument' was requested. */
-        kConfigurationAddField,
-
-        /*! @brief '...' was requested. */
-        kConfigurationFileRequest,
-
-        /*! @brief '- argument' was requested. */
-        kConfigurationRemoveField
-
-    }; // ConfigurationRequest
-
-    /*! @brief What kind of container. */
-    enum ContainerKind
-    {
-        /*! @brief The container is an adapter - a special form of service. */
-        kContainerKindAdapter,
-
-        /*! @brief The container is a service. */
-        kContainerKindService,
-
-        /*! @brief The container is not a service. */
-        kContainerKindOther,
-
-        /*! @brief Force the size to be 4 bytes. */
-        kContainerKindUnknown = 0x7FFFFFF
-
-    }; // ContainerKind
-
     /*! @brief The menu selection from the popup menu. */
     enum EntityPopupMenuSelection
     {
@@ -154,113 +74,37 @@ namespace PlatonicDisplay
 
     }; // EntityPopupMenuSelection
 
-    /*! @brief The information used to launch an application. */
-    struct ApplicationInfo
+    /*! @brief The information for a pixie. */
+    struct Pixie
     {
-        /*! @brief The argument descriptions for the application. */
-        MplusM::Utilities::DescriptorVector _argDescriptions;
+        /*! @brief The location in space for the pixie. */
+        CommonVisuals::Location _where;
 
-        /*! @brief The file system path to the application. */
-        String _applicationPath;
-
-        /*! @brief The matching criteria (if an Adapter). */
-        String _criteria;
-
-        /*! @brief The supported options (if a Service). */
-        String _options;
-
-        /*! @brief The description provided by the application. */
-        String _description;
-
-        /*! @brief The 'short name' of the application. */
-        String _shortName;
-
-        /*! @brief What kind of application this is. */
-        ApplicationKind _kind;
-
-    }; // ApplicationInfo
-
-    /*! @brief Coordinates on the display. */
-    typedef Point<float> Position;
-    
-    /*! @brief Coordinates in space. */
-    typedef Vector3D<double> Location;
-    
-    /*! @brief The information for a finger. */
-    struct FingerTip
-    {
-        /*! @brief The location in space for the finger tip. */
-        Location _where;
-        
         /*! @brief @c true if the location is known. */
         bool _valid;
-        
-        inline FingerTip(void) :
+
+        /*! @brief The constructor. */
+        inline Pixie(void) :
             _valid(false)
         {
-        } // FingerTip
-        
-    }; // FingerTip
-    
-    /*! @brief The information for a hand. */
-    struct HandData
-    {
-        /*! @brief The information for the palm. */
-        FingerTip _palm;
+        } // Pixie
 
-        /*! @brief The information for the thumb. */
-        FingerTip _thumb;
-        
-        /*! @brief The information for the index finger. */
-        FingerTip _index;
-        
-        /*! @brief The information for the middle finger. */
-        FingerTip _middle;
-        
-        /*! @brief The information for the ring finger. */
-        FingerTip _ring;
-        
-        /*! @brief The information for the pinky. */
-        FingerTip _pinky;
-        
-    }; // HandData
+        /*! @brief The constructor.
+         @param[in] newX The X coordinate of the new pixie.
+         @param[in] newY The Y coordinate of the new pixie.
+         @param[in] newZ The Z coordinate of the new pixie. */
+        inline Pixie(const double newX,
+                     const double newY,
+                     const double newZ) :
+            _valid(true)
+        {
+            _where.x = newX;
+            _where.y = newY;
+            _where.z = newZ;
+        } // Pixie
 
-    /*! @brief The data associated with a vertex. */
-    struct Vertex
-    {
-        /*! @brief The location of the vertex. */
-        float _position[3];
-        
-        /*! @brief The surface normal at the vertex. */
-        float _normal[3];
-        
-        /*! @brief The colour at the vertex. */
-        float _colour[4];
-        
-        /*! @brief The texture coordinates for the vertex. */
-        float _texCoord[2];
-        
-    }; // Vertex
-    
+    }; // Pixie
+
 } // PlatonicDisplay
-
-/*! @brief Return @c true if exit is requested.
- @param[in] stuff Dummy argument to satisfy caller.
- @returns @c true if exit has been requested. */
-bool
-CheckForExit(void * stuff);
-
-/*! @brief Launch a process, checking periodically for completion.
- @param[in] aProcess The process to execute.
- @param[in] timeout The number of milliseconds allowed for the process to complete
- (<= 0 == forever).
- @returns @c true if the process completed in the time provided. */
-bool
-LazyLaunchProcess(ChildProcess & aProcess,
-                  const int      timeout);
-
-/*! @brief Indicate that an exit has been requested. */
-void
-SetExitRequest(void);
 
 #endif // ! defined(mpmPlatonicDisplayDataTypes_HPP_)

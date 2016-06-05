@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mVertexBuffer.cpp
+//  File:       m+mFormField.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for vertex buffers for the platonic display output service.
+//  Contains:   The class declaration for a generalized input field.
 //
 //  Written by: Norman Jaffe
 //
@@ -15,7 +15,7 @@
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and / or
+//                  list of conditions and the following disclaimer in the documentation and/or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2016-05-20
+//  Created:    2016-05-12
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mVertexBuffer.hpp"
+#include "m+mFormField.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -46,8 +46,14 @@
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
+
+#if (! MAC_OR_LINUX_)
+# include <Windows.h>
+#endif //! MAC_OR_LINUX_
+
 /*! @file
- @brief The class definition for vertex buffers for the platonic display output service. */
+
+ @brief The class declaration for a generalized input field. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -56,7 +62,9 @@
 # pragma mark Namespace references
 #endif // defined(__APPLE__)
 
-using namespace PlatonicDisplay;
+using namespace CommonVisuals;
+using namespace MplusM;
+using namespace std;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -65,6 +73,18 @@ using namespace PlatonicDisplay;
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The font size for text. */
+const float FormField::kFontSize = 16;
+
+/*! @brief The horizontal gap between buttons. */
+const int FormField::kButtonGap = 10;
+
+/*! @brief The amount to inset text entry fields. */
+const int FormField::kFieldInset = (2 * kButtonGap);
+
+/*! @brief The amount to inset labels. */
+const int FormField::kLabelInset = (3 * kButtonGap);
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -78,48 +98,77 @@ using namespace PlatonicDisplay;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-VertexBuffer::VertexBuffer(OpenGLContext &      context,
-                           Array<Vertex> &      vertexList,
-                           const juce::uint32 * indices,
-                           const GLsizei        numIndices) :
-    _numIndices(numIndices), _context(context)
+FormField::FormField(Font &       regularLabelFont,
+                     const size_t index) :
+    _regularFont(regularLabelFont), _index(index)
 {
     ODL_ENTER(); //####
-    ODL_P3("context = ", &_context, "vertexList = ", &vertexList, "indices = ", indices); //####
-    ODL_LL1("numIndices = ", numIndices); //####
-    _context.extensions.glGenBuffers(1, &_vertexBuffer);
-    _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    _context.extensions.glBufferData(GL_ARRAY_BUFFER, vertexList.size() * sizeof(Vertex),
-                                     vertexList.getRawDataPointer(), GL_STATIC_DRAW);
-    _context.extensions.glGenBuffers(1, &_indexBuffer);
-    _context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    _context.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(*indices),
-                                     indices, GL_STATIC_DRAW);
+    ODL_P1("regularLabelFont = ", &regularLabelFont); //####
+    ODL_LL1("index = ", index); //####
     ODL_EXIT_P(this); //####
-} // VertexBuffer::VertexBuffer
+} // FormField::FormField
 
-VertexBuffer::~VertexBuffer(void)
+FormField::~FormField(void)
 {
     ODL_OBJENTER(); //####
-    _context.extensions.glDeleteBuffers (1, &_vertexBuffer);
-    _context.extensions.glDeleteBuffers (1, &_indexBuffer);
     ODL_OBJEXIT(); //####
-} // VertexBuffer::~VertexBuffer
+} // FormField::~FormField
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void
-VertexBuffer::bind(void)
+TextButton *
+FormField::getButton(void)
+const
 {
     ODL_OBJENTER(); //####
-    _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    _context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    ODL_OBJEXIT_P(NULL); //####
+    return NULL;
+} // FormField::getButton
+
+void
+FormField::ignoreNextFocusLoss(void)
+{
+    ODL_OBJENTER(); //####
     ODL_OBJEXIT(); //####
-} // VertexBuffer::bind
+} // FormField::ignoreNextFocusLoss
+
+void
+FormField::performButtonAction(void)
+{
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT(); //####
+} // FormField::performButtonAction
+
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+void
+FormField::setButton(TextButton * newButton)
+{
+#if (! defined(OD_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(newButton)
+# endif // MAC_OR_LINUX_
+#endif // (! defined(OD_ENABLE_LOGGING_)
+    ODL_OBJENTER(); //####
+    ODL_P1("newButton = ", newButton); //####
+    ODL_OBJEXIT(); //####
+} // FormField::setButton
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
+
+bool
+FormField::validateField(void)
+{
+    ODL_OBJENTER(); //####
+    ODL_OBJEXIT_B(true); //####
+    return true;
+} // FormField::validateField
 
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-
