@@ -1,0 +1,45 @@
+\ProvidesFile{PDservice.tex}[v1.0.0]
+\primaryStart[ThePDOservice]{The \PDO{} Service}
+The \asCode{m+mPlatonicDisplayOutputService} application is an Output service, displaying
+the stream of values from a running \asCode{m+mRandomBurstInputService} application.
+The application responds to the standard Output service requests and can be used as a
+standalone data sink, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns nothing.\\
+
+The \emph{configure} request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the input stream.\\
+
+The \emph{startStreams} request initiates displaying 3D images on the display window.
+Once started, the service will convert random number triples from the input \yarp{}
+network connection into displayed shapes.\\
+
+The \emph{stopStreams} request stops the input \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.\\
+
+The \asCode{m+mPlatonicDisplayOutputService} application is launched as a standard GUI
+application.
+When launched, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchPlatonicDisplayOutputService}%
+{launchServicePlatonicDisplay}{Launch options for the \emph{\PDO} service}{0.8}
+\condPage{}
+Before the service has been started, the following will be displayed:
+\objScaledDiagram{mpm_images/platonicDisplayOutputServiceBeforeStart}%
+{beforeStartPlatonicDisplay}{Display before the \emph{\PDO} service starts}{0.8}
+\condPage{}
+After the service has been started, it needs to have it's input stream connected to a
+running copy of the\\
+\asCode{m+mRandomBurstInputService} application;
+once this is done, the display will change to the following:
+\objScaledDiagram{mpm_images/runningPlatonicDisplayOutputService}%
+{serviceRunningPlatonicDisplay}{Display while the \emph{\PDO} service is running}{0.8}
+\condPage{}
+The \asCode{m+mPlatonicDisplayOutputService} application window will then convert each
+set of three floating-point numbers that it receives into the coordinates of a shape.
+The display can be panned by dragging the mouse within the displayed area; the View menu
+can be used to zoom in or out of the images:
+\objScaledDiagram{mpm_images/platonicDisplayOutputServiceViewMenu}%
+{viewMenuPlatonicDisplay}{The View menu for the \emph{\PDO} service}{0.8}
+\primaryEnd{}

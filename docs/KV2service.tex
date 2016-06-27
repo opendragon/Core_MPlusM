@@ -1,5 +1,5 @@
 \ProvidesFile{KV2service.tex}[v1.0.0]
-\primaryStart[TheKV2IService]{The \KVtwoI{} Service (\win{} only)}
+\primaryStart[TheKV2Iservice]{The \KVtwoI{} Service (\win{} only)}
 The \asCode{m+mKinectV2InputService} application is an Input service,
 generating a stream of information on the position and orientation of one or more bodies.
 The application responds to the standard Input service requests and can be used as a
@@ -7,11 +7,11 @@ standalone data generator, without the need for a client connection.\\
 
 The \emph{configuration} request has no arguments and returns nothing.\\
 
-The \emph{configure} request request has no arguments and does nothing.\\
+The \emph{configure} request has no arguments and does nothing.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Kinect V2 controller.
+The \emph{startStreams} request initiates listening to the Kinect V2 controller.
 Once started, the service will send groups of body data via the output \yarp{} network
 connection.\\
 

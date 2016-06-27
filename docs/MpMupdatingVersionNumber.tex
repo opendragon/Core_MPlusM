@@ -20,10 +20,22 @@ and `\asCode{set(MpM\fUS{}VERSION\fUS{}PATCH)}' commands are used to construct t
 number
 \item\exSp{}The \emph{\MMMU} version number is located in the \asCode{Xcode} project
 settings \longDash{} make sure to change both of the \asCode{Version} and \asCode{Build}
-settings in the \asCode{General} settings for the \asCode{\MMMU} target \longDash{} and
-the \asCode{m+mmResources.rc} file, where the `\asCode{FILEVERSION}', `\asCode{FileVersion}'
+settings in the \asCode{General} settings for the application target \longDash{} and the
+\asCode{m+mmResources.rc} file, where the `\asCode{FILEVERSION}', `\asCode{FileVersion}'
 and `\asCode{ProductVersion}' values will need to be modified
-\item\exSp{}The distribution build numbers for \osx{} are changed via the
+\item\exSp{}The \emph{m+mLeapDisplayOutputService} version number is located in the
+\asCode{Xcode} project settings \longDash{} make sure to change both of the
+\asCode{Version} and \asCode{Build} settings in the \asCode{General} settings for the
+application target \longDash{} and the \asCode{m+mmResources.rc} file, where the
+`\asCode{FILEVERSION}', `\asCode{FileVersion}' and `\asCode{ProductVersion}' values will
+need to be modified
+\item\exSp{}The \emph{m+mPlatonicDisplayOutputService} version number is located in the
+\asCode{Xcode} project settings \longDash{} make sure to change both of the
+\asCode{Version} and \asCode{Build} settings in the \asCode{General} settings for the
+application target \longDash{} and the \asCode{m+mmResources.rc} file, where the
+`\asCode{FILEVERSION}', `\asCode{FileVersion}' and `\asCode{ProductVersion}' values will
+need to be modified
+\item\exSp{}The distribution build numbers for \mac{} are changed via the
 \asCode{Packages} GUI tool \longDash{} update the \asCode{Developer} file, located in the
 \asCode{Core\fUS{}MPlusM/Packages/Developer} directory within the \asCode{devel}
 directory, as well as the \asCode{m+m} file, located in the

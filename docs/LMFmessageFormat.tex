@@ -1,0 +1,31 @@
+\ProvidesFile{LMFmessageFormat.tex}[v1.0.0]
+\appendixStart[LMFformat]{\textitcorr{\LFI{} Message Format}}
+Each time that the Leap Motion controller reports that there is information available,
+the \asCode{LeapFingerTipsInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing a single binary blob, with the following
+format:
+\begin{itemize}
+\item A flag value indicating which finger positions are present -
+\begin{itemize}
+\item \asCode{0 \openSq{}0x00\closeSq} No finger data is present
+\item\exSp\asCode{1 \openSq{}0x0001\closeSq} The left palm data is present
+\item\exSp\asCode{2 \openSq{}0x0002\closeSq} The left thumb data is present
+\item\exSp\asCode{4 \openSq{}0x0004\closeSq} The left index finger data is present
+\item\exSp\asCode{8 \openSq{}0x0008\closeSq} The left middle finger data is present
+\item\exSp\asCode{16 \openSq{}0x0010\closeSq} The left ring finger data is present
+\item\exSp\asCode{32 \openSq{}0x0020\closeSq} The left pinky finger data is present
+\item\exSp\asCode{64 \openSq{}0x0040\closeSq} The left palm data is present
+\item\exSp\asCode{128 \openSq{}0x0080\closeSq} The left thumb data is present
+\item\exSp\asCode{256 \openSq{}0x0100\closeSq} The left index finger data is present
+\item\exSp\asCode{512 \openSq{}0x0200\closeSq} The left middle finger data is present
+\item\exSp\asCode{1024 \openSq{}0x0400\closeSq} The left ring finger data is present
+\item\exSp\asCode{2048 \openSq{}0x0800\closeSq} The left pinky finger data is present
+\end{itemize}
+\item\exSp{}The three\longDash{}dimensional coordinates of the palm of the left hand, or
+zeroes if the left hand is not detected
+\item\exSp{}The three\longDash{}dimensional coordinates of the tip of the thumb of the
+left hand, or zeroes if the thumb is not detected
+\item\exSp{}Sets of three\longDash{}dimensional coordinates for the other fingers of the
+left hand, followed by data for the right hand, in the same order as the flags
+\end{itemize}
+\appendixEnd{}

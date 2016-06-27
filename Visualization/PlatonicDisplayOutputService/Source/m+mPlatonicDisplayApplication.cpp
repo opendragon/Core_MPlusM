@@ -442,7 +442,7 @@ PlatonicDisplayApplication::getApp(void)
 {
     ODL_ENTER(); //####
     PlatonicDisplayApplication * result =
-                            static_cast<PlatonicDisplayApplication *>(JUCEApplication::getInstance());
+                        static_cast<PlatonicDisplayApplication *>(JUCEApplication::getInstance());
 
     ODL_EXIT_P(result); //####
     return result;

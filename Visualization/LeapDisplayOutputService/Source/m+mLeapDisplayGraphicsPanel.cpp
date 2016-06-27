@@ -149,7 +149,7 @@ static const String kFragmentShaderSource =
 /*! @brief Create an Attribute from the shader program.
  @param[in] context The active OpenGL context.
  @param[in] shader The shader program containing the vertex attribute.
- @param[in] uniformName The name of the desired vertex attribute.
+ @param[in] attributeName The name of the desired vertex attribute.
  @returns An Attribute representing the vertex attribute from the shader program. */
 static OpenGLShaderProgram::Attribute *
 createAttribute(OpenGLContext &       context,

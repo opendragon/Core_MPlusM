@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="NMAvRH" name="m+mPlatonicDisplayOutputService" projectType="guiapp"
-              version="1.6.8" bundleIdentifier="com.opendragon.platonicdisplay"
+              version="1.6.9" bundleIdentifier="com.opendragon.platonicdisplay"
               includeBinaryInAppConfig="0" jucerVersion="4.2.1" companyName="OpenDragon">
   <MAINGROUP id="OL479e" name="m+mPlatonicDisplayOutputService">
     <FILE id="rIFkb6" name="LDOicon.ico" compile="0" resource="1" file="Builds/PDOicon.ico"/>

@@ -1,6 +1,6 @@
 \ProvidesFile{KV2blobService.tex}[v1.0.0]
-\primaryStart[TheKV2BIService]{The \KVtwoBI{} Service (\win{} only)}
-The \asCode{mpmKinectV2BlobInputService} application is an Input service,
+\primaryStart[TheKV2BIservice]{The \KVtwoBI{} Service (\win{} only)}
+The \asCode{m+mKinectV2BlobInputService} application is an Input service,
 generating a stream of information on the position and orientation of one or more bodies.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -14,7 +14,7 @@ This value will be applied when the output stream is started or restarted.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Kinect V2 controller.
+The \emph{startStreams} request initiates listening to the Kinect V2 controller.
 Once started, the service will send groups of subject data via the output \yarp{} network
 connection.\\
 

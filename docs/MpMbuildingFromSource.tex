@@ -2,7 +2,7 @@
 \newcommand{\osxDeploy}{10.7}%
 \newcommand{\spiderversion}{48a1}%
 \appendixStart[BuildingFromSource]{\textitcorr{Building \mplusm{} From Source}}
-For \osx{} and \win{}, an \mplusm{} installation is normally simply installed according to
+For \mac{} and \win{}, an \mplusm{} installation is normally simply installed according to
 the \emph{\MMM{}~Installation} manual.
 It is also possible to build a customized \mplusm{} from the source files, which can be
 done if the \asCode{Developer} package has also been installed.\\
@@ -11,10 +11,10 @@ For \linux{}, an \mplusm{} installation is (currently) built from source, due to
 number of hardware platforms and \linux{} variants where \mplusm{} could be potentially
 installed.
 \secondaryStart{Prerequisites}
-\tertiaryStart{General~prerequisites}
+\tertiaryStart{General prerequisites}
 In order to successfully build all the pieces for \mplusm{}, it is important that the
 latest version of the installer is run first, selecting the \asCode{Developer} package (on
-\osx) or the \asCode{Optional} component (on \win).
+\mac) or the \asCode{Optional} component (on \win).
 If the installer is not run, some of the optional services may fail to build, as they
 depend on pieces that are outside of the \mplusm{} source code but that are installed when
 \mplusm{} is installed.\\
@@ -32,10 +32,10 @@ system, along with a \compLang{C++} development environment.
 Note that the source files are provided as \textbf{ZIP} archive files that contain a
 snapshot of the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~\osx}
+\tertiaryStart{Prerequisites for \mac}
 \begin{itemize}
 \item \asCode{Xcode} is available from the Mac App Store and provides the
-\compLang{C++} development environment for \osx{}
+\compLang{C++} development environment for \mac{}
 \item\exSp{}The \asCode{Xcode} command\longDash{}line tools must be installed, using the
 command `\asCode{xcode-select {-}{-}install}'
 \item\exSp{}The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools, which
@@ -49,7 +49,7 @@ built
 this is only needed if you wish to create installer packages after building \mplusm
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~\win}
+\tertiaryStart{Prerequisites for \win}
 \begin{itemize}
 \item \asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for \win; the version used for development is
@@ -69,7 +69,7 @@ the executable is added to the system \asCode{Path} variable
 \companyReference{http://nsis.sourceforge.net/Download}{NullSoft}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~\linux}
+\tertiaryStart{Prerequisites for \linux}
 \begin{itemize}
 \item The \asCode{clang} or \asCode{g++} (which includes \asCode{gcc}) \compLang{C}/
 \compLang{C++} compilers
@@ -96,8 +96,8 @@ libxinerama-dev}
 Note that some of the tools may already be installed on an \linux{} system.
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Initial~Steps}
-\tertiaryStart{Initial~steps~for~\osx}
+\secondaryStart{Initial steps}
+\tertiaryStart{Initial steps for \mac}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed;
 we'll refer to it from now on as `\asCode{\textbf{devel}}'
@@ -116,7 +116,7 @@ https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
 \end{itemize}
 \secondaryEnd
 \tertiaryEnd
-\tertiaryStart{Initial~steps~for~\win}
+\tertiaryStart{Initial steps for \win}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
 refer to it from now on as `\asCode{\textbf{devel}}'
@@ -158,7 +158,7 @@ directory `\asCode{\textbf{devel}}'
 \end{itemize}
 \secondaryEnd
 \tertiaryEnd
-\tertiaryStart{Initial~steps~for~\linux}
+\tertiaryStart{Initial steps for \linux}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
 refer to it from now on as `\asCode{\textbf{devel}}'
@@ -184,7 +184,7 @@ fi
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{ACE}}
+\secondaryStart{(Optional) Building \textbf{ACE}}
 \textbf{ACE} (The ADAPTIVE Communication Environment) provides the low\longDash{}level
 networking support used within \mplusm{}; the files needed to compile and link with ACE
 are installed as part of the normal \mplusm{} installation procedure, so it's not
@@ -192,11 +192,11 @@ necessary to rebuild ACE; the source code is provided in case there is an issue 
 headers or libraries.\\
 
 Note that the file \asCode{ACE\fUS{}MPlusM/ace/config.h} will select the correct
-configuration file for \osx{} or \win{}, so it does not need to be modified.
+configuration file for \mac{} or \win{}, so it does not need to be modified.
 Also, newer versions of \textbf{ACE} may or may not build correctly and may cause
 \mplusm{} to exhibit unusual behaviour, so only build \textbf{ACE} from the provided
 source code.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -223,7 +223,7 @@ code, \asCode{\textbf{devel}}
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
@@ -257,7 +257,7 @@ panel
 window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \mplusm{} can use the standard build of \textbf{ACE}, which can be installed by executing
 the command:
 \begin{itemize}
@@ -266,7 +266,7 @@ the command:
 in the \asCode{Terminal} application.
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{\yarp}}
+\secondaryStart{(Optional) Building \textbf{\yarp}}
 \textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
 used within \mplusm; the files needed to compile and link with \yarp{} are installed as
 part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
@@ -276,7 +276,7 @@ libraries.\\
 Note that newer versions of \yarp{} may or may not build correctly and may cause
 \mplusm{} to exhibit unusual behaviour, so only build \yarp{} from the provided
 source code.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \yarp{} source
 code \longDash{} \asCode{\textbf{devel}/yarp\fUS{}MPlusM}
@@ -325,7 +325,7 @@ command `\asCode{yarp~where}' on the command line; it should either report where
 server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
 \item\exSp{}Set the source code directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}',
@@ -377,7 +377,7 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \yarp{} server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item If you wish to get a snapshot of the current source, execute the following
 commands in the \asCode{Terminal} application:
@@ -436,12 +436,12 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional, used with \textit{\MMMU})~Building~\textbf{OGDF}}
+\secondaryStart{(Optional, used with the \textit{\MMMU}) Building \textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
 \MMMU{} application; the files needed to compile and link with OGDF are installed as part
 of the normal \mplusm{} installation procedure, so it's not necessary to rebuild OGDF; the
 source code is provided in case there is an issue with the headers or libraries.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item Copy the \textbf{OGDF.zip} archive file from its installation location
 (\asCode{/opt/m+m/src}) to the directory \asCode{\textbf{devel}}
@@ -469,7 +469,7 @@ at the end of the line
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Open the file \asCode{makeVCXProj.config} in the
 \asCode{\textbf{devel}\textbackslash{}OGDF} directory with a text editor and change the
@@ -511,7 +511,7 @@ panel
 window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
@@ -538,7 +538,7 @@ following items:
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
+\secondaryStart{(Optional) Building \textbf{SpiderMonkey}}
 \textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Filter
 service of \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
 installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
@@ -550,7 +550,7 @@ Getting\_SpiderMonkey\_source\_code}%
 {\textbf{SpiderMonkey} source code}, as \mplusm{} does not use a modified version of
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{39}.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `\asCode{make install}' process.
 \begin{itemize}
@@ -582,7 +582,7 @@ header directories for \textbf{SpiderMonkey} with the original items, so that it
 to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 The most recent version of \textbf{SpiderMonkey} can be built on \win{} with the
 `\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} or newer.
 \begin{itemize}
@@ -650,7 +650,7 @@ standard \win{} paths for program files, so the target directory is not the fina
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item If you wish to get a snapshot of the current source, execute the following
 commands in the \asCode{Terminal} application:
@@ -691,7 +691,7 @@ to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{\ECL}}
+\secondaryStart{(Optional) Building \textbf{\ECL}}
 \textbf{\ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
 \compLang{Common Lisp} engine used with the Common Lisp Filter service of \mplusm{}; the
 files needed to compile and link with \textbf{\ECL} are installed as part of the normal
@@ -701,7 +701,7 @@ via the instructions on the web\longDash{}page
 \companyReference{https://common-lisp.net/project/ecl/}{\textbf{\ECL} source code}, as
 \mplusm{} does not use a modified version of \textbf{\ECL} and does not depend on a
 particular version \longDash{} other than it must be at least \textbf{15.3.7}.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 %\item If you wish to get a snapshot of the current source, execute the following
 %commands in the \asCode{Terminal} application:
@@ -729,7 +729,7 @@ particular version \longDash{} other than it must be at least \textbf{15.3.7}.
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 Note that, due to incompatibilities between some type declarations in \textbf{\ECL} and in
 the \win{} SDK, it is currently not possible to build the Common Lisp Filter service on
 \win, so there's no need to build \textbf{\ECL}.
@@ -745,7 +745,7 @@ ecl-16.0.0-msvc-win32-installer.exe}
 \item\exSp{}Rename the copy to \asCode{ecl\fUS{}src}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item If you wish to get a snapshot of the current source, execute the following
 commands in the \asCode{Terminal} application:
@@ -779,7 +779,7 @@ following commands in the \asCode{Terminal} application:
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{ActiveMQ-CPP}}
+\secondaryStart{(Optional) Building \textbf{ActiveMQ-CPP}}
 \textbf{ActiveMQ-CPP} is the \emph{ActiveMQ} engine used with the SendToMQ output service;
 the files needed to compile and link with \textbf{ActiveMQ-CPP} are installed as part of
 the normal \mplusm{} installation procedure, so it's not necessary to rebuild
@@ -795,7 +795,7 @@ Make sure that all the dependencies for \textbf{ActiveMQ-CPP} are installed befo
 building \textbf{ActiveMQ-CPP}, as described on the web\longDash{}page
 \companyReference{http://activemq.apache.org/cms/building.html}%
 {Building \textbf{ActiveMQ}}.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item Select a directory to hold the \textbf{ActiveMQ-CPP} source code, which will be
 referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
@@ -817,7 +817,7 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Select a directory to hold the \textbf{Apache Portable Runtime} source code, which
 will be referred to as `\asCode{APR}'; this can be a sister directory to the
@@ -929,7 +929,7 @@ without quotes
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item Download the recommended versions of \textbf{APR}, \textbf{APR-util} and
 \textbf{APR-iconv} from the web\longDash{}page\\
@@ -976,11 +976,11 @@ ActiveMQ}
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Building~Core~\mplusm}
+\secondaryStart{Building Core \mplusm}
 If you need to update the version number of \mplusm, refer to the
 \appendixRef{UpdatingVersionNumber}{Updating~the~Version~Number} appendix for what files
 need to be modified.
-\tertiaryStart{Building~on~\osx}
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -1054,7 +1054,7 @@ returned when the \serviceNameR[\RS]{RegistryService} was launched
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
 \item\exSp{}Set the source code directory to
@@ -1081,7 +1081,7 @@ menu item `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
-version; note that this will fail the first time, since it attempts to install
+version; note that this will fail the first time, since it attempts to install the
 \textit{\MMMU}, which has not been built yet
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{System} Control Panel
@@ -1099,7 +1099,7 @@ panel
 window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item In the \asCode{Terminal} application, move to the directory containing the \mplusm{}
 source code, \asCode{\textbf{devel}}
@@ -1176,9 +1176,10 @@ returned when the \serviceNameR[\RS]{RegistryService} was launched
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Building~\textit{\MMMU}}
-\textit{\MMMU} is not built from the command\longDash{}line but, rather, from the IDE.
-\tertiaryStart{Building~on~\osx}
+\secondaryStart{Building the \textit{\MMMU}}
+On \mac{} or \win, the \textit{\MMMU} is not built from the command\longDash{}line but,
+rather, from the IDE.
+\tertiaryStart{Building on \mac}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm{} source code,
 \asCode{\textbf{devel}}
@@ -1186,7 +1187,7 @@ returned when the \serviceNameR[\RS]{RegistryService} was launched
 \asCode{\textbf{devel}}
 \item\exSp{}Open the directory `\asCode{Builds/MacOSX}'
 \item\exSp{}Open the file `\asCode{m+m manager.xcodeproj}' with \asCode{Xcode}
-\item\exSp{}Within \asCode{Xcode}, select the `\asCode{m+m manager Release}' Scheme
+\item\exSp{}Within \asCode{Xcode}, select the `\asCode{m+m manager Release}' scheme
 \item\exSp{}Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
 `\asCode{Product \bigRightArrow{} Run}'
 \item\exSp{}To create an executable that can be placed in the `\asCode{/Applications}'
@@ -1200,7 +1201,7 @@ it to \asCode{m+m manager}
 directory
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\win}
+\tertiaryStart{Building on \win}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
@@ -1212,7 +1213,7 @@ configuration
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~\linux}
+\tertiaryStart{Building on \linux}
 \begin{itemize}
 \item In the \asCode{Terminal} application, execute the following commands:
 \begin{itemize}
@@ -1224,10 +1225,118 @@ configuration
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Creating~the~Distribution~Packages}
+\secondaryStart{(Optional) Building the \textit{Leap Display Output Service}}
+On \mac{} or \win, the \textit{Leap Display Output Service} is not built from the
+command\longDash{}line but, rather, from the IDE.
+\tertiaryStart{Building on \mac}
+\begin{itemize}
+\item In Finder, open the directory containing the \mplusm{} source code,
+\asCode{\textbf{devel}}
+\item\exSp{}Open the directory `\asCode{Core\fUS{}MPlusM}' within \asCode{\textbf{devel}}
+\item\exSp{}Open the directory `\asCode{Visualization/LeapDisplayOutputService}' within
+\asCode{Core\fUS{}MPlusM}
+\item\exSp{}Open the directory `\asCode{Builds/MacOSX}'
+\item\exSp{}Open the file `\asCode{m+mLeapDisplayOutputService.xcodeproj}' with
+\asCode{Xcode}
+\item\exSp{}Within \asCode{Xcode}, select the `\asCode{m+mLeapDisplayOutputService (App)}'
+scheme
+\item\exSp{}Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
+`\asCode{Product \bigRightArrow{} Run}'
+\item\exSp{}To create an executable that can be placed in the `\asCode{/Applications}'
+folder, do an `\asCode{Archive \bigRightArrow{} Export \bigRightArrow{} Export as a Mac
+Application}'
+and place the generated application in a writable location, like your home directory
+\item\exSp{}Exit from \asCode{Xcode}
+\item\exSp{}If the generated application is named
+\asCode{m+mLeapDisplayOutputService Release}, rename it to\\
+\asCode{m+mLeapDisplayOutputService}
+\item\exSp{}Copy the \asCode{m+mLeapDisplayOutputService} application to the
+\asCode{/Applications} directory
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building on \win}
+\begin{itemize}
+\item Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{}Open the project file\\
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}%
+Builds\textbackslash{}VisualStudio2015\textbackslash{}m+mLeapDisplayOutputService.sln}'
+with \asCode{Visual Studio}
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
+configuration
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building on \linux}
+\begin{itemize}
+\item In the \asCode{Terminal} application, execute the following commands:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}/Core\fUS{}MPlusM/Visualization/LeapDisplayOutputService}
+\item\exSp\asCode{cd Builds/LinuxMakefile}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo cp build/m+mLeapDisplayOutputService /opt/m+m/bin}
+\end{itemize}
+\end{itemize}
+\tertiaryEnd
+\secondaryEnd
+\secondaryStart{(Optional) Building the \textit{Platonic Display Output Service}}
+On \mac{} or \win, the \textit{Platonic Display Output Service} is not built from the
+command\longDash{}line but, rather, from the IDE.
+\tertiaryStart{Building on \mac}
+\begin{itemize}
+\item In Finder, open the directory containing the \mplusm{} source code,
+\asCode{\textbf{devel}}
+\item\exSp{}Open the directory `\asCode{Core\fUS{}MPlusM}' within \asCode{\textbf{devel}}
+\item\exSp{}Open the directory `\asCode{Visualization/PlatonicDisplayOutputService}'
+within \asCode{Core\fUS{}MPlusM}
+\item\exSp{}Open the directory `\asCode{Builds/MacOSX}'
+\item\exSp{}Open the file `\asCode{m+mPlatonicDisplayOutputService.xcodeproj}' with
+\asCode{Xcode}
+\item\exSp{}Within \asCode{Xcode}, select the
+`\asCode{m+mPlatonicDisplayOutputService (App)}' scheme
+\item\exSp{}Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
+`\asCode{Product \bigRightArrow{} Run}'
+\item\exSp{}To create an executable that can be placed in the `\asCode{/Applications}'
+folder, do an `\asCode{Archive \bigRightArrow{} Export \bigRightArrow{} Export as a Mac
+Application}'
+and place the generated application in a writable location, like your home directory
+\item\exSp{}Exit from \asCode{Xcode}
+\item\exSp{}If the generated application is named
+\asCode{m+mPlatonicDisplayOutputService Release}, rename it to\\
+\asCode{m+mPlatonicDisplayOutputService}
+\item\exSp{}Copy the \asCode{m+mPlatonicDisplayOutputService} application to the
+\asCode{/Applications} directory
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building on \win}
+\begin{itemize}
+\item Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{}Open the project file\\
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}%
+Builds\textbackslash{}VisualStudio2015\textbackslash{}%
+m+mPlatonicDisplayOutputService.sln}' with\\
+\asCode{Visual Studio}
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
+configuration
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building on \linux}
+\begin{itemize}
+\item In the \asCode{Terminal} application, execute the following commands:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}/Core\fUS{}MPlusM/Visualization/%
+PlatonicDisplayOutputService}
+\item\exSp\asCode{cd Builds/LinuxMakefile}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo cp build/m+mPlatonicDisplayOutputService /opt/m+m/bin}
+\end{itemize}
+\end{itemize}
+\tertiaryEnd
+\secondaryEnd
+\secondaryStart{Creating the distribution packages}
 The distribution packages are standalone files that can be used to create a complete
 \mplusm{} installation.
-\tertiaryStart{Creating~on~\osx}
+\tertiaryStart{Creating on \mac}
 \begin{itemize}
 \item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
 `\asCode{Utilities\fUS{}mm\fUS{}manager}' directories, commit the changes to the
@@ -1249,7 +1358,7 @@ directory
 \asCode{Core\fUS{}MPlusM/Packages/build} directory
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Creating~on~\win}
+\tertiaryStart{Creating on \win}
 \begin{itemize}
 \item Commit the changes for the `\asCode{Core\fUS{}MPlusM}' directory to the
 \asCode{git} repository
@@ -1278,7 +1387,7 @@ the distribution package
 the `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}' directory
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Creating~on~\linux}
+\tertiaryStart{Creating on \linux}
 TBD
 \tertiaryEnd
 \secondaryEnd

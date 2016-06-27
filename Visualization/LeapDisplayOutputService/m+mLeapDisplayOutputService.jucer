@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="NMAvRH" name="m+mLeapDisplayOutputService" projectType="guiapp"
-              version="1.6.8" bundleIdentifier="com.opendragon.leapdisplay"
-              includeBinaryInAppConfig="0" jucerVersion="4.2.1" companyName="OpenDragon">
+              version="1.6.9" bundleIdentifier="com.opendragon.leapdisplay"
+              includeBinaryInAppConfig="0" jucerVersion="4.1.0" companyName="OpenDragon">
   <MAINGROUP id="OL479e" name="m+mLeapDisplayOutputService">
     <FILE id="rIFkb6" name="LDOicon.ico" compile="0" resource="1" file="Builds/LDOicon.ico"/>
     <FILE id="rdS5PH" name="LDOResources.rc" compile="0" resource="1" file="Builds/LDOResources.rc"/>
@@ -144,7 +144,7 @@
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules/juce_data_structures"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules/juce_data_structures"/>
         <MODULEPATH id="juce_opengl" path="../JUCE/modules/juce_data_structures"/>
-        <MODULEPATH id="juce_box2d" path="../JUCE/modules/juce_data_structures"/>
+        <MODULEPATH id="juce_box2d" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
     <VS2015 targetFolder="Builds/VisualStudio2015">

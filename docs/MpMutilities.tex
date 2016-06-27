@@ -5,7 +5,7 @@ are running in the \mplusm{} installation.
 Although command\longDash{}line \yarp{} commands can also be used to manage the network
 connections, it is recommended that the more specialized \mplusm{} tools be used, to avoid
 inconsistencies.
-\secondaryStart[CommandLineUtilities]{Command\longDash{}Line~Utilities}
+\secondaryStart[CommandLineUtilities]{Command\longDash{}Line utilities}
 \mplusm{} includes a number of command\longDash{}line tools that provide some of the
 functionality of the GUI\longDash{}based tool, \emph{\MMMU}.
 As well, the native \yarp{} command\longDash{}line tools to create and remove connections
@@ -369,7 +369,7 @@ Requests:          match - return the channels for services matching the
                    given channel
                    unregister - remove the information for a service on the
                    given channel
-Path:              .../mpmRegistryService
+Path:              .../m+mRegistryService
 Secondary outputs: /$ervice/status{protocol=s}
 
 Service port:      /_service_/input/randomburst
@@ -379,7 +379,7 @@ Service kind:      Input
 Description:       The Random Burst input service
 Extra information: Burst period is 1, burst size is 1
 Requests:
-Path:              .../mpmRandomBurstInputService
+Path:              .../m+mRandomBurstInputService
 Secondary outputs: /_service_/input/randomburst/output{protocol=d+}
 
 Service port:      /shorten
@@ -388,7 +388,7 @@ Tag:               blort
 Service kind:      Filter
 Description:       The Truncate Float filter service
 Requests:
-Path:              .../mpmTruncateFloatFilterService
+Path:              .../m+mTruncateFloatFilterService
 Secondary inputs:  /shorten/input{protocol=d+}
 Secondary outputs: /shorten/output{protocol=i+}
 \end{verbatim}
@@ -403,17 +403,17 @@ database", "Requests": "match - return the channels for services matching the
 criteria provided\nping - update the last-pinged information for a channel or
 record the information for a service on the given channel\nregister - record the
 information for a service on the given channel\nunregister - remove the information
-for a service on the given channel", "Path": ".../mpmRegistryService",
+for a service on the given channel", "Path": ".../m+mRegistryService",
 "SecondaryInputs": [ ], "SecondaryOutputs": [ { "Name": "/$ervice/status",
 "Protocol": "s" } ] }, { "ServicePort": "/_service_/input/randomburst",
 "ServiceName": "RandomBurstInput", "Tag": "", "ServiceKind": "Input", "Description":
 "The random burst input service", "ExtraInfo": "Burst period is 1, burst size is 1",
-"Requests": "", "Path": ".../mpmRandomBurstInputService", "SecondaryInputs": [ ],
+"Requests": "", "Path": ".../m+mRandomBurstInputService", "SecondaryInputs": [ ],
 "SecondaryOutputs": [ { "Name": "/_service_/input/randomburst/output", "Protocol":
 "d+" } ] }, { "ServicePort":  "/shorten", "ServiceName": "TruncateFloatFilter",
 "Tag": "blort", "ServiceKind": "Filter", "Description": "The Truncate Float filter
 service", "ExtraInfo": "", "Requests": "", "Path":
-".../mpmTruncateFloatFilterService", "SecondaryInputs": [ { "Name":
+".../m+mTruncateFloatFilterService", "SecondaryInputs": [ { "Name":
 "/shorten/input", "Protocol": "d+" } ], "SecondaryOutputs": [ { "Name":
 "/shorten/output", "Protocol": "i+" } ] } ]
 \end{verbatim}
@@ -429,19 +429,19 @@ a service on the given channel\textbackslash{}nregister - record the information
 service\\
 on the given channel\textbackslash{}nunregister - remove the information for a service on
 the\\
-given channel\pseudotab\textellipsis{}/mpmRegistryService\pseudotwotabs{}/\dollarService%
+given channel\pseudotab\textellipsis{}/m+mRegistryService\pseudotwotabs{}/\dollarService%
 /status\textbraceleft{}protocol=s\textbraceright\\
 
 /\serviceName/input/randomburst\pseudotab{}RandomBurstInput\pseudotwotabs{}Input%
 \pseudotab\\
 The Random Burst input service\pseudotab{}Burst period is 1, burst size is 1%
 \pseudotwotabs\\
-\textellipsis{}/mpmRandomBurstInputService\pseudotwotabs{}/\serviceName/input/%
+\textellipsis{}/m+mRandomBurstInputService\pseudotwotabs{}/\serviceName/input/%
 randomburst/output\textbraceleft{}protocol=d+\textbraceright\\
 
 /shorten\pseudotab{}TruncateFloatFilter\pseudotab{}blort\pseudotab{}Filter\pseudotab{}The
 Truncate Float filter service\pseudothreetabs\\
-\textellipsis{}/mpmTruncateFloatFilterService\pseudotab{}/shorten/input\textbraceleft{}%
+\textellipsis{}/m+mTruncateFloatFilterService\pseudotab{}/shorten/input\textbraceleft{}%
 protocol=d+\textbraceright\pseudotab\\
 /shorten/output\textbraceleft{}protocol=i+\textbraceright
 \outputEnd{}
@@ -569,23 +569,23 @@ The application \utilityNameX{m+mVersion} displays the version numbers for \mplu
 For example, the default output could be:
 \outputBegin
 \begin{verbatim}
-m+m Version: 1.6.8, YARP Version: 2.3.62.1, ACE Version: 6.3.2
+m+m Version: 1.6.9, YARP Version: 2.3.62.1, ACE Version: 6.3.2
 \end{verbatim}
 \outputEnd{}
 or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
-{ "m+m": "1.6.8", "YARP": "2.3.62.1", "ACE": "6.3.2" }
+{ "m+m": "1.6.9", "YARP": "2.3.62.1", "ACE": "6.3.2" }
 \end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
-1.6.8\pseudotab{}2.3.62.1\pseudotab{}6.3.2
+1.6.9\pseudotab{}2.3.62.1\pseudotab{}6.3.2
 \outputEnd
 \tertiaryEnd{\utilityNameE{m+mVersion}}
 \secondaryEnd
 \condPage
-\secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
+\secondaryStart[UtilityServicesAndClients]{Utility services and clients}
 \tertiaryStart{\utilityNameP{m+mAddressService}}
 The \utilityNameX{m+mAddressService} application is a background service that is used to
 record an IP address and port that can be retrieved by the \utilityNameR{m+mAddressClient}
@@ -756,7 +756,7 @@ The application has one optional argument \longDash{} the output file path to be
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
-For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \osx{},
+For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \mac{},
 it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\

@@ -74,8 +74,7 @@ namespace LeapDisplay
         
         /*! @brief The constructor.
          @param[in] service The service associated with the request.
-         @param[in] helpText The help text to be displayed.
-         @param[in] stdinAvailable @c true if running in the foreground and @c false otherwise. */
+         @param[in] helpText The help text to be displayed. */
         LeapServiceThread(LeapDisplayOutputService * service,
                           const YarpString &         helpText);
         

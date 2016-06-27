@@ -227,7 +227,8 @@ namespace MplusM
              if one handler is used.
              @param[in] canonicalName The channel-independent name of the service.
              @param[in] description The description of the service.
-             @param[in] requestsDescription The description of the requests for the service. */
+             @param[in] requestsDescription The description of the requests for the service.
+             @exception Exception Thrown if the endpoint isn't specified in the arguments. */
             BaseService(const ServiceKind  theKind,
                         const YarpString & launchPath,
                         const int          argc,

@@ -1,6 +1,6 @@
 \ProvidesFile{VDSblobService.tex}[v1.0.0]
-\primaryStart[TheVBIService]{The \VBI{} Service (\win{} only)}
-The \asCode{mpmViconBlobInputService} application is an Input service,
+\primaryStart[TheVBIservice]{The \VBI{} Service (\win{} only)}
+The \asCode{m+mViconBlobInputService} application is an Input service,
 generating a stream of information on the position and orientation of one or more bodies.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -18,7 +18,7 @@ These values will be applied when the output stream is started or restarted.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Vicon DataStream
+The \emph{startStreams} request initiates listening to the Vicon DataStream
 server.
 Once started, the service will send groups of subject data via the output \yarp{} network
 connection.\\

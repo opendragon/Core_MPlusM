@@ -1,5 +1,5 @@
 \ProvidesFile{SMservice.tex}[v1.0.0]
-\primaryStart[TheSMOService]{The \SMO{} Service (\osx{} and 64\longDash{}bit \win{} only)}
+\primaryStart[TheSMOservice]{The \SMO{} Service (\mac{} and 64\longDash{}bit \win{} only)}
 The \asCode{m+mSendToMQOutputService} application is an Output service, sending a stream
 of \yarp{} values as \json{} text to an ActiveMQ broker.
 The application responds to the standard Output service requests and can be used as a
@@ -11,8 +11,8 @@ A value of \asBoldCode{0} for the `queue flag' indicates that a topic will be us
 sending to the ActiveMQ broker and a value of \asBoldCode{1} indicates that a queue will
 be used.\\
 
-The \emph{configure} request request has two arguments \longDash{} a string value for the
-topic or queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
+The \emph{configure} request has two arguments \longDash{} a string value for the topic or
+queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
 These values will be applied when the input stream is started or restarted.\\
 
 The \emph{restartStreams} request stops and then starts the input stream.\\
@@ -20,7 +20,7 @@ The \emph{restartStreams} request stops and then starts the input stream.\\
 The \emph{startStreams} request initiates listening on the input stream and creates a
 connection to the ActiveMQ broker.\\
 
-The \emph{stopStreams} request terminates listening ont the input stream and drops the
+The \emph{stopStreams} request terminates listening on the input stream and drops the
 connection to the ActiveMQ broker.\\ 
 
 Note that the application will exit if the \emph{\RS} is not running.

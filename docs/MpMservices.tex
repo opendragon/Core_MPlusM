@@ -51,7 +51,7 @@ automatically supported in the base class of all services,
 When a client sends a request to a service, it can optionally request a response from the
 service.
 If no response is requested, the request is processed but no response is sent.
-\secondaryStart[StandardServices]{Standard~Services}
+\secondaryStart[StandardServices]{Standard services}
 There are two standard services that are always part of an \mplusm{} installation.
 \utilityNameR{m+mRequestCounterService} and its companion application
 \utilityNameR{m+mRequestCounterClient} are described elsewhere, and the
@@ -99,7 +99,7 @@ following dialog will be presented:
 \serviceNameX[\RS]{RegistryService}}{1.0}
 \tertiaryEnd{\serviceNameE[\RS]{RegistryService}}
 \secondaryEnd
-\secondaryStart[BasicRequests]{Basic~Requests}
+\secondaryStart[BasicRequests]{Basic requests}
 These requests are implemented in all \mplusm{} services, via the
 \classNameR{Common}{BaseService} class.
 They constitute the fundamental mechanism that is used by the
@@ -202,7 +202,7 @@ to be disabled and \asCode{1} indicating that it is to be enabled.
 The \requestsNameX{Basic}{Basic}{stop} request stops the service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{stop}}
 \secondaryEnd
-\secondaryStart[RegistryServiceRequests]{\RS{} Requests}
+\secondaryStart[RegistryServiceRequests]{\RS{} requests}
 The requests in this group are used exclusively by the
 \serviceNameR[\RS]{RegistryService} application to manage its internal database and to
 respond to information requests from client applications.
@@ -253,7 +253,7 @@ Upon receiving the \requestsNameX{\RS}{RegistryService}{unregister} request, the
 are related to the service being removed.
 \tertiaryEnd{\requestsNameE{\RS}{RegistryService}{unregister}}
 \secondaryEnd
-\secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
+\secondaryStart[InputOutputRequests]{\inputOutput{} requests}
 These requests are implemented in all \mplusm{} \inputOutput{} services, via the
 \classNameR{Common}{BaseInputOutputService} class.
 \tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{argumentDescriptions}}
@@ -328,7 +328,7 @@ Note that an `always on' Output service can ignore
 representation of its input data is not affected by the lack of input data.
 \tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{stopStreams}}
 \secondaryEnd
-\secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
+\secondaryStart[MiscellaneousRequests]{Miscellaneous requests}
 Requests in this group are used with the \utilityNameR{m+mRequestCounterClient} client
 application and \utilityNameR{m+mRequestCounterService} application or are requests that
 are common.

@@ -3,7 +3,7 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  1,6,8,0
+FILEVERSION  1,6,9,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -11,10 +11,10 @@ BEGIN
     BEGIN
       VALUE "CompanyName",  "OpenDragon\0"
       VALUE "FileDescription",  "Leap display output service\0"
-      VALUE "FileVersion",  "1.6.8\0"
+      VALUE "FileVersion",  "1.6.9\0"
       VALUE "LegalCopyright", "(c) 2016 by OpenDragon\0"
       VALUE "ProductName",  "Leap display output service\0"
-      VALUE "ProductVersion",  "1.6.8\0"
+      VALUE "ProductVersion",  "1.6.9\0"
     END
   END
 

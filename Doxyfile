@@ -38,7 +38,7 @@ PROJECT_NAME           = m+m
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.6.8
+PROJECT_NUMBER         = 1.6.9
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -808,7 +808,8 @@ INPUT                  = . \
                          Registry \
                          PortList \
                          ServiceList \
-                         ServiceStop
+                         ServiceStop \
+                         Visualization
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -954,7 +955,8 @@ EXCLUDE                = CMakeFiles \
                          examples/PlaybackFromJSONService/rapidjson \
                          PortList/CMakeFiles \
                          ServiceList/CMakeFiles \
-                         ServiceStop/CMakeFiles
+                         ServiceStop/CMakeFiles \
+                         Visualization/JuceLibraryCode
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

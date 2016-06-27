@@ -1,0 +1,46 @@
+\ProvidesFile{LDservice.tex}[v1.0.0]
+\primaryStart[TheLDOservice]{The \LDO{} Service}
+The \asCode{m+mLeapDisplayOutputService} application is an Output service, displaying the
+stream of values from a running \asCode{m+mLeapFingerTipsInputService} application.
+The application responds to the standard Output service requests and can be used as a
+standalone data sink, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns nothing.\\
+
+The \emph{configure} request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the input stream.\\
+
+The \emph{startStreams} request initiates displaying 3D images on the display window.
+Once started, the service will convert finger tip positions from the input \yarp{} network
+connection into displayed shapes.\\
+
+The \emph{stopStreams} request stops the input \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.\\
+
+The \asCode{m+mLeapDisplayOutputService} application is launched as a standard GUI
+application.
+When launched, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchLeapDisplayOutputService}{launchServiceLeapDisplay}%
+{Launch options for the \emph{\LDO} service}{0.8}
+\condPage{}
+Before the service has been started, the following will be displayed:
+\objScaledDiagram{mpm_images/leapDisplayOutputServiceBeforeStart}{beforeStartLeapDisplay}%
+{Display before the \emph{\LDO} service starts}{0.8}
+\condPage{}
+After the service has been started, it needs to have it's input stream connected to a
+running copy of the\\
+\asCode{m+mLeapFingerTipsInputService} application;
+once this is done, the display will change to the following:
+\objScaledDiagram{mpm_images/runningLeapDisplayOutputService}{serviceRunningLeapDisplay}%
+{Display while the \emph{\LDO} service is running}{0.8}
+\condPage{}
+The \asCode{m+mLeapDisplayOutputService} application window will then display the
+positions of the finger tips and palms of the hands that the Leap Motion controller can
+detect.
+The display can be panned by dragging the mouse within the displayed area; the View menu
+can be used to zoom in or out of the images:
+\objScaledDiagram{mpm_images/leapDisplayOutputServiceViewMenu}{viewMenuLeapDisplay}%
+{The View menu for the \emph{\LDO} service}{0.8}
+\primaryEnd{}

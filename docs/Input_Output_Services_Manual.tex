@@ -16,12 +16,15 @@ OpenStage,Procomp2,Vicon,DataStream,middleware,input,output}
 \newcommand{\LMI}{Leap Motion Input}
 \newcommand{\LTFI}{Leap Two Fingers Input}
 \newcommand{\LBI}{Leap Blob Input}
+\newcommand{\LDO}{Leap Display Output}
+\newcommand{\LFI}{Leap Finger Tips Input}
 \newcommand{\LTPI}{Leap Two Palms Input}
 \newcommand{\NNI}{NatNet Input}
 \newcommand{\NNBI}{NatNet Blob Input}
 \newcommand{\OSI}{OpenStage Input}
 \newcommand{\OSBI}{OpenStage Blob Input}
 \newcommand{\PCtwoI}{ProComp2 Input} % Note that a number can't be a part of a command
+\newcommand{\PDO}{Platonic Display Output}
 \newcommand{\SMO}{Send To MQ Output}
 \newcommand{\VDSI}{Vicon DataStream Input}
 \newcommand{\VBI}{Vicon Blob Input}
@@ -57,36 +60,40 @@ OpenStage,Procomp2,Vicon,DataStream,middleware,input,output}
 
 %% section for the services
 
-\input{KV2service.tex}
 \input{KV2blobService.tex}
+\input{KV2service.tex}
 \input{KV2specialService.tex}
-\input{LMservice.tex}
+\input{LDservice.tex}
+\input{LM2Fservice.tex}
+\input{LM2Pservice.tex}
 \input{LMblobService.tex}
-\input{LM2FService.tex}
-\input{LM2PService.tex}
-\input{NNservice.tex}
+\input{LMFservice.tex}
+\input{LMservice.tex}
 \input{NNblobService.tex}
-\input{OSservice.tex}
+\input{NNservice.tex}
 \input{OSblobService.tex}
+\input{OSservice.tex}
 \input{PC2service.tex}
+\input{PDservice.tex}
 \input{SMservice.tex}
-\input{VDSservice.tex}
 \input{VDSblobService.tex}
+\input{VDSservice.tex}
 
 %% section for the message format
 
 \appendix
-\input{KV2messageFormat.tex}
 \input{KV2blobMessageFormat.tex}
+\input{KV2messageFormat.tex}
 \input{KV2specialMessageFormat.tex}
-\input{LMmessageFormat.tex}
+\input{LM2FmessageFormat.tex}
+\input{LM2PmessageFormat.tex}
 \input{LMblobMessageFormat.tex}
-\input{LM2FMessageFormat.tex}
-\input{LM2PMessageFormat.tex}
-\input{NNmessageFormat.tex}
+\input{LMFmessageFormat.tex}
+\input{LMmessageFormat.tex}
 \input{NNblobMessageFormat.tex}
-\input{OSmessageFormat.tex}
+\input{NNmessageFormat.tex}
 \input{OSblobMessageFormat.tex}
+\input{OSmessageFormat.tex}
 \input{PC2messageFormat.tex}
 \input{VDSmessageFormat.tex}
 

@@ -168,7 +168,7 @@ namespace LeapDisplay
         const;
         
         /*! @brief Records the address of the graphics panel.
-         @param[in] A pointer to the graphics panel. */
+         @param[in] thePanel A pointer to the graphics panel. */
         void
         setGraphicsPanel(GraphicsPanel * thePanel)
         {
@@ -254,7 +254,7 @@ namespace LeapDisplay
         operator =(const LeapDisplayApplication & other);
 
         /*! @brief Set the thread containing the service.
-         @Param newThread The thread containing the service. */
+         @param[in] newThread The thread containing the service. */
         void
         setServiceThread(LeapServiceThread * newThread);
         

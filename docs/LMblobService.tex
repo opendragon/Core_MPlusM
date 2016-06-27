@@ -1,5 +1,5 @@
 \ProvidesFile{LMblobService.tex}[v1.0.0]
-\primaryStart[TheLBIService]{The \LBI{} Service}
+\primaryStart[TheLBIservice]{The \LBI{} Service}
 The \asCode{m+mLeapBlobInputService} application is an Input service,
 generating a stream of information on the position and direction of the fingers of each
 detected hand.
@@ -9,14 +9,14 @@ standalone data generator, without the need for a client connection.\\
 The \emph{configuration} request has no arguments and returns the floating\longDash{}point
 value for the translation scale to apply to the finger coordinates.\\
 
-The \emph{configure} request request has a single argument \longDash{} a
+The \emph{configure} request has a single argument \longDash{} a
 floating\longDash{}point value for the translation scale to apply to the finger
 coordinates.
 The value will be applied when the output stream is started or restarted.\\ 
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Leap Motion controller.
+The \emph{startStreams} request initiates listening to the Leap Motion controller.
 Once started, the service will send sets of finger position and direction data via the
 output \yarp{} network connection.\\
 

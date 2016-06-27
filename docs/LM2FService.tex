@@ -1,5 +1,5 @@
-\ProvidesFile{LM2FService.tex}[v1.0.0]
-\primaryStart[TheLTFIService]{The \LTFI{} Service}
+\ProvidesFile{LM2Fservice.tex}[v1.0.0]
+\primaryStart[TheLTFIservice]{The \LTFI{} Service}
 The \asCode{m+mLeapTwoFingersInputService} application is an Input service,
 generating a stream of information on the position of the first detected finger of the
 first two detected hands.
@@ -8,11 +8,11 @@ standalone data generator, without the need for a client connection.\\
 
 The \emph{configuration} request has no arguments and returns nothing.\\
 
-The \emph{configure} request request has no arguments and does nothing.\\
+The \emph{configure} request has no arguments and does nothing.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Leap Motion controller.
+The \emph{startStreams} request initiates listening to the Leap Motion controller.
 Once started, the service will send pairs of finger position data via the output \yarp{}
 network connection.\\
 

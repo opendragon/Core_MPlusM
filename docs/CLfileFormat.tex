@@ -1,20 +1,20 @@
 \ProvidesFile{CLfileFormat.tex}[v1.0.0]
-\appendixStart[CLFormat]{\textitcorr{\CL{} File Format}}
+\appendixStart[CLformat]{\textitcorr{\CL{} File Format}}
 The \CLF{} service loads a \CL{} file that contains a number of required and optional
 values.
 Once loaded, the \CL{} functions and values are used to define the behaviour of the
 service itself.
-\secondaryStart{The~Common~Lisp~Standard~Classes}
+\secondaryStart{The Common Lisp standard classes}
 The \CLF{} service provides the standard classes of \ECL{} (Embeddable Common Lisp) as part
 of the \CL{} environment.\\
 
 Note that, due to some issues with the threading support in \ECL{} and in \yarp{}, the
 multithreading support within \ECL{} is not available.
 \secondaryEnd
-\secondaryStart{Service~Provided~Classes}
+\secondaryStart{Service-provided classes}
 The \CLF{} service provides no extra classes as part of the \CL{} environment.
 \secondaryEnd
-\secondaryStart{Service~Provided~Functions}
+\secondaryStart{Service-provided functions}
 The \CLF{} service provides the following functions as part of the \CL{} environment:
 \begin{itemize}
 \item\textbf{(\asCode{create-inlet-entry} \textit{n} \textit{p} \textit{d} \textit{h})}
@@ -32,7 +32,7 @@ value `\textit{x}' to \yarp{} format and sends it to the channel numbered `\text
 with zero being the first outlet channel
 \end{itemize}
 \secondaryEnd
-\secondaryStart{Service~Provided~Values}
+\secondaryStart{Service-provided values}
 The \CLF{} service provides the following values as part of the \CL{} environment:
 \begin{itemize}
 \item\textbf{\asCode{argv}} \longDash{} an array of the arguments passed to the
@@ -42,14 +42,14 @@ script
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart{The~Required~Values}
+\secondaryStart{The required values}
 The \CLF{} service requires that the following values are supplied by the \CL{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptDescription}} \longDash{} a variable or a function that
 provides a string describing the script; if defined as a function, it takes no arguments
 \end{itemize}
 \secondaryEnd
-\secondaryStart{The~Optional~Values}
+\secondaryStart{The optional values}
 The \CLF{} service will use the following values, if they are supplied by the \CL{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptHelp}} \longDash{} a variable or a function that provides a
@@ -75,7 +75,7 @@ called by the output thread of the service
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart{The~Execution~Sequence}
+\secondaryStart{The execution sequence}
 The following sequence of actions occur when a \CL{} file is loaded and run:
 \begin{itemize}
 \item The \CL{} environment is set up

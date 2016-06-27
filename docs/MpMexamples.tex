@@ -7,7 +7,7 @@ Input, Output and Filter services.\\
 
 All the example applications respond to a `HUP' signal and will exit gracefully when one
 is sent to them.
-\secondaryStart{Example~Services}
+\secondaryStart{Example services}
 The set of example services include a pair of simple services
 [\examplesNameR{Services}{m+mEchoService} and
 \examplesNameR{Services}{m+mRandomNumberService}], a service with client context
@@ -352,7 +352,7 @@ The application has one optional argument \longDash{} the output file path to be
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
-For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \osx{},
+For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \mac{},
 it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
@@ -456,7 +456,7 @@ The application has one optional argument \longDash{} the output file path to be
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
-For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \osx{},
+For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \mac{},
 it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
@@ -615,7 +615,7 @@ service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mTruncateFloatFilterService}}
 \secondaryEnd
 \condPage
-\secondaryStart{Example~Clients}
+\secondaryStart{Example clients}
 The example client applications provided use simple terminal\longDash{}based interfaces to
 generate requests for their matching service applications.
 \tertiaryStart{\examplesNameP{Clients}{m+mEchoClient}}
@@ -672,7 +672,7 @@ application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{m+mRunningSumClient}}
 \secondaryEnd
 \condPage
-\secondaryStart{Example~Adapters}
+\secondaryStart{Example adapters}
 Adapters are applications that use a client object to connect to an \mplusm{} service,
 routing input from one or more input \yarp{} network connection via the client object to
 the service and returning results from the client to one or more output \yarp{} network

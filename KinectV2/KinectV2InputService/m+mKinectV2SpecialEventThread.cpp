@@ -166,6 +166,7 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
  @param[in,out] message The message to be updated with the body data.
+ @param[in] index The number of the body being added.
  @param[in] jointData The set of joints for the body.
  @param[in] orientationData The orientations of the joints.
  @param[in] leftHandState The state of the left hand.

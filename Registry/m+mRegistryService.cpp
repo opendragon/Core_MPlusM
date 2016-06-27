@@ -967,51 +967,6 @@ setupCheckService(sqlite3_stmt * statement,
     return result;
 } // setupCheckService
 
-#if 0
-/*! @brief Bind the values that are to be gathered from the Associates table.
- @param[in] statement The prepared statement that is to be updated.
- @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int
-setupCollectAssociates(sqlite3_stmt * statement,
-                       const void *   stuff)
-{
-    ODL_ENTER(); //####
-    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-
-    try
-    {
-        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-
-        if (0 < channelNameIndex)
-        {
-            const char * channelNameString = static_cast<const char *>(stuff);
-
-            ODL_S1("channelNameString <- ", channelNameString); //####
-            result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
-                                       static_cast<int>(strlen(channelNameString)),
-                                       SQLITE_TRANSIENT);
-            if (SQLITE_OK != result)
-            {
-                ODL_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            ODL_LOG("! (0 < channelNameIndex)"); //####
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_EXIT_LL(result);
-    return result;
-} // setupCollectAssociates
-#endif//0
-
 /*! @brief Bind the values that are to be inserted into the Channels table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
@@ -1394,49 +1349,6 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
     ODL_EXIT_LL(result);
     return result;
 } // setupRemoveFromChannels
-
-#if 0
-/*! @brief Bind the values that are to be removed from the ChannelsAssociates table.
- @param[in] statement The prepared statement that is to be updated.
- @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int
-setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
-                                  const void *   stuff)
-{
-    ODL_ENTER(); //####
-    ODL_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-
-    try
-    {
-        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-
-        if (0 < channelNameIndex)
-        {
-            const char * channelName = static_cast<const char *>(stuff);
-
-            result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
-            if (SQLITE_OK != result)
-            {
-                ODL_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            ODL_LOG("! (0 < channelNameIndex)"); //####
-        }
-    }
-    catch (...)
-    {
-        ODL_LOG("Exception caught"); //####
-        throw;
-    }
-    ODL_EXIT_LL(result);
-    return result;
-} // setupRemoveFromChannelsAssociates
-#endif//0
 
 /*! @brief Bind the values that are to be removed from the Requests table.
  @param[in] statement The prepared statement that is to be updated.
@@ -2362,13 +2274,6 @@ RegistryService::reportStatusChange(const YarpString &  channelName,
                 message.addString(details);
                 break;
 
-#if 0
-            case kRegistryNotAnExistingAssociation :
-                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
-                message.addString(channelName);
-                break;
-#endif//0
-                
             case kRegistryNotAnExistingService :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);

@@ -95,55 +95,6 @@ displayCommands(void)
     ODL_EXIT(); //####
 } // displayCommands
 
-#if 0
-/*! @brief Write out a time value in a human-friendly form.
- @param[in] measurement The time value to write out. */
-static void
-reportTimeInReasonableUnits(const double measurement)
-{
-    double       newValue;
-    const char * tag;
-
-    if (measurement < 1e-6)
-    {
-        // Less than a microsecond
-        newValue = (measurement * 1e6);
-        tag = " microseconds";
-    }
-    else if (measurement < 1e-3)
-    {
-        // Less than a millisecond
-        newValue = (measurement * 1e3);
-        tag = " milliseconds";
-    }
-    else if (measurement < 60.0)
-    {
-        // Less than a minute
-        newValue = measurement;
-        tag = " seconds";
-    }
-    else if (measurement < (60.0 * 60.0))
-    {
-        // Less than an hour
-        newValue = (measurement / 60.0);
-        tag = " minutes";
-    }
-    else if (measurement < (24.0 * 60.0 * 60.0))
-    {
-        // Less than a day
-        newValue = (measurement / (60.0 * 60.0));
-        tag = " hours";
-    }
-    else
-    {
-        // More than a day
-        newValue = (measurement / (24.0 * 60.0 * 60.0));
-        tag = " days";
-    }
-    cout << newValue << tag;
-} // reportTimeInReasonableUnits
-#endif // 0
-
 /*! @brief Set up the environment and perform the operation. */
 #if defined(MpM_ReportOnConnections)
 static void

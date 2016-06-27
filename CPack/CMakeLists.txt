@@ -176,6 +176,8 @@ if(WIN32)
 	#OTHER EXES
 	install(FILES
                 "${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2015/x64/Release/m+m manager.exe"
+                "${MpM_SOURCE_DIR}/Visualization/LeapDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mLeapDisplayOutputService.exe"
+                "${MpM_SOURCE_DIR}/Visualization/PlatonicDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mPlatonicDisplayOutputService.exe"
                 DESTINATION bin
                 COMPONENT applications)
 

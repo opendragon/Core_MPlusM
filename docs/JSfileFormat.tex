@@ -1,10 +1,10 @@
 \ProvidesFile{JSfileFormat.tex}[v1.0.0]
-\appendixStart[JSFormat]{\textitcorr{\JS{} File Format}}
+\appendixStart[JSformat]{\textitcorr{\JS{} File Format}}
 The \JSF{} service loads a \JS{} file that contains a number of required and optional
 values.
 Once loaded, the \JS{} functions and values are used to define the behaviour of the
 service itself.
-\secondaryStart{The~JavaScript~Standard~Classes}
+\secondaryStart{The JavaScript standard classes}
 The \JSF{} service provides the following standard classes as part of the \JS{}
 environment:\\
 \asCode{Array}, \asCode{Boolean}, \asCode{Date}, \asCode{decodeURI},
@@ -15,7 +15,7 @@ environment:\\
 \asCode{ReferenceError}, \asCode{RegExp}, \asCode{String}, \asCode{SyntaxError},
 \asCode{TypeError}, \asCode{undefined} and \asCode{URIError}.
 \secondaryEnd
-\secondaryStart{Service~Provided~Classes}
+\secondaryStart{Service-provided classes}
 The \JSF{} service provides the following class as part of the \JS{} environment:
 \tertiaryStart{Stream}
 Objects of the \asCode{Stream} class encapsulate access to standard text files on the
@@ -59,7 +59,7 @@ if \asCode{hasError}() returns true, operations other than \asCode{close}() will
 until \asCode{clearError}() is called.
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Service~Provided~Functions}
+\secondaryStart{Service-provided functions}
 The \JSF{} service provides the following functions as part of the \JS{} environment:
 \begin{itemize}
 \item\textbf{\asCode{dumpObjectToStdout}(\textit{obj})} \longDash{} writes out the object
@@ -75,7 +75,7 @@ with zero being the first outlet channel
 `\textit{x}' to the standard output
 \end{itemize}
 \secondaryEnd
-\secondaryStart{Service~Provided~Values}
+\secondaryStart{Service-provided values}
 The \JSF{} service provides the following values as part of the \JS{} environment:
 \begin{itemize}
 \item\textbf{\asCode{argv}\openSq\closeSq} \longDash{} a list of the arguments passed
@@ -84,14 +84,14 @@ to the script
 script
 \end{itemize}
 \secondaryEnd
-\secondaryStart{The~Required~Values}
+\secondaryStart{The required values}
 The \JSF{} service requires that the following values are supplied by the \JS{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptDescription}} \longDash{} a variable or a function that
 provides a string describing the script; if defined as a function, it takes no arguments
 \end{itemize}
 \secondaryEnd
-\secondaryStart{The~Optional~Values}
+\secondaryStart{The optional values}
 The \JSF{} service will use the following values, if they are supplied by the \JS{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptHelp}} \longDash{} a variable or a function that provides a
@@ -117,7 +117,7 @@ called by the output thread of the service
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart{The~Execution~Sequence}
+\secondaryStart{The execution sequence}
 The following sequence of actions occur when a \JS{} file is loaded and run:
 \begin{itemize}
 \item The \JS{} environment is set up
