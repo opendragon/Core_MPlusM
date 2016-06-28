@@ -29,6 +29,10 @@ Before the service has been started, the following will be displayed:
 \objScaledDiagram{mpm_images/platonicDisplayOutputServiceBeforeStart}%
 {beforeStartPlatonicDisplay}{Display before the \emph{\PDO} service starts}{0.8}
 \condPage{}
+The service is started via the Operation menu:
+\objScaledDiagram{mpm_images/platonicDisplayOutputServiceOperationMenu}%
+{operationMenuPlatonicDisplay}{The Operation menu for the \emph{\PDO} service}{0.8}
+
 After the service has been started, it needs to have it's input stream connected to a
 running copy of the\\
 \asCode{m+mRandomBurstInputService} application;
@@ -37,9 +41,10 @@ once this is done, the display will change to the following:
 {serviceRunningPlatonicDisplay}{Display while the \emph{\PDO} service is running}{0.8}
 \condPage{}
 The \asCode{m+mPlatonicDisplayOutputService} application window will then convert each
-set of three floating-point numbers that it receives into the coordinates of a shape.
-The display can be panned by dragging the mouse within the displayed area; the View menu
-can be used to zoom in or out of the images:
+set of three floating-point numbers that it receives into the coordinates of a shape.\\
+
+The display can be rotated or tilted by dragging the mouse within the displayed area;
+the View menu can be used to zoom in or out of the images:
 \objScaledDiagram{mpm_images/platonicDisplayOutputServiceViewMenu}%
 {viewMenuPlatonicDisplay}{The View menu for the \emph{\PDO} service}{0.8}
 \primaryEnd{}

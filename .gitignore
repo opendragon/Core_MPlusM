@@ -478,3 +478,4 @@ LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xc
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
 Visualization/LeapDisplayOutputService/Builds/MacOSX/build
 Visualization/PlatonicDisplayOutputService/Builds/MacOSX/build
+!docs/Makefile

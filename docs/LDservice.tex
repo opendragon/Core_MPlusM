@@ -29,6 +29,10 @@ Before the service has been started, the following will be displayed:
 \objScaledDiagram{mpm_images/leapDisplayOutputServiceBeforeStart}{beforeStartLeapDisplay}%
 {Display before the \emph{\LDO} service starts}{0.8}
 \condPage{}
+The service is started via the Operation menu:
+\objScaledDiagram{mpm_images/leapDisplayOutputServiceOperationMenu}%
+{operationMenuLeapDisplay}{The Operation menu for the \emph{\LDO} service}{0.8}
+
 After the service has been started, it needs to have it's input stream connected to a
 running copy of the\\
 \asCode{m+mLeapFingerTipsInputService} application;
@@ -38,9 +42,10 @@ once this is done, the display will change to the following:
 \condPage{}
 The \asCode{m+mLeapDisplayOutputService} application window will then display the
 positions of the finger tips and palms of the hands that the Leap Motion controller can
-detect.
-The display can be panned by dragging the mouse within the displayed area; the View menu
-can be used to zoom in or out of the images:
+detect.\\
+
+The display can be rotated or tilted by dragging the mouse within the displayed area;
+the View menu can be used to zoom in or out of the images:
 \objScaledDiagram{mpm_images/leapDisplayOutputServiceViewMenu}{viewMenuLeapDisplay}%
 {The View menu for the \emph{\LDO} service}{0.8}
 \primaryEnd{}
