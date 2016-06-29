@@ -27,15 +27,19 @@ first detected finger of the first two detected hands
 \item\exSp{}The \textbf{\LTPI} service is a variation on the \LMI{} service that provides
 a simplified data stream from the Leap Motion controller \longDash{} the position, normal
 and velocity of the palm of the first two detected hands
-\item\exSp{}The \textbf{\LFI}
-\item\exSp{}The \textbf{\LDO}
+\item\exSp{}The \textbf{\LFI} service is a variation on the \LMI{} service that provides
+a reduced data stream from the Leap Motion controller \longDash{} the position of each
+finger and palm of each hand
+\item\exSp{}The \textbf{\LDO} service is a derivative of the \mplusm{} class
+\asCode{m+mBaseOutputService};
+it responds to the standard requests required by its parent class and displays the output
+of the \textbf{\LFI} service as moving images on a display
 \item\exSp{}The \textbf{\NNI} service is a derivative of the \mplusm{} class
 \asCode{m+mBaseInputService};
 it responds to the standard requests required by its parent class and acts as an interface
 to a Natural Point NetNet controller attached to the computer on which it runs
 \item\exSp{}The \textbf{\NNBI} service is a variation on the \NNI{} service that provides
 a single binary blob containing the data from the Natural Point NetNet controller
-\item\exSp{}The \textbf{\PDO}
 \item\exSp{}The \textbf{\OSI} service is a derivative of the \mplusm{} class
 \asCode{m+mBaseInputService};
 it responds to the standard requests required by its parent class and acts as an interface
@@ -46,6 +50,10 @@ a single binary blob containing the data from the Organic Motion OpenStage contr
 \asCode{m+mBaseInputService};
 it responds to the standard requests required by its parent class and acts as an interface
 to a ProComp2 controller attached to the computer on which it runs
+\item\exSp{}The \textbf{\PDO} service is a derivative of the \mplusm{} class
+\asCode{m+mBaseOutputService};
+it responds to the standard requests required by its parent class and displays the output
+of the \textbf{m+mRandomBurstInputService} application as moving images on a display
 \item\exSp{}The \textbf{\SMO} service is a derivative of the \mplusm{} class
 \asCode{m+mBaseOutputService};
 it responds to the standard requests required by its parent class and acts as an interface
