@@ -858,7 +858,7 @@ void
 GraphicsPanel::zoomIn(void)
 {
     ODL_OBJENTER(); //####
-    _scale *= 1.1;
+    _scale = static_cast<float>(_scale * 1.1);
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::zoomIn
 
@@ -866,7 +866,7 @@ void
 GraphicsPanel::zoomOut(void)
 {
     ODL_OBJENTER(); //####
-    _scale *= 0.9;
+    _scale = static_cast<float>(_scale * 0.9);
     ODL_OBJEXIT(); //####
 } // GraphicsPanel::zoomOut
 
