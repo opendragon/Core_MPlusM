@@ -7,6 +7,7 @@
 *.exe
 *.filters
 *.haux
+*.hind
 *.htoc
 *.idx
 *.ilg
@@ -15,6 +16,7 @@
 *.lastbuildstate
 *.lof
 *.log
+*.mpx
 *.obj
 *.opensdf
 *.out
@@ -43,23 +45,9 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 CTestTestfile.cmake
 Developer.pkg
-Documentation/*.aux
-Documentation/*.dvi
-Documentation/*.eps
-Documentation/*.haux
-Documentation/*.hind
-Documentation/*.html
-Documentation/*.htoc
-Documentation/*.idx
-Documentation/*.ilg
-Documentation/*.ind
-Documentation/*.lof
-Documentation/*.mpx
-Documentation/*.out
-Documentation/*.pdf
-Documentation/*.png
-Documentation/*.ps
-Documentation/*.toc
+docs/*.eps
+docs/*.png
+docs/*.ps
 Doxygen_output
 KinectV2/KinectV2InputService/Release/mpmKinectV2InputService.exe.piz
 M+M.pkg
@@ -436,7 +424,7 @@ ports.db
 subs.db
 test.db
 
-!Documentation/makefile
+!docs/makefile
 !LeapMotion/LeapMotionInputService/win_lib/x86/Leap.lib
 !LeapMotion/LeapMotionInputService/win_lib/x64/Leap.lib
 !NatNet/NatNetInputService/NatNetSDK/lib/NatNetLib.lib
@@ -478,4 +466,3 @@ LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xc
 LeapMotion/LeapDisplayOutputService/Builds/MacOSX/m+mLeapDisplayOutputService.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
 Visualization/LeapDisplayOutputService/Builds/MacOSX/build
 Visualization/PlatonicDisplayOutputService/Builds/MacOSX/build
-!docs/Makefile
