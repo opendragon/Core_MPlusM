@@ -46,7 +46,7 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-set(SPIDER_VERSION "48a1")
+set(SPIDER_VERSION "50a1")
 if(WIN32)
     set(ICU_VERSION "56")
 else(WIN32)

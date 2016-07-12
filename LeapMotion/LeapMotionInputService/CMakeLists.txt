@@ -57,17 +57,17 @@ add_library(Leap SHARED IMPORTED)
 
 if(WIN32)
 	if(WIN64)
-		set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
+            set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
 	else(WIN64)
-		set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
+            set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
 	endif(WIN64)
 	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll")
 	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib")
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                            "${MpMLEAPMOTION_LIB_DIR}" $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
 	install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll"
-			DESTINATION bin
-			COMPONENT applications)
+                DESTINATION bin
+                COMPONENT applications)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
@@ -99,8 +99,17 @@ if(APPLE)
             DESTINATION lib)
 endif(APPLE)
 if(LINUX)
-    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.so")
+    if(CPU_64)
+        set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64/libLeap.so")
+        install(FILES 
+                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64/libLeap.so" DESTINATION lib)
+    else(CPU_64)
+        set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86/libLeap.so")
+        install(FILES 
+                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86/libLeap.so" DESTINATION lib)
+    endif(CPU_64)
 endif(LINUX)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
