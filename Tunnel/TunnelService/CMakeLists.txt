@@ -84,7 +84,7 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+        DESTINATION bin
+        COMPONENT applications)
 
 enable_testing()

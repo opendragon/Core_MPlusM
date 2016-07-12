@@ -56,22 +56,22 @@ add_executable(${THIS_TARGET}
 add_library(Leap SHARED IMPORTED)
 
 if(WIN32)
-	if(WIN64)
-            set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
-	else(WIN64)
-            set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
-	endif(WIN64)
-	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll")
-	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib")
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                           "${MpMLEAPMOTION_LIB_DIR}" $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-	install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll"
-                DESTINATION bin
-                COMPONENT applications)
+    if(WIN64)
+        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
+    else(WIN64)
+        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
+    endif(WIN64)
+    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll")
+    set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib")
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       "${MpMLEAPMOTION_LIB_DIR}" $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
+    install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
+                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
@@ -100,16 +100,13 @@ if(APPLE)
 endif(APPLE)
 if(LINUX)
     if(CPU_64)
-        set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64/libLeap.so")
-        install(FILES 
-                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64/libLeap.so" DESTINATION lib)
+        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64")
     else(CPU_64)
-        set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86/libLeap.so")
-        install(FILES 
-                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86/libLeap.so" DESTINATION lib)
+        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86")
     endif(CPU_64)
+    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/libLeap.so")
+    install(FILES "${MpMLEAPMOTION_LIB_DIR}/libLeap.so"
+            DESTINATION lib)
 endif(LINUX)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -188,28 +185,28 @@ add_executable(${THIS_TARGET}
                 ${VERS_RESOURCE})
 
 if(APPLE)
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
 
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
 
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                           libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                       libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

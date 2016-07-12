@@ -54,20 +54,20 @@ add_executable(${THIS_TARGET}
                ${VERS_RESOURCE})
 
 if(WIN32)
-	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
-	if(WIN64)
-		set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x64")
-	else(WIN64)
-		set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86")
-	endif(WIN64)
-	add_library(Kinect SHARED IMPORTED)
-	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
-	set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                           "${MpMKINECT_LIB_DIR}" $<TARGET_FILE_DIR:m+mKinectV2InputService>)
-	install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
-			DESTINATION bin
-			COMPONENT applications)
+    include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
+    if(WIN64)
+        set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x64")
+    else(WIN64)
+        set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86")
+    endif(WIN64)
+    add_library(Kinect SHARED IMPORTED)
+    set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
+    set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       "${MpMKINECT_LIB_DIR}" $<TARGET_FILE_DIR:m+mKinectV2InputService>)
+    install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -101,8 +101,8 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+        DESTINATION bin
+        COMPONENT applications)
 
 set(THIS_TARGET m+mKinectV2BlobInputService)
 

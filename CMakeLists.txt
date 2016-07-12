@@ -104,7 +104,7 @@ endif(LINUX)
 if(WIN32)
     if(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmt" CACHE STRING
-                "Flags used by the linker." FORCE)
+            "Flags used by the linker." FORCE)
     endif(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))
 endif(WIN32)
 

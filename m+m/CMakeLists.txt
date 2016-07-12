@@ -209,7 +209,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mUtilities.hpp"
         DESTINATION include/m+m
-		COMPONENT headers)
+        COMPONENT headers)
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_m+m_in/m+mCommon.i

@@ -54,21 +54,21 @@ add_executable(${THIS_TARGET}
                ${VERS_RESOURCE})
 
 if(WIN32)
-	include_directories("${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/include")
-	if(WIN64)
-		set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib/x64")
-	else(WIN64)
-		set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib")
-	endif(WIN64)
-	add_library(NatNet SHARED IMPORTED)
-	set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB "${MpMNATNET_LIB_DIR}/NatNetLib.lib")
-	set_property(TARGET NatNet PROPERTY IMPORTED_LOCATION "${MpMNATNET_LIB_DIR}/NatNetLib.dll")
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                           "${MpMNATNET_LIB_DIR}" $<TARGET_FILE_DIR:m+mNatNetInputService>)
-	install(FILES
-                "${MpMNATNET_LIB_DIR}/NatNetLib.dll"
-                DESTINATION bin
-                COMPONENT applications)
+    include_directories("${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/include")
+    if(WIN64)
+        set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib/x64")
+    else(WIN64)
+        set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib")
+    endif(WIN64)
+    add_library(NatNet SHARED IMPORTED)
+    set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB "${MpMNATNET_LIB_DIR}/NatNetLib.lib")
+    set_property(TARGET NatNet PROPERTY IMPORTED_LOCATION "${MpMNATNET_LIB_DIR}/NatNetLib.dll")
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       "${MpMNATNET_LIB_DIR}" $<TARGET_FILE_DIR:m+mNatNetInputService>)
+    install(FILES
+            "${MpMNATNET_LIB_DIR}/NatNetLib.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

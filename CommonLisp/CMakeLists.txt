@@ -65,17 +65,17 @@ endif(APPLE)
 add_library(ECL SHARED IMPORTED)
 
 if(WIN32)
-	include_directories("${ECL_PATH}")
-	set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${ECL_PATH}/ecl.dll")
-	set_property(TARGET ECL PROPERTY IMPORTED_IMPLIB "${ECL_PATH}/ecl.lib")
-	install(FILES
-                "${ECL_PATH}/ecl.dll"
-                DESTINATION bin
-                COMPONENT applications)
-	install(DIRECTORY
-                "${ECL_PATH}/ecl"
-                DESTINATION ecl
-                COMPONENT libraries)
+    include_directories("${ECL_PATH}")
+    set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${ECL_PATH}/ecl.dll")
+    set_property(TARGET ECL PROPERTY IMPORTED_IMPLIB "${ECL_PATH}/ecl.lib")
+    install(FILES
+            "${ECL_PATH}/ecl.dll"
+            DESTINATION bin
+            COMPONENT applications)
+    install(DIRECTORY
+            "${ECL_PATH}/ecl"
+            DESTINATION ecl
+            COMPONENT libraries)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.dylib")

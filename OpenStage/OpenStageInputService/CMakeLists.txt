@@ -51,9 +51,9 @@ set(OPENSTAGESDK_INCLUDE_DIRS "${OPENSTAGESDK_INCLUDE_DIR}")
 set(OPENSTAGESDK_LIBRARIES "${OPENSTAGESDK_LIBRARY}" "${OPENSTAGESDK_UUID_LIBRARY}")
 
 set(OPENSTAGESDK_BINARIES
-	"${OPENSTAGESDK_DIR}/bin/omsdk2.dll"
-	"${OPENSTAGESDK_DIR}/bin/libglog.dll"
-	"${OPENSTAGESDK_DIR}/bin/tbb.dll")
+    "${OPENSTAGESDK_DIR}/bin/omsdk2.dll"
+    "${OPENSTAGESDK_DIR}/bin/libglog.dll"
+    "${OPENSTAGESDK_DIR}/bin/tbb.dll")
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -113,8 +113,8 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+        DESTINATION bin
+        COMPONENT applications)
 
 set(THIS_TARGET m+mOpenStageBlobInputService)
 

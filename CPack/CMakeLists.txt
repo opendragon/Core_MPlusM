@@ -167,19 +167,19 @@ if(WIN32)
             DESTINATION bin
             COMPONENT libraries)
 
-	#Configuration files
-	install(FILES
-                "${MpM_SOURCE_DIR}/standardApplications.txt"
-                DESTINATION support
-                COMPONENT libraries)
+    #Configuration files
+    install(FILES
+            "${MpM_SOURCE_DIR}/standardApplications.txt"
+            DESTINATION support
+            COMPONENT libraries)
 
-	#OTHER EXES
-	install(FILES
-                "${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2015/x64/Release/m+m manager.exe"
-                "${MpM_SOURCE_DIR}/Visualization/LeapDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mLeapDisplayOutputService.exe"
-                "${MpM_SOURCE_DIR}/Visualization/PlatonicDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mPlatonicDisplayOutputService.exe"
-                DESTINATION bin
-                COMPONENT applications)
+    #OTHER EXES
+    install(FILES
+            "${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2015/x64/Release/m+m manager.exe"
+            "${MpM_SOURCE_DIR}/Visualization/LeapDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mLeapDisplayOutputService.exe"
+            "${MpM_SOURCE_DIR}/Visualization/PlatonicDisplayOutputService/Builds/VisualStudio2015/x64/Release/m+mPlatonicDisplayOutputService.exe"
+            DESTINATION bin
+            COMPONENT applications)
 
     #Source archives
     install(FILES
