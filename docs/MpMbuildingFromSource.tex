@@ -1,6 +1,5 @@
 \ProvidesFile{MpMbuildingFromSource.tex}[v1.0.0]
 \newcommand{\osxDeploy}{10.7}%
-\newcommand{\spiderversion}{48a1}%
 \appendixStart[BuildingFromSource]{\textitcorr{Building \mplusm{} From Source}}
 For \mac{} and \win{}, an \mplusm{} installation is normally simply installed according to
 the \emph{\MMM{}~Installation} manual.
@@ -88,7 +87,7 @@ application:
 python2.7}
 \item\exSp\asCode{sudo apt-get install libtool libavahi-compat-libdnssd-dev
 libavahi-core-dev}
-\item\exSp\asCode{sudo apt-get install sqlite e2fsprogs e2fslibs-dev libicu-dev-dev}
+\item\exSp\asCode{sudo apt-get install sqlite e2fsprogs e2fslibs-dev libicu-dev}
 \item\exSp\asCode{sudo apt-get install libx11-dev libxft-dev libxrandr-dev
 libxinerama-dev}
 \item\exSp\asCode{sudo apt-get install wget uuid-dev libssl-dev libxcursor-dev}
@@ -168,7 +167,6 @@ refer to it from now on as `\asCode{\textbf{devel}}'
 \item\exSp\asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
 \item\exSp\asCode{git clone
 https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
-\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/yarp\fUS{}MPlusM.git}
 \end{itemize}
 \item\exSp{}Add the following lines to the end of the files
 \asCode{\textdollar{}HOME/.bashrc} and \asCode{\textdollar{}HOME/.bash\fUS{}profile},
@@ -274,7 +272,7 @@ part of the normal \mplusm{} installation procedure, so it's not necessary to re
 libraries.\\
 
 Note that newer versions of \yarp{} may or may not build correctly and may cause
-\mplusm{} to exhibit unusual behaviour, so only build \yarp{} from the provided
+\mplusm{} to exhibit unusual behaviour, so \yarp{} should be built from the provided
 source code.
 \tertiaryStart{Building on \mac}
 \begin{itemize}
@@ -379,8 +377,8 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \tertiaryEnd
 \tertiaryStart{Building on \linux}
 \begin{itemize}
-\item If you wish to get a snapshot of the current source, execute the following
-commands in the \asCode{Terminal} application:
+\item If you wish to get a snapshot of the current source, execute the following commands
+in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
 \item\exSp\asCode{wget https://github.com/robotology/yarp/archive/master.zip}
@@ -419,14 +417,7 @@ and\\
 `\textbf{e}'
 \item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some \asCode{CMake}
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{}Note that the current build process for \yarp{} is broken, and the robot
-interface will fail to build, even though it is disabled \longDash{} comment out the line
-`\asCode{add\fUS{}directory(yarprobotinterface)}' in the file\\
-\asCode{\textbf{devel}/yarp/src/CMakeLists.txt} by placing a hash mark character
-(`\asCode{\#}') at the start of the line; if there is no matching line or the
-`\textbf{CREATE\fUS{}YARPROBOTINTERFACE}' option was not displayed, this note can be
-ignored
-\item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
+\item\exSp{}Execute the command `\asCode{cmake .}'; again, there may be some project
 developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{make clean \&\& make}'
 \item\exSp{}Execute the command `\asCode{sudo make install}'
@@ -554,13 +545,11 @@ it must be at least \textbf{SpiderMonkey} \textbf{39}.
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `\asCode{make install}' process.
 \begin{itemize}
-\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
-referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
-\asCode{\textbf{devel}} directory, but it need not be
-\item\exSp{}On the command\longDash{}line, execute the following commands:
+\item On the command\longDash{}line, execute the following commands:
 \begin{itemize}
-\item \asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
-\item\exSp\asCode{cd \textbf{spidermonkey}}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git spidermonkey}
+\item\exSp\asCode{cd spidermonkey}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf213}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -575,11 +564,15 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \end{itemize}
 \item\exSp{}On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{\textbf{devel}}
+\item\exSp{}Execute the command `\asCode{ls -l /opt/m+m/spidermonkey/include}'
+\item\exSp{}Make note of the most recent directory, `\asCode{mozjs-\textbf{\#\#a\#}}',
+where `\#' represents a decimal digit
 \item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
-/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
-header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
-to distribute the resulting directories
+/opt/m+m/spidermonkey/include/mozjs-\textbf{\#\#a\#}}', where the directory is the one
+identified earlier;
+this replaces symbolic links in the header directories for \textbf{SpiderMonkey} with the
+original items, so that it is safe to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building on \win}
@@ -665,12 +658,11 @@ commands in the \asCode{Terminal} application:
 following commands in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
-\item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git
-\textbf{spidermonkey}}
+\item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git spidermonkey}
 \end{itemize}
 \item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
-\item\exSp\asCode{cd \textbf{spidermonkey}}
+\item\exSp\asCode{cd spidermonkey}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf2.13}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -683,9 +675,15 @@ following commands in the \asCode{Terminal} application:
 \end{itemize}
 \item\exSp{}In the \asCode{Terminal} application, move to the directory containing the
 \mplusm{} source code, \asCode{\textbf{devel}}
+\item\exSp{}Execute the command `\asCode{ls -l /opt/m+m/spidermonkey/include}'
+\item\exSp{}Make note of the most recent directory, `\asCode{mozjs-\textbf{\#\#a\#}}',
+where `\#' represents a decimal digit
 \item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
-/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
+/opt/m+m/spidermonkey/include/mozjs-\textbf{\#\#a\#}}', where the directory is the one
+identified earlier;
+this replaces symbolic links in the header directories for \textbf{SpiderMonkey} with the
+original items, so that it is safe to distribute the resulting directories
 header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
 to distribute the resulting directories
 \end{itemize}
@@ -716,7 +714,7 @@ particular version \longDash{} other than it must be at least \textbf{15.3.7}.
 \end{itemize}
 \item\exSp{}On the command\longDash{}line, execute the following commands:
 \begin{itemize}
-\item \asCode{cd \textbf{ecl}}
+\item \asCode{cd ecl}
 \item\exSp\asCode{make clean}
 \item\exSp\asCode{export MACOSX\fUS{}DEPLOYMENT\fUS{}TARGET=\osxDeploy}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
@@ -761,12 +759,11 @@ commands in the \asCode{Terminal} application:
 following commands in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
-\item\exSp\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git
-\textbf{ecl}}
+\item\exSp\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git ecl}
 \end{itemize}
 \item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
-\item\exSp\asCode{cd \textbf{ecl}}
+\item\exSp\asCode{cd ecl}
 \item\exSp\asCode{make clean}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
 {-}{-}with-dffi \textbackslash\\
@@ -1100,6 +1097,21 @@ window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building on \linux}
+If you intend to use the Leap Motion controller services, and you've had problems getting
+the driver for Linux to start on recent versions of Ubuntu, the following steps may be
+useful:
+\begin{itemize}
+\item Follow the instructions on the web-page
+\companyReference{https://community.leapmotion.com/t/tip-ubuntu-systemd-and-leapd/2118}%
+{Tip: Ubuntu, systemd and leapd}
+\item\exSp{}In the \asCode{Terminal} application, perform the following commands:
+\begin{itemize}
+\item \asCode{sudo ln -s /lib/systemd/system/leapd.service /etc/systemd/system/leapd.service}
+\item\exSp\asCode{sudo systemctl daemon-reload}
+\item\exSp\asCode{sudo service leapd start}
+\end{itemize}
+\end{itemize}
+The following are the general build instructions.
 \begin{itemize}
 \item In the \asCode{Terminal} application, move to the directory containing the \mplusm{}
 source code, \asCode{\textbf{devel}}
