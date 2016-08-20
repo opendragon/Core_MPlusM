@@ -480,7 +480,7 @@
  @param[in] text1 The caption for the value to be written.
  @param[in] val1 The value to be written. */
 #  define ODL_LL1(text1, val1) \
-        ODLogLL1_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1))
+        ODLogLL1_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1)
 
 /*! @brief Write two long long values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -488,8 +488,7 @@
  @param[in] text2 The caption for the second value to be written.
  @param[in] val2 The second value to be written. */
 #  define ODL_LL2(text1, val1, text2, val2) \
-        ODLogLL2_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2,\
-                    (long int) (val2))
+        ODLogLL2_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2)
 
 /*! @brief Write three long long values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -499,8 +498,7 @@
  @param[in] text3 The caption for the third value to be written.
  @param[in] val3 The third value to be written. */
 #  define ODL_LL3(text1, val1, text2, val2, text3, val3) \
-        ODLogLL3_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
-                    (long int) (val2), text3, (long int) (val3))
+        ODLogLL3_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2, text3, val3)
 
 /*! @brief Write four long long values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -512,8 +510,8 @@
  @param[in] text4 The caption for the fourth value to be written.
  @param[in] val4 The fourth value to be written. */
 #  define ODL_LL4(text1, val1, text2, val2, text3, val3, text4, val4) \
-        ODLogLL4_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
-                    (long int) (val2), text3, (long int) (val3), text4, (long int) (val4))
+        ODLogLL4_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2, text3, val3,\
+                     text4, val4)
 
 /*! @brief Write a long string value to the log.
  @param[in] text1 The caption for the value to be written.
@@ -808,7 +806,7 @@
  @param[in] text1 The caption for the value to be written.
  @param[in] val1 The value to be written. */
 #  define ODL_XL1(text1, val1) \
-        ODLogXL1_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1))
+        ODLogXL1_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1)
 
 /*! @brief Write two long long hexadecimal values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -816,8 +814,7 @@
  @param[in] text2 The caption for the second value to be written.
  @param[in] val2 The second value to be written. */
 #  define ODL_XL2(text1, val1, text2, val2) \
-        ODLogXL2_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2,\
-                    (long int) (val2))
+        ODLogXL2_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2)
 
 /*! @brief Write three long long hexadecimal values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -827,8 +824,7 @@
  @param[in] text3 The caption for the third value to be written.
  @param[in] val3 The third value to be written. */
 #  define ODL_XL3(text1, val1, text2, val2, text3, val3) \
-        ODLogXL3_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
-                    (long int) (val2), text3, (long int) (val3))
+        ODLogXL3_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2, text3, val3)
 
 /*! @brief Write four long long hexadecimal values to the log.
  @param[in] text1 The caption for the first value to be written.
@@ -840,8 +836,8 @@
  @param[in] text4 The caption for the fourth value to be written.
  @param[in] val4 The fourth value to be written. */
 #  define ODL_XL4(text1, val1, text2, val2, text3, val3, text4, val4) \
-        ODLogXL4_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
-                    (long int) (val2), text3, (long int) (val3), text4, (long int) (val4))
+        ODLogXL4_(__FILE__, ODL_FUNC_NAME_, __LINE__, text1, val1, text2, val2, text3, val3,\
+                     text4, val4)
 
 #  if (! defined(ODL_DEFINITIONS_LOADED))
 #   if defined(__cplusplus)
