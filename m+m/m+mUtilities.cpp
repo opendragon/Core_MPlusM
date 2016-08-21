@@ -637,7 +637,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     inByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                    secondValue.asInt();
+                                    secondValue.asInt();
                 }
             }
         }
@@ -657,7 +657,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     inMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                    secondValue.asInt();
+                                        secondValue.asInt();
                 }
             }
         }
@@ -677,7 +677,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                    secondValue.asInt();
+                                    secondValue.asInt();
                 }
             }
         }
@@ -697,7 +697,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
                 if (firstValue.isInt() && secondValue.isInt())
                 {
                     outMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                    secondValue.asInt();
+                                        secondValue.asInt();
                 }
             }
         }
