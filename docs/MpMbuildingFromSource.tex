@@ -539,8 +539,10 @@ via the instructions on the web\longDash{}page
 \companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
 Getting\_SpiderMonkey\_source\_code}%
 {\textbf{SpiderMonkey} source code}, as \mplusm{} does not use a modified version of
-\textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
-it must be at least \textbf{SpiderMonkey} \textbf{39}.
+\textbf{SpiderMonkey};
+however, due to the constantly-changing, non-backwards-compatible state of
+\textbf{SpiderMonkey}, it is necessary to build a particular version \longDash{}
+\textbf{48} \longDash{} which is obtained via requesting a specific \asCode{git} commit.
 \tertiaryStart{Building on \mac}
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `\asCode{make install}' process.
@@ -550,6 +552,7 @@ that manual steps be performed that should be part of the `\asCode{make install}
 \item \asCode{cd \textbf{devel}}
 \item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git spidermonkey}
 \item\exSp\asCode{cd spidermonkey}
+\item\exSp\asCode{git checkout 50A14B0C3C}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf213}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -566,7 +569,8 @@ that manual steps be performed that should be part of the `\asCode{make install}
 source code, \asCode{\textbf{devel}}
 \item\exSp{}Execute the command `\asCode{ls -l /opt/m+m/spidermonkey/include}'
 \item\exSp{}Make note of the most recent directory, `\asCode{mozjs-\#\#a\#}', where
-`\asCode{\#}' represents a decimal digit
+`\asCode{\#}' represents a decimal digit;
+until the build issues with \textbf{SpiderMonkey} are resolved, this will be \asCode{49a1}
 \item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
 /opt/m+m/spidermonkey/include/mozjs-\#\#a\#}', where the directory is the one identified
@@ -591,8 +595,12 @@ be referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 following:
 \begin{itemize}
 \item Open a Command Prompt window, running as Administrator
-\item\exSp{}Execute the command\\
-`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+\item\exSp{}Execute the commands
+\begin{itemize}
+\item \asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
+\item\exSp{}\asCode{cd \textbf{spidermonkey}}
+\item\exSp{}\asCode{git checkout 50A14B0C3C}
+\end{itemize}
 \end{itemize}
 \item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
 the following:
@@ -600,6 +608,12 @@ the following:
 \item\exSp{}Use \asCode{SourceTree} to clone the repository
 `\asCode{https://github.com/mozilla/gecko-dev.git}' into the directory
 `\asCode{\textbf{spidermonkey}}'
+\item\exSp{}Within \asCode{SourceTree}, select the \asCode{\textbf{spidermonky}}
+repository
+\item\exSp{}Select the menu item `\asCode{Actions \bigRightArrow{} Open In Terminal}'
+\item\exSp{}Execute the command `\asCode{git checkout 50A14B0C3C}' in the new terminal
+window
+\item\exSp{}Execute the command `\asCode{exit}' in the new terminal window to close it
 \item\exSp{}Open a Command Prompt window, running as Administrator
 \end{itemize}
 \item\exSp{}In the Command Prompt Window, move to the directory where the
@@ -623,7 +637,6 @@ must not be `\asCode{C:\textbackslash{}spidermonkey}'
 \item\exSp{}Execute the command `\asCode{../configure {-}{-}enable-release
 {-}{-}enable-more-deterministic \textbackslash\\
 {-}{-}prefix=c:/spidermonkey {-}{-}target=x86\fUS{}64-pc-mingw32
-\textbackslash
 {-}{-}host=x86\fUS{}64-pc-mingw32}'; note that the build environment has problems with the
 standard \win{} paths for program files, so the target directory is not the final one
 \item\exSp{}Execute the following commands:
@@ -645,24 +658,12 @@ standard \win{} paths for program files, so the target directory is not the fina
 \tertiaryEnd
 \tertiaryStart{Building on \linux}
 \begin{itemize}
-\item If you wish to get a snapshot of the current source, execute the following
-commands in the \asCode{Terminal} application:
-\begin{itemize}
-\item \asCode{cd \textbf{devel}}
-\item\exSp\asCode{wget https://github.com/mozilla/gecko-dev/archive/master.zip}
-\item\exSp\asCode{unzip master.zip}
-\item\exSp\asCode{rm master.zip}
-\item\exSp\asCode{mv gecko-dev-master spidermonkey}
-\end{itemize}
-\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
-following commands in the \asCode{Terminal} application:
+\item Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
 \item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git spidermonkey}
-\end{itemize}
-\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
-\begin{itemize}
 \item\exSp\asCode{cd spidermonkey}
+\item\exSp\asCode{git checkout 50A14B0C3C}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf2.13}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -677,15 +678,14 @@ following commands in the \asCode{Terminal} application:
 \mplusm{} source code, \asCode{\textbf{devel}}
 \item\exSp{}Execute the command `\asCode{ls -l /opt/m+m/spidermonkey/include}'
 \item\exSp{}Make note of the most recent directory, `\asCode{mozjs-\#\#a\#}', where
-`\asCode{\#}' represents a decimal digit
+`\asCode{\#}' represents a decimal digit;
+until the build issues with \textbf{SpiderMonkey} are resolved, this will be \asCode{49a1}
 \item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
 /opt/m+m/spidermonkey/include/mozjs-\#\#a\#}', where the directory is the one identified
 earlier;
 this replaces symbolic links in the header directories for \textbf{SpiderMonkey} with the
 original items, so that it is safe to distribute the resulting directories
-header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
-to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
@@ -701,8 +701,6 @@ via the instructions on the web\longDash{}page
 particular version \longDash{} other than it must be at least \textbf{15.3.7}.
 \tertiaryStart{Building on \mac}
 \begin{itemize}
-%\item If you wish to get a snapshot of the current source, execute the following
-%commands in the \asCode{Terminal} application:
 \item Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
 \item \asCode{cd \textbf{devel}}
@@ -1377,9 +1375,10 @@ directory
 \item\exSp{}If any source files have been modified in the
 `\asCode{Utilities\fUS{}mm\fUS{}manager}' directory, commit the changes to the
 \asCode{git} repository
-\item\exSp{}Check that the archives \asCode{ACE\fUS{}MPlusM.zip} and \asCode{OGDF.zip} are
-present in the \asCode{\textbf{devel}\textbackslash{}archives} directory in order to
-construct the distribution packages successfully
+\item\exSp{}Check that the archives \asCode{ACE\fUS{}MPlusM.zip},
+\asCode{Documentation.zip} and \asCode{OGDF.zip} are present in the
+\asCode{\textbf{devel}\textbackslash{}archives} directory in order to construct the
+distribution packages successfully
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
