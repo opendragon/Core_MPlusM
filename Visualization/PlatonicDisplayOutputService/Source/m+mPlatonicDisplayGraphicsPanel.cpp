@@ -40,7 +40,7 @@
 #include "m+mPlatonicDisplayGraphicsPanel.hpp"
 #include "m+mPlatonicDisplayApplication.hpp"
 #include "m+mPlatonicDisplayContentPanel.hpp"
-#include "m+mVertexBUffer.hpp"
+#include "m+mVertexBuffer.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

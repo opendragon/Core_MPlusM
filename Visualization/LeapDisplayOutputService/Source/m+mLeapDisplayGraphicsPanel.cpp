@@ -40,7 +40,7 @@
 #include "m+mLeapDisplayGraphicsPanel.hpp"
 #include "m+mLeapDisplayApplication.hpp"
 #include "m+mLeapDisplayContentPanel.hpp"
-#include "m+mVertexBUffer.hpp"
+#include "m+mVertexBuffer.hpp"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
