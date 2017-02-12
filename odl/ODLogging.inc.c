@@ -3493,7 +3493,11 @@ ODLogPacket_(const char * fileName,
     static char  hexDigits[] = "0123456789ABCDEF";
     size_t       captionLength = strlen(caption);
     char *       blankCaption = (char *) malloc(captionLength + 1);
-    const char * walker = reinterpret_cast<const char *>(buffer);
+#if defined(__cplusplus)
+    const char  *walker = reinterpret_cast<const char *>(buffer);
+#else // ! defined(__cplusplus)
+    const char  *walker = (const char *) buffer;
+#endif // ! defined(__cplusplus)
 
     ODL_CREATE_INDENT_();
     ODL_CREATE_PREFIX_();
