@@ -42,9 +42,9 @@ set(THIS_TARGET m+mCommonTest)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -81,7 +81,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -93,7 +93,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND ${THIS_TARGET} 1 "/service/test/createendpoint_1")

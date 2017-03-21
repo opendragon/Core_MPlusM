@@ -57,9 +57,9 @@ set(OPENSTAGESDK_BINARIES
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -77,9 +77,9 @@ add_executable(${THIS_TARGET}
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(WIN32)
     install(FILES
@@ -88,7 +88,7 @@ if(WIN32)
             "${OPENSTAGESDK_DIR}/bin/tbb.dll"
             DESTINATION bin
             COMPONENT applications)
-endif(WIN32)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -98,7 +98,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -110,7 +110,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -120,9 +120,9 @@ set(THIS_TARGET m+mOpenStageBlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -140,9 +140,9 @@ add_executable(${THIS_TARGET}
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -152,7 +152,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -164,7 +164,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin

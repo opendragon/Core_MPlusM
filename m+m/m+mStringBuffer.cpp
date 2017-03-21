@@ -41,8 +41,8 @@
 #include <m+m/m+mClientChannel.hpp>
 #include <m+m/m+mServiceResponse.hpp>
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #include <inttypes.h>
 

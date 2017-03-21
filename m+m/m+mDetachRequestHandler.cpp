@@ -41,8 +41,8 @@
 #include <m+m/m+mBaseService.hpp>
 #include <m+m/m+mRequests.hpp>
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

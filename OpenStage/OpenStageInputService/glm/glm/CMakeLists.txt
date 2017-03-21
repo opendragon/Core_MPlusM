@@ -37,7 +37,7 @@ if(GLM_TEST_ENABLE)
 		${CORE_SOURCE}    ${CORE_INLINE}    ${CORE_HEADER}
 		${GTC_SOURCE}     ${GTC_INLINE}     ${GTC_HEADER}
 		${GTX_SOURCE}     ${GTX_INLINE}     ${GTX_HEADER})
-endif(GLM_TEST_ENABLE)
+endif()
 
 #add_library(glm STATIC glm.cpp)
 #add_library(glm_shared SHARED glm.cpp)

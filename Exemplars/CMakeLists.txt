@@ -41,7 +41,7 @@ cmake_minimum_required(VERSION 2.6)
 
 if(WIN32)
     set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
-endif(WIN32)
+endif()
 
 project(m+mExemplars)
 
@@ -68,15 +68,15 @@ if(APPLE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
-endif(APPLE)
+endif()
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
 if(WIN32)
     option(WIN64 "Build 64-bit binaries" ON)
-else(WIN32)
+else()
     set(WIN64 OFF)
-endif(WIN32)
+endif()
 
 # Add the m+m target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
@@ -99,11 +99,21 @@ set(MpMExemplars_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMExemplars_SOURCE_DIR}")
 
-set(MpM_LINK_LIBRARIES m+mCommon odLogging ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
+if(WIN32)
+#    set(ODL_DIR "??")
+else()
+    set(ODL_DIR "/opt/odl/lib")
+endif()
+find_package(ODL 1.0.0 REQUIRED)
+if(ODL_FOUND)
+    include_directories(${ODL_INCLUDE_DIRS})
+endif()
+
+set(MpM_LINK_LIBRARIES m+mCommon ${ODL_LIBRARIES} ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
 
 if(LINUX)
     set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
-endif(LINUX)
+endif()
 
 # Add the subdirectories for a client / service
 add_subdirectory(ExemplarAdapter)

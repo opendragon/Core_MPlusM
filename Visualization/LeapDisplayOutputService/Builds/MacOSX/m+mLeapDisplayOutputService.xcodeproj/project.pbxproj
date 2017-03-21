@@ -2883,8 +2883,12 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib";
-				LIBRARY_SEARCH_PATHS = "/opt/m+m/lib";
+				HEADER_SEARCH_PATHS = /opt/odl/include;
+				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib /opt/odl/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"/opt/m+m/lib",
+					/opt/odl/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
@@ -2964,8 +2968,12 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib";
-				LIBRARY_SEARCH_PATHS = "/opt/m+m/lib";
+				HEADER_SEARCH_PATHS = /opt/odl/include;
+				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib /opt/odl/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"/opt/m+m/lib",
+					/opt/odl/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (

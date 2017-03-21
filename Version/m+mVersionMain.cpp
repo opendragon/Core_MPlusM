@@ -39,6 +39,9 @@
 #include <m+m/m+mCommon.hpp>
 #include <m+m/m+mUtilities.hpp>
 
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -123,6 +126,7 @@ main(int      argc,
     {
         YarpString aceVersionString;
         YarpString mpmVersionString;
+        YarpString odlVersionString;
         YarpString yarpVersionString;
 
         switch (flavour)
@@ -130,14 +134,16 @@ main(int      argc,
             case kOutputFlavourTabs :
                 aceVersionString = SanitizeString(ACE_VERSION, true);
                 mpmVersionString = SanitizeString(MpM_VERSION_, true);
+                odlVersionString = SanitizeString(ODL_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
                 cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
-                        aceVersionString.c_str() << endl;
+                        aceVersionString.c_str() << "\t" << odlVersionString.c_str() << endl;
                 break;
 
             case kOutputFlavourJSON :
                 aceVersionString = SanitizeString(ACE_VERSION);
                 mpmVersionString = SanitizeString(MpM_VERSION_);
+                odlVersionString = SanitizeString(ODL_VERSION_);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING);
                 cout << T_("{ " CHAR_DOUBLEQUOTE_ "m+m" CHAR_DOUBLEQUOTE_ ": " CHAR_DOUBLEQUOTE_) <<
                         mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
@@ -146,16 +152,21 @@ main(int      argc,
                         yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
                                                         "ACE" CHAR_DOUBLEQUOTE_ ": "
                                                         CHAR_DOUBLEQUOTE_) <<
-                        aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ " }") << endl;
+                        aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
+                                                       "ODL" CHAR_DOUBLEQUOTE_ ": "
+                                                       CHAR_DOUBLEQUOTE_) <<
+                        odlVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ " }") << endl;
                 break;
 
             case kOutputFlavourNormal :
                 aceVersionString = SanitizeString(ACE_VERSION, true);
                 mpmVersionString = SanitizeString(MpM_VERSION_, true);
+                odlVersionString = SanitizeString(ODL_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
                 cout << "m+m Version: " << mpmVersionString.c_str() << ", YARP Version: " <<
                         yarpVersionString.c_str() << ", ACE Version: " <<
-                        aceVersionString.c_str() << endl;
+                        aceVersionString.c_str() << ", ODL Version: " << odlVersionString.c_str() <<
+                        endl;
                 break;
 
             default :

@@ -40,9 +40,9 @@ set(THIS_TARGET m+mSendToMQOutputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 set(MQ_VERSION "3.10.0")
 
@@ -52,19 +52,19 @@ if(WIN32)
     if(WIN64)
         set(APR_INSTALL_PATH "C:/Program Files/m+m")
         set(ACTIVEMQ_INSTALL_PATH "C:/Program Files/m+m")
-    else(WIN64)
+    else()
         set(APR_INSTALL_PATH "C:/Program Files (x86)/m+m")
         set(ACTIVEMQ_INSTALL_PATH "C:/Program Files (x86)/m+m")
-    endif(WIN64)
+    endif()
     set(APR_INC_PATH "${APR_INSTALL_PATH}/include")
     set(ACTIVEMQ_INC_PATH "${ACTIVEMQ_INSTALL_PATH}/include")
-endif(WIN32)
+endif()
 if(APPLE)
     set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-${MQ_VERSION}")
-endif(APPLE)
+endif()
 if(LINUX)
     set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-${MQ_VERSION}")
-endif(LINUX)
+endif()
 
 include_directories(${ACTIVEMQ_INC_PATH})
 
@@ -72,17 +72,17 @@ if(WIN32)
     add_library(activemq STATIC IMPORTED)
     if(WIN64)
         set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INSTALL_PATH}/lib")
-    else(WIN64)
+    else()
         set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INSTALL_PATH}/lib")
-    endif(WIN64)
+    endif()
     set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
                     "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib")
     add_library(aprlib STATIC IMPORTED)
     if(WIN64)
         set(MpMAPR_LIB_DIR "${APR_INSTALL_PATH}/lib")
-    else(WIN64)
+    else()
         set(MpMAPR_LIB_DIR "${APR_INSTALL_PATH}/lib")
-    endif(WIN64)
+    endif()
     set_property(TARGET aprlib PROPERTY IMPORTED_LOCATION "${MpMAPR_LIB_DIR}/libapr-1.lib")
     # APR and ActiveMQ libraries
     install(FILES
@@ -118,7 +118,7 @@ if(WIN32)
             FILES_MATCHING
             PATTERN "include/include/*" EXCLUDE
             PATTERN "apr*.h")
-endif(WIN32)
+endif()
 
 # Set up our program
 add_executable(${THIS_TARGET}
@@ -142,7 +142,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -154,13 +154,13 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 if(LINUX)
     add_library(activemq SHARED IMPORTED)
     set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
                 "${CMAKE_INSTALL_PREFIX}/lib/libactivemq-cpp.so")
-endif(LINUX)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
@@ -170,7 +170,7 @@ if(WIN32)
     target_link_libraries(${THIS_TARGET}
                             aprlib
                             ${BONJOUR_LIB})
-endif(WIN32)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin

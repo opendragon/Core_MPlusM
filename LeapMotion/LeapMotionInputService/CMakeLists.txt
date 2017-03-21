@@ -40,9 +40,9 @@ set(THIS_TARGET m+mLeapMotionInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -58,9 +58,9 @@ add_library(Leap SHARED IMPORTED)
 if(WIN32)
     if(WIN64)
         set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
-    else(WIN64)
+    else()
         set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
-    endif(WIN64)
+    endif()
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll")
     set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib")
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -68,7 +68,7 @@ if(WIN32)
     install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll"
             DESTINATION bin
             COMPONENT applications)
-endif(WIN32)
+endif()
 if(APPLE)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
                 "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
@@ -83,7 +83,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -97,17 +97,17 @@ if(APPLE)
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
             DESTINATION lib)
-endif(APPLE)
+endif()
 if(LINUX)
     if(CPU_64)
         set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x64")
-    else(CPU_64)
+    else()
         set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/x86")
-    endif(CPU_64)
+    endif()
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/libLeap.so")
     install(FILES "${MpMLEAPMOTION_LIB_DIR}/libLeap.so"
             DESTINATION lib)
-endif(LINUX)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
@@ -121,9 +121,9 @@ set(THIS_TARGET m+mLeapTwoFingersInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -145,7 +145,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -157,7 +157,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
@@ -171,9 +171,9 @@ set(THIS_TARGET m+mLeapBlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -195,7 +195,7 @@ if(APPLE)
                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                       libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -207,7 +207,7 @@ if(APPLE)
                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
@@ -221,9 +221,9 @@ set(THIS_TARGET m+mLeapTwoPalmsInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -245,7 +245,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -257,7 +257,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
@@ -271,9 +271,9 @@ set(THIS_TARGET m+mLeapFingerTipsInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -295,7 +295,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -307,7 +307,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

@@ -42,8 +42,8 @@
 
 #include <m+m/m+mEndpoint.hpp>
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #include "rapidjson/document.h"
 

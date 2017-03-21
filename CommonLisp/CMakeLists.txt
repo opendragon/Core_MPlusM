@@ -40,19 +40,19 @@ set(THIS_TARGET m+mCommonLispFilterService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
     if(WIN64)
         set(ECL_PATH "C:/Program Files/m+m/ecl_src")
-    else(WIN64)
+    else()
         set(ECL_PATH "C:/Program Files (x86)/m+m/ecl_src")
-    endif(WIN64)
-endif(WIN32)
+    endif()
+endif()
 
 if(APPLE)
 # There's a problem with building ECL as a Universal - it can't be configured correctly
@@ -60,7 +60,7 @@ if(APPLE)
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
-endif(APPLE)
+endif()
 
 add_library(ECL SHARED IMPORTED)
 
@@ -76,13 +76,13 @@ if(WIN32)
             "${ECL_PATH}/ecl"
             DESTINATION ecl
             COMPONENT libraries)
-endif(WIN32)
+endif()
 if(APPLE)
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.dylib")
-endif(APPLE)
+endif()
 if(LINUX)
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.so")
-endif(LINUX)
+endif()
 
 # Set up our program
 add_executable(${THIS_TARGET}
@@ -107,7 +107,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -119,7 +119,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin)
@@ -128,6 +128,6 @@ if(APPLE)
 # Restore the architecture settings so that later builds will be correct.
     set(CMAKE_OSX_ARCHITECTURES "${OLD_CMAKE_OSX_ARCHITECTURES}" CACHE STRING
         "Build architectures for Mac OS X" FORCE)
-endif(APPLE)
+endif()
 
 enable_testing()

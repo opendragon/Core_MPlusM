@@ -60,7 +60,7 @@
 # define MpM_VERSION_PATCH_ @MpM_VERSION_PATCH@
 
 /*! @brief The version number as a string. */
-# define MpM_VERSION_ "@MpM_VERSION_STRING@"
+# define MpM_VERSION_ "@MpM_VERSION@"
 
 /*! @brief The base of the channel name to use for an adapter. */
 # define MpM_ADAPTER_BASE_NAME_        "@MpM_ADAPTER_BASE_NAME@"

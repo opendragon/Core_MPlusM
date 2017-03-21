@@ -49,8 +49,8 @@
 #include <m+m/m+mServiceRequest.hpp>
 #include <m+m/m+mUtilities.hpp>
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #include <ctime>
 #if defined(__APPLE__)

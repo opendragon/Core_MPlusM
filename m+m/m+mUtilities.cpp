@@ -45,8 +45,8 @@
 #include <m+m/m+mServiceResponse.hpp>
 #include <m+m/m+mStringBuffer.hpp>
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #if (! MAC_OR_LINUX_)
 # pragma comment(lib, "ws2_32.lib")

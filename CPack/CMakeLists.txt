@@ -221,6 +221,6 @@ if(WIN32)
         Delete \\\"$DESKTOP\\\\m+m manager.lnk\\\"
         ")
 
-endif(WIN32)
+endif()
 
 include(CPack)

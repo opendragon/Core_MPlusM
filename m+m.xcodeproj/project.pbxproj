@@ -176,13 +176,6 @@
 		DF384FB6198A9C0500A0414E /* m+mStartSumRequestHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mStartSumRequestHandler.hpp"; path = "examples/RunningSumService/m+mStartSumRequestHandler.hpp"; sourceTree = SOURCE_ROOT; };
 		DF384FB7198A9C0500A0414E /* m+mStopSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "m+mStopSumRequestHandler.cpp"; path = "examples/RunningSumService/m+mStopSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF384FB8198A9C0500A0414E /* m+mStopSumRequestHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mStopSumRequestHandler.hpp"; path = "examples/RunningSumService/m+mStopSumRequestHandler.hpp"; sourceTree = SOURCE_ROOT; };
-		DF384FC2198A9C7A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = odl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FC3198A9C7A00A0414E /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = odl/ODDisableLogging.h; sourceTree = SOURCE_ROOT; };
-		DF384FC4198A9C7A00A0414E /* ODEnableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODEnableLogging.h; path = odl/ODEnableLogging.h; sourceTree = SOURCE_ROOT; };
-		DF384FC5198A9C7A00A0414E /* ODLogging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ODLogging.cpp; path = odl/ODLogging.cpp; sourceTree = SOURCE_ROOT; };
-		DF384FC6198A9C7A00A0414E /* ODLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODLogging.h; path = odl/ODLogging.h; sourceTree = SOURCE_ROOT; };
-		DF384FC7198A9C7A00A0414E /* ODLogging.inc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ODLogging.inc.c; path = odl/ODLogging.inc.c; sourceTree = SOURCE_ROOT; };
-		DF384FC8198A9C7A00A0414E /* ODLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODLogging.m; path = odl/ODLogging.m; sourceTree = SOURCE_ROOT; };
 		DF385003198A9D2800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF385004198A9D4A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/RequestCounterClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF385005198A9D4A00A0414E /* m+mRequestCounterClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mRequestCounterClient.cpp"; path = "RequestCounter/RequestCounterClient/m+mRequestCounterClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -665,7 +658,6 @@
 		DFEF4B601A1CE6F900FBB838 /* m+mUnrealOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputService.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DFEF4B611A1CE6F900FBB838 /* m+mUnrealOutputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mUnrealOutputService.hpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputService.hpp"; sourceTree = SOURCE_ROOT; };
 		DFEF4B621A1CE6F900FBB838 /* m+mUnrealOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputServiceMain.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFEF4BB01A24FE8800FBB838 /* ODLogging.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = ODLogging.i; path = odl/swig_odl_in/ODLogging.i; sourceTree = SOURCE_ROOT; };
 		DFEF83D71B8B5B8A00C0ACDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/PlaybackFromJSONService/CMakeLists.txt; sourceTree = "<group>"; };
 		DFEF83D81B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlaybackFromJSONInputRequests.hpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputRequests.hpp"; sourceTree = "<group>"; };
 		DFEF83D91B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlaybackFromJSONInputService.cpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputService.cpp"; sourceTree = "<group>"; };
@@ -1728,7 +1720,6 @@
 				DFA3434F18C91C670053B87C /* m+m */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				DFCB01F11ADC3DB600A5ACBA /* NatNet */,
-				DFA3432618C91C1C0053B87C /* odl */,
 				DF1C1C751B3CA19300E816A4 /* OpenStage */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortList */,
@@ -1801,21 +1792,6 @@
 				DFA7D0C51ADD92B200A17BD6 /* resource.h */,
 			);
 			name = EchoClient;
-			sourceTree = SOURCE_ROOT;
-		};
-		DFA3432618C91C1C0053B87C /* odl */ = {
-			isa = PBXGroup;
-			children = (
-				DF384FC2198A9C7A00A0414E /* CMakeLists.txt */,
-				DF384FC3198A9C7A00A0414E /* ODDisableLogging.h */,
-				DF384FC4198A9C7A00A0414E /* ODEnableLogging.h */,
-				DF384FC5198A9C7A00A0414E /* ODLogging.cpp */,
-				DF384FC6198A9C7A00A0414E /* ODLogging.h */,
-				DF384FC7198A9C7A00A0414E /* ODLogging.inc.c */,
-				DF384FC8198A9C7A00A0414E /* ODLogging.m */,
-				DFEF4B891A24FCAF00FBB838 /* swig_odl_in */,
-			);
-			name = odl;
 			sourceTree = SOURCE_ROOT;
 		};
 		DFA3434F18C91C670053B87C /* m+m */ = {
@@ -2256,14 +2232,6 @@
 				DFEDCA631B46E1A30034C881 /* m+mCommon.i */,
 			);
 			name = swig_mpm_in;
-			sourceTree = SOURCE_ROOT;
-		};
-		DFEF4B891A24FCAF00FBB838 /* swig_odl_in */ = {
-			isa = PBXGroup;
-			children = (
-				DFEF4BB01A24FE8800FBB838 /* ODLogging.i */,
-			);
-			name = swig_odl_in;
 			sourceTree = SOURCE_ROOT;
 		};
 		DFEF83D61B8B5B5200C0ACDD /* PlaybackFromJSONService */ = {

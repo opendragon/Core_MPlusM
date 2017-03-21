@@ -6,7 +6,7 @@ function(glmCreateTestGTC NAME)
 		add_test(
 		    NAME ${SAMPLE_NAME}
 		    COMMAND $<TARGET_FILE:${SAMPLE_NAME}> )
-	endif(GLM_TEST_ENABLE)
+	endif()
 endfunction()
 
 add_subdirectory(bug)

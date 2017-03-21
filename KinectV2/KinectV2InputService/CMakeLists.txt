@@ -40,9 +40,9 @@ set(THIS_TARGET m+mKinectV2InputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -57,9 +57,9 @@ if(WIN32)
     include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
     if(WIN64)
         set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x64")
-    else(WIN64)
+    else()
         set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86")
-    endif(WIN64)
+    endif()
     add_library(Kinect SHARED IMPORTED)
     set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
     set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
@@ -68,15 +68,15 @@ if(WIN32)
     install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
             DESTINATION bin
             COMPONENT applications)
-endif(WIN32)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -86,7 +86,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -98,7 +98,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -108,9 +108,9 @@ set(THIS_TARGET m+mKinectV2BlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -125,9 +125,9 @@ add_executable(${THIS_TARGET}
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -137,7 +137,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -149,7 +149,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -159,9 +159,9 @@ set(THIS_TARGET m+mKinectV2SpecialInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -176,9 +176,9 @@ add_executable(${THIS_TARGET}
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -188,7 +188,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -200,7 +200,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin

@@ -40,9 +40,9 @@ set(THIS_TARGET m+mViconDataStreamInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -64,14 +64,14 @@ if(WIN32)
         set(MpMVICON_BOOST2_DLL "${MpMVICON_LIB_DIR}/boost_chrono-vc110-mt-1_55.dll")
         set(MpMVICON_BOOST3_DLL "${MpMVICON_LIB_DIR}/boost_python-vc110-mt-1_55.dll")
         set(MpMVICON_BOOST4_DLL "${MpMVICON_LIB_DIR}/boost_system-vc110-mt-1_55.dll")
-    else(WIN64)
+    else()
         set(MpMVICON_LIB_DIR
             "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/x86")
         set(MpMVICON_BOOST1_DLL "${MpMVICON_LIB_DIR}/boost_thread-vc90-mt-1_48.dll")
         set(MpMVICON_BOOST2_DLL "")
         set(MpMVICON_BOOST3_DLL "")
         set(MpMVICON_BOOST4_DLL "")
-    endif(WIN64)
+    endif()
     set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_LOCATION
                  "${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll")
     set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_IMPLIB
@@ -96,23 +96,23 @@ if(WIN32)
                 "${MpMVICON_BOOST4_DLL}"
                 DESTINATION bin
                 COMPONENT applications)
-    else(WIN64)
+    else()
         install(FILES
                 "${MpMVICON_BOOST1_DLL}"
                 DESTINATION bin
                 COMPONENT applications)
-    endif(WIN64)
+    endif()
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMVICON_LIB_DIR}" $<TARGET_FILE_DIR:m+mViconDataStreamInputService>)
-endif(WIN32)
+endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} ViconDataStreamSDK ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -122,7 +122,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -134,7 +134,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -144,9 +144,9 @@ set(THIS_TARGET m+mViconBlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
-else(WIN32)
+else()
     set(VERS_RESOURCE "")
-endif(WIN32)
+endif()
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
@@ -163,9 +163,9 @@ add_executable(${THIS_TARGET}
 # processed once.
 if(MpM_BuildDummyServices)
     target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
-else(MpM_BuildDummyServices)
+else()
     target_link_libraries(${THIS_TARGET} ViconDataStreamSDK ${MpM_LINK_LIBRARIES})
-endif(MpM_BuildDummyServices)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -175,7 +175,7 @@ if(APPLE)
                         libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
@@ -187,7 +187,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin

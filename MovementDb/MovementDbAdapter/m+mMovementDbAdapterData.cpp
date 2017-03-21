@@ -40,8 +40,8 @@
 #include "m+mMovementDbAdapterData.hpp"
 #include "m+mMovementDbClient.hpp"
 
-//#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
+//#include <ODEnableLogging.h>
+#include <ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

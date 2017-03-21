@@ -45,9 +45,9 @@ set(OTHER_TARGET_PYTHON m+mCommon_swig_python)
 if(APPLE)
     set(DO_SHARED "SHARED")
     set(THIS_TARGET_LIB "lib${THIS_TARGET}.dylib")
-else(APPLE)
+else()
     set(DO_SHARED "")
-endif(APPLE)
+endif()
 
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
@@ -130,14 +130,14 @@ target_link_libraries(${THIS_TARGET}
 if(LINUX)
     target_link_libraries(${THIS_TARGET}
                           pthread)
-endif(LINUX)
+endif()
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET_LIB})
+                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET_LIB})
@@ -149,7 +149,7 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET_LIB})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET_LIB})
-endif(APPLE)
+endif()
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION lib
@@ -312,7 +312,7 @@ if(MpM_DO_SWIG)
             DESTINATION python/m+m
             COMPONENT headers)
 
-endif(MpM_DO_SWIG)
+endif()
 
 enable_testing()
 

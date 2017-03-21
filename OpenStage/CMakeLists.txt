@@ -42,7 +42,7 @@ cmake_minimum_required(VERSION 2.6)
 
 if(WIN32)
     set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
-endif(WIN32)
+endif()
 
 project(m+mOpenStage)
 
@@ -55,7 +55,7 @@ if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
-endif(APPLE)
+endif()
 
 # Find YARP
 find_package(YARP REQUIRED)
