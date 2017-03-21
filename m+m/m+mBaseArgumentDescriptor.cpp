@@ -49,8 +49,8 @@
 #include <m+m/m+mPortArgumentDescriptor.hpp>
 #include <m+m/m+mStringArgumentDescriptor.hpp>
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

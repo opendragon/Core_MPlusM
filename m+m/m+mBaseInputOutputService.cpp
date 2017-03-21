@@ -51,8 +51,8 @@
 #include <m+m/m+mGeneralChannel.hpp>
 #include <m+m/m+mUtilities.hpp>
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if MAC_OR_LINUX_
 # include <termios.h>

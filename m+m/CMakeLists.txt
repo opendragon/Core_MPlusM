@@ -122,7 +122,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mUtilities.cpp")
 
 target_link_libraries(${THIS_TARGET}
-                        odLogging
+                        ${ODL_LIBRARY}
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES}
                         ${BONJOUR_LIB})
@@ -137,7 +137,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET_LIB})
+                        ${ODL_LIBRARY_ROOT} ${ODL_LIBRARY} ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET_LIB})
@@ -148,7 +148,7 @@ if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET_LIB})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET_LIB})
+                       libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET_LIB})
 endif()
 
 install(TARGETS ${THIS_TARGET}
@@ -273,7 +273,7 @@ if(MpM_DO_SWIG)
 
     swig_link_libraries(${OTHER_TARGET_CSHARP}
                         ${THIS_TARGET}
-                        odLogging
+                        ${ODL_LIBRARY}
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES})
 
@@ -296,7 +296,7 @@ if(MpM_DO_SWIG)
 
     swig_link_libraries(${OTHER_TARGET_PYTHON}
                         ${THIS_TARGET}
-                        odLogging
+                        ${ODL_LIBRARY}
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES}
                         ${PYTHON_LIBRARIES})

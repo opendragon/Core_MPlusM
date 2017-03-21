@@ -40,8 +40,8 @@
 #include "m+mPlatonicServiceThread.hpp"
 #include "m+mPlatonicDisplayOutputService.hpp"
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

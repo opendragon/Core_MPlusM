@@ -40,8 +40,8 @@
 #include "m+mExemplarRequests.hpp"
 #include "m+mExemplarService.hpp"
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

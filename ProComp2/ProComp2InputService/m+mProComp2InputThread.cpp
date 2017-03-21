@@ -38,8 +38,8 @@
 
 #include "m+mProComp2InputThread.hpp"
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #define _WIN32_DCOM // for using CoInitializeEx
 

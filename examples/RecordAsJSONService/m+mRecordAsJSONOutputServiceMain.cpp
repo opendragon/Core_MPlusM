@@ -42,8 +42,8 @@
 #include <m+m/m+mFilePathArgumentDescriptor.hpp>
 #include <m+m/m+mUtilities.hpp>
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

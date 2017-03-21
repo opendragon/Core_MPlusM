@@ -42,8 +42,8 @@
 #include "m+mLeapDisplayContentPanel.hpp"
 #include "m+mVertexBuffer.hpp"
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

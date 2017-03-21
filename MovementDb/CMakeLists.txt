@@ -115,6 +115,34 @@ if(LINUX)
     set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
 endif()
 
+if(APPLE)
+    function(fix_dynamic_libs target)
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libACE.dylib "@rpath/libACE.dylib" ${target})
+
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${target})
+
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            ${ODL_LIBRARY_ROOT} ${ODL_LIBRARY} ${target})
+
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${target})
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${target})
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${target})
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${target})
+        add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                            libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${target})
+    endfunction()
+else()
+# Do nothing
+    function(fix_dynamic_libs target)
+    endfunction()
+endif()
+
 add_subdirectory(MovementDbAdapter)
 add_subdirectory(MovementDbClient)
 add_subdirectory(MovementDbService)

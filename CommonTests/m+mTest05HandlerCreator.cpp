@@ -39,8 +39,8 @@
 #include "m+mTest05HandlerCreator.hpp"
 #include "m+mTest05Handler.hpp"
 
-//#include <ODEnableLogging.h>
-#include <ODLogging.h>
+//#include <odlEnable.h>
+#include <odlInclude.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

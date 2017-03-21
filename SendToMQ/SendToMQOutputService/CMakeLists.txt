@@ -127,6 +127,7 @@ add_executable(${THIS_TARGET}
                m+mSendToMQOutputService.cpp
                ${VERS_RESOURCE})
 
+fix_dynamic_libs(${THIS_TARGET})
 if(APPLE)
     add_library(activemq SHARED IMPORTED)
     set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
@@ -135,25 +136,6 @@ if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libactivemq-cpp.dylib "@rpath/libactivemq-cpp.dylib" ${THIS_TARGET})
 
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
-
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
-
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libodLogging.dylib "${ODL_LIBRARY}" ${THIS_TARGET})
-
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif()
 
 if(LINUX)
