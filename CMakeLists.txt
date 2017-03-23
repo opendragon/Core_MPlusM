@@ -44,7 +44,7 @@ if(WIN32)
     set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
 endif()
 
-set(PROJECT_NAME "ODL")
+set(PROJECT_NAME "m+m")
 
 project(${PROJECT_NAME})
 
