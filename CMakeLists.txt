@@ -288,10 +288,15 @@ if(ODL_FOUND)
     include_directories(${ODL_INCLUDE_DIRS})
 endif()
 
-set(MpM_LINK_LIBRARIES m+mCommon ${ODL_LIBRARY} ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
+set(MpM_LINK_LIBRARIES m+mCommon ${ODL_LIBRARY} ${YARP_LIBRARIES} ${ACE_LIBRARIES}
+    ${BONJOUR_LIB} Threads::Threads)
 
 if(LINUX)
-    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
+    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} dns_sd)
 endif()
 
 if(APPLE)
