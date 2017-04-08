@@ -85,13 +85,11 @@ if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
     set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING "Fixes linking error for m+m/ACE"
         FORCE)
-#    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11 -stdlib=libstdc++" CACHE STRING
-#        "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names" CACHE STRING "Increases link limit"
         FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m" FORCE)
     set(CMAKE_INSTALL_RPATH
-"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib;${CMAKE_INSTALL_PREFIX}/../odl/lib"
         CACHE STRING "Fixes rpath" FORCE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
@@ -308,7 +306,7 @@ if(APPLE)
                             libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${target})
 
         add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                            ${ODL_LIBRARY_ROOT} ${ODL_LIBRARY} ${target})
+                            ${ODL_LIBRARY_ROOT} "@rpath/${ODL_LIBRARY_ROOT}" ${target})
 
         add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                             libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${target})

@@ -23,7 +23,6 @@
 		F619BDCB1CFB5FA7009D9E20 /* m+mPlatonicDisplayOutputService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC31CFB5FA7009D9E20 /* m+mPlatonicDisplayOutputService.cpp */; };
 		F619BDCC1CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDC61CFB5FA7009D9E20 /* m+mPlatonicServiceThread.cpp */; };
 		F619BDD01CFB6168009D9E20 /* libACE.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDCF1CFB6168009D9E20 /* libACE.dylib */; };
-		F619BDDC1CFB61AE009D9E20 /* libodLogging.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDDB1CFB61AE009D9E20 /* libodLogging.dylib */; };
 		F619BDDE1CFB61B1009D9E20 /* libm+mCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDDD1CFB61B1009D9E20 /* libm+mCommon.dylib */; };
 		F619BDDF1CFB61D1009D9E20 /* libYARP_OS.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDD11CFB617C009D9E20 /* libYARP_OS.1.dylib */; };
 		F619BDE11CFB61DC009D9E20 /* libYARP_init.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */; };
@@ -49,6 +48,7 @@
 		F67885A61D03512C000463FC /* juce_opengl.mm in Sources */ = {isa = PBXBuildFile; fileRef = F60FA82D1D0335EF0087EF12 /* juce_opengl.mm */; };
 		F69004281D0362FC009A4C31 /* PDOicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = F69004261D0362FC009A4C31 /* PDOicon.ico */; };
 		F69004291D0362FC009A4C31 /* PDOResources.rc in Resources */ = {isa = PBXBuildFile; fileRef = F69004271D0362FC009A4C31 /* PDOResources.rc */; };
+		F6BF687C1E995A49003DE16C /* libodlC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F6BF687B1E995A49003DE16C /* libodlC.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -977,7 +977,6 @@
 		F619BDC71CFB5FA7009D9E20 /* m+mPlatonicServiceThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicServiceThread.hpp"; path = "../../Source/m+mPlatonicServiceThread.hpp"; sourceTree = SOURCE_ROOT; };
 		F619BDCF1CFB6168009D9E20 /* libACE.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libACE.dylib; path = "../../../../../../../../opt/m+m/lib/libACE.dylib"; sourceTree = "<group>"; };
 		F619BDD11CFB617C009D9E20 /* libYARP_OS.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_OS.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_OS.1.dylib"; sourceTree = "<group>"; };
-		F619BDDB1CFB61AE009D9E20 /* libodLogging.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libodLogging.dylib; path = "../../../../../../../../opt/m+m/lib/libodLogging.dylib"; sourceTree = "<group>"; };
 		F619BDDD1CFB61B1009D9E20 /* libm+mCommon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libm+mCommon.dylib"; path = "../../../../../../../../opt/m+m/lib/libm+mCommon.dylib"; sourceTree = "<group>"; };
 		F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_init.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_init.1.dylib"; sourceTree = "<group>"; };
 		F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_name.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_name.1.dylib"; sourceTree = "<group>"; };
@@ -1005,6 +1004,7 @@
 		F65CD3961D049A200043D5AD /* m+mCommonVisuals.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCommonVisuals.hpp"; path = "../../../CommonVisuals/m+mCommonVisuals.hpp"; sourceTree = SOURCE_ROOT; };
 		F69004261D0362FC009A4C31 /* PDOicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = PDOicon.ico; path = ../PDOicon.ico; sourceTree = SOURCE_ROOT; };
 		F69004271D0362FC009A4C31 /* PDOResources.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = PDOResources.rc; path = ../PDOResources.rc; sourceTree = SOURCE_ROOT; };
+		F6BF687B1E995A49003DE16C /* libodlC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libodlC.dylib; path = ../../../../../../../../opt/odl/lib/libodlC.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1013,7 +1013,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F619BDDE1CFB61B1009D9E20 /* libm+mCommon.dylib in Frameworks */,
-				F619BDDC1CFB61AE009D9E20 /* libodLogging.dylib in Frameworks */,
 				F619BDD01CFB6168009D9E20 /* libACE.dylib in Frameworks */,
 				F619BDDF1CFB61D1009D9E20 /* libYARP_OS.1.dylib in Frameworks */,
 				F619BDE11CFB61DC009D9E20 /* libYARP_init.1.dylib in Frameworks */,
@@ -1024,6 +1023,7 @@
 				56550CBDD43FD1CF751304FE /* IOKit.framework in Frameworks */,
 				8C60B5DE1234394A1166E6D8 /* OpenGL.framework in Frameworks */,
 				03F3FFBB1BE66A71A22A9A5D /* QuartzCore.framework in Frameworks */,
+				F6BF687C1E995A49003DE16C /* libodlC.dylib in Frameworks */,
 				427446365ACD6B5CB41E7527 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1279,9 +1279,9 @@
 				F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */,
 				F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */,
 				F619BDDD1CFB61B1009D9E20 /* libm+mCommon.dylib */,
-				F619BDDB1CFB61AE009D9E20 /* libodLogging.dylib */,
 				F619BDD11CFB617C009D9E20 /* libYARP_OS.1.dylib */,
 				F619BDCF1CFB6168009D9E20 /* libACE.dylib */,
+				F6BF687B1E995A49003DE16C /* libodlC.dylib */,
 				8BA72840EFF14AF9F39FB65E /* Carbon.framework */,
 				29F5A6308C4D96470A771316 /* Cocoa.framework */,
 				1A0BF39C5A26CFC654CC7FD4 /* IOKit.framework */,
@@ -2722,7 +2722,7 @@
 		A14AE462CB1A56EE6EDB70AB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					E3627E799BF9CA25637F908B = {
 						SystemCapabilities = {
@@ -2778,7 +2778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "install_name_tool -change libACE.dylib \"@rpath/libACE.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_OS.1.dylib \"@rpath/libYARP_OS.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_init.1.dylib \"@rpath/libYARP_init.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_sig.1.dylib \"@rpath/libYARP_sig.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_dev.1.dylib \"@rpath/libYARP_dev.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_name.1.dylib \"@rpath/libYARP_name.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libm+mCommon.dylib \"@rpath/libm+mCommon.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libodLogging.dylib \"@rpath/libodLogging.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"";
+			shellScript = "install_name_tool -change libACE.dylib \"@rpath/libACE.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_OS.1.dylib \"@rpath/libYARP_OS.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_init.1.dylib \"@rpath/libYARP_init.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_sig.1.dylib \"@rpath/libYARP_sig.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_dev.1.dylib \"@rpath/libYARP_dev.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_name.1.dylib \"@rpath/libYARP_name.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libm+mCommon.dylib \"@rpath/libm+mCommon.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libodlC.dylib \"@rpath/libodlC.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2841,17 +2841,15 @@
 				HEADER_SEARCH_PATHS = (
 					../../../JuceLibraryCode,
 					../../../JuceLibraryCode/modules,
-					"/opt/m+m/include",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-lYARP_OS",
 					"-lYARP_init",
 					"-lm+mCommon",
-					"-lodLogging",
+					"-lodlC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.opendragon.platonicdisplay;
 				PRODUCT_NAME = "m+mPlatonicDisplayOutputService";
@@ -2864,12 +2862,17 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -2882,13 +2885,17 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/odl/include;
+				HEADER_SEARCH_PATHS = (
+					"/opt/m+m/include",
+					/opt/odl/include,
+				);
 				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib /opt/odl/lib";
 				LIBRARY_SEARCH_PATHS = (
 					"/opt/m+m/lib",
@@ -2928,17 +2935,15 @@
 				HEADER_SEARCH_PATHS = (
 					../../../JuceLibraryCode,
 					../../../JuceLibraryCode/modules,
-					"/opt/m+m/include",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-lYARP_OS",
 					"-lYARP_init",
 					"-lm+mCommon",
-					"-lodLogging",
+					"-lodlC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.opendragon.platonicdisplay;
 				PRODUCT_NAME = "m+mPlatonicDisplayOutputService";
@@ -2951,11 +2956,16 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -2968,13 +2978,17 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/odl/include;
+				HEADER_SEARCH_PATHS = (
+					"/opt/m+m/include",
+					/opt/odl/include,
+				);
 				LD_RUNPATH_SEARCH_PATHS = "/opt/m+m/lib /opt/odl/lib";
 				LIBRARY_SEARCH_PATHS = (
 					"/opt/m+m/lib",
