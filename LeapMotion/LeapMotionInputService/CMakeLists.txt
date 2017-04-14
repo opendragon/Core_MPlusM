@@ -78,7 +78,8 @@ if(APPLE)
                         "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
 
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
-            DESTINATION lib)
+            DESTINATION ${LIB_DEST}
+            COMPONENT libraries)
 endif()
 if(LINUX)
     if(CPU_64)
@@ -88,7 +89,8 @@ if(LINUX)
     endif()
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/libLeap.so")
     install(FILES "${MpMLEAPMOTION_LIB_DIR}/libLeap.so"
-            DESTINATION lib)
+            DESTINATION ${LIB_DEST}
+            COMPONENT libraries)
 endif()
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

@@ -152,7 +152,8 @@ if(APPLE)
 endif()
 
 install(TARGETS ${THIS_TARGET}
-        DESTINATION lib
+        EXPORT ${PROJECT_NAME}
+        DESTINATION ${LIB_DEST}
         COMPONENT libraries)
 
 install(FILES
@@ -208,7 +209,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mStringArgumentDescriptor.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.hpp"
         "${MpM_SOURCE_DIR}/m+m/m+mUtilities.hpp"
-        DESTINATION include/m+m
+        DESTINATION ${INCLUDE_DEST}/m+m
         COMPONENT headers)
 
 if(MpM_DO_SWIG)
@@ -278,7 +279,8 @@ if(MpM_DO_SWIG)
                         ${ACE_LIBRARIES})
 
     install(TARGETS ${OTHER_TARGET_CSHARP}
-            DESTINATION lib
+            EXPORT ${PROJECT_NAME}
+            DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
     install(FILES
@@ -303,7 +305,8 @@ if(MpM_DO_SWIG)
 
 # Note the modified target name!
     install(TARGETS _${OTHER_TARGET_PYTHON}
-            DESTINATION lib
+            EXPORT ${PROJECT_NAME}
+            DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
     install(FILES

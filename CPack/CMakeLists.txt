@@ -74,6 +74,7 @@ if(WIN32)
     install(FILES
             "${MpM_SOURCE_DIR}/vc_redist.x64.exe"
             "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
+            EXPORT ${PROJECT_NAME}
             DESTINATION support
             COMPONENT libraries)
 
@@ -90,12 +91,14 @@ if(WIN32)
     #ACE DLL
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.dll"
+            EXPORT ${PROJECT_NAME}
             DESTINATION bin
             COMPONENT libraries)
     #ACE LIB
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.lib"
-            DESTINATION lib
+            EXPORT ${PROJECT_NAME}
+            DESTINATION ${LIB_DEST}
             COMPONENT libraries)
     #YARP HEADERS
     install(DIRECTORY "${MpM_YARP_DIR}/generated_include"
@@ -149,7 +152,8 @@ if(WIN32)
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.lib"
             #"${MpM_YARP_DIR}/lib/Release/YARP_sig.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.lib"
-            DESTINATION lib
+            EXPORT ${PROJECT_NAME}
+            DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
     #YARP DLLS
@@ -164,6 +168,7 @@ if(WIN32)
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.dll"
             #"${MpM_YARP_DIR}/lib/Release/YARP_sig.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.dll"
+            EXPORT ${PROJECT_NAME}
             DESTINATION bin
             COMPONENT libraries)
 

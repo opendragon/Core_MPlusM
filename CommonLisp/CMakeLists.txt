@@ -74,6 +74,7 @@ if(WIN32)
             COMPONENT applications)
     install(DIRECTORY
             "${ECL_PATH}/ecl"
+            EXPORT ${PROJECT_NAME}
             DESTINATION ecl
             COMPONENT libraries)
 endif()

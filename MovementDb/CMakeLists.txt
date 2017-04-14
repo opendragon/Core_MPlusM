@@ -57,13 +57,11 @@ if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
     set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING "Fixes linking error for m+m/ACE"
         FORCE)
-#    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING
-#        "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names -L${CMAKE_INSTALL_PREFIX}/lib" CACHE
         STRING "Increases link limit" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
     set(CMAKE_INSTALL_RPATH
-"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib;${CMAKE_INSTALL_PREFIX}/../odl/lib"
         CACHE STRING "Fixes rpath" FORCE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
@@ -100,7 +98,7 @@ set(MpMDb_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 include_directories("${MpMDb_SOURCE_DIR}")
 
 if(WIN32)
-#    set(ODL_DIR "??")
+    set(ODL_DIR "C:/Program Files/ODL/lib")
 else()
     set(ODL_DIR "/opt/odl/lib")
 endif()
@@ -109,7 +107,18 @@ if(ODL_FOUND)
     include_directories(${ODL_INCLUDE_DIRS})
 endif()
 
-set(MpM_LINK_LIBRARIES m+mCommon ${ODL_LIBRARIES} ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
+if(WIN32)
+    set(MpM_DIR "C:/Program Files/m+m/lib")
+else()
+    set(MpM_DIR "/opt/m+m/lib")
+endif()
+find_package(MpM 1.0.0 REQUIRED)
+if(MpM_FOUND)
+    include_directories(${MpM_INCLUDE_DIRS})
+endif()
+
+set(MpM_LINK_LIBRARIES ${MpM_LIBRARY} ${ODL_LIBRARY} ${YARP_LIBRARIES} ${ACE_LIBRARIES}
+    ${BONJOUR_LIB})
 
 if(LINUX)
     set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
@@ -121,10 +130,10 @@ if(APPLE)
                             libACE.dylib "@rpath/libACE.dylib" ${target})
 
         add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                            libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${target})
+                            ${MpM_LIBRARY_ROOT} "@rpath/${MpM_LIBRARY_ROOT}" ${target})
 
         add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                            ${ODL_LIBRARY_ROOT} ${ODL_LIBRARY} ${target})
+                            ${ODL_LIBRARY_ROOT} "@rpath/${ODL_LIBRARY_ROOT}" ${target})
 
         add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                             libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${target})

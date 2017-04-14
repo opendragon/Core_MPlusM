@@ -789,6 +789,8 @@
 		F6E111081C76A0CA003B9B7D /* m+mPortList.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mPortList.rc.in"; path = "PortList/m+mPortList.rc.in"; sourceTree = SOURCE_ROOT; };
 		F6E111091C76A0CA003B9B7D /* m+mPortListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPortListMain.cpp"; path = "PortList/m+mPortListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F6E1110A1C76A0CA003B9B7D /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = PortList/resource.h; sourceTree = SOURCE_ROOT; };
+		F6F8A1481EA16CF4002C7228 /* MpMConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MpMConfig.cmake; sourceTree = "<group>"; };
+		F6F8A1491EA16CF4002C7228 /* m+mConfigVersion.cmake.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "m+mConfigVersion.cmake.in"; sourceTree = "<group>"; };
 		F6FF50021C69427600369FCD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceStop/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		F6FF50031C69427600369FCD /* m+mServiceStop.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceStop.rc.in"; path = "ServiceStop/m+mServiceStop.rc.in"; sourceTree = SOURCE_ROOT; };
 		F6FF50041C69427600369FCD /* m+mServiceStopMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mServiceStopMain.cpp"; path = "ServiceStop/m+mServiceStopMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1718,7 +1720,9 @@
 				DFFFBFD219D9A40600BBD7A7 /* KinectV2 */,
 				DF824BBA19C8B0B1004D13AC /* LeapMotion */,
 				DFA3434F18C91C670053B87C /* m+m */,
+				F6F8A1491EA16CF4002C7228 /* m+mConfigVersion.cmake.in */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
+				F6F8A1481EA16CF4002C7228 /* MpMConfig.cmake */,
 				DFCB01F11ADC3DB600A5ACBA /* NatNet */,
 				DF1C1C751B3CA19300E816A4 /* OpenStage */,
 				DF27F42718CA357400E93C95 /* ParserTest */,

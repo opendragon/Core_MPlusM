@@ -44,7 +44,12 @@ if(WIN32)
     set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
 endif()
 
-set(PROJECT_NAME "m+m")
+if(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
+endif()
+
+set(PROJECT_NAME "MpM")
 
 project(${PROJECT_NAME})
 
@@ -55,10 +60,13 @@ set(MpM_VERSION "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}"
 set(MpM_COMPANY "OpenDragon")
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpM_CONFIG_DIR "${PROJECT_SOURCE_DIR}")
+
+set(LIB_DEST "lib")
+set(INCLUDE_DEST "include")
 
 # Make some flags to control the build flags visibilities
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
-mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 mark_as_advanced(SET CMAKE_INSTALL_RPATH)
 mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
@@ -95,6 +103,7 @@ if(APPLE)
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
 endif()
+
 if(LINUX)
     set(CMAKE_CXX_FLAGS "-std=c++11 -Wno-deprecated-declarations -Wno-invalid-offsetof" CACHE STRING
         "Fixes compile problems with JavaScript and SendToMQ" FORCE)
@@ -261,6 +270,8 @@ set(MpM_SERVICE_BASE_NAME "${MpM_BASE_NAME_PREFIX}_service_")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
 configure_file("${MpM_SOURCE_DIR}/m+m/m+mConfig.hpp.in" "${MpM_SOURCE_DIR}/m+m/m+mConfig.hpp")
+configure_file(${MpM_CONFIG_DIR}/m+mConfigVersion.cmake.in
+                ${CMAKE_CURRENT_BINARY_DIR}/MpMConfigVersion.cmake @ONLY)
 
 include_directories("${MpM_SOURCE_DIR}")
 
@@ -324,6 +335,15 @@ else()
     function(fix_dynamic_libs target)
     endfunction()
 endif()
+
+install(FILES
+        ${MpM_CONFIG_DIR}/MpMConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/MpMConfigVersion.cmake
+        DESTINATION ${LIB_DEST}
+        COMPONENT scripts)
+
+install(EXPORT ${PROJECT_NAME}
+        DESTINATION ${LIB_DEST})
 
 add_subdirectory(Address)
 add_subdirectory(Blob)

@@ -95,25 +95,26 @@ if(WIN32)
             "${MpMAPR_LIB_DIR}/libapr-1.lib"
             "${MpMAPR_LIB_DIR}/libaprapp-1.lib"
             "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib"
-            DESTINATION lib
+            EXPORT ${PROJECT_NAME}
+            DESTINATION ${LIB_DEST}
             COMPONENT libraries)
     # ActiveMQ headers
     install(DIRECTORY
             "${ACTIVEMQ_INC_PATH}/activemq"
-            DESTINATION include
+            DESTINATION ${INCLUDE_DEST}
             COMPONENT libraries)
     install(DIRECTORY
             "${ACTIVEMQ_INC_PATH}/cms"
-            DESTINATION include
+            DESTINATION ${INCLUDE_DEST}
             COMPONENT libraries)
     install(DIRECTORY
             "${ACTIVEMQ_INC_PATH}/decaf"
-            DESTINATION include
+            DESTINATION ${INCLUDE_DEST}
             COMPONENT libraries)
     # APR headers
     install(DIRECTORY
             "${APR_INC_PATH}/"
-            DESTINATION include
+            DESTINATION ${INCLUDE_DEST}
             COMPONENT libraries
             FILES_MATCHING
             PATTERN "include/include/*" EXCLUDE
