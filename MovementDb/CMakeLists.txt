@@ -68,6 +68,13 @@ if(APPLE)
     cmake_policy(SET CMP0042 OLD)
 endif()
 
+if(WIN32)
+    if(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmt" CACHE STRING
+            "Flags used by the linker." FORCE)
+    endif()
+endif()
+
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
 if(WIN32)
@@ -96,6 +103,18 @@ include_directories(${ACE_INCLUDE_DIRS})
 set(MpMDb_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMDb_SOURCE_DIR}")
+
+if(WIN32)
+    set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
+    if(WIN64)
+        set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/x64/dnssd.lib")
+    else()
+        set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
+    endif()
+    include_directories("${BONJOUR_DIR}/Include")
+else()
+    set(BONJOUR_LIB "")
+endif()
 
 if(WIN32)
     set(ODL_DIR "C:/Program Files/ODL/lib")

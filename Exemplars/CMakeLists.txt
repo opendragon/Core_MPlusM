@@ -57,8 +57,6 @@ if(APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.7" CACHE STRING "Deployment target for Mac OSX" FORCE)
     set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING "Fixes linking error for m+m/ACE"
         FORCE)
-#    set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11" CACHE STRING
-#        "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names -L${CMAKE_INSTALL_PREFIX}/lib" CACHE
         STRING "Increases link limit" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
@@ -68,6 +66,13 @@ if(APPLE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
+endif()
+
+if(WIN32)
+    if(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmt" CACHE STRING
+            "Flags used by the linker." FORCE)
+    endif()
 endif()
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
@@ -98,6 +103,18 @@ include_directories(${ACE_INCLUDE_DIRS})
 set(MpMExemplars_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMExemplars_SOURCE_DIR}")
+
+if(WIN32)
+    set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
+    if(WIN64)
+        set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/x64/dnssd.lib")
+    else()
+        set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
+    endif()
+    include_directories("${BONJOUR_DIR}/Include")
+else()
+    set(BONJOUR_LIB "")
+endif()
 
 if(WIN32)
     set(ODL_DIR "C:/Program Files/ODL/lib")

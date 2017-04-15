@@ -155,7 +155,7 @@ MovementDbService::addFileToDb(const YarpString & key,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbService::addFileToDb
 
@@ -254,7 +254,7 @@ MovementDbService::setDataTrack(const YarpString & key,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbService::setDataTrack
 
@@ -283,7 +283,7 @@ MovementDbService::setEmailAddress(const YarpString & key,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_OBJEXIT_B(); //####
+    ODL_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbService::setEmailAddress
 

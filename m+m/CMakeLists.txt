@@ -279,7 +279,6 @@ if(MpM_DO_SWIG)
                         ${ACE_LIBRARIES})
 
     install(TARGETS ${OTHER_TARGET_CSHARP}
-            EXPORT ${PROJECT_NAME}
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
@@ -305,7 +304,6 @@ if(MpM_DO_SWIG)
 
 # Note the modified target name!
     install(TARGETS _${OTHER_TARGET_PYTHON}
-            EXPORT ${PROJECT_NAME}
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 

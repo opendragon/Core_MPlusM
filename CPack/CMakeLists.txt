@@ -5,7 +5,7 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "m+m Package")
 set(CPACK_PACKAGE_EXECUTABLES "m+m manager" "m+m manager")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "m+m")
 set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY_ "m+m")
-set(CPACK_PACKAGE_NAME "m+m")
+set(CPACK_PACKAGE_NAME "MpM")
 set(CPACK_PACKAGE_VERSION "${MpM_VERSION_STRING}")
 set(CPACK_PACKAGE_VERSION_MAJOR "${MpM_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${MpM_VERSION_MINOR}")
@@ -74,7 +74,6 @@ if(WIN32)
     install(FILES
             "${MpM_SOURCE_DIR}/vc_redist.x64.exe"
             "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
-            EXPORT ${PROJECT_NAME}
             DESTINATION support
             COMPONENT libraries)
 
@@ -84,20 +83,17 @@ if(WIN32)
 
     # Note that we can't use ENV(ACE_ROOT) or ENV(YARP_DIR),
     # as they contain backslashes when building for Windows!
-    #set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
     set(MpM_ACE_ROOT "${ACE_INCLUDE_DIR}")
     set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp_MPlusM")
 
     #ACE DLL
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.dll"
-            EXPORT ${PROJECT_NAME}
             DESTINATION bin
             COMPONENT libraries)
     #ACE LIB
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.lib"
-            EXPORT ${PROJECT_NAME}
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
     #YARP HEADERS
@@ -152,7 +148,6 @@ if(WIN32)
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.lib"
             #"${MpM_YARP_DIR}/lib/Release/YARP_sig.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.lib"
-            EXPORT ${PROJECT_NAME}
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
@@ -168,7 +163,6 @@ if(WIN32)
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.dll"
             #"${MpM_YARP_DIR}/lib/Release/YARP_sig.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.dll"
-            EXPORT ${PROJECT_NAME}
             DESTINATION bin
             COMPONENT libraries)
 

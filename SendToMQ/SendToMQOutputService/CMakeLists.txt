@@ -95,7 +95,6 @@ if(WIN32)
             "${MpMAPR_LIB_DIR}/libapr-1.lib"
             "${MpMAPR_LIB_DIR}/libaprapp-1.lib"
             "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib"
-            EXPORT ${PROJECT_NAME}
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
     # ActiveMQ headers
