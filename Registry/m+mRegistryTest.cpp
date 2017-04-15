@@ -125,8 +125,10 @@ doTestCreateRegistryService(const char * launchPath,
                     break;
 
                 case 1 :
+                    ODL_LOG("got here");
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
+                    ODL_LOG("got here");
                     break;
 
                 default :
@@ -314,11 +316,14 @@ doTestRequestUnregisterService(const char * launchPath,
                     break;
 
                 case 1 :
+                    ODL_LOG("got here");
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
+                    ODL_LOG("got here");
                     secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestunregisterservice_2"));
+                    ODL_LOG("got here");
                     break;
 
                 default :
@@ -690,6 +695,7 @@ main(int      argc,
         // We normally call CheckForNameServerReporter() here, but we should only run the tests with
         // a valid YARP configuration.
         Utilities::SetUpGlobalStatusReporter();
+Utilities::CheckForNameServerReporter();
         if (Utilities::CheckForValidNetwork())
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP

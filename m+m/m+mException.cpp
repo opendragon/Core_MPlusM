@@ -85,11 +85,11 @@ using namespace MplusM::Common;
 #endif // ! MAC_OR_LINUX_
 Exception::Exception(const YarpString & reason)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(reason)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S1s("reason = ", reason); //####
     ODL_EXIT_P(this); //####

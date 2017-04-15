@@ -137,11 +137,11 @@ LeapTwoPalmsInputListener::onConnect(const Leap::Controller & theController)
 void
 LeapTwoPalmsInputListener::onDeviceChange(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -157,11 +157,11 @@ LeapTwoPalmsInputListener::onDeviceChange(const Leap::Controller & theController
 void
 LeapTwoPalmsInputListener::onDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -177,11 +177,11 @@ LeapTwoPalmsInputListener::onDisconnect(const Leap::Controller & theController)
 void
 LeapTwoPalmsInputListener::onExit(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -197,11 +197,11 @@ LeapTwoPalmsInputListener::onExit(const Leap::Controller & theController)
 void
 LeapTwoPalmsInputListener::onFocusGained(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -217,11 +217,11 @@ LeapTwoPalmsInputListener::onFocusGained(const Leap::Controller & theController)
 void
 LeapTwoPalmsInputListener::onFocusLost(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -325,11 +325,11 @@ LeapTwoPalmsInputListener::onInit(const Leap::Controller & theController)
 void
 LeapTwoPalmsInputListener::onServiceConnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -345,11 +345,11 @@ LeapTwoPalmsInputListener::onServiceConnect(const Leap::Controller & theControll
 void
 LeapTwoPalmsInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####

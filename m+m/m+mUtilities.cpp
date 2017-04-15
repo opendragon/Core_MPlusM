@@ -242,11 +242,11 @@ resolveCallback(DNSServiceRef         service,
                 const unsigned char * txtRecord,
                 void *                context)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 //#  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
     ODL_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
@@ -339,11 +339,11 @@ browseCallBack(DNSServiceRef       service,
                const char *        domain,
                void *              context)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
     ODL_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
@@ -2843,11 +2843,11 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                                      CheckFunction      checker,
                                      void *             checkStuff)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     ODL_D1("timeToWait = ", timeToWait); //####
@@ -2886,11 +2886,11 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                 }
 
                 ODL_LOG("about to connect"); //####
-#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 ODL_LOG("connected?"); //####
                 if (! result)
                 {
@@ -2936,11 +2936,11 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                                         CheckFunction      checker,
                                         void *             checkStuff)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     ODL_D1("timeToWait = ", timeToWait); //####
@@ -2969,11 +2969,11 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                 }
 
                 ODL_LOG("about to disconnect"); //####
-#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 ODL_LOG("disconnected?"); //####
                 if (! result)
                 {

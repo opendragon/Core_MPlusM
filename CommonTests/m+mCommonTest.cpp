@@ -265,11 +265,11 @@ doTestCreateEndpoint(const char * launchPath,
                      const int    argc,
                      char * *     argv) // create endpoint
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(launchPath)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
     ODL_LL1("argc = ", argc); //####

@@ -175,11 +175,11 @@ CommonVisuals::ReleaseApplicationCommandManager(void)
 bool
 CheckForExit(void * stuff)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(stuff)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P1("stuff = ", stuff); //####
     ODL_EXIT_B(lExitRequested); //####

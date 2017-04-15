@@ -123,11 +123,11 @@ LeapBlobInputListener::onConnect(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onDeviceChange(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -143,11 +143,11 @@ LeapBlobInputListener::onDeviceChange(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -163,11 +163,11 @@ LeapBlobInputListener::onDisconnect(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onExit(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -183,11 +183,11 @@ LeapBlobInputListener::onExit(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onFocusGained(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -203,11 +203,11 @@ LeapBlobInputListener::onFocusGained(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onFocusLost(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -451,11 +451,11 @@ LeapBlobInputListener::onInit(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onServiceConnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -471,11 +471,11 @@ LeapBlobInputListener::onServiceConnect(const Leap::Controller & theController)
 void
 LeapBlobInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####

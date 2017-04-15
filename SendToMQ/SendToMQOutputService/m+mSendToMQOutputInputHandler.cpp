@@ -111,11 +111,11 @@ SendToMQOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
                                         yarp::os::ConnectionWriter * replyMechanism,
                                         const size_t                 numBytes)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####

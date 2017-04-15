@@ -289,20 +289,20 @@ Common::GetRandomChannelName(const YarpString & channelRoot)
 void
 Common::Initialize(const YarpString & progName)
 {
-#if ((! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING_)))
+#if ((! defined(MpM_ChattyStart)) && (! defined(ODL_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(progName)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING_))
+#endif // (! defined(MpM_ChattyStart)) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S1s("progName = ", progName); //####
     try
     {
-#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
         yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
         yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
         double intPart;
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
@@ -860,11 +860,11 @@ MplusM::StopRunning(void)
 void
 MplusM::SignalRunningStop(const int signal)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(signal)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_LL1("signal = ", signal); //####
     StopRunning();

@@ -141,11 +141,11 @@ ResetCounterRequestHandler::processRequest(const YarpString &           request,
                                            const YarpString &           senderChannel,
                                            yarp::os::ConnectionWriter * replyMechanism)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
             "senderChannel = ", senderChannel); //####

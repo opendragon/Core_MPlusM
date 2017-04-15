@@ -123,45 +123,30 @@ if(WIN32)
 
     #YARP EXES
     install(FILES
-            #"${MpM_YARP_DIR}/bin/Release/yarp.exe"
             "${CMAKE_INSTALL_PREFIX}/bin/yarp.exe"
-            #"${MpM_YARP_DIR}/bin/Release/yarpserver.exe"
             "${CMAKE_INSTALL_PREFIX}/bin/yarpserver.exe"
-            #"${MpM_YARP_DIR}/bin/Release/yarpserver2.exe"
             "${CMAKE_INSTALL_PREFIX}/bin/yarpserver2.exe"
-            #"${MpM_YARP_DIR}/bin/Release/yarpserver3.exe"
             "${CMAKE_INSTALL_PREFIX}/bin/yarpserver3.exe"
-            #"${MpM_YARP_DIR}/bin/Release/yarp-config.exe"
             "${CMAKE_INSTALL_PREFIX}/bin/yarp-config.exe"
             DESTINATION bin
             COMPONENT applications)
 
     #YARP LIBS
     install(FILES
-            #"${MpM_YARP_DIR}/lib/Release/YARP_OS.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_OS.lib"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_dev.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_dev.lib"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_name.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_name.lib"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_init.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.lib"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_sig.lib"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.lib"
             DESTINATION ${LIB_DEST}
             COMPONENT libraries)
 
     #YARP DLLS
     install(FILES
-            #"${MpM_YARP_DIR}/lib/Release/YARP_OS.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_OS.dll"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_dev.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_dev.dll"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_name.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_name.dll"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_init.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_init.dll"
-            #"${MpM_YARP_DIR}/lib/Release/YARP_sig.dll"
             "${CMAKE_INSTALL_PREFIX}/lib/YARP_sig.dll"
             DESTINATION bin
             COMPONENT libraries)

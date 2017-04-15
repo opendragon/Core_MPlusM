@@ -224,11 +224,11 @@ bool
 BaseChannel::openWithRetries(const YarpString & theChannelName,
                              const double       timeToWait)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_OBJENTER(); //####
     ODL_S1s("theChannelName = ", theChannelName); //####
     ODL_D1("timeToWait = ", timeToWait); //####
@@ -257,11 +257,11 @@ bool
 BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
                              const double        timeToWait)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_OBJENTER(); //####
     ODL_P1("theContactInfo = ", &theContactInfo); //####
     ODL_D1("timeToWait = ", timeToWait); //####
@@ -272,11 +272,11 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     double retryTime = INITIAL_RETRY_INTERVAL_;
     int    retriesLeft = MAX_RETRIES_;
 
-#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(ODL_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
 #if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
 #endif // RETRY_LOOPS_USE_TIMEOUTS

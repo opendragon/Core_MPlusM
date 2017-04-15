@@ -228,11 +228,11 @@ PopupMenu
 ContentPanel::getMenuForIndex(int            menuIndex,
                               const String & menuName)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(menuName)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_LL1("menuIndex = ", menuIndex); //####
     ODL_S1s("menuName = ", menuName.toStdString()); //####
@@ -285,11 +285,11 @@ void
 ContentPanel::menuItemSelected(int menuItemID,
                                int topLevelMenuIndex)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(topLevelMenuIndex)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_LL2("menuItemID = ", menuItemID, "topLevelMenuIndex = ", topLevelMenuIndex); //####
     switch (menuItemID)
@@ -324,11 +324,11 @@ ContentPanel::menuItemSelected(int menuItemID,
 void
 ContentPanel::mouseDown(const MouseEvent & ee)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(ee)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
     ODL_OBJEXIT(); //####
@@ -344,11 +344,11 @@ ContentPanel::mouseDown(const MouseEvent & ee)
 void
 ContentPanel::mouseDrag(const MouseEvent & ee)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(ee)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
     ODL_OBJEXIT(); //####
@@ -364,11 +364,11 @@ ContentPanel::mouseDrag(const MouseEvent & ee)
 void
 ContentPanel::mouseUp(const MouseEvent & ee)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(ee)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("ee = ", &ee); //####
     ODL_OBJEXIT(); //####
@@ -512,11 +512,11 @@ ContentPanel::setUpViewMenu(PopupMenu & aMenu)
 void
 ContentPanel::visibleAreaChanged(const juce::Rectangle<int> & newVisibleArea)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(newVisibleArea)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_LL4("nVA.x = ", newVisibleArea.getX(), "nVA.y = ", newVisibleArea.getY(), //####
             "nVA.w = ", newVisibleArea.getWidth(), "nVA.h = ", //####

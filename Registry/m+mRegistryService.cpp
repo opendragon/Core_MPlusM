@@ -174,7 +174,7 @@ namespace MplusM
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if defined(OD_ENABLE_LOGGING_)
+#if defined(ODL_ENABLE_LOGGING_)
 /*! @brief Provide a symbolic name for an SQL status value.
  @param[in] sqlRes The status value to be checked.
  @returns A string representing the symbolic name for the status value. */
@@ -316,7 +316,7 @@ mapStatusToStringForSQL(const int sqlRes)
     }
     return result;
 } // mapStatusToStringForSQL
-#endif // defined(OD_ENABLE_LOGGING_)
+#endif // defined(ODL_ENABLE_LOGGING_)
 
 /*! @brief Perform a simple operation on the database.
  @param[in] database The database to be modified.
@@ -1684,15 +1684,23 @@ RegistryService::attachRequestHandlers(void)
     ODL_OBJENTER(); //####
     try
     {
+        ODL_LOG("got here");
         _matchHandler = new MatchRequestHandler(*this, _validator);
+        ODL_LOG("got here");
         _pingHandler = new PingRequestHandler(*this);
+        ODL_LOG("got here");
         _registerHandler = new RegisterRequestHandler(*this);
+        ODL_LOG("got here");
         _unregisterHandler = new UnregisterRequestHandler(*this);
         if (_matchHandler && _pingHandler && _registerHandler && _unregisterHandler)
         {
+            ODL_LOG("got here");
             registerRequestHandler(_matchHandler);
+            ODL_LOG("got here");
             registerRequestHandler(_pingHandler);
+            ODL_LOG("got here");
             registerRequestHandler(_registerHandler);
+            ODL_LOG("got here");
             registerRequestHandler(_unregisterHandler);
         }
         else

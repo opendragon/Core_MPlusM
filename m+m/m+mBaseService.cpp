@@ -195,11 +195,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(kMeasurementsOn),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(requestsDescription)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####

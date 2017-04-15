@@ -165,11 +165,11 @@ static void __cdecl
 messageReceived(int    messageType,
                 char * message)
 {
-#if ((! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_)))
+#if ((! defined(ODL_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_)))
 # if MAC_OR_LINUX_
 #  pragma unused(messageType,message)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
+#endif // (! defined(ODL_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
     ODL_ENTER(); //####
     ODL_LL1("messageType = ", messageType); //####
     ODL_S1("message = ", message); //####

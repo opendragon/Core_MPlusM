@@ -148,11 +148,11 @@ FormField::performButtonAction(void)
 void
 FormField::setButton(TextButton * newButton)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(newButton)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(OD_ENABLE_LOGGING_)
+#endif // (! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("newButton = ", newButton); //####
     ODL_OBJEXIT(); //####

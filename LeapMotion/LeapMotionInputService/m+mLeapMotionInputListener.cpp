@@ -144,11 +144,11 @@ LeapMotionInputListener::onConnect(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -164,11 +164,11 @@ LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -184,11 +184,11 @@ LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onExit(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -204,11 +204,11 @@ LeapMotionInputListener::onExit(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -224,11 +224,11 @@ LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onFocusLost(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -460,11 +460,11 @@ LeapMotionInputListener::onInit(const Leap::Controller & theController)
 void
 LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
@@ -480,11 +480,11 @@ LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController
 void
 LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(theController)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####

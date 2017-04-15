@@ -97,11 +97,11 @@ registrationCallback(DNSServiceRef       service,
                      const char *        domain,
                      void *              context)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
+#if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
     ODL_L2("flags = ", flags, "errorCode = ", errorCode); //####
