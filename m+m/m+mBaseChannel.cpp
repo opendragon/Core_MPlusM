@@ -216,18 +216,18 @@ BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
     ODL_OBJEXIT(); //####
 } // BaseChannel::getSendReceiveCounters
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 BaseChannel::openWithRetries(const YarpString & theChannelName,
                              const double       timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(timeToWait)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_OBJENTER(); //####
     ODL_S1s("theChannelName = ", theChannelName); //####
@@ -245,22 +245,22 @@ BaseChannel::openWithRetries(const YarpString & theChannelName,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::openWithRetries
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
                              const double        timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(timeToWait)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_OBJENTER(); //####
     ODL_P1("theContactInfo = ", &theContactInfo); //####
@@ -318,9 +318,9 @@ BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::openWithRetries
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 void
 BaseChannel::updateReceiveCounters(const size_t numBytes)

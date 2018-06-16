@@ -44,9 +44,9 @@
 //#include <odlEnable.h>
 #include <odlInclude.h>
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # include <io.h>
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -102,30 +102,30 @@ checkFilePath(const char * thePath,
 
         if (YarpString::npos == lastDelim)
         {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             okSoFar = (0 == access("..", W_OK));
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             okSoFar = (0 == _access("..", 2));
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         }
         else
         {
             dirPath = dirPath.substr(0, lastDelim);
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             okSoFar = (0 == access(dirPath.c_str(), W_OK));
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             okSoFar = (0 == _access(dirPath.c_str(), 2));
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         }
     }
     else if (0 < strlen(thePath))
     {
         // The file must exist and be readable.
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
         okSoFar = (0 == access(thePath, R_OK));
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
         okSoFar = (0 == _access(thePath, 4));
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
     }
     else
     {

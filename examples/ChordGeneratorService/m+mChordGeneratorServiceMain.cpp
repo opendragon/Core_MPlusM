@@ -177,9 +177,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     ODL_ENTER(); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     SetUpLogger(progName);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     try
     {
         AddressTagModifier          modFlag = kModificationNone;

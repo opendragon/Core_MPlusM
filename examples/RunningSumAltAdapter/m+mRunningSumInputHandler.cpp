@@ -105,10 +105,10 @@ RunningSumInputHandler::~RunningSumInputHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 RunningSumInputHandler::handleInput(const yarp::os::Bottle &     input,
                                     const YarpString &           senderChannel,
@@ -116,9 +116,9 @@ RunningSumInputHandler::handleInput(const yarp::os::Bottle &     input,
                                     const size_t                 numBytes)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(senderChannel,replyMechanism)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
@@ -312,9 +312,9 @@ RunningSumInputHandler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // RunningSumInputHandler::handleInput
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

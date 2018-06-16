@@ -163,105 +163,105 @@ LeapFingerTipsInputListener::onConnect(const Leap::Controller & theController)
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onConnect
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onDeviceChange(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onDeviceChange
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onDisconnect(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onDisconnect
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onExit(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onExit
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onFocusGained(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onFocusGained
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onFocusLost(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onFocusLost
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 void
 LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
@@ -409,45 +409,45 @@ LeapFingerTipsInputListener::onInit(const Leap::Controller & theController)
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onInit
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onServiceConnect(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onServiceConnect
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 void
 LeapFingerTipsInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(theController)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("theController = ", &theController); //####
     ODL_OBJEXIT(); //####
 } // LeapFingerTipsInputListener::onServiceDisconnect
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

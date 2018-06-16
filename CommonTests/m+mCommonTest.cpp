@@ -198,10 +198,10 @@ doCreateTestChannel(Endpoint &   anEndpoint,
     return doCreateTestChannel(anEndpoint.getName(), channelPath);
 } // doCreateTestChannel
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Destroy a temporary channel that was used with a test.
  @param[in] destinationName The name of the channel that the temporary channel was connected to.
  @param[in] theChannel A pointer to the temporary channel. */
@@ -210,9 +210,9 @@ doDestroyTestChannel(const YarpString & destinationName,
                      ClientChannel *    theChannel)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(destinationName)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_P1("theChannel = ", theChannel); //####
@@ -233,9 +233,9 @@ doDestroyTestChannel(const YarpString & destinationName,
     }
     ODL_EXIT(); //####
 } // doDestroyTestChannel
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 /*! @brief Destroy a temporary channel that was used with a test.
  @param[in] anEndpoint The endpoint to be connected to.
@@ -251,10 +251,10 @@ doDestroyTestChannel(Endpoint &      anEndpoint,
 # pragma mark *** Test Case 01 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -266,9 +266,9 @@ doTestCreateEndpoint(const char * launchPath,
                      char * *     argv) // create endpoint
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -306,18 +306,18 @@ doTestCreateEndpoint(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateEndpoint
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 02 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -329,9 +329,9 @@ doTestConnectToEndpoint(const char * launchPath,
                         char * *     argv) // connect to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -417,18 +417,18 @@ doTestConnectToEndpoint(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestConnectToEndpoint
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 03 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -440,9 +440,9 @@ doTestWriteToEndpoint(const char * launchPath,
                       char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -546,18 +546,18 @@ doTestWriteToEndpoint(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestWriteToEndpoint
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 04 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -569,9 +569,9 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
                                  char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -676,18 +676,18 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReader
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 05 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -699,9 +699,9 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                         char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -807,18 +807,18 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReaderCreator
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 06 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -830,9 +830,9 @@ doTestCreateRequest(const char * launchPath,
                     char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -868,18 +868,18 @@ doTestCreateRequest(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateRequest
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 07 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -891,9 +891,9 @@ doTestCreateResponse(const char * launchPath,
                      char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -922,18 +922,18 @@ doTestCreateResponse(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestCreateResponse
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 08 ***
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief Perform a test case.
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
@@ -945,9 +945,9 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
                               char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(launchPath)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
@@ -1019,9 +1019,9 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
     ODL_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromEndpoint
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 09 ***
@@ -1715,9 +1715,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     SetUpLogger(progName);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     int result = 1;
 
     try

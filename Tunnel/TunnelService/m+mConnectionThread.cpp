@@ -79,12 +79,12 @@ createListener(void)
 {
     ODL_ENTER(); //####
     SOCKET  listenSocket;
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
     WORD    wVersionRequested = MAKEWORD(2, 2);
     WSADATA ww;
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (INVALID_SOCKET != listenSocket)
     {
@@ -103,7 +103,7 @@ createListener(void)
             listen(listenSocket, SOMAXCONN);
         }
     }
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
     if (WSAStartup(wVersionRequested, &ww))
     {
     }
@@ -129,7 +129,7 @@ createListener(void)
             }
         }
     }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
     ODL_EXIT_L(listenSocket); //####
     return listenSocket;
 } // createListener
@@ -147,24 +147,24 @@ connectToSource(const YarpString & dataAddress,
     ODL_L1("dataPort = ", dataPort); //####
     SOCKET         dataSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     int            res = inet_pton(AF_INET, dataAddress.c_str(), &addrBuff);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
     int            res = InetPton(AF_INET, dataAddress.c_str(), &addrBuff);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
     if (0 < res)
     {
         dataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (INVALID_SOCKET != dataSocket)
         {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             struct sockaddr_in addr;
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             SOCKADDR_IN        addr;
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
             addr.sin_port = htons(dataPort);
@@ -174,7 +174,7 @@ connectToSource(const YarpString & dataAddress,
                 close(dataSocket);
                 dataSocket = INVALID_SOCKET;
             }
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             addr.sin_family = AF_INET;
             addr.sin_port = htons(dataPort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
@@ -185,7 +185,7 @@ connectToSource(const YarpString & dataAddress,
                 closesocket(dataSocket);
                 dataSocket = INVALID_SOCKET;
             }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         }
     }
     ODL_EXIT_L(dataSocket); //####
@@ -228,13 +228,13 @@ ConnectionThread::run(void)
     if (INVALID_SOCKET == destinationSocket)
     {
         _service.setPort(-1);
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
         shutdown(_listenSocket, SHUT_RDWR);
         close(_listenSocket);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
         shutdown(_listenSocket, SD_BOTH);
         closesocket(_listenSocket);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
     }
     else
     {
@@ -242,11 +242,11 @@ ConnectionThread::run(void)
         _sourceSocket = connectToSource(_sourceAddress, _sourcePort);
         if (INVALID_SOCKET == _sourceSocket)
         {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             close(_sourceSocket);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             closesocket(_sourceSocket);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         }
         else
         {
@@ -255,11 +255,11 @@ ConnectionThread::run(void)
             for (bool keepGoing = true; keepGoing && (! isStopping()); )
             {
                 ConsumeSomeTime();
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                 ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                 int     inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
                 if (0 < inSize)
                 {
@@ -282,21 +282,21 @@ ConnectionThread::run(void)
                 }
             }
             _service.setPort(-1);
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             shutdown(destinationSocket, SHUT_RDWR);
             shutdown(_listenSocket, SHUT_RDWR);
             shutdown(_sourceSocket, SHUT_RDWR);
             close(destinationSocket);
             close(_listenSocket);
             close(_sourceSocket);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             shutdown(destinationSocket, SD_BOTH);
             shutdown(_listenSocket, SD_BOTH);
             shutdown(_sourceSocket, SD_BOTH);
             closesocket(destinationSocket);
             closesocket(_listenSocket);
             closesocket(_sourceSocket);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
             StopRunning();
         }
     }
@@ -330,13 +330,13 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
         }
         else
         {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             close(_listenSocket);
             _listenSocket = INVALID_SOCKET;
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             closesocket(_listenSocket);
             _listenSocket = INVALID_SOCKET;
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         }
     }
     ODL_OBJEXIT(); //####

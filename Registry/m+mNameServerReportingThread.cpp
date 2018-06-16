@@ -76,10 +76,10 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief The mDNS registration callback.
  @param[in] service The DNSServiceRef initialized by DNSServiceRegister.
  @param[in] flags The flags for the registration.
@@ -98,9 +98,9 @@ registrationCallback(DNSServiceRef       service,
                      void *              context)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(service,flags,context)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
@@ -116,9 +116,9 @@ registrationCallback(DNSServiceRef       service,
     }
     ODL_EXIT(); //####
 } // registrationCallback
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -181,19 +181,19 @@ NameServerReportingThread::run(void)
         {
             int    actErrno = errno;
             char   errBuff[256];
-#if MAC_OR_LINUX_
-# if LINUX_
+#if defined(MAC_OR_LINUX_)
+# if defined(LINUX_)
             char * res;
-# else // ! LINUX_
+# else // ! defined(LINUX_)
             int    res;
-# endif // ! LINUX_
-#endif // MAC_OR_LINUX_
+# endif // ! defined(LINUX_)
+#endif // defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             res = strerror_r(actErrno, errBuff, sizeof(errBuff));
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             strerror_s(errBuff, sizeof(errBuff), actErrno);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
             cerr << "select() returned " << result << " errno " << actErrno << " " << errBuff <<
                     endl;
             if (EINTR != actErrno)

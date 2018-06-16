@@ -504,9 +504,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     SetUpLogger(progName);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
                                                   Utilities::kArgModeOptional, "*");
     Utilities::StringArgumentDescriptor  secondArg("requestName", "Request name",

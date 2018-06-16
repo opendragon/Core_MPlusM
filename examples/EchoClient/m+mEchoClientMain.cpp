@@ -125,9 +125,9 @@ setUpAndGo(void)
                         else
                         {
                             ODL_LOG("! (aClient->sendAndReceive(outgoing, incoming))"); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                             MpM_FAIL_("Problem communicating with the service.");
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
                         }
                     }
                     else
@@ -139,9 +139,9 @@ setUpAndGo(void)
                 if (! aClient->disconnectFromService())
                 {
                     ODL_LOG("(! aClient->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                     MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
                 }
             }
             else
@@ -168,10 +168,10 @@ setUpAndGo(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief The entry point for communicating with the Echo service.
 
  Strings read from standard input will be sent to the service. Entering an end-of-file will exit the
@@ -183,18 +183,18 @@ int
 main(int      argc,
      char * * argv)
 {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 # pragma unused(argc)
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     SetUpLogger(progName);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     try
     {
         Utilities::DescriptorVector argumentList;
@@ -248,6 +248,6 @@ main(int      argc,
     ODL_EXIT_L(0); //####
     return 0;
 } // main
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)

@@ -219,10 +219,10 @@ setUpAndGo(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 /*! @brief The entry point for communicating with the Running Sum service.
 
  Commands from standard input will be interpreted and will result in requests being sent to the
@@ -246,18 +246,18 @@ int
 main(int      argc,
      char * * argv)
 {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 # pragma unused(argc)
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     SetUpLogger(progName);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     try
     {
         Utilities::DescriptorVector argumentList;
@@ -311,6 +311,6 @@ main(int      argc,
     ODL_EXIT_L(0); //####
     return 0;
 } // main
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)

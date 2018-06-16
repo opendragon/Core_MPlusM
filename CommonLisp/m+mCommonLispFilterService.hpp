@@ -45,13 +45,13 @@
 
 // The following is necessary to avoid a conflict in typedefs between the Windows header files and
 // the ECL header files!
-# if (! MAC_OR_LINUX_)
+# if (! defined(MAC_OR_LINUX_))
 #  define int8_t int8_t_ecl
-# endif // ! MAC_OR_LINUX_
+# endif // ! defined(MAC_OR_LINUX_)
 # include <ecl/ecl.h>
-# if (! MAC_OR_LINUX_)
+# if (! defined(MAC_OR_LINUX_))
 #  undef int8_t
-# endif // ! MAC_OR_LINUX_
+# endif // ! defined(MAC_OR_LINUX_)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

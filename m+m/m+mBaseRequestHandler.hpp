@@ -86,9 +86,9 @@ namespace MplusM
             virtual inline void
             fillInAliases(YarpStringVector & alternateNames)
             {
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
             } // fillInAliases
 
             /*! @brief Fill in a description dictionary for the request.
@@ -98,9 +98,9 @@ namespace MplusM
             fillInDescription(const YarpString &   request,
                               yarp::os::Property & info)
             {
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(request,info)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
             } // fillInDescription
 
             /*! @brief Return the name of the request.

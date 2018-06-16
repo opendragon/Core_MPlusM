@@ -209,13 +209,13 @@ BlobOutputService::deactivateConnection(void)
     }
     if (INVALID_SOCKET != _networkSocket)
     {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
         shutdown(_networkSocket, SHUT_RDWR);
         close(_networkSocket);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
         shutdown(_networkSocket, SD_BOTH);
         closesocket(_networkSocket);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
         _networkSocket = INVALID_SOCKET;
     }
     ODL_EXIT(); //####
@@ -248,14 +248,14 @@ BlobOutputService::startStreams(void)
         {
             if (_inHandler)
             {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                 SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                 if (INVALID_SOCKET == listenSocket)
                 {
                     cerr << "Could not create socket." << endl;
@@ -291,7 +291,7 @@ BlobOutputService::startStreams(void)
                     }
                     close(listenSocket);
                 }
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                 if (WSAStartup(wVersionRequested, &ww))
                 {
                     cerr << "could not start up WSA" << endl; //!!!!
@@ -350,17 +350,17 @@ BlobOutputService::startStreams(void)
                         WSACleanup();
                     }
                 }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
             }
             else if (INVALID_SOCKET != _networkSocket)
             {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                 shutdown(_networkSocket, SHUT_RDWR);
                 close(_networkSocket);
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                 shutdown(_networkSocket, SD_BOTH);
                 closesocket(_networkSocket);
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
                 _networkSocket = INVALID_SOCKET;
             }
         }

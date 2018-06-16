@@ -54,11 +54,11 @@
 //#include <odlEnable.h>
 #include <odlInclude.h>
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 # include <termios.h>
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
 # include <conio.h>
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -101,25 +101,25 @@ enum TtyMode
 
 }; // TtyMode
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 /*! @brief The active terminal attributes. */
 static struct termios lTermattr;
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 /*! @brief The save terminal attributes. */
 static struct termios lSaveTermattr;
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 /*! @brief The saved file descriptor for the input terminal. */
 static int lTtySaveFd = -1;
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
 /*! @brief The mode of the input terminal. */
 static TtyMode lTtyState = TTY_RESET_;
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -157,12 +157,12 @@ displayCommands(const YarpString & helpText,
 static int
 set_tty_cbreak(void)
 {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     int res = 0;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     if (ii < 0)
     {
         printf("tcgetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
@@ -188,7 +188,7 @@ set_tty_cbreak(void)
             lTtySaveFd = STDIN_FILENO;
         }
     }
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     return res;
 } // set_tty_cbreak
 
@@ -198,7 +198,7 @@ set_tty_cooked(void)
 {
     int res = 0;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     if ((TTY_CBREAK_ == lTtyState) || (TTY_RAW_ == lTtyState))
     {
         int ii = tcsetattr(STDIN_FILENO, TCSAFLUSH, &lSaveTermattr);
@@ -212,7 +212,7 @@ set_tty_cooked(void)
             lTtyState = TTY_RESET_;
         }
     }
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     return res;
 } // set_tty_cooked
 
@@ -220,12 +220,12 @@ set_tty_cooked(void)
 static int
 set_tty_raw(void)
 {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     int res = 0;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     if (ii < 0)
     {
         printf("tcgetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
@@ -255,7 +255,7 @@ set_tty_raw(void)
             lTtySaveFd = STDIN_FILENO;
         }
     }
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     return res;
 } // set_tty_raw
 
@@ -264,13 +264,13 @@ set_tty_raw(void)
 static char
 kb_getc(void)
 {
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     int           ii;
     ssize_t       size;
-#endif // MAC_OR_LINUX_
+#endif // defined(MAC_OR_LINUX_)
     unsigned char ch;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
     lTermattr.c_cc[VMIN] = 0; /* uncomment if needed */
     ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
     size = read(STDIN_FILENO, &ch, 1);
@@ -280,7 +280,7 @@ kb_getc(void)
     {
         ch = 0;
     }
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
     if (_kbhit())
     {
         ch = _getch();
@@ -289,7 +289,7 @@ kb_getc(void)
     {
         ch = 0;
     }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
     return static_cast<char>(ch);
 } // kb_getc
 
@@ -587,17 +587,17 @@ BaseInputOutputService::attachRequestHandlers(void)
     ODL_OBJEXIT(); //####
 } // BaseInputOutputService::attachRequestHandlers
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 BaseInputOutputService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(details)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -616,9 +616,9 @@ BaseInputOutputService::configure(const yarp::os::Bottle & details)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::configure
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 void
 BaseInputOutputService::detachRequestHandlers(void)

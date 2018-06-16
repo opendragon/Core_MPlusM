@@ -166,18 +166,18 @@ dataReceived(sFrameOfMocapData * aFrame,
 } // dataReceived
 #endif // ! defined(MpM_BuildDummyServices)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 static void __cdecl
 messageReceived(int    messageType,
                 char * message)
 {
 #if ((! defined(ODL_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_)))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(messageType,message)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // (! defined(ODL_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
     ODL_ENTER(); //####
     ODL_LL1("messageType = ", messageType); //####
@@ -187,9 +187,9 @@ messageReceived(int    messageType,
 #endif // defined(REPORT_NATNET_MESSAGES_)
     ODL_EXIT(); //####
 } // messageReceived
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Class methods

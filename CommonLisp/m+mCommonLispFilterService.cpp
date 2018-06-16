@@ -639,17 +639,17 @@ CommonLispFilterService::~CommonLispFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 CommonLispFilterService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(details)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -711,9 +711,9 @@ CommonLispFilterService::configure(const yarp::os::Bottle & details)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // CommonLispFilterService::configure
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 void
 CommonLispFilterService::disableMetrics(void)

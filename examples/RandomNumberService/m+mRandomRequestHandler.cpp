@@ -142,10 +142,10 @@ RandomRequestHandler::fillInDescription(const YarpString &   request,
     ODL_OBJEXIT(); //####
 } // RandomRequestHandler::fillInDescription
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 RandomRequestHandler::processRequest(const YarpString &           request,
                                      const yarp::os::Bottle &     restOfInput,
@@ -153,9 +153,9 @@ RandomRequestHandler::processRequest(const YarpString &           request,
                                      yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(request,senderChannel)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -206,9 +206,9 @@ RandomRequestHandler::processRequest(const YarpString &           request,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // RandomRequestHandler::processRequest
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

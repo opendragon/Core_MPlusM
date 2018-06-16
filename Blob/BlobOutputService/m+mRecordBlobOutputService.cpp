@@ -224,16 +224,16 @@ RecordBlobOutputService::startStreams(void)
         {
             int why;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
             _outFile = fopen(_outPath.c_str(), "w");
             why = errno;
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
             why = fopen_s(&_outFile, _outPath.c_str(), "w");
             if (why)
             {
                 _outFile = NULL;
             }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
             if (_outFile)
             {
                 if (_inHandler)

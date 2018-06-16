@@ -142,11 +142,11 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
                         {
                             // If we have a non-empty substring, we need to check if the field is a
                             // known name.
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                             char * tempAsChars = strdup(tempString.c_str());
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                             char * tempAsChars = _strdup(tempString.c_str());
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
                             // Convert the copy of the string to lower-case:
                             for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)

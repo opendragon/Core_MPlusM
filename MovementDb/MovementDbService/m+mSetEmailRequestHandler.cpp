@@ -133,10 +133,10 @@ SetEmailRequestHandler::fillInDescription(const YarpString &   request,
     ODL_OBJEXIT(); //####
 } // SetEmailRequestHandler::fillInDescription
 
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 bool
 SetEmailRequestHandler::processRequest(const YarpString &           request,
                                        const yarp::os::Bottle &     restOfInput,
@@ -144,9 +144,9 @@ SetEmailRequestHandler::processRequest(const YarpString &           request,
                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
+# if defined(MAC_OR_LINUX_)
 #  pragma unused(request,restOfInput)
-# endif // MAC_OR_LINUX_
+# endif // defined(MAC_OR_LINUX_)
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -201,9 +201,9 @@ SetEmailRequestHandler::processRequest(const YarpString &           request,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // SetEmailRequestHandler::processRequest
-#if (! MAC_OR_LINUX_)
+#if (! defined(MAC_OR_LINUX_))
 # pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

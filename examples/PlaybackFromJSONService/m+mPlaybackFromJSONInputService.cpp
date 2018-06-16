@@ -557,16 +557,16 @@ PlaybackFromJSONInputService::startService(void)
                 FILE * inFile;
                 int    why;
 
-#if MAC_OR_LINUX_
+#if defined(MAC_OR_LINUX_)
                 inFile = fopen(_inPath.c_str(), "r");
                 why = errno;
-#else // ! MAC_OR_LINUX_
+#else // ! defined(MAC_OR_LINUX_)
                 why = fopen_s(&inFile, _inPath.c_str(), "r");
                 if (why)
                 {
                     inFile = NULL;
                 }
-#endif // ! MAC_OR_LINUX_
+#endif // ! defined(MAC_OR_LINUX_)
                 if (inFile)
                 {
                     // Convert the JSON-formatted data into JSON structures.
