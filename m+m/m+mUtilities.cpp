@@ -48,16 +48,16 @@
 //#include <odlEnable.h>
 #include <odlInclude.h>
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma comment(lib, "ws2_32.lib")
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # include <libgen.h>
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
 # include <stdlib.h>
 # include <sys/timeb.h>
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -75,20 +75,20 @@
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4267)
 # pragma warning(disable: 4996)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #include <yarp/os/impl/BufferedConnectionWriter.h>
 #include <yarp/os/impl/NameConfig.h>
 #include <yarp/os/impl/PortCommand.h>
 #include <yarp/os/impl/Protocol.h>
 #include <yarp/os/impl/String.h>
 #include <yarp/os/impl/TcpFace.h>
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -105,11 +105,11 @@
 # define CONFIG_FILE_AVAILABLE_ /* */
 #endif // ! defined(__APPLE__)
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # include <netdb.h>
 # include <pwd.h>
 # include <uuid/uuid.h>
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -137,9 +137,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
 static const int kDNSWaitTime = 3;
@@ -214,10 +214,10 @@ getNameServerPortList(yarp::os::Bottle & response)
     return okSoFar;
 } // getNameServerPortList
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 /* @brief The mDNS resolve callback.
  @param[in] service The DNSServiceRef initialized by DNSServiceResolve.
  @param[in] flags The resolve result - @c kDNSServiceFlagsMoreComing.
@@ -243,9 +243,9 @@ resolveCallback(DNSServiceRef         service,
                 void *                context)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 //#  pragma unused(service,flags,context)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
@@ -312,14 +312,14 @@ resolveCallback(DNSServiceRef         service,
     DNSServiceRefDeallocate(service);
     ODL_EXIT(); //####
 } // resolveCallback
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 /* @brief The mDNS browse callback.
  @param[in] service The DNSServiceRef initialized by DNSServiceBrowse.
  @param[in] flags The browse result - @c kDNSServiceFlagsAdd or @c kDNSServiceFlagsMoreComing.
@@ -340,9 +340,9 @@ browseCallBack(DNSServiceRef       service,
                void *              context)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(service,flags,context)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
@@ -393,19 +393,19 @@ browseCallBack(DNSServiceRef       service,
                     {
                         int    actErrno = errno;
                         char   errBuff[256];
-#if defined(MAC_OR_LINUX_)
-# if defined(LINUX_)
+#if MAC_OR_LINUX_
+# if LINUX_
                         char * res;
-# else // ! defined(LINUX_)
+# else // ! LINUX_
                         int    res;
-# endif // ! defined(LINUX_)
-#endif // defined(MAC_OR_LINUX_)
+# endif // ! LINUX_
+#endif // MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                         res = strerror_r(actErrno, errBuff, sizeof(errBuff));
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                         strerror_s(errBuff, sizeof(errBuff), actErrno);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                         cerr << "select() returned " << result << " errno " << actErrno << " " <<
                                 errBuff << endl;
                         if (EINTR != actErrno)
@@ -436,9 +436,9 @@ browseCallBack(DNSServiceRef       service,
     }
     ODL_EXIT(); //####
 } // browseCallBack
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 /*! @brief Check if the response is for an input connection.
  @param[in] response The response from the port that is being checked.
@@ -791,11 +791,11 @@ processNameServerResponse(const YarpString & received,
             {
                 char *     channelName = NULL;
                 YarpString chopped(workingCopy.substr(0, chopPos));
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 char *     choppedAsChars = strdup(chopped.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 char *     choppedAsChars = _strdup(chopped.c_str());
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 char *     ipAddress = NULL;
                 char *     saved;
                 char *     pp = strtok_r(choppedAsChars, " ", &saved);
@@ -1291,19 +1291,19 @@ Utilities::CheckForNameServerReporter(void)
                 {
                     int    actErrno = errno;
                     char   errBuff[256];
-#if defined(MAC_OR_LINUX_)
-# if defined(LINUX_)
+#if MAC_OR_LINUX_
+# if LINUX_
                     char * res;
-# else // ! defined(LINUX_)
+# else // ! LINUX_
                     int    res;
-# endif // ! defined(LINUX_)
-#endif // defined(MAC_OR_LINUX_)
+# endif // ! LINUX_
+#endif // MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     res = strerror_r(actErrno, errBuff, sizeof(errBuff));
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     strerror_s(errBuff, sizeof(errBuff), actErrno);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                     cerr << "select() returned " << result << " errno " << actErrno << " " <<
                             errBuff << endl;
                     if (EINTR != actErrno)
@@ -1742,19 +1742,19 @@ Utilities::GetCurrentTimeInMilliseconds(void)
 {
     ODL_ENTER(); //####
     int64_t        result;
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     struct timeval tv;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     struct _timeb  tt;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     gettimeofday(&tv, NULL);
     result = (static_cast<int64_t>(tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     _ftime_s(&tt);
     result = (static_cast<int64_t>(tt.time) * 1000) + tt.millitm;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT_LL(result); //####
     return result;
 } // Utilities::GetCurrentTimeInMilliseconds
@@ -1777,11 +1777,11 @@ Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
         {
             hostName = SELF_ADDRESS_IPADDR_;
         }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
         int res = inet_pton(AF_INET, hostName.c_str(), &serverAddress);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
         int res = InetPton(AF_INET, hostName.c_str(), &serverAddress);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
         serverPort = aContact.getPort();
         okSoFar = (0 < res);
@@ -1804,15 +1804,15 @@ Utilities::GetDateAndTime(char *       dateBuffer,
 
     time(&rawtime);
     memset(&locTime, 0, sizeof(locTime));
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     localtime_r(&rawtime, &locTime);
     strftime(dateBuffer, dateBufferSize, "%F", &locTime);
     strftime(timeBuffer, timeBufferSize, "%T", &locTime);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     localtime_s(&locTime, &rawtime);
     strftime(dateBuffer, dateBufferSize, "%x", &locTime);
     strftime(timeBuffer, timeBufferSize, "%X", &locTime);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT(); //####
 } // Utilities::GetDateAndTime
 
@@ -1977,23 +1977,23 @@ Utilities::GetFileNamePart(const YarpString & inFileName)
     ODL_ENTER(); //####
     ODL_S1s("inFileName = ", inFileName); //####
     YarpString result;
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     char *     nameCopy = strdup(inFileName.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     char       baseFileName[_MAX_FNAME + 10];
     char       baseExtension[_MAX_EXT + 10];
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     result = basename(nameCopy);
     free(nameCopy);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     _splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
                  baseExtension, sizeof(baseExtension));
     result = baseFileName;
     result += ".";
     result += baseExtension;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT_s(result); //####
     return result;
 } // Utilities::GetFileNamePart
@@ -2745,11 +2745,11 @@ void
 Utilities::GoToSleep(const int milliseconds)
 {
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     usleep(milliseconds * 1000);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     Sleep(milliseconds);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT(); //####
 } // Utilities::GoToSleep
 
@@ -2831,10 +2831,10 @@ Utilities::MapStringToServiceKind(const YarpString & kindString)
     return result;
 } // Utilities::MapStringToServiceKind
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                                      const YarpString & destinationName,
@@ -2844,9 +2844,9 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                                      void *             checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
@@ -2921,14 +2921,14 @@ Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::NetworkConnectWithRetries
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                                         const YarpString & destinationName,
@@ -2937,9 +2937,9 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                                         void *             checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
@@ -3004,9 +3004,9 @@ Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
     ODL_EXIT_B(result); //####
     return result;
 } // Utilities::NetworkDisconnectWithRetries
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 bool
 Utilities::ProcessStandardClientOptions(const int          argc,
@@ -3087,11 +3087,11 @@ Utilities::ProcessStandardClientOptions(const int          argc,
     Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
     Option_::Descriptor * usageWalker = usage;
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
     memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
@@ -3237,11 +3237,11 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
         }
     }
     usageString += "\n\nOptions:";
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
     memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));

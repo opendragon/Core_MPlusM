@@ -97,10 +97,10 @@ Test05Handler::~Test05Handler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 Test05Handler::handleInput(const yarp::os::Bottle &     input,
                            const YarpString &           senderChannel,
@@ -108,9 +108,9 @@ Test05Handler::handleInput(const yarp::os::Bottle &     input,
                            const size_t                 numBytes)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(senderChannel)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
@@ -135,9 +135,9 @@ Test05Handler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // Test05Handler::handleInput
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

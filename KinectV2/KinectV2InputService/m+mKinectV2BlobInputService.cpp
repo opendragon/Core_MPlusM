@@ -118,17 +118,17 @@ KinectV2BlobInputService::~KinectV2BlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 KinectV2BlobInputService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(details)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_P1("details = ", &details); //####
@@ -175,9 +175,9 @@ KinectV2BlobInputService::configure(const yarp::os::Bottle & details)
     ODL_OBJEXIT_B(result); //####
     return result;
 } // KinectV2BlobInputService::configure
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 bool
 KinectV2BlobInputService::getConfiguration(yarp::os::Bottle & details)

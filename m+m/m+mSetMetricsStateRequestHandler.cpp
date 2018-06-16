@@ -135,10 +135,10 @@ SetMetricsStateRequestHandler::fillInDescription(const YarpString &   request,
     ODL_OBJEXIT(); //####
 } // SetMetricsStateRequestHandler::fillInDescription
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 SetMetricsStateRequestHandler::processRequest(const YarpString &           request,
                                               const yarp::os::Bottle &     restOfInput,
@@ -146,9 +146,9 @@ SetMetricsStateRequestHandler::processRequest(const YarpString &           reque
                                               yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(request,restOfInput,senderChannel)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -186,9 +186,9 @@ SetMetricsStateRequestHandler::processRequest(const YarpString &           reque
     ODL_OBJEXIT_B(result); //####
     return result;
 } // SetMetricsStateRequestHandler::processRequest
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

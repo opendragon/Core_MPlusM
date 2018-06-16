@@ -61,14 +61,14 @@
 #include <m+m/m+mServiceRequest.hpp>
 #include <m+m/m+mServiceResponse.hpp>
 #include <m+m/m+mUtilities.hpp>
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4512)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #include <m+m/optionparser.hpp>
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 //#include <odlEnable.h>
 #include <odlInclude.h>
@@ -174,10 +174,10 @@ BaseService::BaseService(const ServiceKind  theKind,
     ODL_EXIT_P(this); //####
 } // BaseService::BaseService
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & launchPath,
                          const int          argc,
@@ -196,9 +196,9 @@ BaseService::BaseService(const ServiceKind  theKind,
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(requestsDescription)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
@@ -237,9 +237,9 @@ BaseService::BaseService(const ServiceKind  theKind,
     attachRequestHandlers();
     ODL_EXIT_P(this); //####
 } // BaseService::BaseService
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 BaseService::~BaseService(void)
 {
@@ -1055,22 +1055,22 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
                 {
                     hostName = SELF_ADDRESS_IPADDR_;
                 }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 int res = inet_pton(AF_INET, hostName.c_str(), &rawAddress);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 int res = InetPton(AF_INET, hostName.c_str(), &rawAddress);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
                 if (0 < res)
                 {
                     char              buffer[INET_ADDRSTRLEN + 5];
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     const char *      converted = inet_ntop(AF_INET, &rawAddress, buffer,
                                                             sizeof(buffer));
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     const char *      converted = InetNtop(AF_INET, &rawAddress, buffer,
                                                            sizeof(buffer));
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                     std::stringstream buff(converted);
                     char              sep_0_1;
                     char              sep_1_2;
@@ -1277,11 +1277,11 @@ Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
     Option_::Descriptor * usageWalker = usage;
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     if (! (skipOptions & kSkipArgsOption))
     {

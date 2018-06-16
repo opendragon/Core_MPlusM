@@ -61,22 +61,22 @@
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4267)
 # pragma warning(disable: 4996)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #include <ace/Version.h>
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # include <Windows.h>
-#endif //! defined(MAC_OR_LINUX_)
+#endif //! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -107,10 +107,10 @@ static const int kMaxRandom = 123456789;
 /*! @brief @c true if the executable is running or ready-to-run and @c false otherwise. */
 static bool lKeepRunning = false;
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 /*! @brief The logger to use for reporting problems. */
 static yarp::os::impl::Logger * lLogger = NULL;
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -119,17 +119,17 @@ static yarp::os::impl::Logger * lLogger = NULL;
 const char MplusM::kEscapeChar = '\\';
 
 // Note that this MUST be a single-character string!!!
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 const YarpString MplusM::kDirectorySeparator = "/";
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
 const YarpString MplusM::kDirectorySeparator = "\\";
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 /*! @brief The signal handler to catch requests to stop the service.
  @param[in] signal The signal being handled. */
 static void
@@ -155,7 +155,7 @@ localCatcher(int signal)
     ODL_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // localCatcher
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -165,7 +165,7 @@ void
 Common::DumpContactToLog(const char *              tag,
                          const yarp::os::Contact & aContact)
 {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     if (lLogger)
     {
         std::stringstream buff;
@@ -221,10 +221,10 @@ Common::DumpContactToLog(const char *              tag,
         lLogger->info(message.c_str());
 # endif // ! USE_YARP_FATAL_NOT_FAIL_
     }
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 } // Common::DumpContactToLog
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 yarp::os::impl::Logger &
 Common::GetLogger(void)
 {
@@ -232,7 +232,7 @@ Common::GetLogger(void)
     ODL_EXIT_P(lLogger);
     return *lLogger;
 } // Common::GetLogger
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
 YarpString
 Common::GetRandomChannelName(const char * channelRoot)
@@ -282,17 +282,17 @@ Common::GetRandomChannelName(const YarpString & channelRoot)
     return GetRandomChannelName(channelRoot.c_str());
 } // Common::GetRandomChannelName
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 void
 Common::Initialize(const YarpString & progName)
 {
 #if ((! defined(MpM_ChattyStart)) && (! defined(ODL_ENABLE_LOGGING_)))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(progName)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // (! defined(MpM_ChattyStart)) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_ENTER(); //####
     ODL_S1s("progName = ", progName); //####
@@ -309,7 +309,7 @@ Common::Initialize(const YarpString & progName)
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
 
 #if defined(MpM_ChattyStart)
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
         if (lLogger)
         {
             YarpString message("Program ");
@@ -323,7 +323,7 @@ Common::Initialize(const YarpString & progName)
             lLogger->info("m+m Version: " MpM_VERSION_ ", YARP Version: " YARP_VERSION_STRING
                           ", ACE Version: " ACE_VERSION);
         }
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // defined(MpM_ChattyStart)
         ODL_D2("time = ", now, "fraction = ", fraction); //####
         ODL_LL1("seed = ", seed); //####
@@ -336,20 +336,20 @@ Common::Initialize(const YarpString & progName)
     }
     ODL_EXIT(); //####
 } // Common::Initialize
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 void
 Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -374,7 +374,7 @@ Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_))
     //yarp::os::signal(SIGABRT, theHandler);
     signal(SIGABRT, theHandler); //windows doesn't like the yarp signals for some reason
@@ -396,7 +396,7 @@ Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     yarp::os::signal(SIGUSR2, theHandler);
 # endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
     yarp::os::signal(SIGTERM, theHandler);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT(); //####
 } // Common::SetSignalHandlers
 
@@ -404,12 +404,12 @@ void
 Common::SetUpCatcher(void)
 {
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     sigset_t         unblocking;
     struct sigaction act;
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
@@ -417,12 +417,12 @@ Common::SetUpCatcher(void)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
-#else // ! defined(MAC_OR_LINUX_)
-#endif // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT(); //####
 } // Common::SetUpCatcher
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 void
 Common::SetUpLogger(const YarpString & progName)
 {
@@ -434,18 +434,18 @@ Common::SetUpLogger(const YarpString & progName)
     }
     ODL_EXIT(); //####
 } // Common::SetUpLogger
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
 void
 Common::ShutDownCatcher(void)
 {
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
@@ -453,8 +453,8 @@ Common::ShutDownCatcher(void)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
-#else // ! defined(MAC_OR_LINUX_)
-#endif // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT(); //####
 } // Common::ShutDownCatcher
 
@@ -471,14 +471,14 @@ bool
 MplusM::CanReadFromStandardInput(void)
 {
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     pid_t fg = tcgetpgrp(STDIN_FILENO);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     HWND  wind = GetConsoleWindow();
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     bool  result = false;
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     if (-1 == fg)
     {
         // Piped
@@ -494,9 +494,9 @@ MplusM::CanReadFromStandardInput(void)
         // Background
         result = false;
     }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     result = (NULL != wind);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT_B(result); //####
     return result;
 } // MplusM::CanReadFromStandardInput
@@ -592,7 +592,7 @@ MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     switch (theSignal)
     {
         case SIGHUP :
@@ -736,7 +736,7 @@ MplusM::NameOfSignal(const int theSignal)
             break;
 
     }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     switch (theSignal)
     {
         case SIGINT :
@@ -752,7 +752,7 @@ MplusM::NameOfSignal(const int theSignal)
             break;
 
     }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     return result;
 } // MplusM::NameOfSignal
 
@@ -853,23 +853,23 @@ MplusM::StopRunning(void)
     ODL_EXIT(); //####
 } // MplusM::StopRunning
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 void
 MplusM::SignalRunningStop(const int signal)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(signal)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_LL1("signal = ", signal); //####
     StopRunning();
     ODL_EXIT(); //####
 } // MplusM::SignalRunningStop
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_

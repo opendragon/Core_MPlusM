@@ -119,15 +119,15 @@ main(int      argc,
                                                        STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             bool       okSoFar;
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
             WORD       wVersionRequested = MAKEWORD(2, 2);
             WSADATA    ww;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
             Utilities::SetUpGlobalStatusReporter();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             okSoFar = true;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             if (WSAStartup(wVersionRequested, &ww))
             {
                 okSoFar = false;
@@ -140,7 +140,7 @@ main(int      argc,
             {
                 okSoFar = false;
             }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
             if (okSoFar)
             {
 
@@ -152,13 +152,13 @@ main(int      argc,
                 if (INVALID_SOCKET != sinkSocket)
                 {
                     int                hostPort = secondArg.getCurrentValue();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     struct sockaddr_in addr;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     SOCKADDR_IN        addr;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(hostPort);
@@ -171,7 +171,7 @@ main(int      argc,
                         close(sinkSocket);
                         sinkSocket = INVALID_SOCKET;
                     }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(hostPort);
                     memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
@@ -185,15 +185,15 @@ main(int      argc,
                         closesocket(sinkSocket);
                         sinkSocket = INVALID_SOCKET;
                     }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 }
                 for (bool keepGoing = true; keepGoing; )
                 {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     ssize_t inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     int     inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
                     if (0 < inSize)
                     {
@@ -205,13 +205,13 @@ main(int      argc,
                         keepGoing = false;
                     }
                 }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 shutdown(sinkSocket, SHUT_RDWR);
                 close(sinkSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 shutdown(sinkSocket, SD_BOTH);
                 closesocket(sinkSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

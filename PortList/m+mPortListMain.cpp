@@ -619,9 +619,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     SetUpLogger(progName);
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;
 

@@ -461,11 +461,11 @@ Utilities::ProcessArguments(const DescriptorVector & arguments,
     bool   sawOptional = false;
     size_t numArgs = arguments.size();
     size_t numValues = parseResult.nonOptionsCount();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     size_t numToCheck = std::min(numArgs, numValues);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     size_t numToCheck = min(numArgs, numValues);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
     ODL_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", numToCheck); //####
     // Set all arguments to their default values, so that they are all defined.

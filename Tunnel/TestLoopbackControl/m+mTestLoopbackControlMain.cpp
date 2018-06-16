@@ -75,10 +75,10 @@ using std::endl;
 /*! @brief The size of the receive / send buffer. */
 #define BUFFER_SIZE_ 1024
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 /*! @brief The number of ticks per second. */
 static LARGE_INTEGER lFrequency;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -153,16 +153,16 @@ displayCommands(void)
 double getTimeNow(void)
 {
     double        result;
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
     LARGE_INTEGER now;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     result = yarp::os::Time::now();
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     QueryPerformanceCounter(&now);
     result = ((1.0 * now.QuadPart) / lFrequency.QuadPart);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     return result;
 } // getTimeNow
 
@@ -174,11 +174,11 @@ sendAndReceiveRandom(SOCKET talkSocket)
     ODL_ENTER(); //####
     char inBuffer[BUFFER_SIZE_];
     char outBuffer[BUFFER_SIZE_];
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     int  sendSize = std::max(1, rand() % BUFFER_SIZE_);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     int  sendSize = max(1, rand() % BUFFER_SIZE_);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
     for (int ii = 0; ii < sendSize; ++ii)
     {
@@ -192,11 +192,11 @@ sendAndReceiveRandom(SOCKET talkSocket)
 
         cout << "sent " << sendSize << " bytes." << endl;
         double  beforeReceive = getTimeNow();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
         int     inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
         if (0 < inSize)
         {
@@ -250,11 +250,11 @@ sendAndReceiveText(SOCKET              talkSocket,
     char         inBuffer[BUFFER_SIZE_];
     int          inSize = static_cast<int>(inputLine.size());
     const char * inChars = inputLine.c_str();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     int          sendSize = std::min(inSize, BUFFER_SIZE_);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     int          sendSize = min(inSize, BUFFER_SIZE_);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     double       beforeSend = getTimeNow();
 
     if (send(talkSocket, inChars, sendSize, 0) == sendSize)
@@ -263,11 +263,11 @@ sendAndReceiveText(SOCKET              talkSocket,
 
         cout << "sent " << sendSize << " bytes." << endl;
         double  beforeReceive = getTimeNow();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
         int     inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
         if (0 < inSize)
         {
@@ -352,14 +352,14 @@ main(int      argc,
             if (CanReadFromStandardInput())
             {
                 bool    okSoFar;
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 okSoFar = true;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
                 {
                     okSoFar = false;
@@ -372,7 +372,7 @@ main(int      argc,
                 {
                     okSoFar = false;
                 }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 if (okSoFar)
                 {
                     // Useable data.
@@ -381,13 +381,13 @@ main(int      argc,
                     if (INVALID_SOCKET != talkSocket)
                     {
                         int                hostPort = secondArg.getCurrentValue();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                         struct sockaddr_in addr;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                         SOCKADDR_IN        addr;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                         memset(&addr, 0, sizeof(addr));
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(hostPort);
@@ -404,7 +404,7 @@ main(int      argc,
                         {
                             ODL_LOG("connected"); //####
                         }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(hostPort);
                         memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
@@ -422,7 +422,7 @@ main(int      argc,
                         {
                             ODL_LOG("connected"); //####
                         }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                     }
                     if (INVALID_SOCKET == talkSocket)
                     {
@@ -430,10 +430,10 @@ main(int      argc,
                     }
                     else
                     {
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
                         QueryPerformanceFrequency(&lFrequency);
                         cout << lFrequency.QuadPart << endl;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                         for (StartRunning(); IsRunning(); )
                         {
                             char        inChar;
@@ -498,13 +498,13 @@ main(int      argc,
                             }
                         }
                     }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     shutdown(talkSocket, SHUT_RDWR);
                     close(talkSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     shutdown(talkSocket, SD_BOTH);
                     closesocket(talkSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 }
             }
             Utilities::ShutDownGlobalStatusReporter();

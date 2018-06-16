@@ -84,10 +84,10 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Test Sink utility.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Test Source utility.
@@ -96,9 +96,9 @@ int
 main(int      argc,
      char * * argv)
 {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # pragma unused(argc)
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     ODL_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
              kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
@@ -120,12 +120,12 @@ main(int      argc,
             {
                 int     listenPort = firstArg.getCurrentValue();
                 SOCKET  listenSocket;
-#if ! defined(MAC_OR_LINUX_)
+#if ! MAC_OR_LINUX_
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 if (INVALID_SOCKET != listenSocket)
                 {
@@ -146,7 +146,7 @@ main(int      argc,
                         listen(listenSocket, SOMAXCONN);
                     }
                 }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
                 {
                 }
@@ -175,7 +175,7 @@ main(int      argc,
                         }
                     }
                 }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 if (INVALID_SOCKET != listenSocket)
                 {
                     ODL_LOG("(INVALID_SOCKET != listenSocket)"); //####
@@ -191,11 +191,11 @@ main(int      argc,
                     }
                     for ( ; keepGoing; )
                     {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                         int outSize = std::max(1, rand() % OUTGOING_SIZE_);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                         int outSize = max(1, rand() % OUTGOING_SIZE_);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
                         if (send(sourceSocket, outBuff, outSize, 0) != outSize)
                         {
@@ -207,17 +207,17 @@ main(int      argc,
                             cout << "sent " << outSize << " bytes." << endl;
                         }
                     }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                     shutdown(listenSocket, SHUT_RDWR);
                     shutdown(sourceSocket, SHUT_RDWR);
                     close(listenSocket);
                     close(sourceSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                     shutdown(listenSocket, SD_BOTH);
                     shutdown(sourceSocket, SD_BOTH);
                     closesocket(listenSocket);
                     closesocket(sourceSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
                 }
             }
             catch (...)
@@ -234,6 +234,6 @@ main(int      argc,
     ODL_EXIT_L(0); //####
     return 0;
 } // main
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_

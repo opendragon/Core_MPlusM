@@ -279,10 +279,10 @@ setUpAndGo(const YarpString &  outputMode,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Address service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Address client.
@@ -291,18 +291,18 @@ int
 main(int      argc,
      char * * argv)
 {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # pragma unused(argc)
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     SetUpLogger(progName);
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     try
     {
         Utilities::StringArgumentDescriptor firstArg("outputMode", T_("The mode of the output "
@@ -373,6 +373,6 @@ main(int      argc,
     ODL_EXIT_L(0); //####
     return 0;
 } // main
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_

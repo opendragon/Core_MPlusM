@@ -98,18 +98,18 @@ ClientChannel::~ClientChannel(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
                                     const double       timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_)))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(ODL_ENABLE_LOGGING_))
     ODL_OBJENTER(); //####
     ODL_S1s("theChannelToBeAdded = ", theChannelToBeAdded); //####
@@ -154,9 +154,9 @@ ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // ClientChannel::addOutputWithRetries
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

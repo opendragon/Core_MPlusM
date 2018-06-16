@@ -163,9 +163,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     SetUpLogger(progName);
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
 #if (! defined(MpM_BuildDummyServices))
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 #endif // ! defined(MpM_BuildDummyServices)

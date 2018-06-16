@@ -131,10 +131,10 @@ StartSumRequestHandler::fillInDescription(const YarpString &   request,
     ODL_OBJEXIT(); //####
 } // StartSumRequestHandler::fillInDescription
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 bool
 StartSumRequestHandler::processRequest(const YarpString &           request,
                                        const yarp::os::Bottle &     restOfInput,
@@ -142,9 +142,9 @@ StartSumRequestHandler::processRequest(const YarpString &           request,
                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  pragma unused(request,restOfInput)
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -165,9 +165,9 @@ StartSumRequestHandler::processRequest(const YarpString &           request,
     ODL_OBJEXIT_B(result); //####
     return result;
 } // StartSumRequestHandler::processRequest
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

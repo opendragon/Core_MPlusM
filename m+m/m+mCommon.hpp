@@ -42,19 +42,29 @@
 
 # include <m+m/m+mConfig.hpp>
 
+# if (! defined(TRUE))
+#  define TRUE 1
+# endif // ! defined(TRUE)
+# if (! defined(FALSE))
+#  define FALSE 0
+# endif // ! defined(FALSE)
 # if (! defined(LINUX_))
-/*! @brief @c Defined if Linux, undefined otherwise. */
+/*! @brief @c TRUE if Linux, FALSE otherwise. */
 #  if defined(__linux__)
-#   define LINUX_ /* */
-#  endif // defined(__linux__)
+#   define LINUX_ TRUE
+#  else // ! defined(__linux__)
+#   define LINUX_ FALSE
+#  endif // ! defined(__linux__)
 # endif // ! defined(LINUX_)
 # if (! defined(MAC_OR_LINUX_))
-/*! @brief @c Defined if non-Windows, undefined if Windows. */
+/* TRUE if non-Windows, FALSE if Windows. */
 #  if defined(__APPLE__)
-#   define MAC_OR_LINUX_ /* */
+#   define MAC_OR_LINUX_ TRUE
 #  elif defined(__linux__)
-#   define MAC_OR_LINUX_ /* */
-#  endif // defined(__linux__)
+#   define MAC_OR_LINUX_ TRUE
+#  else // ! defined(__linux__)
+#   define MAC_OR_LINUX_ FALSE
+#  endif // ! defined(__linux__)
 # endif // ! defined(MAC_OR_LINUX_)
 
 # include <algorithm>
@@ -85,21 +95,21 @@
 #  pragma clang diagnostic ignored "-Wunreachable-code"
 #  pragma clang diagnostic ignored "-Wshorten-64-to-32"
 # endif // defined(__APPLE__)
-# if (! defined(MAC_OR_LINUX_))
+# if (! MAC_OR_LINUX_)
 #  pragma warning(push)
 #  pragma warning(disable: 4100)
 #  pragma warning(disable: 4267)
 #  pragma warning(disable: 4458)
 #  pragma warning(disable: 4996)
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 # include <yarp/os/all.h>
 # include <yarp/conf/version.h>
-# if (! defined(MAC_OR_LINUX_))
+# if (! MAC_OR_LINUX_)
 #  pragma warning(pop)
-# endif // ! defined(MAC_OR_LINUX_)
-# if defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
+# if MAC_OR_LINUX_
 #  include <yarp/os/impl/Logger.h>
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -111,17 +121,17 @@
 #  define FALSE 0
 # endif // ! defined(FALSE)
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  include <sys/socket.h>
 #  define SOCKET         int /* Standard socket type in *nix. */
 #  define INVALID_SOCKET -1
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  pragma warning(push)
 #  pragma warning(disable: 4996)
 #  include <WinSock2.h>
 #  include <Ws2tcpip.h>
 #  pragma warning(pop)
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -234,11 +244,11 @@ executable. */
 # define STANDARD_COPYRIGHT_NAME_   "H Plus Technologies Ltd. and Simon Fraser University"
 
 /*! @brief The signal to use for internally-detected timeouts. */
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  define STANDARD_SIGNAL_TO_USE_   SIGUSR2
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  define STANDARD_SIGNAL_TO_USE_   42
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME_        (5.3 * ONE_SECOND_DELAY_)
@@ -274,45 +284,45 @@ executable. */
 #  define YARP_SYSTEM_INFO_MOVED_ FALSE
 # endif // 62 >= YARP_VERSION_PATCH
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  if USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_ERROR_(xx_) Common::GetLogger().error("%s", xx_)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_ERROR_(xx_) Common::GetLogger().error(xx_)
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  define MpM_ERROR_(xx_) cerr << "Error: " << xx_ << endl
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  if USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_FAIL_(xx_) Common::GetLogger().fatal("%s", xx_)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_FAIL_(xx_) Common::GetLogger().fail(xx_)
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  if USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_INFO_(xx_) Common::GetLogger().info("%s", xx_)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_INFO_(xx_) Common::GetLogger().info(xx_)
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  define MpM_INFO_(xx_) cerr << "Info: " << xx_ << endl
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  if USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_WARNING_(xx_) Common::GetLogger().warning("%s", xx_)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
 #   define MpM_WARNING_(xx_) Common::GetLogger().warning(xx_)
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
 #  define MpM_WARNING_(xx_) cerr << "Warning: " << xx_ << endl
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
 /*! @brief A standard error message. */
 # define MSG_COULD_NOT_CONNECT_TO_SERVICE "Could not connect to the required service."
@@ -465,12 +475,12 @@ namespace MplusM
         DumpContactToLog(const char *              tag,
                          const yarp::os::Contact & aContact);
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
         /*! @brief Return the YARP logging object.
          @returns The YARP logging object. */
         yarp::os::impl::Logger &
         GetLogger(void);
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
@@ -499,7 +509,7 @@ namespace MplusM
         void
         SetUpCatcher(void);
 
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
         /*! @brief Set up the error logger.
          @param[in] progName The name of the executing program.
 
@@ -507,20 +517,20 @@ namespace MplusM
          else. */
         void
         SetUpLogger(const YarpString & progName);
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 
         /*! @brief Restore the normal signal-handling behaviour. */
         void
         ShutDownCatcher(void);
 
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
         void
         Stall(void) __attribute__((noreturn));
-# else // ! defined(MAC_OR_LINUX_)
+# else // ! MAC_OR_LINUX_
         void
         Stall(void);
-# endif // ! defined(MAC_OR_LINUX_)
+# endif // ! MAC_OR_LINUX_
 
     } // Common
 

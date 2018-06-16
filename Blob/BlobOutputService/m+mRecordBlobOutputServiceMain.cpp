@@ -72,12 +72,12 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Define the root of the temporary file directory. */
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # define TEMP_ROOT_ kDirectorySeparator + "tmp"
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
 # define TEMP_ROOT_ YarpString("C:") + kDirectorySeparator + "Windows" + kDirectorySeparator + \
                     "Temp"
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -158,9 +158,9 @@ main(int      argc,
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     SetUpLogger(progName);
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     try
     {
         AddressTagModifier                    modFlag = kModificationNone;

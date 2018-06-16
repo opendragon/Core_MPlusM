@@ -115,12 +115,12 @@ setUpListeningPost(const int listenPort)
     ODL_ENTER(); //####
     ODL_L1("listenPort = ", listenPort); //####
     SOCKET  listenSocket;
-#if ! defined(MAC_OR_LINUX_)
+#if ! MAC_OR_LINUX_
     WORD    wVersionRequested = MAKEWORD(2, 2);
     WSADATA ww;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (INVALID_SOCKET != listenSocket)
     {
@@ -140,7 +140,7 @@ setUpListeningPost(const int listenPort)
             listen(listenSocket, SOMAXCONN);
         }
     }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     if (WSAStartup(wVersionRequested, &ww))
     {
     }
@@ -168,7 +168,7 @@ setUpListeningPost(const int listenPort)
             }
         }
     }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_EXIT_L(listenSocket); //####
     return listenSocket;
 } // setUpListeningPost
@@ -186,11 +186,11 @@ connectToTunnel(const YarpString & serviceAddress,
     ODL_L1("servicePort = ", servicePort); //####
     SOCKET         tunnelSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     int            res = inet_pton(AF_INET, serviceAddress.c_str(), &addrBuff);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     int            res = InetPton(AF_INET, serviceAddress.c_str(), &addrBuff);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
     if (0 < res)
     {
@@ -198,13 +198,13 @@ connectToTunnel(const YarpString & serviceAddress,
         ODL_L1("tunnelSocket = ", tunnelSocket); //####
         if (INVALID_SOCKET != tunnelSocket)
         {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             struct sockaddr_in addr;
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             SOCKADDR_IN        addr;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
@@ -216,7 +216,7 @@ connectToTunnel(const YarpString & serviceAddress,
                 close(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
@@ -228,7 +228,7 @@ connectToTunnel(const YarpString & serviceAddress,
                 closesocket(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
         }
     }
     ODL_EXIT_L(tunnelSocket); //####
@@ -262,11 +262,11 @@ handleConnections(SOCKET             listenSocket,
             for ( ; keepGoing; )
             {
                 ConsumeSomeTime();
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 ssize_t inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 int     inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
                 if (0 < inSize)
                 {
@@ -282,21 +282,21 @@ handleConnections(SOCKET             listenSocket,
                     keepGoing = false;
                 }
             }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             shutdown(tunnelSocket, SHUT_RDWR);
             close(tunnelSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             shutdown(tunnelSocket, SD_BOTH);
             closesocket(tunnelSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
         }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
         shutdown(sinkSocket, SHUT_RDWR);
         close(sinkSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
         shutdown(sinkSocket, SD_BOTH);
         closesocket(sinkSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     }
     ODL_EXIT(); //####
 } // handleConnections
@@ -365,13 +365,13 @@ setUpAndGo(const int          listenPort,
                     ODL_LOG("! (aClient->connectToService())"); //####
                     MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
                 }
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
                 shutdown(listenSocket, SHUT_RDWR);
                 close(listenSocket);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
                 shutdown(listenSocket, SD_BOTH);
                 closesocket(listenSocket);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
             }
         }
         else
@@ -392,10 +392,10 @@ setUpAndGo(const int          listenPort,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the %Tunnel service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the %Tunnel client.
@@ -404,18 +404,18 @@ int
 main(int      argc,
      char * * argv)
 {
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # pragma unused(argc)
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     YarpString progName(*argv);
 
     ODL_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
              kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
              kODLoggingOptionWriteToStderr); //####
     ODL_ENTER(); //####
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     SetUpLogger(progName);
-#endif // defined(MAC_OR_LINUX_)
+#endif // MAC_OR_LINUX_
     try
     {
         Utilities::PortArgumentDescriptor   firstArg("port", "The outgoing port",
@@ -484,6 +484,6 @@ main(int      argc,
     ODL_EXIT_L(0); //####
     return 0;
 } // main
-#if (! defined(MAC_OR_LINUX_))
+#if (! MAC_OR_LINUX_)
 # pragma warning(pop)
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_

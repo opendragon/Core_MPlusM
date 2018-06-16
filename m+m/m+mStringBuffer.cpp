@@ -145,11 +145,11 @@ StringBuffer::addDouble(const double aDouble)
     ODL_D1("aDouble = ", aDouble); //####
     char numBuff[kNumBuffSize];
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%g", aDouble);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     sprintf_s(numBuff, sizeof(numBuff), "%g", aDouble);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     ODL_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
 
@@ -205,11 +205,11 @@ StringBuffer::addString(const char * aString)
         {
             ODL_LOG("((_currentLength + lengthToAdd) >= _thresholdLength)"); //####
             double scaleFactor = ((kFactorSlop * (_currentLength + lengthToAdd)) / _currentLength);
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             double factorToUse = std::max(scaleFactor, kBufferIncreaseFactor);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             double factorToUse = max(scaleFactor, kBufferIncreaseFactor);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
             setSize(static_cast<size_t>(_currentSize * factorToUse));
         }
@@ -236,11 +236,11 @@ StringBuffer::addString(const YarpString & aString)
         {
             ODL_LOG("((_currentLength + lengthToAdd) >= _thresholdLength)"); //####
             double scaleFactor = ((kFactorSlop * (_currentLength + lengthToAdd)) / _currentLength);
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
             double factorToUse = std::max(scaleFactor, kBufferIncreaseFactor);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
             double factorToUse = max(scaleFactor, kBufferIncreaseFactor);
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
             setSize(static_cast<size_t>(_currentSize * factorToUse));
         }
