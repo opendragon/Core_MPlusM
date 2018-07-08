@@ -42,12 +42,14 @@
 
 # include <m+m/m+mConfig.hpp>
 
+// Make sure that a couple of critical macros are defined!
 # if (! defined(TRUE))
-#  define TRUE 1
+#  define TRUE  1
 # endif // ! defined(TRUE)
 # if (! defined(FALSE))
 #  define FALSE 0
 # endif // ! defined(FALSE)
+
 # if (! defined(LINUX_))
 /*! @brief @c TRUE if Linux, FALSE otherwise. */
 #  if defined(__linux__)
