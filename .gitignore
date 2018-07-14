@@ -34,6 +34,7 @@
 *.vcxproj
 *.vcxproj.user
 *.xccheckout
+*.xcscheme
 *.xcuserstate
 *.zip
 *CSHARP_wrap.cxx
