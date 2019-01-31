@@ -39,6 +39,7 @@
 *.zip
 *CSHARP_wrap.cxx
 *PYTHON_wrap.cxx
+.vscode
 Breakpoints_v2.xcbkptlist
 CMakeCache.txt
 CMakeFiles
