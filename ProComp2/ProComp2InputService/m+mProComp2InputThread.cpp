@@ -150,7 +150,7 @@ void
 ProComp2InputThread::readChannelData(const DWORD time)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("time = ", time); //####
+    ODL_I1("time = ", time); //####
     bool                 sawData = false;
     char                 tag[2];
     LONG                 samplesAvailable;

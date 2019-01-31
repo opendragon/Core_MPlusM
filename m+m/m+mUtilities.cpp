@@ -244,14 +244,14 @@ resolveCallback(DNSServiceRef         service,
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
-//#  pragma unused(service,flags,context)
+#  pragma unused(flags,interfaceIndex,fullname,context)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
-    ODL_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
+    ODL_I4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
            errorCode, "port = ", port); //####
-    ODL_L1("txtLen = ", txtLen); //####
+    ODL_I1("txtLen = ", txtLen); //####
     ODL_S2("fullname = ", fullname, "hostTarget = ", hostTarget); //####
     bool okToUse = false;
 
@@ -346,7 +346,7 @@ browseCallBack(DNSServiceRef       service,
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
-    ODL_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
+    ODL_I3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ", //####
            errorCode); //####
     if (kDNSServiceErr_NoError == errorCode)
     {
@@ -582,7 +582,7 @@ convertMetricPropertyToString(yarp::os::Property & propList,
 {
     ODL_ENTER(); //####
     ODL_P3("propList = ", &propList, "sawSome = ", &sawSome, "result = ", &result); //####
-    ODL_L1("channelWidth = ", channelWidth); //####
+    ODL_I1("channelWidth = ", channelWidth); //####
     yarp::os::Bottle * theInBytesAsList = NULL;
     yarp::os::Bottle * theInMessagesAsList = NULL;
     yarp::os::Bottle * theOutBytesAsList = NULL;
@@ -1564,7 +1564,7 @@ Utilities::GatherPortConnections(const YarpString &    portName,
     ODL_ENTER(); //####
     ODL_S1s("portName = ", portName); //####
     ODL_P3("inputs = ", &inputs, "outputs = ", &outputs, "checkStuff = ", checkStuff); //####
-    ODL_L1("which = ", static_cast<int>(which)); //####
+    ODL_I1("which = ", static_cast<int>(which)); //####
     ODL_B1("quiet = ", quiet); //####
     inputs.clear();
     outputs.clear();
@@ -1692,7 +1692,7 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
                     // Note that only input / output services will respond to this request.
                     if (response.asString() != MpM_UNRECOGNIZED_REQUEST_)
                     {
-                        for (int ii = 0, howMany = response.count(); howMany > ii; ++ii)
+                        for (size_t ii = 0, howMany = response.count(); howMany > ii; ++ii)
                         {
                             yarp::os::Value aValue(response.element(ii));
 
@@ -1755,7 +1755,7 @@ Utilities::GetCurrentTimeInMilliseconds(void)
     _ftime_s(&tt);
     result = (static_cast<int64_t>(tt.time) * 1000) + tt.millitm;
 #endif // ! MAC_OR_LINUX_
-    ODL_EXIT_LL(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // Utilities::GetCurrentTimeInMilliseconds
 
@@ -1798,7 +1798,7 @@ Utilities::GetDateAndTime(char *       dateBuffer,
 {
     ODL_ENTER(); //####
     ODL_P2("dateBuffer = ", dateBuffer, "timeBuffer = ", timeBuffer); //####
-    ODL_L2("dateBufferSize = ", dateBufferSize, "timeBufferSize = ", timeBufferSize); //####
+    ODL_I2("dateBufferSize = ", dateBufferSize, "timeBufferSize = ", timeBufferSize); //####
     time_t    rawtime;
     struct tm locTime;
 
@@ -2757,7 +2757,7 @@ const char *
 Utilities::MapServiceKindToString(const ServiceKind kind)
 {
     ODL_ENTER(); //####
-    ODL_L1("kind = ", static_cast<int>(kind)); //####
+    ODL_I1("kind = ", static_cast<int>(kind)); //####
     const char * result;
 
     switch (kind)
@@ -2827,7 +2827,7 @@ Utilities::MapStringToServiceKind(const YarpString & kindString)
     {
         result = kServiceKindNormal;
     }
-    ODL_EXIT_L(static_cast<int>(result)); //####
+    ODL_EXIT_I(static_cast<int>(result)); //####
     return result;
 } // Utilities::MapStringToServiceKind
 
@@ -3020,7 +3020,7 @@ Utilities::ProcessStandardClientOptions(const int          argc,
                                         YarpStringVector * arguments)
 {
     ODL_ENTER(); //####
-    ODL_L2("argc = ", argc, "year = ", year); //####
+    ODL_I2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
            "flavour = ", &flavour, "arguments = ", arguments); //####
     ODL_S1s("clientDescription = ", clientDescription); //####
@@ -3178,7 +3178,7 @@ Utilities::ProcessStandardUtilitiesOptions(const int          argc,
                                            YarpStringVector * arguments)
 {
     ODL_ENTER(); //####
-    ODL_L2("argc = ", argc, "year = ", year); //####
+    ODL_I2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
            "flavour = ", &flavour, "arguments = ", arguments); //####
     ODL_S1s("utilityDescription = ", utilityDescription); //####

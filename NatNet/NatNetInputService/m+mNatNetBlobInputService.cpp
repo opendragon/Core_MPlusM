@@ -105,7 +105,7 @@ NatNetBlobInputService::NatNetBlobInputService(const Utilities::DescriptorVector
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // NatNetBlobInputService::NatNetBlobInputService
 
@@ -158,9 +158,9 @@ NatNetBlobInputService::configure(const yarp::os::Bottle & details)
                     _hostName = secondValue.asString();
                     ODL_S1s("_hostName <- ", _hostName); //####
                     _commandPort = thirdNumber;
-                    ODL_LL1("_commandPort <- ", _commandPort); //####
+                    ODL_I1("_commandPort <- ", _commandPort); //####
                     _dataPort = fourthNumber;
-                    ODL_LL1("_dataPort <- ", _dataPort); //####
+                    ODL_I1("_dataPort <- ", _dataPort); //####
                     buff << "Translation scale is " << _translationScale << ", host name is '" <<
                             _hostName.c_str() << "', command port is " << _commandPort <<
                             ", data port is " << _dataPort;

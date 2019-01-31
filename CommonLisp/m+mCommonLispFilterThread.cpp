@@ -85,7 +85,7 @@ using std::endl;
 
 CommonLispFilterThread::CommonLispFilterThread(CommonLispFilterService & owner,
                                                const double              timeToWait) :
-    inherited(), _timeToWait(timeToWait), _owner(owner)
+    inherited(), _owner(owner), _timeToWait(timeToWait)
 {
     ODL_ENTER(); //####
     ODL_P2("owner = ", &owner, "threadFunc = ", threadFunc); //####

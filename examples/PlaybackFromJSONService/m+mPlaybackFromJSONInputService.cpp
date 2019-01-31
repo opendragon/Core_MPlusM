@@ -421,7 +421,7 @@ PlaybackFromJSONInputService::PlaybackFromJSONInputService(const YarpString &
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // PlaybackFromJSONInputService::PlaybackFromJSONInputService
 

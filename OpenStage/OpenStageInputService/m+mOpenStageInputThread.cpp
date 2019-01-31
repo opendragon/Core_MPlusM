@@ -113,7 +113,7 @@ OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
     ODL_ENTER(); //####
     ODL_P1("outChannel = ", outChannel); //####
     ODL_S1s("name = ", name); //####
-    ODL_LL1("port = ", port); //####
+    ODL_I1("port = ", port); //####
     ODL_EXIT_P(this); //####
 } // OpenStageInputThread::OpenStageInputThread
 

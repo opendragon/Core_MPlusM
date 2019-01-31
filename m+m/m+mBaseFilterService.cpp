@@ -103,7 +103,7 @@ BaseFilterService::BaseFilterService(const Utilities::DescriptorVector & argumen
             "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     ODL_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService

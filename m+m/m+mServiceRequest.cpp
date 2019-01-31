@@ -96,7 +96,7 @@ ServiceRequest::ServiceRequest(const YarpString &       requestName,
 {
     ODL_ENTER(); //####
     ODL_S2s("requestName = ", requestName, "parameters = ", parameters.toString()); //####
-    ODL_LL1("parameter size = ", parameters.size()); //####
+    ODL_I1("parameter size = ", parameters.size()); //####
     for (int ii = 0; ii < parameters.size(); ++ii)
     {
         ODL_S1s("parameter = ", parameters.get(ii).asString()); //####
@@ -125,7 +125,7 @@ ServiceRequest::send(ClientChannel & usingChannel)
     {
         yarp::os::Bottle message;
 
-        ODL_LL1("parameter size = ", _parameters.size()); //####
+        ODL_I1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
             ODL_S1s("parameter = ", _parameters.get(ii).asString()); //####
@@ -167,7 +167,7 @@ ServiceRequest::send(ClientChannel &   usingChannel,
         yarp::os::Bottle holder;
         yarp::os::Bottle message;
 
-        ODL_LL1("parameter size = ", _parameters.size()); //####
+        ODL_I1("parameter size = ", _parameters.size()); //####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
             ODL_S1s("parameter = ", _parameters.get(ii).asString()); //####

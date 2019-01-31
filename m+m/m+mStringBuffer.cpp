@@ -104,7 +104,7 @@ StringBuffer::StringBuffer(void) :
 {
     ODL_ENTER(); //####
     ODL_P1("_buffer = ", _buffer); //####
-    ODL_LL3("_currentLength = ", _currentLength, "_currentSize = ", _currentSize, //####
+    ODL_I3("_currentLength = ", _currentLength, "_currentSize = ", _currentSize, //####
             "_thresholdLength = ", _thresholdLength); //####
     setSize(kInitialBufferSize);
     ODL_EXIT_P(this); //####
@@ -133,7 +133,7 @@ StringBuffer::addChar(const char aChar)
     }
     *(_buffer + _currentLength) = aChar;
     ++_currentLength;
-    ODL_LL1("_currentLength <- ", _currentLength); //####
+    ODL_I1("_currentLength <- ", _currentLength); //####
     ODL_OBJEXIT_P(this); //####
     return *this;
 } // StringBuffer::addChar
@@ -162,7 +162,7 @@ StringBuffer::addDouble(const double aDouble)
     }
     memcpy(_buffer + _currentLength, numBuff, lengthToAdd + 1);
     _currentLength += lengthToAdd;
-    ODL_LL1("_currentLength <- ", _currentLength); //####
+    ODL_I1("_currentLength <- ", _currentLength); //####
     ODL_OBJEXIT_P(this); //####
     return *this;
 } // StringBuffer::addDouble
@@ -171,7 +171,7 @@ StringBuffer &
 StringBuffer::addLong(const int64_t aLong)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("aLong = ", aLong); //####
+    ODL_I1("aLong = ", aLong); //####
     char numBuff[kNumBuffSize];
 
     snprintf(numBuff, sizeof(numBuff), "%" PRId64, aLong);
@@ -187,7 +187,7 @@ StringBuffer::addLong(const int64_t aLong)
     }
     memcpy(_buffer + _currentLength, numBuff, lengthToAdd + 1);
     _currentLength += lengthToAdd;
-    ODL_LL1("_currentLength <- ", _currentLength); //####
+    ODL_I1("_currentLength <- ", _currentLength); //####
     ODL_OBJEXIT_P(this); //####
     return *this;
 } // StringBuffer::addLong
@@ -215,7 +215,7 @@ StringBuffer::addString(const char * aString)
         }
         memcpy(_buffer + _currentLength, aString, lengthToAdd + 1);
         _currentLength += lengthToAdd;
-        ODL_LL1("_currentLength <- ", _currentLength); //####
+        ODL_I1("_currentLength <- ", _currentLength); //####
     }
     ODL_OBJEXIT_P(this); //####
     return *this;
@@ -246,7 +246,7 @@ StringBuffer::addString(const YarpString & aString)
         }
         memcpy(_buffer + _currentLength, actualString, lengthToAdd + 1);
         _currentLength += lengthToAdd;
-        ODL_LL1("_currentLength <- ", _currentLength); //####
+        ODL_I1("_currentLength <- ", _currentLength); //####
     }
     ODL_OBJEXIT_P(this); //####
     return *this;
@@ -263,7 +263,7 @@ StringBuffer::addTab(void)
     }
     *(_buffer + _currentLength) = '\t';
     ++_currentLength;
-    ODL_LL1("_currentLength <- ", _currentLength); //####
+    ODL_I1("_currentLength <- ", _currentLength); //####
     ODL_OBJEXIT_P(this); //####
     return *this;
 } // StringBuffer::addTab
@@ -281,7 +281,7 @@ void
 StringBuffer::setSize(const size_t newSize)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("newSize = ", newSize); //####
+    ODL_I1("newSize = ", newSize); //####
     char * newBuffer = new char[newSize];
 
     if (_buffer && (0 < _currentLength))
@@ -292,7 +292,7 @@ StringBuffer::setSize(const size_t newSize)
     ODL_P1("_buffer <- ", _buffer); //####
     _currentSize = newSize;
     _thresholdLength = static_cast<size_t>(newSize * kThresholdFactor);
-    ODL_LL2("_currentSize <- ", _currentSize, "_thresholdLength <- ", _thresholdLength); //####
+    ODL_I2("_currentSize <- ", _currentSize, "_thresholdLength <- ", _thresholdLength); //####
     ODL_OBJEXIT(); //####
 } // StringBuffer::setSize
 

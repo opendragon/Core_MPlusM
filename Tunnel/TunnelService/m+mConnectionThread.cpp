@@ -130,7 +130,7 @@ createListener(void)
         }
     }
 #endif // ! MAC_OR_LINUX_
-    ODL_EXIT_L(listenSocket); //####
+    ODL_EXIT_I(listenSocket); //####
     return listenSocket;
 } // createListener
 
@@ -144,7 +144,7 @@ connectToSource(const YarpString & dataAddress,
 {
     ODL_ENTER(); //####
     ODL_S1s("dataAddress = ", dataAddress); //####
-    ODL_L1("dataPort = ", dataPort); //####
+    ODL_I1("dataPort = ", dataPort); //####
     SOCKET         dataSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
 #if MAC_OR_LINUX_
@@ -188,7 +188,7 @@ connectToSource(const YarpString & dataAddress,
 #endif // ! MAC_OR_LINUX_
         }
     }
-    ODL_EXIT_L(dataSocket); //####
+    ODL_EXIT_I(dataSocket); //####
     return dataSocket;
 } // connectToSource
 
@@ -309,7 +309,7 @@ ConnectionThread::setSourceAddress(const YarpString & sourceName,
 {
     ODL_OBJENTER(); //####
     ODL_S1s("sourceName = ", sourceName); //####
-    ODL_L1("sourcePort = ", sourcePort); //####
+    ODL_I1("sourcePort = ", sourcePort); //####
     YarpString tunnelAddress;
     int        tunnelPort;
 

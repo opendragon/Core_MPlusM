@@ -99,7 +99,7 @@ AddressService::AddressService(const YarpString & hostName,
     ODL_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_I2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     std::stringstream buff;
 

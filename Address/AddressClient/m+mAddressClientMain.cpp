@@ -370,7 +370,7 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

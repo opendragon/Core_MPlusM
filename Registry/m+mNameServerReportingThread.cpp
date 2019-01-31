@@ -104,7 +104,7 @@ registrationCallback(DNSServiceRef       service,
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P2("service = ", service, "context = ", context); //####
-    ODL_L2("flags = ", flags, "errorCode = ", errorCode); //####
+    ODL_I2("flags = ", flags, "errorCode = ", errorCode); //####
     ODL_S3("name = ", name, "type = ", type, "domain = ", domain); //####
     if (kDNSServiceErr_NoError == errorCode)
     {

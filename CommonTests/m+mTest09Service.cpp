@@ -89,7 +89,7 @@ inherited(kServiceKindNormal, launchPath, argc, argv, false,
 {
     ODL_ENTER(); //####
     ODL_S1s("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
     ODL_EXIT_P(this); //####

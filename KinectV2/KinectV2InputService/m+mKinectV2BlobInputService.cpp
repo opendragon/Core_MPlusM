@@ -103,7 +103,7 @@ KinectV2BlobInputService::KinectV2BlobInputService(const Utilities::DescriptorVe
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // KinectV2BlobInputService::KinectV2BlobInputService
 

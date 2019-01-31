@@ -108,7 +108,7 @@ BaseAdapterService::BaseAdapterService(const Utilities::DescriptorVector & argum
             "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     ODL_EXIT_P(this); //####
 } // BaseAdapterService::BaseAdapterService
@@ -130,6 +130,9 @@ BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
                                   const bool         stdinAvailable,
                                   const bool         reportOnExit)
 {
+#if MAC_OR_LINUX_
+# pragma unused(helpText)
+#endif // MAC_OR_LINUX_
     ODL_P1("sharedData = ", &sharedData); //####
     ODL_S1s("helpText = ", helpText); //####
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####

@@ -127,7 +127,7 @@ doTestParseValue(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseValue
 
@@ -176,7 +176,7 @@ doTestParseValueList(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseValueList
 
@@ -228,7 +228,7 @@ doTestParseFieldName(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseFieldName
 
@@ -282,7 +282,7 @@ doTestParseFieldWithValues(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseFieldWithValues
 
@@ -334,7 +334,7 @@ doTestParseConstraintList(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseConstraintList
 
@@ -386,7 +386,7 @@ doTestParseExpression(const bool   expected,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestParseExpression
 
@@ -396,7 +396,7 @@ static void
 catchSignal(int signal)
 {
     ODL_ENTER(); //####
-    ODL_LL1("signal = ", signal); //####
+    ODL_I1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
 
@@ -438,7 +438,7 @@ main(int      argc,
             char *       endPtr;
             int          selector = strtol(startPtr, &endPtr, 10);
 
-            ODL_LL1("selector <- ", selector); //####
+            ODL_I1("selector <- ", selector); //####
             if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
             {
                 bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
@@ -477,7 +477,7 @@ main(int      argc,
                 }
                 if (result)
                 {
-                    ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                    ODL_I1("%%%%%%% unit test failure = ", result); //####
                 }
             }
         }
@@ -491,6 +491,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // main

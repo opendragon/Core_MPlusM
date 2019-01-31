@@ -113,13 +113,13 @@ BlobOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
-#  pragma unused(senderChannel,replyMechanism)
+#  pragma unused(senderChannel,replyMechanism,numBytes)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
-    ODL_L1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     bool result = true;
 
     try
@@ -190,7 +190,7 @@ void
 BlobOutputInputHandler::setSocket(const SOCKET outSocket)
 {
     ODL_OBJENTER(); //####
-    ODL_L1("outSocket = ", outSocket); //####
+    ODL_I1("outSocket = ", outSocket); //####
     _outSocket = outSocket;
     ODL_OBJEXIT(); //####
 } // BlobOutputInputHandler::setSocket

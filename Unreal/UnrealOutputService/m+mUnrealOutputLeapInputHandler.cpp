@@ -350,7 +350,7 @@ UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
-    ODL_L1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     bool result = true;
 
     try
@@ -530,7 +530,7 @@ void
 UnrealOutputLeapInputHandler::setSocket(const SOCKET outSocket)
 {
     ODL_OBJENTER(); //####
-    ODL_L1("outSocket = ", outSocket); //####
+    ODL_I1("outSocket = ", outSocket); //####
     _outSocket = outSocket;
     ODL_OBJEXIT(); //####
 } // UnrealOutputLeapInputHandler::setSocket

@@ -186,6 +186,9 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
         }
         ECL_RESTART_CASE(1, condition)
         {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
             /* This code is executed when an error happens. */
             aList = ECL_NIL;
             MpM_FAIL_("The 'hashMap' function failed.");
@@ -206,6 +209,9 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
                 if (ECL_NIL != cl_stringp(aKey))
                 {
                     cl_object keyValue = si_coerce_to_base_string(aKey);
+#if MAC_OR_LINUX_
+# pragma unused(keyValue)
+#endif // MAC_OR_LINUX_
 
                     if (ECL_NIL != aValue)
                     {
@@ -304,7 +310,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
             cl_fixnum numElements = ecl_fixnum(cl_array_dimension(theData, ecl_make_fixnum(0)));
 
             // Treat as a list
-            ODL_LL1("numElements <- ", numElements); //####
+            ODL_I1("numElements <- ", numElements); //####
             if (topLevel)
             {
                 ODL_LOG("(topLevel)"); //####
@@ -394,6 +400,9 @@ convertDictionary(cl_object                setHashFunction,
                 }
                 ECL_RESTART_CASE(1, condition)
                 {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                     /* This code is executed when an error happens. */
                     MpM_FAIL_("Function 'setHash' failed.");
                 }
@@ -579,7 +588,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
     ODL_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
            loadedStartingFunction, "loadedStoppingFunction = ", loadedStoppingFunction, //####
            "loadedThreadFunction = ", loadedThreadFunction); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
@@ -674,6 +683,9 @@ CommonLispFilterService::configure(const yarp::os::Bottle & details)
             }
             ECL_RESTART_CASE(1, condition)
             {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                 /* This code is executed when an error happens. */
                 aValue = ECL_NIL;
                 MpM_FAIL_("Script aborted during load.");
@@ -773,6 +785,9 @@ CommonLispFilterService::doIdle(void)
                             }
                             ECL_RESTART_CASE(1, condition)
                             {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                                 /* This code is executed when an error happens. */
                                 MpM_FAIL_("Input handler function failed.");
                             }
@@ -797,6 +812,9 @@ CommonLispFilterService::doIdle(void)
                     }
                     ECL_RESTART_CASE(1, condition)
                     {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                         /* This code is executed when an error happens. */
                         MpM_FAIL_("Script aborted during load.");
                     }
@@ -858,7 +876,7 @@ CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
                                        cl_object       theData)
 {
     ODL_OBJENTER();
-    ODL_LL1("channelSlot = ", channelSlot); //####
+    ODL_I1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
 
     if ((0 <= channelSlot) && (channelSlot < static_cast<cl_fixnum>(getOutletCount())))
@@ -936,7 +954,7 @@ void
 CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("slotNumber = ", slotNumber); //####
+    ODL_I1("slotNumber = ", slotNumber); //####
     _staller.wait();
     _mostRecentSlot = slotNumber;
     ODL_OBJEXIT(); //####
@@ -967,6 +985,9 @@ CommonLispFilterService::startStreams(void)
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     cl_object                      handlerFunc = _inletHandlers[ii];
+#if MAC_OR_LINUX_
+# pragma unused(handlerFunc)
+#endif // MAC_OR_LINUX_
                     CommonLispFilterInputHandler * aHandler = new CommonLispFilterInputHandler(this,
                                                                                                ii);
 
@@ -1037,6 +1058,9 @@ CommonLispFilterService::stopStreams(void)
                 }
                 ECL_RESTART_CASE(1, condition)
                 {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                     /* This code is executed when an error happens. */
                     MpM_FAIL_("Script aborted during load.");
                 }
@@ -1062,7 +1086,7 @@ CommonLisp::CreateBaseString(const char * inString,
 {
     ODL_ENTER(); //####
     ODL_S1("inString = ", inString); //####
-    ODL_LL1("inLength = ", inLength); //####
+    ODL_I1("inLength = ", inLength); //####
     cl_object result;
 
     if (inString)

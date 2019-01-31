@@ -98,7 +98,7 @@ GraphicsFrame::GraphicsFrame(ContentPanel * theContainer,
 {
     ODL_ENTER(); //####
     ODL_P1("theContainer = ", theContainer); //####
-    ODL_LL2("startingWidth = ", startingWidth, "startingHeight = ", startingHeight); //####
+    ODL_I2("startingWidth = ", startingWidth, "startingHeight = ", startingHeight); //####
     LeapDisplayApplication * ourApp = LeapDisplayApplication::getApp();
     
     setBounds(0, 0, (0 < startingWidth) ? startingWidth : kInitialPanelWidth,

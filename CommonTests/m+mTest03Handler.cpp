@@ -109,7 +109,7 @@ Test03Handler::handleInput(const yarp::os::Bottle &     input,
 {
 #if (! defined(ODL_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
-#  pragma unused(input,senderChannel)
+#  pragma unused(input,senderChannel,numBytes)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
 #if (! defined(ODL_ENABLE_LOGGING_))
@@ -120,7 +120,7 @@ Test03Handler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
-    ODL_L1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     bool result = true;
 
     ODL_OBJEXIT_B(result); //####

@@ -88,7 +88,7 @@ ExemplarInputThread::ExemplarInputThread(GeneralChannel * outChannel,
     ODL_ENTER(); //####
     ODL_P1("outChannel = ", outChannel); //####
     ODL_D1("timeToWait = ", timeToWait); //####
-    ODL_LL1("numValues = ", numValues); //####
+    ODL_I1("numValues = ", numValues); //####
     ODL_EXIT_P(this); //####
 } // ExemplarInputThread::ExemplarInputThread
 

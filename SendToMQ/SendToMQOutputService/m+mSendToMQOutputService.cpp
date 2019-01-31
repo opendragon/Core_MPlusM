@@ -88,7 +88,7 @@ constructURI(const YarpString & hostName,
 {
     ODL_ENTER(); //####
     ODL_S1s("hostName = ", hostName); //####
-    ODL_LL1("hostPort = ", hostPort); //####
+    ODL_I1("hostPort = ", hostPort); //####
     std::stringstream buff;
 
     buff << "failover://(tcp://" << hostName.c_str() << ":" << hostPort << ")";
@@ -129,7 +129,7 @@ inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CA
     ODL_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
             "servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_I2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // SendToMQOutputService::SendToMQOutputService
 
@@ -275,7 +275,7 @@ SendToMQOutputService::sendMessage(const std::string & aMessage,
 {
     ODL_OBJENTER(); //####
     ODL_S1s("aMessage = ", aMessage); //####
-    ODL_LL1("messageLength = ", messageLength); //####
+    ODL_I1("messageLength = ", messageLength); //####
     try
     {
         if (isActive())

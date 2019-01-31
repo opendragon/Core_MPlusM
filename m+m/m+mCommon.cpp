@@ -136,7 +136,7 @@ static void
 localCatcher(int signal)
 {
     ODL_ENTER(); //####
-    ODL_LL1("signal = ", signal); //####
+    ODL_I1("signal = ", signal); //####
     if (lLogger)
     {
         std::stringstream buff;
@@ -326,7 +326,7 @@ Common::Initialize(const YarpString & progName)
 # endif // MAC_OR_LINUX_
 #endif // defined(MpM_ChattyStart)
         ODL_D2("time = ", now, "fraction = ", fraction); //####
-        ODL_LL1("seed = ", seed); //####
+        ODL_I1("seed = ", seed); //####
         yarp::os::Random::seed(seed);
     }
     catch (...)
@@ -341,7 +341,7 @@ Common::Initialize(const YarpString & progName)
 #endif // ! MAC_OR_LINUX_
 
 void
-Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
+Common::SetSignalHandlers(ACE_SignalHandler theHandler)
 {
     ODL_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -866,7 +866,7 @@ MplusM::SignalRunningStop(const int signal)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
-    ODL_LL1("signal = ", signal); //####
+    ODL_I1("signal = ", signal); //####
     StopRunning();
     ODL_EXIT(); //####
 } // MplusM::SignalRunningStop

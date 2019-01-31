@@ -93,7 +93,7 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
 {
     ODL_ENTER(); //####
     ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    ODL_LL1("defaultValue = ", defaultValue); //####
+    ODL_I1("defaultValue = ", defaultValue); //####
     ODL_B1("isSystemPort = ", isSystemPort); //####
     ODL_P1("argumentReference = ", argumentReference); //####
     ODL_EXIT_P(this); //####

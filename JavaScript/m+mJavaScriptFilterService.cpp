@@ -365,8 +365,6 @@ fillBottleFromValue(JSContext *        jct,
                 if (!! ids)
 #endif // 47 > MOZJS_MAJOR_VERSION
                 {
-                    bool okSoFar = true;
-
                     for (size_t ii = 0, len = ids.length(); len > ii; ++ii)
                     {
                         JS::RootedValue key(jct);
@@ -470,7 +468,7 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
            &loadedStartingFunction); //####
     ODL_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
            "loadedThreadFunction = ", &loadedThreadFunction); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
@@ -758,7 +756,7 @@ JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
                                             JS::Value     theData)
 {
     ODL_OBJENTER();
-    ODL_L1("channelSlot = ", channelSlot); //####
+    ODL_I1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
 
     if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
@@ -834,7 +832,7 @@ void
 JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("slotNumber = ", slotNumber); //####
+    ODL_I1("slotNumber = ", slotNumber); //####
     _staller.wait();
     _mostRecentSlot = slotNumber;
     ODL_OBJEXIT(); //####
@@ -970,7 +968,7 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "anObject = ", &anObject); //####
-    ODL_L1("depth = ", depth); //####
+    ODL_I1("depth = ", depth); //####
 #if (47 <= MOZJS_MAJOR_VERSION)
     JS::Rooted<JS::IdVector> ids(jct, JS::IdVector(jct));
 #else // 47 > MOZJS_MAJOR_VERSION

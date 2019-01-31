@@ -85,7 +85,7 @@ using namespace MplusM::Common;
 
 BaseRequestHandler::BaseRequestHandler(const YarpString & request,
                                        BaseService &      service) :
-    _owner(NULL), _name(request), _service(service)
+    _service(service), _owner(NULL), _name(request)
 {
     ODL_ENTER(); //####
     ODL_S1s("request = ", request); //####

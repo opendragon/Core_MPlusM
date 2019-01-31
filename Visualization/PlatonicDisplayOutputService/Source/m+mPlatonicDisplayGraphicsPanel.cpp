@@ -257,7 +257,7 @@ GraphicsPanel::GraphicsPanel(ContentPanel * theContainer,
 {
     ODL_ENTER(); //####
     ODL_P1("theContainer = ", theContainer); //####
-    ODL_LL2("startingWidth = ", startingWidth, "startingHeight = ", startingHeight); //####
+    ODL_I2("startingWidth = ", startingWidth, "startingHeight = ", startingHeight); //####
     setSize((0 < startingWidth) ? startingWidth : kInitialPanelWidth,
             (0 < startingHeight) ? startingHeight : kInitialPanelHeight);
     _context.setRenderer(this);
@@ -318,7 +318,7 @@ GraphicsPanel::drawBackground(const float desktopScale)
     ODL_D1("desktopScale = ", desktopScale); //####
     int hh = getHeight();
     int ww = getWidth();
-    ODL_LL2("hh <- ", hh, "ww <- ", ww); //####
+    ODL_I2("hh <- ", hh, "ww <- ", ww); //####
     ScopedPointer<LowLevelGraphicsContext>
                             glRenderer(createOpenGLGraphicsContext(_context,
                                                                    roundToInt(desktopScale * ww),
@@ -377,7 +377,7 @@ GraphicsPanel::drawPixie(const Pixie & stuff,
 {
     ODL_OBJENTER(); //####
     ODL_P1("stuff = ", &stuff); //####
-    ODL_LL1("theShape = ", theShape); //####
+    ODL_I1("theShape = ", theShape); //####
     if (stuff._valid)
     {
         const Location & where = stuff._where;
@@ -801,7 +801,7 @@ GraphicsPanel::updatePixieData(const double newX,
     {
         _pixies.setUnchecked(_nextPixie++, newValue);
         _nextPixie %= kNumPixies;
-        ODL_LL1("_nextPixies <- ", _nextPixie); //####
+        ODL_I1("_nextPixies <- ", _nextPixie); //####
     }
     _csect.exit();
     ODL_OBJEXIT(); //####

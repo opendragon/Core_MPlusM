@@ -98,7 +98,7 @@ ValidatingTextEditor::ValidatingTextEditor(CaptionedTextField & owner,
     ODL_ENTER(); //####
     ODL_P2("owner = ", &owner, "validator = ", validator); //####
     ODL_S1s("componentName = ", componentName.toStdString()); //####
-    ODL_LL1("passwordCharacter = ", passwordCharacter); //####
+    ODL_I1("passwordCharacter = ", passwordCharacter); //####
     ODL_EXIT_P(this); //####
 } // ValidatingTextEditor::ValidatingTextEditor
 
@@ -226,7 +226,7 @@ void
 ValidatingTextEditor::performPopupMenuAction(int menuItemID)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("menuItemID = ", menuItemID); //####
+    ODL_I1("menuItemID = ", menuItemID); //####
     switch (menuItemID)
     {
         case kPopupSelectFileToOpen :

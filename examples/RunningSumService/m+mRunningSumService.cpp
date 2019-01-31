@@ -104,7 +104,7 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
     ODL_ENTER(); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     attachRequestHandlers();
     ODL_EXIT_P(this); //####

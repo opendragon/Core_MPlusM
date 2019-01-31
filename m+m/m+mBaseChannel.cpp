@@ -326,7 +326,7 @@ void
 BaseChannel::updateReceiveCounters(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     if (_metricsEnabled)
     {
         _counters.incrementInCounters(numBytes);
@@ -338,7 +338,7 @@ void
 BaseChannel::updateSendCounters(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     if (_metricsEnabled)
     {
         _counters.incrementOutCounters(numBytes);

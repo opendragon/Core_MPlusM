@@ -30,6 +30,7 @@
 		F619BDE51CFB61EA009D9E20 /* libYARP_sig.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */; };
 		F619BDE91CFB65BB009D9E20 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F619BDE81CFB65BB009D9E20 /* Images.xcassets */; };
 		F619BDEC1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */; };
+		F61FC4D82203A9230014CB79 /* libYARP_dev.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F61FC4D72203A9230014CB79 /* libYARP_dev.1.dylib */; };
 		F65CD3701D0481270043D5AD /* m+mCaptionedTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3601D0481270043D5AD /* m+mCaptionedTextField.cpp */; };
 		F65CD3711D0481270043D5AD /* m+mCheckboxField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3621D0481270043D5AD /* m+mCheckboxField.cpp */; };
 		F65CD3721D0481270043D5AD /* m+mFormField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3641D0481270043D5AD /* m+mFormField.cpp */; };
@@ -984,6 +985,7 @@
 		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mLeapDisplayOutputService/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		F619BDEA1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapDisplayGraphicsFrame.cpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.cpp"; sourceTree = SOURCE_ROOT; };
 		F619BDEB1CFB7D44009D9E20 /* m+mLeapDisplayGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mLeapDisplayGraphicsFrame.hpp"; path = "../../Source/m+mLeapDisplayGraphicsFrame.hpp"; sourceTree = SOURCE_ROOT; };
+		F61FC4D72203A9230014CB79 /* libYARP_dev.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_dev.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_dev.1.dylib"; sourceTree = "<group>"; };
 		F65CD3601D0481270043D5AD /* m+mCaptionedTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCaptionedTextField.cpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.cpp"; sourceTree = SOURCE_ROOT; };
 		F65CD3611D0481270043D5AD /* m+mCaptionedTextField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCaptionedTextField.hpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.hpp"; sourceTree = SOURCE_ROOT; };
 		F65CD3621D0481270043D5AD /* m+mCheckboxField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCheckboxField.cpp"; path = "../../../CommonVisuals/m+mCheckboxField.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1023,6 +1025,7 @@
 				03F3FFBB1BE66A71A22A9A5D /* QuartzCore.framework in Frameworks */,
 				F6BF687A1E995A37003DE16C /* libodlC.dylib in Frameworks */,
 				427446365ACD6B5CB41E7527 /* WebKit.framework in Frameworks */,
+				F61FC4D82203A9230014CB79 /* libYARP_dev.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1273,6 +1276,7 @@
 		42D582D969583F8E9D16F645 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F61FC4D72203A9230014CB79 /* libYARP_dev.1.dylib */,
 				F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */,
 				F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */,
 				F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */,
@@ -2774,7 +2778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "install_name_tool -change libACE.dylib \"@rpath/libACE.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_OS.1.dylib \"@rpath/libYARP_OS.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_init.1.dylib \"@rpath/libYARP_init.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_sig.1.dylib \"@rpath/libYARP_sig.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_dev.1.dylib \"@rpath/libYARP_dev.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_name.1.dylib \"@rpath/libYARP_name.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libm+mCommon.dylib \"@rpath/libm+mCommon.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libodlC.dylib \"/opt/odl/lib/libodlC.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libodlC.dylib \"@rpath/libodlC.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n";
+			shellScript = "install_name_tool -change libACE.dylib \"@rpath/libACE.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_OS.1.dylib \"@rpath/libYARP_OS.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_init.1.dylib \"@rpath/libYARP_init.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_sig.1.dylib \"@rpath/libYARP_sig.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_dev.1.dylib \"@rpath/libYARP_dev.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libYARP_name.1.dylib \"@rpath/libYARP_name.1.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libm+mCommon.dylib \"@rpath/libm+mCommon.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\ninstall_name_tool -change libodlC.dylib \"@rpath/libodlC.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2890,7 +2894,7 @@
 					"/opt/m+m/lib",
 					/opt/odl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-fsanitize-undefined-trap-on-error",
@@ -2976,7 +2980,7 @@
 					"/opt/m+m/lib",
 					/opt/odl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-fsanitize-undefined-trap-on-error",

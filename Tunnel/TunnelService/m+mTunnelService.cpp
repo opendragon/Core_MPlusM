@@ -104,7 +104,7 @@ TunnelService::TunnelService(const YarpString & sourceName,
     ODL_S4s("sourceName = ", sourceName, "launchPath = ", launchPath, "tag = ", tag, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_L1("sourcePort = ", sourcePort); //####
+    ODL_I1("sourcePort = ", sourcePort); //####
     std::stringstream buff;
 
     buff << "Source name is '" << _sourceAddress.c_str() << "', source port is " << _sourcePort;

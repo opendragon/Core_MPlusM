@@ -90,7 +90,7 @@ ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
     _values(values)
 {
     ODL_ENTER(); //####
-    ODL_LL1("values size = ", values.size()); //####
+    ODL_I1("values size = ", values.size()); //####
     ODL_S1s("values = ", values.toString()); //####
     ODL_EXIT_P(this); //####
 } // ServiceResponse::ServiceResponse
@@ -105,7 +105,7 @@ ServiceResponse &
 ServiceResponse::operator =(const yarp::os::Bottle & values)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("values size = ", values.size()); //####
+    ODL_I1("values size = ", values.size()); //####
     ODL_S1s("values = ", values.toString()); //####
     _values = values;
     ODL_OBJEXIT_P(this); //####
@@ -138,13 +138,13 @@ const
 
     try
     {
-        if ((index >= 0) && (index < _values.size()))
+        if ((index >= 0) && (index < static_cast<int>(_values.size())))
         {
             result = _values.get(index);
         }
         else
         {
-            ODL_LOG("! ((index >= 0) && (index < _values.size()))"); //####
+            ODL_LOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))"); //####
         }
     }
     catch (...)

@@ -63,8 +63,6 @@ add_library(m+mCommonTestSupport
             m+mTest12EchoRequestHandler.cpp
             m+mTest12Service.cpp)
 
-enable_testing()
-
 add_executable(${THIS_TARGET}
                m+mCommonTest.cpp
                ${VERS_RESOURCE})
@@ -74,6 +72,8 @@ add_executable(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET} m+mCommonTestSupport ${MpM_LINK_LIBRARIES})
 
 fix_dynamic_libs(${THIS_TARGET})
+
+message("NOTE - 'cmake test' DOES NOT WORK!!! Use 'ctest' directly!!!")
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND ${THIS_TARGET} 1 "/service/test/createendpoint_1")

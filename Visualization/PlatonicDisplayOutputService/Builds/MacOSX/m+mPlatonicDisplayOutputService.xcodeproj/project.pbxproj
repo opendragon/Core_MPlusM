@@ -30,6 +30,7 @@
 		F619BDE51CFB61EA009D9E20 /* libYARP_sig.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */; };
 		F619BDE91CFB65BB009D9E20 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F619BDE81CFB65BB009D9E20 /* Images.xcassets */; };
 		F619BDEC1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F619BDEA1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp */; };
+		F61FC4DA2203AA0C0014CB79 /* libYARP_dev.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F61FC4D92203AA0C0014CB79 /* libYARP_dev.1.dylib */; };
 		F65CD38D1D0490A80043D5AD /* m+mCaptionedTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD37C1D0490A80043D5AD /* m+mCaptionedTextField.cpp */; };
 		F65CD38E1D0490A80043D5AD /* m+mCheckboxField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD37E1D0490A80043D5AD /* m+mCheckboxField.cpp */; };
 		F65CD38F1D0490A80043D5AD /* m+mCommonVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F65CD3801D0490A80043D5AD /* m+mCommonVisuals.cpp */; };
@@ -984,6 +985,7 @@
 		F619BDE81CFB65BB009D9E20 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "m+mPlatonicDisplayOutputService/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		F619BDEA1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlatonicDisplayGraphicsFrame.cpp"; path = "../../Source/m+mPlatonicDisplayGraphicsFrame.cpp"; sourceTree = SOURCE_ROOT; };
 		F619BDEB1CFB7D44009D9E20 /* m+mPlatonicDisplayGraphicsFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mPlatonicDisplayGraphicsFrame.hpp"; path = "../../Source/m+mPlatonicDisplayGraphicsFrame.hpp"; sourceTree = SOURCE_ROOT; };
+		F61FC4D92203AA0C0014CB79 /* libYARP_dev.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libYARP_dev.1.dylib; path = "../../../../../../../../opt/m+m/lib/libYARP_dev.1.dylib"; sourceTree = "<group>"; };
 		F65CD37C1D0490A80043D5AD /* m+mCaptionedTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCaptionedTextField.cpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.cpp"; sourceTree = SOURCE_ROOT; };
 		F65CD37D1D0490A80043D5AD /* m+mCaptionedTextField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCaptionedTextField.hpp"; path = "../../../CommonVisuals/m+mCaptionedTextField.hpp"; sourceTree = SOURCE_ROOT; };
 		F65CD37E1D0490A80043D5AD /* m+mCheckboxField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCheckboxField.cpp"; path = "../../../CommonVisuals/m+mCheckboxField.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1025,6 +1027,7 @@
 				03F3FFBB1BE66A71A22A9A5D /* QuartzCore.framework in Frameworks */,
 				F6BF687C1E995A49003DE16C /* libodlC.dylib in Frameworks */,
 				427446365ACD6B5CB41E7527 /* WebKit.framework in Frameworks */,
+				F61FC4DA2203AA0C0014CB79 /* libYARP_dev.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1275,6 +1278,7 @@
 		42D582D969583F8E9D16F645 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F61FC4D92203AA0C0014CB79 /* libYARP_dev.1.dylib */,
 				F619BDE41CFB61EA009D9E20 /* libYARP_sig.1.dylib */,
 				F619BDE21CFB61E3009D9E20 /* libYARP_name.1.dylib */,
 				F619BDE01CFB61DC009D9E20 /* libYARP_init.1.dylib */,
@@ -2901,7 +2905,7 @@
 					"/opt/m+m/lib",
 					/opt/odl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-fsanitize-undefined-trap-on-error",
@@ -2994,7 +2998,7 @@
 					"/opt/m+m/lib",
 					/opt/odl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-fsanitize-undefined-trap-on-error",

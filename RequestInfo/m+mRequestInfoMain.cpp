@@ -558,6 +558,6 @@ main(int      argc,
         }
         yarp::os::Network::fini();
     }
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

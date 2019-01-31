@@ -141,7 +141,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     ODL_ENTER(); //####
-    ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
+    ODL_I2("theKind = ", theKind, "argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
             "description = ", description, "requestsDescription = ", requestsDescription); //####
     ODL_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
@@ -201,7 +201,7 @@ BaseService::BaseService(const ServiceKind  theKind,
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
-    ODL_LL2("theKind = ", theKind, "argc = ", argc); //####
+    ODL_I2("theKind = ", theKind, "argc = ", argc); //####
     ODL_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
             "description = ", description, "requestsDescription = ", requestsDescription); //####
     ODL_P1("argv = ", argv); //####
@@ -915,7 +915,7 @@ void
 BaseService::updateResponseCounters(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     if (_endpoint && _metricsEnabled)
     {
         _endpoint->updateSendCounters(numBytes);
@@ -1124,7 +1124,7 @@ Common::ProcessStandardServiceOptions(const int                     argc,
                                       YarpStringVector *            arguments)
 {
     ODL_ENTER(); //####
-    ODL_L2("argc = ", argc, "year = ", year); //####
+    ODL_I2("argc = ", argc, "year = ", year); //####
     ODL_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
            "reportEndpoint = ", &reportEndpoint, "reportOnExit = ", &reportOnExit); //####
     ODL_P2("modFlag = ", &modFlag, "arguments = ", arguments); //####

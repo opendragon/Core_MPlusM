@@ -140,7 +140,7 @@ AbsorberFilterService::AbsorberFilterService(const Utilities::DescriptorVector &
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // AbsorberFilterService::AbsorberFilterService
 
@@ -178,7 +178,7 @@ AbsorberFilterService::configure(const yarp::os::Bottle & details)
                     std::stringstream buff;
 
                     _sampleInterval = firstNumber;
-                    ODL_LL1("_sampleInterval <- ", _sampleInterval); //####
+                    ODL_I1("_sampleInterval <- ", _sampleInterval); //####
                     buff << "Sample interval is " << _sampleInterval;
                     setExtraInformation(buff.str());
                     result = true;
@@ -374,7 +374,7 @@ void
 AbsorberFilterService::updateCount(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_L1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     try
     {
         if (isActive())

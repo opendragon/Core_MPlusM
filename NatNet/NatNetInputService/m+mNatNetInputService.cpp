@@ -102,7 +102,7 @@ NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argum
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // NatNetInputService::NatNetInputService
 
@@ -144,9 +144,9 @@ NatNetInputService::configure(const yarp::os::Bottle & details)
                     _hostName = firstValue.asString();
                     ODL_S1s("_hostName <- ", _hostName); //####
                     _commandPort = secondNumber;
-                    ODL_LL1("_commandPort <- ", _commandPort); //####
+                    ODL_I1("_commandPort <- ", _commandPort); //####
                     _dataPort = thirdNumber;
-                    ODL_LL1("_dataPort <- ", _dataPort); //####
+                    ODL_I1("_dataPort <- ", _dataPort); //####
                     buff << "Host name is '" << _hostName.c_str() << "', command port is " <<
                             _commandPort << ", data port is " << _dataPort;
                     setExtraInformation(buff.str());

@@ -101,7 +101,7 @@ ExemplarInputService::ExemplarInputService(const Utilities::DescriptorVector & a
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // ExemplarInputService::ExemplarInputService
 
@@ -142,7 +142,7 @@ ExemplarInputService::configure(const yarp::os::Bottle & details)
                     _burstPeriod = firstNumber;
                     _burstSize = secondNumber;
                     ODL_D1("_burstPeriod <- ", _burstPeriod); //####
-                    ODL_LL1("_burstSize <- ", _burstSize); //####
+                    ODL_I1("_burstSize <- ", _burstSize); //####
                     buff << "Burst period is " << _burstPeriod << ", burst size is " << _burstSize;
                     setExtraInformation(buff.str());
                     result = true;

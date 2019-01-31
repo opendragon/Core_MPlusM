@@ -160,7 +160,7 @@ PlatonicDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     bool result = true;
 
     try

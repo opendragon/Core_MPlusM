@@ -116,7 +116,7 @@ setUpAndGo(const YarpString &                  inputPath,
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
            reportOnExit); //####
     PlaybackFromJSONInputService * aService = new PlaybackFromJSONInputService(inputPath,
@@ -247,6 +247,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

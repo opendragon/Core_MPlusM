@@ -106,7 +106,7 @@ doTestCreateRegistryService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -125,10 +125,8 @@ doTestCreateRegistryService(const char * launchPath,
                     break;
 
                 case 1 :
-                    ODL_LOG("got here");
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    ODL_LOG("got here");
                     break;
 
                 default :
@@ -159,7 +157,7 @@ doTestCreateRegistryService(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestCreateRegistryService
 
@@ -179,7 +177,7 @@ doTestRequestRegistryService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = false;
 
@@ -273,7 +271,7 @@ doTestRequestRegistryService(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestRegistryService
 
@@ -293,7 +291,7 @@ doTestRequestUnregisterService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -316,14 +314,11 @@ doTestRequestUnregisterService(const char * launchPath,
                     break;
 
                 case 1 :
-                    ODL_LOG("got here");
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    ODL_LOG("got here");
                     secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_,
                                                        BUILD_NAME_("test",
                                                                    "requestunregisterservice_2"));
-                    ODL_LOG("got here");
                     break;
 
                 default :
@@ -398,7 +393,7 @@ doTestRequestUnregisterService(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestUnregisterService
 
@@ -418,7 +413,7 @@ doTestRequestSearchService(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -525,7 +520,7 @@ doTestRequestSearchService(const char * launchPath,
                                                 int                expectedSecondCount =
                                                                     expectedSecondAsList->size();
 
-                                                ODL_LL2("matchesSecondCount <- ", //####
+                                                ODL_I2("matchesSecondCount <- ", //####
                                                         matchesSecondCount, //####
                                                         "expectedSecondCount <- ", //####
                                                         expectedSecondCount); //####
@@ -639,7 +634,7 @@ doTestRequestSearchService(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestSearchService
 
@@ -649,7 +644,7 @@ static void
 catchSignal(int signal)
 {
     ODL_ENTER(); //####
-    ODL_LL1("signal = ", signal); //####
+    ODL_I1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
 
@@ -708,7 +703,7 @@ Utilities::CheckForNameServerReporter();
                 char *       endPtr;
                 int          selector = strtol(startPtr, &endPtr, 10);
 
-                ODL_LL1("selector <- ", selector); //####
+                ODL_I1("selector <- ", selector); //####
                 if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
                     SetSignalHandlers(catchSignal);
@@ -736,7 +731,7 @@ Utilities::CheckForNameServerReporter();
                     }
                     if (result)
                     {
-                        ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                        ODL_I1("%%%%%%% unit test failure = ", result); //####
                     }
                 }
             }
@@ -753,6 +748,6 @@ Utilities::CheckForNameServerReporter();
         throw;
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // main

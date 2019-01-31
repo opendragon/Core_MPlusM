@@ -86,7 +86,7 @@ VertexBuffer::VertexBuffer(OpenGLContext &      context,
 {
     ODL_ENTER(); //####
     ODL_P3("context = ", &_context, "vertexList = ", &vertexList, "indices = ", indices); //####
-    ODL_LL1("numIndices = ", numIndices); //####
+    ODL_I1("numIndices = ", numIndices); //####
     _context.extensions.glGenBuffers(1, &_vertexBuffer);
     _context.extensions.glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     _context.extensions.glBufferData(GL_ARRAY_BUFFER, vertexList.size() * sizeof(Vertex),

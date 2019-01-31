@@ -106,7 +106,7 @@ MovementDbService::MovementDbService(const YarpString & launchPath,
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
             databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     setExtraInformation(YarpString("Database address is '") + _databaseAddress + YarpString("'"));
     attachRequestHandlers();

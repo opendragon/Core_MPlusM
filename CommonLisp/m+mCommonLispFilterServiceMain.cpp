@@ -209,6 +209,11 @@ addCustomFunctions(void)
 static bool
 addCustomClasses(cl_object ourPackage)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(ourPackage)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P1("ourPackage = ", ourPackage); //####
     bool okSoFar = true;
@@ -295,7 +300,7 @@ checkArity(cl_object      objectFunction,
 {
     ODL_ENTER(); //####
     ODL_P1("objectFunction = ", objectFunction); //####
-    ODL_LL1("arityRequired = ", arityRequired); //####
+    ODL_I1("arityRequired = ", arityRequired); //####
     bool      okSoFar;
     cl_object lambdaExpr = cl_function_lambda_expression(objectFunction);
 
@@ -376,6 +381,9 @@ getLoadedDouble(const char * propertyName,
                         }
                         ECL_RESTART_CASE(1, condition)
                         {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                             /* This code is executed when an error happens. */
                             aValue = ECL_NIL;
                             MpM_FAIL_("Script aborted during load.");
@@ -486,6 +494,9 @@ getLoadedString(const char * propertyName,
                         }
                         ECL_RESTART_CASE(1, condition)
                         {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                             /* This code is executed when an error happens. */
                             aValue = ECL_NIL;
                             MpM_FAIL_("Script aborted during load.");
@@ -548,7 +559,7 @@ getLoadedFunctionRef(const char *   propertyName,
 {
     ODL_ENTER(); //####
     ODL_S1("propertyName = ", propertyName); //####
-    ODL_LL1("arity = ", arity); //####
+    ODL_I1("arity = ", arity); //####
     ODL_B1("isOptional = ", isOptional); //####
     ODL_P1("result = ", &result); //####
     bool      okSoFar = false;
@@ -775,6 +786,9 @@ getLoadedStreamDescriptions(const char *    arrayName,
                         }
                         ECL_RESTART_CASE(1, condition)
                         {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
                             /* This code is executed when an error happens. */
                             descriptionArray = ECL_NIL;
                             MpM_FAIL_("Script aborted during load.");
@@ -992,12 +1006,17 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const bool                          reportOnExit,
            const bool                          stdinAvailable)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(progName,nameWasSet)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
     ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, "reportOnExit = ", //####
            reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     bool          sawThread;
@@ -1020,6 +1039,9 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         bool       okSoFar = true;
         cl_env_ptr env = ecl_process_env();
         cl_object  ourPackage = addCustomObjects(tag, arguments);
+#if MAC_OR_LINUX_
+# pragma unused(ourPackage)
+#endif // MAC_OR_LINUX_
         cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
 
         // Load the script!
@@ -1037,6 +1059,9 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         }
         ECL_RESTART_CASE(1, condition)
         {
+#if MAC_OR_LINUX_
+# pragma unused(condition)
+#endif // MAC_OR_LINUX_
             /* This code is executed when an error happens. */
             okSoFar = false;
             MpM_FAIL_("Script aborted during load.");
@@ -1197,6 +1222,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

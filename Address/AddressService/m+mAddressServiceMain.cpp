@@ -115,7 +115,7 @@ setUpAndGo(YarpString &       hostName,
     ODL_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_I2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("reportOnExit = ", reportOnExit); //####
     AddressService * aService = new AddressService(hostName, hostPort, progName, argc, argv, tag,
@@ -256,6 +256,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

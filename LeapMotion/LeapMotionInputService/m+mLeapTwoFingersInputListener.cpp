@@ -300,7 +300,7 @@ LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
                 }
             }
             message.addInt(handsPresent);
-            for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
+            for (size_t ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
             {
                 message.addDouble(fingerPositions[ii]);
             }

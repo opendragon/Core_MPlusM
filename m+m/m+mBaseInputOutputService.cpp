@@ -216,6 +216,7 @@ set_tty_cooked(void)
     return res;
 } // set_tty_cooked
 
+#if 0
 /*! @brief Place the standard input in 'raw' mode. */
 static int
 set_tty_raw(void)
@@ -258,6 +259,7 @@ set_tty_raw(void)
 #endif // MAC_OR_LINUX_
     return res;
 } // set_tty_raw
+#endif // 0
 
 /*! @brief Get the next character available, or @c 0 if none is available.
  @returns The next available character or @c 0 if none is available. */
@@ -329,7 +331,7 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
             "description = ", description); //####
     ODL_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     // Note that the provided arguments may be inaccessible later!
     _argumentList = argumentList;
@@ -903,7 +905,7 @@ const
     ODL_OBJENTER(); //####
     size_t result = _clientStreams.size();
 
-    ODL_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_I(result); //#####
     return result;
 } // BaseInputOutputService::getClientCount
 
@@ -912,7 +914,7 @@ BaseInputOutputService::getClientStream(const size_t index)
 const
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("index = ", index); //####
+    ODL_I1("index = ", index); //####
     ClientChannel * result = _clientStreams.at(index);
 
     ODL_OBJEXIT_P(result); //####
@@ -938,7 +940,7 @@ const
     ODL_OBJENTER(); //####
     size_t result = _inStreams.size();
 
-    ODL_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_I(result); //#####
     return result;
 } // BaseInputOutputService::getInletCount
 
@@ -947,7 +949,7 @@ BaseInputOutputService::getInletStream(const size_t index)
 const
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("index = ", index); //####
+    ODL_I1("index = ", index); //####
     GeneralChannel * result = _inStreams.at(index);
 
     ODL_OBJEXIT_P(result); //####
@@ -961,7 +963,7 @@ const
     ODL_OBJENTER(); //####
     size_t result = _outStreams.size();
 
-    ODL_OBJEXIT_L(result); //#####
+    ODL_OBJEXIT_I(result); //#####
     return result;
 } // BaseInputOutputService::getOutletCount
 
@@ -970,7 +972,7 @@ BaseInputOutputService::getOutletStream(const size_t index)
 const
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("index = ", index); //####
+    ODL_I1("index = ", index); //####
     GeneralChannel * result = _outStreams.at(index);
 
     ODL_OBJEXIT_P(result); //####
@@ -1058,6 +1060,11 @@ BaseInputOutputService::runService(const YarpString & helpText,
                                    const bool         stdinAvailable,
                                    const bool         reportOnExit)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(reportOnExit)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
     ODL_S1s("helpText = ", helpText); //####
     ODL_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####

@@ -99,7 +99,8 @@ ChannelStatusReporter::~ChannelStatusReporter(void)
 void
 ChannelStatusReporter::report(const yarp::os::PortInfo & info)
 {
-    ODL_LL1("tag = ", info.tag); //####
+    ODL_ENTER(); //####
+    ODL_I1("tag = ", info.tag); //####
     switch (info.tag)
     {
         case yarp::os::PortInfo::PORTINFO_NULL :
@@ -123,6 +124,7 @@ ChannelStatusReporter::report(const yarp::os::PortInfo & info)
     ODL_S4s("portName = ", info.portName, "sourceName = ", info.sourceName, //####
             "targetName = ", info.targetName, "carrierName = ", info.carrierName); //####
     ODL_S1s("message = ", info.message); //####
+    ODL_EXIT(); //####
 } // ChannelStatusReporter::report
 
 #if defined(__APPLE__)

@@ -186,7 +186,7 @@ main(int      argc,
                     ODL_LOG("waiting for a connection"); //####
                     SOCKET loopSocket = accept(listenSocket, NULL, NULL);
 
-                    ODL_L1("loopSocket = ", loopSocket); //####
+                    ODL_I1("loopSocket = ", loopSocket); //####
                     for ( ; keepGoing; )
                     {
 #if MAC_OR_LINUX_
@@ -240,7 +240,7 @@ main(int      argc,
     {
         ODL_LOG("Exception caught"); //####
     }
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

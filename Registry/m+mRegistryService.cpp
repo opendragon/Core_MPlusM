@@ -344,14 +344,14 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
 
-            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_I1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_I1("sqlRes <- ", sqlRes); //####
                     ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
@@ -360,7 +360,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_I1("sqlRes <- ", sqlRes); //####
                         ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
@@ -419,7 +419,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
 
-            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_I1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
@@ -428,7 +428,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_I1("sqlRes <- ", sqlRes); //####
                         ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
@@ -465,6 +465,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
     return okSoFar;
 } // performSQLstatementWithNoResultsNoArgs
 
+#if 0
 /*! @brief Perform a simple operation on the database, ignoring constraint errors.
  @param[in] database The database to be modified.
  @param[in] sqlStatement The operation to be performed.
@@ -491,14 +492,14 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
 
-            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_I1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_I1("sqlRes <- ", sqlRes); //####
                     ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
@@ -507,7 +508,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                     do
                     {
                         sqlRes = sqlite3_step(prepared);
-                        ODL_LL1("sqlRes <- ", sqlRes); //####
+                        ODL_I1("sqlRes <- ", sqlRes); //####
                         ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
@@ -544,7 +545,9 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithNoResultsAllowConstraint
+#endif // 0
 
+#if 0
 /*! @brief Perform an operation that can return multiple rows of results.
  @param[in] database The database to be modified.
  @param[in,out] resultList The list to be filled in with the values from the column of interest.
@@ -565,7 +568,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
 {
     ODL_ENTER(); //####
     ODL_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
-    ODL_LL2("columnOfInterest1 = ", columnOfInterest1, "columnOfInterest2 = ", //####
+    ODL_I2("columnOfInterest1 = ", columnOfInterest1, "columnOfInterest2 = ", //####
             columnOfInterest2); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
@@ -579,14 +582,14 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
 
-            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_I1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_I1("sqlRes <- ", sqlRes); //####
                     ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
@@ -597,7 +600,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                         do
                         {
                             sqlRes = sqlite3_step(prepared);
-                            ODL_LL1("sqlRes <- ", sqlRes); //####
+                            ODL_I1("sqlRes <- ", sqlRes); //####
                             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
@@ -610,7 +613,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
 
-                            ODL_LL1("colCount <- ", colCount); //####
+                            ODL_I1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest1 < colCount) &&
                                 (columnOfInterest2 < colCount))
                             {
@@ -664,6 +667,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
     ODL_EXIT_B(okSoFar); //####
     return okSoFar;
 } // performSQLstatementWithDoubleColumnResults
+#endif // 0
 
 /*! @brief Perform an operation that can return multiple rows of results.
  @param[in] database The database to be modified.
@@ -683,7 +687,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
 {
     ODL_ENTER(); //####
     ODL_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
-    ODL_LL1("columnOfInterest = ", columnOfInterest); //####
+    ODL_I1("columnOfInterest = ", columnOfInterest); //####
     ODL_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
 
@@ -696,14 +700,14 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                                                        static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
 
-            ODL_LL1("sqlRes <- ", sqlRes); //####
+            ODL_I1("sqlRes <- ", sqlRes); //####
             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
-                    ODL_LL1("sqlRes <- ", sqlRes); //####
+                    ODL_I1("sqlRes <- ", sqlRes); //####
                     ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
@@ -714,7 +718,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                         do
                         {
                             sqlRes = sqlite3_step(prepared);
-                            ODL_LL1("sqlRes <- ", sqlRes); //####
+                            ODL_I1("sqlRes <- ", sqlRes); //####
                             ODL_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
@@ -727,7 +731,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                             // Gather the column data...
                             int colCount = sqlite3_column_count(prepared);
 
-                            ODL_LL1("colCount <- ", colCount); //####
+                            ODL_I1("colCount <- ", colCount); //####
                             if ((0 < colCount) && (columnOfInterest < colCount))
                             {
                                 const char * value =
@@ -963,10 +967,11 @@ setupCheckService(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupCheckService
 
+#if 0
 /*! @brief Bind the values that are to be inserted into the Channels table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
@@ -1005,9 +1010,10 @@ setupInsertIntoChannels(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupInsertIntoChannels
+#endif // 0
 
 /*! @brief Bind the values that are to be inserted into the Keywords table.
  @param[in] statement The prepared statement that is to be updated.
@@ -1047,7 +1053,7 @@ setupInsertIntoKeywords(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupInsertIntoKeywords
 
@@ -1137,7 +1143,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupInsertIntoRequests
 
@@ -1200,7 +1206,7 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupInsertIntoRequestsKeywords
 
@@ -1305,10 +1311,11 @@ setupInsertIntoServices(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupInsertIntoServices
 
+#if 0
 /*! @brief Bind the values that are to be removed from the Channels table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
@@ -1346,9 +1353,10 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupRemoveFromChannels
+#endif // 0
 
 /*! @brief Bind the values that are to be removed from the Requests table.
  @param[in] statement The prepared statement that is to be updated.
@@ -1387,7 +1395,7 @@ setupRemoveFromRequests(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupRemoveFromRequests
 
@@ -1428,7 +1436,7 @@ setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupRemoveFromRequestsKeywords
 
@@ -1469,7 +1477,7 @@ setupRemoveFromServices(sqlite3_stmt * statement,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // setupRemoveFromServices
 
@@ -1500,7 +1508,7 @@ RegistryService::RegistryService(const YarpString & launchPath,
 {
     ODL_ENTER(); //####
     ODL_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     ODL_B1("useInMemoryDb = ", useInMemoryDb); //####
     setExtraInformation(_inMemory ? "Using in-memory database" : "Using disk-based database");
@@ -1684,23 +1692,15 @@ RegistryService::attachRequestHandlers(void)
     ODL_OBJENTER(); //####
     try
     {
-        ODL_LOG("got here");
         _matchHandler = new MatchRequestHandler(*this, _validator);
-        ODL_LOG("got here");
         _pingHandler = new PingRequestHandler(*this);
-        ODL_LOG("got here");
         _registerHandler = new RegisterRequestHandler(*this);
-        ODL_LOG("got here");
         _unregisterHandler = new UnregisterRequestHandler(*this);
         if (_matchHandler && _pingHandler && _registerHandler && _unregisterHandler)
         {
-            ODL_LOG("got here");
             registerRequestHandler(_matchHandler);
-            ODL_LOG("got here");
             registerRequestHandler(_pingHandler);
-            ODL_LOG("got here");
             registerRequestHandler(_registerHandler);
-            ODL_LOG("got here");
             registerRequestHandler(_unregisterHandler);
         }
         else

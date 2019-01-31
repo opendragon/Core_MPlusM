@@ -202,6 +202,9 @@ ExtraArgumentDescriptor::toString(void)
 bool
 ExtraArgumentDescriptor::validate(const YarpString & value)
 {
+#if MAC_OR_LINUX_
+# pragma unused(value)
+#endif // MAC_OR_LINUX_
     ODL_OBJENTER(); //####
     _valid = true;
     ODL_B1("_valid <- ", _valid); //####

@@ -403,7 +403,7 @@ processBody(yarp::os::Bottle & message,
 {
     ODL_ENTER(); //####
     ODL_P2("message = ", message, "ppBodies = ", ppBodies); //####
-    ODL_L1("nBodyCount = ", nBodyCount); //####
+    ODL_I1("nBodyCount = ", nBodyCount); //####
     bool result = false;
 
     for (int ii = 0; nBodyCount > ii; ++ii)
@@ -518,7 +518,7 @@ KinectV2EventThread::initializeDefaultSensor(void)
             hr = E_FAIL;
         }
     }
-    ODL_OBJEXIT_L(hr); //####
+    ODL_OBJEXIT_I(hr); //####
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
 #endif // ! defined(MpM_BuildDummyServices)

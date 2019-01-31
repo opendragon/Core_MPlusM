@@ -239,7 +239,7 @@ checkFinger(const int                flag,
             FingerTip &              finger)
 {
     ODL_ENTER(); //####
-    ODL_LL2("flag = ", flag, "position = ", position); //####
+    ODL_I2("flag = ", flag, "position = ", position); //####
     ODL_P2("input = ", &input, "finger = ", &finger); //####
     bool okSoFar = true;
 
@@ -352,7 +352,7 @@ LeapDisplayInputHandler::handleInput(const yarp::os::Bottle &     input,
     ODL_OBJENTER(); //####
     ODL_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     ODL_P1("replyMechanism = ", replyMechanism); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
     bool result = true;
 
     try

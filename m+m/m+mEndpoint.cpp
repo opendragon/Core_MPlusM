@@ -137,7 +137,7 @@ setEndpointIPAddress(yarp::os::Contact & workingContact,
     ODL_ENTER(); //####
     ODL_P1("workingContact = ", &workingContact); //####
     ODL_S1s("endpointName = ", endpointName); //####
-    ODL_L1("portNumber = ", portNumber); //####
+    ODL_I1("portNumber = ", portNumber); //####
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("enter setEndpointIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
@@ -568,7 +568,7 @@ void
 Endpoint::updateSendCounters(const size_t numBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("numBytes = ", numBytes); //####
+    ODL_I1("numBytes = ", numBytes); //####
 
     if (_channel && _metricsEnabled)
     {

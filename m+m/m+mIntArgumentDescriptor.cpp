@@ -96,7 +96,7 @@ IntArgumentDescriptor::IntArgumentDescriptor(const YarpString & argName,
 {
     ODL_ENTER(); //####
     ODL_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    ODL_LL3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
+    ODL_I3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
             "maximumValue = ", maximumValue); //####
     ODL_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
     ODL_EXIT_P(this); //####
@@ -249,7 +249,7 @@ IntArgumentDescriptor::setToDefaultValue(void)
 {
     ODL_OBJENTER(); //####
     _currentValue = _defaultValue;
-    ODL_LL1("_currentValue <- ", _currentValue); //####
+    ODL_I1("_currentValue <- ", _currentValue); //####
     ODL_OBJEXIT(); //####
 } // IntArgumentDescriptor::setToDefaultValue
 
@@ -311,7 +311,7 @@ IntArgumentDescriptor::validate(const YarpString & value)
     if (_valid)
     {
         _currentValue = intValue;
-        ODL_LL1("_currentValue <- ", _currentValue); //####
+        ODL_I1("_currentValue <- ", _currentValue); //####
     }
     ODL_OBJEXIT_B(_valid); //####
     return _valid;

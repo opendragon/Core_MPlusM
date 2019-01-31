@@ -82,6 +82,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Process the argument list for the application.
  @param[in] arguments The arguments to analyze.
  @param[out] namePattern The generated search value. */
@@ -105,6 +106,7 @@ processArguments(const YarpStringVector & arguments,
     }
     ODL_EXIT(); //####
 } // processArguments
+#endif // 0
 
 /*! @brief Create a 'listen' socket.
  @param[in] listenPort The network port to attach the new socket to.
@@ -113,7 +115,7 @@ static SOCKET
 setUpListeningPost(const int listenPort)
 {
     ODL_ENTER(); //####
-    ODL_L1("listenPort = ", listenPort); //####
+    ODL_I1("listenPort = ", listenPort); //####
     SOCKET  listenSocket;
 #if ! MAC_OR_LINUX_
     WORD    wVersionRequested = MAKEWORD(2, 2);
@@ -169,7 +171,7 @@ setUpListeningPost(const int listenPort)
         }
     }
 #endif // ! MAC_OR_LINUX_
-    ODL_EXIT_L(listenSocket); //####
+    ODL_EXIT_I(listenSocket); //####
     return listenSocket;
 } // setUpListeningPost
 
@@ -183,7 +185,7 @@ connectToTunnel(const YarpString & serviceAddress,
 {
     ODL_ENTER(); //####
     ODL_S1s("serviceAddress = ", serviceAddress); //####
-    ODL_L1("servicePort = ", servicePort); //####
+    ODL_I1("servicePort = ", servicePort); //####
     SOCKET         tunnelSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
 #if MAC_OR_LINUX_
@@ -195,7 +197,7 @@ connectToTunnel(const YarpString & serviceAddress,
     if (0 < res)
     {
         tunnelSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        ODL_L1("tunnelSocket = ", tunnelSocket); //####
+        ODL_I1("tunnelSocket = ", tunnelSocket); //####
         if (INVALID_SOCKET != tunnelSocket)
         {
 #if MAC_OR_LINUX_
@@ -231,7 +233,7 @@ connectToTunnel(const YarpString & serviceAddress,
 #endif // ! MAC_OR_LINUX_
         }
     }
-    ODL_EXIT_L(tunnelSocket); //####
+    ODL_EXIT_I(tunnelSocket); //####
     return tunnelSocket;
 } // connectToTunnel
 
@@ -245,13 +247,13 @@ handleConnections(SOCKET             listenSocket,
                   const int          servicePort)
 {
     ODL_ENTER(); //####
-    ODL_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
+    ODL_I2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
     ODL_S1s("serviceAddress = ", serviceAddress); //####
     bool   keepGoing = true;
     char   buffer[10240];
     SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
 
-    ODL_L1("sinkSocket = ", sinkSocket); //####
+    ODL_I1("sinkSocket = ", sinkSocket); //####
     if (INVALID_SOCKET != sinkSocket)
     {
         SOCKET tunnelSocket = connectToTunnel(serviceAddress, servicePort);
@@ -316,7 +318,7 @@ setUpAndGo(const int          listenPort,
 #endif // ! defined(MpM_ReportOnConnections)
 {
     ODL_ENTER(); //####
-    ODL_LL1("listenPort = ", listenPort); //####
+    ODL_I1("listenPort = ", listenPort); //####
     ODL_S1s("tag = ", tag); //####
 #if defined(MpM_ReportOnConnections)
     ODL_P1("reporter = ", reporter); //####
@@ -481,7 +483,7 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main
 #if (! MAC_OR_LINUX_)

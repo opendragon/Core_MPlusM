@@ -185,7 +185,7 @@ void
 ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 {
     ODL_OBJENTER(); //####
-    ODL_L1("subjectCount = ", subjectCount); //####
+    ODL_I1("subjectCount = ", subjectCount); //####
 #if (! defined(MpM_BuildDummyServices))
     if (0 < subjectCount)
     {

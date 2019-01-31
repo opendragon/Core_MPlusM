@@ -156,7 +156,7 @@ CommonVisuals::GetButtonHeight(void)
     ODL_ENTER(); //####
     int result = LookAndFeel::getDefaultLookAndFeel().getAlertWindowButtonHeight();
 
-    ODL_EXIT_LL(result);
+    ODL_EXIT_I(result);
     return result;
 } // CommonVisuals::GetButtonHeight
 
@@ -195,7 +195,7 @@ LazyLaunchProcess(ChildProcess & aProcess,
 {
     ODL_ENTER(); //####
     ODL_P1("aProcess = ", &aProcess); //####
-    ODL_LL1("timeout = ", timeout); //####
+    ODL_I1("timeout = ", timeout); //####
     bool result = false;
 
     if (0 < timeout)

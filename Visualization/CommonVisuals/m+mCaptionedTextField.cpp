@@ -126,7 +126,7 @@ CaptionedTextField::CaptionedTextField(FormFieldErrorResponder & responder,
     ODL_P1("validator = ", validator); //####
     ODL_S2s("captionTitle = ", captionTitle, "componentName = ", //####
             componentName.toStdString()); //####
-    ODL_LL3("index = ", index, "top = ", top, "passwordCharacter = ", passwordCharacter); //####
+    ODL_I3("index = ", index, "top = ", top, "passwordCharacter = ", passwordCharacter); //####
     ODL_B2("boundsSetLater = ", boundsSetLater, "forFilePath = ", forFilePath); //####
     Point<int> dimensions;
     int        adjustedEditorHeight = static_cast<int>(_regularFont.getHeight() +
@@ -201,7 +201,7 @@ CaptionedTextField::getFileButtonWidth(void)
         fileButton->changeWidthToFitText(GetButtonHeight());
         lFileButtonWidth = fileButton->getWidth();
     }
-    ODL_EXIT_LL(lFileButtonWidth); //####
+    ODL_EXIT_I(lFileButtonWidth); //####
     return lFileButtonWidth;
 } // CaptionedTextField::getFileButtonWidth
 
@@ -212,7 +212,7 @@ const
     ODL_OBJENTER(); //####
     int result = _textEditor->getHeight() + _caption->getHeight() + kLabelToFieldGap;
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CaptionedTextField::getHeight
 
@@ -223,7 +223,7 @@ const
     ODL_OBJENTER(); //####
     int result = jmax(_textEditor->getX(), _caption->getWidth() + _caption->getX());
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CaptionedTextField::::getMinimumWidth
 
@@ -258,7 +258,7 @@ const
     int secondVal = _caption->getWidth() + _caption->getX();
     int result = jmax(firstVal, secondVal) - getX();
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CaptionedTextField::getWidth
 
@@ -269,7 +269,7 @@ const
     ODL_OBJENTER(); //####
     int result = jmin(_textEditor->getX(), _caption->getX());
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CaptionedTextField::getX
 
@@ -280,7 +280,7 @@ const
     ODL_OBJENTER(); //####
     int result = _caption->getY();
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CaptionedTextField::getY
 
@@ -405,7 +405,7 @@ void
 CaptionedTextField::setWidth(const int ww)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("ww = ", ww); //####
+    ODL_I1("ww = ", ww); //####
     _textEditor->setSize(ww, _textEditor->getHeight());
     if (_button)
     {
@@ -422,7 +422,7 @@ void
 CaptionedTextField::setY(const int yy)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("yy = ", yy); //####
+    ODL_I1("yy = ", yy); //####
     _caption->setTopLeftPosition(kLabelInset, yy);
     _textEditor->setTopLeftPosition(kFieldInset,
                                     _caption->getY() + _caption->getHeight() + kLabelToFieldGap);

@@ -87,8 +87,8 @@ PlaybackFromJSONInputThread::PlaybackFromJSONInputThread(Common::GeneralChannel 
                                                          const double             playbackRatio,
                                                          const double             initialDelay,
                                                          const bool               loopPlayback) :
-    inherited(), _outChannel(outChannel), _outMessage(outMessage), _nextIndex(0),
-    _initialDelay(initialDelay), _playbackRatio(playbackRatio), _loopPlayback(loopPlayback)
+    inherited(), _outMessage(outMessage), _outChannel(outChannel), _initialDelay(initialDelay),
+    _playbackRatio(playbackRatio), _nextIndex(0), _loopPlayback(loopPlayback)
 {
     ODL_ENTER(); //####
     ODL_P2("outChannel = ", outChannel, "outMessage = ", &outMessage); //####
@@ -126,7 +126,7 @@ PlaybackFromJSONInputThread::run(void)
         if (_nextTime <= yarp::os::Time::now())
         {
             ODL_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (_nextIndex < _outMessage.size())
+            if (_nextIndex < static_cast<int>(_outMessage.size()))
             {
                 yarp::os::Value & nextValue = _outMessage.get(_nextIndex++);
 
@@ -145,7 +145,7 @@ PlaybackFromJSONInputThread::run(void)
                         }
                     }
                 }
-                if (_nextIndex < _outMessage.size())
+                if (_nextIndex < static_cast<int>(_outMessage.size()))
                 {
                     double            deltaTime;
                     yarp::os::Value & timeValue = _outMessage.get(_nextIndex++);

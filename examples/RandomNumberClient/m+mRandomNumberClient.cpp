@@ -154,7 +154,7 @@ RandomNumberClient::getRandomNumbers(const int      howMany,
                                      DoubleVector & result)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("howMany = ", howMany); //####
+    ODL_I1("howMany = ", howMany); //####
     ODL_P1("result = ", &result); //####
     bool okSoFar = false;
 

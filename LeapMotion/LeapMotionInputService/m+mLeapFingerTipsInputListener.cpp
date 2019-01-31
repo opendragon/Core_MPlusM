@@ -378,7 +378,7 @@ LeapFingerTipsInputListener::onFrame(const Leap::Controller & theController)
             ODL_LOG("! (0 < handCount)"); //####
         }
         message.addInt(fingersPresent);
-        for (int ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
+        for (size_t ii = 0; ii < (sizeof(fingerPositions) / sizeof(*fingerPositions)); ++ii)
         {
             message.addDouble(fingerPositions[ii]);
         }

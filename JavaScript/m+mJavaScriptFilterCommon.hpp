@@ -39,6 +39,8 @@
 #if (! defined(MpMJavaScriptFilterCommon_HPP_))
 # define MpMJavaScriptFilterCommon_HPP_ /* Header guard */
 
+# include <m+m/m+mCommon.hpp>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Winvalid-offsetof"

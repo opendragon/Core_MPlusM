@@ -504,7 +504,7 @@ namespace MplusM
         /*! @brief Connect the standard signals to a handler.
          @param[in] theHandler The new handler for the signals. */
         void
-        SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
+        SetSignalHandlers(ACE_SignalHandler theHandler);
 
         /*! @brief Set up the signal-handling behaviour so that this thread will catch our
          signal. */

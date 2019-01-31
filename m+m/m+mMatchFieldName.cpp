@@ -95,7 +95,7 @@ MatchFieldName::CreateMatcher(const YarpString &  inString,
 {
     ODL_ENTER(); //####
     ODL_S1s("inString = ", inString); //####
-    ODL_LL2("inLength = ", inLength, "startPos = ", startPos); //####
+    ODL_I2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchFieldName * result = NULL;
 
     try

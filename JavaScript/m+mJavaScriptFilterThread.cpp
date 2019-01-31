@@ -85,7 +85,7 @@ using std::endl;
 
 JavaScriptFilterThread::JavaScriptFilterThread(JavaScriptFilterService & owner,
                                                const double              timeToWait) :
-    inherited(), _timeToWait(timeToWait), _owner(owner)
+    inherited(), _owner(owner), _timeToWait(timeToWait)
 {
     ODL_ENTER(); //####
     ODL_P1("owner = ", &owner); //####

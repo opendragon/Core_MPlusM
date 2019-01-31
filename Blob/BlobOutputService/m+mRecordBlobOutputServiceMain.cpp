@@ -114,7 +114,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
            reportOnExit); //####
     RecordBlobOutputService * aService = new RecordBlobOutputService(argumentList, progName, argc,
@@ -236,6 +236,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

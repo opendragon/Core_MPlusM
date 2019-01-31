@@ -151,7 +151,7 @@ SendReceiveCounters &
 SendReceiveCounters::incrementInCounters(const int64_t moreInBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("moreInBytes = ", moreInBytes); //####
+    ODL_I1("moreInBytes = ", moreInBytes); //####
     _inBytes += moreInBytes;
     ++_inMessages;
     ODL_OBJEXIT_P(this); //####
@@ -162,7 +162,7 @@ SendReceiveCounters &
 SendReceiveCounters::incrementOutCounters(const int64_t moreOutBytes)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("moreOutBytes = ", moreOutBytes); //####
+    ODL_I1("moreOutBytes = ", moreOutBytes); //####
     _outBytes += moreOutBytes;
     ++_outMessages;
     ODL_OBJEXIT_P(this); //####

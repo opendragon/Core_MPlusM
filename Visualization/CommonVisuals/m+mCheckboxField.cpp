@@ -108,7 +108,7 @@ CheckboxField::CheckboxField(Font &         regularLabelFont,
     ODL_P1("regularLabelFont = ", &regularLabelFont); //####
     ODL_S2s("captionTitle = ", captionTitle.toStdString(), "componentName = ", //####
             componentName.toStdString()); //####
-    ODL_LL2("index = ", index, "top = ", top); //####
+    ODL_I2("index = ", index, "top = ", top); //####
     Point<int> dimensions;
     int        adjustedEditorHeight = static_cast<int>(_regularFont.getHeight() +
                                                        kCheckboxHeightAdjustment);
@@ -153,7 +153,7 @@ const
     ODL_OBJENTER(); //####
     int result = _checkbox->getHeight();
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CheckboxField::getHeight
 
@@ -165,7 +165,7 @@ const
     int result = (_checkbox->getX() + _checkbox->getWidth() + kCheckboxToLabelGap +
                   _caption->getWidth());
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CheckboxField::::getMinimumWidth
 
@@ -199,7 +199,7 @@ const
     int result = (_checkbox->getX() + _checkbox->getWidth() + kCheckboxToLabelGap +
                   _caption->getWidth());
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CheckboxField::getWidth
 
@@ -210,7 +210,7 @@ const
     ODL_OBJENTER(); //####
     int result = _checkbox->getX();
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CheckboxField::getX
 
@@ -221,7 +221,7 @@ const
     ODL_OBJENTER(); //####
     int result = _checkbox->getY();
 
-    ODL_OBJEXIT_LL(result); //####
+    ODL_OBJEXIT_I(result); //####
     return result;
 } // CheckboxField::getY
 
@@ -262,7 +262,7 @@ void
 CheckboxField::setWidth(const int ww)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("ww = ", ww); //####
+    ODL_I1("ww = ", ww); //####
     int newWidth = ww - (_checkbox->getX() + _checkbox->getWidth() + kCheckboxToLabelGap);
 
     _caption->setSize(newWidth, _caption->getHeight());
@@ -273,7 +273,7 @@ void
 CheckboxField::setY(const int yy)
 {
     ODL_OBJENTER(); //####
-    ODL_LL1("yy = ", yy); //####
+    ODL_I1("yy = ", yy); //####
     _checkbox->setTopLeftPosition(_checkbox->getX(), yy);
     _caption->setTopLeftPosition(_caption->getX(), yy);
     ODL_OBJEXIT(); //####

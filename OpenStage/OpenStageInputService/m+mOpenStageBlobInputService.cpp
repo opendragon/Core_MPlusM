@@ -105,7 +105,7 @@ OpenStageBlobInputService::OpenStageBlobInputService(const Utilities::Descriptor
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     ODL_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
             serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_EXIT_P(this); //####
 } // OpenStageBlobInputService::OpenStageBlobInputService
 
@@ -156,7 +156,7 @@ OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
                     _hostName = secondValue.asString();
                     ODL_S1s("_hostName <- ", _hostName); //####
                     _hostPort = thirdNumber;
-                    ODL_LL1("_hostPort <- ", _hostPort); //####
+                    ODL_I1("_hostPort <- ", _hostPort); //####
                     buff << "Translation scale is " << _translationScale <<
                             ", host name is '" << _hostName.c_str() << "', host port is " <<
                             _hostPort;

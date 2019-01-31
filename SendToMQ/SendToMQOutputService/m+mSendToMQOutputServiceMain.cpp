@@ -125,7 +125,7 @@ setUpAndGo(const YarpString &                  hostName,
     ODL_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
             "servicePortNumber = ", servicePortNumber); //####
     ODL_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    ODL_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    ODL_I2("hostPort = ", hostPort, "argc = ", argc); //####
     ODL_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, "reportOnExit = ", //####
            reportOnExit); //####
     SendToMQOutputService * aService = new SendToMQOutputService(hostName, hostPort, userName,
@@ -266,6 +266,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

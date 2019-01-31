@@ -106,6 +106,9 @@ reportJavaScriptError(JSContext *     cx,
                       const char *    message,
                       JSErrorReport * report)
 {
+#if MAC_OR_LINUX_
+# pragma unused(cx)
+#endif // MAC_OR_LINUX_
     // Note that, since this is a callback for the JavaScript engine, it must NOT throw any C++
     // exceptions!
     try
@@ -135,7 +138,7 @@ dumpObjectToStdoutForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -157,6 +160,10 @@ dumpObjectToStdoutForJs(JSContext * jct,
                     PrintJavaScriptObject(cout, jct, asObject, 1);
                     cout.flush();
                     result = true;
+                }
+                else
+                {
+                    result = false;
                 }
             }
             else
@@ -197,7 +204,7 @@ getTimeNowForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -227,7 +234,7 @@ requestStopForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -263,7 +270,7 @@ sendToChannelForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -306,7 +313,7 @@ writeLineToStdoutForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
 
@@ -401,6 +408,9 @@ static void
 cleanupStreamObject(JSFreeOp * freeOp,
                     JSObject * obj)
 {
+#if MAC_OR_LINUX_
+# pragma unused(freeOp)
+#endif // MAC_OR_LINUX_
     ODL_ENTER(); //####
     if (&lStreamClass == JS_GetClass(obj))
     {
@@ -458,7 +468,7 @@ streamAtEofForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -498,7 +508,7 @@ streamClearErrorForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -533,7 +543,7 @@ streamCloseForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -569,7 +579,7 @@ streamHasErrorForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -609,7 +619,7 @@ streamIsOpenForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -641,7 +651,7 @@ streamOpenForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -698,7 +708,7 @@ streamReadCharacterForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -740,7 +750,7 @@ streamReadLineForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -810,7 +820,7 @@ streamReadNumberForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -850,7 +860,7 @@ streamReadStringForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -899,7 +909,7 @@ streamReadStringForJs(JSContext * jct,
                         // Reached the end-of-string.
                         keepGoing = false;
                     }
-                    else if (outLen < sizeof(outBuff))
+                    else if (outLen < static_cast<int>(sizeof(outBuff)))
                     {
                         outBuff[outLen++] = aChar;
                     }
@@ -970,7 +980,7 @@ streamRewindForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -1005,7 +1015,7 @@ streamWriteForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -1048,7 +1058,7 @@ streamWriteLineForJs(JSContext * jct,
 {
     ODL_ENTER(); //####
     ODL_P2("jct = ", jct, "vp = ", vp); //####
-    ODL_L1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
@@ -1568,7 +1578,7 @@ getLoadedFunctionRef(JSContext *        jct,
     ODL_ENTER(); //####
     ODL_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
     ODL_S1("propertyName = ", propertyName); //####
-    ODL_L1("arity = ", arity); //####
+    ODL_I1("arity = ", arity); //####
     bool found = false;
     bool okSoFar;
 
@@ -1960,12 +1970,17 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
            const bool                          reportOnExit,
            const bool                          stdinAvailable)
 {
+#if (! defined(ODL_ENABLE_LOGGING_))
+# if MAC_OR_LINUX_
+#  pragma unused(progName,nameWasSet)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
     ODL_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
             "serviceEndpointName = ", serviceEndpointName); //####
     ODL_S1s("servicePortNumber = ", servicePortNumber); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, "reportOnExit = ", //####
            reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString scriptSource;
@@ -2269,6 +2284,6 @@ main(int      argc,
         ODL_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(0); //####
+    ODL_EXIT_I(0); //####
     return 0;
 } // main

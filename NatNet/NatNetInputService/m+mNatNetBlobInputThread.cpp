@@ -180,7 +180,7 @@ messageReceived(int    messageType,
 # endif // MAC_OR_LINUX_
 #endif // (! defined(ODL_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
     ODL_ENTER(); //####
-    ODL_LL1("messageType = ", messageType); //####
+    ODL_I1("messageType = ", messageType); //####
     ODL_S1("message = ", message); //####
 #if defined(REPORT_NATNET_MESSAGES_)
     std::cerr << messageType << ": " << message << std::endl;
@@ -212,7 +212,7 @@ NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel
     ODL_ENTER(); //####
     ODL_P1("outChannel = ", outChannel); //####
     ODL_S1s("name = ", name); //####
-    ODL_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
+    ODL_I2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
 #if defined(MpM_BuildDummyServices)
     strncpy(_clientIPAddress, "", sizeof(_clientIPAddress) - 1);
     strncpy(_serverIPAddress, "", sizeof(_serverIPAddress) - 1);

@@ -234,7 +234,7 @@ ContentPanel::getMenuForIndex(int            menuIndex,
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
-    ODL_LL1("menuIndex = ", menuIndex); //####
+    ODL_I1("menuIndex = ", menuIndex); //####
     ODL_S1s("menuName = ", menuName.toStdString()); //####
     PopupMenu menu;
 
@@ -291,7 +291,7 @@ ContentPanel::menuItemSelected(int menuItemID,
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
-    ODL_LL2("menuItemID = ", menuItemID, "topLevelMenuIndex = ", topLevelMenuIndex); //####
+    ODL_I2("menuItemID = ", menuItemID, "topLevelMenuIndex = ", topLevelMenuIndex); //####
     switch (menuItemID)
     {
             // Container menu items
@@ -518,7 +518,7 @@ ContentPanel::visibleAreaChanged(const juce::Rectangle<int> & newVisibleArea)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_OBJENTER(); //####
-    ODL_LL4("nVA.x = ", newVisibleArea.getX(), "nVA.y = ", newVisibleArea.getY(), //####
+    ODL_I4("nVA.x = ", newVisibleArea.getX(), "nVA.y = ", newVisibleArea.getY(), //####
             "nVA.w = ", newVisibleArea.getWidth(), "nVA.h = ", //####
             newVisibleArea.getHeight()); //####
     ODL_OBJEXIT(); //####

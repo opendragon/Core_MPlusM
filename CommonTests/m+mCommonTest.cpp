@@ -100,7 +100,7 @@ doCreateEndpointForTest(const int argc,
                         char * *  argv)
 {
     ODL_ENTER(); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     Endpoint * stuff = NULL;
 
@@ -272,7 +272,7 @@ doTestCreateEndpoint(const char * launchPath,
 #endif // ! defined(ODL_ENABLE_LOGGING_)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -303,7 +303,7 @@ doTestCreateEndpoint(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestCreateEndpoint
 #if (! MAC_OR_LINUX_)
@@ -335,7 +335,7 @@ doTestConnectToEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -414,7 +414,7 @@ doTestConnectToEndpoint(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestConnectToEndpoint
 #if (! MAC_OR_LINUX_)
@@ -446,7 +446,7 @@ doTestWriteToEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -543,7 +543,7 @@ doTestWriteToEndpoint(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestWriteToEndpoint
 #if (! MAC_OR_LINUX_)
@@ -575,7 +575,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -673,7 +673,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestEchoFromEndpointWithReader
 #if (! MAC_OR_LINUX_)
@@ -705,7 +705,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -804,7 +804,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestEchoFromEndpointWithReaderCreator
 #if (! MAC_OR_LINUX_)
@@ -836,7 +836,7 @@ doTestCreateRequest(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -865,7 +865,7 @@ doTestCreateRequest(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestCreateRequest
 #if (! MAC_OR_LINUX_)
@@ -897,7 +897,7 @@ doTestCreateResponse(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -919,7 +919,7 @@ doTestCreateResponse(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestCreateResponse
 #if (! MAC_OR_LINUX_)
@@ -951,7 +951,7 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
 #endif // ! defined(MpM_DoExplicitDisconnect)
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -979,7 +979,7 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
 
                     if (request.send(*outChannel, response))
                     {
-                        ODL_LL1("response size = ", response.count()); //####
+                        ODL_I1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
                             ODL_S1s("response value = ", response.element(ii).toString()); //####
@@ -1016,7 +1016,7 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestEchoFromEndpoint
 #if (! MAC_OR_LINUX_)
@@ -1039,7 +1039,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -1063,7 +1063,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
 
                     if (request.send(*outChannel, response))
                     {
-                        ODL_LL1("response size = ", response.count()); //####
+                        ODL_I1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
                             ODL_S1s("response value = ", response.element(ii).toString()); //####
@@ -1099,7 +1099,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReader
 
@@ -1120,7 +1120,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -1144,7 +1144,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
 
                     if (request.send(*outChannel, response))
                     {
-                        ODL_LL1("response size = ", response.count()); //####
+                        ODL_I1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
                             ODL_S1s("response value = ", response.element(ii).toString()); //####
@@ -1180,7 +1180,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReaderCreator
 
@@ -1200,7 +1200,7 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -1277,7 +1277,7 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandler
 
@@ -1603,7 +1603,7 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
 {
     ODL_ENTER(); //####
     ODL_S1("launchPath = ", launchPath); //####
-    ODL_LL1("argc = ", argc); //####
+    ODL_I1("argc = ", argc); //####
     ODL_P1("argv = ", argv); //####
     int result = 1;
 
@@ -1626,7 +1626,7 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
 
                     if (request.send(*outChannel, response))
                     {
-                        ODL_LL1("response size = ", response.count()); //####
+                        ODL_I1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
                             ODL_S1s("response value = ", response.element(ii).toString()); //####
@@ -1670,7 +1670,7 @@ doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
         ODL_LOG("Exception caught"); //####
         throw;
     }
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
@@ -1680,7 +1680,7 @@ static void
 catchSignal(int signal)
 {
     ODL_ENTER(); //####
-    ODL_LL1("signal = ", signal); //####
+    ODL_I1("signal = ", signal); //####
     std::stringstream buff;
     YarpString        message("Exiting due to signal ");
 
@@ -1800,7 +1800,7 @@ main(int      argc,
                         case 12 :
                             result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
                                                                                            argc - 1,
-                                                                                       argv + 2);
+                                                                                           argv + 2);
                             break;
 
                         default :
@@ -1809,7 +1809,7 @@ main(int      argc,
                     }
                     if (result)
                     {
-                        ODL_LL1("%%%%%%% unit test failure = ", result); //####
+                        ODL_I1("%%%%%%% unit test failure = ", result); //####
                     }
                 }
             }
@@ -1826,6 +1826,6 @@ main(int      argc,
         throw;
     }
     yarp::os::Network::fini();
-    ODL_EXIT_L(result); //####
+    ODL_EXIT_I(result); //####
     return result;
 } // main
