@@ -105,10 +105,8 @@ if(APPLE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
-endif()
-
-if(LINUX)
-    set(CMAKE_CXX_FLAGS "-Wno-deprecated-declarations -Wno-invalid-offsetof" CACHE STRING
+elseif(LINUX)
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-deprecated-declarations -Wno-invalid-offsetof" CACHE STRING
         "Fixes compile problems with JavaScript and SendToMQ" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m" FORCE)
 endif()

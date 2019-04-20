@@ -141,6 +141,9 @@ if(LINUX)
 endif()
 
 if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -id
+                        ${THIS_TARGET_LIB} ${THIS_TARGET_LIB})
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET_LIB})
 
