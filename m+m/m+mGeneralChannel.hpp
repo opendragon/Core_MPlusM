@@ -81,7 +81,7 @@ namespace MplusM
             ~GeneralChannel(void);
 
             /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
-             @returns @c true if the channel is used for output and @c false otherwise. */
+             @return @c true if the channel is used for output and @c false otherwise. */
             inline bool
             isOutput(void)
             const
@@ -90,7 +90,7 @@ namespace MplusM
             } // isOutput
 
             /*! @brief Returns the protocol associated with the channel.
-             @returns The protocol associated with the channel. */
+             @return The protocol associated with the channel. */
             inline const YarpString &
             protocol(void)
             const
@@ -99,7 +99,7 @@ namespace MplusM
             } // protocol
 
             /*! @brief Returns the description of the protocol associated with the channel.
-             @returns The description of the protocol associated with the channel. */
+             @return The description of the protocol associated with the channel. */
             inline const YarpString &
             protocolDescription(void)
             const
@@ -124,7 +124,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             GeneralChannel &
             operator =(const GeneralChannel & other);
 

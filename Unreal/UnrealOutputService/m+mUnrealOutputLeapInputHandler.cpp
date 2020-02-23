@@ -205,7 +205,7 @@ dumpFingerProps(std::stringstream &  outBuffer,
  @param[in,out] outBuffer The destination character stream.
  @param[in] handData The hand data to write out.
  @param[in] scale The translation scale to use.
- @returns @c true if the had data was properly structured and @c false otherwise. */
+ @return @c true if the had data was properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
 static bool
 dumpHandData(Common::StringBuffer & outBuffer,

@@ -56,7 +56,7 @@ public:
         call Image::duplicateIfShared()
 
         @param file     the file to try to load
-        @returns        the image, or null if it there was an error loading it
+        @return        the image, or null if it there was an error loading it
         @see getFromMemory, getFromCache, ImageFileFormat::loadFrom
     */
     static Image getFromFile (const File& file);
@@ -73,7 +73,7 @@ public:
 
         @param imageData    the block of memory containing the image data
         @param dataSize     the data size in bytes
-        @returns            the image, or an invalid image if it there was an error loading it
+        @return            the image, or an invalid image if it there was an error loading it
         @see getFromMemory, getFromCache, ImageFileFormat::loadFrom
     */
     static Image getFromMemory (const void* imageData, int dataSize);

@@ -189,7 +189,7 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state into a string.
  @param[in] theHandState The state of the hand.
- @returns The state of the hand as a string. */
+ @return The state of the hand as a string. */
 static const char *
 handStateToString(const HandState theHandState)
 {
@@ -221,7 +221,7 @@ handStateToString(const HandState theHandState)
 #if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state confidence into a string.
  @param[in] theHandConfidence The confidence in the state of the hand.
- @returns The confidence of the hand state as a string. */
+ @return The confidence of the hand state as a string. */
 static const char *
 handConfidenceToString(const TrackingConfidence theHandConfidence)
 {
@@ -394,7 +394,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
  @param[in,out] message The message to be updated with the sensor data.
  @param[in] nBodyCount The number of 'bodies' in the sensor data.
  @param[in] ppBodies The sensor data.
- @returns @c true if at least one body was added to the message successfully, and @c false
+ @return @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 static bool
 processBody(yarp::os::Bottle & message,

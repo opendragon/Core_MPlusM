@@ -121,7 +121,7 @@ public:
 
         @param priority   the priority to use when starting the thread - see
                           Thread::startThread() for values
-        @returns true if the thread finished normally; false if the user pressed cancel
+        @return true if the thread finished normally; false if the user pressed cancel
     */
     bool runThread (int priority = 5);
    #endif

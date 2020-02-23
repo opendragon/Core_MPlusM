@@ -139,7 +139,7 @@ public:
         The notification parameter can be used to optionally send or inhibit a callback to
         any scrollbar listeners.
 
-        @returns true if the range was changed, or false if nothing was changed.
+        @return true if the range was changed, or false if nothing was changed.
         @see getCurrentRange. setCurrentRangeStart
     */
     bool setCurrentRange (Range<double> newRange,
@@ -207,7 +207,7 @@ public:
 
         A positive value here will move the bar down or to the right, a negative
         value moves it up or to the left.
-        @returns true if the scrollbar's position actually changed.
+        @return true if the scrollbar's position actually changed.
     */
     bool moveScrollbarInSteps (int howManySteps,
                                NotificationType notification = sendNotificationAsync);
@@ -219,20 +219,20 @@ public:
 
         A positive value here will move the bar down or to the right, a negative
         value moves it up or to the left.
-        @returns true if the scrollbar's position actually changed.
+        @return true if the scrollbar's position actually changed.
     */
     bool moveScrollbarInPages (int howManyPages,
                                NotificationType notification = sendNotificationAsync);
 
     /** Scrolls to the top (or left).
         This is the same as calling setCurrentRangeStart (getMinimumRangeLimit());
-        @returns true if the scrollbar's position actually changed.
+        @return true if the scrollbar's position actually changed.
     */
     bool scrollToTop (NotificationType notification = sendNotificationAsync);
 
     /** Scrolls to the bottom (or right).
         This is the same as calling setCurrentRangeStart (getMaximumRangeLimit() - getCurrentRangeSize());
-        @returns true if the scrollbar's position actually changed.
+        @return true if the scrollbar's position actually changed.
     */
     bool scrollToBottom (NotificationType notification = sendNotificationAsync);
 

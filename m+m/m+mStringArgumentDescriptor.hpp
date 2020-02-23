@@ -91,7 +91,7 @@ namespace MplusM
             ~StringArgumentDescriptor(void);
 
             /*! @brief Return the current value.
-             @returns The current value. */
+             @return The current value. */
             inline const YarpString &
             getCurrentValue(void)
             const
@@ -101,14 +101,14 @@ namespace MplusM
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param[in] inString The input string in 'arguments' format.
-             @returns A valid descriptor or @c NULL if the input is not recognized. */
+             @return A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor *
             parseArgString(const YarpString & inString);
 
         protected :
 
             /*! @brief Return the default value.
-             @returns The default value. */
+             @return The default value. */
             virtual YarpString
             getDefaultValue(void);
 
@@ -124,18 +124,18 @@ namespace MplusM
             addValueToBottle(yarp::os::Bottle & container);
 
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+             @return A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
             clone(void);
 
             /*! @brief Return the processed value.
-             @returns The processed value. */
+             @return The processed value. */
             virtual YarpString
             getProcessedValue(void);
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             StringArgumentDescriptor &
             operator =(const StringArgumentDescriptor & other);
 
@@ -144,13 +144,13 @@ namespace MplusM
             setToDefaultValue(void);
 
             /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
+             @return A printable representation of the descriptor. */
             virtual YarpString
             toString(void);
 
             /*! @brief Check an input value against the constraints of the descriptor.
              @param[in] value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
+             @return @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
             virtual bool
             validate(const YarpString & value);

@@ -101,7 +101,7 @@ namespace MplusM
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief Provide access to the output buffer.
              This is meant to be used by the data received callback.
-             @returns The output buffer. */
+             @return The output buffer. */
             inline Common::StringBuffer &
             getOutputBuffer(void)
             {
@@ -122,7 +122,7 @@ namespace MplusM
             setScale(const double newScale);
 
             /*! @brief Return the translation scale.
-             @returns The translation scale. */
+             @return The translation scale. */
             inline double
             translationScale(void)
             const
@@ -140,7 +140,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             NatNetBlobInputThread &
             operator =(const NatNetBlobInputThread & other);
 
@@ -149,7 +149,7 @@ namespace MplusM
             run(void);
 
             /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
+             @return @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
 

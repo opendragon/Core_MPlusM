@@ -56,7 +56,7 @@ public:
 
         The shaderType parameter could be GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc.
 
-        @returns  true if the shader compiled successfully. If not, you can call
+        @return  true if the shader compiled successfully. If not, you can call
                   getLastError() to find out what happened.
     */
     bool addShader (const String& shaderSourceCode, GLenum shaderType);
@@ -74,7 +74,7 @@ public:
     /** Links all the compiled shaders into a usable program.
         If your app is built in debug mode, this method will assert if the program
         fails to link correctly.
-        @returns  true if the program linked successfully. If not, you can call
+        @return  true if the program linked successfully. If not, you can call
                   getLastError() to find out what happened.
     */
     bool link() noexcept;

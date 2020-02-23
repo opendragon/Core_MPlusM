@@ -106,13 +106,13 @@ public:
     //==============================================================================
     /** Compares two arrays.
         Comparisons are case-sensitive.
-        @returns    true only if the other array contains exactly the same strings in the same order
+        @return    true only if the other array contains exactly the same strings in the same order
     */
     bool operator== (const StringArray&) const noexcept;
 
     /** Compares two arrays.
         Comparisons are case-sensitive.
-        @returns    false if the other array contains exactly the same strings in the same order
+        @return    false if the other array contains exactly the same strings in the same order
     */
     bool operator!= (const StringArray&) const noexcept;
 
@@ -152,7 +152,7 @@ public:
 
         The comparison will be case-insensitive if the ignoreCase parameter is true.
 
-        @returns    true if the string is found inside the array
+        @return    true if the string is found inside the array
     */
     bool contains (StringRef stringToLookFor,
                    bool ignoreCase = false) const;
@@ -164,7 +164,7 @@ public:
         @param stringToLookFor  the string to try to find
         @param ignoreCase       whether the comparison should be case-insensitive
         @param startIndex       the first index to start searching from
-        @returns                the index of the first occurrence of the string in this array,
+        @return                the index of the first occurrence of the string in this array,
                                 or -1 if it isn't found.
     */
     int indexOf (StringRef stringToLookFor,
@@ -225,7 +225,7 @@ public:
 
         This will tokenise the given string using whitespace characters as the
         token delimiters, and will add these tokens to the end of the array.
-        @returns    the number of tokens added
+        @return    the number of tokens added
         @see fromTokens
     */
     int addTokens (StringRef stringToTokenise, bool preserveQuotedStrings);
@@ -241,7 +241,7 @@ public:
         @param quoteCharacters      if this string isn't empty, it defines a set of characters
                                     which are treated as quotes. Any text occurring
                                     between quotes is not broken up into tokens.
-        @returns    the number of tokens added
+        @return    the number of tokens added
         @see fromTokens
     */
     int addTokens (StringRef stringToTokenise,

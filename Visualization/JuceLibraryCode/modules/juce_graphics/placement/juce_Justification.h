@@ -60,7 +60,7 @@ public:
     inline int getFlags() const noexcept                        { return flags; }
 
     /** Tests a set of flags for this object.
-        @returns true if any of the flags passed in are set on this object.
+        @return true if any of the flags passed in are set on this object.
     */
     inline bool testFlags (int flagsToTest) const noexcept      { return (flags & flagsToTest) != 0; }
 

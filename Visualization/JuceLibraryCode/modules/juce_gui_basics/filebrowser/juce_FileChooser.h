@@ -100,7 +100,7 @@ public:
                                   box to show special info about the files that the user
                                   is browsing. The component will not be deleted by this
                                   object, so the caller must take care of it.
-        @returns    true if the user selected a file, in which case, use the getResult()
+        @return    true if the user selected a file, in which case, use the getResult()
                     method to find out what it was. Returns false if they cancelled instead.
         @see browseForFileToSave, browseForDirectory
     */
@@ -121,7 +121,7 @@ public:
         @param warnAboutOverwritingExistingFiles     if true, the dialog box will ask
                     the user if they're sure they want to overwrite a file that already
                     exists
-        @returns    true if the user chose a file and pressed 'ok', in which case, use
+        @return    true if the user chose a file and pressed 'ok', in which case, use
                     the getResult() method to find out what the file was. Returns false
                     if they cancelled instead.
         @see browseForFileToOpen, browseForDirectory
@@ -133,7 +133,7 @@ public:
         This will display the dialog box modally, using an "open directory" mode, so it
         will only allow directories to be returned, not files.
 
-        @returns    true if the user chose a directory and pressed 'ok', in which case, use
+        @return    true if the user chose a directory and pressed 'ok', in which case, use
                     the getResult() method to find out what they chose. Returns false
                     if they cancelled instead.
         @see browseForFileToOpen, browseForFileToSave
@@ -151,7 +151,7 @@ public:
     /** Runs a dialog box for the given set of option flags.
         The flag values used are those in FileBrowserComponent::FileChooserFlags.
 
-        @returns    true if the user chose a directory and pressed 'ok', in which case, use
+        @return    true if the user chose a directory and pressed 'ok', in which case, use
                     the getResult() method to find out what they chose. Returns false
                     if they cancelled instead.
         @see FileBrowserComponent::FileChooserFlags

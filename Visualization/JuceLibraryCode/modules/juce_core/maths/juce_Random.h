@@ -59,33 +59,33 @@ public:
     ~Random() noexcept;
 
     /** Returns the next random 32 bit integer.
-        @returns a random integer from the full range 0x80000000 to 0x7fffffff
+        @return a random integer from the full range 0x80000000 to 0x7fffffff
     */
     int nextInt() noexcept;
 
     /** Returns the next random number, limited to a given range.
         The maxValue parameter may not be negative, or zero.
-        @returns a random integer between 0 (inclusive) and maxValue (exclusive).
+        @return a random integer between 0 (inclusive) and maxValue (exclusive).
     */
     int nextInt (int maxValue) noexcept;
 
     /** Returns the next random number, limited to a given range.
-        @returns a random integer between the range start (inclusive) and its end (exclusive).
+        @return a random integer between the range start (inclusive) and its end (exclusive).
     */
     int nextInt (Range<int> range) noexcept;
 
     /** Returns the next 64-bit random number.
-        @returns a random integer from the full range 0x8000000000000000 to 0x7fffffffffffffff
+        @return a random integer from the full range 0x8000000000000000 to 0x7fffffffffffffff
     */
     int64 nextInt64() noexcept;
 
     /** Returns the next random floating-point number.
-        @returns a random value in the range 0 to 1.0
+        @return a random value in the range 0 to 1.0
     */
     float nextFloat() noexcept;
 
     /** Returns the next random floating-point number.
-        @returns a random value in the range 0 to 1.0
+        @return a random value in the range 0 to 1.0
     */
     double nextDouble() noexcept;
 
@@ -93,7 +93,7 @@ public:
     bool nextBool() noexcept;
 
     /** Returns a BigInteger containing a random number.
-        @returns a random value in the range 0 to (maximumValue - 1).
+        @return a random value in the range 0 to (maximumValue - 1).
     */
     BigInteger nextLargeNumber (const BigInteger& maximumValue);
 

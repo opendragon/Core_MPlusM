@@ -110,7 +110,7 @@ processArguments(const YarpStringVector & arguments,
 
 /*! @brief Create a 'listen' socket.
  @param[in] listenPort The network port to attach the new socket to.
- @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+ @return The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 setUpListeningPost(const int listenPort)
 {
@@ -178,7 +178,7 @@ setUpListeningPost(const int listenPort)
 /*! @brief Connect to the %Tunnel service 'raw' network port.
  @param[in] serviceAddress The IP address to connect to.
  @param[in] servicePort The port number to connect to.
- @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+ @return The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 connectToTunnel(const YarpString & serviceAddress,
                 const int          servicePort)
@@ -401,7 +401,7 @@ setUpAndGo(const int          listenPort,
 /*! @brief The entry point for communicating with the %Tunnel service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the %Tunnel client.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

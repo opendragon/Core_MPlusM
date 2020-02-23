@@ -104,7 +104,7 @@ public:
     static Time JUCE_CALLTYPE getCurrentTime() noexcept;
 
     /** Returns the time as a number of milliseconds.
-        @returns    the number of milliseconds this Time object represents, since
+        @return    the number of milliseconds this Time object represents, since
                     midnight Jan 1st 1970 UTC.
         @see getMilliseconds
     */
@@ -156,7 +156,7 @@ public:
     int getHours() const noexcept;
 
     /** Returns true if the time is in the afternoon (in this machine's local timezone).
-        @returns true for "PM", false for "AM".
+        @return true for "PM", false for "AM".
         @see getHoursInAmPmFormat, getHours
     */
     bool isAfternoon() const noexcept;
@@ -194,7 +194,7 @@ public:
     int getUTCOffsetSeconds() const noexcept;
 
     /** Returns a string to indicate the offset of the local timezone from UTC.
-        @returns "+XX:XX", "-XX:XX" or "Z"
+        @return "+XX:XX", "-XX:XX" or "Z"
         @param includeDividerCharacters  whether to include or omit the ":" divider in the string
      */
     String getUTCOffsetString (bool includeDividerCharacters) const;
@@ -271,7 +271,7 @@ public:
     //==============================================================================
     /** Tries to set the computer's clock.
 
-        @returns    true if this succeeds, although depending on the system, the
+        @return    true if this succeeds, although depending on the system, the
                     application might not have sufficient privileges to do this.
     */
     bool setSystemTimeToThisTime() const;

@@ -94,7 +94,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ProComp2InputThread &
             operator =(const ProComp2InputThread & other);
 
@@ -110,12 +110,12 @@ namespace MplusM
             run(void);
 
             /*! @brief Prepare any attached encoders for use.
-             @returns @c true if at least one encoder was set up. */
+             @return @c true if at least one encoder was set up. */
             bool
             setupEncoders(void);
 
             /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
+             @return @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
 

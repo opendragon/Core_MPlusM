@@ -77,7 +77,7 @@ namespace CommonVisuals
 
         /*! @brief Check if the provided value is valid according to the field description.
          @param[in] toBeChecked The value to be checked.
-         @returns @c true if the value is accepted by the field description and @c false
+         @return @c true if the value is accepted by the field description and @c false
          otherwise. */
         bool
         checkValidity(const String & toBeChecked)
@@ -86,7 +86,7 @@ namespace CommonVisuals
         /*! @brief Check if the provided value is valid according to the field description.
          @param[in] toBeChecked The value to be checked.
          @param[in,out] argsToUse A set of valid arguments.
-         @returns @c true if the value is accepted by the field description and @c false
+         @return @c true if the value is accepted by the field description and @c false
          otherwise. */
         bool
         checkValidity(const String & toBeChecked,
@@ -96,7 +96,7 @@ namespace CommonVisuals
         /*! @brief Return @c true if the validator is for file paths and @c false otherwise.
          @param[out] isForOutput Set to @c true if the validator is for output files and @c false
          otherwise.
-         @returns @c true if the validator is for file paths and @c false otherwise. */
+         @return @c true if the validator is for file paths and @c false otherwise. */
         bool
         isForFiles(bool & isForOutput)
         const;

@@ -107,14 +107,14 @@ namespace CommonVisuals
         ignoreNextFocusLoss(void);
 
         /*! @brief Check the field for validity.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         bool
         validateField(void);
 
         /*! @brief Check the field for validity.
          @param[in,out] argsToUse A set of valid arguments.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         bool
         validateField(StringArray & argsToUse);
@@ -143,7 +143,7 @@ namespace CommonVisuals
 
         /*! @brief Called when a key is pressed.
          @param[in] key The key that was pressed.
-         @returns @c true if the key was consumed and @c false otherwise. */
+         @return @c true if the key was consumed and @c false otherwise. */
         virtual bool
         keyPressed(const KeyPress & key);
 

@@ -98,7 +98,7 @@ namespace MplusM
              @param[in] senderChannel The name of the channel used to send the input data.
              @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @param[in] numBytes The number of bytes available on the connection.
-             @returns @c true if the input was correctly structured and successfully processed. */
+             @return @c true if the input was correctly structured and successfully processed. */
             virtual bool
             handleInput(const yarp::os::Bottle &     input,
                         const YarpString &           senderChannel,
@@ -107,7 +107,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             AbsorberFilterInputHandler &
             operator =(const AbsorberFilterInputHandler & other);
 

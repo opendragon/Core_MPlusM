@@ -127,7 +127,7 @@ public:
                             before the viewport should scroll in that direction
         @param maximumSpeed the maximum number of pixels that the viewport is allowed
                             to scroll by.
-        @returns            true if the viewport was scrolled
+        @return            true if the viewport was scrolled
     */
     bool autoScroll (int mouseX, int mouseY, int distanceFromEdge, int maximumSpeed);
 

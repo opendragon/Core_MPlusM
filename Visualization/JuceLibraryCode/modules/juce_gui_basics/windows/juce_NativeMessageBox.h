@@ -98,7 +98,7 @@ public:
                             will be owned and deleted by the system, so make sure that it works
                             safely and doesn't keep any references to objects that might be deleted
                             before it gets called.
-        @returns true if button 1 was clicked, false if it was button 2. If the callback parameter
+        @return true if button 1 was clicked, false if it was button 2. If the callback parameter
                  is not null, the method always returns false, and the user's choice is delivered
                  later by the callback.
     */
@@ -139,7 +139,7 @@ public:
                             system, so make sure that it works safely and doesn't keep any references
                             to objects that might be deleted before it gets called.
 
-        @returns If the callback parameter has been set, this returns 0. Otherwise, it returns one
+        @return If the callback parameter has been set, this returns 0. Otherwise, it returns one
                  of the following values:
                  - 0 if 'cancel' was pressed
                  - 1 if 'yes' was pressed

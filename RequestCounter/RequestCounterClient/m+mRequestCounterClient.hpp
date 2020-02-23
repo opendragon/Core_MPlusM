@@ -80,19 +80,19 @@ namespace MplusM
             /*! @brief Get the statistics from the service.
              @param[out] counter The number of requests since the last reset.
              @param[out] elapsedTime The number of seconds since the last reset.
-             @returns @c true if the statistics were retrieved successfully and @c false
+             @return @c true if the statistics were retrieved successfully and @c false
              otherwise. */
             bool
             getServiceStatistics(long &   counter,
                                  double & elapsedTime);
 
             /*! @brief Trigger the service counter.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             pokeService(void);
 
             /*! @brief Reset the service counters.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             resetServiceCounters(void);
 
@@ -106,7 +106,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RequestCounterClient &
             operator =(const RequestCounterClient & other);
 

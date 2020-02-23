@@ -50,13 +50,13 @@ public:
     virtual void paint (Graphics&) = 0;
 
     /** Invalidates all cached image data.
-        @returns true if the peer should also be repainted, or false if this object
+        @return true if the peer should also be repainted, or false if this object
                  handles all repaint work internally.
     */
     virtual bool invalidateAll() = 0;
 
     /** Invalidates a section of the cached image data.
-        @returns true if the peer should also be repainted, or false if this object
+        @return true if the peer should also be repainted, or false if this object
                  handles all repaint work internally.
     */
     virtual bool invalidate (const Rectangle<int>& area) = 0;

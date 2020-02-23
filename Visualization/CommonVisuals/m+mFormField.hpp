@@ -86,7 +86,7 @@ namespace CommonVisuals
         addToComponent(Component * whereToAdd) = 0;
 
         /*! @brief Return the associated button.
-         @returns The associated button. */
+         @return The associated button. */
         virtual TextButton *
         getButton(void)
         const;
@@ -98,7 +98,7 @@ namespace CommonVisuals
         const = 0;
 
         /*! @brief Return the order of the text editor.
-         @returns The order of the text editor. */
+         @return The order of the text editor. */
         inline size_t
         getIndex(void)
         const
@@ -113,13 +113,13 @@ namespace CommonVisuals
         const = 0;
 
         /*! @brief Returns the name of the field.
-         @returns The name of the field. */
+         @return The name of the field. */
         virtual const String &
         getName(void)
         const = 0;
 
         /*! @brief Returns the text value associated with the field.
-         @returns The text value associated with the field. */
+         @return The text value associated with the field. */
         virtual String
         getText(void)
         const = 0;
@@ -176,14 +176,14 @@ namespace CommonVisuals
         setY(const int yy) = 0;
 
         /*! @brief Check the field for validity.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool
         validateField(void);
 
         /*! @brief Check the field for validity.
          @param[in,out] argsToUse A set of valid arguments.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool
         validateField(StringArray & argsToUse) = 0;

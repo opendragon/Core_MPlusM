@@ -112,25 +112,25 @@ namespace MplusM
 
             /*! @brief Update the received data.
              @param[in] moreInBytes The number of bytes received.
-             @returns The modified values. */
+             @return The modified values. */
             SendReceiveCounters &
             incrementInCounters(const int64_t moreInBytes);
 
             /*! @brief Update the sent data.
              @param[in] moreOutBytes The number of bytes sent.
-             @returns The modified values. */
+             @return The modified values. */
             SendReceiveCounters &
             incrementOutCounters(const int64_t moreOutBytes);
 
             /*! @brief The assignment operator.
              @param[in] other The values to be assigned to the send / receive counters.
-             @returns The modified values. */
+             @return The modified values. */
             SendReceiveCounters &
             operator =(const SendReceiveCounters & other);
 
             /*! @brief The additive assignment operator.
              @param[in] other The values to be added to the send / receive counters.
-             @returns The modified values. */
+             @return The modified values. */
             SendReceiveCounters &
             operator +=(const SendReceiveCounters & other);
 

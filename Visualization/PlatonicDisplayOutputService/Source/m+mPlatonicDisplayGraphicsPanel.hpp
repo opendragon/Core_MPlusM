@@ -107,7 +107,7 @@ namespace PlatonicDisplay
         clearOutData(void);
 
         /*! @brief Return the container in which the panel is embedded.
-         @returns The container in which the panel is embedded. */
+         @return The container in which the panel is embedded. */
         inline ContentPanel *
         getContent(void)
         const
@@ -181,13 +181,13 @@ namespace PlatonicDisplay
         freeContextObjects(void);
 
         /*! @brief Return the current projection matrix.
-         @returns The current projection matrix. */
+         @return The current projection matrix. */
         Matrix3D<float>
         getProjectionMatrix(void)
         const;
         
         /*! @brief Return the current view matrix.
-         @returns The current view matrix. */
+         @return The current view matrix. */
         Matrix3D<float>
         getViewMatrix(void)
         const;

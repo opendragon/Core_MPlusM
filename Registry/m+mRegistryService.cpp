@@ -117,7 +117,7 @@ namespace MplusM
         /*! @brief A function that provides bindings for parameters in an SQL statement.
          @param[in] statement The prepared statement that is to be updated.
          @param[in] stuff The source of data that is to be bound.
-         @returns The SQLite error from the bind operation. */
+         @return The SQLite error from the bind operation. */
         typedef int (*BindFunction)
             (sqlite3_stmt * statement,
             const void *    stuff);
@@ -177,7 +177,7 @@ namespace MplusM
 #if defined(ODL_ENABLE_LOGGING_)
 /*! @brief Provide a symbolic name for an SQL status value.
  @param[in] sqlRes The status value to be checked.
- @returns A string representing the symbolic name for the status value. */
+ @return A string representing the symbolic name for the status value. */
 static const char *
 mapStatusToStringForSQL(const int sqlRes)
 {
@@ -323,7 +323,7 @@ mapStatusToStringForSQL(const int sqlRes)
  @param[in] sqlStatement The operation to be performed.
  @param[in] doBinds A function that will fill in any parameters in the statement.
  @param[in] data The custom information used with the binding function.
- @returns @c true if the operation was successfully performed and @c false otherwise. */
+ @return @c true if the operation was successfully performed and @c false otherwise. */
 static bool
 performSQLstatementWithNoResults(sqlite3 *    database,
                                  const char * sqlStatement,
@@ -400,7 +400,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
 /*! @brief Perform a simple operation on the database.
  @param[in] database The database to be modified.
  @param[in] sqlStatement The operation to be performed.
- @returns @c true if the operation was successfully performed and @c false otherwise. */
+ @return @c true if the operation was successfully performed and @c false otherwise. */
 static bool
 performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                                        const char * sqlStatement)
@@ -471,7 +471,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
  @param[in] sqlStatement The operation to be performed.
  @param[in] doBinds A function that will fill in any parameters in the statement.
  @param[in] data The custom information used with the binding function.
- @returns @c true if the operation was successfully performed and @c false otherwise. */
+ @return @c true if the operation was successfully performed and @c false otherwise. */
 static bool
 performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                                                 const char * sqlStatement,
@@ -556,7 +556,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
  @param[in] columnOfInterest2 The column containing the second value of interest.
  @param[in] doBinds A function that will fill in any parameters in the statement.
  @param[in] data The custom information used with the binding function.
- @returns @c true if the operation was successfully performed and @c false otherwise. */
+ @return @c true if the operation was successfully performed and @c false otherwise. */
 static bool
 performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                            yarp::os::Bottle & resultList,
@@ -676,7 +676,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
  @param[in] columnOfInterest The column containing the value of interest.
  @param[in] doBinds A function that will fill in any parameters in the statement.
  @param[in] data The custom information used with the binding function.
- @returns @c true if the operation was successfully performed and @c false otherwise. */
+ @return @c true if the operation was successfully performed and @c false otherwise. */
 static bool
 performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                                            yarp::os::Bottle & resultList,
@@ -778,7 +778,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
 
 /*! @brief Start a transaction.
  @param[in] database The database to be modified.
- @returns @c true if the transaction was initiated and @c false otherwise. */
+ @return @c true if the transaction was initiated and @c false otherwise. */
 static bool
 doBeginTransaction(sqlite3 * database)
 {
@@ -812,7 +812,7 @@ doBeginTransaction(sqlite3 * database)
 /*! @brief End a transaction.
  @param[in] database The database to be modified.
  @param[in] wasOK @c true if the transaction was successful and @c false otherwise.
- @returns @c true if the transaction was closed successfully and @c false otherwise. */
+ @return @c true if the transaction was closed successfully and @c false otherwise. */
 static bool
 doEndTransaction(sqlite3 *  database,
                  const bool wasOK)
@@ -849,7 +849,7 @@ doEndTransaction(sqlite3 *  database,
 
 /*! @brief Construct the tables needed in the database.
  @param[in] database The database to be modified.
- @returns @c true if the tables were successfully built and @c false otherwise. */
+ @return @c true if the tables were successfully built and @c false otherwise. */
 static bool
 constructTables(sqlite3 * database)
 {
@@ -931,7 +931,7 @@ constructTables(sqlite3 * database)
 /*! @brief Bind the values that are to be gathered from the Services table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupCheckService(sqlite3_stmt * statement,
                   const void *   stuff)
@@ -975,7 +975,7 @@ setupCheckService(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be inserted into the Channels table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupInsertIntoChannels(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1018,7 +1018,7 @@ setupInsertIntoChannels(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be inserted into the Keywords table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupInsertIntoKeywords(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1060,7 +1060,7 @@ setupInsertIntoKeywords(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be inserted into the Requests table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupInsertIntoRequests(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1150,7 +1150,7 @@ setupInsertIntoRequests(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be inserted into the RequestsKeywords table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
                                 const void *   stuff)
@@ -1213,7 +1213,7 @@ setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be inserted into the Services table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupInsertIntoServices(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1319,7 +1319,7 @@ setupInsertIntoServices(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be removed from the Channels table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupRemoveFromChannels(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1361,7 +1361,7 @@ setupRemoveFromChannels(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be removed from the Requests table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupRemoveFromRequests(sqlite3_stmt * statement,
                         const void *   stuff)
@@ -1402,7 +1402,7 @@ setupRemoveFromRequests(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be removed from the RequestsKeywords table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
                                 const void *   stuff)
@@ -1443,7 +1443,7 @@ setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
 /*! @brief Bind the values that are to be removed from the Services table.
  @param[in] statement The prepared statement that is to be updated.
  @param[in] stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
+ @return The SQLite error from the bind operation. */
 static int
 setupRemoveFromServices(sqlite3_stmt * statement,
                         const void *   stuff)

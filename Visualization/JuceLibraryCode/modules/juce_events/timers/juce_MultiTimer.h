@@ -103,12 +103,12 @@ public:
 
     //==============================================================================
     /** Checks whether a timer has been started for a specified ID.
-        @returns true if a timer with the given ID is running.
+        @return true if a timer with the given ID is running.
     */
     bool isTimerRunning (int timerID) const noexcept;
 
     /** Returns the interval for a specified timer ID.
-        @returns    the timer's interval in milliseconds if it's running, or 0 if no
+        @return    the timer's interval in milliseconds if it's running, or 0 if no
                     timer was running for the ID number specified.
     */
     int getTimerInterval (int timerID) const noexcept;

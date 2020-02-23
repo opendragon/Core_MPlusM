@@ -123,7 +123,7 @@ public:
         @param preferredSize    the size that this item would like to be, if there's enough room. A
                                 positive number indicates an absolute size in pixels. A negative number
                                 indicates a proportion of the available space
-        @returns false if the item's properties hadn't been set
+        @return false if the item's properties hadn't been set
         @see setItemLayout
     */
     bool getItemLayout (int itemIndex,

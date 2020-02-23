@@ -99,7 +99,7 @@ namespace MplusM
 
             /*! @brief Return the function corresponding to a particular request.
              @param[in] request The requested operation.
-             @returns A pointer to the function to be invoked for the request, or @c NULL if it is
+             @return A pointer to the function to be invoked for the request, or @c NULL if it is
              not recognized. */
             BaseRequestHandler *
             lookupRequestHandler(const YarpString & request);
@@ -128,7 +128,7 @@ namespace MplusM
             RequestMap(const RequestMap & other);
 
             /*! @brief Lock the data unless the lock would block.
-             @returns @c true if the data was locked and @c false otherwise. */
+             @return @c true if the data was locked and @c false otherwise. */
             inline bool
             conditionallyLock(void)
             {
@@ -144,7 +144,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RequestMap &
             operator =(const RequestMap & other);
 

@@ -88,7 +88,7 @@ namespace CommonVisuals
         bind(void);
 
         /*! @brief Return the number of indices.
-         @returns The number of indices. */
+         @return The number of indices. */
         GLsizei
         numberOfIndices(void)
         const

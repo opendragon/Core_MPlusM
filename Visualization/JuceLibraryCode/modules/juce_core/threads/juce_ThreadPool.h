@@ -239,7 +239,7 @@ public:
                                     before giving up and returning false
         @param selectedJobsToRemove if this is non-zero, the JobSelector object is asked to decide which
                                     jobs should be removed. If it is zero, all jobs are removed
-        @returns    true if all jobs are successfully stopped and removed; false if the timeout period
+        @return    true if all jobs are successfully stopped and removed; false if the timeout period
                     expires while waiting for one or more jobs to stop
     */
     bool removeAllJobs (bool interruptRunningJobs,

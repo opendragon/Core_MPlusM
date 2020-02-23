@@ -91,7 +91,7 @@ using std::endl;
  @param[in] flavour The format for the output.
  @param[in] sawResponse @c true if there was already a response output and @c false if this is the
  first.
- @returns @c false if an unexpected value appears and @c true otherwise. */
+ @return @c false if an unexpected value appears and @c true otherwise. */
 static bool
 processDictionaryEntry(yarp::os::Property & asDict,
                        const YarpString &   cleanServiceName,
@@ -246,7 +246,7 @@ processDictionaryEntry(yarp::os::Property & asDict,
  @param[in] response The response to be processed.
  @param[in] sawResponse @c true if there was already a response output and @c false if this is the
  first.
- @returns @c true if some output was generated and @c false otherwise. */
+ @return @c true if some output was generated and @c false otherwise. */
 static bool
 processResponse(const OutputFlavour     flavour,
                 const YarpString &      serviceName,
@@ -493,7 +493,7 @@ setUpAndGo(const YarpString &  channelName,
  output will receive a list of the specified requests.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the application.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

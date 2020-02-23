@@ -90,7 +90,7 @@ using std::endl;
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseValue(const bool   expected,
                  const char * inString) // create value matcher
@@ -138,7 +138,7 @@ doTestParseValue(const bool   expected,
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseValueList(const bool   expected,
                      const char * inString) // create value matcher
@@ -187,7 +187,7 @@ doTestParseValueList(const bool   expected,
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseFieldName(const bool   expected,
                      const char * inString) // create value matcher
@@ -239,7 +239,7 @@ doTestParseFieldName(const bool   expected,
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseFieldWithValues(const bool   expected,
                            const char * inString) // create value matcher
@@ -293,7 +293,7 @@ doTestParseFieldWithValues(const bool   expected,
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseConstraintList(const bool   expected,
                           const char * inString) // create value matcher
@@ -345,7 +345,7 @@ doTestParseConstraintList(const bool   expected,
 /*! @brief Perform a test case.
  @param[in] expected @c true if the test is expected to succeed, and @c false otherwise.
  @param[in] inString The string to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestParseExpression(const bool   expected,
                       const char * inString) // create value matcher
@@ -420,7 +420,7 @@ catchSignal(int signal)
  parsed. Output depends on the test being run.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the unit tests.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

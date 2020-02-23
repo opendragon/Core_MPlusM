@@ -111,7 +111,7 @@ public:
     void bringModalComponentsToFront (bool topOneShouldGrabFocus = true);
 
     /** Calls exitModalState (0) on any components that are currently modal.
-        @returns true if any components were modal; false if nothing needed cancelling
+        @return true if any components were modal; false if nothing needed cancelling
     */
     bool cancelAllModalComponents();
 

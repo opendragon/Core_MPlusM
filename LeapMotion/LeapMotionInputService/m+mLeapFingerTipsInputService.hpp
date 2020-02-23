@@ -106,7 +106,7 @@ namespace MplusM
             ~LeapFingerTipsInputService(void);
 
             /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
+             @return @c true if the channels were shut down and @c false otherwise. */
             virtual bool
             shutDownOutputStreams(void);
 
@@ -128,13 +128,13 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             LeapFingerTipsInputListener &
             operator =(const LeapFingerTipsInputListener & other);
 
             /*! @brief Set up the descriptions that will be used to construct the input / output
              streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
+             @return @c true if the descriptions were set up and @c false otherwise. */
             virtual bool
             setUpStreamDescriptions(void);
 

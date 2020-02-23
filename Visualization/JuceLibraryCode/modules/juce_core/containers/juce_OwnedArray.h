@@ -235,7 +235,7 @@ public:
     /** Finds the index of an object which might be in the array.
 
         @param objectToLookFor    the object to look for
-        @returns                  the index at which the object was found, or -1 if it's not found
+        @return                  the index at which the object was found, or -1 if it's not found
     */
     int indexOf (const ObjectClass* objectToLookFor) const noexcept
     {
@@ -253,7 +253,7 @@ public:
     /** Returns true if the array contains a specified object.
 
         @param objectToLookFor      the object to look for
-        @returns                    true if the object is in the array
+        @return                    true if the object is in the array
     */
     bool contains (const ObjectClass* objectToLookFor) const noexcept
     {
@@ -278,7 +278,7 @@ public:
         as this will obviously cause deletion of dangling pointers.
 
         @param newObject    the new object to add to the array
-        @returns            the new object that was added
+        @return            the new object that was added
         @see set, insert, addIfNotAlreadyThere, addSorted
     */
     ObjectClass* add (ObjectClass* newObject) noexcept
@@ -305,7 +305,7 @@ public:
 
         @param indexToInsertAt      the index at which the new element should be inserted
         @param newObject            the new object to add to the array
-        @returns                    the new object that was added
+        @return                    the new object that was added
         @see add, addSorted, addIfNotAlreadyThere, set
     */
     ObjectClass* insert (int indexToInsertAt, ObjectClass* newObject) noexcept
@@ -378,7 +378,7 @@ public:
         If the array already contains a matching object, nothing will be done.
 
         @param newObject   the new object to add to the array
-        @returns           the new object that was added
+        @return           the new object that was added
     */
     ObjectClass* addIfNotAlreadyThere (ObjectClass* newObject) noexcept
     {
@@ -523,7 +523,7 @@ public:
         @param comparator   the comparator to use to compare the elements - see the sort method
                             for details about this object's structure
         @param newObject    the new object to insert to the array
-        @returns the index at which the new object was added
+        @return the index at which the new object was added
         @see add, sort, indexOfSorted
     */
     template <class ElementComparator>
@@ -546,7 +546,7 @@ public:
         @param comparator           the comparator to use to compare the elements - see the sort()
                                     method for details about the form this object should take
         @param objectToLookFor      the object to search for
-        @returns                    the index of the element, or -1 if it's not found
+        @return                    the index of the element, or -1 if it's not found
         @see addSorted, sort
     */
     template <typename ElementComparator>

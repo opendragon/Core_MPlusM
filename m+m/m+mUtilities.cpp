@@ -172,7 +172,7 @@ static const char * kMagicName = "<$probe>";
 
 /*@ brief Get the port names from the YARP name server.
  @param[out] response The list returned from the YARP name server.
- @returns @c true if the list was successfully retrieved and @c false otherwise. */
+ @return @c true if the list was successfully retrieved and @c false otherwise. */
 static bool
 getNameServerPortList(yarp::os::Bottle & response)
 {

@@ -103,7 +103,7 @@ namespace MplusM
             /*! @brief Add to the running sum for the given client.
              @param[in] key The client-provided key.
              @param[in] value The value to be added to the running sum.
-             @returns The running sum, including the newly added value. */
+             @return The running sum, including the newly added value. */
             double
             addToSum(const YarpString & key,
                      const double       value);
@@ -136,7 +136,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RunningSumService &
             operator =(const RunningSumService & other);
 

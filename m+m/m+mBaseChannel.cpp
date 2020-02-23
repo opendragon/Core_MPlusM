@@ -76,7 +76,7 @@ using namespace MplusM::Common;
 /*! @brief Set the IP address for the endpoint.
  @param[in] workingContact The connection information that is to be filled in.
  @param[in] channelName The desired endpoint name.
- @returns @c true if the connection information has been constructed and @c false otherwise. */
+ @return @c true if the connection information has been constructed and @c false otherwise. */
 static bool
 setChannelIPAddress(yarp::os::Contact & workingContact,
                     const YarpString &  channelName)

@@ -126,7 +126,7 @@ public:
 
     /** Tests whether this component and all its parents are visible.
 
-        @returns    true only if this component and all its parents are visible.
+        @return    true only if this component and all its parents are visible.
         @see isVisible
     */
     bool isShowing() const;
@@ -844,7 +844,7 @@ public:
         @param y    the y coordinate to test, relative to the top edge of this
                     component. This value is guaranteed to be greater than or equal to
                     zero, and less than the component's height
-        @returns    true if the click is considered to be inside the component
+        @return    true if the click is considered to be inside the component
         @see setInterceptsMouseClicks, contains
     */
     virtual bool hitTest (int x, int y);
@@ -885,7 +885,7 @@ public:
         Never override this method! Use hitTest to create custom hit regions.
 
         @param localPoint    the coordinate to test, relative to this component's top-left.
-        @returns    true if the point is within the component's hit-test area, but only if
+        @return    true if the point is within the component's hit-test area, but only if
                     that part of the component isn't clipped by its parent component. Note
                     that this won't take into account any overlapping sibling components
                     which might be in the way - for that, see reallyContains()
@@ -907,7 +907,7 @@ public:
 
         @param x    the x coordinate to test, relative to this component's left edge.
         @param y    the y coordinate to test, relative to this component's top edge.
-        @returns    the component that is at this position - which may be 0, this component,
+        @return    the component that is at this position - which may be 0, this component,
                     or one of its children. Note that overlapping siblings that might actually
                     be in the way are not taken into account by this method - to account for these,
                     instead call getComponentAt on the top-level parent of this component.
@@ -918,7 +918,7 @@ public:
     /** Returns the component at a certain point within this one.
 
         @param position  the coordinate to test, relative to this component's top-left.
-        @returns    the component that is at this position - which may be 0, this component,
+        @return    the component that is at this position - which may be 0, this component,
                     or one of its children. Note that overlapping siblings that might actually
                     be in the way are not taken into account by this method - to account for these,
                     instead call getComponentAt on the top-level parent of this component.
@@ -1130,7 +1130,7 @@ public:
 
     /** Returns true if no parts of this component are transparent.
 
-        @returns the value that was set by setOpaque, (the default being false)
+        @return the value that was set by setOpaque, (the default being false)
         @see setOpaque
     */
     bool isOpaque() const noexcept;
@@ -1228,7 +1228,7 @@ public:
     bool hasKeyboardFocus (bool trueIfChildIsFocused) const;
 
     /** Returns the component that currently has the keyboard focus.
-        @returns the focused component, or null if nothing is focused.
+        @return the focused component, or null if nothing is focused.
     */
     static Component* JUCE_CALLTYPE getCurrentlyFocusedComponent() noexcept;
 
@@ -1971,7 +1971,7 @@ public:
         modal - so the component at index 0 is always the active component, and the others
         are progressively earlier ones that are themselves now blocked by later ones.
 
-        @returns the modal component, or null if no components are modal (or if the
+        @return the modal component, or null if no components are modal (or if the
                 index is out of range)
         @see getNumCurrentlyModalComponents, runModalLoop, isCurrentlyModal
     */

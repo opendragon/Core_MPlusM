@@ -97,7 +97,7 @@ namespace PlatonicDisplay
         ~ContentPanel(void);
 
         /*! @brief Returns @c true if the background is inverted.
-         @returns @c true if the background is inverted. */
+         @return @c true if the background is inverted. */
         inline bool
         backgroundIsInverted(void)
         const
@@ -106,7 +106,7 @@ namespace PlatonicDisplay
         } // backgroundIsInverted
 
         /*! @brief Returns @c true if the background is white.
-         @returns @c true if the background is white. */
+         @return @c true if the background is white. */
         inline bool
         backgroundIsWhite(void)
         const
@@ -149,20 +149,20 @@ namespace PlatonicDisplay
                        ApplicationCommandInfo & result);
 
         /*! @brief Return a list of the names of the menus.
-         @returns A list of the names of the menus. */
+         @return A list of the names of the menus. */
         virtual StringArray
         getMenuBarNames(void);
 
         /*! @brief Return the popup menu to display for a given top-level menu.
          @param[in] menuIndex The index of the top-level menu to show.
          @param[in] menuName The name of the top-level menu item to show.
-         @returns The popup menu corresponding to the given index and name. */
+         @return The popup menu corresponding to the given index and name. */
         virtual PopupMenu
         getMenuForIndex(int            menuIndex,
                         const String & menuName);
 
         /*! @brief Return the next target to try after this one.
-         @returns The next target to try after this one. */
+         @return The next target to try after this one. */
         virtual ApplicationCommandTarget *
         getNextCommandTarget(void);
 
@@ -191,7 +191,7 @@ namespace PlatonicDisplay
                 
         /*! @brief Perform the specified command.
          @param[in] info The details for the command.
-         @returns @c true if the command was handled and @c false if it was not. */
+         @return @c true if the command was handled and @c false if it was not. */
         virtual bool
         perform(const InvocationInfo & info);
 

@@ -137,7 +137,7 @@ namespace MplusM
 
             /*! @brief Configure the input/output streams.
              @param[in] details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
+             @return @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
 
@@ -155,7 +155,7 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Return the %JavaScript execution environment.
-             @returns The %JavaScript execution environment. */
+             @return The %JavaScript execution environment. */
             inline JSContext *
             getContext(void)
             const
@@ -164,7 +164,7 @@ namespace MplusM
             } // getContext
 
             /*! @brief Return the global object for the %JavaScript execution environment.
-             @returns The global object for the %JavaScript execution environment. */
+             @return The global object for the %JavaScript execution environment. */
             inline JS::RootedObject &
             getGlobal(void)
             const
@@ -175,7 +175,7 @@ namespace MplusM
             /*! @brief Send a value out a specified channel.
              @param[in] channelSlot The output channel to be used.
              @param[in] theData The value to be sent.
-             @returns @c true if the data was successfully sent and @c false otherwise. */
+             @return @c true if the data was successfully sent and @c false otherwise. */
             bool
             sendToChannel(const int32_t channelSlot,
                           JS::Value     theData);
@@ -209,7 +209,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             JavaScriptFilterService &
             operator =(const JavaScriptFilterService & other);
 
@@ -219,7 +219,7 @@ namespace MplusM
 
             /*! @brief Set up the descriptions that will be used to construct the input / output
              streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
+             @return @c true if the descriptions were set up and @c false otherwise. */
             virtual bool
             setUpStreamDescriptions(void);
 
@@ -291,7 +291,7 @@ namespace MplusM
          @param[in] jct The %JavaScript engine context.
          @param[in] anObject The object to be printed.
          @param[in] depth The indentation level to be used.
-         @returns The stream that was written to. */
+         @return The stream that was written to. */
         std::ostream &
         PrintJavaScriptObject(std::ostream &     outStream,
                               JSContext *        jct,
@@ -304,7 +304,7 @@ namespace MplusM
          @param[in] caption A title for the output.
          @param[in] value The value to be printed.
          @param[in] depth The indentation level to be used.
-         @returns The stream that was written to. */
+         @return The stream that was written to. */
         std::ostream &
         PrintJavaScriptValue(std::ostream &    outStream,
                              JSContext *       jct,

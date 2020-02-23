@@ -334,7 +334,7 @@ reportConnections(const OutputFlavour flavour,
  @param[in] aDescriptor The attributes of the port of interest.
  @param[in] checkWithRegistry @c true if the %Registry Service is available for requests and
  @c false otherwise.
- @returns @c true if information was written out and @c false otherwise. */
+ @return @c true if information was written out and @c false otherwise. */
 static bool
 reportPortStatus(const OutputFlavour               flavour,
                  const Utilities::PortDescriptor & aDescriptor,
@@ -608,7 +608,7 @@ reportPortStatus(const OutputFlavour               flavour,
  them.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the application.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

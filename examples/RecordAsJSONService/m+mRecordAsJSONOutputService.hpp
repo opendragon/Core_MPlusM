@@ -101,7 +101,7 @@ namespace MplusM
 
             /*! @brief Configure the input/output streams.
              @param[in] details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
+             @return @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
 
@@ -115,7 +115,7 @@ namespace MplusM
 
             /*! @brief Get the configuration of the input/output streams.
              @param[out] details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
+             @return @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool
             getConfiguration(yarp::os::Bottle & details);
@@ -138,13 +138,13 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RecordAsJSONOutputService &
             operator =(const RecordAsJSONOutputService & other);
 
             /*! @brief Set up the descriptions that will be used to construct the input / output
              streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
+             @return @c true if the descriptions were set up and @c false otherwise. */
             virtual bool
             setUpStreamDescriptions(void);
 

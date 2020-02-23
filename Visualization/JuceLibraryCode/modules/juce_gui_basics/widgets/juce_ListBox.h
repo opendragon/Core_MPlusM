@@ -317,7 +317,7 @@ public:
         be sorted in order from low to high.
 
         @param index    the index of the selected row to return, (from 0 to getNumSelectedRows() - 1)
-        @returns        the row number, or -1 if the index was out of range or if there aren't any rows
+        @return        the row number, or -1 if the index was out of range or if there aren't any rows
                         selected
         @see getNumSelectedRows, isRowSelected, getLastRowSelected
     */

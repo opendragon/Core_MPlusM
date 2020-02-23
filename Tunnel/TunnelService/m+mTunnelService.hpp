@@ -117,12 +117,12 @@ namespace MplusM
             } // setPort
 
             /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
+             @return @c true if the service was started and @c false if it was not. */
             virtual bool
             startService(void);
 
             /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
+             @return @c true if the service was stopped and @c false it if was not. */
             virtual bool
             stopService(void);
 
@@ -144,7 +144,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             TunnelService &
             operator =(const TunnelService & other);
 

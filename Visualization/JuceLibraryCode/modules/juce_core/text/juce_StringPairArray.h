@@ -55,13 +55,13 @@ public:
     //==============================================================================
     /** Compares two arrays.
         Comparisons are case-sensitive.
-        @returns    true only if the other array contains exactly the same strings with the same keys
+        @return    true only if the other array contains exactly the same strings with the same keys
     */
     bool operator== (const StringPairArray& other) const;
 
     /** Compares two arrays.
         Comparisons are case-sensitive.
-        @returns    false if the other array contains exactly the same strings with the same keys
+        @return    false if the other array contains exactly the same strings with the same keys
     */
     bool operator!= (const StringPairArray& other) const;
 

@@ -92,7 +92,7 @@ public:
     /** Returns one of the values in the set.
 
         @param index    the index of the value to retrieve, in the range 0 to (size() - 1).
-        @returns        the value at this index, or 0 if it's out-of-range
+        @return        the value at this index, or 0 if it's out-of-range
     */
     Type operator[] (Type index) const
     {

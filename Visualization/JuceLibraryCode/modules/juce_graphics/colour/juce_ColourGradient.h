@@ -84,7 +84,7 @@ public:
                                             of the distance along the line between the two points
                                             at which the colour should occur.
         @param colour                       the colour that should be used at this point
-        @returns the index at which the new point was added
+        @return the index at which the new point was added
     */
     int addColour (double proportionAlongGradient,
                    Colour colour);

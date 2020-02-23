@@ -83,7 +83,7 @@ namespace PlatonicDisplay
         ~PlatonicServiceThread(void);
         
         /*! @brief Return the associated service.
-         @returns The associated service. */
+         @return The associated service. */
         PlatonicDisplayOutputService *
         getService(void)
         const
@@ -106,7 +106,7 @@ namespace PlatonicDisplay
         
         /*! @brief The assignment operator.
          @param[in] other The object to be copied.
-         @returns The updated object. */
+         @return The updated object. */
         PlatonicServiceThread &
         operator =(const PlatonicServiceThread & other);
         

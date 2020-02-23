@@ -83,7 +83,7 @@ namespace MplusM
             /*! @brief Send a string to the service and retrieve it back from the service.
              @param[in] outgoing The string to send to the service.
              @param[in,out] incoming The returned string from the service.
-             @returns @c true if the string was retrieved successfully and @c false otherwise. */
+             @return @c true if the string was retrieved successfully and @c false otherwise. */
             bool
             sendAndReceive(const YarpString & outgoing,
                            YarpString &       incoming);
@@ -98,7 +98,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             EchoClient &
             operator =(const EchoClient & other);
 

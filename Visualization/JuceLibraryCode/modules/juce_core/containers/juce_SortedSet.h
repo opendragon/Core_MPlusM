@@ -224,7 +224,7 @@ public:
         of its first occurrence. If the object isn't found, the method will return -1.
 
         @param elementToLookFor   the value or object to look for
-        @returns                  the index of the object, or -1 if it's not found
+        @return                  the index of the object, or -1 if it's not found
     */
     int indexOf (const ElementType& elementToLookFor) const noexcept
     {
@@ -256,7 +256,7 @@ public:
     /** Returns true if the set contains at least one occurrence of an object.
 
         @param elementToLookFor     the value or object to look for
-        @returns                    true if the item is found
+        @return                    true if the item is found
     */
     bool contains (const ElementType& elementToLookFor) const noexcept
     {
@@ -272,7 +272,7 @@ public:
         set will always contain a copy of the most recently added one.
 
         @param newElement   the new object to add to the set
-        @returns            true if the value was added, or false if it already existed
+        @return            true if the value was added, or false if it already existed
         @see set, insert, addIfNotAlreadyThere, addSorted, addSet, addArray
     */
     bool add (const ElementType& newElement) noexcept
@@ -371,7 +371,7 @@ public:
         If the index passed in is out-of-range, nothing will happen.
 
         @param indexToRemove    the index of the element to remove
-        @returns                the element that has been removed
+        @return                the element that has been removed
         @see removeValue, removeRange
     */
     ElementType remove (const int indexToRemove) noexcept

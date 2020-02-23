@@ -83,7 +83,7 @@ using std::endl;
 
 /*! @brief Convert a positive numeric value into a comma-separated string.
  @param[in] aNumber The number to convert.
- @returns A string representation of the number with commas between each triple digit group. */
+ @return A string representation of the number with commas between each triple digit group. */
 static YarpString
 convertToCommaSplitNumber(const size_t aNumber)
 {

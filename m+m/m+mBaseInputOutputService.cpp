@@ -262,7 +262,7 @@ set_tty_raw(void)
 #endif // 0
 
 /*! @brief Get the next character available, or @c 0 if none is available.
- @returns The next available character or @c 0 if none is available. */
+ @return The next available character or @c 0 if none is available. */
 static char
 kb_getc(void)
 {

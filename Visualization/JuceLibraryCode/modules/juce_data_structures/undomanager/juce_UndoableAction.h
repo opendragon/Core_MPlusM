@@ -52,7 +52,7 @@ public:
         Be careful not to make any calls in a perform() method that could call
         recursively back into the UndoManager::perform() method
 
-        @returns    true if the action could be performed.
+        @return    true if the action could be performed.
         @see UndoManager::perform
     */
     virtual bool perform() = 0;
@@ -65,7 +65,7 @@ public:
         Be careful not to make any calls in an undo() method that could call
         recursively back into the UndoManager::perform() method
 
-        @returns    true if the action could be undone without any errors.
+        @return    true if the action could be undone without any errors.
         @see UndoManager::perform
     */
     virtual bool undo() = 0;

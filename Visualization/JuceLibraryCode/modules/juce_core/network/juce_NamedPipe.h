@@ -86,7 +86,7 @@ public:
     int read (void* destBuffer, int maxBytesToRead, int timeOutMilliseconds);
 
     /** Writes some data to the pipe.
-        @returns the number of bytes written, or -1 on failure.
+        @return the number of bytes written, or -1 on failure.
     */
     int write (const void* sourceBuffer, int numBytesToWrite, int timeOutMilliseconds);
 

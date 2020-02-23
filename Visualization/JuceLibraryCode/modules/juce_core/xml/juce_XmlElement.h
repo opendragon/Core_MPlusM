@@ -248,7 +248,7 @@ public:
         @param lineWrapLength   the line length that will be used before items get placed on
                                 a new line. This isn't an absolute maximum length, it just
                                 determines how lists of attributes get broken up
-        @returns    true if the file is written successfully; false if something goes wrong
+        @return    true if the file is written successfully; false if something goes wrong
                     in the process
         @see createDocument
     */
@@ -331,7 +331,7 @@ public:
         @param attributeName            the name of the attribute to look up
         @param stringToCompareAgainst   the value to compare it with
         @param ignoreCase               whether the comparison should be case-insensitive
-        @returns    true if the value of the attribute is the same as the string passed-in;
+        @return    true if the value of the attribute is the same as the string passed-in;
                     false if it's different (or if no such attribute exists)
     */
     bool compareAttribute (StringRef attributeName,
@@ -457,7 +457,7 @@ public:
         Also, it's much easier and neater to use this method indirectly via the
         forEachXmlChildElement macro.
 
-        @returns    the sibling element that follows this one, or zero if this is the last
+        @return    the sibling element that follows this one, or zero if this is the last
                     element in its parent
 
         @see getNextElement, isTextElement, forEachXmlChildElement
@@ -484,7 +484,7 @@ public:
         It's not very efficient to iterate the sub-elements by index - see
         getNextElement() for an example of how best to iterate.
 
-        @returns the n'th child of this element, or nullptr if the index is out-of-range
+        @return the n'th child of this element, or nullptr if the index is out-of-range
         @see getNextElement, isTextElement, getChildByName
     */
     XmlElement* getChildElement (int index) const noexcept;
@@ -492,7 +492,7 @@ public:
     /** Returns the first sub-element with a given tag-name.
 
         @param tagNameToLookFor     the tag name of the element you want to find
-        @returns the first element with this tag name, or nullptr if none is found
+        @return the first element with this tag name, or nullptr if none is found
         @see getNextElement, isTextElement, getChildElement, getChildByAttribute
     */
     XmlElement* getChildByName (StringRef tagNameToLookFor) const noexcept;
@@ -501,7 +501,7 @@ public:
 
         @param attributeName     the name of the attribute to check
         @param attributeValue    the target value of the attribute
-        @returns the first element with this attribute value, or nullptr if none is found
+        @return the first element with this attribute value, or nullptr if none is found
         @see getChildByName
     */
     XmlElement* getChildByAttribute (StringRef attributeName,

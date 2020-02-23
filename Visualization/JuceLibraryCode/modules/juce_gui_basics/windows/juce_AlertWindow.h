@@ -167,7 +167,7 @@ public:
 
         @param nameOfList   the name that was passed into the addComboBox() method
                             when creating the drop-down
-        @returns the ComboBox component, or nullptr if none was found for the given name.
+        @return the ComboBox component, or nullptr if none was found for the given name.
     */
     ComboBox* getComboBoxComponent (const String& nameOfList) const;
 
@@ -215,7 +215,7 @@ public:
 
         @param index    a value 0 to (getNumCustomComponents() - 1).
                         Out-of-range indexes will return nullptr
-        @returns        the component that was removed (or null)
+        @return        the component that was removed (or null)
         @see getNumCustomComponents, addCustomComponent
     */
     Component* removeCustomComponent (int index);
@@ -309,7 +309,7 @@ public:
                             will be owned and deleted by the system, so make sure that it works
                             safely and doesn't keep any references to objects that might be deleted
                             before it gets called.
-        @returns true if button 1 was clicked, false if it was button 2. If the callback parameter
+        @return true if button 1 was clicked, false if it was button 2. If the callback parameter
                  is not null, the method always returns false, and the user's choice is delivered
                  later by the callback.
     */
@@ -361,7 +361,7 @@ public:
                             system, so make sure that it works safely and doesn't keep any references
                             to objects that might be deleted before it gets called.
 
-        @returns If the callback parameter has been set, this returns 0. Otherwise, it
+        @return If the callback parameter has been set, this returns 0. Otherwise, it
                  returns one of the following values:
                  - 0 if the third button was pressed (normally used for 'cancel')
                  - 1 if the first button was pressed (normally used for 'yes')
@@ -391,7 +391,7 @@ public:
         @param bodyText     the longer message to show
         @param isOkCancel   if true, this will show an ok/cancel box, if false,
                             it'll show a box with just an ok button
-        @returns true if the ok button was pressed, false if they pressed cancel.
+        @return true if the ok button was pressed, false if they pressed cancel.
     */
    #if JUCE_MODAL_LOOPS_PERMITTED
     static bool JUCE_CALLTYPE showNativeDialogBox (const String& title,

@@ -236,7 +236,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
  @param[in,out] message The message to be updated with the sensor data.
  @param[in] nBodyCount The number of 'bodies' in the sensor data.
  @param[in] ppBodies The sensor data.
- @returns @c true if at least one body was added to the message successfully, and @c false
+ @return @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 static bool
 processBody(yarp::os::Bottle & message,

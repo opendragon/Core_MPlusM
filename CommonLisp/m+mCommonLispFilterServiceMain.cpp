@@ -167,7 +167,7 @@ sendToChannelForCl(cl_object channelIndex,
 } // sendToChannelForCl
 
 /*! @brief Add custom functions to the Common Lisp environment.
- @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
+ @return @c true if the custom functions were addeded successfully and @c false otherwise. */
 static void
 addCustomFunctions(void)
 {
@@ -205,7 +205,7 @@ addCustomFunctions(void)
 
 /*! @brief Add custom classes to the Common Lisp environment.
  @param[in] ourPackage The package to be used with the new classes.
- @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
+ @return @c true if the custom classes were addeded successfully and @c false otherwise. */
 static bool
 addCustomClasses(cl_object ourPackage)
 {
@@ -293,7 +293,7 @@ addCustomObjects(const YarpString &       tag,
 /*! @brief Check the arity of a function.
  @param[in] objectFunction The function to be checked.
  @param[in] arityRequired The required arity for the function.
- @returns @c true if the function has the required arity or @c false otherwise. */
+ @return @c true if the function has the required arity or @c false otherwise. */
 static bool
 checkArity(cl_object      objectFunction,
            const uint32_t arityRequired)
@@ -333,7 +333,7 @@ checkArity(cl_object      objectFunction,
  @c false if the property must be a string.
  @param[in] isOptional @c true if the property does not have to be present.
  @param[in,out] result The value of the number, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedDouble(const char * propertyName,
                 const bool   canBeFunction,
@@ -433,7 +433,7 @@ getLoadedDouble(const char * propertyName,
  @c false if the property must be a string.
  @param[in] isOptional @c true if the property does not have to be present.
  @param[in,out] result The value of the string, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedString(const char * propertyName,
                 const bool   canBeFunction,
@@ -550,7 +550,7 @@ getLoadedString(const char * propertyName,
  @param[in] arity The expected number of arguments for the function.
  @param[in] isOptional @c true if the property does not have to be present.
  @param[in,out] result The value of the string, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedFunctionRef(const char *   propertyName,
                      const uint32_t arity,
@@ -607,7 +607,7 @@ getLoadedFunctionRef(const char *   propertyName,
  @param[in] anElement The stream description object to be checked.
  @param[in] inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param[out] description The validated stream description.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 processStreamDescription(cl_object            anElement,
                          ObjectVector *       inletHandlers,
@@ -741,7 +741,7 @@ processStreamDescription(cl_object            anElement,
  @param[in] arrayName The name of the array variable being searched for.
  @param[in] inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param[out] streamDescriptions The list of loaded stream descriptions.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedStreamDescriptions(const char *    arrayName,
                             ObjectVector *  inletHandlers,
@@ -865,7 +865,7 @@ getLoadedStreamDescriptions(const char *    arrayName,
  @param[out] loadedThreadFunction The function to execute on an output-generating thread.
  @param[out] loadedInterval The interval (in seconds) between executions of the output-generating
  thread.
- @returns @c true on success and @c false otherwise.
+ @return @c true on success and @c false otherwise.
  @param[out] missingStuff A list of the missing functions or variables. */
 static bool
 validateLoadedScript(bool &          sawThread,
@@ -1133,7 +1133,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
  The first argument is the path of the script to be run by the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the %CommonLisp filter service.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

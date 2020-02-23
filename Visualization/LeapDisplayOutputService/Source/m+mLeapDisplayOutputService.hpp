@@ -126,13 +126,13 @@ namespace LeapDisplay
             
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             LeapDisplayOutputService &
             operator =(const LeapDisplayOutputService & other);
             
             /*! @brief Set up the descriptions that will be used to construct the input / output
              streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
+             @return @c true if the descriptions were set up and @c false otherwise. */
             virtual bool
             setUpStreamDescriptions(void);
         

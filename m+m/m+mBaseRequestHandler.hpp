@@ -104,7 +104,7 @@ namespace MplusM
             } // fillInDescription
 
             /*! @brief Return the name of the request.
-             @returns The name of the request. */
+             @return The name of the request. */
             inline const YarpString &
             name(void)
             const
@@ -157,7 +157,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseRequestHandler &
             operator =(const BaseRequestHandler & other);
 

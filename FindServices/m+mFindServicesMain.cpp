@@ -280,7 +280,7 @@ setUpAndGo(const YarpString &  criteria,
  matching services.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the application.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

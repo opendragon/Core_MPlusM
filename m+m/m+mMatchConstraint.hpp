@@ -84,24 +84,24 @@ namespace MplusM
             ~MatchConstraint(void);
 
             /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(void)
             const;
 
             /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
+             @return The matching substring as a printable string. */
             YarpString
             asString(void)
             const;
 
             /*! @brief The character used between constraint list elements.
-             @returns The character that separates constraint list elements. */
+             @return The character that separates constraint list elements. */
             static char
             ConstraintSeparatorCharacter(void);
 
             /*! @brief Return the number of elements in the constraint list.
-             @returns The number of elements in the constraint list. */
+             @return The number of elements in the constraint list. */
             int
             count(void)
             const;
@@ -113,7 +113,7 @@ namespace MplusM
              @param[in,out] endPos Where the scan terminated, if successful.
              @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchConstraint *
             CreateMatcher(const YarpString &  inString,
@@ -124,7 +124,7 @@ namespace MplusM
 
             /*! @brief Return an element from the constraint list.
              @param[in] index The zero-origin index of the element.
-             @returns An element of the constraint list or @c NULL if the index is outside the range
+             @return An element of the constraint list or @c NULL if the index is outside the range
              of the constraint list. */
             const MatchFieldWithValues *
             element(const int index)
@@ -147,7 +147,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchConstraint &
             operator =(const MatchConstraint & other);
 

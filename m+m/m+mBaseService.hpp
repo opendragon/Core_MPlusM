@@ -243,7 +243,7 @@ namespace MplusM
             ~BaseService(void);
 
             /*! @brief Return the description of the service.
-             @returns The description of the service. */
+             @return The description of the service. */
             inline const YarpString &
             description(void)
             const
@@ -265,7 +265,7 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Return the extra information for the service.
-             @returns The extra information for the service. */
+             @return The extra information for the service. */
             inline const YarpString &
             extraInformation(void)
             const
@@ -299,7 +299,7 @@ namespace MplusM
             gatherMetrics(yarp::os::Bottle & metrics);
 
             /*! @brief Return the list of arguments given to the service.
-             @returns The list of arguments given to the service. */
+             @return The list of arguments given to the service. */
             inline const YarpStringVector &
             getArguments(void)
             const
@@ -308,7 +308,7 @@ namespace MplusM
             } // getArguments
 
             /*! @brief Return the associated endpoint.
-             @returns The associated endpoint. */
+             @return The associated endpoint. */
             inline Endpoint &
             getEndpoint(void)
             const
@@ -322,7 +322,7 @@ namespace MplusM
             incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
 
             /*! @brief Return the state of the service.
-             @returns @c true if the service has been started and @c false otherwise. */
+             @return @c true if the service has been started and @c false otherwise. */
             inline bool
             isStarted(void)
             const
@@ -331,7 +331,7 @@ namespace MplusM
             } // isStarted
 
             /*! @brief Return the behavioural model for the service.
-             @returns The behavioural model for the service. */
+             @return The behavioural model for the service. */
             inline ServiceKind
             kind(void)
             const
@@ -340,7 +340,7 @@ namespace MplusM
             } // kind
 
             /*! @brief Return the command-line name used to launch the service.
-             @returns The command-line name used to launch the service. */
+             @return The command-line name used to launch the service. */
             inline const YarpString &
             launchPath(void)
             const
@@ -349,7 +349,7 @@ namespace MplusM
             } // launchPath
 
             /*! @brief Return the state of the  send / receive metrics.
-             @returns @c true if the send / receive metrics are being gathered and @c false
+             @return @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
             inline bool
             metricsAreEnabled(void)
@@ -363,7 +363,7 @@ namespace MplusM
              @param[in] restOfInput The arguments for the operation.
              @param[in] senderChannel The name of the channel used to send the input data.
              @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @returns @c true if the input was correctly structured and successfully processed. */
+             @return @c true if the input was correctly structured and successfully processed. */
             bool
             processRequest(const YarpString &           request,
                            const yarp::os::Bottle &     restOfInput,
@@ -371,7 +371,7 @@ namespace MplusM
                            yarp::os::ConnectionWriter * replyMechanism);
 
             /*! @brief Return the description of the requests for the service.
-             @returns The description of the requests for the service. */
+             @return The description of the requests for the service. */
             inline const YarpString &
             requestsDescription(void)
             const
@@ -389,7 +389,7 @@ namespace MplusM
                                void *             checkStuff = NULL);
 
             /*! @brief Return the working name of the service.
-             @returns The working name of the service. */
+             @return The working name of the service. */
             inline const YarpString &
             serviceName(void)
             const
@@ -407,17 +407,17 @@ namespace MplusM
             startPinger(void);
 
             /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
+             @return @c true if the service was started and @c false if it was not. */
             virtual bool
             startService(void);
 
             /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
+             @return @c true if the service was stopped and @c false it if was not. */
             virtual bool
             stopService(void);
 
             /*! @brief Return the modifier tag of the service.
-             @returns The modifier tag of the service. */
+             @return The modifier tag of the service. */
             inline const YarpString &
             tag(void)
             const
@@ -445,7 +445,7 @@ namespace MplusM
 
             /*! @brief Locate the context corresponding to a name.
              @param[in] key The name of the context.
-             @returns @c NULL if the named context could not be found or a pointer to the context if
+             @return @c NULL if the named context could not be found or a pointer to the context if
              found. */
             BaseContext *
             findContext(const YarpString & key);
@@ -481,7 +481,7 @@ namespace MplusM
             attachRequestHandlers(void);
 
             /*! @brief Lock the data unless the lock would block.
-             @returns @c true if the data was locked and @c false otherwise. */
+             @return @c true if the data was locked and @c false otherwise. */
             inline bool
             conditionallyLockContexts(void)
             {
@@ -501,7 +501,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseService &
             operator =(const BaseService & other);
 
@@ -633,7 +633,7 @@ namespace MplusM
          @param[in,out] serviceEndpointName Set to the endpoint name to be used, based on the last
          -e and -t options.
          @param[in] tagModifier The string to be applied to the tag and endpoint for customization.
-         @returns @c true if the endpoint name was set in the arguments and @c false if it was
+         @return @c true if the endpoint name was set in the arguments and @c false if it was
          not. */
         bool
         AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
@@ -644,7 +644,7 @@ namespace MplusM
 
         /*! @brief Determine the address that the Registry Service will use to connect to us.
          @param[in,out] ourAddress The IP address that we are using.
-         @returns @c true if the address was determined and @c false otherwise. */
+         @return @c true if the address was determined and @c false otherwise. */
         bool
         GetOurEffectiveAddress(NetworkAddress & ourAddress);
 
@@ -684,7 +684,7 @@ namespace MplusM
          @param[out] modFlag The address-based modifier to apply to the tag value.
          @param[in] skipOptions The command-line options to be skipped.
          @param[in] arguments If non-@c NULL, returns the arguments for the service.
-         @returns @c true if the service should continue and @c false if it should leave. */
+         @return @c true if the service should continue and @c false if it should leave. */
         bool
         ProcessStandardServiceOptions(const int                     argc,
                                       char * *                      argv,
@@ -708,7 +708,7 @@ namespace MplusM
          @param[in] service The actual service being registered.
          @param[in] checker A function that provides for early exit from loops.
          @param[in] checkStuff The private data for the early exit function.
-         @returns @c true if the service was successfully registered and @c false otherwise. */
+         @return @c true if the service was successfully registered and @c false otherwise. */
         bool
         RegisterLocalService(const YarpString & channelName,
                              BaseService &      service,
@@ -720,7 +720,7 @@ namespace MplusM
          @param[in] service The actual service being unregistered.
          @param[in] checker A function that provides for early exit from loops.
          @param[in] checkStuff The private data for the early exit function.
-         @returns @c true if the service was successfully unregistered and @c false otherwise. */
+         @return @c true if the service was successfully unregistered and @c false otherwise. */
         bool
         UnregisterLocalService(const YarpString & channelName,
                                BaseService &      service,

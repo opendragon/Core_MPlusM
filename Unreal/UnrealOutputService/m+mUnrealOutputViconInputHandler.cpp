@@ -81,7 +81,7 @@ using std::endl;
  @param[in,out] outBuffer The destination character stream.
  @param[in] segmentsAsBottle The segments to write out.
  @param[in] scale The translation scale to use.
- @returns @c true if the segments were properly structured and @c false otherwise. */
+ @return @c true if the segments were properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
 static bool
 dumpSegments(Common::StringBuffer & outBuffer,

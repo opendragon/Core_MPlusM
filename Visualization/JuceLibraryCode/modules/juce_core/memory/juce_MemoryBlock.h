@@ -75,12 +75,12 @@ public:
 
     //==============================================================================
     /** Compares two memory blocks.
-        @returns true only if the two blocks are the same size and have identical contents.
+        @return true only if the two blocks are the same size and have identical contents.
     */
     bool operator== (const MemoryBlock& other) const noexcept;
 
     /** Compares two memory blocks.
-        @returns true if the two blocks are different sizes or have different contents.
+        @return true if the two blocks are different sizes or have different contents.
     */
     bool operator!= (const MemoryBlock& other) const noexcept;
 

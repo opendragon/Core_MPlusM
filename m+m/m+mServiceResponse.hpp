@@ -85,13 +85,13 @@ namespace MplusM
             operator =(const yarp::os::Bottle & values);
 
             /*! @brief Return a printable version of the response.
-             @returns A printable version of the response. */
+             @return A printable version of the response. */
             YarpString
             asString(void)
             const;
 
             /*! @brief The number of values in the response.
-             @returns The number of values in the response. */
+             @return The number of values in the response. */
             inline int
             count(void)
             const
@@ -101,13 +101,13 @@ namespace MplusM
 
             /*! @brief Fetch an element from the values.
              @param[in] index The @c 0-based index of the desired element.
-             @returns The element corresponding to the provided index. */
+             @return The element corresponding to the provided index. */
             yarp::os::Value
             element(const int index)
             const;
 
             /*! @brief Return the full set of values.
-             @returns All the values in the response. */
+             @return All the values in the response. */
             inline yarp::os::Bottle
             values(void)
             const
@@ -125,7 +125,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ServiceResponse &
             operator =(const ServiceResponse & other);
 

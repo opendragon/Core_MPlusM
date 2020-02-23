@@ -83,7 +83,7 @@ namespace MplusM
             /*! @brief Create a connection with the service.
              @param[in] checker A function that provides for early exit from loops.
              @param[in] checkStuff The private data for the early exit function.
-             @returns @c true if the client is connected to the service and @c false otherwise. */
+             @return @c true if the client is connected to the service and @c false otherwise. */
             bool
             connectToService(CheckFunction checker = NULL,
                              void *        checkStuff = NULL);
@@ -91,7 +91,7 @@ namespace MplusM
             /*! @brief Disconnect from the service.
              @param[in] checker A function that provides for early exit from loops.
              @param[in] checkStuff The private data for the early exit function.
-             @returns @c true if the client is no longer connected to the service and @ false
+             @return @c true if the client is no longer connected to the service and @ false
              otherwise. */
             bool
             disconnectFromService(CheckFunction checker = NULL,
@@ -103,7 +103,7 @@ namespace MplusM
              first match will be used.
              @param[in] checker A function that provides for early exit from loops.
              @param[in] checkStuff The private data for the early exit function.
-             @returns @c true if a matching service was found and @c false if no matching service or
+             @return @c true if a matching service was found and @c false if no matching service or
              too many services were found. */
             bool
             findService(const char *  criteria,
@@ -136,7 +136,7 @@ namespace MplusM
             /*! @brief Send a request to the service associated with the client.
              @param[in] request The name of the request.
              @param[in] parameters The required parameters for the request.
-             @returns @c true on a successful communication with the service and @c false
+             @return @c true on a successful communication with the service and @c false
              otherwise. */
             bool
             send(const char *             request,
@@ -146,7 +146,7 @@ namespace MplusM
              @param[in] request The name of the request.
              @param[in] parameters The required parameters for the request.
              @param[in,out] response The response from the request.
-             @returns @c true on a successful communication with the service and @c false
+             @return @c true on a successful communication with the service and @c false
              otherwise. */
             bool
             send(const char *             request,
@@ -161,7 +161,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseClient &
             operator =(const BaseClient & other);
 
@@ -215,7 +215,7 @@ namespace MplusM
          ports are to be returned.
          @param[in] checker A function that provides for early exit from loops.
          @param[in] checkStuff The private data for the early exit function.
-         @returns A (possibly empty) list of matching service ports or service names. */
+         @return A (possibly empty) list of matching service ports or service names. */
         yarp::os::Bottle
         FindMatchingServices(const YarpString & criteria,
                              const bool         getNames = false,

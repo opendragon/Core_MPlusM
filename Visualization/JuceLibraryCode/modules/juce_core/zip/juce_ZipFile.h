@@ -155,7 +155,7 @@ public:
 
         @param targetDirectory      the root folder to uncompress to
         @param shouldOverwriteFiles whether to overwrite existing files with similarly-named ones
-        @returns success if the file is successfully unzipped
+        @return success if the file is successfully unzipped
     */
     Result uncompressTo (const File& targetDirectory,
                          bool shouldOverwriteFiles = true);
@@ -169,7 +169,7 @@ public:
                                     between 0 and (getNumEntries() - 1).
         @param targetDirectory      the root folder to uncompress into
         @param shouldOverwriteFiles whether to overwrite existing files with similarly-named ones
-        @returns success if all the files are successfully unzipped
+        @return success if all the files are successfully unzipped
     */
     Result uncompressEntry (int index,
                             const File& targetDirectory,

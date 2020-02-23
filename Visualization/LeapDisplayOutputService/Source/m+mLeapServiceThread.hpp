@@ -83,7 +83,7 @@ namespace LeapDisplay
         ~LeapServiceThread(void);
         
         /*! @brief Return the associated service.
-         @returns The associated service. */
+         @return The associated service. */
         LeapDisplayOutputService *
         getService(void)
         const
@@ -106,7 +106,7 @@ namespace LeapDisplay
         
         /*! @brief The assignment operator.
          @param[in] other The object to be copied.
-         @returns The updated object. */
+         @return The updated object. */
         LeapServiceThread &
         operator =(const LeapServiceThread & other);
         

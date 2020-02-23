@@ -355,7 +355,7 @@ public:
         of its first occurrence. If the object isn't found, the method will return -1.
 
         @param elementToLookFor   the value or object to look for
-        @returns                  the index of the object, or -1 if it's not found
+        @return                  the index of the object, or -1 if it's not found
     */
     int indexOf (ParameterType elementToLookFor) const
     {
@@ -373,7 +373,7 @@ public:
     /** Returns true if the array contains at least one occurrence of an object.
 
         @param elementToLookFor     the value or object to look for
-        @returns                    true if the item is found
+        @return                    true if the item is found
     */
     bool contains (ParameterType elementToLookFor) const
     {
@@ -720,7 +720,7 @@ public:
         @param comparator   the comparator to use to compare the elements - see the sort()
                             method for details about the form this object should take
         @param newElement   the new element to insert to the array
-        @returns the index at which the new item was added
+        @return the index at which the new item was added
         @see addUsingDefaultSort, add, sort
     */
     template <class ElementComparator>
@@ -756,7 +756,7 @@ public:
         @param comparator           the comparator to use to compare the elements - see the sort()
                                     method for details about the form this object should take
         @param elementToLookFor     the element to search for
-        @returns                    the index of the element, or -1 if it's not found
+        @return                    the index of the element, or -1 if it's not found
         @see addSorted, sort
     */
     template <typename ElementComparator, typename TargetValueType>
@@ -794,7 +794,7 @@ public:
         If the index passed in is out-of-range, nothing will happen.
 
         @param indexToRemove    the index of the element to remove
-        @returns                the element that has been removed
+        @return                the element that has been removed
         @see removeFirstMatchingValue, removeAllInstancesOf, removeRange
     */
     ElementType remove (const int indexToRemove)

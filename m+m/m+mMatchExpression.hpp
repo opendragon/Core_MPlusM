@@ -86,20 +86,20 @@ namespace MplusM
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @param[in] prefixString The SELECT prefix to be applied before each expression.
              @param[in] suffixString The SELECT suffix to be applied after each expression.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(const char * prefixString,
                         const char * suffixString = NULL)
             const;
 
             /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
+             @return The matching substring as a printable string. */
             YarpString
             asString(void)
             const;
 
             /*! @brief Return the number of elements in the expression list.
-             @returns The number of elements in the expression list. */
+             @return The number of elements in the expression list. */
             int
             count(void)
             const;
@@ -111,7 +111,7 @@ namespace MplusM
              @param[in,out] endPos Where the scan terminated, if successful.
              @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchExpression *
             CreateMatcher(const YarpString &  inString,
@@ -122,14 +122,14 @@ namespace MplusM
 
             /*! @brief Return an element from the expression list.
              @param[in] index The zero-origin index of the element.
-             @returns An element of the expression list or @c NULL if the index is outside the range
+             @return An element of the expression list or @c NULL if the index is outside the range
              of the expression list. */
             const MatchConstraint *
             element(const int index)
             const;
 
             /*! @brief The character used between expression list elements.
-             @returns The character that separates expression list elements. */
+             @return The character that separates expression list elements. */
             static char
             ExpressionSeparatorCharacter(void);
 
@@ -150,7 +150,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchExpression &
             operator =(const MatchExpression & other);
 

@@ -77,7 +77,7 @@ public:
         @param input    the stream to read the data from. The stream will be positioned
                         at the start of the image data (but this may not necessarily
                         be position 0)
-        @returns        the image that was decoded, or an invalid image if it fails.
+        @return        the image that was decoded, or an invalid image if it fails.
         @see loadFrom
     */
     virtual Image decodeImage (InputStream& input) = 0;
@@ -88,7 +88,7 @@ public:
         To specify extra information like encoding quality, there will be appropriate parameters
         in the subclasses of the specific file types.
 
-        @returns        true if it nothing went wrong.
+        @return        true if it nothing went wrong.
     */
     virtual bool writeImageToStream (const Image& sourceImage,
                                      OutputStream& destStream) = 0;
@@ -113,7 +113,7 @@ public:
         This will use the findImageFormatForStream() method to locate a suitable
         codec, and use that to load the image.
 
-        @returns        the image that was decoded, or an invalid image if it fails.
+        @return        the image that was decoded, or an invalid image if it fails.
     */
     static Image loadFrom (InputStream& input);
 
@@ -122,7 +122,7 @@ public:
         This will use the findImageFormatForStream() method to locate a suitable
         codec, and use that to load the image.
 
-        @returns        the image that was decoded, or an invalid image if it fails.
+        @return        the image that was decoded, or an invalid image if it fails.
     */
     static Image loadFrom (const File& file);
 
@@ -131,7 +131,7 @@ public:
         This will use the findImageFormatForStream() method to locate a suitable
         codec, and use that to load the image.
 
-        @returns        the image that was decoded, or an invalid image if it fails.
+        @return        the image that was decoded, or an invalid image if it fails.
     */
     static Image loadFrom (const void* rawData,
                            size_t numBytesOfData);

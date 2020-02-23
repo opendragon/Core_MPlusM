@@ -58,7 +58,7 @@ public:
         may or may not include a path, depending on the OS.
         If a library is already open when this method is called, it will first close the library
         before attempting to load the new one.
-        @returns true if the library was successfully found and opened.
+        @return true if the library was successfully found and opened.
     */
     bool open (const String& name);
 

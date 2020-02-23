@@ -85,7 +85,7 @@ public:
     int getNumRectangles() const noexcept                       { return rects.size(); }
 
     /** Returns one of the rectangles at a particular index.
-        @returns  the rectangle at the index, or an empty rectangle if the index is out-of-range.
+        @return  the rectangle at the index, or an empty rectangle if the index is out-of-range.
     */
     RectangleType getRectangle (int index) const noexcept       { return rects[index]; }
 
@@ -289,7 +289,7 @@ public:
         Any rectangles in the list which overlap this will be clipped and subdivided
         if necessary.
 
-        @returns true if the resulting list is non-empty.
+        @return true if the resulting list is non-empty.
     */
     bool subtract (const RectangleList& otherList)
     {
@@ -409,7 +409,7 @@ public:
 
     //==============================================================================
     /** Checks whether the region contains a given point.
-        @returns true if the point lies within one of the rectangles in the list
+        @return true if the point lies within one of the rectangles in the list
     */
     bool containsPoint (Point<ValueType> point) const noexcept
     {
@@ -421,7 +421,7 @@ public:
     }
 
     /** Checks whether the region contains a given point.
-        @returns true if the point lies within one of the rectangles in the list
+        @return true if the point lies within one of the rectangles in the list
     */
     bool containsPoint (ValueType x, ValueType y) const noexcept
     {
@@ -430,7 +430,7 @@ public:
 
     /** Checks whether the region contains the whole of a given rectangle.
 
-        @returns    true all parts of the rectangle passed in lie within the region
+        @return    true all parts of the rectangle passed in lie within the region
                     defined by this object
         @see intersectsRectangle, containsPoint
     */
@@ -458,7 +458,7 @@ public:
 
     /** Checks whether the region contains any part of a given rectangle.
 
-        @returns    true if any part of the rectangle passed in lies within the region
+        @return    true if any part of the rectangle passed in lies within the region
                     defined by this object
         @see containsRectangle
     */

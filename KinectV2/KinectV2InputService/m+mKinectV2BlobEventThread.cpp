@@ -211,7 +211,7 @@ addBodyToMessage(std::stringstream &      outBuffer,
  @param[in] scale The translation scale to be applied.
  @param[in] nBodyCount The number of 'bodies' in the sensor data.
  @param[in] ppBodies The sensor data.
- @returns @c true if at least one body was added to the message successfully, and @c false
+ @return @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 # if defined(MpM_UseCustomStringBuffer)
 static bool

@@ -85,12 +85,12 @@ namespace MplusM
             ~BaseAdapterData(void);
 
             /*! @brief Mark the adapter as active.
-             @returns @c true if the adapter was already active and @c false otherwise. */
+             @return @c true if the adapter was already active and @c false otherwise. */
             bool
             activate(void);
 
             /*! @brief Lock the data unless the lock would block.
-             @returns @c true if the data was locked and @c false otherwise. */
+             @return @c true if the data was locked and @c false otherwise. */
             inline bool
             conditionallyLock(void)
             {
@@ -98,12 +98,12 @@ namespace MplusM
             } // conditionallyLock
 
             /*! @brief Mark the adapter as inactive.
-             @returns @c true if the adapter was active and @c false otherwise. */
+             @return @c true if the adapter was active and @c false otherwise. */
             bool
             deactivate(void);
 
             /*! @brief Return the client.
-             @returns The client. */
+             @return The client. */
             inline BaseClient *
             getClient(void)
             const
@@ -112,7 +112,7 @@ namespace MplusM
             } // getClient
 
             /*! @brief Return the output channel.
-             @returns The output channel. */
+             @return The output channel. */
             inline BaseChannel *
             getOutput(void)
             const
@@ -121,7 +121,7 @@ namespace MplusM
             } // getOutput
 
             /*! @brief Return the adapter state.
-             @returns @c true if the adapter is active and @c false otherwise. */
+             @return @c true if the adapter is active and @c false otherwise. */
             inline bool
             isActive(void)
             const
@@ -153,7 +153,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseAdapterData &
             operator =(const BaseAdapterData & other);
 

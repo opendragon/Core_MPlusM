@@ -80,13 +80,13 @@ namespace MplusM
             ~MatchFieldWithValues(void);
 
             /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(void)
             const;
 
             /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
+             @return The matching substring as a printable string. */
             YarpString
             asString(void)
             const;
@@ -99,7 +99,7 @@ namespace MplusM
              @param[in,out] endPos Where the scan terminated, if successful.
              @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchFieldWithValues *
             CreateMatcher(const YarpString &  inString,
@@ -136,7 +136,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchFieldWithValues &
             operator =(const MatchFieldWithValues & other);
 

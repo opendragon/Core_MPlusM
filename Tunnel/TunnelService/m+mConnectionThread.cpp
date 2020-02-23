@@ -73,7 +73,7 @@ using namespace MplusM::Tunnel;
 #endif // defined(__APPLE__)
 
 /*! @brief Create a 'listen' socket.
- @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+ @return The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 createListener(void)
 {
@@ -137,7 +137,7 @@ createListener(void)
 /*! @brief Connect to the %Tunnel service 'raw' network port.
  @param[in] dataAddress The IP address to connect to.
  @param[in] dataPort The port number to connect to.
- @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+ @return The new network socket on sucess or @c INVALID_SOCKET on failure. */
 static SOCKET
 connectToSource(const YarpString & dataAddress,
                 const int          dataPort)

@@ -276,7 +276,7 @@ public:
     /** Finds the index of the first occurrence of an object in the array.
 
         @param objectToLookFor    the object to look for
-        @returns                  the index at which the object was found, or -1 if it's not found
+        @return                  the index at which the object was found, or -1 if it's not found
     */
     int indexOf (const ObjectClass* const objectToLookFor) const noexcept
     {
@@ -298,7 +298,7 @@ public:
     /** Returns true if the array contains a specified object.
 
         @param objectToLookFor      the object to look for
-        @returns                    true if the object is in the array
+        @return                    true if the object is in the array
     */
     bool contains (const ObjectClass* const objectToLookFor) const noexcept
     {
@@ -478,7 +478,7 @@ public:
         @param comparator   the comparator object to use to compare the elements - see the
                             sort() method for details about this object's form
         @param newObject    the new object to insert to the array
-        @returns the index at which the new object was added
+        @return the index at which the new object was added
         @see add, sort
     */
     template <class ElementComparator>
@@ -517,7 +517,7 @@ public:
         @param comparator           the comparator to use to compare the elements - see the sort()
                                     method for details about the form this object should take
         @param objectToLookFor      the object to search for
-        @returns                    the index of the element, or -1 if it's not found
+        @return                    the index of the element, or -1 if it's not found
         @see addSorted, sort
     */
     template <class ElementComparator>
@@ -784,7 +784,7 @@ public:
     //==============================================================================
     /** Compares this array to another one.
 
-        @returns true only if the other array contains the same objects in the same order
+        @return true only if the other array contains the same objects in the same order
     */
     bool operator== (const ReferenceCountedArray& other) const noexcept
     {

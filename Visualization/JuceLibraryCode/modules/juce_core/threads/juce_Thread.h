@@ -119,7 +119,7 @@ public:
         @param timeOutMilliseconds  The number of milliseconds to wait for the
                                     thread to finish before killing it by force. A negative
                                     value in here will wait forever.
-        @returns    true if the thread was cleanly stopped before the timeout, or false
+        @return    true if the thread was cleanly stopped before the timeout, or false
                     if it had to be killed by force.
         @see signalThreadShouldExit, threadShouldExit, waitForThreadToExit, isThreadRunning
     */
@@ -166,7 +166,7 @@ public:
 
         @param timeOutMilliseconds  the time to wait, in milliseconds. If this value
                                     is less than zero, it will wait forever.
-        @returns    true if the thread exits, or false if the timeout expires first.
+        @return    true if the thread exits, or false if the timeout expires first.
     */
     bool waitForThreadToExit (int timeOutMilliseconds) const;
 
@@ -219,7 +219,7 @@ public:
 
         A negative time-out value means that the method will wait indefinitely.
 
-        @returns    true if the event has been signalled, false if the timeout expires.
+        @return    true if the event has been signalled, false if the timeout expires.
     */
     bool wait (int timeOutMilliseconds) const;
 
@@ -241,7 +241,7 @@ public:
 
         To find the ID of a particular thread object, use getThreadId().
 
-        @returns    a unique identifier that identifies the calling thread.
+        @return    a unique identifier that identifies the calling thread.
         @see getThreadId
     */
     static ThreadID JUCE_CALLTYPE getCurrentThreadId();

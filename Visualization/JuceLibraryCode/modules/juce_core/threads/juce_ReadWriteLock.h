@@ -78,7 +78,7 @@ public:
         Multiple threads can simultaneously lock the object for reading, but if another
         thread has it locked for writing, then this will fail and return false.
 
-        @returns true if the lock is successfully gained.
+        @return true if the lock is successfully gained.
         @see exitRead, ScopedReadLock
     */
     bool tryEnterRead() const noexcept;
@@ -110,7 +110,7 @@ public:
         This is like enterWrite(), but doesn't block - it returns true if it manages
         to obtain the lock.
 
-        @returns true if the lock is successfully gained.
+        @return true if the lock is successfully gained.
         @see enterWrite
     */
     bool tryEnterWrite() const noexcept;

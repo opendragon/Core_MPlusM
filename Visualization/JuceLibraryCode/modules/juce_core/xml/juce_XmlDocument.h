@@ -99,7 +99,7 @@ public:
                                                 allows quick checking of large files to
                                                 see if they contain the correct type of
                                                 tag, without having to parse the entire file
-        @returns    a new XmlElement which the caller will need to delete, or null if
+        @return    a new XmlElement which the caller will need to delete, or null if
                     there was an error.
         @see getLastParseError
     */
@@ -107,7 +107,7 @@ public:
 
     /** Returns the parsing error that occurred the last time getDocumentElement was called.
 
-        @returns the error, or an empty string if there was no error.
+        @return the error, or an empty string if there was no error.
     */
     const String& getLastParseError() const noexcept;
 
@@ -136,13 +136,13 @@ public:
     //==============================================================================
     /** A handy static method that parses a file.
         This is a shortcut for creating an XmlDocument object and calling getDocumentElement() on it.
-        @returns    a new XmlElement which the caller will need to delete, or null if there was an error.
+        @return    a new XmlElement which the caller will need to delete, or null if there was an error.
     */
     static XmlElement* parse (const File& file);
 
     /** A handy static method that parses some XML data.
         This is a shortcut for creating an XmlDocument object and calling getDocumentElement() on it.
-        @returns    a new XmlElement which the caller will need to delete, or null if there was an error.
+        @return    a new XmlElement which the caller will need to delete, or null if there was an error.
     */
     static XmlElement* parse (const String& xmlData);
 

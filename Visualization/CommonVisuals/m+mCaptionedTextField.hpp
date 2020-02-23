@@ -117,7 +117,7 @@ namespace CommonVisuals
         addToComponent(Component * whereToAdd);
 
         /*! @brief Return the associated button.
-         @returns The associated button. */
+         @return The associated button. */
         virtual TextButton *
         getButton(void)
         const
@@ -126,7 +126,7 @@ namespace CommonVisuals
         } // getButton
 
         /*! @brief Return the width of a 'file' button.
-         @returns The width of a 'file' button. */
+         @return The width of a 'file' button. */
         static int
         getFileButtonWidth(void);
 
@@ -143,7 +143,7 @@ namespace CommonVisuals
         const;
 
         /*! @brief Returns the text value associated with the field.
-         @returns The text value associated with the field. */
+         @return The text value associated with the field. */
         virtual String
         getText(void)
         const;
@@ -204,14 +204,14 @@ namespace CommonVisuals
         setY(const int yy);
 
         /*! @brief Check the field for validity.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool
         validateField(void);
 
         /*! @brief Check the field for validity.
          @param[in,out] argsToUse A set of valid arguments.
-         @returns @c true if the validator accepts the field or there's no validation required or
+         @return @c true if the validator accepts the field or there's no validation required or
          @c false if the validator rejects the field. */
         virtual bool
         validateField(StringArray & argsToUse);
@@ -221,7 +221,7 @@ namespace CommonVisuals
     private :
 
         /*! @brief Returns the name of the field.
-         @returns The name of the field. */
+         @return The name of the field. */
         virtual const String &
         getName(void)
         const;

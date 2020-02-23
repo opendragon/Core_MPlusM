@@ -81,7 +81,7 @@ namespace MplusM
              @param[in] inString The string to be scanned.
              @param[in] inLength The length of the string being scanned.
              @param[in] startPos Where in the string to begin scanning.
-             @returns The position in the string where the next non-whitespace character appears, or
+             @return The position in the string where the next non-whitespace character appears, or
              the length of the string - which is past the end of the string - if the remainder of
              the string is whitespace. */
             static size_t
@@ -97,7 +97,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseMatcher &
             operator =(const BaseMatcher & other);
 

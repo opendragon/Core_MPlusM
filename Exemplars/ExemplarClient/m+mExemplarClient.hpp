@@ -79,14 +79,14 @@ namespace MplusM
 
             /*! @brief Get one random number from the service.
              @param[out] result Where to return the number.
-             @returns @c true if the number was retrieved successfully and @c false otherwise. */
+             @return @c true if the number was retrieved successfully and @c false otherwise. */
             bool
             getOneRandomNumber(double & result);
 
             /*! @brief Get a sequence of random numbers from the service.
              @param[in] howMany The number of random numbers to retrieve.
              @param[out] result Where to return the numbers.
-             @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
+             @return @c true if the numbere were retrieved successfully and @c false otherwise. */
             bool
             getRandomNumbers(const int              howMany,
                              Common::DoubleVector & result);
@@ -101,7 +101,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ExemplarClient &
             operator =(const ExemplarClient & other);
 

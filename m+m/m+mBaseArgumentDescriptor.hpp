@@ -170,7 +170,7 @@ namespace MplusM
             addValueToBottle(yarp::os::Bottle & container) = 0;
 
             /*! @brief Return the description of the command-line argument.
-             @returns The description of the command-line argument. */
+             @return The description of the command-line argument. */
             inline const YarpString &
             argumentDescription(void)
             const
@@ -179,7 +179,7 @@ namespace MplusM
             } // argumentDescription
 
             /*! @brief Return the mode of the command-line argument.
-             @returns The mode of the command-line argument. */
+             @return The mode of the command-line argument. */
             inline ArgumentMode
             argumentMode(void)
             const
@@ -188,7 +188,7 @@ namespace MplusM
             } // argumentMode
 
             /*! @brief Return the name of the command-line argument.
-             @returns The name of the command-line argument. */
+             @return The name of the command-line argument. */
             inline const YarpString &
             argumentName(void)
             const
@@ -197,22 +197,22 @@ namespace MplusM
             } // argumentName
 
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+             @return A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
             clone(void) = 0;
 
             /*! @brief Return the default value.
-             @returns The default value. */
+             @return The default value. */
             virtual YarpString
             getDefaultValue(void) = 0;
 
             /*! @brief Return the processed value.
-             @returns The processed value. */
+             @return The processed value. */
             virtual YarpString
             getProcessedValue(void) = 0;
 
             /*! @brief Return @c true if the argument is for Boolean arguments.
-             @returns @c true if the argument is for Boolean arguments and @c false otherwise. */
+             @return @c true if the argument is for Boolean arguments and @c false otherwise. */
             virtual bool
             isBoolean(void)
             const
@@ -222,7 +222,7 @@ namespace MplusM
 
             /*! @brief Return @c true if the argument is a placeholder for zero or more trailing
              arguments.
-             @returns @c true if the argument is a placeholder for zero of more trailing arguments
+             @return @c true if the argument is a placeholder for zero of more trailing arguments
              and @c false otherwise. */
             virtual bool
             isExtra(void)
@@ -234,7 +234,7 @@ namespace MplusM
             /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
              @param[out] isForOutput Set to @c true if the argument is for output files and @c false
              otherwise.
-             @returns @c true if the argument is for file paths and @c false otherwise. */
+             @return @c true if the argument is for file paths and @c false otherwise. */
             virtual bool
             isForFiles(bool & isForOutput)
             const
@@ -244,7 +244,7 @@ namespace MplusM
             } // isForFiles
 
             /*! @brief Return @c true if the argument is modifiable and @c false otherwise.
-             @returns @c true if the argument is modifiable and @c false otherwise. */
+             @return @c true if the argument is modifiable and @c false otherwise. */
             inline bool
             isModifiable(void)
             const
@@ -253,7 +253,7 @@ namespace MplusM
             } // isModifiable
 
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
-             @returns @c true if the argument is optional and @c false otherwise. */
+             @return @c true if the argument is optional and @c false otherwise. */
             inline bool
             isOptional(void)
             const
@@ -262,7 +262,7 @@ namespace MplusM
             } // isOptional
 
             /*! @brief Return @c true if the argument is a password and @c false otherwise.
-             @returns @c true if the argument is a password and @c false otherwise. */
+             @return @c true if the argument is a password and @c false otherwise. */
             inline bool
             isPassword(void)
             const
@@ -271,7 +271,7 @@ namespace MplusM
             } // isPassword
 
             /*! @brief Return @c true if the argument is required and @c false otherwise.
-             @returns @c true if the argument is required and @c false otherwise. */
+             @return @c true if the argument is required and @c false otherwise. */
             inline bool
             isRequired(void)
             const
@@ -280,7 +280,7 @@ namespace MplusM
             } // isRequired
 
             /*! @brief Return @c true if the argument is valid and @c false otherwise.
-             @returns @c true if the argument is valid and @c false otherwise. */
+             @return @c true if the argument is valid and @c false otherwise. */
             inline bool
             isValid(void)
             const
@@ -293,13 +293,13 @@ namespace MplusM
             setToDefaultValue(void) = 0;
 
             /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
+             @return A printable representation of the descriptor. */
             virtual YarpString
             toString(void) = 0;
 
             /*! @brief Check an input value against the constraints of the descriptor.
              @param[in] value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
+             @return @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
             virtual bool
             validate(const YarpString & value) = 0;
@@ -311,7 +311,7 @@ namespace MplusM
              @param[in] indexOfDefaultValue The position in the input string where the default value
              will appear.
              @param[out] result The partitioned string.
-             @returns @c true if the correct number of fields appear within the input string and
+             @return @c true if the correct number of fields appear within the input string and
              @c false otherwise. */
             static bool
             partitionString(const YarpString & inString,
@@ -321,7 +321,7 @@ namespace MplusM
             /*! @brief Returns a string that contains a printable representation of the standard
              prefix fields for a command-line argument.
              @param[in] tagForField The tag value to use for the field.
-             @returns A string that contains a printable representation of the standard prefix
+             @return A string that contains a printable representation of the standard prefix
              fields for a command-line argument. */
             YarpString
             prefixFields(const YarpString & tagForField)
@@ -331,7 +331,7 @@ namespace MplusM
              fields for a command-line argument.
              @param[in] defaultToUse The string to put in the printable representation for the
              default value.
-             @returns A string that contains a printable representation of the standard fields for
+             @return A string that contains a printable representation of the standard fields for
              a command-line argument. */
             YarpString
             suffixFields(const YarpString & defaultToUse);
@@ -344,7 +344,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseArgumentDescriptor &
             operator =(const BaseArgumentDescriptor & other);
 
@@ -386,7 +386,7 @@ namespace MplusM
 
         /*! @brief Generate the standard 'argument list' description from an argument sequence.
          @param[in] arguments The argument sequence.
-         @returns A string containing the standard 'argument list' representation of the argument
+         @return A string containing the standard 'argument list' representation of the argument
          sequence. */
         YarpString
         ArgumentsToArgString(const DescriptorVector & arguments);
@@ -404,14 +404,14 @@ namespace MplusM
         /*! @brief Return the resulting argument values.
          @param[in] arguments The argument sequence.
          @param[in] sep The separator string between the argument values.
-         @returns The argument values, separated by 'sep'. */
+         @return The argument values, separated by 'sep'. */
         YarpString
         CombineArguments(const DescriptorVector & arguments,
                          const YarpString &       sep);
 
         /*! @brief Convert a string in '--args' format into an argument description.
          @param[in] inString The string to be analyzed.
-         @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
+         @return A newly allocated argument descriptor or @c NULL if the string is not valid. */
         BaseArgumentDescriptor *
         ConvertStringToArgument(const YarpString & inString);
 
@@ -424,7 +424,7 @@ namespace MplusM
 
         /*! @brief Return the mode corresponding to a string.
          @param[in] modeString The mode value as a string.
-         @returns The mode corresponding to a string. */
+         @return The mode corresponding to a string. */
         ArgumentMode
         ModeFromString(const YarpString & modeString);
 
@@ -432,7 +432,7 @@ namespace MplusM
          @param[in] arguments The argument sequence.
          @param[out] parseResult The parsed argument list.
          @param[out] badArgs The list of invalid or missing arguments.
-         @returns @c true if the parsed argument list matches the argument sequence and @c false
+         @return @c true if the parsed argument list matches the argument sequence and @c false
          otherwise. */
         bool
         ProcessArguments(const DescriptorVector & arguments,
@@ -441,7 +441,7 @@ namespace MplusM
 
         /*! @brief Prompt the user for the value of each of the arguments.
          @param[in] arguments The argument sequence.
-         @returns @c true if all arguments are valid and @c false otherwise. */
+         @return @c true if all arguments are valid and @c false otherwise. */
         bool
         PromptForValues(const DescriptorVector & arguments);
 

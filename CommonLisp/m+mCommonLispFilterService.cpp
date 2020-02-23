@@ -354,7 +354,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
 /*! @brief Convert a YARP value into a Common Lisp object.
  @param[in] setHashFunction The function object to use when setting a hash table entry.
  @param[in] inputValue The value to be processed.
- @returns The output object. */
+ @return The output object. */
 static cl_object
 convertValue(cl_object               setHashFunction,
              const yarp::os::Value & inputValue);
@@ -362,7 +362,7 @@ convertValue(cl_object               setHashFunction,
 /*! @brief Convert a YARP dictionary into a Common Lisp object.
  @param[in] setHashFunction The function object to use when setting a hash table entry.
  @param[in] inputAsList The input dictionary as a list.
- @returns The output object. */
+ @return The output object. */
 static cl_object
 convertDictionary(cl_object                setHashFunction,
                   const yarp::os::Bottle & inputAsList)
@@ -417,7 +417,7 @@ convertDictionary(cl_object                setHashFunction,
 /*! @brief Convert a YARP list into a Common Lisp object.
  @param[in] setHashFunction The function object to use when setting a hash table entry.
  @param[in] inputValue The value to be processed.
- @returns The result object. */
+ @return The result object. */
 static cl_object
 convertList(cl_object                setHashFunction,
             const yarp::os::Bottle & inputValue)
@@ -525,7 +525,7 @@ convertValue(cl_object               setHashFunction,
 /*! @brief Create a Common Lisp structure with the contents of a bottle.
  @param[in] setHashFunction The function object to use when setting a hash table entry.
  @param[in] aBottle The bottle to be used.
- @returns The bottle as a Common Lisp structure. */
+ @return The bottle as a Common Lisp structure. */
 static cl_object
 createObjectFromBottle(cl_object                setHashFunction,
                        const yarp::os::Bottle & aBottle)

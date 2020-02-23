@@ -71,7 +71,7 @@ public:
         @param timeOutMilliseconds  the maximum time to wait, in milliseconds. A negative
                                     value will cause it to wait forever.
 
-        @returns    true if the object has been signalled, false if the timeout expires first.
+        @return    true if the object has been signalled, false if the timeout expires first.
         @see signal, reset
     */
     bool wait (int timeOutMilliseconds = -1) const noexcept;

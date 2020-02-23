@@ -100,7 +100,7 @@ public:
         to this new one; if it fails, the document's file is left unchanged, and optionally
         a message box is shown telling the user there was an error.
 
-        @returns A result indicating whether the new file loaded successfully, or the error
+        @return A result indicating whether the new file loaded successfully, or the error
                  message if it failed.
         @see loadDocument, loadFromUserSpecifiedFile
     */
@@ -114,7 +114,7 @@ public:
         for a file. If they pick one, the loadFrom() method is used to
         try to load it, optionally showing a message if it fails.
 
-        @returns    a result indicating success; This will be a failure message if the user
+        @return    a result indicating success; This will be a failure message if the user
                     cancelled or if they picked a file which failed to load correctly
         @see loadFrom
     */
@@ -229,12 +229,12 @@ protected:
     virtual String getDocumentTitle() = 0;
 
     /** This method should try to load your document from the given file.
-        @returns a Result object to indicate the whether there was an error.
+        @return a Result object to indicate the whether there was an error.
     */
     virtual Result loadDocument (const File& file) = 0;
 
     /** This method should try to write your document to the given file.
-        @returns a Result object to indicate the whether there was an error.
+        @return a Result object to indicate the whether there was an error.
     */
     virtual Result saveDocument (const File& file) = 0;
 

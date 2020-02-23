@@ -213,7 +213,7 @@ void findMinAndMax (const Type* values, int numValues, Type& lowest, Type& highe
     @param lowerLimit           the minimum value to return
     @param upperLimit           the maximum value to return
     @param valueToConstrain     the value to try to return
-    @returns    the closest value to valueToConstrain which lies between lowerLimit
+    @return    the closest value to valueToConstrain which lies between lowerLimit
                 and upperLimit (inclusive)
     @see jmin, jmax, jmap
 */

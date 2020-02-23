@@ -110,13 +110,13 @@ namespace MplusM
             ViconBlobEventThread(const ViconBlobEventThread & other);
 
             /*! @brief Initialize the connection to the Vicon device.
-             @returns @c true on success and @c false otherwise. */
+             @return @c true on success and @c false otherwise. */
             bool
             initializeConnection(void);
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ViconBlobEventThread &
             operator =(const ViconBlobEventThread & other);
 
@@ -130,7 +130,7 @@ namespace MplusM
             run(void);
 
             /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
+             @return @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
 

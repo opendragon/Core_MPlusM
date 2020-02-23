@@ -220,7 +220,7 @@ public:
         string that was previously created with the getWindowStateAsString()
         method.
 
-        @returns false if the string wasn't a valid window state
+        @return false if the string wasn't a valid window state
         @see getWindowStateAsString
     */
     bool restoreWindowStateFromString (const String& previousState);

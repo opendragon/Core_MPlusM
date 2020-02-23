@@ -72,12 +72,12 @@ public:
         A Uuid object can later be reconstructed from this string using operator= or
         the constructor that takes a string parameter.
 
-        @returns a 32 character hex string.
+        @return a 32 character hex string.
     */
     String toString() const;
 
     /** Returns a stringified version of this UUID, separating it into sections with dashes.
-        @returns a string in the format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        @return a string in the format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     */
     String toDashedString() const;
 

@@ -95,7 +95,7 @@ namespace MplusM
             getSendReceiveCounters(SendReceiveCounters & counters);
 
             /*! @brief Return the state of the  send / receive metrics.
-             @returns @c true if the send / receive metrics are being gathered and @c false
+             @return @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
             inline bool
             metricsAreEnabled(void)
@@ -105,7 +105,7 @@ namespace MplusM
             } // metricsAreEnabled
 
             /*! @brief Returns the name associated with the channel.
-             @returns The name associated with the channel. */
+             @return The name associated with the channel. */
             inline const YarpString &
             name(void)
             const
@@ -116,7 +116,7 @@ namespace MplusM
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param[in] theChannelName The name to be associated with the channel.
              @param[in] timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
+             @return @c true if the channel was opened and @c false if it could not be opened. */
             bool
             openWithRetries(const YarpString & theChannelName,
                             const double       timeToWait);
@@ -125,7 +125,7 @@ namespace MplusM
              @param[in,out] theContactInfo The connection information to be associated with the
              channel.
              @param[in] timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
+             @return @c true if the channel was opened and @c false if it could not be opened. */
             bool
             openWithRetries(yarp::os::Contact & theContactInfo,
                             const double        timeToWait);
@@ -147,14 +147,14 @@ namespace MplusM
 
             /*! @brief Write a message to the port.
              @param[in] message The message to write.
-             @returns @c true if the message was successfully sent and @c false otherwise. */
+             @return @c true if the message was successfully sent and @c false otherwise. */
             bool
             writeBottle(yarp::os::Bottle & message);
 
             /*! @brief Write a message to the port, with a reply expected.
              @param[in] message The message to write.
              @param[in,out] reply Where to put the expected reply.
-             @returns @c true if the message was successfully sent and @c false otherwise. */
+             @return @c true if the message was successfully sent and @c false otherwise. */
             bool
             writeBottle(yarp::os::Bottle & message,
                         yarp::os::Bottle & reply);
@@ -169,7 +169,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseChannel &
             operator =(const BaseChannel & other);
 

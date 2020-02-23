@@ -159,7 +159,7 @@ public:
     /** Finds the intersection between two lines.
 
         @param line     the line to intersect with
-        @returns        the point at which the lines intersect, even if this lies beyond the end of the lines
+        @return        the point at which the lines intersect, even if this lies beyond the end of the lines
     */
     Point<ValueType> getIntersection (const Line& line) const noexcept
     {
@@ -176,7 +176,7 @@ public:
                                 the intersection (if the lines intersect). If the lines
                                 are parallel, this will just be set to the position
                                 of one of the line's endpoints.
-        @returns    true if the line segments intersect; false if they dont. Even if they
+        @return    true if the line segments intersect; false if they dont. Even if they
                     don't intersect, the intersection coordinates returned will still
                     be valid
     */
@@ -254,7 +254,7 @@ public:
 
         pointOnLine receives the position of the point that is found.
 
-        @returns the point's distance from the line
+        @return the point's distance from the line
         @see getPositionAlongLineOfNearestPoint
     */
     ValueType getDistanceFromPoint (const Point<ValueType> targetPoint,
@@ -293,7 +293,7 @@ public:
     /** Finds the point on this line which is nearest to a given point, and
         returns its position as a proportional position along the line.
 
-        @returns    a value 0 to 1.0 which is the distance along this line from the
+        @return    a value 0 to 1.0 which is the distance along this line from the
                     line's start to the point which is nearest to the point passed-in. To
                     turn this number into a position, use getPointAlongLineProportionally().
         @see getDistanceFromPoint, getPointAlongLineProportionally

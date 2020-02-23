@@ -149,7 +149,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
  name was not specified. It is also applied to the service name as a suffix.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Organic Motion %OpenStage input service.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

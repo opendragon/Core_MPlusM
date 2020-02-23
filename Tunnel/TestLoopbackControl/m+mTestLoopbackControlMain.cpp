@@ -149,7 +149,7 @@ displayCommands(void)
 } // displayCommands
 
 /*! @brief Return the current epoch time in seconds.
-@returns The time in seconds. */
+@return The time in seconds. */
 double getTimeNow(void)
 {
     double        result;
@@ -317,7 +317,7 @@ sendAndReceiveText(SOCKET              talkSocket,
 /*! @brief The entry point for running the Test Loopback Control application.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Test Loopback Control application.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

@@ -80,7 +80,7 @@ namespace MplusM
             /*! @brief Update the running sum for this client.
              @param[in] value The value to add to the running sum.
              @param[in,out] newSum The new running sum.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             addToSum(const double value,
                      double &     newSum);
@@ -88,23 +88,23 @@ namespace MplusM
             /*! @brief Update the running sum for this client.
              @param[in] values The set of values to add to the running sum.
              @param[in,out] newSum The new running sum.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             addToSum(const Common::DoubleVector & values,
                      double &                     newSum);
 
             /*! @brief Reset the running sum for this client.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             resetSum(void);
 
             /*! @brief Start the running sum for this client.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             startSum(void);
 
             /*! @brief Stop the running sum for this client.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             stopSum(void);
 
@@ -118,7 +118,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RunningSumClient &
             operator =(const RunningSumClient & other);
 

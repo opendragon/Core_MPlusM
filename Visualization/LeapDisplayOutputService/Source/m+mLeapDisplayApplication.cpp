@@ -128,7 +128,7 @@ static const int kThreadKillTime = 3000;
 /*! @brief DO a case-insensitive match.
  @param[in] string1 The first string to compare.
  @param[in] string2 The second string to compare.
- @returns @c true if both strings are identical, ignoring case and @c false if the strings are of
+ @return @c true if both strings are identical, ignoring case and @c false if the strings are of
  different length or contain at least one character that is different. */
 static bool
 caseInsensitiveMatch(const char * string1,

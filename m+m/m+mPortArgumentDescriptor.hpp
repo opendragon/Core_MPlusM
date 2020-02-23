@@ -97,7 +97,7 @@ namespace MplusM
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param[in] inString The input string in 'arguments' format.
-             @returns A valid descriptor or @c NULL if the input is not recognized. */
+             @return A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor *
             parseArgString(const YarpString & inString);
 
@@ -110,18 +110,18 @@ namespace MplusM
             PortArgumentDescriptor(const PortArgumentDescriptor & other);
 
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+             @return A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor *
             clone(void);
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             PortArgumentDescriptor &
             operator =(const PortArgumentDescriptor & other);
 
             /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
+             @return A printable representation of the descriptor. */
             virtual YarpString
             toString(void);
 

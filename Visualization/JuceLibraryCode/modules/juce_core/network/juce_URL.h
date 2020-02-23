@@ -102,7 +102,7 @@ public:
     String getScheme() const;
 
     /** Attempts to read a port number from the URL.
-        @returns the port number, or 0 if none is explicitly specified.
+        @return the port number, or 0 if none is explicitly specified.
     */
     int getPort() const;
 
@@ -293,7 +293,7 @@ public:
                                  returning a response (ignored for Android which follows up to 5 redirects)
         @param httpRequestCmd    Specify which HTTP Request to use. If this is empty, then doPostRequest
                                  will determine the HTTP request.
-        @returns    an input stream that the caller must delete, or a null pointer if there was an
+        @return    an input stream that the caller must delete, or a null pointer if there was an
                     error trying to open it.
      */
     InputStream* createInputStream (bool doPostLikeRequest,

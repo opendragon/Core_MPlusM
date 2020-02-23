@@ -85,20 +85,20 @@ namespace MplusM
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @param[in] fieldName The name to be used in the SQL matching expression.
              @param[in] negated @c true if the matching is negated and @c false otherwise.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(const char * fieldName,
                         const bool   negated)
             const;
 
             /*! @brief Create a printable representation of the value list.
-             @returns A printable representation of the value list. */
+             @return A printable representation of the value list. */
             const YarpString
             asString(void)
             const;
 
             /*! @brief Return the number of elements in the value list.
-             @returns The number of elements in the value list. */
+             @return The number of elements in the value list. */
             int
             count(void)
             const;
@@ -108,7 +108,7 @@ namespace MplusM
              @param[in] inLength The length of the string being scanned.
              @param[in] startPos Where in the string to start scanning.
              @param[in,out] endPos Where the scan terminated, if successful.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchValueList *
             CreateMatcher(const YarpString & inString,
@@ -118,24 +118,24 @@ namespace MplusM
 
             /*! @brief Return an element from the value list.
              @param[in] index The zero-origin index of the element.
-             @returns An element of the value list or @c NULL if the index is outside the range of
+             @return An element of the value list or @c NULL if the index is outside the range of
              the value list. */
             const MatchValue *
             element(const int index)
             const;
 
             /*! @brief The character used to signal the beginning of a value list.
-             @returns The character that ends a value list. */
+             @return The character that ends a value list. */
             static char
             ListInitiatorCharacter(void);
 
             /*! @brief The character used between value list elements.
-             @returns The character that separates value list elements. */
+             @return The character that separates value list elements. */
             static char
             ListSeparatorCharacter(void);
 
             /*! @brief The character used to signal the end of a value list.
-             @returns The character that ends a value list. */
+             @return The character that ends a value list. */
             static char
             ListTerminatorCharacter(void);
 
@@ -156,7 +156,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchValueList &
             operator =(const MatchValueList & other);
 

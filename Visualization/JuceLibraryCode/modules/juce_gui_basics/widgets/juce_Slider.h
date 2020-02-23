@@ -710,7 +710,7 @@ public:
         inverse function in valueToProportionOfLength().
 
         @param proportion       a value 0 to 1.0, indicating a distance along the slider
-        @returns                the slider value that is represented by this position
+        @return                the slider value that is represented by this position
         @see valueToProportionOfLength
     */
     virtual double proportionOfLengthToValue (double proportion);
@@ -724,7 +724,7 @@ public:
 
         @param value            a valid slider value, between the range of values specified in
                                 setRange()
-        @returns                a value 0 to 1.0 indicating the distance along the slider that
+        @return                a value 0 to 1.0 indicating the distance along the slider that
                                 represents this value
         @see proportionOfLengthToValue
     */
@@ -752,7 +752,7 @@ public:
         @param dragMode         indicates whether the user is dragging with
                                 the mouse; notDragging if they are entering the value
                                 using the text box or other non-dragging interaction
-        @returns                the value to use instead
+        @return                the value to use instead
     */
     virtual double snapValue (double attemptedValue, DragMode dragMode);
 

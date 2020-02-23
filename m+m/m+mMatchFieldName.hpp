@@ -77,7 +77,7 @@ namespace MplusM
             ~MatchFieldName(void);
 
             /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             inline const YarpString &
             asSQLString(void)
             const
@@ -86,7 +86,7 @@ namespace MplusM
             } // asSQLString
 
             /*! @brief Return the match value.
-             @returns The matching substring. */
+             @return The matching substring. */
             inline const YarpString &
             asString(void)
             const
@@ -101,7 +101,7 @@ namespace MplusM
              @param[in,out] endPos Where the scan terminated, if successful.
              @param[in] validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchFieldName *
             CreateMatcher(const YarpString &  inString,
@@ -111,7 +111,7 @@ namespace MplusM
                           BaseNameValidator * validator = NULL);
 
             /*! @brief Return whether or not the field name was followed by the negation character.
-             @returns @c true if the field name was followed by the negation character and @c false
+             @return @c true if the field name was followed by the negation character and @c false
              otherwise. */
             inline bool
             isNegated(void)
@@ -137,7 +137,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchFieldName &
             operator =(const MatchFieldName & other);
 

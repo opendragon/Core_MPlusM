@@ -75,7 +75,7 @@ public:
         This method behaves identically to CriticalSection::enter, except that the caller thread
         does not wait if the lock is currently held by another thread but returns false immediately.
 
-        @returns false if the lock is currently held by another thread, true otherwise.
+        @return false if the lock is currently held by another thread, true otherwise.
         @see enter
     */
     bool tryEnter() const noexcept;

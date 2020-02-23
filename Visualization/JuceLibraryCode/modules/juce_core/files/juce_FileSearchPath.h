@@ -126,7 +126,7 @@ public:
                                         return files, directories, or both.
         @param searchRecursively        whether to recursively search the subdirectories too
         @param wildCardPattern          a pattern to match against the filenames
-        @returns the number of files added to the array
+        @return the number of files added to the array
         @see File::findChildFiles
     */
     int findChildFiles (Array<File>& results,

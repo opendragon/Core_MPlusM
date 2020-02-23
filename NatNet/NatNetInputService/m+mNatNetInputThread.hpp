@@ -112,7 +112,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             NatNetInputThread &
             operator =(const NatNetInputThread & other);
 
@@ -121,7 +121,7 @@ namespace MplusM
             run(void);
 
             /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
+             @return @c true if the thread is ready to run. */
             virtual bool
             threadInit(void);
 

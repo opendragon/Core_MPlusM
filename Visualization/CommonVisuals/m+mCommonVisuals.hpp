@@ -160,12 +160,12 @@ namespace CommonVisuals
                       const String & aString);
 
     /*! @brief Returns the command manager object used to dispatch command events.
-     @returns The command manager object used to dispatch command events. */
+     @return The command manager object used to dispatch command events. */
     ApplicationCommandManager &
     GetApplicationCommandManager(void);
 
     /*! @brief Return the button height to use.
-     @returns The button height to use. */
+     @return The button height to use. */
     int
     GetButtonHeight(void);
 
@@ -177,7 +177,7 @@ namespace CommonVisuals
 
 /*! @brief Return @c true if exit is requested.
  @param[in] stuff Dummy argument to satisfy caller.
- @returns @c true if exit has been requested. */
+ @return @c true if exit has been requested. */
 bool
 CheckForExit(void * stuff);
 
@@ -185,7 +185,7 @@ CheckForExit(void * stuff);
  @param[in] aProcess The process to execute.
  @param[in] timeout The number of milliseconds allowed for the process to complete
  (<= 0 == forever).
- @returns @c true if the process completed in the time provided. */
+ @return @c true if the process completed in the time provided. */
 bool
 LazyLaunchProcess(ChildProcess & aProcess,
                   const int      timeout);

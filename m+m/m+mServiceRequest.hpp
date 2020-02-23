@@ -88,14 +88,14 @@ namespace MplusM
 
             /*! @brief Send the request to an endpoint for processing.
              @param[in] usingChannel The channel that is to send the request.
-             @returns @c true if the request was successfully transmitted. */
+             @return @c true if the request was successfully transmitted. */
             bool
             send(ClientChannel & usingChannel);
 
             /*! @brief Send the request to an endpoint for processing.
              @param[in] usingChannel The channel that is to send the request.
              @param[in,out] response The response from the request.
-             @returns @c true if the request was successfully transmitted. */
+             @return @c true if the request was successfully transmitted. */
             bool
             send(ClientChannel &   usingChannel,
                  ServiceResponse & response);
@@ -110,7 +110,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ServiceRequest &
             operator =(const ServiceRequest & other);
 

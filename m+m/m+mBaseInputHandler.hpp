@@ -92,7 +92,7 @@ namespace MplusM
              @param[in] senderChannel The name of the channel used to send the input data.
              @param[in] replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @param[in] numBytes The number of bytes available on the connection.
-             @returns @c true if the input was correctly structured and successfully processed. */
+             @return @c true if the input was correctly structured and successfully processed. */
             virtual bool
             handleInput(const yarp::os::Bottle &     input,
                         const YarpString &           senderChannel,
@@ -100,7 +100,7 @@ namespace MplusM
                         const size_t                 numBytes) = 0;
 
             /*! @brief Return the state of the  send / receive metrics.
-             @returns @c true if the send / receive metrics are being gathered and @c false
+             @return @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
             inline bool
             metricsAreEnabled(void)
@@ -128,13 +128,13 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseInputHandler &
             operator =(const BaseInputHandler & other);
 
             /*! @brief Read an object from the input stream.
              @param[in] connection The input stream that is to be read from.
-             @returns @c true if the object was successfully read and @c false otherwise. */
+             @return @c true if the object was successfully read and @c false otherwise. */
             virtual bool
             read(yarp::os::ConnectionReader & connection);
 

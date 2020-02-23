@@ -192,7 +192,7 @@ enum TipValuePosition
  @param[in] inValue The value to be scaled.
  @param[in] minValue The lowest expected value.
  @param[in] maxValue The highest expected value.
- @returns A value in the range zero to one, inclusive. */
+ @return A value in the range zero to one, inclusive. */
 static double
 clampedValue(const double inValue,
              const double minValue,
@@ -230,7 +230,7 @@ clampedValue(const double inValue,
  @param[in] position The index of the finger data in the input.
  @param[in] input The input data to be processed.
  @param[out] finger The output finger information.
- @returns @c true if the finger data was correct and @c false if the data in the message was not
+ @return @c true if the finger data was correct and @c false if the data in the message was not
  correct for a finger. */
 static bool
 checkFinger(const int                flag,

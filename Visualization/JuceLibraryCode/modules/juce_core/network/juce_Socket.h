@@ -60,7 +60,7 @@ public:
     //==============================================================================
     /** Binds the socket to the specified local port.
 
-        @returns    true on success; false may indicate that another socket is already bound
+        @return    true on success; false may indicate that another socket is already bound
                     on the same port
     */
     bool bindToPort (int localPortNumber);
@@ -71,7 +71,7 @@ public:
         as well. This is useful if you would like to bind your socket to a specific network
         adapter. Note that localAddress must be an IP address assigned to one of your
         network address otherwise this function will fail.
-        @returns    true on success; false may indicate that another socket is already bound
+        @return    true on success; false may indicate that another socket is already bound
                     on the same port
         @see bindToPort(int localPortNumber), IPAddress::findAllAddresses
     */
@@ -89,7 +89,7 @@ public:
         If timeOutMillisecs is 0, then this method will block until the operating system
         rejects the connection (which could take a long time).
 
-        @returns true if it succeeds.
+        @return true if it succeeds.
         @see isConnected
     */
     bool connect (const String& remoteHostname,
@@ -136,7 +136,7 @@ public:
         flag is false, the method will return as much data as is currently available
         without blocking.
 
-        @returns the number of bytes read, or -1 if there was an error.
+        @return the number of bytes read, or -1 if there was an error.
         @see waitUntilReady
     */
     int read (void* destBuffer, int maxBytesToRead,
@@ -147,7 +147,7 @@ public:
         Note that this method will block unless you have checked the socket is ready
         for writing before calling it (see the waitUntilReady() method).
 
-        @returns the number of bytes written, or -1 if there was an error.
+        @return the number of bytes written, or -1 if there was an error.
     */
     int write (const void* sourceBuffer, int numBytesToWrite);
 
@@ -161,7 +161,7 @@ public:
         @param portNumber       the port number to listen on
         @param localHostName    the interface address to listen on - pass an empty
                                 string to listen on all addresses
-        @returns    true if it manages to open the socket successfully.
+        @return    true if it manages to open the socket successfully.
 
         @see waitForNextConnection
     */
@@ -225,7 +225,7 @@ public:
         The localPortNumber is the port on which to bind this socket. If this value is 0,
         the port number is assigned by the operating system.
 
-        @returns    true on success; false may indicate that another socket is already bound
+        @return    true on success; false may indicate that another socket is already bound
                     on the same port
     */
     bool bindToPort (int localPortNumber);
@@ -236,7 +236,7 @@ public:
         as well. This is useful if you would like to bind your socket to a specific network
         adapter. Note that localAddress must be an IP address assigned to one of your
         network address otherwise this function will fail.
-        @returns    true on success; false may indicate that another socket is already bound
+        @return    true on success; false may indicate that another socket is already bound
                     on the same port
         @see bindToPort(int localPortNumber), IPAddress::findAllAddresses
     */
@@ -275,7 +275,7 @@ public:
         flag is false, the method will return as much data as is currently available
         without blocking.
 
-        @returns the number of bytes read, or -1 if there was an error.
+        @return the number of bytes read, or -1 if there was an error.
         @see waitUntilReady
     */
     int read (void* destBuffer, int maxBytesToRead,
@@ -288,7 +288,7 @@ public:
         flag is false, the method will return as much data as is currently available
         without blocking.
 
-        @returns the number of bytes read, or -1 if there was an error. On a successful
+        @return the number of bytes read, or -1 if there was an error. On a successful
                  result, the senderIPAddress value will be set to the IP of the sender.
         @see waitUntilReady
     */
@@ -301,7 +301,7 @@ public:
         Note that this method will block unless you have checked the socket is ready
         for writing before calling it (see the waitUntilReady() method).
 
-        @returns the number of bytes written, or -1 if there was an error.
+        @return the number of bytes written, or -1 if there was an error.
     */
     int write (const String& remoteHostname, int remotePortNumber,
                const void* sourceBuffer, int numBytesToWrite);
@@ -323,13 +323,13 @@ public:
     //==============================================================================
     /** Join a multicast group
 
-        @returns true if it succeeds.
+        @return true if it succeeds.
     */
     bool joinMulticast (const String& multicastIPAddress);
 
     /** Leave a multicast group
 
-        @returns true if it succeeds.
+        @return true if it succeeds.
     */
     bool leaveMulticast (const String& multicastIPAddress);
 

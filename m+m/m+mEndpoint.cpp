@@ -80,7 +80,7 @@ using namespace MplusM::Common;
 /*! @brief Check if the given port number is valid.
  @param[in,out] realPort The numeric value of 'portNumber'.
  @param[in] portNumber The port number as a string to be checked.
- @returns @c true if the port number string is numeric or empty. */
+ @return @c true if the port number string is numeric or empty. */
 static bool
 checkHostPort(int &              realPort,
               const YarpString & portNumber)
@@ -128,7 +128,7 @@ checkHostPort(int &              realPort,
  @param[in,out] workingContact The connection information that is to be filled in.
  @param[in] endpointName The desired endpoint name.
  @param[in] portNumber The port number to be applied to the connection.
- @returns @c true if the connection information has been constructed and @c false otherwise. */
+ @return @c true if the connection information has been constructed and @c false otherwise. */
 static bool
 setEndpointIPAddress(yarp::os::Contact & workingContact,
                      const YarpString &  endpointName,

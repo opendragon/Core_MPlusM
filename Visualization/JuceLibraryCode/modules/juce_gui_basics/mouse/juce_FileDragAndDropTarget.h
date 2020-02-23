@@ -43,7 +43,7 @@ public:
         inside them!
 
         @param files        the set of (absolute) pathnames of the files that the user is dragging
-        @returns            true if this component wants to receive the other callbacks regarging this
+        @return            true if this component wants to receive the other callbacks regarging this
                             type of object; if it returns false, no other callbacks will be made.
     */
     virtual bool isInterestedInFileDrag (const StringArray& files) = 0;

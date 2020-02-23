@@ -174,7 +174,7 @@ namespace MplusM
 
             /*! @brief Check if a service is already in the registry.
              @param[in] channelName The service channel for the service.
-             @returns @c true if the service is present and @c false otherwise. */
+             @return @c true if the service is present and @c false otherwise. */
             bool
             checkForExistingService(const YarpString & channelName);
 
@@ -201,7 +201,7 @@ namespace MplusM
             gatherMetrics(yarp::os::Bottle & metrics);
 
             /*! @brief Return @c true if the service is active.
-             @returns @c true if the service is active and @c false otherwise. */
+             @return @c true if the service is active and @c false otherwise. */
             inline bool
             isActive(void)
             const
@@ -212,7 +212,7 @@ namespace MplusM
             /*! @brief Check the response from the 'list' request.
              @param[in] channelName The channel that sent the response.
              @param[in] response The response to be analyzed.
-             @returns @c true if the expected values are all present and @c false if they are not or
+             @return @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
             bool
             processListResponse(const YarpString &              channelName,
@@ -224,7 +224,7 @@ namespace MplusM
              ports are to be returned.
              @param[in,out] reply The result from performing a SELECT with the converted match
              expression.
-             @returns @c true if the match request was successfully performed and @c false
+             @return @c true if the match request was successfully performed and @c false
              otherwise. */
             bool
             processMatchRequest(Parser::MatchExpression * matcher,
@@ -234,7 +234,7 @@ namespace MplusM
             /*! @brief Check the response from the 'name' request.
              @param[in] channelName The channel that sent the response.
              @param[in] response The response to be analyzed.
-             @returns @c true if the expected values are all present and @c false if they are not or
+             @return @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
             bool
             processNameResponse(const YarpString &              channelName,
@@ -247,7 +247,7 @@ namespace MplusM
 
             /*! @brief Remove a service entry from the registry.
              @param[in] serviceChannelName The service channel that is being removed.
-             @returns @c true if the service was successfully removed and @c false otherwise. */
+             @return @c true if the service was successfully removed and @c false otherwise. */
             bool
             removeServiceRecord(const YarpString & serviceChannelName);
 
@@ -261,7 +261,7 @@ namespace MplusM
                                const YarpString &  details = "");
 
             /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
+             @return @c true if the service was started and @c false if it was not. */
             virtual bool
             startService(void);
 
@@ -269,7 +269,7 @@ namespace MplusM
             void startChecker(void);
 
             /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
+             @return @c true if the service was stopped and @c false it if was not. */
             virtual bool
             stopService(void);
 
@@ -295,7 +295,7 @@ namespace MplusM
             /*! @brief Add a request to the registry.
              @param[in] keywordList The list of keywords associated with the request.
              @param[in] description The attributes of the request.
-             @returns @c true if the request was successfully added and @c false otherwise. */
+             @return @c true if the request was successfully added and @c false otherwise. */
             bool
             addRequestRecord(const yarp::os::Bottle &   keywordList,
                              const RequestDescription & description);
@@ -308,7 +308,7 @@ namespace MplusM
              @param[in] extraInfo The extra information for the service.
              @param[in] executable The path to the executable for the service.
              @param[in] requestsDescription The description of the requests for the service.
-             @returns @c true if the request was successfully added and @c false otherwise. */
+             @return @c true if the request was successfully added and @c false otherwise. */
             bool
             addServiceRecord(const YarpString & channelName,
                              const YarpString & name,
@@ -328,25 +328,25 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             RegistryService &
             operator =(const RegistryService & other);
 
             /*! @brief Check the dictionary entry from the 'list' response.
              @param[in] asDict The dictionary to be checked.
              @param[in] channelName The channel that sent the response.
-             @returns @c false if an unexpected value appears and @c true otherwise. */
+             @return @c false if an unexpected value appears and @c true otherwise. */
             bool
             processDictionaryEntry(yarp::os::Property & asDict,
                                    const YarpString &   channelName);
 
             /*! @brief Set up the %Registry Service database.
-             @returns @c true if the database was set up and @c false otherwise. */
+             @return @c true if the database was set up and @c false otherwise. */
             bool
             setUpDatabase(void);
 
             /*! @brief Set up the status reporting channel.
-             @returns @c true if the channel was set up and @c false otherwise. */
+             @return @c true if the channel was set up and @c false otherwise. */
             bool
             setUpStatusChannel(void);
 

@@ -465,7 +465,7 @@ namespace MplusM
 
         /*! @brief A function that checks for early exit from loops.
          @param[in] stuff Private data for the function.
-         @returns @c true if the caller should exit any loops and @c false otherwise. */
+         @return @c true if the caller should exit any loops and @c false otherwise. */
         typedef bool
         (*CheckFunction)
             (void * stuff);
@@ -479,18 +479,18 @@ namespace MplusM
 
 # if MAC_OR_LINUX_
         /*! @brief Return the YARP logging object.
-         @returns The YARP logging object. */
+         @return The YARP logging object. */
         yarp::os::impl::Logger &
         GetLogger(void);
 # endif // MAC_OR_LINUX_
 
         /*! @brief Generate a random channel name.
-         @returns A randomly-generated channel name. */
+         @return A randomly-generated channel name. */
         YarpString
         GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT_);
 
         /*! @brief Generate a random channel name.
-         @returns A randomly-generated channel name. */
+         @return A randomly-generated channel name. */
         YarpString
         GetRandomChannelName(const YarpString & channelRoot);
 
@@ -537,7 +537,7 @@ namespace MplusM
     } // Common
 
     /*! @brief Return @c true if standard input can be used and @c false otherwise.
-     @returns @c true if standard input can be used and @c false otherwise. */
+     @return @c true if standard input can be used and @c false otherwise. */
     bool
     CanReadFromStandardInput(void);
 
@@ -551,7 +551,7 @@ namespace MplusM
     IdleUntilNotRunning(void);
 
     /*! @brief Returns @c true if the executable can continue running and @c false otherwise.
-     @returns @c true if the executable can continue running and @c false otherwise. */
+     @return @c true if the executable can continue running and @c false otherwise. */
     bool
     IsRunning(void);
 
@@ -562,14 +562,14 @@ namespace MplusM
      fact, a dictionary.
      @param[in] aList The list of interest.
      @param[in,out] aDictionary The corresponding dictionary.
-     @returns @c true if the list can be converted into a dictionary and @c false otherwise. */
+     @return @c true if the list can be converted into a dictionary and @c false otherwise. */
     bool
     ListIsReallyDictionary(const yarp::os::Bottle & aList,
                            yarp::os::Property &     aDictionary);
 
     /*! @brief Return the name of a signal.
      @param[in] theSignal The signal of interest.
-     @returns A string description of the signal. */
+     @return A string description of the signal. */
     const char *
     NameOfSignal(const int theSignal);
 
@@ -586,7 +586,7 @@ namespace MplusM
     /*! @brief Return a string with special characters escaped.
      @param[in] inString The string to be processed.
      @param[in] allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
-     @returns A string with special characters escaped. */
+     @return A string with special characters escaped. */
     YarpString
     SanitizeString(const YarpString & inString,
                    const bool         allowDoubleQuotes = false);

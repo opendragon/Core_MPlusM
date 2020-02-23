@@ -77,14 +77,14 @@ public:
 
     /** Returns the type of operating system we're running on.
 
-        @returns one of the values from the OperatingSystemType enum.
+        @return one of the values from the OperatingSystemType enum.
         @see getOperatingSystemName
     */
     static OperatingSystemType getOperatingSystemType();
 
     /** Returns the name of the type of operating system we're running on.
 
-        @returns a string describing the OS type.
+        @return a string describing the OS type.
         @see getOperatingSystemType
     */
     static String getOperatingSystemName();
@@ -142,7 +142,7 @@ public:
     static int getNumCpus() noexcept;
 
     /** Returns the approximate CPU speed.
-        @returns    the speed in megahertz, e.g. 1500, 2500, 32000 (depending on
+        @return    the speed in megahertz, e.g. 1500, 2500, 32000 (depending on
                     what year you're reading this...)
     */
     static int getCpuSpeedInMegaherz();
@@ -165,7 +165,7 @@ public:
 
     //==============================================================================
     /** Finds out how much RAM is in the machine.
-        @returns    the approximate number of megabytes of memory, or zero if
+        @return    the approximate number of megabytes of memory, or zero if
                     something goes wrong when finding out.
     */
     static int getMemorySizeInMegabytes();

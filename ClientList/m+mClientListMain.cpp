@@ -89,7 +89,7 @@ using std::endl;
  @param[in] response The response to be processed.
  @param[in] sawResponse @c true if there was already a response output and @c false if this is the
  first.
- @returns @c true if some output was generated and @c false otherwise. */
+ @return @c true if some output was generated and @c false otherwise. */
 static bool
 processResponse(const OutputFlavour     flavour,
                 const YarpString &      serviceName,
@@ -307,7 +307,7 @@ setUpAndGo(const YarpString &  channelName,
  clients.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the application.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

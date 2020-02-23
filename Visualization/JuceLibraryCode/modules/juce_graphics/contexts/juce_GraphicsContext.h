@@ -585,28 +585,28 @@ public:
 
     /** Intersects the current clipping region with another region.
 
-        @returns true if the resulting clipping region is non-zero in size
+        @return true if the resulting clipping region is non-zero in size
         @see setOrigin, clipRegionIntersects
     */
     bool reduceClipRegion (int x, int y, int width, int height);
 
     /** Intersects the current clipping region with another region.
 
-        @returns true if the resulting clipping region is non-zero in size
+        @return true if the resulting clipping region is non-zero in size
         @see setOrigin, clipRegionIntersects
     */
     bool reduceClipRegion (const Rectangle<int>& area);
 
     /** Intersects the current clipping region with a rectangle list region.
 
-        @returns true if the resulting clipping region is non-zero in size
+        @return true if the resulting clipping region is non-zero in size
         @see setOrigin, clipRegionIntersects
     */
     bool reduceClipRegion (const RectangleList<int>& clipRegion);
 
     /** Intersects the current clipping region with a path.
 
-        @returns true if the resulting clipping region is non-zero in size
+        @return true if the resulting clipping region is non-zero in size
         @see reduceClipRegion
     */
     bool reduceClipRegion (const Path& path, const AffineTransform& transform = AffineTransform());
@@ -619,7 +619,7 @@ public:
         @param image    the image whose alpha-channel should be used. If the image doesn't
                         have an alpha-channel, it is treated as entirely opaque.
         @param transform    a matrix to apply to the image
-        @returns true if the resulting clipping region is non-zero in size
+        @return true if the resulting clipping region is non-zero in size
         @see reduceClipRegion
     */
     bool reduceClipRegion (const Image& image, const AffineTransform& transform);

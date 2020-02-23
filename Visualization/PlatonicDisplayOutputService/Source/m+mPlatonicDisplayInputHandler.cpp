@@ -86,7 +86,7 @@ static const double kMaxRandomValue = 10000.0;
  @param[in] inValue The value to be scaled.
  @param[in] minValue The lowest expected value.
  @param[in] maxValue The highest expected value.
- @returns A value in the range zero to one, inclusive. */
+ @return A value in the range zero to one, inclusive. */
 static double
 clampedValue(const double inValue,
              const double minValue,

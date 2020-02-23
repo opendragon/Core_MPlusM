@@ -76,44 +76,44 @@ namespace MplusM
 
             /*! @brief Add a character to the buffer.
              @param[in] aChar The character to add.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addChar(const char aChar);
 
             /*! @brief Add a character string representation of a floating-point value to the
              buffer.
              @param[in] aDouble The value to add.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addDouble(const double aDouble);
 
             /*! @brief Add a character string representation of an integer value to the buffer.
              @param[in] aLong The value to add.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addLong(const int64_t aLong);
 
             /*! @brief Add a character string to the buffer.
              @param[in] aString The value to add.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addString(const char * aString);
 
             /*! @brief Add a character string to the buffer.
              @param[in] aString The value to add.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addString(const YarpString & aString);
 
             /*! @brief Add a horizontal tab character to the buffer.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
             StringBuffer &
             addTab(void);
 
             /*! @brief Return a pointer to the characters in the buffer as well as the number of
              valid characters present.
              @param[out] length Set to the number of valid characters in the buffer.
-             @returns A pointer to the characters in the buffer. */
+             @return A pointer to the characters in the buffer. */
             inline const char *
             getString(size_t & length)
             const
@@ -123,7 +123,7 @@ namespace MplusM
             } // getString
 
             /*! @brief Return the number of valid charaacters in the buffer.
-             @returns The number of valid characters in the buffer. */
+             @return The number of valid characters in the buffer. */
             inline size_t
             length(void)
             const
@@ -132,7 +132,7 @@ namespace MplusM
             } // length
 
              /*! @brief Prepare the buffer for reuse.
-             @returns The StringBuffer object so that cascading can be done. */
+             @return The StringBuffer object so that cascading can be done. */
              StringBuffer & reset(void);
 
         protected :
@@ -145,7 +145,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             StringBuffer &
             operator =(const StringBuffer & other);
 

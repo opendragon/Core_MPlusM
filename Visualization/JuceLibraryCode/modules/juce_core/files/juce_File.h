@@ -101,14 +101,14 @@ public:
     //==============================================================================
     /** Checks whether the file actually exists.
 
-        @returns    true if the file exists, either as a file or a directory.
+        @return    true if the file exists, either as a file or a directory.
         @see existsAsFile, isDirectory
     */
     bool exists() const;
 
     /** Checks whether the file exists and is a file rather than a directory.
 
-        @returns    true only if this is a real file, false if it's a directory
+        @return    true only if this is a real file, false if it's a directory
                     or doesn't exist
         @see exists, isDirectory
     */
@@ -116,7 +116,7 @@ public:
 
     /** Checks whether the file is a directory that exists.
 
-        @returns    true only if the file is a directory which actually exists, so
+        @return    true only if the file is a directory which actually exists, so
                     false if it's a file or doesn't exist at all
         @see exists, existsAsFile
     */
@@ -124,7 +124,7 @@ public:
 
     /** Returns the size of the file in bytes.
 
-        @returns    the number of bytes in the file, or 0 if it doesn't exist.
+        @return    the number of bytes in the file, or 0 if it doesn't exist.
     */
     int64 getSize() const;
 
@@ -329,7 +329,7 @@ public:
     //==============================================================================
     /** Checks whether a file can be created or written to.
 
-        @returns    true if it's possible to create and write to this file. If the file
+        @return    true if it's possible to create and write to this file. If the file
                     doesn't already exist, this will check its parent directory to
                     see if writing is allowed.
         @see setReadOnly
@@ -342,7 +342,7 @@ public:
         @param applyRecursively     if the file is a directory and this is true, it will
                                     recurse through all the subfolders changing the permissions
                                     of all files
-        @returns    true if it manages to change the file's permissions.
+        @return    true if it manages to change the file's permissions.
         @see hasWriteAccess
     */
     bool setReadOnly (bool shouldBeReadOnly,
@@ -351,7 +351,7 @@ public:
     /** Changes the execute-permissions of a file.
 
         @param shouldBeExecutable   whether to add or remove execute-permission
-        @returns    true if it manages to change the file's permissions.
+        @return    true if it manages to change the file's permissions.
     */
     bool setExecutePermission (bool shouldBeExecutable) const;
 
@@ -371,21 +371,21 @@ public:
     //==============================================================================
     /** Returns the last modification time of this file.
 
-        @returns    the time, or an invalid time if the file doesn't exist.
+        @return    the time, or an invalid time if the file doesn't exist.
         @see setLastModificationTime, getLastAccessTime, getCreationTime
     */
     Time getLastModificationTime() const;
 
     /** Returns the last time this file was accessed.
 
-        @returns    the time, or an invalid time if the file doesn't exist.
+        @return    the time, or an invalid time if the file doesn't exist.
         @see setLastAccessTime, getLastModificationTime, getCreationTime
     */
     Time getLastAccessTime() const;
 
     /** Returns the time that this file was created.
 
-        @returns    the time, or an invalid time if the file doesn't exist.
+        @return    the time, or an invalid time if the file doesn't exist.
         @see getLastModificationTime, getLastAccessTime
     */
     Time getCreationTime() const;
@@ -393,7 +393,7 @@ public:
     /** Changes the modification time for this file.
 
         @param newTime  the time to apply to the file
-        @returns true if it manages to change the file's time.
+        @return true if it manages to change the file's time.
         @see getLastModificationTime, setLastAccessTime, setCreationTime
     */
     bool setLastModificationTime (Time newTime) const;
@@ -401,7 +401,7 @@ public:
     /** Changes the last-access time for this file.
 
         @param newTime  the time to apply to the file
-        @returns true if it manages to change the file's time.
+        @return true if it manages to change the file's time.
         @see getLastAccessTime, setLastModificationTime, setCreationTime
     */
     bool setLastAccessTime (Time newTime) const;
@@ -409,7 +409,7 @@ public:
     /** Changes the creation date for this file.
 
         @param newTime  the time to apply to the file
-        @returns true if it manages to change the file's time.
+        @return true if it manages to change the file's time.
         @see getCreationTime, setLastModificationTime, setLastAccessTime
     */
     bool setCreationTime (Time newTime) const;
@@ -430,7 +430,7 @@ public:
 
         If it already exists or is a directory, this method will do nothing.
 
-        @returns    a result to indicate whether the file was created successfully,
+        @return    a result to indicate whether the file was created successfully,
                     or an error message if it failed.
         @see createDirectory
     */
@@ -441,7 +441,7 @@ public:
         This will try to create the file as a directory, and will also create
         any parent directories it needs in order to complete the operation.
 
-        @returns    a result to indicate whether the directory was created successfully, or
+        @return    a result to indicate whether the directory was created successfully, or
                     an error message if it failed.
         @see create
     */
@@ -452,7 +452,7 @@ public:
         If this file is actually a directory, it may not be deleted correctly if it
         contains files. See deleteRecursively() as a better way of deleting directories.
 
-        @returns    true if the file has been successfully deleted (or if it didn't exist to
+        @return    true if the file has been successfully deleted (or if it didn't exist to
                     begin with).
         @see deleteRecursively
     */
@@ -463,7 +463,7 @@ public:
         If this file is a directory, this will try to delete it and all its subfolders. If
         it's just a file, it will just try to delete the file.
 
-        @returns    true if the file and all its subfolders have been successfully deleted
+        @return    true if the file and all its subfolders have been successfully deleted
                     (or if it didn't exist to begin with).
         @see deleteFile
     */
@@ -471,7 +471,7 @@ public:
 
     /** Moves this file or folder to the trash.
 
-        @returns true if the operation succeeded. It could fail if the trash is full, or
+        @return true if the operation succeeded. It could fail if the trash is full, or
                  if the file is write-protected, so you should check the return value
                  and act appropriately.
     */
@@ -489,7 +489,7 @@ public:
         Also note that on some OSes (e.g. Windows), moving files between different
         volumes may not be possible.
 
-        @returns    true if the operation succeeds
+        @return    true if the operation succeeds
     */
     bool moveFileTo (const File& targetLocation) const;
 
@@ -499,7 +499,7 @@ public:
         If the target file already exists, this will attempt to delete it first, and
         will fail if this can't be done.
 
-        @returns    true if the operation succeeds
+        @return    true if the operation succeeds
     */
     bool copyFileTo (const File& targetLocation) const;
 
@@ -542,7 +542,7 @@ public:
         @param searchRecursively        if true, all subdirectories will be recursed into to do
                                         an exhaustive search
         @param wildCardPattern          the filename pattern to search for, e.g. "*.txt"
-        @returns                        the number of results that have been found
+        @return                        the number of results that have been found
 
         @see getNumberOfChildFiles, DirectoryIterator
     */
@@ -564,7 +564,7 @@ public:
                                 count files, directories, or both. If the ignoreHiddenFiles flag
                                 is also added to this value, hidden files won't be counted
         @param wildCardPattern  the filename pattern to search for, e.g. "*.txt"
-        @returns                the number of matches found
+        @return                the number of matches found
         @see findChildFiles, DirectoryIterator
     */
     int getNumberOfChildFiles (int whatToLookFor,
@@ -578,7 +578,7 @@ public:
     //==============================================================================
     /** Creates a stream to read from this file.
 
-        @returns    a stream that will read from this file (initially positioned at the
+        @return    a stream that will read from this file (initially positioned at the
                     start of the file), or nullptr if the file can't be opened for some reason
         @see createOutputStream, loadFileAsData
     */
@@ -590,7 +590,7 @@ public:
         writing at the end of the file, so you might want to use deleteFile() first
         to write to an empty file.
 
-        @returns    a stream that will write to this file (initially positioned at the
+        @return    a stream that will write to this file (initially positioned at the
                     end of the file), or nullptr if the file can't be opened for some reason
         @see createInputStream, appendData, appendText
     */
@@ -605,7 +605,7 @@ public:
         @param result   the data block to which the file's contents should be appended - note
                         that if the memory block might already contain some data, you
                         might want to clear it first
-        @returns        true if the file could all be read into memory
+        @return        true if the file could all be read into memory
     */
     bool loadFileAsData (MemoryBlock& result) const;
 
@@ -628,7 +628,7 @@ public:
 
         This will try to write the given buffer to the end of the file.
 
-        @returns false if it can't write to the file for some reason
+        @return false if it can't write to the file for some reason
     */
     bool appendData (const void* dataToAppend,
                      size_t numberOfBytes) const;
@@ -701,25 +701,25 @@ public:
     static void findFileSystemRoots (Array<File>& results);
 
     /** Finds the name of the drive on which this file lives.
-        @returns the volume label of the drive, or an empty string if this isn't possible
+        @return the volume label of the drive, or an empty string if this isn't possible
     */
     String getVolumeLabel() const;
 
     /** Returns the serial number of the volume on which this file lives.
-        @returns the serial number, or zero if there's a problem doing this
+        @return the serial number, or zero if there's a problem doing this
     */
     int getVolumeSerialNumber() const;
 
     /** Returns the number of bytes free on the drive that this file lives on.
 
-        @returns the number of bytes free, or 0 if there's a problem finding this out
+        @return the number of bytes free, or 0 if there's a problem finding this out
         @see getVolumeTotalSize
     */
     int64 getBytesFreeOnVolume() const;
 
     /** Returns the total size of the drive that contains this file.
 
-        @returns the total number of bytes that the volume can hold
+        @return the total number of bytes that the volume can hold
         @see getBytesFreeOnVolume
     */
     int64 getVolumeTotalSize() const;
@@ -883,7 +883,7 @@ public:
 
         For this to work the file must point to a valid directory.
 
-        @returns true if the current directory has been changed.
+        @return true if the current directory has been changed.
         @see getCurrentWorkingDirectory
     */
     bool setAsCurrentWorkingDirectory() const;

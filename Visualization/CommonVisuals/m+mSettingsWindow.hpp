@@ -124,7 +124,7 @@ namespace CommonVisuals
         buttonClicked(Button * aButton);
 
         /*! @brief Check the values of the fields against their specifications.
-         @returns @c true if all the fields are valid and @c false otherwise. */
+         @return @c true if all the fields are valid and @c false otherwise. */
         bool
         fieldsAreValid(void);
 
@@ -144,7 +144,7 @@ namespace CommonVisuals
 
         /*! @brief Called when a key is pressed.
          @param[in] key The key that was pressed.
-         @returns @c true if the key was consumed and @c false otherwise. */
+         @return @c true if the key was consumed and @c false otherwise. */
         virtual bool
         keyPressed(const KeyPress & key);
 

@@ -110,12 +110,12 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseInputService &
             operator =(const BaseInputService & other);
 
             /*! @brief Set up the output streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpOutputStreams(void);
 

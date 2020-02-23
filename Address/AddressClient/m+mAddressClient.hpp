@@ -80,7 +80,7 @@ namespace MplusM
             /*! @brief Get the address from the service.
              @param[out] address The remembered address.
              @param[out] port The remembered port.
-             @returns @c true if the address was retrieved successfully and @c false otherwise. */
+             @return @c true if the address was retrieved successfully and @c false otherwise. */
             bool
             getAddress(YarpString & address,
                        int &        port);
@@ -95,7 +95,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             AddressClient &
             operator =(const AddressClient & other);
 

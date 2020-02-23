@@ -84,7 +84,7 @@ using namespace MplusM::Utilities;
  @param[in] thePath The file path to be checked.
  @param[in] forOutput @c true if the file is to be written to and @c false otherwise.
  @param[in] emptyIsOK @c true if the file path can be empty and @c false otherwise.
- @returns @c true if the file path is acceptable and @c false otherwise. */
+ @return @c true if the file path is acceptable and @c false otherwise. */
 static bool
 checkFilePath(const char * thePath,
               const bool   forOutput,

@@ -82,7 +82,7 @@ public:
         @param hostName             the host computer, either a network address or name
         @param portNumber           the socket port number to try to connect to
         @param timeOutMillisecs     how long to keep trying before giving up
-        @returns true if the connection is established successfully
+        @return true if the connection is established successfully
         @see Socket
     */
     bool connectToSocket (const String& hostName,
@@ -98,7 +98,7 @@ public:
         @param pipeName     the name to use for the pipe - this should be unique to your app
         @param pipeReceiveMessageTimeoutMs  a timeout length to be used when reading or writing
                                             to the pipe, or -1 for an infinite timeout.
-        @returns true if it connects successfully.
+        @return true if it connects successfully.
         @see createPipe, NamedPipe
     */
     bool connectToPipe (const String& pipeName, int pipeReceiveMessageTimeoutMs);
@@ -112,7 +112,7 @@ public:
         @param pipeReceiveMessageTimeoutMs  a timeout length to be used when reading or writing
                                             to the pipe, or -1 for an infinite timeout
         @param mustNotExist   if set to true, the method will fail if the pipe already exists
-        @returns true if the pipe was created, or false if it fails (e.g. if another process is
+        @return true if the pipe was created, or false if it fails (e.g. if another process is
                  already using using the pipe)
     */
     bool createPipe (const String& pipeName, int pipeReceiveMessageTimeoutMs, bool mustNotExist = false);

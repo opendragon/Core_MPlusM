@@ -112,7 +112,7 @@ public:
         @param callback     the function to call - its signature must be @code
                             void* myCallbackFunction (void*) @endcode
         @param userData     a user-defined pointer that will be passed to the function that gets called
-        @returns            the value that the callback function returns.
+        @return            the value that the callback function returns.
         @see MessageManagerLock
     */
     void* callFunctionOnMessageThread (MessageCallbackFunction* callback, void* userData);

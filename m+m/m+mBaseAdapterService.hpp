@@ -126,27 +126,27 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseAdapterService &
             operator =(const BaseAdapterService & other);
 
             /*! @brief Set up the client streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpClientStreams(void);
 
             /*! @brief Set up the input streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpInputStreams(void);
 
             /*! @brief Set up the output streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpOutputStreams(void);
 
             /*! @brief Shut down the client streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
+             @return @c true if the channels were shut down and @c false otherwise. */
             virtual bool
             shutDownClientStreams(void);
 

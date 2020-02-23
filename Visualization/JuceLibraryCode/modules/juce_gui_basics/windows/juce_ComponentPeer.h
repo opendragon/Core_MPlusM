@@ -116,7 +116,7 @@ public:
         edited, then this changes its status.
 
         For example in OSX, this changes the appearance of the close button.
-        @returns true if the window has a mechanism for showing this, or false if not.
+        @return true if the window has a mechanism for showing this, or false if not.
     */
     virtual bool setDocumentEditedStatus (bool edited);
 

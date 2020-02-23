@@ -110,7 +110,7 @@ public:
         }
         @endcode
 
-        @returns true if the comparison was true and the value was replaced; false if
+        @return true if the comparison was true and the value was replaced; false if
                  the comparison failed and the value was left unchanged.
         @see compareAndSetValue
     */
@@ -131,7 +131,7 @@ public:
         }
         @endcode
 
-        @returns the old value before it was changed.
+        @return the old value before it was changed.
         @see compareAndSetBool
     */
     Type compareAndSetValue (Type newValue, Type valueToCompare) noexcept;

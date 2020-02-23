@@ -173,7 +173,7 @@ setUpAndGo(const YarpString & progName,
  The first argument is the IP address of the database server to be connected to.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Movement Database service.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

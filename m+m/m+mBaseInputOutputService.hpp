@@ -117,7 +117,7 @@ namespace MplusM
 
             /*! @brief Configure the input/output streams.
              @param[in] details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
+             @return @c true if the service was successfully configured and @c false otherwise. */
             virtual bool
             configure(const yarp::os::Bottle & details);
 
@@ -142,7 +142,7 @@ namespace MplusM
             gatherMetrics(yarp::os::Bottle & metrics);
 
             /*! @brief Returns the descriptions of the arguments to the application.
-             @returns The descriptions of the arguments to the application. */
+             @return The descriptions of the arguments to the application. */
             inline const Utilities::DescriptorVector &
             getArgumentDescriptions(void)
             const
@@ -151,53 +151,53 @@ namespace MplusM
             } // getArgumentDescriptions
 
             /*! @brief Returns the number of client streams.
-             @returns The number of client streams. */
+             @return The number of client streams. */
             size_t
             getClientCount(void)
             const;
 
             /*! @brief Returns a specific client stream.
              @param[in] index The zero-origin index of the client stream.
-             @returns The client stream at the specified index. */
+             @return The client stream at the specified index. */
             ClientChannel *
             getClientStream(const size_t index)
             const;
 
             /*! @brief Get the configuration of the input/output streams.
              @param[out] details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
+             @return @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool
             getConfiguration(yarp::os::Bottle & details);
 
             /*! @brief Returns the number of input streams.
-             @returns The number of input streams. */
+             @return The number of input streams. */
             size_t
             getInletCount(void)
             const;
 
             /*! @brief Returns a specific input stream.
              @param[in] index The zero-origin index of the input stream.
-             @returns The input stream at the specified index. */
+             @return The input stream at the specified index. */
             GeneralChannel *
             getInletStream(const size_t index)
             const;
 
             /*! @brief Returns the number of output streams.
-             @returns The number of output streams. */
+             @return The number of output streams. */
             size_t
             getOutletCount(void)
             const;
 
             /*! @brief Returns a specific output stream.
              @param[in] index The zero-origin index of the output stream.
-             @returns The output stream at the specified index. */
+             @return The output stream at the specified index. */
             GeneralChannel *
             getOutletStream(const size_t index)
             const;
 
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
-             @returns @c true if the streams are processing data and @c false otherwise. */
+             @return @c true if the streams are processing data and @c false otherwise. */
             inline bool
             isActive(void)
             const
@@ -226,7 +226,7 @@ namespace MplusM
             restartStreams(void);
 
             /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
+             @return @c true if the service was started and @c false if it was not. */
             virtual bool
             startService(void);
 
@@ -235,7 +235,7 @@ namespace MplusM
             startStreams(void) = 0;
 
             /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
+             @return @c true if the service was stopped and @c false it if was not. */
             virtual bool
             stopService(void);
 
@@ -253,19 +253,19 @@ namespace MplusM
 
             /*! @brief Add a set of client channels from a set of descriptions.
              @param[in] descriptions The descriptions of the channels.
-             @returns @c true if the channels were constructed and @c false otherwise. */
+             @return @c true if the channels were constructed and @c false otherwise. */
             bool
             addClientStreamsFromDescriptions(const ChannelVector & descriptions);
 
             /*! @brief Add a set of input channels from a set of descriptions.
              @param[in] descriptions The descriptions of the channels.
-             @returns @c true if the channels were constructed and @c false otherwise. */
+             @return @c true if the channels were constructed and @c false otherwise. */
             bool
             addInStreamsFromDescriptions(const ChannelVector & descriptions);
 
             /*! @brief Add a set of output channels from a set of descriptions.
              @param[in] descriptions The descriptions of the channels.
-             @returns @c true if the channels were constructed and @c false otherwise. */
+             @return @c true if the channels were constructed and @c false otherwise. */
             bool
             addOutStreamsFromDescriptions(const ChannelVector & descriptions);
 
@@ -306,38 +306,38 @@ namespace MplusM
             } // setNeedsIdle
 
             /*! @brief Set up the client streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpClientStreams(void);
 
             /*! @brief Set up the input streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpInputStreams(void);
 
             /*! @brief Set up the output streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
+             @return @c true if the channels were set up and @c false otherwise. */
             virtual bool
             setUpOutputStreams(void);
 
             /*! @brief Set up the descriptions that will be used to construct the input / output
              streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
+             @return @c true if the descriptions were set up and @c false otherwise. */
             virtual bool
             setUpStreamDescriptions(void) = 0;
 
             /*! @brief Shut down the client streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
+             @return @c true if the channels were shut down and @c false otherwise. */
             virtual bool
             shutDownClientStreams(void);
 
             /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
+             @return @c true if the channels were shut down and @c false otherwise. */
             virtual bool
             shutDownInputStreams(void);
 
             /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
+             @return @c true if the channels were shut down and @c false otherwise. */
             virtual bool
             shutDownOutputStreams(void);
 
@@ -372,7 +372,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             BaseInputOutputService &
             operator =(const BaseInputOutputService & other);
 

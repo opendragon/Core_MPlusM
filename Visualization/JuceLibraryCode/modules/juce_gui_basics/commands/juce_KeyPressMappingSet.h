@@ -164,7 +164,7 @@ public:
 
     //==============================================================================
     /** Looks for a command that corresponds to a keypress.
-        @returns the UID of the command or 0 if none was found
+        @return the UID of the command or 0 if none was found
     */
     CommandID findCommandForKeyPress (const KeyPress& keyPress) const noexcept;
 
@@ -181,7 +181,7 @@ public:
         on top. If the saved set was created with createXml (false), then this method
         will first clear all existing mappings and load the saved ones as a complete set.
 
-        @returns true if it manages to load the XML correctly
+        @return true if it manages to load the XML correctly
         @see createXml
     */
     bool restoreFromXml (const XmlElement& xmlVersion);

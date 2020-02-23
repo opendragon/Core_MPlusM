@@ -149,7 +149,7 @@ namespace MplusM
 
             /*! @brief Check a field name for validity.
              @param[in] aString The string to be checked.
-             @returns @c true if the field name was valid or @c false if the field name was
+             @return @c true if the field name was valid or @c false if the field name was
              invalid. */
             virtual bool
             checkName(const char * aString);
@@ -158,7 +158,7 @@ namespace MplusM
              @param[in] aString The string to be checked.
              @param[in,out] prefixString The string to be used in the SQL prefix for this field.
              @param[in,out] suffixString The string to be used in the SQL suffix for this field.
-             @returns The actual field name to be used or @c NULL if the field name was
+             @return The actual field name to be used or @c NULL if the field name was
              unmatched. */
             virtual const char *
             getPrefixAndSuffix(const char *   aString,
@@ -167,7 +167,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             ColumnNameValidator &
             operator =(const ColumnNameValidator & other);
 

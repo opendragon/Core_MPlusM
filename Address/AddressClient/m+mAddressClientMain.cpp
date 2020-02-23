@@ -88,7 +88,7 @@ using std::endl;
  @param[in,out] namePattern The generated search value.
  @param[out] needsAddress @c true if the IP address is requested and @c false otherwise.
  @param[out] needsPort @c true if the port is requested and @c false otherwise.
- @returns @c true if the mode was recognized and @c false otherwise. */
+ @return @c true if the mode was recognized and @c false otherwise. */
 static bool
 processArguments(const YarpString & outputMode,
                  const YarpString & tag,
@@ -286,7 +286,7 @@ setUpAndGo(const YarpString &  outputMode,
 /*! @brief The entry point for communicating with the Address service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the Address client.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

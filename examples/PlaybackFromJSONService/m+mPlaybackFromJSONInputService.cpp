@@ -289,7 +289,7 @@ addJSONValueToMessage(yarp::os::Bottle &       outMessage,
 /*! @brief Convert JSON-formatted input into the expected message format.
  @param[in,out] outMessage The output message buffer to be used.
  @param[in] inData The input JSON-formatted data.
- @returns @c true if the input data is recognized as the correct format for JSON-formatted message
+ @return @c true if the input data is recognized as the correct format for JSON-formatted message
  data and @c false otherwise. */
 static bool
 convertJSONtoMessage(yarp::os::Bottle &    outMessage,

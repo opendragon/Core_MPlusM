@@ -112,7 +112,7 @@ public:
     bool isTimerRunning() const noexcept                    { return timerPeriodMs > 0; }
 
     /** Returns the timer's interval.
-        @returns the timer's interval in milliseconds if it's running, or 0 if it's not.
+        @return the timer's interval in milliseconds if it's running, or 0 if it's not.
     */
     int getTimerInterval() const noexcept                   { return timerPeriodMs; }
 

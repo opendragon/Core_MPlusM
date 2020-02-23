@@ -79,24 +79,24 @@ namespace MplusM
 
             /*! @brief Add a file entry to the backend database.
              @param[in] filePath The filesystem path to the file.
-             @returns @c true if the file entry was added successfully and @c false otherwise. */
+             @return @c true if the file entry was added successfully and @c false otherwise. */
             bool
             addFileToDb(const YarpString & filePath);
 
             /*! @brief Set the active data track.
              @param[in] dataTrack The data track to use with subsequent files.
-             @returns @c true if the data track was successfully set and @c false otherwise. */
+             @return @c true if the data track was successfully set and @c false otherwise. */
             bool
             setDataTrackForDb(const YarpString & dataTrack);
 
             /*! @brief Set the active e-mail address.
              @param[in] emailAddress The e-mail address of the user that will own subsequent files.
-             @returns @c true if the e-mail address was successfully set and @c false otherwise. */
+             @return @c true if the e-mail address was successfully set and @c false otherwise. */
             bool
             setEmailAddressForDb(const YarpString & emailAddress);
 
             /*! @brief Stop the database connection for this client.
-             @returns @c true if the service handled the request and @c false otherwise. */
+             @return @c true if the service handled the request and @c false otherwise. */
             bool
             stopDbConnection(void);
 
@@ -110,7 +110,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MovementDbClient &
             operator =(const MovementDbClient & other);
 

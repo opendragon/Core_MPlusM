@@ -194,7 +194,7 @@ namespace Leap {
      * IDs should be from 1 to 100 (inclusive). If more than 100 objects are tracked
      * an IDs of -1 will be used until an ID in the defined range is available.
      *
-     * @returns The ID assigned to this Pointable object.
+     * @return The ID assigned to this Pointable object.
      * @since 1.0
      */
     LEAP_EXPORT int32_t id() const;
@@ -204,7 +204,7 @@ namespace Leap {
      *
      * \include Pointable_frame.txt
      *
-     * @returns The associated Frame object, if available; otherwise,
+     * @return The associated Frame object, if available; otherwise,
      * an invalid Frame object is returned.
      * @since 1.0
      */
@@ -218,7 +218,7 @@ namespace Leap {
      * Not that in version 2+, tools are not associated with hands. For
      * tools, this function always returns an invalid Hand object.
      *
-     * @returns The associated Hand object, if available; otherwise,
+     * @return The associated Hand object, if available; otherwise,
      * an invalid Hand object is returned.
      * @since 1.0
      */
@@ -229,7 +229,7 @@ namespace Leap {
      *
      * \include Pointable_tipPosition.txt
      *
-     * @returns The Vector containing the coordinates of the tip position.
+     * @return The Vector containing the coordinates of the tip position.
      * @since 1.0
      */
     LEAP_EXPORT Vector tipPosition() const;
@@ -239,7 +239,7 @@ namespace Leap {
      *
      * \include Pointable_tipVelocity.txt
      *
-     * @returns The Vector containing the coordinates of the tip velocity.
+     * @return The Vector containing the coordinates of the tip velocity.
      * @since 1.0
      */
     LEAP_EXPORT Vector tipVelocity() const;
@@ -254,7 +254,7 @@ namespace Leap {
      *
      * \image html images/Leap_Finger_Model.png
      *
-     * @returns The Vector pointing in the same direction as the tip of this
+     * @return The Vector pointing in the same direction as the tip of this
      * Pointable object.
      * @since 1.0
      */
@@ -265,7 +265,7 @@ namespace Leap {
      *
      * \include Pointable_width.txt
      *
-     * @returns The estimated width of this Pointable object.
+     * @return The estimated width of this Pointable object.
      * @since 1.0
      */
     LEAP_EXPORT float width() const;
@@ -275,7 +275,7 @@ namespace Leap {
      *
      * \include Pointable_length.txt
      *
-     * @returns The estimated length of this Pointable object.
+     * @return The estimated length of this Pointable object.
      * @since 1.0
      */
     LEAP_EXPORT float length() const;
@@ -285,7 +285,7 @@ namespace Leap {
      *
      * \include Pointable_Conversion.txt
      *
-     * @returns True, if this Pointable is classified as a finger.
+     * @return True, if this Pointable is classified as a finger.
      * @since 1.0
      */
     LEAP_EXPORT bool isFinger() const;
@@ -295,7 +295,7 @@ namespace Leap {
      *
      * \include Pointable_Conversion.txt
      *
-     * @returns True, if this Pointable is classified as a tool.
+     * @return True, if this Pointable is classified as a tool.
      * @since 1.0
      */
     LEAP_EXPORT bool isTool() const;
@@ -309,7 +309,7 @@ namespace Leap {
      *
      * \include Finger_isExtended.txt
      *
-     * @returns True, if the pointable is extended.
+     * @return True, if the pointable is extended.
      * @since 2.0
      */
     LEAP_EXPORT bool isExtended() const;
@@ -319,7 +319,7 @@ namespace Leap {
      *
      * \include Pointable_isValid.txt
      *
-     * @returns True, if this Pointable object contains valid tracking data.
+     * @return True, if this Pointable object contains valid tracking data.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -347,7 +347,7 @@ namespace Leap {
      *
      * \include Pointable_touchZone.txt
      *
-     * @returns The touch zone of this Pointable
+     * @return The touch zone of this Pointable
      * @since 1.0
      */
     LEAP_EXPORT Zone touchZone() const;
@@ -370,7 +370,7 @@ namespace Leap {
      * You can use the touchDistance value to modulate visual feedback given to the
      * user as their fingers close in on a touch target, such as a button.
      *
-     * @returns The normalized touch distance of this Pointable object.
+     * @return The normalized touch distance of this Pointable object.
      * @since 1.0
      */
     LEAP_EXPORT float touchDistance() const;
@@ -385,7 +385,7 @@ namespace Leap {
      *
      * \include Pointable_stabilizedTipPosition.txt
      *
-     * @returns A modified tip position of this Pointable object
+     * @return A modified tip position of this Pointable object
      * with some additional smoothing and stabilization applied.
      * @since 1.0
      */
@@ -396,7 +396,7 @@ namespace Leap {
      *
      * \include Pointable_timeVisible.txt
      *
-     * @returns The duration (in seconds) that this Pointable has been tracked.
+     * @return The duration (in seconds) that this Pointable has been tracked.
      * @since 1.0
      */
     LEAP_EXPORT float timeVisible() const;
@@ -410,7 +410,7 @@ namespace Leap {
      *
      * \include Pointable_invalid.txt
      *
-     * @returns The invalid Pointable instance.
+     * @return The invalid Pointable instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Pointable& invalid();
@@ -449,7 +449,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Pointable object.
      *
-     * @returns A description of the Pointable object as a string.
+     * @return A description of the Pointable object as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -528,7 +528,7 @@ namespace Leap {
      * representation is not mathematically valid. If you use quaternions,
      * create them from the derived rotation matrix not directly from the bases.
      *
-     * @returns The basis of the arm bone as a matrix.
+     * @return The basis of the arm bone as a matrix.
      * @since 2.0.3
      */
     LEAP_EXPORT Matrix basis() const;
@@ -573,7 +573,7 @@ namespace Leap {
     *
     * \include Arm_isValid.txt
     *
-    * @returns True, if this Arm object contains valid tracking data.
+    * @return True, if this Arm object contains valid tracking data.
     * @since 2.0.3
     */
     LEAP_EXPORT bool isValid() const;
@@ -583,7 +583,7 @@ namespace Leap {
      *
      * \include Arm_invalid.txt
      *
-     * @returns The invalid Arm instance.
+     * @return The invalid Arm instance.
      * @since 2.0.3
      */
     LEAP_EXPORT static const Arm& invalid();
@@ -624,7 +624,7 @@ namespace Leap {
     *
     * \include Arm_toString.txt
     *
-    * @returns A description of the Arm object as a string.
+    * @return A description of the Arm object as a string.
     * @since 2.0.3
     */
     std::string toString() const {
@@ -696,7 +696,7 @@ namespace Leap {
 
      * \include Bone_prevJoint.txt
      *
-     * @returns The Vector containing the coordinates of the previous joint position.
+     * @return The Vector containing the coordinates of the previous joint position.
      * @since 2.0
      */
     LEAP_EXPORT Vector prevJoint() const;
@@ -708,7 +708,7 @@ namespace Leap {
      *
      * \include Bone_nextJoint.txt
      *
-     * @returns The Vector containing the coordinates of the next joint position.
+     * @return The Vector containing the coordinates of the next joint position.
      * @since 2.0
      */
     LEAP_EXPORT Vector nextJoint() const;
@@ -718,7 +718,7 @@ namespace Leap {
      *
      * \include Bone_center.txt
      *
-     * @returns The midpoint in the center of the bone.
+     * @return The midpoint in the center of the bone.
      * @since 2.0
      */
     LEAP_EXPORT Vector center() const;
@@ -728,7 +728,7 @@ namespace Leap {
      *
      * \include Bone_direction.txt
      *
-     * @returns The normalized direction of the bone from base to tip.
+     * @return The normalized direction of the bone from base to tip.
      * @since 2.0
      */
     LEAP_EXPORT Vector direction() const;
@@ -738,7 +738,7 @@ namespace Leap {
      *
      * \include Bone_length.txt
      *
-     * @returns The length of the bone in millimeters.
+     * @return The length of the bone in millimeters.
      * @since 2.0
      */
     LEAP_EXPORT float length() const;
@@ -748,7 +748,7 @@ namespace Leap {
      *
      * \include Bone_width.txt
      *
-     * @returns The width of the flesh around the bone in millimeters.
+     * @return The width of the flesh around the bone in millimeters.
      * @since 2.0
      */
     LEAP_EXPORT float width() const;
@@ -758,7 +758,7 @@ namespace Leap {
      *
      * \include Bone_type.txt
      *
-     * @returns The anatomical type of this bone as a member of the Bone::Type
+     * @return The anatomical type of this bone as a member of the Bone::Type
      * enumeration.
      * @since 2.0
      */
@@ -794,7 +794,7 @@ namespace Leap {
      *
      * \include Bone_basis.txt
      *
-     * @returns The basis of the bone as a matrix.
+     * @return The basis of the bone as a matrix.
      * @since 2.0
      */
     LEAP_EXPORT Matrix basis() const;
@@ -804,7 +804,7 @@ namespace Leap {
      *
      * \include Bone_isValid.txt
      *
-     * @returns True, if this Bone object contains valid tracking data.
+     * @return True, if this Bone object contains valid tracking data.
      * @since 2.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -818,7 +818,7 @@ namespace Leap {
      *
      * \include Bone_invalid.txt
      *
-     * @returns The invalid Bone instance.
+     * @return The invalid Bone instance.
      * @since 2.0
      */
     LEAP_EXPORT static const Bone& invalid();
@@ -853,7 +853,7 @@ namespace Leap {
      *
      * \include Bone_toString.txt
      *
-     * @returns A description of the Bone object as a string.
+     * @return A description of the Bone object as a string.
      * @since 2.0
      */
     std::string toString() const {
@@ -950,7 +950,7 @@ namespace Leap {
      *
      * @param boneIx An index value from the Bone::Type enumeration identifying the
      * bone of interest.
-     * @returns The Bone that has the specified bone type.
+     * @return The Bone that has the specified bone type.
      * @since 2.0
      */
     LEAP_EXPORT Bone bone(Bone::Type boneIx) const;
@@ -960,7 +960,7 @@ namespace Leap {
      *
      * \include Finger_type.txt
      *
-     * @returns The anatomical type of this finger as a member of the Finger::Type
+     * @return The anatomical type of this finger as a member of the Finger::Type
      * enumeration.
      * @since 2.0
      */
@@ -975,7 +975,7 @@ namespace Leap {
      *
      * \include Finger_invalid.txt
      *
-     * @returns The invalid Finger instance.
+     * @return The invalid Finger instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Finger& invalid();
@@ -985,7 +985,7 @@ namespace Leap {
      *
      * \include Finger_toString.txt
      *
-     * @returns A description of the Finger object as a string.
+     * @return A description of the Finger object as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -1052,7 +1052,7 @@ namespace Leap {
      *
      * \include Tool_invalid.txt
      *
-     * @returns The invalid Tool instance.
+     * @return The invalid Tool instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Tool& invalid();
@@ -1060,7 +1060,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Tool object.
      *
-     * @returns A description of the Tool object as a string.
+     * @return A description of the Tool object as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -1122,7 +1122,7 @@ namespace Leap {
      *
      * \include Hand_Get_ID.txt
      *
-     * @returns The ID of this hand.
+     * @return The ID of this hand.
      * @since 1.0
      */
     LEAP_EXPORT int32_t id() const;
@@ -1132,7 +1132,7 @@ namespace Leap {
      *
      * \include Hand_frame.txt
      *
-     * @returns The associated Frame object, if available; otherwise,
+     * @return The associated Frame object, if available; otherwise,
      * an invalid Frame object is returned.
      * @since 1.0
      */
@@ -1147,7 +1147,7 @@ namespace Leap {
      *
      * \include Hand_Get_Fingers.txt
      *
-     * @returns The PointableList containing all Pointable objects associated with this hand.
+     * @return The PointableList containing all Pointable objects associated with this hand.
      * @since 1.0
      */
     LEAP_EXPORT PointableList pointables() const;
@@ -1169,7 +1169,7 @@ namespace Leap {
      * different ID than in an earlier frame.
      *
      * @param id The ID value of a Pointable object from a previous frame.
-     * @returns The Pointable object with the matching ID if one exists for this
+     * @return The Pointable object with the matching ID if one exists for this
      * hand in this frame; otherwise, an invalid Pointable object is returned.
      * @since 1.0
      */
@@ -1183,7 +1183,7 @@ namespace Leap {
      *
      * \include Hand_Get_Fingers.txt
      *
-     * @returns The FingerList containing all Finger objects attached to this hand.
+     * @return The FingerList containing all Finger objects attached to this hand.
      * @since 1.0
      */
     LEAP_EXPORT FingerList fingers() const;
@@ -1204,7 +1204,7 @@ namespace Leap {
      * different ID than that representing the finger in an earlier frame.
      *
      * @param id The ID value of a Finger object from a previous frame.
-     * @returns The Finger object with the matching ID if one exists for this
+     * @return The Finger object with the matching ID if one exists for this
      * hand in this frame; otherwise, an invalid Finger object is returned.
      * @since 1.0
      */
@@ -1217,7 +1217,7 @@ namespace Leap {
      *
      * \include Hand_tools.txt
      *
-     * @returns The ToolList containing all Tool objects held by this hand.
+     * @return The ToolList containing all Tool objects held by this hand.
      * @since 1.0
      */
      /**
@@ -1244,7 +1244,7 @@ namespace Leap {
      * different ID than that representing the tool in an earlier frame.
      *
      * @param id The ID value of a Tool object from a previous frame.
-     * @returns The Tool object with the matching ID if one exists for this
+     * @return The Tool object with the matching ID if one exists for this
      * hand in this frame; otherwise, an invalid Tool object is returned.
      * @since 1.0
      */
@@ -1261,7 +1261,7 @@ namespace Leap {
      *
      * \include Hand_palmPosition.txt
      *
-     * @returns The Vector representing the coordinates of the palm position.
+     * @return The Vector representing the coordinates of the palm position.
      * @since 1.0
      */
     LEAP_EXPORT Vector palmPosition() const;
@@ -1276,7 +1276,7 @@ namespace Leap {
      *
      * \include Hand_stabilizedPalmPosition.txt
      *
-     * @returns A modified palm position of this Hand object
+     * @return A modified palm position of this Hand object
      * with some additional smoothing and stabilization applied.
      * @since 1.0
      */
@@ -1287,7 +1287,7 @@ namespace Leap {
      *
      * \include Hand_palmVelocity.txt
      *
-     * @returns The Vector representing the coordinates of the palm velocity.
+     * @return The Vector representing the coordinates of the palm velocity.
      * @since 1.0
      */
     LEAP_EXPORT Vector palmVelocity() const;
@@ -1306,7 +1306,7 @@ namespace Leap {
      *
      * \include Hand_Get_Angles.txt
      *
-     * @returns The Vector normal to the plane formed by the palm.
+     * @return The Vector normal to the plane formed by the palm.
      * @since 1.0
      */
     LEAP_EXPORT Vector palmNormal() const;
@@ -1316,7 +1316,7 @@ namespace Leap {
      *
      * \include Hand_palmWidth.txt
      *
-     * @returns The width of the palm in millimeters
+     * @return The width of the palm in millimeters
      * @since 2.0
      */
     LEAP_EXPORT float palmWidth() const;
@@ -1332,7 +1332,7 @@ namespace Leap {
      *
      * \include Hand_Get_Angles.txt
      *
-     * @returns The Vector pointing from the palm position toward the fingers.
+     * @return The Vector pointing from the palm position toward the fingers.
      * @since 1.0
      */
     LEAP_EXPORT Vector direction() const;
@@ -1353,7 +1353,7 @@ namespace Leap {
      *
      * \include Hand_basis.txt
      *
-     * @returns The basis of the hand as a matrix.
+     * @return The basis of the hand as a matrix.
      * @since 2.0
      */
     LEAP_EXPORT Matrix basis() const;
@@ -1366,7 +1366,7 @@ namespace Leap {
      *
      * \include Arm_get.txt
      *
-     * @returns The Arm object for this hand.
+     * @return The Arm object for this hand.
      * @since 2.0.3
      */
     LEAP_EXPORT Arm arm() const;
@@ -1374,7 +1374,7 @@ namespace Leap {
     /**
      * The position of the wrist of this hand.
      *
-     * @returns A vector containing the coordinates of the wrist position in millimeters.
+     * @return A vector containing the coordinates of the wrist position in millimeters.
      * @since 2.0.3
      */
     LEAP_EXPORT Vector wristPosition() const;
@@ -1388,7 +1388,7 @@ namespace Leap {
      *
      * \image html images/Leap_Hand_Ball.png
      *
-     * @returns The Vector representing the center position of the sphere.
+     * @return The Vector representing the center position of the sphere.
      * @since 1.0
      */
     LEAP_EXPORT Vector sphereCenter() const;
@@ -1401,7 +1401,7 @@ namespace Leap {
      *
      * \include Hand_sphereRadius.txt
      *
-     * @returns The radius of the sphere in millimeters.
+     * @return The radius of the sphere in millimeters.
      * @since 1.0
      */
     LEAP_EXPORT float sphereRadius() const;
@@ -1415,7 +1415,7 @@ namespace Leap {
      *
      * \include Hand_pinchStrength.txt
      *
-     * @returns A float value in the [0..1] range representing the holding strength
+     * @return A float value in the [0..1] range representing the holding strength
      * of the pinch pose.
      * @since 2.0
      */
@@ -1429,7 +1429,7 @@ namespace Leap {
      *
      * \include Hand_grabStrength.txt
      *
-     * @returns A float value in the [0..1] range representing the holding strength
+     * @return A float value in the [0..1] range representing the holding strength
      * of the pose.
      * @since 2.0
      */
@@ -1449,7 +1449,7 @@ namespace Leap {
      * returns a zero vector.
      *
      * @param sinceFrame The starting frame for computing the translation.
-     * @returns A Vector representing the heuristically determined change in
+     * @return A Vector representing the heuristically determined change in
      * hand position between the current frame and that specified in the
      * sinceFrame parameter.
      * @since 1.0
@@ -1467,7 +1467,7 @@ namespace Leap {
      * returns zero.
      *
      * @param sinceFrame The starting frame for computing the translation.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the hand motion between the current frame and the specified frame
      * is intended to be a translating motion.
      * @since 1.0
@@ -1488,7 +1488,7 @@ namespace Leap {
      * returns a zero vector.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A normalized direction Vector representing the heuristically
+     * @return A normalized direction Vector representing the heuristically
      * determined axis of rotational change of the hand between the current
      * frame and that specified in the sinceFrame parameter.
      * @since 1.0
@@ -1511,7 +1511,7 @@ namespace Leap {
      * rotation is zero.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A positive value representing the heuristically determined
+     * @return A positive value representing the heuristically determined
      * rotational change of the hand between the current frame and that
      * specified in the sinceFrame parameter.
      * @since 1.0
@@ -1535,7 +1535,7 @@ namespace Leap {
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
      * @param axis The axis to measure rotation around.
-     * @returns A value representing the heuristically determined rotational
+     * @return A value representing the heuristically determined rotational
      * change of the hand between the current frame and that specified in the
      * sinceFrame parameter around the specified axis.
      * @since 1.0
@@ -1554,7 +1554,7 @@ namespace Leap {
      * returns an identity matrix.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A transformation Matrix representing the heuristically determined
+     * @return A transformation Matrix representing the heuristically determined
      * rotational change of the hand between the current frame and that specified
      * in the sinceFrame parameter.
      * @since 1.0
@@ -1572,7 +1572,7 @@ namespace Leap {
      * returns zero.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the hand motion between the current frame and the specified frame
      * is intended to be a rotating motion.
      * @since 1.0
@@ -1598,7 +1598,7 @@ namespace Leap {
      * returns 1.0.
      *
      * @param sinceFrame The starting frame for computing the relative scaling.
-     * @returns A positive value representing the heuristically determined
+     * @return A positive value representing the heuristically determined
      * scaling change ratio of the hand between the current frame and that
      * specified in the sinceFrame parameter.
      * @since 1.0
@@ -1616,7 +1616,7 @@ namespace Leap {
      * returns zero.
      *
      * @param sinceFrame The starting frame for computing the relative scaling.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the hand motion between the current frame and the specified frame
      * is intended to be a scaling motion.
      * @since 1.0
@@ -1628,7 +1628,7 @@ namespace Leap {
      *
      * \include Hand_timeVisible.txt
      *
-     * @returns The duration (in seconds) that this Hand has been tracked.
+     * @return The duration (in seconds) that this Hand has been tracked.
      * @since 1.0
      */
     LEAP_EXPORT float timeVisible() const;
@@ -1649,7 +1649,7 @@ namespace Leap {
      *
      * \include Hand_isLeft.txt
      *
-     * @returns True if the hand is identified as a left hand.
+     * @return True if the hand is identified as a left hand.
      * @since 2.0
      */
     LEAP_EXPORT bool isLeft() const;
@@ -1659,7 +1659,7 @@ namespace Leap {
      *
      * \include Hand_isRight.txt
      *
-     * @returns True if the hand is identified as a right hand.
+     * @return True if the hand is identified as a right hand.
      * @since 2.0
      */
     LEAP_EXPORT bool isRight() const;
@@ -1669,7 +1669,7 @@ namespace Leap {
      *
      * \include Hand_isValid.txt
      *
-     * @returns True, if this Hand object contains valid tracking data.
+     * @return True, if this Hand object contains valid tracking data.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -1683,7 +1683,7 @@ namespace Leap {
      * whether a given Hand instance is valid or invalid. (You can also use the
      * Hand::isValid() function.)
      *
-     * @returns The invalid Hand instance.
+     * @return The invalid Hand instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Hand& invalid();
@@ -1722,7 +1722,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Hand object.
      *
-     * @returns A description of the Hand as a string.
+     * @return A description of the Hand as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -1912,7 +1912,7 @@ namespace Leap {
      *
      * \include Gesture_type.txt
      *
-     * @returns Gesture::Type A value from the Gesture::Type enumeration.
+     * @return Gesture::Type A value from the Gesture::Type enumeration.
      * @since 1.0
      */
     LEAP_EXPORT Type type() const;
@@ -1926,7 +1926,7 @@ namespace Leap {
      *
      * \include Gesture_state.txt
      *
-     * @returns Gesture::State A value from the Gesture::State enumeration.
+     * @return Gesture::State A value from the Gesture::State enumeration.
      * @since 1.0
      */
     LEAP_EXPORT State state() const;
@@ -1940,7 +1940,7 @@ namespace Leap {
      *
      * \include Gesture_id.txt
      *
-     * @returns int32_t the ID of this Gesture.
+     * @return int32_t the ID of this Gesture.
      * @since 1.0
      */
     LEAP_EXPORT int32_t id() const;
@@ -2019,7 +2019,7 @@ namespace Leap {
      *
      * \include Gesture_isValid.txt
      *
-     * @returns bool True, if this is a valid Gesture instance; false, otherwise.
+     * @return bool True, if this is a valid Gesture instance; false, otherwise.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -2070,7 +2070,7 @@ namespace Leap {
      *
      * \include Gesture_invalid.txt
      *
-     * @returns The invalid Gesture instance.
+     * @return The invalid Gesture instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Gesture& invalid();
@@ -2124,7 +2124,7 @@ namespace Leap {
      *
      * \include SwipeGesture_classType.txt
      *
-     * @returns Type The type value designating a swipe gesture.
+     * @return Type The type value designating a swipe gesture.
      * @since 1.0
      */
     static Type classType() { return TYPE_SWIPE; }
@@ -2147,7 +2147,7 @@ namespace Leap {
      *
      * \include SwipeGesture_startPosition.txt
      *
-     * @returns Vector The starting position within the Leap Motion frame of
+     * @return Vector The starting position within the Leap Motion frame of
      * reference, in mm.
      * @since 1.0
      */
@@ -2158,7 +2158,7 @@ namespace Leap {
      *
      * \include SwipeGesture_position.txt
      *
-     * @returns Vector The current swipe position within the Leap Motion frame of
+     * @return Vector The current swipe position within the Leap Motion frame of
      * reference, in mm.
      * @since 1.0
      */
@@ -2174,7 +2174,7 @@ namespace Leap {
      * for two dimensional scrolling, you can compare the x and y values to
      * determine if the swipe is primarily horizontal or vertical.
      *
-     * @returns Vector The unit direction vector representing the swipe
+     * @return Vector The unit direction vector representing the swipe
      * motion.
      * @since 1.0
      */
@@ -2185,7 +2185,7 @@ namespace Leap {
      *
      * \include SwipeGesture_speed.txt
      *
-     * @returns float The speed of the finger performing the swipe gesture in
+     * @return float The speed of the finger performing the swipe gesture in
      * millimeters per second.
      * @since 1.0
      */
@@ -2196,7 +2196,7 @@ namespace Leap {
      *
      * \include SwipeGesture_pointable.txt
      *
-     * @returns Pointable A Pointable object representing the swiping finger.
+     * @return Pointable A Pointable object representing the swiping finger.
      * @since 1.0
      */
     LEAP_EXPORT Pointable pointable() const;
@@ -2256,7 +2256,7 @@ namespace Leap {
      *
      * \include CircleGesture_classType.txt
      *
-     * @returns Type The type value designating a circle gesture.
+     * @return Type The type value designating a circle gesture.
      * @since 1.0
      */
     static Type classType() { return TYPE_CIRCLE; }
@@ -2285,7 +2285,7 @@ namespace Leap {
      * The center point of the circle within the Leap Motion frame of reference.
      *
      * \include CircleGesture_center.txt
-     * @returns Vector The center of the circle in mm from the Leap Motion origin.
+     * @return Vector The center of the circle in mm from the Leap Motion origin.
      * @since 1.0
      */
     LEAP_EXPORT Vector center() const;
@@ -2321,7 +2321,7 @@ namespace Leap {
      * will be greater than zero when a circle gesture first appears in the
      * frame.
      *
-     * @returns float A positive number indicating the gesture progress.
+     * @return float A positive number indicating the gesture progress.
      * @since 1.0
      */
     LEAP_EXPORT float progress() const;
@@ -2331,7 +2331,7 @@ namespace Leap {
      *
      * \include CircleGesture_radius.txt
      *
-     * @returns The circle radius in mm.
+     * @return The circle radius in mm.
      * @since 1.0
      */
     LEAP_EXPORT float radius() const;
@@ -2341,7 +2341,7 @@ namespace Leap {
      *
      * \include CircleGesture_pointable.txt
      *
-     * @returns Pointable A Pointable object representing the circling finger.
+     * @return Pointable A Pointable object representing the circling finger.
      * @since 1.0
      */
     LEAP_EXPORT Pointable pointable() const;
@@ -2398,7 +2398,7 @@ namespace Leap {
      *
      * \include ScreenTapGesture_classType.txt
      *
-     * @returns Type The type value designating a screen tap gesture.
+     * @return Type The type value designating a screen tap gesture.
      * @since 1.0
      */
     static Type classType() { return TYPE_SCREEN_TAP; }
@@ -2438,7 +2438,7 @@ namespace Leap {
      *
      * \include ScreenTapGesture_direction.txt
      *
-     * @returns Vector A unit direction vector.
+     * @return Vector A unit direction vector.
      * @since 1.0
      */
     LEAP_EXPORT Vector direction() const;
@@ -2446,7 +2446,7 @@ namespace Leap {
     /**
      * The progress value is always 1.0 for a screen tap gesture.
      *
-     * @returns float The value 1.0.
+     * @return float The value 1.0.
      * @since 1.0
      */
     LEAP_EXPORT float progress() const;
@@ -2456,7 +2456,7 @@ namespace Leap {
      *
      * \include ScreenTapGesture_pointable.txt
      *
-     * @returns Pointable A Pointable object representing the tapping finger.
+     * @return Pointable A Pointable object representing the tapping finger.
      * @since 1.0
      */
     LEAP_EXPORT Pointable pointable() const;
@@ -2514,7 +2514,7 @@ namespace Leap {
      *
      * \include KeyTapGesture_classType.txt
      *
-     * @returns Type The type value designating a key tap gesture.
+     * @return Type The type value designating a key tap gesture.
      * @since 1.0
      */
     static Type classType() { return TYPE_KEY_TAP; }
@@ -2554,7 +2554,7 @@ namespace Leap {
      *
      * \include KeyTapGesture_direction.txt
      *
-     * @returns Vector A unit direction vector if the finger tip is moving;
+     * @return Vector A unit direction vector if the finger tip is moving;
      * otherwise, a zero-vector.
      * @since 1.0
      */
@@ -2563,7 +2563,7 @@ namespace Leap {
     /**
      * The progress value is always 1.0 for a key tap gesture.
      *
-     * @returns float The value 1.0.
+     * @return float The value 1.0.
      * @since 1.0
      */
     LEAP_EXPORT float progress() const;
@@ -2573,7 +2573,7 @@ namespace Leap {
      *
      * \include KeyTapGesture_pointable.txt
      *
-     * @returns Pointable A Pointable object representing the tapping finger.
+     * @return Pointable A Pointable object representing the tapping finger.
      * @since 1.0
      */
     LEAP_EXPORT Pointable pointable() const;
@@ -2701,7 +2701,7 @@ namespace Leap {
      *
      * \include Device_horizontalViewAngle.txt
      *
-     * @returns The horizontal angle of view in radians.
+     * @return The horizontal angle of view in radians.
      * @since 1.0
      */
     LEAP_EXPORT float horizontalViewAngle() const;
@@ -2717,7 +2717,7 @@ namespace Leap {
      *
      * \include Device_verticalViewAngle.txt
      *
-     * @returns The vertical angle of view in radians.
+     * @return The vertical angle of view in radians.
      * @since 1.0
      */
     LEAP_EXPORT float verticalViewAngle() const;
@@ -2732,7 +2732,7 @@ namespace Leap {
      *
      * \include Device_range.txt
      *
-     * @returns The recommended maximum range of the device in mm.
+     * @return The recommended maximum range of the device in mm.
      * @since 1.0
      */
     LEAP_EXPORT float range() const;
@@ -2743,7 +2743,7 @@ namespace Leap {
      * The baseline value, together with the maximum resolution, influence the
      * maximum range.
      *
-     * @returns The separation distance between the center of each sensor, in mm.
+     * @return The separation distance between the center of each sensor, in mm.
      * @since 2.2.5
      */
     LEAP_EXPORT float baseline() const;
@@ -2760,7 +2760,7 @@ namespace Leap {
      * \include Device_distanceToBoundary.txt
      *
      * @param position The point to use for the distance calculation.
-     * @returns The distance in millimeters from the input position to the nearest boundary.
+     * @return The distance in millimeters from the input position to the nearest boundary.
      * @since 1.0
      */
     LEAP_EXPORT float distanceToBoundary(const Vector& position) const;
@@ -2769,7 +2769,7 @@ namespace Leap {
      * Reports whether this device is embedded in another computer or computer
      * peripheral.
      *
-     * @returns True, if this device is embedded in a laptop, keyboard, or other computer
+     * @return True, if this device is embedded in a laptop, keyboard, or other computer
      * component; false, if this device is a standalone controller.
      * @since 1.2
      */
@@ -2800,7 +2800,7 @@ namespace Leap {
      * Current types of device include the original Leap Motion peripheral,
      * keyboard-embedded controllers, and laptop-embedded controllers.
      *
-     * @returns The physical device type as a member of the DeviceType enumeration.
+     * @return The physical device type as a member of the DeviceType enumeration.
      * @since 1.2
      */
     LEAP_EXPORT Type type() const;
@@ -2858,7 +2858,7 @@ namespace Leap {
      *
      * \include Device_isValid.txt
      *
-     * @returns True, if this Device object contains valid data.
+     * @return True, if this Device object contains valid data.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -2872,7 +2872,7 @@ namespace Leap {
      *
      * \include Device_invalid.txt
      *
-     * @returns The invalid Device instance.
+     * @return The invalid Device instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Device& invalid();
@@ -2911,7 +2911,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Device object.
      *
-     * @returns A description of the Device as a string.
+     * @return A description of the Device as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -3023,7 +3023,7 @@ namespace Leap {
      * Note, in a future release, there may be two distortion maps per image;
      * one containing the horizontal values and the other containing the vertical values.
      *
-     * @returns The float array containing the camera lens distortion map.
+     * @return The float array containing the camera lens distortion map.
      * @since 2.1.0
      */
     LEAP_EXPORT const float* distortion() const;
@@ -3205,7 +3205,7 @@ namespace Leap {
      * \include Image_rectify_1.txt
      *
      * @param uv A Vector containing the position of a pixel in the image.
-     * @returns A Vector containing the ray direction (the z-component of the vector is always 0).
+     * @return A Vector containing the ray direction (the z-component of the vector is always 0).
      * @since 2.1.0
      */
     LEAP_EXPORT Vector rectify(const Vector& uv) const; // returns a vector (x, y, 0). The z-component is ignored
@@ -3231,7 +3231,7 @@ namespace Leap {
      * For better performance, use a shader program exectued on a GPU.
      *
      * @param xy A Vector containing the ray direction.
-     * @returns A Vector containing the pixel coordinates [x, y, 0] (with z always zero).
+     * @return A Vector containing the pixel coordinates [x, y, 0] (with z always zero).
      * @since 2.1.0
      */
     LEAP_EXPORT Vector warp(const Vector& xy) const; // returns vector (u, v, 0). The z-component is ignored
@@ -3246,7 +3246,7 @@ namespace Leap {
     /**
      * Reports whether this Image instance contains valid data.
      *
-     * @returns true, if and only if the image is valid.
+     * @return true, if and only if the image is valid.
      * @since 2.1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -3258,7 +3258,7 @@ namespace Leap {
      * whether a given Image instance is valid or invalid. (You can also use the
      * Image::isValid() function.)
      *
-     * @returns The invalid Image instance.
+     * @return The invalid Image instance.
      * @since 2.1.0
      */
     LEAP_EXPORT static const Image& invalid();
@@ -3292,7 +3292,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Image object.
      *
-     * @returns A description of the Image as a string.
+     * @return A description of the Image as a string.
      * @since 2.1.0
      */
     std::string toString() const {
@@ -3489,7 +3489,7 @@ namespace Leap {
      *
      * \include PointableList_count.txt
      *
-     * @returns The number of pointable entities in this list.
+     * @return The number of pointable entities in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -3499,7 +3499,7 @@ namespace Leap {
      *
      * \include PointableList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -3510,7 +3510,7 @@ namespace Leap {
      * \include PointableList_operator_index.txt
      *
      * @param index The zero-based list position index.
-     * @returns The Pointable object at the specified index.
+     * @return The Pointable object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Pointable operator[](int index) const;
@@ -3545,7 +3545,7 @@ namespace Leap {
      *
      * \include PointableList_leftmost.txt
      *
-     * @returns The leftmost pointable, or invalid if list is empty.
+     * @return The leftmost pointable, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Pointable leftmost() const;
@@ -3556,7 +3556,7 @@ namespace Leap {
      *
      * \include PointableList_rightmost.txt
      *
-     * @returns The rightmost pointable, or invalid if list is empty.
+     * @return The rightmost pointable, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Pointable rightmost() const;
@@ -3568,7 +3568,7 @@ namespace Leap {
      *
      * \include PointableList_frontmost.txt
      *
-     * @returns The frontmost pointable, or invalid if list is empty.
+     * @return The frontmost pointable, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Pointable frontmost() const;
@@ -3577,7 +3577,7 @@ namespace Leap {
      * Returns a new list containing those members of the current list that are
      * extended. This includes all tools and any fingers whose isExtended() function is true.
      *
-     * @returns The list of tools and extended fingers from the current list.
+     * @return The list of tools and extended fingers from the current list.
      * @since 2.0
      */
     LEAP_EXPORT PointableList extended() const;
@@ -3635,7 +3635,7 @@ namespace Leap {
      *
      * \include FingerList_count.txt
      *
-     * @returns The number of fingers in this list.
+     * @return The number of fingers in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -3645,7 +3645,7 @@ namespace Leap {
      *
      * \include FingerList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -3656,7 +3656,7 @@ namespace Leap {
      * \include FingerList_index.txt
      *
      * @param index The zero-based list position index.
-     * @returns The Finger object at the specified index.
+     * @return The Finger object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Finger operator[](int index) const;
@@ -3675,7 +3675,7 @@ namespace Leap {
      *
      * \include FingerList_leftmost.txt
      *
-     * @returns The leftmost finger, or invalid if list is empty.
+     * @return The leftmost finger, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Finger leftmost() const;
@@ -3686,7 +3686,7 @@ namespace Leap {
      *
      * \include FingerList_rightmost.txt
      *
-     * @returns The rightmost finger, or invalid if list is empty.
+     * @return The rightmost finger, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Finger rightmost() const;
@@ -3697,7 +3697,7 @@ namespace Leap {
      *
      * \include FingerList_frontmost.txt
      *
-     * @returns The frontmost finger, or invalid if list is empty.
+     * @return The frontmost finger, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Finger frontmost() const;
@@ -3708,7 +3708,7 @@ namespace Leap {
      *
      * \include FingerList_extended.txt
      *
-     * @returns The list of extended fingers from the current list.
+     * @return The list of extended fingers from the current list.
      * @since 2.0
      */
     LEAP_EXPORT FingerList extended() const;
@@ -3719,7 +3719,7 @@ namespace Leap {
      *
      * \include FingerList_fingerType.txt
      *
-    * @returns The list of matching fingers from the current list.
+    * @return The list of matching fingers from the current list.
      * @since 2.0
      */
     LEAP_EXPORT FingerList fingerType(Finger::Type type) const;
@@ -3777,7 +3777,7 @@ namespace Leap {
      *
      * \include ToolList_count.txt
      *
-     * @returns The number of tools in this list.
+     * @return The number of tools in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -3787,7 +3787,7 @@ namespace Leap {
      *
      * \include ToolList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -3798,7 +3798,7 @@ namespace Leap {
      * \include ToolList_operator_index.txt
      *
      * @param index The zero-based list position index.
-     * @returns The Tool object at the specified index.
+     * @return The Tool object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Tool operator[](int index) const;
@@ -3817,7 +3817,7 @@ namespace Leap {
      *
      * \include ToolList_leftmost.txt
      *
-     * @returns The leftmost tool, or invalid if list is empty.
+     * @return The leftmost tool, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Tool leftmost() const;
@@ -3828,7 +3828,7 @@ namespace Leap {
      *
      * \include ToolList_rightmost.txt
      *
-     * @returns The rightmost tool, or invalid if list is empty.
+     * @return The rightmost tool, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Tool rightmost() const;
@@ -3839,7 +3839,7 @@ namespace Leap {
      *
      * \include ToolList_frontmost.txt
      *
-     * @returns The frontmost tool, or invalid if list is empty.
+     * @return The frontmost tool, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Tool frontmost() const;
@@ -3895,7 +3895,7 @@ namespace Leap {
      * Returns the number of hands in this list.
      *
      * \include HandList_count.txt
-     * @returns The number of hands in this list.
+     * @return The number of hands in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -3905,7 +3905,7 @@ namespace Leap {
      *
      * \include HandList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -3916,7 +3916,7 @@ namespace Leap {
      * \include HandList_operator_index.txt
      *
      * @param index The zero-based list position index.
-     * @returns The Hand object at the specified index.
+     * @return The Hand object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Hand operator[](int index) const;
@@ -3936,7 +3936,7 @@ namespace Leap {
      *
      * \include HandList_leftmost.txt
      *
-     * @returns The leftmost hand, or invalid if list is empty.
+     * @return The leftmost hand, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Hand leftmost() const;
@@ -3949,7 +3949,7 @@ namespace Leap {
      *
      * \include HandList_rightmost.txt
      *
-     * @returns The rightmost hand, or invalid if list is empty.
+     * @return The rightmost hand, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Hand rightmost() const;
@@ -3960,7 +3960,7 @@ namespace Leap {
      *
      * \include HandList_frontmost.txt
      *
-     * @returns The frontmost hand, or invalid if list is empty.
+     * @return The frontmost hand, or invalid if list is empty.
      * @since 1.0
      */
     LEAP_EXPORT Hand frontmost() const;
@@ -4015,7 +4015,7 @@ namespace Leap {
      *
      * \include GestureList_count.txt
      *
-     * @returns The number of gestures in this list.
+     * @return The number of gestures in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -4025,7 +4025,7 @@ namespace Leap {
      *
      * \include GestureList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -4036,7 +4036,7 @@ namespace Leap {
      * \include GestureList_operator_index.txt
      *
      * @param index The zero-based list position index.
-     * @returns The Gesture object at the specified index.
+     * @return The Gesture object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Gesture operator[](int index) const;
@@ -4124,7 +4124,7 @@ namespace Leap {
 
     /**
      * Returns the number of devices in this list.
-     * @returns The number of devices in this list.
+     * @return The number of devices in this list.
      * @since 1.0
      */
     LEAP_EXPORT int count() const;
@@ -4134,7 +4134,7 @@ namespace Leap {
      *
      * \include DeviceList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -4142,7 +4142,7 @@ namespace Leap {
     /**
      * Access a list member by its position in the list.
      * @param index The zero-based list position index.
-     * @returns The Device object at the specified index.
+     * @return The Device object at the specified index.
      * @since 1.0
      */
     LEAP_EXPORT Device operator[](int index) const;
@@ -4198,7 +4198,7 @@ namespace Leap {
     /**
      * The number of images in this list.
      *
-     * @returns The number of images in this list.
+     * @return The number of images in this list.
      * @since 2.1.0
      */
     LEAP_EXPORT int count() const;
@@ -4208,7 +4208,7 @@ namespace Leap {
      *
      * \include ImageList_isEmpty.txt
      *
-     * @returns True, if the list has no members.
+     * @return True, if the list has no members.
      * @since 2.1.0
      */
     LEAP_EXPORT bool isEmpty() const;
@@ -4216,7 +4216,7 @@ namespace Leap {
     /**
      * Access a list member by its position in the list.
      * @param index The zero-based list position index.
-     * @returns The Image object at the specified index.
+     * @return The Image object at the specified index.
      * @since 2.1.0
      */
     LEAP_EXPORT Image operator[](int index) const;
@@ -4485,7 +4485,7 @@ namespace Leap {
      * @param position The input position in device coordinates.
      * @param clamp Whether or not to limit the output value to the range [0,1] when the
      * input position is outside the InteractionBox. Defaults to true.
-     * @returns The normalized position.
+     * @return The normalized position.
      * @since 1.0
      */
     LEAP_EXPORT Vector normalizePoint(const Vector& position, bool clamp = true) const;
@@ -4499,7 +4499,7 @@ namespace Leap {
      * This function performs the inverse of normalizePoint().
      *
      * @param normalizedPosition The input position in InteractionBox coordinates.
-     * @returns The corresponding denormalized position in device coordinates.
+     * @return The corresponding denormalized position in device coordinates.
      * @since 1.0
      */
     LEAP_EXPORT Vector denormalizePoint(const Vector& normalizedPosition) const;
@@ -4510,7 +4510,7 @@ namespace Leap {
      *
      * \include InteractionBox_center.txt
      *
-     * @returns The InteractionBox center in device coordinates.
+     * @return The InteractionBox center in device coordinates.
      * @since 1.0
      */
     LEAP_EXPORT Vector center() const;
@@ -4520,7 +4520,7 @@ namespace Leap {
      *
      * \include InteractionBox_width.txt
      *
-     * @returns The InteractionBox width in millimeters.
+     * @return The InteractionBox width in millimeters.
      * @since 1.0
      */
     LEAP_EXPORT float width() const;
@@ -4530,7 +4530,7 @@ namespace Leap {
      *
      * \include InteractionBox_height.txt
      *
-     * @returns The InteractionBox height in millimeters.
+     * @return The InteractionBox height in millimeters.
      * @since 1.0
      */
     LEAP_EXPORT float height() const;
@@ -4540,7 +4540,7 @@ namespace Leap {
      *
      * \include InteractionBox_depth.txt
      *
-     * @returns The InteractionBox depth in millimeters.
+     * @return The InteractionBox depth in millimeters.
      * @since 1.0
      */
     LEAP_EXPORT float depth() const;
@@ -4550,7 +4550,7 @@ namespace Leap {
      *
      * \include InteractionBox_isValid.txt
      *
-     * @returns True, if this InteractionBox object contains valid data.
+     * @return True, if this InteractionBox object contains valid data.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -4564,7 +4564,7 @@ namespace Leap {
      *
      * \include InteractionBox_invalid.txt
      *
-     * @returns The invalid InteractionBox instance.
+     * @return The invalid InteractionBox instance.
      * @since 1.0
      */
     LEAP_EXPORT static const InteractionBox& invalid();
@@ -4603,7 +4603,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the InteractionBox object.
      *
-     * @returns A description of the InteractionBox as a string.
+     * @return A description of the InteractionBox as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -4665,7 +4665,7 @@ namespace Leap {
      *
      * \include Frame_Skipped.txt
      *
-     * @returns The frame ID.
+     * @return The frame ID.
      * @since 1.0
      */
     LEAP_EXPORT int64_t id() const;
@@ -4678,7 +4678,7 @@ namespace Leap {
      *
      * \include Frame_timestamp.txt
      *
-     * @returns The timestamp in microseconds.
+     * @return The timestamp in microseconds.
      * @since 1.0
      */
     LEAP_EXPORT int64_t timestamp() const;
@@ -4689,7 +4689,7 @@ namespace Leap {
      *
      * \include Frame_hands.txt
      *
-     * @returns The HandList containing all Hand objects detected in this frame.
+     * @return The HandList containing all Hand objects detected in this frame.
      * @since 1.0
      */
     LEAP_EXPORT HandList hands() const;
@@ -4710,7 +4710,7 @@ namespace Leap {
      * a different ID than that representing the physical hand in an earlier frame.
      *
      * @param id The ID value of a Hand object from a previous frame.
-     * @returns The Hand object with the matching ID if one exists in this frame;
+     * @return The Hand object with the matching ID if one exists in this frame;
      * otherwise, an invalid Hand object is returned.
      * @since 1.0
      */
@@ -4724,7 +4724,7 @@ namespace Leap {
      *
      * \include Frame_pointables.txt
      *
-     * @returns The PointableList containing all Pointable objects detected in this frame.
+     * @return The PointableList containing all Pointable objects detected in this frame.
      * @since 1.0
      */
     LEAP_EXPORT PointableList pointables() const;
@@ -4745,7 +4745,7 @@ namespace Leap {
      * a different ID than that representing the finger or tool in an earlier frame.
      *
      * @param id The ID value of a Pointable object from a previous frame.
-     * @returns The Pointable object with the matching ID if one exists in this frame;
+     * @return The Pointable object with the matching ID if one exists in this frame;
      * otherwise, an invalid Pointable object is returned.
      * @since 1.0
      */
@@ -4759,7 +4759,7 @@ namespace Leap {
      *
      * \include Frame_fingers.txt
      *
-     * @returns The FingerList containing all Finger objects detected in this frame.
+     * @return The FingerList containing all Finger objects detected in this frame.
      * @since 1.0
      */
     LEAP_EXPORT FingerList fingers() const;
@@ -4780,7 +4780,7 @@ namespace Leap {
      * a different ID than that representing the finger in an earlier frame.
      *
      * @param id The ID value of a Finger object from a previous frame.
-     * @returns The Finger object with the matching ID if one exists in this frame;
+     * @return The Finger object with the matching ID if one exists in this frame;
      * otherwise, an invalid Finger object is returned.
      * @since 1.0
      */
@@ -4792,7 +4792,7 @@ namespace Leap {
      *
      * \include Frame_tools.txt
      *
-     * @returns The ToolList containing all Tool objects detected in this frame.
+     * @return The ToolList containing all Tool objects detected in this frame.
      * @since 1.0
      */
     LEAP_EXPORT ToolList tools() const;
@@ -4813,7 +4813,7 @@ namespace Leap {
      * different ID than that representing the tool in an earlier frame.
      *
      * @param id The ID value of a Tool object from a previous frame.
-     * @returns The Tool object with the matching ID if one exists in this frame;
+     * @return The Tool object with the matching ID if one exists in this frame;
      * otherwise, an invalid Tool object is returned.
      * @since 1.0
      */
@@ -4832,7 +4832,7 @@ namespace Leap {
      * All Gesture objects representing the same recognized movement share the
      * same ID.
      * @param id The ID of an Gesture object from a previous frame.
-     * @returns The Gesture object in the frame with the specified ID if one
+     * @return The Gesture object in the frame with the specified ID if one
      * exists; Otherwise, an Invalid Gesture object.
      * @since 1.0
      */
@@ -4890,7 +4890,7 @@ namespace Leap {
      * method returns a zero vector.
      *
      * @param sinceFrame The starting frame for computing the relative translation.
-     * @returns A Vector representing the heuristically determined change in
+     * @return A Vector representing the heuristically determined change in
      * position of all objects between the current frame and that specified
      * in the sinceFrame parameter.
      * @since 1.0
@@ -4907,7 +4907,7 @@ namespace Leap {
      * method returns zero.
      *
      * @param sinceFrame The starting frame for computing the translation.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the overall motion between the current frame and the specified frame
      * is intended to be a translating motion.
      * @since 1.0
@@ -4929,7 +4929,7 @@ namespace Leap {
      * rotation is detected between the two frames, a zero vector is returned.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A normalized direction Vector representing the axis of the
+     * @return A normalized direction Vector representing the axis of the
      * heuristically determined rotational change between the current frame
      * and that specified in the sinceFrame parameter.
      * @since 1.0
@@ -4953,7 +4953,7 @@ namespace Leap {
      * angle of rotation is zero.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A positive value containing the heuristically determined
+     * @return A positive value containing the heuristically determined
      * rotational change between the current frame and that specified in the
      * sinceFrame parameter.
      * @since 1.0
@@ -4978,7 +4978,7 @@ namespace Leap {
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
      * @param axis The axis to measure rotation around.
-     * @returns A value containing the heuristically determined rotational
+     * @return A value containing the heuristically determined rotational
      * change between the current frame and that specified in the sinceFrame
      * parameter around the given axis.
      * @since 1.0
@@ -4998,7 +4998,7 @@ namespace Leap {
      * method returns an identity matrix.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A transformation Matrix containing the heuristically determined
+     * @return A transformation Matrix containing the heuristically determined
      * rotational change between the current frame and that specified in the
      * sinceFrame parameter.
      * @since 1.0
@@ -5015,7 +5015,7 @@ namespace Leap {
      * method returns zero.
      *
      * @param sinceFrame The starting frame for computing the relative rotation.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the overall motion between the current frame and the specified frame
      * is intended to be a rotating motion.
      * @since 1.0
@@ -5040,7 +5040,7 @@ namespace Leap {
      * method returns 1.0.
      *
      * @param sinceFrame The starting frame for computing the relative scaling.
-     * @returns A positive value representing the heuristically determined
+     * @return A positive value representing the heuristically determined
      * scaling change ratio between the current frame and that specified in the
      * sinceFrame parameter.
      * @since 1.0
@@ -5057,7 +5057,7 @@ namespace Leap {
      * method returns zero.
      *
      * @param sinceFrame The starting frame for computing the relative scaling.
-     * @returns A value between 0 and 1 representing the estimated probability
+     * @return A value between 0 and 1 representing the estimated probability
      * that the overall motion between the current frame and the specified frame
      * is intended to be a scaling motion.
      * @since 1.0
@@ -5070,7 +5070,7 @@ namespace Leap {
      *
      * \include Frame_interactionBox.txt
      *
-     * @returns The current InteractionBox object.
+     * @return The current InteractionBox object.
      * @since 1.0
      */
     LEAP_EXPORT InteractionBox interactionBox() const;
@@ -5085,7 +5085,7 @@ namespace Leap {
      *
      * \include Frame_currentFramesPerSecond.txt
      *
-     * @returns An estimate of frames per second of the Leap Motion Controller.
+     * @return An estimate of frames per second of the Leap Motion Controller.
      * @since 1.0
      */
     LEAP_EXPORT float currentFramesPerSecond() const;
@@ -5106,7 +5106,7 @@ namespace Leap {
      * frame(n) returned a null object. (You should still check that the
      * returned Finger instance is valid.)
      *
-     * @returns True, if this is a valid Frame object; false otherwise.
+     * @return True, if this is a valid Frame object; false otherwise.
      * @since 1.0
      */
     LEAP_EXPORT bool isValid() const;
@@ -5120,7 +5120,7 @@ namespace Leap {
      *
      * \include Frame_Invalid_Demo.txt
      *
-     * @returns The invalid Frame instance.
+     * @return The invalid Frame instance.
      * @since 1.0
      */
     LEAP_EXPORT static const Frame& invalid();
@@ -5173,7 +5173,7 @@ namespace Leap {
      *
      * \include Frame_serialize.txt
      *
-     * @returns The serialized string encoding the data for this frame.
+     * @return The serialized string encoding the data for this frame.
      * @since 2.1.0
      */
     std::string serialize() const {
@@ -5247,7 +5247,7 @@ namespace Leap {
     /**
      * A string containing a brief, human readable description of the Frame object.
      *
-     * @returns A description of the Frame as a string.
+     * @return A description of the Frame as a string.
      * @since 1.0
      */
     std::string toString() const {
@@ -5384,7 +5384,7 @@ namespace Leap {
      * \include Config_type.txt
      *
      * @param key The key for the looking up the value in the configuration dictionary.
-     * @returns The native data type of the value, that is, the type that does not
+     * @return The native data type of the value, that is, the type that does not
      * require a data conversion.
      * @since 1.0
      */
@@ -5407,7 +5407,7 @@ namespace Leap {
      *
      * \include Config_setBool.txt
      *
-     * @returns true on success, false on failure.
+     * @return true on success, false on failure.
      * @since 1.0
      */
     bool setBool(const std::string& key, bool value) {
@@ -5429,7 +5429,7 @@ namespace Leap {
      *
      * \include Config_setInt32.txt
      *
-     * @returns true on success, false on failure.
+     * @return true on success, false on failure.
      * @since 1.0
      */
     bool setInt32(const std::string& key, int32_t value) {
@@ -5451,7 +5451,7 @@ namespace Leap {
      *
      * \include Config_setFloat.txt
      *
-     * @returns true on success, false on failure.
+     * @return true on success, false on failure.
      * @since 1.0
      */
     bool setFloat(const std::string& key, float value) {
@@ -5476,7 +5476,7 @@ namespace Leap {
      *
      * \include Config_setString.txt
      *
-     * @returns true on success, false on failure.
+     * @return true on success, false on failure.
      * @since 1.0
      */
     bool setString(const std::string& key, const std::string& value) {
@@ -5496,7 +5496,7 @@ namespace Leap {
      *
      * \include Config_save.txt
      *
-     * @returns true on success, false on failure.
+     * @return true on success, false on failure.
      * @since 1.0
      */
     LEAP_EXPORT bool save();
@@ -5600,7 +5600,7 @@ namespace Leap {
      * operation.
      *
      * \include Controller_isConnected.txt
-     * @returns True, if connected; false otherwise.
+     * @return True, if connected; false otherwise.
      * @since 1.0
      */
     LEAP_EXPORT bool isConnected() const;
@@ -5622,7 +5622,7 @@ namespace Leap {
      *
      * \include Controller_hasFocus.txt
      *
-     * @returns True, if application has focus; false otherwise.
+     * @return True, if application has focus; false otherwise.
      *
      * @see Controller::setPolicyFlags()
      * @since 1.0
@@ -5758,7 +5758,7 @@ namespace Leap {
      * \include Controller_isPolicySet.txt
      *
      * @param flags A PolicyFlag value indicating the policy to query.
-     * @returns A boolean indicating whether the specified policy has been set.
+     * @return A boolean indicating whether the specified policy has been set.
      * @since 2.1.6
      */
     LEAP_EXPORT bool isPolicySet(PolicyFlag policy) const;
@@ -5780,7 +5780,7 @@ namespace Leap {
      *
      * @param listener A subclass of Leap::Listener implementing the callback
      * functions for the Leap Motion events you want to handle in your application.
-     * @returns Whether or not the listener was successfully added to the list
+     * @return Whether or not the listener was successfully added to the list
      * of listeners.
      * @since 1.0
      */
@@ -5794,7 +5794,7 @@ namespace Leap {
      * \include Controller_removeListener.txt
      *
      * @param listener The listener to remove.
-     * @returns Whether or not the listener was successfully removed from the
+     * @return Whether or not the listener was successfully removed from the
      * list of listeners.
      * @since 1.0
      */
@@ -5816,7 +5816,7 @@ namespace Leap {
 
      * @param history The age of the frame to return, counting backwards from
      * the most recent frame (0) into the past and up to the maximum age (59).
-     * @returns The specified frame; or, if no history parameter is specified,
+     * @return The specified frame; or, if no history parameter is specified,
      * the newest frame. If a frame is not available at the specified history
      * position, an invalid Frame is returned.
      * @since 1.0
@@ -5843,7 +5843,7 @@ namespace Leap {
      *
      * \include Controller_config.txt
      *
-     * @returns The Controller's Config object.
+     * @return The Controller's Config object.
      * @since 1.0
      */
     LEAP_EXPORT Config config() const;
@@ -5860,7 +5860,7 @@ namespace Leap {
      * however there may be multiple devices physically attached and listed here.  Any active
      * device(s) are guaranteed to be listed first, however order is not determined beyond that.
      *
-     * @returns The list of Leap Motion controllers.
+     * @return The list of Leap Motion controllers.
      * @since 1.0
      */
     LEAP_EXPORT DeviceList devices() const;
@@ -5900,7 +5900,7 @@ namespace Leap {
      * \include Controller_isGestureEnabled.txt
      *
      * @param type The type of gesture to check; a member of the Gesture::Type enumeration.
-     * @returns True, if the specified type is enabled; false, otherwise.
+     * @return True, if the specified type is enabled; false, otherwise.
      * @see Controller::enableGesture()
      * @since 1.0
      */

@@ -130,7 +130,7 @@ public:
         @param files            a list of filenames to drag
         @param canMoveFiles     if true, the app that receives the files is allowed to move the files to a new location
                                 (if this is appropriate). If false, the receiver is expected to make a copy of them.
-        @returns        true if the files were successfully dropped somewhere, or false if it
+        @return        true if the files were successfully dropped somewhere, or false if it
                         was interrupted
         @see performExternalDragDropOfText
     */
@@ -145,7 +145,7 @@ public:
         text to another application.
 
         @param text     the text to copy
-        @returns        true if the text was successfully dropped somewhere, or false if it
+        @return        true if the text was successfully dropped somewhere, or false if it
                         was interrupted
         @see performExternalDragDropOfFiles
     */

@@ -115,7 +115,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             EchoService &
             operator =(const EchoService & other);
 

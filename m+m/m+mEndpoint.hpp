@@ -88,7 +88,7 @@ namespace MplusM
 
             /*! @brief Check the format of an endpoint name.
              @param[in] channelName The name to be checked.
-             @returns @c true if the name is a valid endpoint name and @c false otherwise. */
+             @return @c true if the name is a valid endpoint name and @c false otherwise. */
             static bool
             CheckEndpointName(const YarpString & channelName);
 
@@ -105,7 +105,7 @@ namespace MplusM
             enableMetrics(void);
 
             /*! @brief Return the YARP name for the endpoint.
-             @returns The YARP name for the endpoint. */
+             @return The YARP name for the endpoint. */
             YarpString
             getName(void)
             const;
@@ -116,7 +116,7 @@ namespace MplusM
             getSendReceiveCounters(SendReceiveCounters & counters);
 
             /*! @brief Return the state of the endpoint.
-             @returns @c true if the endpoint is open and @c false otherwise. */
+             @return @c true if the endpoint is open and @c false otherwise. */
             inline bool
             isOpen(void)
             const
@@ -125,7 +125,7 @@ namespace MplusM
             } // isOpen
 
             /*! @brief Return the state of the  send / receive metrics.
-             @returns @c true if the send / receive metrics are being gathered and @c false
+             @return @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
             inline bool
             metricsAreEnabled(void)
@@ -136,7 +136,7 @@ namespace MplusM
 
             /*! @brief Open the endpoint if it is not already open.
              @param[in] timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the endpoint is open and @c false otherwise. */
+             @return @c true if the endpoint is open and @c false otherwise. */
             bool
             open(const double timeToWait);
 
@@ -146,7 +146,7 @@ namespace MplusM
              data will be processed and the endpoint cannot be open before set up.
              @param[in] handler The input handler to be used by the endpoint to process incoming
              data.
-             @returns @c true if the input handler was attached to the endpoint. */
+             @return @c true if the input handler was attached to the endpoint. */
             bool
             setInputHandler(BaseInputHandler & handler);
 
@@ -156,7 +156,7 @@ namespace MplusM
              data will be processed and the endpoint cannot be open before set up.
              @param[in] handlerCreator The input handler creator to be used by the endpoint to
              process incoming data.
-             @returns @c true if the input handler creator was attached to the endpoint. */
+             @return @c true if the input handler creator was attached to the endpoint. */
             bool
             setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator);
 
@@ -164,7 +164,7 @@ namespace MplusM
              @param[in] reporter The channel status reporter to be used by the endpoint.
              @param[in] andReportNow @c true if the channel status reporter is to be activated
              immediately.
-             @returns @c true if the channel status reporter was attached to the endpoint. */
+             @return @c true if the channel status reporter was attached to the endpoint. */
             bool
             setReporter(ChannelStatusReporter & reporter,
                         const bool              andReportNow = false);
@@ -175,7 +175,7 @@ namespace MplusM
             updateSendCounters(const size_t numBytes);
 
             /*! @brief Returns information on how this endpoint can be reached.
-             @returns Connection information for the endpoint. */
+             @return Connection information for the endpoint. */
             yarp::os::Contact
             where(void)
             const;
@@ -190,7 +190,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             Endpoint &
             operator =(const Endpoint & other);
 

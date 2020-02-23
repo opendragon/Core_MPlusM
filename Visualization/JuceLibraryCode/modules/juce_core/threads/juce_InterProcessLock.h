@@ -56,7 +56,7 @@ public:
         @param timeOutMillisecs  how many milliseconds to wait if the lock is already
                                  held by another process - a value of 0 will return
                                  immediately, negative values will wait forever
-        @returns    true if the lock could be gained within the timeout period, or
+        @return    true if the lock could be gained within the timeout period, or
                     false if the timeout expired.
     */
     bool enter (int timeOutMillisecs = -1);

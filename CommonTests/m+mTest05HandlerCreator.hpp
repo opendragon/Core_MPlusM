@@ -86,13 +86,13 @@ namespace MplusM
             Test05HandlerCreator(const Test05HandlerCreator & other);
 
             /*! @brief Create a new BaseInputHandler object to process input data.
-             @returns A new PortReader or @c NULL if one cannot be created. */
+             @return A new PortReader or @c NULL if one cannot be created. */
             virtual yarp::os::PortReader *
             create(void);
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             Test05HandlerCreator &
             operator =(const Test05HandlerCreator & other);
 

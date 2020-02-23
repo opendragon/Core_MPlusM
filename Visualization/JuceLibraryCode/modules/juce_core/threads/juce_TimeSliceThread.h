@@ -58,7 +58,7 @@ public:
         The implementation of this method should use its time-slice to do something that's
         quick - never block for longer than absolutely necessary.
 
-        @returns    Your method should return the number of milliseconds which it would like to wait before being called
+        @return    Your method should return the number of milliseconds which it would like to wait before being called
                     again. Returning 0 will make the thread call again as soon as possible (after possibly servicing
                     other busy clients). If you return a value below zero, your client will be removed from the list of clients,
                     and won't be called again. The value you specify isn't a guaranteee, and is only used as a hint by the

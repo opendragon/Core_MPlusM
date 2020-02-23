@@ -191,7 +191,7 @@ struct Vector {
    *
    * \include Vector_Magnitude.txt
    *
-   * @returns The length of this vector.
+   * @return The length of this vector.
    * @since 1.0
    */
   float magnitude() const {
@@ -203,7 +203,7 @@ struct Vector {
    *
    * \include Vector_Magnitude_Squared.txt
    *
-   * @returns The square of the length of this vector.
+   * @return The square of the length of this vector.
    * @since 1.0
    */
   float magnitudeSquared() const {
@@ -217,7 +217,7 @@ struct Vector {
    * \include Vector_DistanceTo.txt
    *
    * @param other A Vector object.
-   * @returns The distance from this point to the specified point.
+   * @return The distance from this point to the specified point.
    * @since 1.0
    */
   float distanceTo(const Vector& other) const {
@@ -241,7 +241,7 @@ struct Vector {
    * \include Vector_AngleTo.txt
    *
    * @param other A Vector object.
-   * @returns The angle between this vector and the specified vector in radians.
+   * @return The angle between this vector and the specified vector in radians.
    * @since 1.0
    */
   float angleTo(const Vector& other) const {
@@ -271,7 +271,7 @@ struct Vector {
    *
    * \include Vector_Pitch.txt
    *
-   * @returns The angle of this vector above or below the horizon (x-z plane).
+   * @return The angle of this vector above or below the horizon (x-z plane).
    * @since 1.0
    */
   float pitch() const {
@@ -291,7 +291,7 @@ struct Vector {
    *
    * \include Vector_Yaw.txt
    *
-   * @returns The angle of this vector to the right or left of the negative z-axis.
+   * @return The angle of this vector to the right or left of the negative z-axis.
    * @since 1.0
    */
   float yaw() const {
@@ -316,7 +316,7 @@ struct Vector {
    *
    * \include Vector_Roll.txt
    *
-   * @returns The angle of this vector to the right or left of the y-axis.
+   * @return The angle of this vector to the right or left of the y-axis.
    * @since 1.0
    */
   float roll() const {
@@ -334,7 +334,7 @@ struct Vector {
    * \include Vector_Dot.txt
    *
    * @param other A Vector object.
-   * @returns The dot product of this vector and the specified vector.
+   * @return The dot product of this vector and the specified vector.
    * @since 1.0
    */
   float dot(const Vector& other) const {
@@ -354,7 +354,7 @@ struct Vector {
    * \include Vector_Cross.txt
    *
    * @param other A Vector object.
-   * @returns The cross product of this vector and the specified vector.
+   * @return The cross product of this vector and the specified vector.
    * @since 1.0
    */
   Vector cross(const Vector& other) const {
@@ -371,7 +371,7 @@ struct Vector {
    *
    * \include Vector_Normalized.txt
    *
-   * @returns A Vector object with a length of one, pointing in the same
+   * @return A Vector object with a length of one, pointing in the same
    * direction as this Vector object.
    * @since 1.0
    */
@@ -389,7 +389,7 @@ struct Vector {
    *
    * \include Vector_Negate.txt
    *
-   * @returns A Vector object with all components negated.
+   * @return A Vector object with all components negated.
    * @since 1.0
    */
   Vector operator-() const {
@@ -544,7 +544,7 @@ struct Vector {
   /**
    * Index vector components numerically.
    * Index 0 is x, index 1 is y, and index 2 is z.
-   * @returns The x, y, or z component of this Vector, if the specified index
+   * @return The x, y, or z component of this Vector, if the specified index
    * value is at least 0 and at most 2; otherwise, returns zero.
    *
    * \include Vector_Index.txt
@@ -757,7 +757,7 @@ struct Matrix
    *
    * \include Matrix_identity.txt
    *
-   * @returns The identity matrix.
+   * @return The identity matrix.
    * @since 1.0
    */
   static const Matrix& identity() {
@@ -797,7 +797,7 @@ struct Matrix
    * Translation is applied after rotation and scale.
    *
    * @param in The Vector to transform.
-   * @returns A new Vector representing the transformed original.
+   * @return A new Vector representing the transformed original.
    * @since 1.0
    */
   Vector transformPoint(const Vector& in) const {
@@ -811,7 +811,7 @@ struct Matrix
    * \include Matrix_transformDirection.txt
    *
    * @param in The Vector to transform.
-   * @returns A new Vector representing the transformed original.
+   * @return A new Vector representing the transformed original.
    * @since 1.0
    */
   Vector transformDirection(const Vector& in) const {
@@ -827,7 +827,7 @@ struct Matrix
    *
    * Note that all matrices that are directly returned by the API are rigid.
    *
-   * @returns The rigid inverse of the matrix.
+   * @return The rigid inverse of the matrix.
    * @since 1.0
    */
   Matrix rigidInverse() const {
@@ -846,7 +846,7 @@ struct Matrix
    * \include Matrix_operator_times.txt
    *
    * @param other A Matrix to multiply on the right hand side.
-   * @returns A new Matrix representing the transformation equivalent to
+   * @return A new Matrix representing the transformation equivalent to
    * applying the other transformation followed by this transformation.
    * @since 1.0
    */

@@ -78,14 +78,14 @@ public:
     var getWithDefault (const Identifier& name, const var& defaultReturnValue) const;
 
     /** Changes or adds a named value.
-        @returns    true if a value was changed or added; false if the
+        @return    true if a value was changed or added; false if the
                     value was already set the value passed-in.
     */
     bool set (const Identifier& name, const var& newValue);
 
    #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
     /** Changes or adds a named value.
-        @returns    true if a value was changed or added; false if the
+        @return    true if a value was changed or added; false if the
                     value was already set the value passed-in.
     */
     bool set (const Identifier& name, var&& newValue);
@@ -95,7 +95,7 @@ public:
     bool contains (const Identifier& name) const noexcept;
 
     /** Removes a value from the set.
-        @returns    true if a value was removed; false if there was no value
+        @return    true if a value was removed; false if there was no value
                     with the name that was given.
     */
     bool remove (const Identifier& name);

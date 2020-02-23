@@ -77,7 +77,7 @@ public:
                                 memory block passed in is big enough to contain this
                                 many bytes. This value must not be negative.
 
-        @returns    the actual number of bytes that were read, which may be less than
+        @return    the actual number of bytes that were read, which may be less than
                     maxBytesToRead if the stream is exhausted before it gets that far
     */
     virtual int read (void* destBuffer, int maxBytesToRead) = 0;
@@ -221,7 +221,7 @@ public:
         @param maxNumBytesToRead    if this is a positive value, it sets a limit to the number
                                     of bytes that will be read - if it's negative, data
                                     will be read until the stream is exhausted.
-        @returns the number of bytes that were added to the memory block
+        @return the number of bytes that were added to the memory block
     */
     virtual size_t readIntoMemoryBlock (MemoryBlock& destBlock,
                                         ssize_t maxNumBytesToRead = -1);
@@ -241,7 +241,7 @@ public:
         themselves and skipping to the correct position, although this is
         obviously a bit slow.
 
-        @returns  true if the stream manages to reposition itself correctly
+        @return  true if the stream manages to reposition itself correctly
         @see getPosition
     */
     virtual bool setPosition (int64 newPosition) = 0;

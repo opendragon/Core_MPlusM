@@ -98,7 +98,7 @@ using std::endl;
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateRegistryService(const char * launchPath,
                             const int    argc,
@@ -169,7 +169,7 @@ doTestCreateRegistryService(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestRegistryService(const char * launchPath,
                              const int    argc,
@@ -283,7 +283,7 @@ doTestRequestRegistryService(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestUnregisterService(const char * launchPath,
                                const int    argc,
@@ -405,7 +405,7 @@ doTestRequestUnregisterService(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestSearchService(const char * launchPath,
                            const int    argc,
@@ -669,7 +669,7 @@ catchSignal(int signal)
  Output depends on the test being run.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the unit tests.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

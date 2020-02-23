@@ -94,7 +94,7 @@ using std::endl;
 /*! @brief Create an endpoint for a test.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the endpoint constructor.
- @returns A newly created endpoint, or @c NULL if one could not be created. */
+ @return A newly created endpoint, or @c NULL if one could not be created. */
 static Endpoint *
 doCreateEndpointForTest(const int argc,
                         char * *  argv)
@@ -141,7 +141,7 @@ doCreateEndpointForTest(const int argc,
 /*! @brief Create a temporary channel for a test.
  @param[in] destinationName The name of the channel to be connected to.
  @param[in] channelPath The root path for the new temporary channel.
- @returns A pointer to a newly-allocated temporary channel. */
+ @return A pointer to a newly-allocated temporary channel. */
 static ClientChannel *
 doCreateTestChannel(const YarpString & destinationName,
                     const char *       channelPath)
@@ -190,7 +190,7 @@ doCreateTestChannel(const YarpString & destinationName,
 /*! @brief Create a temporary channel for a test.
  @param[in] anEndpoint The endpoint to be connected to.
  @param[in] channelPath The root path for the new temporary channel.
- @returns A pointer to a newly-allocated temporary channel. */
+ @return A pointer to a newly-allocated temporary channel. */
 static ClientChannel *
 doCreateTestChannel(Endpoint &   anEndpoint,
                     const char * channelPath)
@@ -259,7 +259,7 @@ doDestroyTestChannel(Endpoint &      anEndpoint,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateEndpoint(const char * launchPath,
                      const int    argc,
@@ -322,7 +322,7 @@ doTestCreateEndpoint(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestConnectToEndpoint(const char * launchPath,
                         const int    argc,
@@ -433,7 +433,7 @@ doTestConnectToEndpoint(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestWriteToEndpoint(const char * launchPath,
                       const int    argc,
@@ -562,7 +562,7 @@ doTestWriteToEndpoint(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestEchoFromEndpointWithReader(const char * launchPath,
                                  const int    argc,
@@ -692,7 +692,7 @@ doTestEchoFromEndpointWithReader(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                         const int    argc,
@@ -823,7 +823,7 @@ doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateRequest(const char * launchPath,
                     const int    argc,
@@ -884,7 +884,7 @@ doTestCreateRequest(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestCreateResponse(const char * launchPath,
                      const int    argc,
@@ -938,7 +938,7 @@ doTestCreateResponse(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromEndpoint(const char * launchPath,
                               const int    argc,
@@ -1031,7 +1031,7 @@ doTestRequestEchoFromEndpoint(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                                                    const int    argc,
@@ -1111,7 +1111,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
                                                           const int    argc,
@@ -1192,7 +1192,7 @@ doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPat
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                                                const int    argc,
@@ -1299,7 +1299,7 @@ doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
  @param[out] sawMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
  @param[out] sawName Set to @c true if a valid 'name' entry appears.
  @param[out] sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
- @returns @c false if an unexpected value appears and @c true otherwise. */
+ @return @c false if an unexpected value appears and @c true otherwise. */
 static bool
 checkListDictionary(yarp::os::Property & asDict,
                     bool &               sawArguments,
@@ -1498,7 +1498,7 @@ checkListDictionary(yarp::os::Property & asDict,
 
 /*! @brief Check the response from the 'list' request for this test.
  @param[in] response The response to be analyzed.
- @returns @c true if the expected values are all present and @c false if they are not or if
+ @return @c true if the expected values are all present and @c false if they are not or if
  unexpected values appear. */
 static bool
 checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse & response)
@@ -1595,7 +1595,7 @@ checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse 
  @param[in] launchPath The command-line name used to launch the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used for the test.
- @returns @c 0 on success and @c 1 on failure. */
+ @return @c 0 on success and @c 1 on failure. */
 static int
 doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                                                       const int    argc,
@@ -1704,7 +1704,7 @@ catchSignal(int signal)
  argument is the port number to be used. Output depends on the test being run.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the unit tests.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

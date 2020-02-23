@@ -117,7 +117,7 @@ ServiceResponse::operator =(const yarp::os::Bottle & values)
 #endif // defined(__APPLE__)
 
 /*! @brief Return a printable version of the response.
- @returns A printable version of the response. */
+ @return A printable version of the response. */
 YarpString
 ServiceResponse::asString(void)
 const

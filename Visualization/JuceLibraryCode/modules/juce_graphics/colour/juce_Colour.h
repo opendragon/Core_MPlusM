@@ -152,32 +152,32 @@ public:
 
     //==============================================================================
     /** Returns the red component of this colour.
-        @returns a value between 0x00 and 0xff.
+        @return a value between 0x00 and 0xff.
     */
     uint8 getRed() const noexcept                       { return argb.getRed(); }
 
     /** Returns the green component of this colour.
-        @returns a value between 0x00 and 0xff.
+        @return a value between 0x00 and 0xff.
     */
     uint8 getGreen() const noexcept                     { return argb.getGreen(); }
 
     /** Returns the blue component of this colour.
-        @returns a value between 0x00 and 0xff.
+        @return a value between 0x00 and 0xff.
     */
     uint8 getBlue() const noexcept                      { return argb.getBlue(); }
 
     /** Returns the red component of this colour as a floating point value.
-        @returns a value between 0.0 and 1.0
+        @return a value between 0.0 and 1.0
     */
     float getFloatRed() const noexcept;
 
     /** Returns the green component of this colour as a floating point value.
-        @returns a value between 0.0 and 1.0
+        @return a value between 0.0 and 1.0
     */
     float getFloatGreen() const noexcept;
 
     /** Returns the blue component of this colour as a floating point value.
-        @returns a value between 0.0 and 1.0
+        @return a value between 0.0 and 1.0
     */
     float getFloatBlue() const noexcept;
 

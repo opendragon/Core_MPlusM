@@ -116,13 +116,13 @@ namespace PlatonicDisplay
 #endif//0
 
         /*! @brief Return the application object.
-         @returns The application object. */
+         @return The application object. */
         static PlatonicDisplayApplication *
         getApp(void);
 
         /*! @brief Return the value of a system environment variable.
          @param[in] varName The name of the system environment variable.
-         @returns The value of the system environment variable, or an empty value. */
+         @return The value of the system environment variable, or an empty value. */
         static String
         getEnvironmentVar(const char * varName);
 
@@ -139,7 +139,7 @@ namespace PlatonicDisplay
 
         
         /*! @brief Return a pointer to the graphics panel.
-         @returns A pointer to the graphics panel. */
+         @return A pointer to the graphics panel. */
         GraphicsPanel *
         getGraphicsPanel(void)
         const
@@ -148,7 +148,7 @@ namespace PlatonicDisplay
         } // getGraphicsPanel
         
         /*! @brief Return the main window of the application.
-         @returns The main window of the application. */
+         @return The main window of the application. */
         static PlatonicDisplayWindow *
         getMainWindow(void);
 
@@ -162,7 +162,7 @@ namespace PlatonicDisplay
         
         /*! @brief Return @c true if the associated service is running and @c false if the service
          is not running.
-         @returns @c true if the associated service is running and @c false otherwise. */
+         @return @c true if the associated service is running and @c false otherwise. */
         bool
         serviceIsRunning(void)
         const;
@@ -205,29 +205,29 @@ namespace PlatonicDisplay
         anotherInstanceStarted(const String & commandLine);
 
         /*! @brief Collect the launch details for the service and create the service.
-         @returns The newly created service. */
+         @return The newly created service. */
         PlatonicDisplayOutputService *
         configureAndCreateService(void);
         
         /*! @brief Determine the path to an executable, using the system PATH environment variable.
          @param[in] execName The short name of the executable.
-         @returns The full path to the first executable found in the system PATH environment
+         @return The full path to the first executable found in the system PATH environment
          variable. */
         static String
         findPathToExecutable(const String & execName);
         
         /*! @brief Return the application name.
-         @returns The application's name. */
+         @return The application's name. */
         virtual const String
         getApplicationName(void);
 
         /*! @brief Return the application version number.
-         @returns The application's version number. */
+         @return The application's version number. */
         virtual const String
         getApplicationVersion(void);
 
         /*! @brief Return the thread containing the service.
-         @returns The thread containing the service. */
+         @return The thread containing the service. */
         PlatonicServiceThread *
         getServiceThread(void)
         const
@@ -242,14 +242,14 @@ namespace PlatonicDisplay
 
         /*! @brief Return @c true if multiple instances of the application are allowed and @c false
          otherwise.
-         @returns @c true if multiple instanaces of the application are allowed and @c false
+         @return @c true if multiple instanaces of the application are allowed and @c false
          otherwise. */
         virtual bool
         moreThanOneInstanceAllowed(void);
 
         /*! @brief The assignment operator.
          @param[in] other The object to be copied.
-         @returns The updated object. */
+         @return The updated object. */
         PlatonicDisplayApplication &
         operator =(const PlatonicDisplayApplication & other);
 

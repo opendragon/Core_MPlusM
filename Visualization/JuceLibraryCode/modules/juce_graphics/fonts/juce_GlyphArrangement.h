@@ -248,7 +248,7 @@ public:
     void createPath (Path& path) const;
 
     /** Looks for a glyph that contains the given coordinate.
-        @returns the index of the glyph, or -1 if none were found.
+        @return the index of the glyph, or -1 if none were found.
     */
     int findGlyphIndexAt (float x, float y) const;
 

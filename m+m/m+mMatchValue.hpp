@@ -75,13 +75,13 @@ namespace MplusM
             ~MatchValue(void);
 
             /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @returns A string representing the value as a string suitable for use with SQL. */
+             @return A string representing the value as a string suitable for use with SQL. */
             YarpString
             asSQLString(void)
             const;
 
             /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
+             @return The matching substring as a printable string. */
             YarpString
             asString(void)
             const;
@@ -91,7 +91,7 @@ namespace MplusM
              @param[in] inLength The length of the string being scanned.
              @param[in] startPos Where in the string to start scanning.
              @param[in,out] endPos Where the scan terminated, if successful.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @return A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
             static MatchValue *
             CreateMatcher(const YarpString & inString,
@@ -100,7 +100,7 @@ namespace MplusM
                           size_t &           endPos);
 
             /*! @brief Return @c true if the string has wildcard characters.
-             @returns @c true if there are wildcard characters in the string and @c false
+             @return @c true if there are wildcard characters in the string and @c false
              otherwise. */
             inline bool
             hasWildcardCharacters(void)
@@ -124,7 +124,7 @@ namespace MplusM
 
             /*! @brief The assignment operator.
              @param[in] other The object to be copied.
-             @returns The updated object. */
+             @return The updated object. */
             MatchValue &
             operator =(const MatchValue & other);
 

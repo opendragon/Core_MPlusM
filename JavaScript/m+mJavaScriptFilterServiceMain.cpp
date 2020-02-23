@@ -130,7 +130,7 @@ reportJavaScriptError(JSContext *     cx,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 dumpObjectToStdoutForJs(JSContext * jct,
                         unsigned    argc,
@@ -196,7 +196,7 @@ dumpObjectToStdoutForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getTimeNowForJs(JSContext * jct,
                 unsigned    argc,
@@ -226,7 +226,7 @@ getTimeNowForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 requestStopForJs(JSContext * jct,
                  unsigned    argc,
@@ -262,7 +262,7 @@ requestStopForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 sendToChannelForJs(JSContext * jct,
                    unsigned    argc,
@@ -305,7 +305,7 @@ sendToChannelForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 writeLineToStdoutForJs(JSContext * jct,
                        unsigned    argc,
@@ -361,7 +361,7 @@ static const JSFunctionSpec lServiceFunctions[] =
 /*! @brief Add custom functions to the %JavaScript environment.
  @param[in] jct The %JavaScript engine context.
  @param[in,out] global The %JavaScript global object.
- @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
+ @return @c true if the custom functions were addeded successfully and @c false otherwise. */
 static bool
 addCustomFunctions(JSContext *        jct,
                    JS::RootedObject & global)
@@ -429,7 +429,7 @@ cleanupStreamObject(JSFreeOp * freeOp,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 createStreamObject(JSContext * jct,
                    unsigned    argc,
@@ -460,7 +460,7 @@ createStreamObject(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamAtEofForJs(JSContext * jct,
                  unsigned    argc,
@@ -500,7 +500,7 @@ streamAtEofForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamClearErrorForJs(JSContext * jct,
                       unsigned    argc,
@@ -535,7 +535,7 @@ streamClearErrorForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamCloseForJs(JSContext * jct,
                  unsigned    argc,
@@ -571,7 +571,7 @@ streamCloseForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamHasErrorForJs(JSContext * jct,
                     unsigned    argc,
@@ -611,7 +611,7 @@ streamHasErrorForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamIsOpenForJs(JSContext * jct,
                   unsigned    argc,
@@ -643,7 +643,7 @@ streamIsOpenForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamOpenForJs(JSContext * jct,
                 unsigned    argc,
@@ -700,7 +700,7 @@ streamOpenForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamReadCharacterForJs(JSContext * jct,
                          unsigned    argc,
@@ -742,7 +742,7 @@ streamReadCharacterForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamReadLineForJs(JSContext * jct,
                     unsigned    argc,
@@ -812,7 +812,7 @@ streamReadLineForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamReadNumberForJs(JSContext * jct,
                       unsigned    argc,
@@ -852,7 +852,7 @@ streamReadNumberForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamReadStringForJs(JSContext * jct,
                       unsigned    argc,
@@ -972,7 +972,7 @@ streamReadStringForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamRewindForJs(JSContext * jct,
                   unsigned    argc,
@@ -1007,7 +1007,7 @@ streamRewindForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamWriteForJs(JSContext * jct,
                  unsigned    argc,
@@ -1050,7 +1050,7 @@ streamWriteForJs(JSContext * jct,
  @param[in] jct The context in which the native function is being called.
  @param[in] argc The number of arguments supplied to the function by the caller.
  @param[in] vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 streamWriteLineForJs(JSContext * jct,
                      unsigned    argc,
@@ -1112,7 +1112,7 @@ static const JSFunctionSpec lStreamFunctions[] =
 /*! @brief Add custom classes to the %JavaScript environment.
  @param[in] jct The %JavaScript engine context.
  @param[in,out] global The %JavaScript global object.
- @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
+ @return @c true if the custom classes were addeded successfully and @c false otherwise. */
 static bool
 addCustomClasses(JSContext *        jct,
                  JS::RootedObject & global)
@@ -1139,7 +1139,7 @@ addCustomClasses(JSContext *        jct,
  @param[in] jct The %JavaScript engine context.
  @param[in,out] global The %JavaScript global object.
  @param[in] argv The arguments to be used with the %JavaScript filter service.
- @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
+ @return @c true if the arrays wss addeded successfully and @c false otherwise. */
 static bool
 addArgvObject(JSContext *              jct,
               JS::RootedObject &       global,
@@ -1229,7 +1229,7 @@ addArgvObject(JSContext *              jct,
  @param[in] jct The %JavaScript engine context.
  @param[in,out] global The %JavaScript global object.
  @param[in] tag The modifier for the service name and port names.
- @returns @c true if the custom string object was addeded successfully and @c false otherwise. */
+ @return @c true if the custom string object was addeded successfully and @c false otherwise. */
 static bool
 addScriptTagObject(JSContext *        jct,
                    JS::RootedObject & global,
@@ -1264,7 +1264,7 @@ addScriptTagObject(JSContext *        jct,
  @param[in,out] global The %JavaScript global object.
  @param[in] tag The modifier for the service name and port names.
  @param[in] argv The arguments to be used with the %JavaScript filter service.
- @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
+ @return @c true if the custom objects were addeded successfully and @c false otherwise. */
 static bool
 addCustomObjects(JSContext *              jct,
                  JS::RootedObject &       global,
@@ -1297,7 +1297,7 @@ addCustomObjects(JSContext *              jct,
  @param[in,out] options The compile options used to retain the compiled script.
  @param[in] script The %JavaScript source code to be executed.
  @param[in] scriptPath The path to the script file.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 loadScript(JSContext *                jct,
            JS::OwningCompileOptions & options,
@@ -1327,7 +1327,7 @@ loadScript(JSContext *                jct,
  @c false if the property must be a string.
  @param[in] isOptional @c true if the property does not have to be present.
  @param[out] result The value of the number, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedDouble(JSContext *        jct,
                 JS::RootedObject & anObject,
@@ -1444,7 +1444,7 @@ getLoadedDouble(JSContext *        jct,
  @c false if the property must be a string.
  @param[in] isOptional @c true if the property does not have to be present.
  @param[out] result The value of the string, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedString(JSContext *        jct,
                 JS::RootedObject & anObject,
@@ -1567,7 +1567,7 @@ getLoadedString(JSContext *        jct,
  @param[in] propertyName The name of the property being searched for.
  @param[in] arity The required arity for the function.
  @param[out] result The value of the function, if located.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedFunctionRef(JSContext *        jct,
                      JS::RootedObject & anObject,
@@ -1639,7 +1639,7 @@ getLoadedFunctionRef(JSContext *        jct,
  @param[in] anElement The stream description object to be checked.
  @param[in] inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param[out] description The validated stream description.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 processStreamDescription(JSContext *           jct,
                          JS::RootedValue &     anElement,
@@ -1704,7 +1704,7 @@ processStreamDescription(JSContext *           jct,
  @param[in] arrayName The name of the array variable being searched for.
  @param[in] inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param[out] streamDescriptions The list of loaded stream descriptions.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 getLoadedStreamDescriptions(JSContext *           jct,
                             JS::RootedObject &    global,
@@ -1865,7 +1865,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
  @param[out] loadedThreadFunction The function to execute on an output-generating thread.
  @param[out] loadedInterval The interval (in seconds) between executions of the output-generating
  thread.
- @returns @c true on success and @c false otherwise. */
+ @return @c true on success and @c false otherwise. */
 static bool
 validateLoadedScript(JSContext *           jct,
                      JS::RootedObject &    global,
@@ -2195,7 +2195,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
  The first argument is the path of the script to be run by the service.
  @param[in] argc The number of arguments in 'argv'.
  @param[in] argv The arguments to be used with the %JavaScript filter service.
- @returns @c 0 on a successful test and @c 1 on failure. */
+ @return @c 0 on a successful test and @c 1 on failure. */
 int
 main(int      argc,
      char * * argv)

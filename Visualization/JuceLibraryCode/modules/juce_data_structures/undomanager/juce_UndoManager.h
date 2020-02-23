@@ -100,7 +100,7 @@ public:
 
         @param action   the action to perform - this object will be deleted by
                         the UndoManager when no longer needed
-        @returns true if the command succeeds - see UndoableAction::perform
+        @return true if the command succeeds - see UndoableAction::perform
         @see beginNewTransaction
     */
     bool perform (UndoableAction* action);
@@ -112,7 +112,7 @@ public:
         @param actionName   if this string is non-empty, the current transaction will be
                             given this name; if it's empty, the current transaction name will
                             be left unchanged. See setCurrentTransactionName()
-        @returns true if the command succeeds - see UndoableAction::perform
+        @return true if the command succeeds - see UndoableAction::perform
         @see beginNewTransaction
     */
     bool perform (UndoableAction* action, const String& actionName);
@@ -161,7 +161,7 @@ public:
     String getUndoDescription() const;
 
     /** Tries to roll-back the last transaction.
-        @returns    true if the transaction can be undone, and false if it fails, or
+        @return    true if the transaction can be undone, and false if it fails, or
                     if there aren't any transactions to undo
     */
     bool undo();
@@ -177,7 +177,7 @@ public:
         without it rolling back the previous transaction if nothing was actually
         done.
 
-        @returns true if any actions were undone.
+        @return true if any actions were undone.
     */
     bool undoCurrentTransactionOnly();
 
@@ -219,7 +219,7 @@ public:
     String getRedoDescription() const;
 
     /** Tries to redo the last transaction that was undone.
-        @returns   true if the transaction can be redone, and false if it fails, or
+        @return   true if the transaction can be redone, and false if it fails, or
                    if there aren't any transactions to redo
     */
     bool redo();

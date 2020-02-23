@@ -79,7 +79,7 @@ public:
 
     /** Moves the iterator along to the next file.
 
-        @returns    true if a file was found (you can then use getFile() to see what it was) - or
+        @return    true if a file was found (you can then use getFile() to see what it was) - or
                     false if there are no more matching files.
     */
     bool next();
@@ -92,7 +92,7 @@ public:
         All the parameters are optional, so pass null pointers for any items that you're not
         interested in.
 
-        @returns    true if a file was found (you can then use getFile() to see what it was) - or
+        @return    true if a file was found (you can then use getFile() to see what it was) - or
                     false if there are no more matching files. If it returns false, then none of the
                     parameters will be filled-in.
     */
@@ -111,7 +111,7 @@ public:
 
     /** Returns a guess of how far through the search the iterator has got.
 
-        @returns    a value 0.0 to 1.0 to show the progress, although this won't be
+        @return    a value 0.0 to 1.0 to show the progress, although this won't be
                     very accurate.
     */
     float getEstimatedProgress() const;
