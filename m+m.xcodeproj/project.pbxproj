@@ -58,13 +58,6 @@
 		DF1C1C8A1B41B20D00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = OpenStage/OpenStageInputService/resource.h; sourceTree = "<group>"; };
 		DF1C1C8B1B41B29300E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NatNet/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NatNet/NatNetInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF1C1C8D1B41B2A800E816A4 /* m+mNatNetInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputRequests.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputRequests.hpp"; sourceTree = SOURCE_ROOT; };
-		DF1C1C8E1B41B2A800E816A4 /* m+mNatNetInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputService.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1C1C8F1B41B2A800E816A4 /* m+mNatNetInputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputService.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputService.hpp"; sourceTree = SOURCE_ROOT; };
-		DF1C1C901B41B2A800E816A4 /* m+mNatNetInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1C1C911B41B2A800E816A4 /* m+mNatNetInputThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputThread.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.hpp"; sourceTree = SOURCE_ROOT; };
-		DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetInputService.rc.in"; sourceTree = SOURCE_ROOT; };
-		DF1C1C941B41B2A800E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NatNet/NatNetInputService/resource.h; sourceTree = SOURCE_ROOT; };
 		DF1C1C951B42F44900E816A4 /* m+mMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMatchRequestHandler.cpp"; path = "Registry/m+mMatchRequestHandler.cpp"; sourceTree = "<group>"; };
 		DF1C1C961B42F44900E816A4 /* m+mMatchRequestHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mMatchRequestHandler.hpp"; path = "Registry/m+mMatchRequestHandler.hpp"; sourceTree = "<group>"; };
 		DF1C1C971B42F44900E816A4 /* m+mPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPingRequestHandler.cpp"; path = "Registry/m+mPingRequestHandler.cpp"; sourceTree = "<group>"; };
@@ -681,14 +674,6 @@
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 		DFFFC1C41B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mExtraInfoRequestHandler.cpp"; path = "m+m/m+mExtraInfoRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFFFC1C51B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mExtraInfoRequestHandler.hpp"; path = "m+m/m+mExtraInfoRequestHandler.hpp"; sourceTree = "<group>"; };
-		DFFFC1C61B6129B900DA3C4D /* m+mNatNetBlobInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1C71B6129B900DA3C4D /* m+mNatNetBlobInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputRequests.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputRequests.hpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1C81B6129B900DA3C4D /* m+mNatNetBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputService.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1C91B6129B900DA3C4D /* m+mNatNetBlobInputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputService.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.hpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1CA1B6129B900DA3C4D /* m+mNatNetBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1CB1B6129B900DA3C4D /* m+mNatNetBlobInputThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputThread.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.hpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1CC1B6129B900DA3C4D /* m+mNatNetInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetBlobInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		DFFFC1CE1B61550D00DA3C4D /* m+mStringBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mStringBuffer.cpp"; path = "m+m/m+mStringBuffer.cpp"; sourceTree = "<group>"; };
 		DFFFC1D11B72ADA700DA3C4D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = CommonLisp/CMakeLists.txt; sourceTree = "<group>"; };
 		DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispFilterCommon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mCommonLispFilterCommon.hpp"; path = "CommonLisp/m+mCommonLispFilterCommon.hpp"; sourceTree = "<group>"; };
@@ -751,6 +736,21 @@
 		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
 		F66A9CDD1C4C4B4D00263E24 /* m+mBaseThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mBaseThread.cpp"; path = "m+m/m+mBaseThread.cpp"; sourceTree = "<group>"; };
 		F66A9CDE1C4C4B4D00263E24 /* m+mBaseThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mBaseThread.hpp"; path = "m+m/m+mBaseThread.hpp"; sourceTree = "<group>"; };
+		F66F93FB240438EB00DD992F /* m+mNatNetBlobInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputRequests.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputRequests.hpp"; sourceTree = "<group>"; };
+		F66F93FC240438EB00DD992F /* m+mNatNetInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputService.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputService.cpp"; sourceTree = "<group>"; };
+		F66F93FD240438EB00DD992F /* m+mNatNetInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F66F93FE240438EB00DD992F /* m+mNatNetBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputService.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.cpp"; sourceTree = "<group>"; };
+		F66F93FF240438EB00DD992F /* m+mNatNetBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetBlobInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.rc.in"; sourceTree = "<group>"; };
+		F66F9400240438EC00DD992F /* m+mNatNetBlobInputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputService.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.hpp"; sourceTree = "<group>"; };
+		F66F9401240438EC00DD992F /* m+mNatNetInputThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputThread.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.hpp"; sourceTree = "<group>"; };
+		F66F9402240438EC00DD992F /* m+mNatNetInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetInputService.rc.in"; sourceTree = "<group>"; };
+		F66F9403240438EC00DD992F /* m+mNatNetBlobInputThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetBlobInputThread.hpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.hpp"; sourceTree = "<group>"; };
+		F66F9404240438EC00DD992F /* m+mNatNetBlobInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.cpp"; sourceTree = "<group>"; };
+		F66F9405240438EC00DD992F /* m+mNatNetBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F66F9406240438EC00DD992F /* m+mNatNetInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.cpp"; sourceTree = "<group>"; };
+		F66F9407240438EC00DD992F /* m+mNatNetInputService.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputService.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputService.hpp"; sourceTree = "<group>"; };
+		F66F9408240438EC00DD992F /* m+mNatNetInputRequests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mNatNetInputRequests.hpp"; path = "NatNet/NatNetInputService/m+mNatNetInputRequests.hpp"; sourceTree = "<group>"; };
+		F66F94092404390A00DD992F /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NatNet/NatNetInputService/resource.h; sourceTree = "<group>"; };
 		F6714CAB1CE1657F000227E3 /* m+mConfig.hpp.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mConfig.hpp.in"; path = "m+m/m+mConfig.hpp.in"; sourceTree = "<group>"; };
 		F6714CAE1CE1657F000227E3 /* m+mStringBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mStringBuffer.hpp"; path = "m+m/m+mStringBuffer.hpp"; sourceTree = "<group>"; };
 		F6714CAF1CE1657F000227E3 /* m+mUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "m+mUtilities.hpp"; path = "m+m/m+mUtilities.hpp"; sourceTree = "<group>"; };
@@ -1723,7 +1723,7 @@
 				F6F8A1491EA16CF4002C7228 /* m+mConfigVersion.cmake.in */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				F6F8A1481EA16CF4002C7228 /* MpMConfig.cmake */,
-				DFCB01F11ADC3DB600A5ACBA /* NatNet */,
+				F66F93F9240420EA00DD992F /* NatNet */,
 				DF1C1C751B3CA19300E816A4 /* OpenStage */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortList */,
@@ -2012,39 +2012,6 @@
 			);
 			name = ChordGeneratorService;
 			sourceTree = SOURCE_ROOT;
-		};
-		DFCB01F11ADC3DB600A5ACBA /* NatNet */ = {
-			isa = PBXGroup;
-			children = (
-				DF1C1C8B1B41B29300E816A4 /* CMakeLists.txt */,
-				DFCB01F31ADC416D00A5ACBA /* NatNetInputService */,
-			);
-			name = NatNet;
-			path = MPlusM.xcodeproj;
-			sourceTree = "<group>";
-		};
-		DFCB01F31ADC416D00A5ACBA /* NatNetInputService */ = {
-			isa = PBXGroup;
-			children = (
-				DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */,
-				DFFFC1C71B6129B900DA3C4D /* m+mNatNetBlobInputRequests.hpp */,
-				DFFFC1C81B6129B900DA3C4D /* m+mNatNetBlobInputService.cpp */,
-				DFFFC1C91B6129B900DA3C4D /* m+mNatNetBlobInputService.hpp */,
-				DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */,
-				DFFFC1CA1B6129B900DA3C4D /* m+mNatNetBlobInputServiceMain.cpp */,
-				DFFFC1C61B6129B900DA3C4D /* m+mNatNetBlobInputThread.cpp */,
-				DFFFC1CB1B6129B900DA3C4D /* m+mNatNetBlobInputThread.hpp */,
-				DF1C1C8D1B41B2A800E816A4 /* m+mNatNetInputRequests.hpp */,
-				DF1C1C8E1B41B2A800E816A4 /* m+mNatNetInputService.cpp */,
-				DF1C1C8F1B41B2A800E816A4 /* m+mNatNetInputService.hpp */,
-				DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */,
-				DFFFC1CC1B6129B900DA3C4D /* m+mNatNetInputServiceMain.cpp */,
-				DF1C1C901B41B2A800E816A4 /* m+mNatNetInputThread.cpp */,
-				DF1C1C911B41B2A800E816A4 /* m+mNatNetInputThread.hpp */,
-				DF1C1C941B41B2A800E816A4 /* resource.h */,
-			);
-			name = NatNetInputService;
-			sourceTree = "<group>";
 		};
 		DFCB229718EF23D200358EA5 /* ClientList */ = {
 			isa = PBXGroup;
@@ -2343,6 +2310,38 @@
 			);
 			name = TestSource;
 			sourceTree = SOURCE_ROOT;
+		};
+		F66F93F9240420EA00DD992F /* NatNet */ = {
+			isa = PBXGroup;
+			children = (
+				F66F93FA2404212E00DD992F /* NatNetInputService */,
+				DF1C1C8B1B41B29300E816A4 /* CMakeLists.txt */,
+			);
+			name = NatNet;
+			sourceTree = "<group>";
+		};
+		F66F93FA2404212E00DD992F /* NatNetInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */,
+				F66F93FB240438EB00DD992F /* m+mNatNetBlobInputRequests.hpp */,
+				F66F93FE240438EB00DD992F /* m+mNatNetBlobInputService.cpp */,
+				F66F9400240438EC00DD992F /* m+mNatNetBlobInputService.hpp */,
+				F66F93FF240438EB00DD992F /* m+mNatNetBlobInputService.rc.in */,
+				F66F9405240438EC00DD992F /* m+mNatNetBlobInputServiceMain.cpp */,
+				F66F9404240438EC00DD992F /* m+mNatNetBlobInputThread.cpp */,
+				F66F9403240438EC00DD992F /* m+mNatNetBlobInputThread.hpp */,
+				F66F9408240438EC00DD992F /* m+mNatNetInputRequests.hpp */,
+				F66F93FC240438EB00DD992F /* m+mNatNetInputService.cpp */,
+				F66F9407240438EC00DD992F /* m+mNatNetInputService.hpp */,
+				F66F9402240438EC00DD992F /* m+mNatNetInputService.rc.in */,
+				F66F93FD240438EB00DD992F /* m+mNatNetInputServiceMain.cpp */,
+				F66F9406240438EC00DD992F /* m+mNatNetInputThread.cpp */,
+				F66F9401240438EC00DD992F /* m+mNatNetInputThread.hpp */,
+				F66F94092404390A00DD992F /* resource.h */,
+			);
+			name = NatNetInputService;
+			sourceTree = "<group>";
 		};
 		F69C063D1B6558DF00A83A7E /* SendToMQ */ = {
 			isa = PBXGroup;
